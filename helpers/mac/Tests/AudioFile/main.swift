@@ -1,7 +1,7 @@
 import AVFoundation
 import Darwin
 import Foundation
-import ScreenRecorderWire
+import YapWire
 
 @main
 struct AudioFileTests {
@@ -34,7 +34,7 @@ struct AudioFileTests {
         var observed = false
         for _ in 0..<5000 {
             if try FileManager.default.contentsOfDirectory(atPath: parent.path).contains(where: {
-                $0.hasPrefix(".screenrec-output-")
+                $0.hasPrefix(".yap-output-")
             }) {
                 observed = true
                 task.cancel()
@@ -49,7 +49,7 @@ struct AudioFileTests {
         precondition(object["ok"] as? Bool == false, "Canceled task published output")
         precondition(!FileManager.default.fileExists(atPath: output))
         let remaining = try FileManager.default.contentsOfDirectory(atPath: parent.path)
-        precondition(remaining.allSatisfy { !$0.hasPrefix(".screenrec-output-") })
+        precondition(remaining.allSatisfy { !$0.hasPrefix(".yap-output-") })
         print(
             "PASS cancellation after allocated staging preserves absent final output and removes partial staging"
         )

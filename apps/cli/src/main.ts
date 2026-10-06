@@ -19,7 +19,7 @@ import {
   resolveServiceSocket,
   LocalTransportError,
   type ServiceSelection,
-} from "@screenrec/client";
+} from "@yap/client";
 import {
   operationNames,
   operationSchema,
@@ -32,7 +32,7 @@ import {
   type OperationRequest,
   type OperationResponse,
   type OperationWireResponse,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
@@ -162,7 +162,7 @@ async function readParams(value: string): Promise<unknown> {
 }
 
 async function mcp(selection: ServiceSelection) {
-  const server = new Server({ name: "screenrec", version }, { capabilities: { tools: {} } });
+  const server = new Server({ name: "yap", version }, { capabilities: { tools: {} } });
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: capabilities().map((tool) => ({
       ...tool,
@@ -210,7 +210,7 @@ async function main() {
   if (values.version) {
     if (positionals.length || Object.keys(values).length !== 1)
       throw new Error("--version accepts no other arguments");
-    process.stdout.write(JSON.stringify({ name: "screenrec", version }) + "\n");
+    process.stdout.write(JSON.stringify({ name: "yap", version }) + "\n");
     return;
   }
   if (values.help || positionals.length === 0) {
@@ -226,11 +226,11 @@ async function main() {
         {
           version,
           usage:
-            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | screenrec mcp [--socket PATH] | screenrec --version",
+            "yap <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | yap mcp [--socket PATH] | yap --version",
           service:
-            "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
+            "Without --socket, calls use $YAP_HOME/run/service.sock (default ~/.yap) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           bundledMedia:
-            "The released screenrec launcher also accepts ffmpeg or ffprobe followed by that tool's own arguments. It runs the selected app's bundled executable under installation exclusion without starting the service; streams and exit status belong to the media tool, not the operation JSON protocol.",
+            "The released yap launcher also accepts ffmpeg or ffprobe followed by that tool's own arguments. It runs the selected app's bundled executable under installation exclusion without starting the service; streams and exit status belong to the media tool, not the operation JSON protocol.",
           timeUnits:
             "Microseconds. Endpoints accept integers or exact reduced fractions where the operation's input schema permits them. Ranges are half-open in the selected anchor domain and expectedRevisionId.",
           mutations:
@@ -272,7 +272,7 @@ async function main() {
           try {
             directory = values.output
               ? resolve(values.output)
-              : await mkdtemp(join(tmpdir(), "screenrec-frames-"));
+              : await mkdtemp(join(tmpdir(), "yap-frames-"));
             if (values.output) await mkdir(directory);
           } catch (error) {
             outputError = error;

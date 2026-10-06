@@ -1,10 +1,10 @@
 @preconcurrency import AVFoundation
 import CryptoKit
 import Foundation
-import ScreenRecorderAudio
-import ScreenRecorderCapture
-import ScreenRecorderMedia
-import ScreenRecorderWire
+import YapAudio
+import YapCapture
+import YapMedia
+import YapWire
 
 private struct ExactTime: Codable {
   let value: Int64
@@ -170,12 +170,12 @@ func runSparseStorageProbe(request path: String) async throws {
   let publishedTrack = try await published.loadTracks(withMediaType: .audio).first!
   let endUs = microseconds(previousSourceEnd)
   let selection = AudioSourceSelection(
-    source: canonical.path, streamId: "track:\(publishedTrack.trackID)", sourceOffsetUs: ScreenRecorderMedia.ExactTime(0),
+    source: canonical.path, streamId: "track:\(publishedTrack.trackID)", sourceOffsetUs: YapMedia.ExactTime(0),
     available: [ExactRange(startUs: 0, endUs: endUs)])
   if request.runs.count == 1 {
     _ = try await SourceAudio.write(
       source: AudioSourceSelection(
-        source: source.path, streamId: "track:\(track.trackID)", sourceOffsetUs: ScreenRecorderMedia.ExactTime(0),
+        source: source.path, streamId: "track:\(track.trackID)", sourceOffsetUs: YapMedia.ExactTime(0),
         available: [ExactRange(startUs: 0, endUs: endUs)]),
       range: ExactRange(startUs: 0, endUs: endUs),
       output: directory.appendingPathComponent("reference.wav"))

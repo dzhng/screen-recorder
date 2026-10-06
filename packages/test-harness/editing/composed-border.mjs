@@ -8,14 +8,14 @@ import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
 // A canvas boundary must not resample an already composed picture. The same
 // artwork inside a padded canvas provides an independent interior-pixel control.
 const out = resolve(process.argv[2]);
-assert.ok(process.argv[2] && process.env.SCREENREC_NATIVE);
+assert.ok(process.argv[2] && process.env.YAP_NATIVE);
 await mkdir(out);
 const home = await mkdtemp(join(tmpdir(), "composed-border-"));
 const report = {
   passed: false,
   trace: [],
   pictures: [],
-  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);

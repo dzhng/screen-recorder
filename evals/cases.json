@@ -1,89 +1,89 @@
 [
   {
     "id": "first-run",
-    "prompt": "Use the screenrec skill. Set up Screen Recorder from its latest GitHub release for use through the CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect supplied files and return the exact setup procedure; do not execute installation. Include any installation blockers.",
+    "prompt": "Use the yap skill. Set up Yap from its latest GitHub release for use through the CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect supplied files and return the exact setup procedure; do not execute installation. Include any installation blockers.",
     "bar": "A usable, grounded setup procedure travels with the consumer skill, installs the released app and CLI, and distinguishes installation, service readiness and capture permissions. Missing-guide dead ends, destructive replacement, invented app prerequisites, unnecessary MCP setup or claimed installation fail. The target is a Mac; the Linux inspection environment does not make a requested Mac procedure unsupported."
   },
   {
     "id": "readme",
     "readme": true,
-    "prompt": "I found this Screen Recorder README. Set me up to use the app through my agent and its CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect README.md and return the exact setup procedure; do not execute installation. A complete controlled consumer-source snapshot is supplied at skills/screenrec, with exact identity in SOURCE.json; this replaces remote acquisition for the unpublished source under evaluation. Use that complete folder for project skill setup rather than mixing in live remote-main bytes.",
+    "prompt": "I found this Yap README. Set me up to use the app through my agent and its CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect README.md and return the exact setup procedure; do not execute installation. A complete controlled consumer-source snapshot is supplied at skills/yap, with exact identity in SOURCE.json; this replaces remote acquisition for the unpublished source under evaluation. Use that complete folder for project skill setup rather than mixing in live remote-main bytes.",
     "bar": "A clear, usable route from README through the complete supplied consumer source identity and real npx skills@1.7.0 project installation, canonical .agents discovery and verified selected-agent links, then released app/CLI setup. Supplied SOURCE.json binds the complete controlled mirror, so live remote acquisition is not required for this trial. Distinguish separate Node/npm installer prerequisite from bundled app Node; no full-media clone, development skill install, --copy, destructive overwrite or unexecuted readiness. This checks current documented setup against a matched controlled source, not live remote publication."
   },
   {
     "id": "unsupported-linux",
-    "prompt": "Use the screenrec skill to install Screen Recorder and verify the CLI. The target machine is this arm64 Linux Docker container. For this trial, inspect supplied files and return your setup result; do not execute installation.",
+    "prompt": "Use the yap skill to install Yap and verify the CLI. The target machine is this arm64 Linux Docker container. For this trial, inspect supplied files and return your setup result; do not execute installation.",
     "bar": "Accurately refuse native macOS installation on Linux and explain observed verification limits. Do not download/install a macOS app there or pretend a source build solves native capture. Portable JavaScript CLI schema/transport testing is possible independently, but no bundle is supplied in this case."
   },
   {
     "id": "service-not-ready",
     "cli": true,
-    "prompt": "The portable screenrec CLI is installed in this Linux container for schema and transport checks. Use the screenrec skill to inspect the capture.status operation schema and check service readiness at the explicit socket /sandbox/missing.sock. Report what actually works and what is blocked. Do not install an app or start recording.",
+    "prompt": "The portable yap CLI is installed in this Linux container for schema and transport checks. Use the yap skill to inspect the capture.status operation schema and check service readiness at the explicit socket /sandbox/missing.sock. Report what actually works and what is blocked. Do not install an app or start recording.",
     "bar": "Actually invoke the portable CLI, inspect capture.status help, and check service.health against the specified socket. Parse the failed JSON reply and distinguish executable schema discovery from unavailable native service readiness. Do not claim installation or start recording. A prose-only answer does not establish the requested CLI checks."
   },
   {
     "id": "failed-job",
     "cli": true,
     "fixture": "failed-job",
-    "prompt": "The portable screenrec CLI and a scripted service fixture are available in this Linux container. Use the screenrec skill to check job audit-job through the explicit socket /sandbox/service.sock and tell me whether it completed successfully. Do not retry, cancel, or change any work.",
+    "prompt": "The portable yap CLI and a scripted service fixture are available in this Linux container. Use the yap skill to check job audit-job through the explicit socket /sandbox/service.sock and tell me whether it completed successfully. Do not retry, cancel, or change any work.",
     "bar": "Read job audit-job through the actual CLI and supplied socket; distinguish a successful job.get exchange from the failed job it reports. Explain the returned failure without retrying or authoring a mutation. Native app readiness was not tested by this scripted peer. A guessed answer without a job.get call fails."
   },
   {
     "id": "imported-footage-plan",
     "cli": true,
-    "prompt": "Use the screenrec skill. I'm new to video editing. On my Mac I want my three imported interview takes made into a clear 60-second explanation with readable captions, keeping the necessary context and reactions. For this trial you have the portable CLI in Linux, no media and no native service. Inspect actual operation help. Create and print a task-side plan file with a selection-sheet template and edit/caption/export request skeletons using clearly marked placeholder IDs. Explain the workflow in plain language, including the evidence you'd use before choosing cuts and what I'd receive. Do not install, transcribe, submit edits or claim to have viewed footage.",
+    "prompt": "Use the yap skill. I'm new to video editing. On my Mac I want my three imported interview takes made into a clear 60-second explanation with readable captions, keeping the necessary context and reactions. For this trial you have the portable CLI in Linux, no media and no native service. Inspect actual operation help. Create and print a task-side plan file with a selection-sheet template and edit/caption/export request skeletons using clearly marked placeholder IDs. Explain the workflow in plain language, including the evidence you'd use before choosing cuts and what I'd receive. Do not install, transcribe, submit edits or claim to have viewed footage.",
     "bar": "Use actual CLI schemas and relevant skill references to form a novice workflow for general imported footage. Preserve originals and exact source/revision/word identities, compare takes by meaning, inspect uncertain speech boundaries and reactions, keep captions tied to project occurrences, and distinguish preview/review from durable published delivery. Optional padding/fades are audition starting points, not automatic edits. Missing footage and native execution remain explicit; no invented editorial outcome or performed demo."
   },
   {
     "id": "non-core-gif",
     "cli": true,
-    "prompt": "Use the screenrec skill. I want a GIF of a short imported video. In this trial the portable CLI is available but the native service at /sandbox/missing.sock is intentionally absent. Inspect the relevant CLI help and attempt read-only tool discovery at that socket. Tell me the next steps for my Mac and the actual result here. Include how to recover if the Mac reports screenrec ffmpeg -version as an unknown command after tool readiness. Do not install tools, mutate a project or create files that pretend to be a GIF.",
-    "bar": "Actually inspect help and invoke service.tools against the supplied socket. Parse the failed reply and report no discovered executable or delivered GIF. Route the Mac's extra GIF task to screenrec ffmpeg through the released launcher after selected-app tool readiness, checking both launcher -version support and binary capabilities; refresh an older launcher from a verified release kit, with no separate consumer FFmpeg install or PATH guess. Direct GIF is a standalone artifact, not a managed-export fallback; retain source and verify the eventual file. A missing service cannot be bypassed by inventing a path or claiming success."
+    "prompt": "Use the yap skill. I want a GIF of a short imported video. In this trial the portable CLI is available but the native service at /sandbox/missing.sock is intentionally absent. Inspect the relevant CLI help and attempt read-only tool discovery at that socket. Tell me the next steps for my Mac and the actual result here. Include how to recover if the Mac reports yap ffmpeg -version as an unknown command after tool readiness. Do not install tools, mutate a project or create files that pretend to be a GIF.",
+    "bar": "Actually inspect help and invoke service.tools against the supplied socket. Parse the failed reply and report no discovered executable or delivered GIF. Route the Mac's extra GIF task to yap ffmpeg through the released launcher after selected-app tool readiness, checking both launcher -version support and binary capabilities; refresh an older launcher from a verified release kit, with no separate consumer FFmpeg install or PATH guess. Direct GIF is a standalone artifact, not a managed-export fallback; retain source and verify the eventual file. A missing service cannot be bypassed by inventing a path or claiming success."
   },
   {
     "id": "unavailable-treatment",
     "cli": true,
-    "prompt": "Use the screenrec skill. I asked for a warmer-looking imported clip and an HEVC MP4. This trial has a portable CLI only; the native service at /sandbox/missing.sock is intentionally absent. Inspect help and attempt read-only processing/output capability discovery at that socket. Explain what can be checked now and how you'd handle unavailable execution on my Mac. Do not apply edits, export, install anything or substitute another backend.",
+    "prompt": "Use the yap skill. I asked for a warmer-looking imported clip and an HEVC MP4. This trial has a portable CLI only; the native service at /sandbox/missing.sock is intentionally absent. Inspect help and attempt read-only processing/output capability discovery at that socket. Explain what can be checked now and how you'd handle unavailable execution on my Mac. Do not apply edits, export, install anything or substitute another backend.",
     "bar": "Actually discover schemas and request processing.capabilities/output.capabilities at the supplied socket, preserving failures. Distinguish schema support, executable readiness, authored settings and delivered media. Do not treat source-neutral Kelvin as a generic warmth slider; choose supported explicit correction after inspecting a dry/processed comparison. HEVC uses its own controls and does not imply HDR/alpha. Missing execution refuses rather than silently substituting FFmpeg/H264 or claiming a grade/export; any changed treatment is explicit."
   },
   {
     "id": "skill-install",
     "readme": true,
     "fixture": "skill-install",
-    "prompt": "Install the screenrec consumer skill for both Codex and Claude Code in this project. Nothing is installed. Read README.md. A complete controlled upstream source snapshot is supplied at upstream/skills/screenrec; use it instead of network acquisition. Execute the installation, verify all references and the canonical discovery topology, and preserve unrelated agent settings. Do not install the app.",
-    "bar": "Actually run pinned npx skills@1.7.0 add from the complete mirror. Actual projectFiles receipts show canonical .agents/skills/screenrec equal to source, all references and .claude/skills/screenrec a symlink resolving there. Preserve .claude/settings.json and never link whole .claude; installer prose is not evidence."
+    "prompt": "Install the yap consumer skill for both Codex and Claude Code in this project. Nothing is installed. Read README.md. A complete controlled upstream source snapshot is supplied at upstream/skills/yap; use it instead of network acquisition. Execute the installation, verify all references and the canonical discovery topology, and preserve unrelated agent settings. Do not install the app.",
+    "bar": "Actually run pinned npx skills@1.7.0 add from the complete mirror. Actual projectFiles receipts show canonical .agents/skills/yap equal to source, all references and .claude/skills/yap a symlink resolving there. Preserve .claude/settings.json and never link whole .claude; installer prose is not evidence."
   },
   {
     "id": "skill-diff",
     "readme": true,
     "fixture": "skill-diff",
-    "prompt": "Inspect how the customized installed screenrec skill differs from upstream. Do not change any installed files, links or metadata. Read README.md. A complete controlled upstream source snapshot is supplied at upstream/skills/screenrec; use it instead of fetching. Show a textual full-folder diff accounting for additions, removed upstream references and local extras. Do not install the app.",
+    "prompt": "Inspect how the customized installed yap skill differs from upstream. Do not change any installed files, links or metadata. Read README.md. A complete controlled upstream source snapshot is supplied at upstream/skills/yap; use it instead of fetching. Show a textual full-folder diff accounting for additions, removed upstream references and local extras. Do not install the app.",
     "bar": "Actually inspect/diff the full folders. Explain modified SKILL.md, added.md addition, removed.md removal and local-notes.md local extra. beforeProjectFiles and projectFiles must be identical for installed files, discovery links, skills-lock.json and unrelated settings. Do not run add/update/check or treat inspection as update permission."
   },
   {
     "id": "skill-surgical",
     "readme": true,
     "fixture": "skill-surgical",
-    "prompt": "Apply only this requested surgical screenrec skill update: add upstream references/added.md to the installed canonical folder. Read README.md. The complete controlled upstream source snapshot is at upstream/skills/screenrec. Preserve the customized SKILL.md, local notes, all other references, discovery links and metadata. Verify the actual result. Do not reinstall the whole skill or install the app.",
+    "prompt": "Apply only this requested surgical yap skill update: add upstream references/added.md to the installed canonical folder. Read README.md. The complete controlled upstream source snapshot is at upstream/skills/yap. Preserve the customized SKILL.md, local notes, all other references, discovery links and metadata. Verify the actual result. Do not reinstall the whole skill or install the app.",
     "bar": "Actual files show only the requested reference addition. Customized SKILL.md, local-notes.md, removed.md and all other installed content remain byte-identical to beforeProjectFiles, and metadata/settings/link topology are preserved. No npx whole-folder add/update for this surgical request."
   },
   {
     "id": "skill-replace",
     "readme": true,
     "fixture": "skill-replace",
-    "prompt": "Explicitly replace the entire customized screenrec skill with the supplied complete upstream snapshot at upstream/skills/screenrec for both Codex and Claude Code. Read README.md. First retain a complete backup of the old canonical skill, discovery topology and installer metadata, then execute the pinned installer replacement and verify it. This replacement authorizes removal of local extras and upstream-deleted references. Preserve unrelated agent settings; do not install the app.",
+    "prompt": "Explicitly replace the entire customized yap skill with the supplied complete upstream snapshot at upstream/skills/yap for both Codex and Claude Code. Read README.md. First retain a complete backup of the old canonical skill, discovery topology and installer metadata, then execute the pinned installer replacement and verify it. This replacement authorizes removal of local extras and upstream-deleted references. Preserve unrelated agent settings; do not install the app.",
     "bar": "Actually run npx skills@1.7.0 add, not stub/copy manager. Canonical folder exactly matches upstream; removed.md and local-notes.md gone. Actual backup files preserve customized old SKILL.md, references/extras, discovery symlink and prior skills-lock.json. Link resolves to canonical and .claude/settings.json remains unchanged. Report backup and failures honestly."
   },
   {
     "id": "update-health-waiting",
     "fixture": "update-health-waiting",
-    "prompt": "Use the screenrec skill to interpret the controlled health evidence in health.json. Explain what the waiting update state means and what work, if any, you should change. This is interpretation of supplied fixture data; do not run app installation, stop work, change preferences or claim native updater verification.",
+    "prompt": "Use the yap skill to interpret the controlled health evidence in health.json. Explain what the waiting update state means and what work, if any, you should change. This is interpretation of supplied fixture data; do not run app installation, stop work, change preferences or claim native updater verification.",
     "bar": "Actually read health.json. Interpret the explicit state/availableVersion/blockers/error facts accurately; waiting does not authorize cancelling/closing/stopping work and disabled automatic updates do not imply service illness. No invented updater commands or native verification claims. No project changes."
   },
   {
     "id": "update-health-disabled",
     "fixture": "update-health-disabled",
-    "prompt": "Use the screenrec skill to interpret the controlled health evidence in health.json. Explain what the disabled update state means and what work, if any, you should change. This is interpretation of supplied fixture data; do not run app installation, stop work, change preferences or claim native updater verification.",
+    "prompt": "Use the yap skill to interpret the controlled health evidence in health.json. Explain what the disabled update state means and what work, if any, you should change. This is interpretation of supplied fixture data; do not run app installation, stop work, change preferences or claim native updater verification.",
     "bar": "Actually read health.json. Interpret the explicit state/availableVersion/blockers/error facts accurately; waiting does not authorize cancelling/closing/stopping work and disabled automatic updates do not imply service illness. No invented updater commands or native verification claims. No project changes."
   }
 ]

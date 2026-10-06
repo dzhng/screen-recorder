@@ -1,11 +1,11 @@
-import type { DirectoryIdentity } from "@screenrec/core/cache";
+import type { DirectoryIdentity } from "@yap/core/cache";
 import { isPrivateDirectory } from "./managed-files.js";
 import { randomUUID } from "node:crypto";
 import { constants } from "node:fs";
 import { open, mkdir, lstat, realpath, type FileHandle } from "node:fs/promises";
 import { join } from "node:path";
-import { CatalogError } from "@screenrec/core/catalog";
-import { O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { CatalogError } from "@yap/core/catalog";
+import { O_NOFOLLOW_ANY } from "@yap/core/files";
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
 type Identity = Readonly<{ dev: string; ino: string }>;

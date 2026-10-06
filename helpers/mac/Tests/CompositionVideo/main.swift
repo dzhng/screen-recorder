@@ -1,5 +1,5 @@
 import Foundation
-@testable import ScreenRecorderWire
+@testable import YapWire
 
 if ["--pump-control", "--pump-fault"].contains(CommandLine.arguments[1]) {
     try await checkMoviePumpFailure(requestFile: CommandLine.arguments[2],
@@ -44,7 +44,7 @@ let work = Task { await NativeWire.respond(to: line) }
 let deadline = ContinuousClock.now.advanced(by: .seconds(10))
 func reachedStaging() throws -> Bool {
     let children = try FileManager.default.contentsOfDirectory(atPath: directory.path)
-        .filter { $0.hasPrefix(".screenrec-output-") }
+        .filter { $0.hasPrefix(".yap-output-") }
     if mode != "mutate-pointers" { return !children.isEmpty }
     // CompositionVideo creates its writer only after PreparedPointers validates the receipt.
     // Movie assembly owns one outer staging directory, with that video writer nested inside it.
@@ -54,7 +54,7 @@ func reachedStaging() throws -> Bool {
             return true
         }
         for nested in (try? FileManager.default.contentsOfDirectory(atPath: parent.path)) ?? []
-        where nested.hasPrefix(".screenrec-output-") {
+        where nested.hasPrefix(".yap-output-") {
             if FileManager.default.fileExists(atPath: parent.appendingPathComponent(nested)
                 .appendingPathComponent("video.mp4").path) { return true }
         }
@@ -106,6 +106,6 @@ if mode == "collision" {
     precondition(!FileManager.default.fileExists(atPath: output), "Interrupted render published output")
 }
 let remaining = try FileManager.default.contentsOfDirectory(atPath: directory.path)
-precondition(!remaining.contains(where: { $0.hasPrefix(".screenrec-output-") }),
+precondition(!remaining.contains(where: { $0.hasPrefix(".yap-output-") }),
     "Interrupted render leaked staging")
 print("PASS production NativeWire \(mode) preserves publication and removes staging")

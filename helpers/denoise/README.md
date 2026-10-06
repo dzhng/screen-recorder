@@ -1,7 +1,7 @@
 # RNNoise native dependency
 
 This package owns the fixed learned mono frame adapter. The
-[native audio owner](../mac/Sources/ScreenRecorderAudio/README.md) supplies selected
+[native audio owner](../mac/Sources/YapAudio/README.md) supplies selected
 state domains and consumes paired channel output through managed preparation.
 The dependency has no project, channel-selection, model-download or publication
 authority.

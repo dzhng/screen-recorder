@@ -1,5 +1,5 @@
 import Foundation
-import ScreenRecorderDenoise
+import YapDenoise
 
 // Typed native-library entry proof; deliberately absent from the product worker and public schemas.
 func main() throws {

@@ -1,4 +1,4 @@
-import { ceil, fromTime } from "@screenrec/composition";
+import { ceil, fromTime } from "@yap/composition";
 import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
 import { setImmediate } from "node:timers/promises";

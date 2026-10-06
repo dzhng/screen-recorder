@@ -18,7 +18,7 @@ const { values } = parseArgs({
     cancel: { type: "boolean", default: false },
   },
 });
-assert(values.out && values.fixture && process.env.SCREENREC_NATIVE);
+assert(values.out && values.fixture && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 await mkdir(out);
 const home = await mkdtemp("/tmp/source-budget-");
@@ -26,7 +26,7 @@ const hash = (data) => createHash("sha256").update(data).digest("hex");
 const report = {
   passed: false,
   calls: [],
-  workerSHA256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSHA256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const save = (name, value) => writeFile(join(out, name), JSON.stringify(value, null, 2) + "\n");
 let service;
@@ -53,7 +53,7 @@ try {
       ]),
     ),
   );
-  service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+  service = await startPublicService(home, process.env.YAP_NATIVE);
   async function call(operation, params) {
     const started = performance.now();
     const response = await service.call(operation, params);
@@ -75,7 +75,7 @@ try {
       });
       for (const line of children.split("\n")) {
         const match = line.trim().match(/^(\d+)\s+(\d+)\s+(.+)$/);
-        if (match && Number(match[2]) === health.pid && match[3] === process.env.SCREENREC_NATIVE)
+        if (match && Number(match[2]) === health.pid && match[3] === process.env.YAP_NATIVE)
           nativePid = Number(match[1]);
       }
       if (!nativePid) await delay(20);

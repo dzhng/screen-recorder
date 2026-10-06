@@ -19,8 +19,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 const executable =
-  process.env.SCREENREC_NATIVE ??
-  new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
+  process.env.YAP_NATIVE ??
+  new URL("../.build/debug/yap-native", import.meta.url).pathname;
 function request(directory, output, extra = {}) {
   const result = spawnSync(executable, [], {
     input:
@@ -201,7 +201,7 @@ test("existing paths, links, source descendants and invalid requests never mutat
   assert.equal(existsSync(f.output), false);
   assert.equal(existsSync(join(f.directory, "new")), false);
   assert.equal(
-    readdirSync(f.root).some((p) => p.startsWith(".screenrec-output-")),
+    readdirSync(f.root).some((p) => p.startsWith(".yap-output-")),
     false,
   );
 });

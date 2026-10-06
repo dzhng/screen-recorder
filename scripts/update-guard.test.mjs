@@ -5,8 +5,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 
-const framework = process.env.SCREENREC_SPARKLE_FRAMEWORK;
-if (!framework) throw new Error("Set SCREENREC_SPARKLE_FRAMEWORK to the built fixture framework");
+const framework = process.env.YAP_SPARKLE_FRAMEWORK;
+if (!framework) throw new Error("Set YAP_SPARKLE_FRAMEWORK to the built fixture framework");
 
 function runScenario(scenario) {
   const result = spawnSync(
@@ -81,7 +81,7 @@ test("an idle host authorizes replacement before its quiet relaunch", { timeout:
   const launch = report.events.find(
     (event) => event.event === "launch" && event.version === "0.1.1",
   );
-  assert.ok(launch.arguments.includes("--screenrec-update-relaunch"));
+  assert.ok(launch.arguments.includes("--yap-update-relaunch"));
   assert.deepEqual(launch.executionContext, report.inputs.executionContext, JSON.stringify(report));
 });
 

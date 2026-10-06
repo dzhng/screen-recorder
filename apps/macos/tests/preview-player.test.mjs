@@ -12,7 +12,7 @@ test(
   "native preview pins revision and stops on revocation, expiry, replacement and late replies",
   { timeout: 90_000 },
   () => {
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-preview-player-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-preview-player-"));
     try {
       const movie = join(scratch, "86ae8cb0-148c-4c4f-8e96-641494912911");
       execFileSync("ffmpeg", [
@@ -184,7 +184,7 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: pro
       const output = execFileSync(binary, [movie], {
         encoding: "utf8",
         timeout: 45_000,
-        env: { ...process.env, SCREENREC_FIXTURE_CONTROLS: scratch },
+        env: { ...process.env, YAP_FIXTURE_CONTROLS: scratch },
       });
       assert.match(output, /PASS extensionless native playback/);
       assert.equal(createHash("sha256").update(readFileSync(movie)).digest("hex"), sourceHash);
@@ -199,8 +199,8 @@ test(
   "native preview advances continuously to the end of retained current audio-video",
   { timeout: 90_000 },
   () => {
-    const evidence = process.env.SCREENREC_PREVIEW_CONTINUOUS_EVIDENCE;
-    const scratch = evidence ?? mkdtempSync(join(tmpdir(), "screenrec-preview-continuous-"));
+    const evidence = process.env.YAP_PREVIEW_CONTINUOUS_EVIDENCE;
+    const scratch = evidence ?? mkdtempSync(join(tmpdir(), "yap-preview-continuous-"));
     const movie = join(scratch, "pinned-movie");
     const reportFile = join(scratch, "playback.json");
     const archive = fileURLToPath(
@@ -360,7 +360,7 @@ struct PlaybackFailure: LocalizedError {
       const result = spawnSync(binary, [movie, reportFile], {
         encoding: "utf8",
         timeout: 20_000,
-        env: { ...process.env, SCREENREC_FIXTURE_CONTROLS: scratch },
+        env: { ...process.env, YAP_FIXTURE_CONTROLS: scratch },
       });
       writeFileSync(
         join(scratch, "process.json"),

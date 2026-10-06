@@ -6,14 +6,14 @@ import {
   voiceProfile,
   voiceProfileSha256,
   type VoiceGeneration,
-} from "@screenrec/core/voice-profile";
+} from "@yap/core/voice-profile";
 import { lstat, open } from "node:fs/promises";
 import { dirname, isAbsolute, join } from "node:path";
-import { CatalogError } from "@screenrec/core/catalog";
-import { copyImportedFile, hashFile } from "@screenrec/core/files";
+import { CatalogError } from "@yap/core/catalog";
+import { copyImportedFile, hashFile } from "@yap/core/files";
 import { withRenderedFile } from "./render.js";
 import { preparedModelWorker, nativeResult, type MediaWorker } from "./worker.js";
-import type { Models } from "@screenrec/core/models";
+import type { Models } from "@yap/core/models";
 
 // Worker responses may add fields; durable receipts retain only this registered semantic shape.
 const workerReceiptSchema = voiceReceiptSchema.strip().extend({

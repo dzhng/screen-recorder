@@ -20,7 +20,7 @@ export function compileControlsCheck(scratch, appSources, check, onCompile = () 
     "--package-path",
     packagePath,
     "--target",
-    "ScreenRecorderControls",
+    "YapControls",
     "--jobs",
     "2",
   ];
@@ -28,7 +28,7 @@ export function compileControlsCheck(scratch, appSources, check, onCompile = () 
   execFileSync("swift", args, { timeout: 60000, stdio: "pipe" });
   const build = join(packagePath, ".build", "debug");
   const outputs = JSON.parse(
-    readFileSync(join(build, "ScreenRecorderControls.build", "output-file-map.json"), "utf8"),
+    readFileSync(join(build, "YapControls.build", "output-file-map.json"), "utf8"),
   );
   const objects = Object.values(outputs).flatMap((value) => (value.object ? [value.object] : []));
   const main = join(scratch, "Check.swift");
@@ -41,7 +41,7 @@ export function compileControlsCheck(scratch, appSources, check, onCompile = () 
     "-I",
     join(build, "Modules"),
     ...objects,
-    ...appSources.map((name) => join(sources, "ScreenRecorder", `${name}.swift`)),
+    ...appSources.map((name) => join(sources, "Yap", `${name}.swift`)),
     main,
     "-o",
     executable,

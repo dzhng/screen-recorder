@@ -17,11 +17,11 @@ import { join, resolve } from "node:path";
 import { createCompiler, validateComposition } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 
-const worker = process.env.SCREENREC_NATIVE;
-assert(worker, "Set SCREENREC_NATIVE to the native worker");
+const worker = process.env.YAP_NATIVE;
+assert(worker, "Set YAP_NATIVE to the native worker");
 assert(
-  process.env.SCREENREC_LONG_AAC,
-  "Set SCREENREC_LONG_AAC to the retained3000s marker; no fixture download or generation",
+  process.env.YAP_LONG_AAC,
+  "Set YAP_LONG_AAC to the retained3000s marker; no fixture download or generation",
 );
 const enforceReadAhead = process.argv[3] === "--enforce-read-ahead";
 assert(
@@ -304,7 +304,7 @@ try {
   assert(resampledLate.receipt.decoderContext.maximumPrerollFrames > 0);
   // Existing retained marker: no new long encode or full-prefix render is required.
   {
-    const retained = process.env.SCREENREC_LONG_AAC;
+    const retained = process.env.YAP_LONG_AAC;
     const compressed = join(out, "retained-marker.m4a");
     copyFileSync(retained, compressed);
     const p = call("media.probe", { path: compressed });

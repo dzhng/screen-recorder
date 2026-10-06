@@ -1,12 +1,12 @@
 import { promisify } from "node:util";
-import { listenLocal, DerivativeDelivery } from "@screenrec/service";
+import { listenLocal, DerivativeDelivery } from "@yap/service";
 import { afterEach, expect, it } from "vitest";
 import { execFile, spawn, spawnSync } from "node:child_process";
 import { cp, mkdtemp, mkdir, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { createServer } from "node:net";
 import { randomUUID } from "node:crypto";
-import { CaptureStore } from "@screenrec/core/capture-store";
+import { CaptureStore } from "@yap/core/capture-store";
 import {
   operationNames,
   operationSchema,
@@ -16,10 +16,10 @@ import {
   type OperationResult,
   deliveredResponseSchema,
   responseSchema,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 
 const entry = new URL("../dist/main.js", import.meta.url).pathname;
 const cleanup: (() => Promise<void>)[] = [];
@@ -56,7 +56,7 @@ async function serviceFixture(peer?: (operation: string) => OperationResult) {
   const child = spawn(
     process.execPath,
     [new URL("../../service/dist/main.js", import.meta.url).pathname],
-    { cwd: "/", env: { ...process.env, SCREENREC_HOME: home }, stdio: ["pipe", "pipe", "pipe"] },
+    { cwd: "/", env: { ...process.env, YAP_HOME: home }, stdio: ["pipe", "pipe", "pipe"] },
   );
   const exited = new Promise<void>((resolve) => child.once("exit", () => resolve()));
   cleanup.push(async () => {
@@ -196,14 +196,14 @@ it("CLI version, help and MCP initialization report the app release without laun
   const { version } = JSON.parse(
     await readFile(new URL("../../macos/package.json", import.meta.url), "utf8"),
   );
-  const env = { ...process.env, SCREENREC_APP: "must-not-launch" };
+  const env = { ...process.env, YAP_APP: "must-not-launch" };
   const reported = spawnSync(process.execPath, [entry, "--version"], {
     cwd: "/",
     env,
     encoding: "utf8",
   });
   expect(reported.status, reported.stderr).toBe(0);
-  expect(JSON.parse(reported.stdout)).toEqual({ name: "screenrec", version });
+  expect(JSON.parse(reported.stdout)).toEqual({ name: "yap", version });
   for (const args of [["capture.status"], ["--help"], ["--params", ""]]) {
     const invalid = spawnSync(process.execPath, [entry, "--version", ...args], {
       env,
@@ -225,7 +225,7 @@ it("CLI version, help and MCP initialization report the app release without laun
       stderr: "pipe",
     }),
   );
-  expect(client.getServerVersion()).toEqual({ name: "screenrec", version });
+  expect(client.getServerVersion()).toEqual({ name: "yap", version });
 });
 
 it("a relocated CLI bundle embeds the version from its build's app manifest", async () => {
@@ -250,14 +250,14 @@ it("a relocated CLI bundle embeds the version from its build's app manifest", as
   );
   expect(built.status, built.stderr).toBe(0);
   await rm(join(scratch, "source"), { recursive: true });
-  const env = { ...process.env, SCREENREC_APP: "must-not-launch" };
+  const env = { ...process.env, YAP_APP: "must-not-launch" };
   const reported = spawnSync(process.execPath, [bundled, "--version"], {
     cwd: "/",
     env,
     encoding: "utf8",
   });
   expect(reported.status, reported.stderr).toBe(0);
-  expect(JSON.parse(reported.stdout)).toEqual({ name: "screenrec", version: "7.8.9" });
+  expect(JSON.parse(reported.stdout)).toEqual({ name: "yap", version: "7.8.9" });
   const client = new Client({ name: "bundled-version-test", version: "1" });
   cleanup.push(() => client.close());
   await client.connect(
@@ -268,7 +268,7 @@ it("a relocated CLI bundle embeds the version from its build's app manifest", as
       stderr: "pipe",
     }),
   );
-  expect(client.getServerVersion()).toEqual({ name: "screenrec", version: "7.8.9" });
+  expect(client.getServerVersion()).toEqual({ name: "yap", version: "7.8.9" });
 });
 
 it("help lists registry schemas without opening an app or service, and MCP startup errors stay off stdout", () => {
@@ -389,7 +389,7 @@ it("the recording service exposes its complete result through the same MCP artif
 });
 
 it("oversized CLI requests preserve their ID and fail before service discovery", () => {
-  const oversizedCli = cli("/tmp/nonexistent-screenrec-size.sock", "recording.get", {
+  const oversizedCli = cli("/tmp/nonexistent-yap-size.sock", "recording.get", {
     recordingId: "x".repeat(1_050_000),
   });
   expect(oversizedCli.exitCode).toBe(1);
@@ -418,7 +418,7 @@ it("CLI and real MCP transport share project edits, replay, history and structur
     args: [entry, "mcp", "--socket", socket],
     stderr: "pipe",
   });
-  const client = new Client({ name: "screenrec-adapter-test", version: "1" });
+  const client = new Client({ name: "yap-adapter-test", version: "1" });
   cleanup.push(() => client.close());
   await client.connect(transport);
   const seedParams = {
@@ -544,8 +544,8 @@ it("rejects malformed operation parameters before discovering or launching an ap
     timeout: 3_000,
     env: {
       ...process.env,
-      SCREENREC_HOME: "/tmp/no-screenrec-home-invalid-test",
-      SCREENREC_APP: "invalid-relative-app",
+      YAP_HOME: "/tmp/no-yap-home-invalid-test",
+      YAP_APP: "invalid-relative-app",
     },
   });
   expect(result.status).toBe(1);
@@ -584,7 +584,7 @@ function runCli(
 
 it("default discovery reaches the actual service layout from outside the checkout", async () => {
   const { home, recordingId } = await serviceFixture();
-  const env = { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: "must-not-launch" };
+  const env = { ...process.env, YAP_HOME: home, YAP_APP: "must-not-launch" };
   const results = await Promise.all(
     ["first", "second"].map((id) =>
       runCli(["recording.get", "--params", JSON.stringify({ recordingId }), "--id", id], env),
@@ -680,7 +680,7 @@ async function defaultDeliveryFixture(disappear = false) {
     operations,
     frames,
     socketPath: listener.socketPath,
-    env: { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: join(home, "absent.app") },
+    env: { ...process.env, YAP_HOME: home, YAP_APP: join(home, "absent.app") },
   };
 }
 
@@ -819,7 +819,7 @@ it("help, MCP tools/list and invalid tools never contact the default socket", as
   });
   await new Promise<void>((resolve) => server.listen(join(home, "run/service.sock"), resolve));
   cleanup.push(() => new Promise<void>((resolve) => server.close(() => resolve())));
-  const env = { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: "must-not-launch" };
+  const env = { ...process.env, YAP_HOME: home, YAP_APP: "must-not-launch" };
   const help = await runCli(["--help"], env);
   expect(help.status).toBe(0);
   expect((await runCli(["asset.import", "--help"], env)).status).toBe(0);
@@ -893,7 +893,7 @@ it("does not replay a mutation when the discovered service loses its response", 
         operations: [{ operation: "track.add", track: { kind: "audio", order: 0 } }],
       }),
     ],
-    { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: "must-not-launch" },
+    { ...process.env, YAP_HOME: home, YAP_APP: "must-not-launch" },
   );
   expect(result.status).toBe(1);
   expect(JSON.parse(result.stdout)).toMatchObject({
@@ -1081,7 +1081,7 @@ it.each([
   { projectId: "project", clean: "yes", atUs: [0] },
   { projectId: "project", trailUs: 10_000_001, atUs: [0] },
 ])("invalid batch parameters %# are rejected before service discovery", (params) => {
-  expect(cli("/tmp/nonexistent-screenrec-batch.sock", "frame.batch", params)).toMatchObject({
+  expect(cli("/tmp/nonexistent-yap-batch.sock", "frame.batch", params)).toMatchObject({
     exitCode: 1,
     result: { error: { code: "INVALID_PARAMS" } },
   });

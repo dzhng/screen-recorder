@@ -1,4 +1,4 @@
-import { type SignedTimeValue } from "@screenrec/composition";
+import { type SignedTimeValue } from "@yap/composition";
 import { setImmediate } from "node:timers/promises";
 import {
   createCompiler,
@@ -15,7 +15,7 @@ import {
   type ProcessingTap,
   type TimeValue,
   type ValidatedComposition,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { CatalogError } from "./catalog.js";
 import { selectionPolicy } from "./screenshot-index.js";
 import { observedSceneBoundary, type SourceSceneChunk } from "./source-scene-chunks.js";

@@ -37,12 +37,12 @@ if (values.help) {
 assert.equal(process.platform, "darwin", "the signing proof requires macOS");
 assert.ok(values.framework && values.output, "--framework and --output are required");
 const sourceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const scratch = mkdtempSync(join(tmpdir(), "screenrec-signing-"));
+const scratch = mkdtempSync(join(tmpdir(), "yap-signing-"));
 chmodSync(scratch, 0o700);
 const keychain = join(scratch, "scratch.keychain-db");
 const restoredKeychain = join(scratch, "restored.keychain-db");
 const password = randomUUID();
-const id = `dev.screenrec.signing-lab.${randomUUID()}`;
+const id = `dev.yap.signing-lab.${randomUUID()}`;
 const receipt = {
   schemaVersion: 1,
   observedAt: new Date().toISOString(),
@@ -122,7 +122,7 @@ async function makeIdentity(label) {
   const prefix = join(scratch, label);
   writeFileSync(
     `${prefix}.cnf`,
-    `[req]\ndistinguished_name=name\nx509_extensions=signing\nprompt=no\n[name]\nCN=Screenrec Scratch ${label} ${id.slice(-16)}\n[signing]\nbasicConstraints=critical,CA:false\nkeyUsage=critical,digitalSignature\nextendedKeyUsage=critical,codeSigning\n`,
+    `[req]\ndistinguished_name=name\nx509_extensions=signing\nprompt=no\n[name]\nCN=Yap Scratch ${label} ${id.slice(-16)}\n[signing]\nbasicConstraints=critical,CA:false\nkeyUsage=critical,digitalSignature\nextendedKeyUsage=critical,codeSigning\n`,
     { mode: 0o600 },
   );
   await invoke("openssl", [

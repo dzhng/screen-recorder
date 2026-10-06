@@ -112,9 +112,9 @@ if (measuring) {
     observer,
     `import childProcess from 'node:child_process';
 import {syncBuiltinESMExports} from 'node:module';import {appendFileSync} from 'node:fs';
-const file=process.env.SCREENREC_CARDINALITY_PROCESS_LOG;const log=value=>appendFileSync(file,JSON.stringify(value)+'\\n');
+const file=process.env.YAP_CARDINALITY_PROCESS_LOG;const log=value=>appendFileSync(file,JSON.stringify(value)+'\\n');
 const observer=${JSON.stringify(observer)};const closed=[];
-const options=value=>({...value,env:{...(value.env??process.env),SCREENREC_CARDINALITY_PROCESS_LOG:file,NODE_OPTIONS:[value.env?.NODE_OPTIONS??process.env.NODE_OPTIONS??'', '--import='+observer].filter(Boolean).join(' ')}});
+const options=value=>({...value,env:{...(value.env??process.env),YAP_CARDINALITY_PROCESS_LOG:file,NODE_OPTIONS:[value.env?.NODE_OPTIONS??process.env.NODE_OPTIONS??'', '--import='+observer].filter(Boolean).join(' ')}});
 const observe=(child,kind)=>{log({event:'spawn',kind,parentPid:process.pid,pid:child.pid});closed.push(new Promise(done=>child.once('close',(code,signal)=>{log({event:'close',kind,parentPid:process.pid,pid:child.pid,code,signal});done();})));return child;};
 const spawn=childProcess.spawn;childProcess.spawn=function(command,args,value={}){const mcp=command===process.execPath&&args?.includes('mcp');const child=spawn.call(this,command,args,mcp?options(value):value);return mcp?observe(child,'mcp'):child;};
 const fork=childProcess.fork;childProcess.fork=function(entry,args,value={}){return observe(fork.call(this,entry,args,options(value)),'source');};syncBuiltinESMExports();
@@ -122,7 +122,7 @@ process.on('exit',code=>log({event:'node-exit',pid:process.pid,code}));
 export const settled=()=>Promise.all(closed);
 `,
   );
-  process.env.SCREENREC_CARDINALITY_PROCESS_LOG = processLog;
+  process.env.YAP_CARDINALITY_PROCESS_LOG = processLog;
   processObserver = await import(observer);
 }
 const service = new JourneyService(
@@ -198,14 +198,14 @@ function cpuRequest(action, arm, reason) {
 }
 try {
   assert.equal(
-    hash(await readFile(process.env.SCREENREC_NATIVE)),
+    hash(await readFile(process.env.YAP_NATIVE)),
     profiling
       ? "e19816c06483af71ca3f04796fcab21841acd2bb1caa2a4778cdb508e2205dba"
       : "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
   );
   report.runtime = {
     node: process.version,
-    nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+    nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
     gitHead: (await run("git", ["rev-parse", "HEAD"], { cwd: root })).stdout.trim(),
     files: {},
   };
@@ -229,20 +229,20 @@ try {
   for (const [importer, specifier, expected] of [
     [
       "apps/service/dist/project-service.js",
-      "@screenrec/core/project-evidence",
+      "@yap/core/project-evidence",
       "packages/core/dist/project-evidence.js",
     ],
-    ["apps/service/dist/worker.js", "@screenrec/protocol", "packages/protocol/dist/index.js"],
+    ["apps/service/dist/worker.js", "@yap/protocol", "packages/protocol/dist/index.js"],
     [
       "packages/core/dist/project-evidence.js",
-      "@screenrec/composition",
+      "@yap/composition",
       "packages/composition/dist/index.js",
     ],
-    ["apps/cli/dist/main.js", "@screenrec/client", "packages/client/dist/index.js"],
-    ["packages/client/dist/index.js", "@screenrec/protocol", "packages/protocol/dist/index.js"],
+    ["apps/cli/dist/main.js", "@yap/client", "packages/client/dist/index.js"],
+    ["packages/client/dist/index.js", "@yap/protocol", "packages/protocol/dist/index.js"],
     [
       "packages/test-harness/editing/source-evidence-fixture.mjs",
-      "@screenrec/protocol",
+      "@yap/protocol",
       "packages/protocol/dist/index.js",
     ],
   ]) {
@@ -280,8 +280,8 @@ try {
     );
     assert.equal(home, seed.home);
     assert.notEqual(
-      await realpath(process.env.SCREENREC_NATIVE),
-      "/private/tmp/screenrec-03d-native-build/debug/screenrec-native",
+      await realpath(process.env.YAP_NATIVE),
+      "/private/tmp/yap-03d-native-build/debug/yap-native",
     );
     const identity = JSON.parse(await readFile(join(retained, "build-identity.json"), "utf8"));
     const prefixes = [
@@ -308,7 +308,7 @@ try {
         if (field === "builtFiles")
           for (const match of bytes
             .toString()
-            .matchAll(/(?:from\s*|import\s*\(\s*)["'](@screenrec\/[^"']+)["']/g)) {
+            .matchAll(/(?:from\s*|import\s*\(\s*)["'](@yap\/[^"']+)["']/g)) {
             const path = await realpath(createRequire(join(root, file)).resolve(match[1]));
             assert(
               path.startsWith((await realpath(root)) + "/"),
@@ -332,7 +332,7 @@ try {
       retained,
       home,
       seedNativeSha256: seed.runtime.nativeSha256,
-      profileNativePath: await realpath(process.env.SCREENREC_NATIVE),
+      profileNativePath: await realpath(process.env.YAP_NATIVE),
       profileNativeSha256: report.runtime.nativeSha256,
       matched,
       imports: [...imports.values()],

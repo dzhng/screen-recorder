@@ -7,7 +7,7 @@ import { tmpdir } from "node:os";
 import { promisify } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { nativeResult, mediaWorker } from "../../apps/service/dist/worker.js";
 import { startProjectService } from "../../apps/service/dist/project-service.js";
 import { withRenderAttempt } from "../../apps/service/dist/render.js";
@@ -16,8 +16,8 @@ import { importAcquisition } from "../../apps/macos/tests/fixtures/public-servic
 import { renderFrames } from "../../helpers/mac/Tests/fixtures/render-frames.mjs";
 const execute = promisify(execFile);
 const native =
-  process.env.SCREENREC_NATIVE ??
-  new URL("../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname;
+  process.env.YAP_NATIVE ??
+  new URL("../../helpers/mac/.build/debug/yap-native", import.meta.url).pathname;
 async function command(executable, args) {
   return (await execute(executable, args, { timeout: 30000, maxBuffer: 8 * 1024 * 1024 })).stdout;
 }
@@ -121,8 +121,8 @@ test(
   "explicit project movie retains exact pictures, captured audio support and AAC through undo and late cancellation",
   { timeout: 60000 },
   async () => {
-    const evidence = process.env.SCREENREC_RENDER_TIMING_EVIDENCE;
-    const home = evidence ?? (await mkdtemp(join(tmpdir(), "screenrec-render-timing-")));
+    const evidence = process.env.YAP_RENDER_TIMING_EVIDENCE;
+    const home = evidence ?? (await mkdtemp(join(tmpdir(), "yap-render-timing-")));
     assert.ok(isAbsolute(home));
     await mkdir(home, { recursive: true });
     assert.deepEqual(await readdir(home), []);
@@ -210,7 +210,7 @@ test(
     );
     const gate = Promise.withResolvers(),
       started = Promise.withResolvers();
-    const run = mediaWorker({ SCREENREC_NATIVE: native });
+    const run = mediaWorker({ YAP_NATIVE: native });
     const report = {
       kind: "current project movie numerical and late-publication contract",
       renders: [],

@@ -11,7 +11,7 @@ function fixture(
   existing = "missing",
   { tagRevision = "a".repeat(40), tagLookupFailure = false } = {},
 ) {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-publication-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-publication-"));
   const bin = join(scratch, "bin");
   mkdirSync(bin);
   const log = join(scratch, "calls.jsonl");
@@ -34,7 +34,7 @@ if(args[0]==='api' && args[1]===${JSON.stringify(`repos/{owner}/{repo}/commits/r
 `,
     { mode: 0o755 },
   );
-  const kit = `ScreenRecorder-${tag}-macos-arm64.zip`;
+  const kit = `Yap-${tag}-macos-arm64.zip`;
   const sha = (name) =>
     createHash("sha256")
       .update(readFileSync(join(scratch, name)))
@@ -61,7 +61,7 @@ if(args[0]==='api' && args[1]===${JSON.stringify(`repos/{owner}/{repo}/commits/r
       spawnSync(process.execPath, ["scripts/release-publish.mjs", scratch, tag, "a".repeat(40)], {
         env: {
           ...process.env,
-          GH_REPO: "fixture/screen-recorder",
+          GH_REPO: "fixture/yap",
           PATH: bin + ":" + process.env.PATH,
         },
         encoding: "utf8",
@@ -112,7 +112,7 @@ for (const [tag, existing] of [
         prerelease: tag.includes("-"),
         make_latest: tag.includes("-") ? "false" : "legacy",
       });
-      assert.equal(calls[publish].repo, "fixture/screen-recorder");
+      assert.equal(calls[publish].repo, "fixture/yap");
       assert.equal(
         calls.some(({ args }) => args[1] === "edit"),
         false,

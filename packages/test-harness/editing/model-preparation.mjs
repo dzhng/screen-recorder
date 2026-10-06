@@ -26,7 +26,7 @@ assert(
   capacity.bavail * capacity.bsize >= 512 * 1024 * 1024,
   "Free capacity is below the preparation reserve; no adoption started",
 );
-process.env.SCREENREC_NATIVE = resolve(values.native);
+process.env.YAP_NATIVE = resolve(values.native);
 const report = {
   passed: false,
   scope:
@@ -99,7 +99,7 @@ try {
   );
   const frozen = join(root, "specs/done/agent-editing/assets/18-voice");
   const renderer = voiceRenderer(
-    mediaWorker({ SCREENREC_NATIVE: resolve(values.native) }),
+    mediaWorker({ YAP_NATIVE: resolve(values.native) }),
     models,
     "qwen3-tts-icl-v1",
     join(out, "workspace"),

@@ -18,11 +18,11 @@ static int swap_openat(int parent, const char *name, int flags, ...) {
         va_end(args);
     }
     int result = openat(parent, name, flags, mode);
-    const char *match = getenv("SCREENREC_SWAP_NAME");
+    const char *match = getenv("YAP_SWAP_NAME");
     if (result >= 0 && !swapped && match && strcmp(name, match) == 0) {
         swapped = 1;
-        if (rename(getenv("SCREENREC_SWAP_FROM"), getenv("SCREENREC_SWAP_SAVE")) != 0) _exit(90);
-        if (symlink(getenv("SCREENREC_SWAP_EXTERNAL"), getenv("SCREENREC_SWAP_FROM")) != 0) _exit(91);
+        if (rename(getenv("YAP_SWAP_FROM"), getenv("YAP_SWAP_SAVE")) != 0) _exit(90);
+        if (symlink(getenv("YAP_SWAP_EXTERNAL"), getenv("YAP_SWAP_FROM")) != 0) _exit(91);
         const char marker[] = "managed-swap-complete\n";
         if (write(STDERR_FILENO, marker, sizeof(marker) - 1) < 0) _exit(92);
     }
@@ -38,8 +38,8 @@ __attribute__((used)) static struct {
 
 static int exact_inode_fstat(int fd, struct stat *info) {
     int result = fstat(fd, info);
-    const char *actual = getenv("SCREENREC_ACTUAL_HOME_INO");
-    const char *reported = getenv("SCREENREC_REPORTED_HOME_INO");
+    const char *actual = getenv("YAP_ACTUAL_HOME_INO");
+    const char *reported = getenv("YAP_REPORTED_HOME_INO");
     if (result == 0 && actual && reported && info->st_ino == strtoull(actual, NULL, 10)) {
         info->st_ino = strtoull(reported, NULL, 10);
     }

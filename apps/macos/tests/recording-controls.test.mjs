@@ -3,7 +3,7 @@ import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { test } from "node:test";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import {
   controlsProbe,
   launchReady,
@@ -23,8 +23,8 @@ async function controlledApp(home) {
   const commands = join(home, "controls");
   mkdirSync(commands, { recursive: true });
   const { instance } = await launchReady(home, {
-    SCREENREC_FIXTURE_WINDOW: "1",
-    SCREENREC_FIXTURE_CONTROLS: commands,
+    YAP_FIXTURE_WINDOW: "1",
+    YAP_FIXTURE_CONTROLS: commands,
   });
   const [, windowId] = await instance.waitFor(/capture fixture window=(\d+)/);
   await instance.waitFor(/controls probe listening/);

@@ -4,7 +4,7 @@ import {
   readCaptureSourceOutcome,
   type CapturePublication,
   type CaptureSourceOutcome,
-} from "@screenrec/core/capture-publication";
+} from "@yap/core/capture-publication";
 import { lstat, mkdir, readdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import {
@@ -13,8 +13,8 @@ import {
   type Recording,
   type CaptureStore,
   type FinalizationError,
-} from "@screenrec/core/capture-store";
-import { CatalogError } from "@screenrec/core/catalog";
+} from "@yap/core/capture-store";
+import { CatalogError } from "@yap/core/catalog";
 import {
   NATIVE_SEQUENCE_LIMIT,
   captureDeviceSchema,
@@ -24,7 +24,7 @@ import {
   type CaptureReport,
   type CaptureSelection,
   type OperationResult,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import type { ControlChannel } from "./control.js";
 import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
 import { publicationDeadlineMs } from "./publication.js";

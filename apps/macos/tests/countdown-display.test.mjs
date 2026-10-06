@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import {
   controlsProbe,
   launchReady,
@@ -30,8 +30,8 @@ test("the count appears on the display a take would record", { timeout: 120_000 
   const commands = join(home, "controls");
   mkdirSync(commands, { recursive: true });
   const { instance } = await launchReady(home, {
-    SCREENREC_DEFAULTS: domain,
-    SCREENREC_FIXTURE_CONTROLS: commands,
+    YAP_DEFAULTS: domain,
+    YAP_FIXTURE_CONTROLS: commands,
   });
   await instance.waitFor(/controls probe listening/);
   const send = controlsProbe(commands);
@@ -71,7 +71,7 @@ test("the count appears on the display a take would record", { timeout: 120_000 
       );
       t.diagnostic(`${display.name}: counted on display ${counted}`);
       // Abandoned while it counts, so nothing is ever recorded of either screen.
-      await send({ do: "escape", window: "Screen Recorder Countdown" });
+      await send({ do: "escape", window: "Yap Countdown" });
       await instance.waitFor(/countdown abandoned/);
     }
     const recordings = (await call("recording.list", { limit: 5 })).data;

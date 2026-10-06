@@ -10,7 +10,7 @@ assert.equal(process.argv.length, 3, "Provide a fresh output directory");
 const out = resolve(process.argv[2]);
 assert.ok(!existsSync(out));
 await mkdir(out, { recursive: true });
-assert.ok(process.env.SCREENREC_NATIVE);
+assert.ok(process.env.YAP_NATIVE);
 const home = await mkdtemp(join(tmpdir(), "opacity-public-"));
 const report = {
   passed: false,
@@ -19,7 +19,7 @@ const report = {
   checks: {},
   runnerSha256: hash(await readFile(fileURLToPath(import.meta.url))),
   decoderSha256: hash(await readFile("/opt/homebrew/bin/ffmpeg")),
-  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);

@@ -15,7 +15,7 @@ import { fileURLToPath } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
 
 const source = dirname(fileURLToPath(import.meta.url));
-const scratch = mkdtempSync(join(tmpdir(), "screenrec-launcher-lab-"));
+const scratch = mkdtempSync(join(tmpdir(), "yap-launcher-lab-"));
 const children = new Set();
 let cleanupPromise;
 let stopping = false;
@@ -83,9 +83,9 @@ function bundle(folder, generation) {
 import { readFile, writeFile, stat } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 const loaded = ${JSON.stringify(generation)};
-await writeFile(process.env.SCREENREC_LAB_READY, JSON.stringify({loaded, fd: process.env.SCREENREC_LAB_LOCK_FD}));
-for (;;) { try { await stat(process.env.SCREENREC_LAB_GO); break; } catch {} await delay(5); }
-const resource = await readFile(process.env.SCREENREC_APP + '/Contents/Resources/generation', 'utf8');
+await writeFile(process.env.YAP_LAB_READY, JSON.stringify({loaded, fd: process.env.YAP_LAB_LOCK_FD}));
+for (;;) { try { await stat(process.env.YAP_LAB_GO); break; } catch {} await delay(5); }
+const resource = await readFile(process.env.YAP_APP + '/Contents/Resources/generation', 'utf8');
 process.stdout.write(JSON.stringify({loaded,resource}) + '\\n');
 `,
   );
@@ -116,9 +116,9 @@ async function launch(command, args, app, name, extraEnv = {}) {
   const { child, closed } = start(command, args, {
     env: {
       ...process.env,
-      SCREENREC_APP: app,
-      SCREENREC_LAB_READY: ready,
-      SCREENREC_LAB_GO: go,
+      YAP_APP: app,
+      YAP_LAB_READY: ready,
+      YAP_LAB_GO: go,
       ...extraEnv,
     },
     stdio: ["pipe", "pipe", "pipe"],
@@ -136,11 +136,11 @@ try {
     "-o",
     helper,
   ]);
-  const launcher = join(scratch, "screenrec");
+  const launcher = join(scratch, "yap");
   writeFileSync(launcher, readFileSync(join(source, "launcher-lab/shell-launcher.sh")), {
     mode: 0o755,
   });
-  const app = join(scratch, "Relocated with spaces/Screen Recorder.app");
+  const app = join(scratch, "Relocated with spaces/Yap.app");
   const staged = join(scratch, "B.app");
   const previous = join(scratch, "A.app");
   bundle(app, "A");
@@ -189,8 +189,8 @@ try {
       preload,
       `
 const fs=require('node:fs');
-fs.writeFileSync(process.env.SCREENREC_LAB_READY,JSON.stringify({node:process.version}));
-while(!fs.existsSync(process.env.SCREENREC_LAB_GO)) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,5);
+fs.writeFileSync(process.env.YAP_LAB_READY,JSON.stringify({node:process.version}));
+while(!fs.existsSync(process.env.YAP_LAB_GO)) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,5);
 `,
     );
     const actualHelp = await launch(

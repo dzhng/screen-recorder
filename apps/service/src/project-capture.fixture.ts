@@ -3,9 +3,9 @@ import { mkdtemp, mkdir, rm, writeFile, readFile } from "node:fs/promises";
 import { writeSync, fstatSync } from "node:fs";
 import { join } from "node:path";
 import { PassThrough } from "node:stream";
-import { callLocal } from "@screenrec/client";
-import { CONTROL_FRAME_BYTES, JsonLineStream, controlMessageSchema } from "@screenrec/protocol";
-import type { OperationResult } from "@screenrec/protocol";
+import { callLocal } from "@yap/client";
+import { CONTROL_FRAME_BYTES, JsonLineStream, controlMessageSchema } from "@yap/protocol";
+import type { OperationResult } from "@yap/protocol";
 import { startProjectService } from "./project-service.js";
 import type { MediaWorker } from "./worker.js";
 

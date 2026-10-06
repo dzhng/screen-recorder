@@ -10,7 +10,7 @@ import {
   selectionRangeSchema,
   documentAssetIds,
   validateComposition,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { CatalogError } from "./catalog.js";
 import { hdrConversionEvidenceMatchesMetadata } from "./asset-origins.js";
 import { compositionAsset, portableAssetSchema } from "./assets.js";
@@ -299,7 +299,7 @@ export function transcriptMemberPath(
   return `transcripts/${id}/${leaf}`;
 }
 const manifestSchema = z.strictObject({
-  format: z.literal("screenrec-project"),
+  format: z.literal("yap-project"),
   version: z.literal(4),
   project: z.unknown(),
   undo: z.array(z.string()).max(1000),
@@ -364,7 +364,7 @@ export function projectPackageManifest(
   inventory: ProjectPackageManifest["inventory"],
 ): ProjectPackageManifest {
   return {
-    format: "screenrec-project",
+    format: "yap-project",
     version: 4,
     project: snapshot.project,
     undo: snapshot.undo,
@@ -391,7 +391,7 @@ export function parseProjectPackageManifest(
     value &&
     typeof value === "object" &&
     "format" in value &&
-    value.format === "screenrec-project" &&
+    value.format === "yap-project" &&
     (!("version" in value) || value.version !== 4)
   )
     throw new CatalogError("INVALID_PACKAGE", "Unsupported project package version", {

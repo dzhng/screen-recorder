@@ -3,7 +3,7 @@ import { mediaWorker } from "../../../../apps/service/dist/worker.js";
 const service = await startProjectService({
   home: process.argv[2],
   worker: mediaWorker(),
-  ffmpeg: JSON.parse(process.env.SCREENREC_TEST_FFMPEG),
+  ffmpeg: JSON.parse(process.env.YAP_TEST_FFMPEG),
 });
 let closing;
 const close = () => (closing ??= service.close().then(() => process.disconnect()));

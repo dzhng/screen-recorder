@@ -28,7 +28,7 @@ const cases = JSON.parse(
 );
 const models = new Models(resolve(values["model-home"]));
 const preparation = await models.runtime("qwen3-tts-icl-v1", "voice");
-const native = mediaWorker({ SCREENREC_NATIVE: resolve(values.native) });
+const native = mediaWorker({ YAP_NATIVE: resolve(values.native) });
 const run = voiceRenderer(native, models, "qwen3-tts-icl-v1", workspace);
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const request = (name) => ({
@@ -149,7 +149,7 @@ try {
     const filteredOracle = execFileSync("/usr/bin/tar", [
       "-xOf",
       join(root, "specs/done/agent-editing/assets/19d-voice-settings/evidence.tar.xz"),
-      "screenrec-19d-controls/top-p.wav",
+      "yap-19d-controls/top-p.wav",
     ]);
     assert.equal(
       digest(filteredOracle),

@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
-import { inspectTimeline } from "../skills/screenrec/scripts/timeline-inspection.mjs";
+import { inspectTimeline } from "../skills/yap/scripts/timeline-inspection.mjs";
 
 const png = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7l8AAAAASUVORK5CYII=",
@@ -298,9 +298,9 @@ test("pending event evidence retains dependency failure identities for an explic
 });
 
 test("distributed helper reads bounded stdin and invokes the installed CLI for selected evidence", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-timeline-command-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-timeline-command-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
-  const executable = join(directory, "screenrec");
+  const executable = join(directory, "yap");
   await writeFile(
     executable,
     `#!${process.execPath}
@@ -312,7 +312,7 @@ let input="";process.stdin.on("data",data=>input+=data);process.stdin.on("end",(
     { mode: 0o755 },
   );
   const helper = fileURLToPath(
-    new URL("../skills/screenrec/scripts/timeline-inspection.mjs", import.meta.url),
+    new URL("../skills/yap/scripts/timeline-inspection.mjs", import.meta.url),
   );
   const result = spawnSync(process.execPath, [helper], {
     encoding: "utf8",

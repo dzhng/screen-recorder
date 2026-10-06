@@ -48,7 +48,7 @@ const renderer: ProjectMovieRenderer = {
   },
 };
 async function fixture(render = renderer) {
-  const home = await mkdtemp("/tmp/screenrec-project-preview-");
+  const home = await mkdtemp("/tmp/yap-project-preview-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
   await assets.recover();

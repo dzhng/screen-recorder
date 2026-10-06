@@ -1,22 +1,22 @@
 @preconcurrency import AVFoundation
 import Foundation
 #if DEBUG
-@testable import ScreenRecorderAudio
-@testable import ScreenRecorderMedia
+@testable import YapAudio
+@testable import YapMedia
 #else
-import ScreenRecorderMedia
-import ScreenRecorderAudio
+import YapMedia
+import YapAudio
 #endif
 
 // These opt-in consumers execute only their selected source; the default suite stays small.
-if let plan = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_SELECTED_PLAN"] {
+if let plan = ProcessInfo.processInfo.environment["YAP_AUDIO_SELECTED_PLAN"] {
     try await writeSelectedReference(plan)
     exit(0)
 }
-if let source = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_STREAM_SOURCE"],
-    let value = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_STREAM_SECONDS"],
+if let source = ProcessInfo.processInfo.environment["YAP_AUDIO_STREAM_SOURCE"],
+    let value = ProcessInfo.processInfo.environment["YAP_AUDIO_STREAM_SECONDS"],
     let seconds = Int64(value),
-    let path = ProcessInfo.processInfo.environment["SCREENREC_SOURCE_AUDIO_EVIDENCE"] {
+    let path = ProcessInfo.processInfo.environment["YAP_SOURCE_AUDIO_EVIDENCE"] {
     try await streamingProof(source: source, seconds: seconds, evidence: URL(fileURLWithPath: path))
     exit(0)
 }
@@ -41,11 +41,11 @@ for rate in [8000, 44100, 48000, 192000] {
 #endif
 
 let directory = URL(
-    fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_SOURCE_AUDIO_EVIDENCE"]
+    fileURLWithPath: ProcessInfo.processInfo.environment["YAP_SOURCE_AUDIO_EVIDENCE"]
         ?? NSTemporaryDirectory() + UUID().uuidString)
 try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
 func cleanupEvidence() {
-    if ProcessInfo.processInfo.environment["SCREENREC_SOURCE_AUDIO_EVIDENCE"] == nil {
+    if ProcessInfo.processInfo.environment["YAP_SOURCE_AUDIO_EVIDENCE"] == nil {
         try? FileManager.default.removeItem(at: directory)
     }
 }
@@ -540,7 +540,7 @@ let pending = Task.detached {
 var began = false
 for _ in 0..<1000 {
     let names = try FileManager.default.contentsOfDirectory(atPath: directory.path)
-    if names.contains(where: { $0.hasPrefix(".screenrec-output-") }) {
+    if names.contains(where: { $0.hasPrefix(".yap-output-") }) {
         began = true
         break
     }
@@ -554,7 +554,7 @@ do {
 } catch is CancellationError {}
 precondition(!FileManager.default.fileExists(atPath: canceledOutput.path))
 let remaining = try FileManager.default.contentsOfDirectory(atPath: directory.path)
-precondition(!remaining.contains(where: { $0.hasPrefix(".screenrec-output-") }))
+precondition(!remaining.contains(where: { $0.hasPrefix(".yap-output-") }))
 print(
     "Source windows passed \(cases) full/range comparisons, dual stream mono/stereo, physical/acquisition gaps and poison isolation; unsupported rate/channel count refused. Evidence: \(directory.path)"
 )

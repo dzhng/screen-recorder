@@ -8,8 +8,8 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 const executable =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 function run(command, args, input) {
   const result = spawnSync(command, args, { input, encoding: "utf8", timeout: 15000 });
   assert.equal(result.error, undefined);
@@ -44,7 +44,7 @@ function audio(directory) {
 }
 
 test("short optional narration never shortens decoded video", () => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-recovery-test-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-recovery-test-"));
   try {
     run("ffmpeg", [
       "-v",
@@ -82,7 +82,7 @@ test("short optional narration never shortens decoded video", () => {
 });
 
 test("unreadable video retains independently decodable narration", () => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-audio-recovery-test-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-audio-recovery-test-"));
   try {
     writeFileSync(join(directory, "video.mov"), "incomplete movie header");
     audio(directory);
@@ -98,7 +98,7 @@ test("unreadable video retains independently decodable narration", () => {
 });
 
 test("truncated acquisition journal preserves known audio gaps and an unfinished pause", () => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-journal-test-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-journal-test-"));
   try {
     audio(directory);
     const records = [
@@ -157,7 +157,7 @@ test("truncated acquisition journal preserves known audio gaps and an unfinished
 });
 
 test("a journal record that will not decode is named instead of silently dropped", () => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-journal-invalid-test-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-journal-invalid-test-"));
   try {
     audio(directory);
     const records = [
@@ -200,7 +200,7 @@ test("a journal record that will not decode is named instead of silently dropped
 });
 
 test("unreadable journal remains a retryable wire failure until access is restored", () => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-recovery-access-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-recovery-access-"));
   const journal = join(directory, "capture.journal.jsonl");
   writeFileSync(
     journal,

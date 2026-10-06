@@ -63,7 +63,7 @@ const native = fixture.existingModels
       args: [
         "-p",
         `(version 1)(allow default)(deny network*)(deny file-write* (subpath ${JSON.stringify(dirname(fixture.existingModels.directory))}))`,
-        process.env.SCREENREC_NATIVE,
+        process.env.YAP_NATIVE,
       ],
     })
   : mediaWorker();

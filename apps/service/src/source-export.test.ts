@@ -4,7 +4,7 @@ import { writeSync } from "node:fs";
 import { chmod, mkdtemp, mkdir, open, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { fileIdentity } from "@screenrec/core/files";
+import { fileIdentity } from "@yap/core/files";
 import { MAX_MEDIA_TIMEOUT_MS } from "./worker.js";
 import { sourceExporter } from "./source-export.js";
 

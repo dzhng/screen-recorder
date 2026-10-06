@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
-import type { EditOperation } from "@screenrec/composition";
+import type { EditOperation } from "@yap/composition";
 import { Catalog } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore, AcquisitionImporter } from "./acquisitions.js";

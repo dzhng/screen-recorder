@@ -2,7 +2,7 @@
 import Foundation
 
 // Independent AVFoundation reader: count the whole source, retain only its final two seconds.
-// No ScreenRecorderAudio code or generated output is used as the expected PCM.
+// No YapAudio code or generated output is used as the expected PCM.
 @main struct AudioExtractionReference {
     static func main() async throws {
         let asset = AVURLAsset(url: URL(fileURLWithPath: CommandLine.arguments[1]))

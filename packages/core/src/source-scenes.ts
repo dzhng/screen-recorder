@@ -9,7 +9,7 @@ import {
   type TimeValue,
   type SignedTimeValue,
   type SelectionRange,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { isDeepStrictEqual } from "node:util";
 import type { CompositionAssetBinding } from "./project-window.js";
 import type { TimeRange } from "./presentation-time.js";

@@ -9,7 +9,7 @@ import { JobQueue } from "../../core/dist/jobs.js";
 import { JourneyService, hash, poll, root } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(values.out && process.env.SCREENREC_NATIVE, "Pass --out and SCREENREC_NATIVE");
+assert.ok(values.out && process.env.YAP_NATIVE, "Pass --out and YAP_NATIVE");
 const out = resolve(values.out),
   home = join(out, "home");
 await mkdir(out);
@@ -23,7 +23,7 @@ const report = {
   history: [],
   timings: {},
   sourceSha256: assetId,
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);

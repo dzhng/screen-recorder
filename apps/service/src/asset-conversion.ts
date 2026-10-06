@@ -2,20 +2,20 @@ import { createHash } from "node:crypto";
 import { open, realpath } from "node:fs/promises";
 import { constants } from "node:fs";
 import { isDeepStrictEqual } from "node:util";
-import { hashFile, O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { hashFile, O_NOFOLLOW_ANY } from "@yap/core/files";
 import {
   hdrConversionOriginSchema,
   hdrConversionEvidenceMatchesMetadata,
   type HdrConversionOrigin,
-} from "@screenrec/core/asset-origins";
+} from "@yap/core/asset-origins";
 import { withHdrDerivative, type HdrDerivativeEvidence } from "./hdr-conversion.js";
 import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
 import type { MediaWorker } from "./worker.js";
-import type { JobExecution, StagedJobResult } from "@screenrec/core/jobs";
-import { mediaProbeSchema } from "@screenrec/core/assets";
-import type { AssetStore } from "@screenrec/core/assets";
-import { CatalogError } from "@screenrec/core/catalog";
-import type { JobQueue } from "@screenrec/core/jobs";
+import type { JobExecution, StagedJobResult } from "@yap/core/jobs";
+import { mediaProbeSchema } from "@yap/core/assets";
+import type { AssetStore } from "@yap/core/assets";
+import { CatalogError } from "@yap/core/catalog";
+import type { JobQueue } from "@yap/core/jobs";
 
 export type AssetConversionInput = {
   assetId: string;

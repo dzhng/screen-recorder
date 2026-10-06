@@ -5,7 +5,7 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtemp, writeFile, rm } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
-import { validateComposition, createCompiler, type TextSeedCue } from "@screenrec/composition";
+import { validateComposition, createCompiler, type TextSeedCue } from "@yap/composition";
 import { Catalog } from "./catalog.js";
 import { AssetStore, compositionAsset } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";

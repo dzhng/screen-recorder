@@ -5,9 +5,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const sources = fileURLToPath(new URL("../../Sources/ScreenRecorder/", import.meta.url));
+const sources = fileURLToPath(new URL("../../Sources/Yap/", import.meta.url));
 export function checkServiceHost(t, peer, body, extraSources = []) {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-update-host-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-update-host-"));
   t.after(() => rmSync(scratch, { recursive: true, force: true }));
   const script = join(scratch, "peer.mjs");
   writeFileSync(script, peer);

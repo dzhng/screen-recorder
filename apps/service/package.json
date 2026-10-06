@@ -1,5 +1,5 @@
 {
-  "name": "@screenrec/service",
+  "name": "@yap/service",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,12 +11,12 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@screenrec/composition": "workspace:*",
-    "@screenrec/core": "workspace:*",
-    "@screenrec/protocol": "workspace:*",
+    "@yap/composition": "workspace:*",
+    "@yap/core": "workspace:*",
+    "@yap/protocol": "workspace:*",
     "zod": "4.6.5"
   },
   "devDependencies": {
-    "@screenrec/client": "workspace:*"
+    "@yap/client": "workspace:*"
   }
 }

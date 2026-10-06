@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 const script = fileURLToPath(new URL("release.mjs", import.meta.url));
 
 function fixture() {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-release-inputs-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-release-inputs-"));
   for (const folder of [
     "scripts",
     "apps/macos",
@@ -77,7 +77,7 @@ test("release packaging refuses missing durable signing inputs before touching a
   try {
     const env = { ...process.env };
     for (const name of Object.keys(env))
-      if (name.startsWith("SCREENREC_RELEASE_") || name.startsWith("SCREENREC_SPARKLE_"))
+      if (name.startsWith("YAP_RELEASE_") || name.startsWith("YAP_SPARKLE_"))
         delete env[name];
     const answer = spawnSync(
       process.execPath,
@@ -115,9 +115,9 @@ test("packaging rejects omitted or stale built catalog metadata before signing a
       "export const catalogFormat=23;\n",
     );
     writeFileSync(join(scratch, "package.json"), '{"type":"module"}');
-    const service = join(scratch, "dist/ScreenRecorder.app/Contents/Resources/service");
+    const service = join(scratch, "dist/Yap.app/Contents/Resources/service");
     mkdirSync(service, { recursive: true });
-    const plist = join(scratch, "dist/ScreenRecorder.app/Contents/Info.plist");
+    const plist = join(scratch, "dist/Yap.app/Contents/Info.plist");
     writeFileSync(
       plist,
       '<?xml version="1.0"?><plist version="1.0"><dict><key>CFBundleShortVersionString</key><string>0.0.0</string><key>LSMinimumSystemVersion</key><string>26.0</string></dict></plist>',
@@ -138,15 +138,15 @@ test("packaging rejects omitted or stale built catalog metadata before signing a
     const keys = generateKeyPairSync("ed25519");
     const env = {
       ...process.env,
-      SCREENREC_RELEASE_IDENTITY_P12: Buffer.from("fixture-p12-not-imported").toString("base64"),
-      SCREENREC_RELEASE_IDENTITY_PASSWORD: "fixture-not-imported",
-      SCREENREC_RELEASE_IDENTITY_SHA1: "a".repeat(40),
-      SCREENREC_RELEASE_CERTIFICATE_SHA256: "b".repeat(64),
-      SCREENREC_SPARKLE_PRIVATE_KEY: keys.privateKey
+      YAP_RELEASE_IDENTITY_P12: Buffer.from("fixture-p12-not-imported").toString("base64"),
+      YAP_RELEASE_IDENTITY_PASSWORD: "fixture-not-imported",
+      YAP_RELEASE_IDENTITY_SHA1: "a".repeat(40),
+      YAP_RELEASE_CERTIFICATE_SHA256: "b".repeat(64),
+      YAP_SPARKLE_PRIVATE_KEY: keys.privateKey
         .export({ format: "der", type: "pkcs8" })
         .subarray(-32)
         .toString("base64"),
-      SCREENREC_SPARKLE_PUBLIC_KEY: keys.publicKey
+      YAP_SPARKLE_PUBLIC_KEY: keys.publicKey
         .export({ format: "der", type: "spki" })
         .subarray(-32)
         .toString("base64"),
@@ -164,7 +164,7 @@ test("packaging rejects omitted or stale built catalog metadata before signing a
       assert.equal(answer.status, 1, answer.stdout + answer.stderr);
       assert.match(answer.stderr, /Built runtime catalogFormat does not match committed source/);
       assert.equal(answer.stdout, "");
-      assert.ok(!answer.stderr.includes(env.SCREENREC_SPARKLE_PRIVATE_KEY));
+      assert.ok(!answer.stderr.includes(env.YAP_SPARKLE_PRIVATE_KEY));
     }
   } finally {
     rmSync(scratch, { recursive: true, force: true });

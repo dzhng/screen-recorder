@@ -10,13 +10,13 @@ import { cardinalityOracle, occurrences, range, rowLimit } from "./source-cardin
 const { values } = parseArgs({
   options: { out: { type: "string" }, prepared: { type: "string" } },
 });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 await mkdir(out, { mode: 0o700 });
 const prepared = values.prepared
   ? JSON.parse(await readFile(join(resolve(values.prepared), "report.json"), "utf8"))
   : null;
-const home = prepared?.home ?? (await mkdtemp("/tmp/screenrec-source-metadata-"));
+const home = prepared?.home ?? (await mkdtemp("/tmp/yap-source-metadata-"));
 const report = {
   passed: false,
   scope: "Changed-owner functional and metadata work proof; no latency/SLA measurement",

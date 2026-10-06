@@ -4,7 +4,7 @@ import Foundation
 import ObjectiveC
 import Synchronization
 
-@testable import ScreenRecorderWire
+@testable import YapWire
 
 // These callbacks originate on the SDK executor, outside the helper's top-level actor.
 private final class MovieFinishing: @unchecked Sendable {
@@ -51,7 +51,7 @@ private final class MovieFinishing: @unchecked Sendable {
         writer, completion in
         let output = writer.outputURL
         guard output.lastPathComponent == "movie.mp4",
-          output.deletingLastPathComponent().lastPathComponent.hasPrefix(".screenrec-output-"),
+          output.deletingLastPathComponent().lastPathComponent.hasPrefix(".yap-output-"),
           output.deletingLastPathComponent().deletingLastPathComponent() == directory
         else {
           forward(writer, selector, completion)
@@ -189,7 +189,7 @@ func checkMovieFinishingCancellation(requestFile: String) async throws {
       && drained.activeCallbacks == 0)
   precondition(!manager.fileExists(atPath: output.path), "Canceled finish published output")
   precondition(
-    !remaining.contains { $0.hasPrefix(".screenrec-output-") }, "Canceled finish leaked staging")
+    !remaining.contains { $0.hasPrefix(".yap-output-") }, "Canceled finish leaked staging")
   precondition(before == after, "Canceled finish changed source bytes")
   print(
     "PASS actual outer AVAssetWriter finishing cancellation, drained completion, no publication/staging and unchanged source bytes"

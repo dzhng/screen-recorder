@@ -7,7 +7,7 @@ import test from "node:test";
 import { withEvidenceDirectory } from "./fixtures/evidence-directory.mjs";
 
 test("anonymous evidence is isolated and removed after success, native failure or signal", (t) => {
-  const key = "SCREENREC_TEST_EVIDENCE_DIRECTORY";
+  const key = "YAP_TEST_EVIDENCE_DIRECTORY";
   for (const ending of ["", "process.exit(1)", "process.kill(process.pid, 'SIGKILL')"]) {
     let directory;
     const run = () =>
@@ -30,8 +30,8 @@ test("anonymous evidence is isolated and removed after success, native failure o
 });
 
 test("an explicitly selected evidence directory remains caller-owned", (t) => {
-  const key = "SCREENREC_TEST_EVIDENCE_DIRECTORY";
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-explicit-evidence-"));
+  const key = "YAP_TEST_EVIDENCE_DIRECTORY";
+  const directory = mkdtempSync(join(tmpdir(), "yap-explicit-evidence-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   process.env[key] = directory;
   try {

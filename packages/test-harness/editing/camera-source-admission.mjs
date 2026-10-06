@@ -6,12 +6,12 @@ import { JourneyService, hash, poll } from "./source-evidence-fixture.mjs";
 
 // Native fixtures come from CameraWriter/CameraMedia; no physical input or model operation.
 const [sourceArg, outputArg] = process.argv.slice(2);
-assert.ok(sourceArg && outputArg && process.env.SCREENREC_NATIVE);
+assert.ok(sourceArg && outputArg && process.env.YAP_NATIVE);
 const source = resolve(sourceArg),
   out = resolve(outputArg);
 await mkdir(out, { recursive: true });
-const home = await mkdtemp("/tmp/screenrec-camera-admission-");
-const destination = await mkdtemp("/tmp/screenrec-camera-relocation-");
+const home = await mkdtemp("/tmp/yap-camera-admission-");
+const destination = await mkdtemp("/tmp/yap-camera-relocation-");
 const report = {
   scope:
     "Current-source independent camera acquisition, immutable proof and portable relocation; supplied identity, no service capture allocation or physical acceptance",

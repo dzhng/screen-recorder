@@ -1,12 +1,12 @@
 import { createHash } from "node:crypto";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { AcquisitionStore } from "@screenrec/core/acquisitions";
-import { AssetStore } from "@screenrec/core/assets";
-import { ProjectStore } from "@screenrec/core/projects";
-import { TranscriptStore } from "@screenrec/core/transcript";
-import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
-import { projectPackageManifest, resourceMetadataMember } from "@screenrec/core/project-package";
+import { AcquisitionStore } from "@yap/core/acquisitions";
+import { AssetStore } from "@yap/core/assets";
+import { ProjectStore } from "@yap/core/projects";
+import { TranscriptStore } from "@yap/core/transcript";
+import { assetTranscriptOwner } from "@yap/core/transcript-processing";
+import { projectPackageManifest, resourceMetadataMember } from "@yap/core/project-package";
 
 export async function projectArchiveContents(store, home, contents = ["generated source"]) {
   const acquisitions = new AcquisitionStore(store);

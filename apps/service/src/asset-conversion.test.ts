@@ -2,9 +2,9 @@ import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, realpath, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { JobQueue } from "@screenrec/core/jobs";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { JobQueue } from "@yap/core/jobs";
 import { AssetConversionJobs } from "./asset-conversion.js";
 
 const cleanup: (() => Promise<void>)[] = [];
@@ -12,7 +12,7 @@ afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
 async function fixture() {
-  const home = await realpath(await mkdtemp("/tmp/screenrec-conversion-jobs-"));
+  const home = await realpath(await mkdtemp("/tmp/yap-conversion-jobs-"));
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
   await assets.recover();

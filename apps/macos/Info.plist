@@ -2,10 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleIdentifier</key><string>com.dzhng.screenrec</string>
-    <key>CFBundleName</key><string>Screen Recorder</string>
-    <key>CFBundleDisplayName</key><string>Screen Recorder</string>
-    <key>CFBundleExecutable</key><string>ScreenRecorder</string>
+    <key>CFBundleIdentifier</key><string>com.dzhng.yap</string>
+    <key>CFBundleName</key><string>Yap</string>
+    <key>CFBundleDisplayName</key><string>Yap</string>
+    <key>CFBundleExecutable</key><string>Yap</string>
     <key>CFBundleIconFile</key><string>AppIcon</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleVersion</key><string>1</string>

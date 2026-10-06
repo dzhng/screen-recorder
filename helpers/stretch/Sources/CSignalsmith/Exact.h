@@ -2,7 +2,7 @@
 #include "vendor/signalsmith-stretch.h"
 #include <cstdint>
 
-namespace screenrec {
+namespace yap {
 using ExactProcessor = signalsmith::stretch::SignalsmithStretch<float>;
 
 inline void configureExact(ExactProcessor &stretch, int channels) {

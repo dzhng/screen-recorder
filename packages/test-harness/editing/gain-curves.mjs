@@ -14,9 +14,9 @@ if (values.case === "retimed") {
   process.exit(0);
 }
 assert.equal(values.case, undefined);
-assert.ok(values.out && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out),
-  home = await mkdtemp(join(tmpdir(), "screenrec-gain-"));
+  home = await mkdtemp(join(tmpdir(), "yap-gain-"));
 await mkdir(out);
 const report = { passed: false, trace: [], checks: [], costs: [] };
 const service = new JourneyService(home, report),
@@ -77,7 +77,7 @@ function verify(pcm, start, end, expected, tolerance = 0) {
 try {
   const source = join(out, "source.wav");
   await writeSourceWave(source, { source: 0, seconds: 1 });
-  report.workerSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.workerSha256 = hash(await readFile(process.env.YAP_NATIVE));
   await service.start();
   const admitted = await call("asset.import", { requestId: "gain-source", path: source });
   await poll(

@@ -24,7 +24,7 @@ afterEach(async () => {
   for (const home of homes.splice(0)) await rm(home, { recursive: true, force: true });
 });
 async function fixture() {
-  const home = await mkdtemp("/tmp/screenrec-render-attempt-");
+  const home = await mkdtemp("/tmp/yap-render-attempt-");
   homes.push(home);
   const executable = join(home, "worker");
   const parent = join(home, "attempts");
@@ -65,7 +65,7 @@ let text=''; process.stdin.on('data',x=>text+=x); process.stdin.on('end',()=>{
 });`,
   );
   await chmod(executable, 0o755);
-  return { home, parent, executable, run: mediaWorker({ SCREENREC_NATIVE: executable }) };
+  return { home, parent, executable, run: mediaWorker({ YAP_NATIVE: executable }) };
 }
 async function ready(parent: string) {
   const end = Date.now() + 5000;
@@ -448,7 +448,7 @@ it("audio owner SIGKILL preserves the orphan child's lock until restart can recl
       join(home, `${name}.mjs`),
       stripTypeScriptTypes(await readFile(new URL(`./${name}.ts`, import.meta.url), "utf8"))
         .replace('"./worker.js"', '"./worker.mjs"')
-        .replace(/"(@screenrec\/[^"]+)"/g, (_, specifier: string) =>
+        .replace(/"(@yap\/[^"]+)"/g, (_, specifier: string) =>
           JSON.stringify(pathToFileURL(require.resolve(specifier)).href),
         ),
     );
@@ -456,7 +456,7 @@ it("audio owner SIGKILL preserves the orphan child's lock until restart can recl
   const code = `
     import {withRenderedFile} from ${JSON.stringify(pathToFileURL(join(home, "render.mjs")).href)};
     import {mediaWorker,nativeResult} from ${JSON.stringify(pathToFileURL(join(home, "worker.mjs")).href)};
-    await withRenderedFile(mediaWorker({SCREENREC_NATIVE:${JSON.stringify(executable)}}),
+    await withRenderedFile(mediaWorker({YAP_NATIVE:${JSON.stringify(executable)}}),
       {attemptParent:${JSON.stringify(parent)},output:${JSON.stringify(output)},filename:"audio.wav"},
       new AbortController().signal,async(output,worker)=>nativeResult(await worker('media.mixCompositionAudio',{source:'hold',output})));
   `;
@@ -578,11 +578,11 @@ it("parallel attempt cancellation leaves the other worker and its staging intact
   }
 });
 
-it.runIf(Boolean(process.env.SCREENREC_NATIVE))(
+it.runIf(Boolean(process.env.YAP_NATIVE))(
   "native cleanup uses each attempt authority while the shared root excludes startup",
   async () => {
     const { home, parent } = await fixture();
-    const native = mediaWorker({ SCREENREC_NATIVE: process.env.SCREENREC_NATIVE });
+    const native = mediaWorker({ YAP_NATIVE: process.env.YAP_NATIVE });
     const gate = <T>() => {
       let resolve!: (value: T) => void;
       const promise = new Promise<T>((done) => {
@@ -642,11 +642,11 @@ it.runIf(Boolean(process.env.SCREENREC_NATIVE))(
   10000,
 );
 
-it.runIf(Boolean(process.env.SCREENREC_NATIVE))(
+it.runIf(Boolean(process.env.YAP_NATIVE))(
   "attempt cleanup survives renamed parent without touching a replacement directory",
   async () => {
     const { home, parent } = await fixture();
-    const native = mediaWorker({ SCREENREC_NATIVE: process.env.SCREENREC_NATIVE });
+    const native = mediaWorker({ YAP_NATIVE: process.env.YAP_NATIVE });
     const moved = join(home, "moved"),
       external = join(home, "outside");
     await mkdir(external, { mode: 0o700 });

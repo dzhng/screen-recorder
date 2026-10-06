@@ -5,7 +5,7 @@ import {
   subtract,
   type SignedTimeValue,
   type TimeValue,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { createHash, randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -571,7 +571,7 @@ test("fractional decoded segments survive portable receipts while words keep obs
 });
 
 async function retainOutput(name: string, value: unknown) {
-  const directory = process.env.SCREENREC_TRANSCRIPT_TEST_OUTPUT;
+  const directory = process.env.YAP_TRANSCRIPT_TEST_OUTPUT;
   if (!directory) return;
   await mkdir(directory, { recursive: true });
   await writeFile(join(directory, `${name}.json`), JSON.stringify(value, null, 2) + "\n");

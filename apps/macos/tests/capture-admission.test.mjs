@@ -12,7 +12,7 @@ test(
   "native controller admits selected primary camera without activating inputs",
   { timeout: 150_000 },
   () => {
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-admission-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-admission-"));
     try {
       execFileSync(
         process.execPath,

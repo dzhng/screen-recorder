@@ -1,4 +1,4 @@
-import { fromTime, compare, type TimeValue } from "@screenrec/composition";
+import { fromTime, compare, type TimeValue } from "@yap/composition";
 import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";

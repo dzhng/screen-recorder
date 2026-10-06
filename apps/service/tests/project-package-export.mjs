@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import { crc32, deflateSync } from "node:zlib";
 import { createHash } from "node:crypto";
-import { transcriptGenerationResource } from "@screenrec/core/transcript";
+import { transcriptGenerationResource } from "@yap/core/transcript";
 import { test } from "node:test";
 import { readFile, readdir, rename, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { indexGenerationResource } from "@screenrec/core/screenshot-index";
-import { sceneGenerationResource } from "@screenrec/core/scene-evidence";
-import { ResourceReferences } from "@screenrec/core/references";
+import { indexGenerationResource } from "@yap/core/screenshot-index";
+import { sceneGenerationResource } from "@yap/core/scene-evidence";
+import { ResourceReferences } from "@yap/core/references";
 import { crashFixture } from "./fixtures/project-export-crash.mjs";
 import { fixture, gate } from "./fixtures/project-export.mjs";
 

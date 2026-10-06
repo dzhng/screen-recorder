@@ -5,7 +5,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const app = join(root, "dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder");
+const app = join(root, "dist/Yap.app/Contents/MacOS/Yap");
 const args = process.argv.slice(2);
 let nativeArgs;
 if (args.length === 0 || args[0] === "--preflight") {
@@ -15,7 +15,7 @@ if (args.length === 0 || args[0] === "--preflight") {
 } else if (args[0] === "--sources") {
   nativeArgs = ["--probe", "sources"];
 } else if (args[0] === "--fixture") {
-  const output = args[1] ? resolve(args[1]) : mkdtempSync(join(tmpdir(), "screenrec-capture-"));
+  const output = args[1] ? resolve(args[1]) : mkdtempSync(join(tmpdir(), "yap-capture-"));
   mkdirSync(output, { recursive: true });
   const config = join(output, "probe.json");
   writeFileSync(

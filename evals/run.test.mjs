@@ -85,8 +85,8 @@ test("README and health trials stage complete controlled inputs without preinsta
     );
     const inputs = (await readFile(log, "utf8")).trim().split("\n").map(JSON.parse);
     const runner = inputs.find(({ paths }) => paths.includes("work/README.md")).paths;
-    assert.ok(runner.includes("work/skills/screenrec/SKILL.md"));
-    assert.ok(runner.includes("work/skills/screenrec/references/installation.md"));
+    assert.ok(runner.includes("work/skills/yap/SKILL.md"));
+    assert.ok(runner.includes("work/skills/yap/references/installation.md"));
     assert.ok(
       !runner.some(
         (path) => path.startsWith("work/.agents/skills/") || path.endsWith("cases.json"),
@@ -117,7 +117,7 @@ test("skill execution fixtures are staged without acceptance bars", async () => 
       { "SKILL.md": "instructions", "references/a.md": "reference" },
       testCase.fixture,
     );
-    assert.ok(files["work/upstream/skills/screenrec/references/a.md"]);
+    assert.ok(files["work/upstream/skills/yap/references/a.md"]);
     assert.ok(!JSON.stringify(files).includes(testCase.bar));
   }
 });

@@ -9,7 +9,7 @@ import { pointerFixture } from "./pointer-fixture.mjs";
 import { sourceSurface, stackSurface, expectedRgba } from "./layers-oracle.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(values.out && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 await mkdir(out);
 const home = await mkdtemp(join(tmpdir(), "sr-pointer-geometry-"));

@@ -2,7 +2,7 @@ import { closeSync, constants, openSync } from "node:fs";
 import { lstat, unlink } from "node:fs/promises";
 import { connect } from "node:net";
 import { join } from "node:path";
-import { serviceSocketPath } from "@screenrec/protocol";
+import { serviceSocketPath } from "@yap/protocol";
 import { prepareRuntimeDirectory } from "./index.js";
 
 /**

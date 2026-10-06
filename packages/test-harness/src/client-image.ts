@@ -9,7 +9,7 @@ import { promisify } from "node:util";
 import { z } from "zod";
 
 const run = promisify(execFile);
-const scratch = await mkdtemp(join(tmpdir(), "screenrec-image-"));
+const scratch = await mkdtemp(join(tmpdir(), "yap-image-"));
 const evidence = resolve(process.argv[2] ?? "specs/done/recording-for-ai/assets/client-image");
 await mkdir(evidence, { recursive: true });
 const serverFile = fileURLToPath(new URL("./image-probe.js", import.meta.url));
@@ -28,10 +28,10 @@ await writeFile(
   config,
   JSON.stringify({
     mcpServers: {
-      screenrec_probe: {
+      yap_probe: {
         command: process.execPath,
         args: [serverFile],
-        env: { SCREENREC_PROBE_DIR: scratch },
+        env: { YAP_PROBE_DIR: scratch },
       },
     },
   }),
@@ -67,15 +67,15 @@ async function inspect(mode: "mcp" | "cli") {
       "--tools",
       "",
       "--allowedTools",
-      "mcp__screenrec_probe__frame",
+      "mcp__yap_probe__frame",
     );
     prompt =
-      "Call the screenrec_probe frame tool with id first, read the visible six digits, then call it with id second and read those digits. Do not infer unseen content.";
+      "Call the yap_probe frame tool with id first, read the visible six digits, then call it with id second and read those digits. Do not infer unseen content.";
   } else {
     const paths: string[] = [];
     for (const id of ["first", "second"]) {
       const response = await run(process.execPath, [serverFile, "--file", id], {
-        env: { ...process.env, SCREENREC_PROBE_DIR: scratch },
+        env: { ...process.env, YAP_PROBE_DIR: scratch },
         timeout: 5_000,
       });
       paths.push(z.object({ path: z.string() }).parse(JSON.parse(response.stdout)).path);

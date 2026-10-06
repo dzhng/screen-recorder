@@ -9,7 +9,7 @@ import { test } from "node:test";
 const sourceScript = fileURLToPath(new URL("prepare.mjs", import.meta.url));
 const hash = (value) => createHash("sha256").update(value).digest("hex");
 function fixture() {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-ffmpeg-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-ffmpeg-"));
   const recipe = { version: "0.0.0", sourceSha256: hash("expected archive") };
   const script = join(scratch, "prepare.mjs");
   copyFileSync(sourceScript, script);

@@ -3,7 +3,7 @@ import {
   parseProjectPackageManifest,
   resourceMetadataMember,
   resourceMembers,
-} from "@screenrec/core/project-package";
+} from "@yap/core/project-package";
 import { resolveProjectPackageMetadata } from "../dist/project-package-metadata.js";
 import { fixture as projectFixture } from "./fixtures/project-export.mjs";
 import { fork, execFileSync } from "node:child_process";
@@ -27,20 +27,20 @@ import {
 } from "node:fs/promises";
 import { join, dirname, resolve } from "node:path";
 import { createHash } from "node:crypto";
-import { fileIdentity } from "@screenrec/core/files";
-import { archiveLimits } from "@screenrec/core/package-archive";
+import { fileIdentity } from "@yap/core/files";
+import { archiveLimits } from "@yap/core/package-archive";
 import { writeArchive } from "../dist/archive-write.js";
 import { mediaWorker } from "../dist/worker.js";
 import { Publication } from "../dist/publication.js";
 import { admitArchive } from "../dist/archive-input.js";
 import { openPackageArchive } from "../dist/package-archive.js";
 const worker = mediaWorker({
-  SCREENREC_NATIVE:
-    process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native"),
+  YAP_NATIVE:
+    process.env.YAP_NATIVE ?? resolve("helpers/mac/.build/debug/yap-native"),
 });
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 async function fixture(t, contents) {
-  const root = await realpath(await mkdtemp("/tmp/screenrec-zip-write-"));
+  const root = await realpath(await mkdtemp("/tmp/yap-zip-write-"));
   const paths = Object.fromEntries(
     ["input", "scratch", "stage", "output", "read"].map((name) => [name, join(root, name)]),
   );
@@ -198,7 +198,7 @@ test("observed ZIP output limit refuses a partial archive and drains cleanup", a
 test("cancellation drains a stopped partial writer before cleaning owned ZIP bytes", async (t) => {
   const f = await fixture(t, { "source.bin": Buffer.alloc(2 * 1024 * 1024, 17) });
   const native =
-    process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
+    process.env.YAP_NATIVE ?? resolve("helpers/mac/.build/debug/yap-native");
   await withArchiveCopyBarrier(
     f.root,
     native,
@@ -223,7 +223,7 @@ test("cancellation drains a stopped partial writer before cleaning owned ZIP byt
 test("killed service cannot retire scratch while its stopped native writer survives", async (t) => {
   const f = await fixture(t, { "source.bin": Buffer.alloc(2 * 1024 * 1024, 17) });
   const binary =
-    process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
+    process.env.YAP_NATIVE ?? resolve("helpers/mac/.build/debug/yap-native");
   const library = join(f.root, "barrier.dylib"),
     marker = join(f.root, "stopped");
   execFileSync("/usr/bin/clang", [
@@ -274,7 +274,7 @@ test("killed service cannot retire scratch while its stopped native writer survi
 test("input mutation during streaming fails after the actual copied bytes are checked", async (t) => {
   const f = await fixture(t, { "source.bin": Buffer.alloc(2 * 1024 * 1024, 17) });
   const native =
-    process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
+    process.env.YAP_NATIVE ?? resolve("helpers/mac/.build/debug/yap-native");
   await withArchiveCopyBarrier(
     f.root,
     native,

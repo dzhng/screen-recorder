@@ -12,7 +12,7 @@ let directory: string, parent: string, owner: string, ffprobe: string, ffmpeg: s
 const media = Buffer.from("immutable source bytes");
 const sha256 = createHash("sha256").update(media).digest("hex");
 beforeAll(async () => {
-  directory = await mkdtemp("/tmp/screenrec-hdr-held-");
+  directory = await mkdtemp("/tmp/yap-hdr-held-");
   parent = join(directory, "attempts");
   await mkdir(parent, { mode: 0o700 });
   owner = await compileCliOwner(directory);

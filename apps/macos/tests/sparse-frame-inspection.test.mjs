@@ -4,12 +4,12 @@ import { randomUUID, createHash } from "node:crypto";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { DerivedCache } from "@screenrec/core/cache";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
+import { DerivedCache } from "@yap/core/cache";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;

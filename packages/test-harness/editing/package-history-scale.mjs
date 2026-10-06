@@ -18,7 +18,7 @@ import { readMediaProbe } from "../../../apps/service/dist/media-probe.js";
 import { JourneyService, poll, run, root } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 await mkdir(out, { mode: 0o700 });
 const donor = join(out, "donor"),

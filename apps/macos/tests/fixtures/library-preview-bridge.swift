@@ -1,6 +1,6 @@
 import Darwin
 import Foundation
-import ScreenRecorderControls
+import YapControls
 
 struct CheckFailure: Error, LocalizedError {
     let message: String

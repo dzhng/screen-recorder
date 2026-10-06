@@ -1,21 +1,158 @@
-# Screen Recorder
+<p align="center">
+  <img src=".github/readme/header.png" alt="Yap — just yap; your agent makes it a great video" width="100%">
+</p>
 
-A local macOS recorder and media toolkit for AI agents. Use the **screenrec skill
-and CLI** to install, record, inspect, edit and export. The native app runs the
-local service; CLI replies and operation help are JSON. MCP is an optional adapter
-over the same contracts.
+<p align="center">
+  <a href="https://github.com/dzhng/yap/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/dzhng/yap?label=release"></a>
+  <img alt="macOS 26+ on Apple Silicon" src="https://img.shields.io/badge/macOS-26%2B%20%C2%B7%20Apple%20Silicon-black">
+  <img alt="Works with Claude Code, Codex and MCP agents" src="https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20MCP-blue">
+  <img alt="Runs locally" src="https://img.shields.io/badge/runs-100%25%20local-green">
+</p>
+
+---
+
+**Yap is a tool your AI agent uses to help you communicate.**
+
+Some ideas are faster to show than to write: a bug you can see, a product you
+want to demo, an update for your team, a story for your podcast. With Yap you
+just talk and show. Record your screen or camera, or drop in any video, and say
+it however it comes out. Your agent turns it into what you meant.
+
+Screen recording, transcripts, video editing and audio cleanup all serve that one
+job: getting your ideas across clearly. Yap gives **Claude Code, Codex, or any
+agent harness** the eyes, ears and hands to work with video. Your agent decides
+what makes your point land.
+
+**Just yap. Your agent makes it a great video.**
+
+**[Get started →](#get-started)** Your agent can install it for you.
+
+## Communication in both directions
+
+**Show your agent.** Instead of typing three paragraphs about a bug or a design,
+record it and talk. Your agent sees what was on screen at the exact moment you
+said "this", hears what you meant, and acts on it.
+
+**Get your point across.** When the audience is people, your agent turns your
+rough take into something worth their time: cut to the point, captioned, cleaned
+up and in the right format for where it's going.
+
+## What people make with it
+
+- **Messages for coworkers.** Async updates, walkthroughs and code-review
+  narrations that come back tight, with chapters, a summary and captions.
+- **Bug reports and feedback for your agent.** "Watch me do this" becomes
+  instructions your agent can follow.
+- **Launch and demo videos.** One take of you showing the product becomes a
+  polished demo, cut per audience or per platform.
+- **Podcasts and talks.** Clean audio, consistent loudness, highlight clips with
+  captions, and transcripts your agent can turn into show notes or a post.
+- **You, at your best.** Rehearse a pitch and get evidence on pacing and filler
+  words, keep your best take, or fix a misspoken word in your own voice.
+
+The full picture, including what's possible today and what isn't yet, is in
+[positioning](positioning.md).
+
+## How it works
+
+<p align="center">
+  <img src=".github/readme/01-you-ask-agent-edits.png" alt="1. record, 2. ask in your own words, 3. the agent edits" width="85%">
+</p>
+
+1. **Yap.** Record from the menu bar (screen, microphone, system audio and an
+   optional camera), let your agent start a recording, or hand it a video you
+   already have.
+2. **Ask** your agent in plain words, for example "Cut this into a tight 60-second
+   demo with captions" or "Here's the bug, fix it." Attach a reference video if you
+   have a style in mind.
+3. **Your agent makes it clear.** It reads the transcript, looks at the frames and
+   listens to the audio to understand what you said. Then it acts on it, or cuts
+   around the stumbles, adds what you asked for, reviews the result and exports
+   the final video.
+
+Don't like a choice? Say so in one more sentence. Every edit is a revision you
+can undo.
+
+## Things you can ask for
+
+> "Watch this recording of the checkout bug and fix it."
+
+> "Tighten this into a 60-second product demo. Cut the dead air and false starts."
+
+> "Make a vertical version for X with big, punchy captions."
+
+> "Here's a launch video I love. Match its pacing and caption style."
+
+> "I said 'version three' at 0:42 but meant 'version two'. Fix it in my voice."
+
+> "Zoom in when I open the settings panel, fade out at the end, export 1080p."
+
+> "Clean up the background hum and give me an M4A of just the narration."
+
+> "I practised my pitch on camera. How's my pacing, and where did I ramble?"
+
+> "Turn yesterday's podcast episode into three captioned clips and show notes."
+
+> "Make a two-minute update for my team from this recording, with a summary."
+
+## What your agent gets
+
+<p align="center">
+  <img src=".github/readme/02-evidence-not-opinions.png" alt="The toolkit supplies transcript, waveform and frames; the agent decides" width="85%">
+</p>
+
+Every capability is there to help the message land. Yap itself makes **zero
+editorial decisions** and has no built-in agent; your agent makes them all. Yap
+hands it evidence about what you said and showed, plus precise operations, so the
+result follows your intent instead of a built-in house style.
+
+| | What your agent can use |
+| --- | --- |
+| **See and hear** | Local transcription with word timings and search, frames and storyboards, waveforms and spectrograms, scene and cursor events, speaker turns, loudness measurement |
+| **Cut and arrange** | Multi-range cuts, takes from several recordings, layers and picture-in-picture, canvas and aspect changes, retiming, undo and history |
+| **Polish** | Captions seeded from the transcript in your own fonts, zoom and crop, fades and gain curves, noise reduction, music and room tone |
+| **Fix a word** | Regenerate a misspoken phrase in the speaker's own voice with a local model |
+| **Deliver** | MP4 video, WAV or M4A audio, SRT/VTT captions, and editable project packages |
+
+Everything runs on your Mac. Recordings, transcripts and voice models stay local.
+
+## Your originals are never touched
+
+<p align="center">
+  <img src=".github/readme/03-originals-untouched.png" alt="The original stays put while the agent edits revisions it can undo" width="85%">
+</p>
+
+Edits are non-destructive. The agent works on revisions of a project, and the
+source recording stays byte-for-byte as you captured it. Any revision can be
+previewed, compared, undone or restored, so letting an agent edit carries no risk.
+
+## Get started
+
+Requires **Apple Silicon and macOS 26 or newer**.
+
+The zero-effort route is to let your agent install it. Open Claude Code or Codex
+in the project where you keep your videos and say:
+
+> Install the yap skill and the Yap app by following
+> https://github.com/dzhng/yap#agent-setup
+
+Then record something and ask for the video you want.
+
+Prefer doing it by hand? Follow [agent setup](#agent-setup) below. It takes a few
+minutes.
 
 ## Agent setup
 
-Requires **Apple Silicon and macOS 26 or newer**. Linux containers can exercise
-portable CLI contracts, but cannot run the native app or capture macOS media.
+These steps are written for the agent doing the install, so they're precise.
+Linux containers can exercise the portable CLI contracts but cannot run the native
+app or capture macOS media.
 
-### 1. Install the screenrec skill
+### 1. Install the yap skill
 
-Install the complete [consumer skill](skills/screenrec) in the project where your
-agent will work. [Skill lifecycle](skills/screenrec/references/skill-lifecycle.md)
+Install the complete [consumer skill](skills/yap) in the project where your
+agent will work. [Skill lifecycle](skills/yap/references/skill-lifecycle.md)
 owns the executable fetch, install, inspect and explicit refresh steps. It pins
-`main` to one commit and fetches only `skills/screenrec`, including references;
+`main` to one commit and fetches only `skills/yap`, including references;
 repository `.agents/skills` are development procedures, not the product skill.
 
 Check that Node/npm and `npx` are available for the separate `skills@1.7.0`
@@ -27,37 +164,37 @@ From a checkout, run this in your target project, replacing the source path with
 the absolute path to this repository's consumer folder:
 
 ```sh
-npx --yes skills@1.7.0 add /absolute/path/to/screen-recorder/skills/screenrec \
-  --skill screenrec --agent codex claude-code --yes
+npx --yes skills@1.7.0 add /absolute/path/to/yap/skills/yap \
+  --skill yap --agent codex claude-code --yes
 ```
 
 For first install, inspect existing paths before running `add`: it can overwrite
 customized skills. Select the agents you use. The canonical project folder is
-`.agents/skills/screenrec`; Claude's `.claude/skills/screenrec` must be a symlink
+`.agents/skills/yap`; Claude's `.claude/skills/yap` must be a symlink
 resolving there. Verify the actual folder and link as the lifecycle reference
 instructs; installer output alone is insufficient. Never link the whole `.claude`
 configuration directory. Local-folder installs have no remote update tracking;
 refresh repeats pinned fetch, full-folder diff and an explicitly chosen update.
 
-Start a fresh agent session in that project and confirm discovery (`$screenrec`
-for Codex, `/screenrec` for Claude). Then request: “Use the screenrec skill to
+Start a fresh agent session in that project and confirm discovery (`$yap`
+for Codex, `/yap` for Claude). Then request: “Use the yap skill to
 install the app and verify the CLI.” App updates never edit skill files.
 
 ### 2. Install the app and CLI from the latest release
 
-Use the [latest stable GitHub release](https://github.com/dzhng/screen-recorder/releases/latest),
-not a source build. Download its `ScreenRecorder-<tag>-macos-arm64.zip`,
+Use the [latest stable GitHub release](https://github.com/dzhng/yap/releases/latest),
+not a source build. Download its `Yap-<tag>-macos-arm64.zip`,
 `release.json` and `SHA256SUMS` together. In the download directory, run
 `shasum -a 256 -c SHA256SUMS` before extracting. Check the receipt's architecture,
 minimum macOS version and signing status.
 
 Extract the ZIP with `ditto -x -k <zip-path> <new-directory>`. Install its
-`Screen Recorder.app` at `~/Applications/Screen Recorder.app` and its `screenrec`
-launcher at `~/.local/bin/screenrec`; make the launcher executable and add
+`Yap.app` at `~/Applications/Yap.app` and its `yap`
+launcher at `~/.local/bin/yap`; make the launcher executable and add
 `~/.local/bin` to PATH. Quit and back up an existing installation before replacing
 it. Node is bundled; consumers do not need Bun, Node or Swift installed separately.
 
-The skill's [installation procedure](skills/screenrec/references/installation.md)
+The skill's [installation procedure](skills/yap/references/installation.md)
 contains executable download/install commands and upgrade, app-location and
 macOS launch guidance. Check the receipt's signing status; releases are not notarized.
 If blocked, the user must approve **Open Anyway** in System Settings → Privacy &
@@ -66,33 +203,21 @@ Security. Installation does not grant capture permissions or download speech mod
 ### 3. Verify before operating
 
 ```sh
-screenrec capture.status --help
-screenrec service.health
+yap capture.status --help
+yap service.health
 ```
 
 Operation help returns its schema without launching the app. `service.health`
 checks the installed runtime and may launch the app's local service; it does not
-start recording. Save `screenrec --help` to a file when discovering operation names,
+start recording. Save `yap --help` to a file when discovering operation names,
 then request help for only the operation you need. Parse each operation's JSON
 envelope, including failures; a successful request can still describe pending or
 failed background work. Follow the skill for pinned revisions, retry identities
 and verification of delivered media.
 
-## Product boundary
-
-**This project makes zero editorial decisions. It only provides primitives.**
-Recording, transcription, search and detection supply evidence. The caller decides
-what to change and submits explicit operations. Defaults fill parameters within a
-requested operation; they never authorize another treatment or an automatic edit.
-Original media remains intact.
-
-Development verifies those primitives with explicit fixture operations. A user's
-recording is reusable test input, not an invitation to edit it or ask its owner
-for personal keep/remove judgments.
-
 ## Releases
 
-Download the app from [GitHub Releases](https://github.com/dzhng/screen-recorder/releases).
+Download the app from [GitHub Releases](https://github.com/dzhng/yap/releases).
 The [release notes](scripts/release-notes.md) describe release limitations and
 link to agent setup. Built binaries are release assets;
 source control retains their reproducible inputs rather than generated app bundles.
@@ -100,7 +225,21 @@ source control retains their reproducible inputs rather than generated app bundl
 Version tags trigger a verified GitHub release. The [build and release guide](scripts/README.md)
 explains version ownership, CI hooks and personal source installs.
 
-## Where things belong
+## Contributing
+
+### Product boundary
+
+**This project makes zero editorial decisions. It only provides primitives.**
+Recording, transcription, search and detection supply evidence. The caller (your
+agent) decides what to change and submits explicit operations. Defaults fill
+parameters within a requested operation; they never authorize another treatment
+or an automatic edit. Original media remains intact.
+
+Development verifies those primitives with explicit fixture operations. A user's
+recording is reusable test input, not an invitation to edit it or ask its owner
+for personal keep/remove judgments.
+
+### Where things belong
 
 - [Native app](apps/macos/README.md): recording controls and the service child's lifetime.
 - [Service](apps/service/README.md): composition of domain owners, native work and public delivery.
@@ -118,11 +257,12 @@ explains version ownership, CI hooks and personal source installs.
   observations through explicit optional model/runtime preparation and shared
   retained-evidence owners.
 
-The consumer [screenrec skill](skills/screenrec/SKILL.md) teaches external agents
-how to use the toolkit. Repository development skills live separately under
-.agents/skills; they are not a product operation catalog.
+The consumer [yap skill](skills/yap/SKILL.md) teaches external agents
+how to edit for the user with the toolkit. Repository development skills live
+separately under .agents/skills; they are not a product operation catalog.
+README artwork lives in [.github/readme](.github/readme).
 
-## Development and evidence
+### Development and evidence
 
 Follow [the working principles](AGENTS.md). The [root manifest](package.json)
 owns build and check commands; package manifests own narrower checks and dependencies.

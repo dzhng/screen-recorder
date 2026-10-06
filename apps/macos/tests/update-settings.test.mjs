@@ -7,14 +7,14 @@ import test from "node:test";
 import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 
 test("settings delegates opt-out to the updater and reflects only its effective state", () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-update-settings-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-update-settings-"));
   try {
     const executable = compileControlsCheck(
       scratch,
       ["SettingsWindow", "WindowMenu"],
       String.raw`
 import AppKit
-import ScreenRecorderControls
+import YapControls
 
 enum ControlsProbe { static let observed = true }
 @main struct Check {

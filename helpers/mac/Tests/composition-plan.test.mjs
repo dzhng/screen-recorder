@@ -13,8 +13,8 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 const native =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 
 test("file-backed composition plans retain typed validation and exact native audio", () => {
   const directory = mkdtempSync(join(tmpdir(), "composition-plan-"));

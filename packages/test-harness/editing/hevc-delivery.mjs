@@ -172,19 +172,19 @@ export async function verifyVideoDelivery({ call, out, ffmpeg, ffprobe, report, 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const { values } = parseArgs({ options: { out: { type: "string" } } });
   assert.ok(
-    values.out && process.env.SCREENREC_NATIVE,
-    "Pass --out NEW_DIRECTORY and SCREENREC_NATIVE",
+    values.out && process.env.YAP_NATIVE,
+    "Pass --out NEW_DIRECTORY and YAP_NATIVE",
   );
   const out = resolve(values.out);
   await mkdir(out);
-  const home = await mkdtemp("/tmp/screenrec-hevc-public-");
+  const home = await mkdtemp("/tmp/yap-hevc-public-");
   const ffmpeg = join(root, "helpers/ffmpeg/.build/distribution/bin/ffmpeg");
   const ffprobe = join(root, "helpers/ffmpeg/.build/distribution/bin/ffprobe");
   const report = {
     passed: false,
     trace: [],
     exchanges: [],
-    nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+    nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   };
   const service = new JourneyService(home, report);
   const call = service.call.bind(service);

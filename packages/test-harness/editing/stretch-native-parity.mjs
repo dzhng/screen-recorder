@@ -16,7 +16,7 @@ assert(!existsSync(out), "Choose a fresh output directory");
 mkdirSync(out, { recursive: true });
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const worker =
-  process.env.SCREENREC_STRETCH ?? join(root, "helpers/stretch/.build/release/StretchParity");
+  process.env.YAP_STRETCH ?? join(root, "helpers/stretch/.build/release/StretchParity");
 const report = { workerSha256: hash(readFileSync(worker)), checks: [], passed: false };
 const expected = JSON.parse(
   readFileSync(join(root, "specs/done/agent-editing/assets/13a-signalsmith/report.json")),

@@ -23,7 +23,7 @@ assert.ok(
     (args.length === 4 && args[0] === "--transport" && args[1] === "both" && args[2] === "--out"),
   "Expected --transport both [--out DIRECTORY]",
 );
-const out = args[3] ? resolve(args[3]) : await mkdtemp(join(tmpdir(), "screenrec-first-preview-"));
+const out = args[3] ? resolve(args[3]) : await mkdtemp(join(tmpdir(), "yap-first-preview-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-pv-"));
 const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url)

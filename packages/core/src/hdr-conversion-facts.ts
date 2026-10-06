@@ -1,6 +1,6 @@
 import { mediaProbeSchema } from "./assets.js";
 import { CatalogError } from "./catalog.js";
-import { signedTimeValueSchema, timeValueSchema } from "@screenrec/composition";
+import { signedTimeValueSchema, timeValueSchema } from "@yap/composition";
 import { z } from "zod";
 
 const stream = mediaProbeSchema.shape.streams.element;

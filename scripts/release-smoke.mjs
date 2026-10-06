@@ -7,13 +7,13 @@ import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const receipt = JSON.parse(readFileSync(join(root, "dist/release/release.json")));
-const scratch = mkdtempSync("/tmp/screenrec-release-");
+const scratch = mkdtempSync("/tmp/yap-release-");
 try {
   const moved = join(scratch, "Relocated release");
   execFileSync("ditto", [
     "-x",
     "-k",
-    join(root, `dist/release/ScreenRecorder-${receipt.tag}-macos-arm64.zip`),
+    join(root, `dist/release/Yap-${receipt.tag}-macos-arm64.zip`),
     moved,
   ]);
   const update = join(scratch, "Update archive");
@@ -23,11 +23,11 @@ try {
     join(root, "dist/release", receipt.updateArchive.name),
     update,
   ]);
-  const app = join(moved, "Screen Recorder.app");
-  const updateApp = join(update, "Screen Recorder.app");
+  const app = join(moved, "Yap.app");
+  const updateApp = join(update, "Yap.app");
   for (const path of [app, updateApp])
     execFileSync("codesign", ["--verify", "--deep", "--strict", path]);
-  execFileSync("codesign", ["--verify", "--strict", join(moved, "screenrec")]);
+  execFileSync("codesign", ["--verify", "--strict", join(moved, "yap")]);
   const tree = (path) =>
     execFileSync("/usr/sbin/mtree", ["-c", "-p", path, "-k", "type,mode,link,sha256digest"], {
       encoding: "utf8",
@@ -44,8 +44,8 @@ try {
     HOME: scratch,
     PATH: "/usr/bin:/bin:/usr/sbin:/sbin",
     TMPDIR: tmpdir(),
-    SCREENREC_HOME: join(scratch, "home"),
-    SCREENREC_APP: app,
+    YAP_HOME: join(scratch, "home"),
+    YAP_APP: app,
   };
   // The signed production identity owns real Sparkle preferences and the account
   // lock. Do not launch that host or launcher as a scratch smoke fixture.
@@ -70,8 +70,8 @@ try {
     timeout: 15000,
   });
   assert.equal(cliVersion.status, 0, cliVersion.stderr);
-  assert.deepEqual(JSON.parse(cliVersion.stdout), { name: "screenrec", version: receipt.version });
-  const native = spawnSync(join(app, "Contents/MacOS/screenrec-native"), [], {
+  assert.deepEqual(JSON.parse(cliVersion.stdout), { name: "yap", version: receipt.version });
+  const native = spawnSync(join(app, "Contents/MacOS/yap-native"), [], {
     cwd: "/",
     env,
     input: JSON.stringify({ id: "release-smoke", operation: "system.ping", params: {} }) + "\n",

@@ -60,7 +60,7 @@ function closeColor(actual, wanted) {
 }
 
 test("corpus generation repeats bytes, exposes independent timing, and refuses tampered members", async (t) => {
-  const temp = await mkdtemp(join(tmpdir(), "screenrec-corpus-test-"));
+  const temp = await mkdtemp(join(tmpdir(), "yap-corpus-test-"));
   t.after(() => rm(temp, { recursive: true, force: true }));
   const first = join(temp, "first"),
     second = join(temp, "second");

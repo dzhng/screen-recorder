@@ -1,15 +1,15 @@
-import { divide, fromTime, sampleAt, subtract } from "@screenrec/composition";
-import type { AudioWindowInput, ProjectRenderSupport } from "@screenrec/core/project-window";
+import { divide, fromTime, sampleAt, subtract } from "@yap/composition";
+import type { AudioWindowInput, ProjectRenderSupport } from "@yap/core/project-window";
 import { executeComposition } from "./composition-worker.js";
 import { withAudioProcessing, type AudioProcessingRuntime } from "./audio-processing.js";
 import { nativeProcessing } from "./native-processing.js";
 import { constants } from "node:fs";
 import { copyFile, mkdir, open } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { CatalogError } from "@screenrec/core/catalog";
-import type { CompositionMovie, ProjectMovieRenderer } from "@screenrec/core/project-preview";
-import type { ProjectFrameRenderer } from "@screenrec/core/frame-inspection";
-import type { ProjectAudioRenderer } from "@screenrec/core/audio-inspection";
+import { CatalogError } from "@yap/core/catalog";
+import type { CompositionMovie, ProjectMovieRenderer } from "@yap/core/project-preview";
+import type { ProjectFrameRenderer } from "@yap/core/frame-inspection";
+import type { ProjectAudioRenderer } from "@yap/core/audio-inspection";
 import { withRenderAttempt, withRenderedFile } from "./render.js";
 import {
   MAX_MEDIA_TIMEOUT_MS,
@@ -21,11 +21,11 @@ import {
 import type {
   PointerPreparation,
   PointerHistoryRenderer,
-} from "@screenrec/core/pointer-preparation";
-import type { SourceEvidenceReader } from "@screenrec/core/evidence-read";
-import type { PresentationReceipt } from "@screenrec/core/presentation-evidence";
-import { prepareCompositionPointers } from "@screenrec/core/composition-pointer";
-import { renderPlan } from "@screenrec/core/presentation-time";
+} from "@yap/core/pointer-preparation";
+import type { SourceEvidenceReader } from "@yap/core/evidence-read";
+import type { PresentationReceipt } from "@yap/core/presentation-evidence";
+import { prepareCompositionPointers } from "@yap/core/composition-pointer";
+import { renderPlan } from "@yap/core/presentation-time";
 export type NativePictureCapabilities = { sdrCorrection?: string };
 export async function nativePictureCapabilities(
   worker: MediaWorker,

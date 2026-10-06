@@ -17,7 +17,7 @@ const { values } = parseArgs({
 });
 assert.equal(values.case, "pronunciation-replacement");
 assert(
-  values.out && values.home && process.env.SCREENREC_NATIVE,
+  values.out && values.home && process.env.YAP_NATIVE,
   "Use an already prepared, released isolated home; this journey never prepares or copies models",
 );
 const out = resolve(values.out),

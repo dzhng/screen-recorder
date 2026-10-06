@@ -4,8 +4,8 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { controlsProbe, launchReady, setDefault, temporary, waitFor } from "./harness.mjs";
 
-const countdownWindow = "Screen Recorder Countdown";
-const controlsWindow = "Screen Recorder Controls";
+const countdownWindow = "Yap Countdown";
+const controlsWindow = "Yap Controls";
 
 /**
  * An ordinary launch of the packaged app, observed and driven through its controls probe. Such a
@@ -20,8 +20,8 @@ async function launchWith(preferences = [], environment = {}) {
   const commands = join(home, "controls");
   mkdirSync(commands, { recursive: true });
   const { instance } = await launchReady(home, {
-    SCREENREC_DEFAULTS: domain,
-    SCREENREC_FIXTURE_CONTROLS: commands,
+    YAP_DEFAULTS: domain,
+    YAP_FIXTURE_CONTROLS: commands,
     ...environment,
   });
   await instance.waitFor(/controls probe listening/);
@@ -139,7 +139,7 @@ test(
   { timeout: 90_000 },
   async () => {
     const app = await launchWith([["countdownBeforeRecording", "-bool", "NO"]], {
-      SCREENREC_FIXTURE_WINDOW: "1",
+      YAP_FIXTURE_WINDOW: "1",
     });
     // Every take here records this app's own fixture window with no audio device of any kind.
     const [, windowId] = await app.instance.waitFor(/capture fixture window=(\d+)/);

@@ -19,8 +19,8 @@ const out =
 mkdirSync(out, { recursive: true });
 const appearance = process.env.APPEARANCE ?? "light";
 const mode = process.env.MODE ?? "controls";
-const countdownWindow = "Screen Recorder Countdown";
-const controlsWindow = "Screen Recorder Controls";
+const countdownWindow = "Yap Countdown";
+const controlsWindow = "Yap Controls";
 
 function find(rows, item) {
   for (const row of rows) {
@@ -38,9 +38,9 @@ setDefault(domain, "countdownBeforeRecording", "-bool", mode === "countdown" ? "
 const commands = join(home, "controls");
 mkdirSync(commands, { recursive: true });
 const { instance } = await launchReady(home, {
-  SCREENREC_DEFAULTS: domain,
-  SCREENREC_FIXTURE_CONTROLS: commands,
-  SCREENREC_FIXTURE_WINDOW: "1",
+  YAP_DEFAULTS: domain,
+  YAP_FIXTURE_CONTROLS: commands,
+  YAP_FIXTURE_WINDOW: "1",
 });
 await instance.waitFor(/controls probe listening/);
 const [, windowId] = await instance.waitFor(/capture fixture window=(\d+)/);

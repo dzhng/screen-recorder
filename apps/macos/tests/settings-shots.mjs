@@ -11,7 +11,7 @@ import { controlsProbe, launchReady, setDefault, temporary, waitFor } from "./ha
  *
  * Each picture is the window's own drawing, so nothing is photographed off the screen: the launch
  * never activates this app and orders the window in behind whatever the person at the Mac is
- * doing. Five of the six state their access through `SCREENREC_FIXTURE_PERMISSIONS`, which
+ * doing. Five of the six state their access through `YAP_FIXTURE_PERMISSIONS`, which
  * replaces what the window displays and nothing else — changing this Mac's own record of what the
  * app may do is not something a check may do for a screenshot.
  */
@@ -19,7 +19,7 @@ const out =
   process.env.SHOTS ??
   join(import.meta.dirname, "../../../specs/done/recording-for-ai/assets/settings-window");
 mkdirSync(out, { recursive: true });
-const title = "Screen Recorder Settings";
+const title = "Yap Settings";
 
 /** Every capture this run writes: what it is called, how it looks, and what access it shows. */
 const shots = [
@@ -41,9 +41,9 @@ for (const shot of shots) {
   const commands = join(home, "controls");
   mkdirSync(commands, { recursive: true });
   const { instance } = await launchReady(home, {
-    SCREENREC_DEFAULTS: domain,
-    SCREENREC_FIXTURE_CONTROLS: commands,
-    ...(shot.permissions ? { SCREENREC_FIXTURE_PERMISSIONS: shot.permissions } : {}),
+    YAP_DEFAULTS: domain,
+    YAP_FIXTURE_CONTROLS: commands,
+    ...(shot.permissions ? { YAP_FIXTURE_PERMISSIONS: shot.permissions } : {}),
   });
   await instance.waitFor(/controls probe listening/);
   const send = controlsProbe(commands);

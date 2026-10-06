@@ -16,7 +16,7 @@ const out = args[2] === "--out" ? resolve(args[3]) : await mkdtemp(join(tmpdir()
 await mkdir(out, { recursive: true });
 assert.deepEqual(await readdir(out), [], "Evidence folder must be empty");
 const native =
-  process.env.SCREENREC_NATIVE ?? join(root, "helpers/mac/.build/debug/screenrec-native");
+  process.env.YAP_NATIVE ?? join(root, "helpers/mac/.build/debug/yap-native");
 const frozen = join(root, "specs/done/agent-editing/assets/06-platform-temporal");
 const corpus = join(root, "specs/done/agent-editing/assets/00-corpus");
 const bytes = 160 * 128 * 3;
@@ -200,7 +200,7 @@ assert.ok(
 for (const { name } of sourceProfiles) {
   const files = await readdir(join(out, name));
   assert.ok(
-    !files.includes("video.mp4") && !files.some((f) => f.startsWith(".screenrec-output-")),
+    !files.includes("video.mp4") && !files.some((f) => f.startsWith(".yap-output-")),
     name + " leaked unsupported output",
   );
 }
@@ -698,8 +698,8 @@ if (!args.includes("--temporal-only")) {
   cancelRequest.output = join(cancellationDirectory, "video.mp4");
   await save(join(cancellationDirectory, "request.json"), cancelRequest);
   cancellation = run(
-    process.env.SCREENREC_COMPOSITION_VIDEO_TESTS ??
-      join(root, "helpers/mac/.build/debug/ScreenRecorderCompositionVideoTests"),
+    process.env.YAP_COMPOSITION_VIDEO_TESTS ??
+      join(root, "helpers/mac/.build/debug/YapCompositionVideoTests"),
     [join(cancellationDirectory, "request.json")],
   )
     .toString()

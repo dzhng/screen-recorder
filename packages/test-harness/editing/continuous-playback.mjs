@@ -11,7 +11,7 @@ if (!movie || !destination || extra.length)
   throw new Error("Usage: node continuous-playback.mjs movie.mp4 evidence-directory");
 const source = join(dirname(fileURLToPath(import.meta.url)), "ContinuousPlayback.swift");
 const out = resolve(destination);
-const scratch = await mkdtemp(join(tmpdir(), "screenrec-continuous-playback-"));
+const scratch = await mkdtemp(join(tmpdir(), "yap-continuous-playback-"));
 await mkdir(out, { recursive: true });
 try {
   const binary = join(scratch, "probe");

@@ -1,19 +1,19 @@
 {
-  "name": "@screenrec/macos",
+  "name": "@yap/macos",
   "version": "0.1.9",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "node ../../scripts/build-macos.mjs",
-    "test": "swift run --build-system native --package-path ../../helpers/mac ScreenRecorderCaptureTests && node ../../scripts/test-native.mjs ScreenRecorderFrameTests && node ../../scripts/test-native.mjs ScreenRecorderSourceAudioTests && swift run --build-system native --package-path ../../helpers/mac ScreenRecorderCompositionAudioTests && node ../../scripts/test-native.mjs ScreenRecorderSelectedAudioTests && swift run --build-system native --package-path ../../helpers/mac ScreenRecorderSpeechTests && swift build --build-system native --package-path ../../helpers/mac && swift build --build-system native --product ScreenRecorder --jobs 2 && swift run --build-system native ScreenRecorderControlsTests && node --test ../../helpers/mac/Tests/*.test.mjs && node --test tests/*.test.mjs"
+    "test": "swift run --build-system native --package-path ../../helpers/mac YapCaptureTests && node ../../scripts/test-native.mjs YapFrameTests && node ../../scripts/test-native.mjs YapSourceAudioTests && swift run --build-system native --package-path ../../helpers/mac YapCompositionAudioTests && node ../../scripts/test-native.mjs YapSelectedAudioTests && swift run --build-system native --package-path ../../helpers/mac YapSpeechTests && swift build --build-system native --package-path ../../helpers/mac && swift build --build-system native --product Yap --jobs 2 && swift run --build-system native YapControlsTests && node --test ../../helpers/mac/Tests/*.test.mjs && node --test tests/*.test.mjs"
   },
   "dependencies": {
-    "@screenrec/service": "workspace:*"
+    "@yap/service": "workspace:*"
   },
   "devDependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",
-    "@screenrec/cli": "workspace:*",
-    "@screenrec/client": "workspace:*",
-    "@screenrec/core": "workspace:*"
+    "@yap/cli": "workspace:*",
+    "@yap/client": "workspace:*",
+    "@yap/core": "workspace:*"
   }
 }

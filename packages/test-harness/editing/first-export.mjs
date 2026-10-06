@@ -150,7 +150,7 @@ export async function exportJourney({
     const path = join(directory, heldRequest.leaf);
     const preparedReceipt = JSON.parse(
       await readFile(
-        join(directory, `.screenrec-export-${heldRequest.exportId}`, "prepared.json"),
+        join(directory, `.yap-export-${heldRequest.exportId}`, "prepared.json"),
         "utf8",
       ),
     );

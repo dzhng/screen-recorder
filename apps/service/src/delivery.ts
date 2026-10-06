@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { CatalogError } from "@screenrec/core/catalog";
+import { CatalogError } from "@yap/core/catalog";
 
 export type DerivativeRead = {
   readonly bytes: number;

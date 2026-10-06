@@ -35,7 +35,7 @@ const run = promisify(execFile);
 const { values } = parseArgs({
   options: { out: { type: "string" }, "metadata-only": { type: "boolean" } },
 });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const requestedOutput = resolve(values.out);
 await mkdir(requestedOutput, { recursive: false, mode: 0o700 });
 const out = await realpath(requestedOutput);
@@ -71,7 +71,7 @@ const report = {
   original: original.receipts[0],
   observations: {},
 };
-report.nativeSha256 = await digest(process.env.SCREENREC_NATIVE);
+report.nativeSha256 = await digest(process.env.YAP_NATIVE);
 const originalJob = original.receipts[0],
   originalAudio = original.receipts[1].published.audio;
 const { projectId, revisionId } = originalJob.target;

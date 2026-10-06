@@ -10,7 +10,7 @@ import { CaptureStore } from "../../core/dist/capture-store.js";
 // The desktop control peer is idle; recovery and all public requests use the actual service/native owners.
 if (process.send) {
   const child = spawn(process.execPath, [join(root, "apps/service/dist/main.js")], {
-    env: { ...process.env, SCREENREC_HOME: process.argv[2] },
+    env: { ...process.env, YAP_HOME: process.argv[2] },
     stdio: ["pipe", "pipe", "pipe"],
   });
   child.stderr.pipe(process.stderr);
@@ -44,9 +44,9 @@ if (process.send) {
     if (process.connected) process.disconnect();
   });
 } else {
-  assert.ok(process.argv[2], "Pass the output of SCREENREC_NATIVE_PUBLICATION_OUTPUT");
-  const output = await mkdtemp("/tmp/screenrec-terminal-boundaries-");
-  const scratch = await mkdtemp("/tmp/screenrec-terminal-library-");
+  assert.ok(process.argv[2], "Pass the output of YAP_NATIVE_PUBLICATION_OUTPUT");
+  const output = await mkdtemp("/tmp/yap-terminal-boundaries-");
+  const scratch = await mkdtemp("/tmp/yap-terminal-library-");
   const report = { passed: false, cases: [], trace: [] };
   try {
     for (const boundary of ["absent-terminal", "torn-terminal"]) {

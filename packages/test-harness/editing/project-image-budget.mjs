@@ -7,7 +7,7 @@ import { createCompiler, validateComposition } from "../../composition/dist/inde
 import { run } from "./source-evidence-fixture.mjs";
 
 assert.ok(
-  process.env.SCREENREC_NATIVE && process.argv[2],
+  process.env.YAP_NATIVE && process.argv[2],
   "Pass a frozen worker and evidence JSON path",
 );
 const home = await mkdtemp(join(tmpdir(), "image-budget-"));
@@ -78,7 +78,7 @@ data.append(c.flush())
   };
   const { spawnSync } = await import("node:child_process");
   function invoke(params) {
-    const result = spawnSync("/usr/bin/time", ["-l", process.env.SCREENREC_NATIVE], {
+    const result = spawnSync("/usr/bin/time", ["-l", process.env.YAP_NATIVE], {
       input:
         JSON.stringify({ id: "budget", operation: "media.renderCompositionFrame", params }) + "\n",
       encoding: "utf8",
@@ -92,7 +92,7 @@ data.append(c.flush())
   }
   const { reply, peakResidentBytes } = invoke(params);
   report = {
-    worker: process.env.SCREENREC_NATIVE,
+    worker: process.env.YAP_NATIVE,
     reply,
     passed: reply.error?.code === "LIMIT_EXCEEDED" && reply.error.message.includes("33554432"),
     peakResidentBytes,

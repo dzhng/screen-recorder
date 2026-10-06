@@ -1,7 +1,7 @@
-import { ceil, sourceAvailability } from "@screenrec/composition";
+import { ceil, sourceAvailability } from "@yap/composition";
 import { createHash } from "node:crypto";
 import { z } from "zod";
-import { compare, fromTime, intervalIndex } from "@screenrec/composition";
+import { compare, fromTime, intervalIndex } from "@yap/composition";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";

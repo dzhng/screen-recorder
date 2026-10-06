@@ -4,14 +4,14 @@ import { mkdtemp, mkdir, writeFile, readFile, rm, lstat, symlink } from "node:fs
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { setImmediate } from "node:timers/promises";
-import { CaptureStore } from "@screenrec/core/capture-store";
-import { AcquisitionStore } from "@screenrec/core/acquisitions";
+import { CaptureStore } from "@yap/core/capture-store";
+import { AcquisitionStore } from "@yap/core/acquisitions";
 import { openSync, fstatSync, readSync, closeSync } from "node:fs";
-import { CatalogError } from "@screenrec/core/catalog";
-import { JobQueue, type JobExecutor } from "@screenrec/core/jobs";
+import { CatalogError } from "@yap/core/catalog";
+import { JobQueue, type JobExecutor } from "@yap/core/jobs";
 import { CaptureService } from "./capture.js";
 import { DerivativeDelivery } from "./delivery.js";
-import { openDirectoryLease } from "@screenrec/core/files";
+import { openDirectoryLease } from "@yap/core/files";
 import { RecordingDeletion } from "./deletion.js";
 
 function deferred<T>() {
@@ -30,7 +30,7 @@ async function fixture(
   directoryReady = Promise.resolve(),
   existingHome?: string,
 ) {
-  const home = existingHome ?? (await mkdtemp("/tmp/screenrec-delete-"));
+  const home = existingHome ?? (await mkdtemp("/tmp/yap-delete-"));
   const store = new CaptureStore(join(home, "catalog.sqlite"), {
     now: () => "fixture",
     newId: randomUUID,
@@ -260,7 +260,7 @@ test("source directory lifetime gates removal; a failed path keeps intent for re
 });
 
 test("startup resumes durable intents and a failed recording does not strand another deletion", async () => {
-  const home = await mkdtemp("/tmp/screenrec-delete-restart-");
+  const home = await mkdtemp("/tmp/yap-delete-restart-");
   const seed = new CaptureStore(join(home, "catalog.sqlite"), {
     now: () => "",
     newId: randomUUID,

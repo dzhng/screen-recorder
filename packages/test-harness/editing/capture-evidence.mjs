@@ -7,7 +7,7 @@ import { captureFixtures } from "./capture-evidence-fixture.mjs";
 import { JourneyService, root, hash, poll } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Set an isolated frozen native worker");
+assert.ok(process.env.YAP_NATIVE, "Set an isolated frozen native worker");
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "capture-evidence-"));
 const home = await mkdtemp(join(tmpdir(), "sr-capture-evidence-"));
 await mkdir(out, { recursive: true });
@@ -929,7 +929,7 @@ try {
   await save("late-source-reads.json", lateReads);
   report.checks.lateSeek = { rawRows: 2, noPrefixExpansion: true };
   report.passed = true;
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   report.runtime = Object.fromEntries(
     await Promise.all(
       [

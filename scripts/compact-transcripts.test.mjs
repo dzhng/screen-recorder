@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { compactTranscripts } from "../skills/screenrec/scripts/compact-transcripts.mjs";
+import { compactTranscripts } from "../skills/yap/scripts/compact-transcripts.mjs";
 
 const word = (ordinal, text, startUs, endUs, extra = {}) => ({
   type: "word",
@@ -232,15 +232,15 @@ test("consumer command reads stdin and calls only installed transcript reads", a
   const { tmpdir } = await import("node:os");
   const { join } = await import("node:path");
   const { spawn } = await import("node:child_process");
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-compact-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-compact-"));
   try {
-    const executable = join(directory, "screenrec");
+    const executable = join(directory, "yap");
     await writeFile(
       executable,
       `#!${process.execPath}\nlet input='';process.stdin.on('data',c=>input+=c);process.stdin.on('end',()=>{if(process.argv[2]!=='transcript.get')process.exit(2);console.log(JSON.stringify({ok:true,data:${JSON.stringify(sourcePage([word(0, "Hello!", 100, 200)]))}}))});`,
       { mode: 0o755 },
     );
-    const child = spawn(process.execPath, ["skills/screenrec/scripts/compact-transcripts.mjs"], {
+    const child = spawn(process.execPath, ["skills/yap/scripts/compact-transcripts.mjs"], {
       stdio: ["pipe", "pipe", "pipe"],
     });
     let stdout = "",

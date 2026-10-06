@@ -5,9 +5,9 @@ import { tmpdir } from "node:os";
 import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Use a frozen actual native worker");
+assert.ok(process.env.YAP_NATIVE, "Use a frozen actual native worker");
 assert.equal(
-  process.env.SCREENREC_TEST_PROBE_OVERRIDES,
+  process.env.YAP_TEST_PROBE_OVERRIDES,
   undefined,
   "This journey owns its explicitly labeled probe controls",
 );
@@ -621,7 +621,7 @@ try {
   }
   const overrides = join(out, "controlled-probe-overrides.json");
   await writeFile(overrides, JSON.stringify(controlled, null, 2));
-  process.env.SCREENREC_TEST_PROBE_OVERRIDES = overrides;
+  process.env.YAP_TEST_PROBE_OVERRIDES = overrides;
   await service.start();
   report.controlledProbeAdmission = [];
   for (const control of controlled) {
@@ -687,7 +687,7 @@ try {
   try {
     await service.stop();
   } finally {
-    delete process.env.SCREENREC_TEST_PROBE_OVERRIDES;
+    delete process.env.YAP_TEST_PROBE_OVERRIDES;
     try {
       report.logs = service.logs;
       await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");

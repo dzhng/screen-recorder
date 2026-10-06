@@ -15,10 +15,10 @@ import { test, after } from "node:test";
 import { renderPlan } from "../../../packages/core/dist/presentation-time.js";
 import { renderFrames } from "./fixtures/render-frames.mjs";
 const native =
-  process.env.SCREENREC_NATIVE ??
-  new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
-const evidence = process.env.SCREENREC_VIDEO_RENDER_EVIDENCE;
-const directory = evidence ?? mkdtempSync(join(tmpdir(), "screenrec-video-render-"));
+  process.env.YAP_NATIVE ??
+  new URL("../.build/debug/yap-native", import.meta.url).pathname;
+const evidence = process.env.YAP_VIDEO_RENDER_EVIDENCE;
+const directory = evidence ?? mkdtempSync(join(tmpdir(), "yap-video-render-"));
 assert.ok(isAbsolute(directory));
 mkdirSync(directory, { recursive: true });
 assert.deepEqual(readdirSync(directory), []);
@@ -239,7 +239,7 @@ test("presentation evidence refuses unsupported video tail and partial byte-budg
   assert.equal(limited.result.ok, false);
   assert.equal(limited.result.error.code, "LIMIT_EXCEEDED");
   assert.equal(existsSync(limited.output), false);
-  assert.ok(!readdirSync(directory).some((name) => name.startsWith(".screenrec-output-")));
+  assert.ok(!readdirSync(directory).some((name) => name.startsWith(".yap-output-")));
 });
 
 test("presentation evidence memory stays bounded while streamed output grows", async () => {

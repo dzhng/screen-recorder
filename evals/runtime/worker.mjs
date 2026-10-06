@@ -18,7 +18,7 @@ async function execute(request) {
     return {
       bundleBase64: execFileSync(
         "unzip",
-        ["-p", "/sandbox/release.zip", "Screen Recorder.app/Contents/Resources/cli/main.mjs"],
+        ["-p", "/sandbox/release.zip", "Yap.app/Contents/Resources/cli/main.mjs"],
         { maxBuffer: 8 * 1024 * 1024 },
       ).toString("base64"),
     };
@@ -32,17 +32,17 @@ async function execute(request) {
   }
   let fixtureSetup;
   if (request.fixture?.startsWith("skill-") && request.fixture !== "skill-install") {
-    await cp("/sandbox/work/.agents/skills/screenrec", "/sandbox/customized-source", {
+    await cp("/sandbox/work/.agents/skills/yap", "/sandbox/customized-source", {
       recursive: true,
     });
-    await rm("/sandbox/work/.agents/skills/screenrec", { recursive: true });
+    await rm("/sandbox/work/.agents/skills/yap", { recursive: true });
     const command = [
       "--yes",
       "skills@1.7.0",
       "add",
       "/sandbox/customized-source",
       "--skill",
-      "screenrec",
+      "yap",
       "--agent",
       "codex",
       "claude-code",

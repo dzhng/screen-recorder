@@ -1,5 +1,5 @@
-import { CatalogError } from "@screenrec/core/catalog";
-import { CONTROL_FRAME_BYTES, encodeJsonLine, personalHome } from "@screenrec/protocol";
+import { CatalogError } from "@yap/core/catalog";
+import { CONTROL_FRAME_BYTES, encodeJsonLine, personalHome } from "@yap/protocol";
 import { startProjectService } from "./project-service.js";
 import { StartupFailure } from "./startup.js";
 import { readFileSync } from "node:fs";
@@ -15,10 +15,10 @@ try {
 try {
   const service = await startProjectService({
     home: personalHome(),
-    ffmpeg: process.env.SCREENREC_FFMPEG_DIRECTORY
+    ffmpeg: process.env.YAP_FFMPEG_DIRECTORY
       ? {
-          directory: process.env.SCREENREC_FFMPEG_DIRECTORY,
-          receiptSha256: process.env.SCREENREC_FFMPEG_RECEIPT_SHA256 ?? "",
+          directory: process.env.YAP_FFMPEG_DIRECTORY,
+          receiptSha256: process.env.YAP_FFMPEG_RECEIPT_SHA256 ?? "",
         }
       : undefined,
     version,

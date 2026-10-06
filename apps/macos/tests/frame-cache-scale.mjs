@@ -5,15 +5,15 @@ import { createReadStream, existsSync } from "node:fs";
 import { lstat, readFile, writeFile } from "node:fs/promises";
 import { isAbsolute, join } from "node:path";
 import { test } from "node:test";
-import { callLocal } from "@screenrec/client";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { DerivedCache } from "@screenrec/core/cache";
+import { callLocal } from "@yap/client";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { DerivedCache } from "@yap/core/cache";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 // Optional companion to lab:index-scale; never regenerates or edits the supplied input.
-// SCREENREC_FRAME_CACHE_VIDEO names an existing generated 30-minute video, copied into scratch.
-// SCREENREC_FRAME_CACHE_EVIDENCE optionally names a new JSON receipt file.
+// YAP_FRAME_CACHE_VIDEO names an existing generated 30-minute video, copied into scratch.
+// YAP_FRAME_CACHE_EVIDENCE optionally names a new JSON receipt file.
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
 const durationUs = 1_800_000_000;
 async function hash(path) {
@@ -41,10 +41,10 @@ test(
   "30-minute selected source picture hits cache, survives LRU eviction, and leaves source unchanged",
   { timeout: 90_000 },
   async () => {
-    const input = process.env.SCREENREC_FRAME_CACHE_VIDEO;
+    const input = process.env.YAP_FRAME_CACHE_VIDEO;
     assert.ok(
       input && isAbsolute(input),
-      "Set SCREENREC_FRAME_CACHE_VIDEO to the preserved generated 30-minute video",
+      "Set YAP_FRAME_CACHE_VIDEO to the preserved generated 30-minute video",
     );
     const probe = JSON.parse(
       run("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "json", input]),
@@ -184,9 +184,9 @@ test(
           "Selected-source cache companion only; no automatic recording/project or source/scene job dependencies, full index rerun, capture devices or user media.",
       };
       console.log(JSON.stringify(report));
-      if (process.env.SCREENREC_FRAME_CACHE_EVIDENCE)
+      if (process.env.YAP_FRAME_CACHE_EVIDENCE)
         await writeFile(
-          process.env.SCREENREC_FRAME_CACHE_EVIDENCE,
+          process.env.YAP_FRAME_CACHE_EVIDENCE,
           JSON.stringify(report, null, 2) + "\n",
           { flag: "wx" },
         );

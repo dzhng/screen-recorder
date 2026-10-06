@@ -1,11 +1,11 @@
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { AcquisitionStore } from "@screenrec/core/acquisitions";
-import { ProjectStore } from "@screenrec/core/projects";
-import { TranscriptStore } from "@screenrec/core/transcript";
-import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { AcquisitionStore } from "@yap/core/acquisitions";
+import { ProjectStore } from "@yap/core/projects";
+import { TranscriptStore } from "@yap/core/transcript";
+import { assetTranscriptOwner } from "@yap/core/transcript-processing";
 
 /** Admit a generated silent fixture with its supplied probe facts, then explicitly author it. */
 export async function generatedVideoProject(home, path, { width, height, durationUs }) {

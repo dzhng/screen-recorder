@@ -1,4 +1,4 @@
-import { rational, toTime } from "@screenrec/composition";
+import { rational, toTime } from "@yap/composition";
 import { afterEach, expect, test } from "vitest";
 import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promises";

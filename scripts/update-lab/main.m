@@ -30,11 +30,11 @@
     [file seekToEndOfFile]; [file writeData:data]; [file writeData:[@"\n" dataUsingEncoding:NSUTF8StringEncoding]]; [file closeFile];
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    self.root = NSProcessInfo.processInfo.environment[@"SCREENREC_UPDATE_LAB"] ?: NSBundle.mainBundle.infoDictionary[@"LabRoot"];
+    self.root = NSProcessInfo.processInfo.environment[@"YAP_UPDATE_LAB"] ?: NSBundle.mainBundle.infoDictionary[@"LabRoot"];
     self.version = NSBundle.mainBundle.infoDictionary[@"CFBundleVersion"];
     self.busy = YES;
     self.hostControlsInstallation = [NSBundle.mainBundle.infoDictionary[@"LabHostControlsInstallation"] boolValue];
-    [self record:@"launch" fields:@{@"arguments":NSProcessInfo.processInfo.arguments, @"environmentPreserved":@(NSProcessInfo.processInfo.environment[@"SCREENREC_UPDATE_LAB"] != nil), @"executionContext":@{@"SCREENREC_HOME":NSProcessInfo.processInfo.environment[@"SCREENREC_HOME"] ?: NSNull.null,@"SCREENREC_DEFAULTS":NSProcessInfo.processInfo.environment[@"SCREENREC_DEFAULTS"] ?: NSNull.null}, @"frameworkVersion":[NSBundle bundleForClass:SPUUpdater.class].infoDictionary[@"CFBundleShortVersionString"] ?: @"missing"}];
+    [self record:@"launch" fields:@{@"arguments":NSProcessInfo.processInfo.arguments, @"environmentPreserved":@(NSProcessInfo.processInfo.environment[@"YAP_UPDATE_LAB"] != nil), @"executionContext":@{@"YAP_HOME":NSProcessInfo.processInfo.environment[@"YAP_HOME"] ?: NSNull.null,@"YAP_DEFAULTS":NSProcessInfo.processInfo.environment[@"YAP_DEFAULTS"] ?: NSNull.null}, @"frameworkVersion":[NSBundle bundleForClass:SPUUpdater.class].infoDictionary[@"CFBundleShortVersionString"] ?: @"missing"}];
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self.root stringByAppendingPathComponent:@"stop"]]) {
         [self record:@"stoppedLaunch" fields:@{}];
         [NSApp terminate:nil];
@@ -71,10 +71,10 @@
     return NSTerminateNow;
 }
 - (BOOL)updater:(SPUUpdater *)updater shouldProceedWithUpdate:(SUAppcastItem *)item updateCheck:(SPUUpdateCheck)check error:(NSError **)error {
-    NSString *format = item.propertiesDictionary[@"screenrecCatalogFormat"];
+    NSString *format = item.propertiesDictionary[@"yapCatalogFormat"];
     BOOL accepted = item.signingValidationStatus == SPUAppcastSigningValidationStatusSucceeded && [format isEqualToString:@"23"];
     [self record:@"candidate" fields:@{@"candidateVersion":item.versionString,@"format":format ?: @"missing",@"accepted":@(accepted),@"signatureStatus":@(item.signingValidationStatus)}];
-    if (!accepted && error != NULL) *error = [NSError errorWithDomain:@"ScreenrecUpdateLab" code:1 userInfo:@{NSLocalizedDescriptionKey:@"candidate format is incompatible"}];
+    if (!accepted && error != NULL) *error = [NSError errorWithDomain:@"YapUpdateLab" code:1 userInfo:@{NSLocalizedDescriptionKey:@"candidate format is incompatible"}];
     return accepted;
 }
 - (void)updater:(SPUUpdater *)updater didFinishUpdateCycleForUpdateCheck:(SPUUpdateCheck)check error:(NSError *)error {
@@ -82,7 +82,7 @@
     [self record:@"cycle" fields:@{@"error":error.description ?: @"", @"replacementExcluded":@([self replacementExcluded])}];
 }
 - (BOOL)replacementExcluded {
-    NSString *lock = [NSHomeDirectory() stringByAppendingPathComponent:NSBundle.mainBundle.infoDictionary[@"ScreenrecLaunchLockRelativePath"]];
+    NSString *lock = [NSHomeDirectory() stringByAppendingPathComponent:NSBundle.mainBundle.infoDictionary[@"YapLaunchLockRelativePath"]];
     int descriptor = open(lock.fileSystemRepresentation, O_RDONLY | O_NOFOLLOW);
     BOOL excluded = descriptor >= 0 && flock(descriptor, LOCK_SH | LOCK_NB) != 0 && errno == EWOULDBLOCK;
     if (descriptor >= 0) close(descriptor);

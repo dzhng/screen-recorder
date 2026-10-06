@@ -1,5 +1,5 @@
 {
-  "name": "@screenrec/client",
+  "name": "@yap/client",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,6 +11,6 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@screenrec/protocol": "workspace:*"
+    "@yap/protocol": "workspace:*"
   }
 }

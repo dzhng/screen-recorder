@@ -7,7 +7,7 @@ import {
   type ExactRange,
   type SelectionRange,
   type SourceWindowOccurrence,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import {
   SourceTranscriptRead,
   transcriptSearchTerms,

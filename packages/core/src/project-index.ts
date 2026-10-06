@@ -1,9 +1,9 @@
-import { signedTimeValueSchema } from "@screenrec/composition";
+import { signedTimeValueSchema } from "@yap/composition";
 import { z } from "zod";
-import { timeValueSchema } from "@screenrec/composition";
+import { timeValueSchema } from "@yap/composition";
 import { sourceSceneClockSchema } from "./source-scene-chunks.js";
 import { isDeepStrictEqual } from "node:util";
-import { isMediaClip } from "@screenrec/composition";
+import { isMediaClip } from "@yap/composition";
 import { CatalogError } from "./catalog.js";
 import { compositionPointerSources } from "./composition-pointer.js";
 import { projectComposition, type ProjectRenderSupport } from "./project-window.js";

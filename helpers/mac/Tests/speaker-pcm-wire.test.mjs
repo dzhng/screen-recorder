@@ -4,8 +4,8 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
 const native =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 function request(operation, params) {
   const result = spawnSync(native, [], {
     input: JSON.stringify({ id: "speaker", operation, params }) + "\n",

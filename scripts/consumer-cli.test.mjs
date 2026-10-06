@@ -3,12 +3,12 @@ import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
-import { createCli } from "../skills/screenrec/scripts/screenrec-cli.mjs";
+import { createCli } from "../skills/yap/scripts/yap-cli.mjs";
 
 async function fixture(t, body) {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-consumer-cli-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-consumer-cli-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
-  const executable = join(directory, "screenrec");
+  const executable = join(directory, "yap");
   await writeFile(executable, `#!${process.execPath}\n${body}`, { mode: 0o755 });
   return executable;
 }

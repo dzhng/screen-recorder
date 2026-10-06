@@ -1,4 +1,4 @@
-import { toTime } from "@screenrec/composition";
+import { toTime } from "@yap/composition";
 import { expect, test } from "vitest";
 import {
   SelectedSourceSceneAnalysis,

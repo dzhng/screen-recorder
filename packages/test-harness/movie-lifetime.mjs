@@ -28,8 +28,8 @@ import { mediaWorker, nativeResult } from "../../apps/service/dist/worker.js";
 import { clearRenderWorkspace, withRenderAttempt } from "../../apps/service/dist/render.js";
 const execute = promisify(execFile);
 const native = await realpath(
-  process.env.SCREENREC_NATIVE ??
-    new URL("../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname,
+  process.env.YAP_NATIVE ??
+    new URL("../../helpers/mac/.build/debug/yap-native", import.meta.url).pathname,
 );
 function compile(fixture, endUs, output) {
   const model = validateComposition(fixture.document, fixture.assets);
@@ -106,7 +106,7 @@ async function orphanedWorker(request, preparation, nativeWorker) {
     import {mediaWorker} from ${JSON.stringify(workerURL)};
     import {join} from 'node:path';
     const request=${JSON.stringify(request)};
-    const worker=mediaWorker({SCREENREC_NATIVE:${JSON.stringify(native)}});
+    const worker=mediaWorker({YAP_NATIVE:${JSON.stringify(native)}});
     const signal=new AbortController().signal;
     if(${preparation}) {
       await withRenderAttempt(worker,request.attemptParent,signal,async(directory,execute)=>{
@@ -231,7 +231,7 @@ test(
   "real composition movie worker owns publication and abort/deadline cleanup",
   { timeout: 90000 },
   async () => {
-    const home = await mkdtemp(join(tmpdir(), "screenrec-movie-lifetime-"));
+    const home = await mkdtemp(join(tmpdir(), "yap-movie-lifetime-"));
     try {
       const attempts = join(home, "attempts");
       await mkdir(attempts, { mode: 0o700 });
@@ -265,7 +265,7 @@ test(
         audio,
       ]);
       const before = await Promise.all([readFile(source), readFile(audio)]);
-      const run = mediaWorker({ SCREENREC_NATIVE: native });
+      const run = mediaWorker({ YAP_NATIVE: native });
       const assets = [],
         bindings = [];
       for (const [id, path, kind] of [

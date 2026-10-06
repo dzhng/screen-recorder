@@ -24,7 +24,7 @@ function run(exe, args, options = {}) {
   assert.equal(r.status, 0, r.stderr?.toString());
   return r.stdout;
 }
-for (const p of ["ScreenRecorderCaptureTests", "CameraReproduction"])
+for (const p of ["YapCaptureTests", "CameraReproduction"])
   writeFileSync(
     join(out, p + "-build.log"),
     run("swift", [
@@ -37,7 +37,7 @@ for (const p of ["ScreenRecorderCaptureTests", "CameraReproduction"])
       p,
     ]),
   );
-const worker = join(root, "helpers/mac/.build/debug/ScreenRecorderCaptureTests"),
+const worker = join(root, "helpers/mac/.build/debug/YapCaptureTests"),
   storage = join(root, "helpers/mac/.build/debug/CameraReproduction");
 const pcm = (p) => run("ffmpeg", ["-v", "error", "-i", p, "-f", "f32le", "-"]);
 const report = {
@@ -65,8 +65,8 @@ for (const rate of [44100, 48000]) {
   run(worker, [], {
     env: {
       ...process.env,
-      SCREENREC_PCM_WINDOWS_OUTPUT: consumer,
-      SCREENREC_PCM_WINDOWS_CANONICAL: join(canonical, "canonical.mov"),
+      YAP_PCM_WINDOWS_OUTPUT: consumer,
+      YAP_PCM_WINDOWS_CANONICAL: join(canonical, "canonical.mov"),
     },
   });
   const input = pcm(payload),

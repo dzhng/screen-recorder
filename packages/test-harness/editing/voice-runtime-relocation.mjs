@@ -61,7 +61,7 @@ const donorFiles = [
   join(assembly.sourceRoots.venv, "lib/python3.12/site-packages/mlx_audio/tts/utils.py"),
   ...(values.donors ? JSON.parse(await readFile(resolve(values.donors), "utf8")) : []),
 ];
-const native = mediaWorker({ SCREENREC_NATIVE: resolve(values.native) });
+const native = mediaWorker({ YAP_NATIVE: resolve(values.native) });
 const voice = jsonWorker(
   {
     executable: "/usr/bin/sandbox-exec",

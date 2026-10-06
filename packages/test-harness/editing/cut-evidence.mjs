@@ -5,7 +5,7 @@ import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, root, hash, poll } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Set an isolated frozen native worker");
+assert.ok(process.env.YAP_NATIVE, "Set an isolated frozen native worker");
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "cut-evidence-"));
 const home = await mkdtemp(join(tmpdir(), "sr-cut-evidence-"));
 await mkdir(out, { recursive: true });
@@ -215,7 +215,7 @@ try {
     pageSizes: [1, 2, 500],
     historicalRestart: true,
   };
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   report.runtime = Object.fromEntries(
     await Promise.all(
       [

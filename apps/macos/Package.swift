@@ -2,26 +2,26 @@
 import PackageDescription
 import Foundation
 
-let sparkle = ProcessInfo.processInfo.environment["SCREENREC_SPARKLE_FRAMEWORK"] ?? "../../dist/sparkle/Sparkle.framework"
+let sparkle = ProcessInfo.processInfo.environment["YAP_SPARKLE_FRAMEWORK"] ?? "../../dist/sparkle/Sparkle.framework"
 let sparkleDirectory = URL(fileURLWithPath: sparkle, relativeTo: URL(fileURLWithPath: #filePath).deletingLastPathComponent()).standardizedFileURL.deletingLastPathComponent().path
 
 let package = Package(
-    name: "ScreenRecorder",
+    name: "Yap",
     platforms: [.macOS("26.0")],
-    products: [.executable(name: "ScreenRecorder", targets: ["ScreenRecorder"])],
+    products: [.executable(name: "Yap", targets: ["Yap"])],
     dependencies: [.package(path: "../../helpers/mac")],
     targets: [
-        .target(name: "ScreenRecorderControls"),
+        .target(name: "YapControls"),
         .executableTarget(
-            name: "ScreenRecorder",
+            name: "Yap",
             dependencies: [
-                "ScreenRecorderControls",
-                .product(name: "ScreenRecorderCapture", package: "mac"),
+                "YapControls",
+                .product(name: "YapCapture", package: "mac"),
             ],
             swiftSettings: [.unsafeFlags(["-F", sparkleDirectory])],
             linkerSettings: [.unsafeFlags(["-F", sparkleDirectory, "-framework", "Sparkle", "-Xlinker", "-rpath", "-Xlinker", "@executable_path/../Frameworks"])]),
         .executableTarget(
-            name: "ScreenRecorderControlsTests", dependencies: ["ScreenRecorderControls"],
-            path: "tests/ScreenRecorderControlsTests"),
+            name: "YapControlsTests", dependencies: ["YapControls"],
+            path: "tests/YapControlsTests"),
     ]
 )

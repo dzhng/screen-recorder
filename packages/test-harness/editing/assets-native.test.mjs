@@ -35,7 +35,7 @@ function encode(args) {
   assert.equal(result.status, 0, result.stderr);
 }
 async function fixture(t) {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-asset-native-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-asset-native-"));
   const catalog = new Catalog(join(directory, "catalog.sqlite"));
   const assets = new AssetStore(catalog, directory);
   await assets.recover();

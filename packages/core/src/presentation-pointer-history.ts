@@ -1,4 +1,4 @@
-import { fromTime, timeValueSchema, type TimeValue } from "@screenrec/composition";
+import { fromTime, timeValueSchema, type TimeValue } from "@yap/composition";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, SourceTrailRead } from "./evidence.js";

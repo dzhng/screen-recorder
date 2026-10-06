@@ -16,15 +16,15 @@ import { tmpdir } from "node:os";
 import { test } from "node:test";
 
 test("archive smoke avoids production host/launcher execution and rejects changed trees or stale CLI versions", () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-smoke-contract-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-smoke-contract-"));
   try {
     for (const path of [
       "scripts",
       "dist/release",
       "bin",
-      "kit/Screen Recorder.app/Contents/MacOS",
-      "kit/Screen Recorder.app/Contents/Resources/node/bin",
-      "kit/Screen Recorder.app/Contents/Resources/cli",
+      "kit/Yap.app/Contents/MacOS",
+      "kit/Yap.app/Contents/Resources/node/bin",
+      "kit/Yap.app/Contents/Resources/cli",
     ])
       mkdirSync(join(scratch, path), { recursive: true });
     copyFileSync(
@@ -33,18 +33,18 @@ test("archive smoke avoids production host/launcher execution and rejects change
     );
     const forbidden = join(scratch, "forbidden-execution");
     const trap = `#!${process.execPath}\nrequire('node:fs').writeFileSync(${JSON.stringify(forbidden)},'forbidden');process.exit(79);\n`;
-    const app = join(scratch, "kit/Screen Recorder.app");
-    writeFileSync(join(app, "Contents/MacOS/ScreenRecorder"), trap, { mode: 0o755 });
-    writeFileSync(join(scratch, "kit/screenrec"), trap, { mode: 0o755 });
+    const app = join(scratch, "kit/Yap.app");
+    writeFileSync(join(app, "Contents/MacOS/Yap"), trap, { mode: 0o755 });
+    writeFileSync(join(scratch, "kit/yap"), trap, { mode: 0o755 });
     writeFileSync(
-      join(app, "Contents/MacOS/screenrec-native"),
+      join(app, "Contents/MacOS/yap-native"),
       `#!${process.execPath}\nconsole.log(JSON.stringify({id:'release-smoke',ok:true,data:{platform:'macos'}}));\n`,
       { mode: 0o755 },
     );
     symlinkSync(process.execPath, join(app, "Contents/Resources/node/bin/node"));
     writeFileSync(
       join(app, "Contents/Resources/cli/main.mjs"),
-      `console.log(JSON.stringify(process.argv.includes('--version') ? {name:'screenrec',version:'0.1.3'} : {version:'0.1.3',operations:[{name:'edit.apply'}]}));\n`,
+      `console.log(JSON.stringify(process.argv.includes('--version') ? {name:'yap',version:'0.1.3'} : {version:'0.1.3',operations:[{name:'edit.apply'}]}));\n`,
     );
     symlinkSync("cli/main.mjs", join(app, "Contents/Resources/alias"));
     writeFileSync(join(scratch, "bin/codesign"), "#!/bin/sh\nexit 0\n", { mode: 0o755 });
@@ -62,9 +62,9 @@ test("archive smoke avoids production host/launcher execution and rejects change
       "-c",
       "-k",
       join(scratch, "kit"),
-      join(release, "ScreenRecorder-v0.1.3-macos-arm64.zip"),
+      join(release, "Yap-v0.1.3-macos-arm64.zip"),
     ]);
-    const updateApp = join(scratch, "update/Screen Recorder.app");
+    const updateApp = join(scratch, "update/Yap.app");
     const packageUpdate = () =>
       execFileSync("ditto", ["-c", "-k", "--keepParent", updateApp, join(release, "update.zip")]);
     const run = () =>
@@ -83,7 +83,7 @@ test("archive smoke avoids production host/launcher execution and rejects change
       execFileSync("ditto", [app, updateApp]);
       if (mutation === "bytes")
         writeFileSync(join(updateApp, "Contents/Resources/cli/main.mjs"), "changed");
-      if (mutation === "mode") chmodSync(join(updateApp, "Contents/MacOS/ScreenRecorder"), 0o644);
+      if (mutation === "mode") chmodSync(join(updateApp, "Contents/MacOS/Yap"), 0o644);
       if (mutation === "link") {
         unlinkSync(join(updateApp, "Contents/Resources/alias"));
         symlinkSync("node/bin/node", join(updateApp, "Contents/Resources/alias"));
@@ -96,13 +96,13 @@ test("archive smoke avoids production host/launcher execution and rejects change
     }
     writeFileSync(
       join(app, "Contents/Resources/cli/main.mjs"),
-      `console.log(JSON.stringify({name:'screenrec',version:'0.0.0',operations:[{name:'edit.apply'}]}));\n`,
+      `console.log(JSON.stringify({name:'yap',version:'0.0.0',operations:[{name:'edit.apply'}]}));\n`,
     );
     execFileSync("ditto", [
       "-c",
       "-k",
       join(scratch, "kit"),
-      join(release, "ScreenRecorder-v0.1.3-macos-arm64.zip"),
+      join(release, "Yap-v0.1.3-macos-arm64.zip"),
     ]);
     rmSync(join(scratch, "update"), { recursive: true });
     execFileSync("ditto", [app, updateApp]);

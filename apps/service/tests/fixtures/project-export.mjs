@@ -1,41 +1,41 @@
-import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
+import { MediaFrameInspection } from "@yap/core/frame-inspection";
 import { ProjectPackages } from "../../dist/project-packages.js";
-import { AcquisitionImporter } from "@screenrec/core/acquisitions";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
-import { SceneProcessing } from "@screenrec/core/scene-processing";
-import { TranscriptProcessing } from "@screenrec/core/transcript-processing";
-import { IndexProcessing } from "@screenrec/core/index-processing";
-import { sourceIndexDomain } from "@screenrec/core/source-index";
-import { Models } from "@screenrec/core/models";
+import { AcquisitionImporter } from "@yap/core/acquisitions";
+import { SourceEvidenceStore } from "@yap/core/evidence";
+import { SceneProcessing } from "@yap/core/scene-processing";
+import { TranscriptProcessing } from "@yap/core/transcript-processing";
+import { IndexProcessing } from "@yap/core/index-processing";
+import { sourceIndexDomain } from "@yap/core/source-index";
+import { Models } from "@yap/core/models";
 import { ProjectDeletion } from "../../dist/project-deletion.js";
 import { DerivativeDelivery } from "../../dist/delivery.js";
-import { ManagedStorage } from "@screenrec/core/storage";
-import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
-import { projectIndexDomain } from "@screenrec/core/project-index";
-import { projectComposition } from "@screenrec/core/project-window";
-import { selectSource } from "@screenrec/core/source-selection";
-import { SceneEvidenceStore, assetSceneOwner } from "@screenrec/core/scene-evidence";
-import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
+import { ManagedStorage } from "@yap/core/storage";
+import { ScreenshotIndexStore } from "@yap/core/screenshot-index";
+import { projectIndexDomain } from "@yap/core/project-index";
+import { projectComposition } from "@yap/core/project-window";
+import { selectSource } from "@yap/core/source-selection";
+import { SceneEvidenceStore, assetSceneOwner } from "@yap/core/scene-evidence";
+import { PreparedAudioStore } from "@yap/core/prepared-audio";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { ProjectStore } from "@screenrec/core/projects";
-import { AcquisitionStore } from "@screenrec/core/acquisitions";
-import { TranscriptStore } from "@screenrec/core/transcript";
-import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
-import { JobQueue } from "@screenrec/core/jobs";
-import { DerivedCache } from "@screenrec/core/cache";
-import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { ProjectStore } from "@yap/core/projects";
+import { AcquisitionStore } from "@yap/core/acquisitions";
+import { TranscriptStore } from "@yap/core/transcript";
+import { assetTranscriptOwner } from "@yap/core/transcript-processing";
+import { JobQueue } from "@yap/core/jobs";
+import { DerivedCache } from "@yap/core/cache";
+import { ProjectPreviewInspection } from "@yap/core/project-preview";
 import { MediaExports } from "../../dist/exports.js";
 import { ManagedFiles } from "../../dist/managed-files.js";
 import { mediaWorker } from "../../dist/worker.js";
 export const nativeBinary =
-  process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
-export const native = mediaWorker({ SCREENREC_NATIVE: nativeBinary });
+  process.env.YAP_NATIVE ?? resolve("helpers/mac/.build/debug/yap-native");
+export const native = mediaWorker({ YAP_NATIVE: nativeBinary });
 export const gate = () => {
   let resolve;
   const promise = new Promise((r) => (resolve = r));
@@ -64,8 +64,8 @@ export async function fixture(
     existing,
   } = {},
 ) {
-  const home = existing?.home ?? (await mkdtemp("/tmp/screenrec-project-export-")),
-    output = existing?.output ?? (await mkdtemp("/tmp/screenrec-project-destination-"));
+  const home = existing?.home ?? (await mkdtemp("/tmp/yap-project-export-")),
+    output = existing?.output ?? (await mkdtemp("/tmp/yap-project-destination-"));
   const lifetime = existing?.lifetime ?? { closers: [] };
   if (!existing)
     t.after(async () => {

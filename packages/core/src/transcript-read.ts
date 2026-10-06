@@ -1,4 +1,4 @@
-import { round, fromTime } from "@screenrec/composition";
+import { round, fromTime } from "@yap/composition";
 import { z } from "zod";
 import { CatalogError } from "./catalog.js";
 import { comparePageKeys, type PageBound } from "./ordered-pages.js";

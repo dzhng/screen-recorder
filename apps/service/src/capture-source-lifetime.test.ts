@@ -1,6 +1,6 @@
-import type { Acquisition } from "@screenrec/core/acquisitions";
-import type { OperationResult } from "@screenrec/protocol";
-import { openDirectoryLease } from "@screenrec/core/files";
+import type { Acquisition } from "@yap/core/acquisitions";
+import type { OperationResult } from "@yap/protocol";
+import { openDirectoryLease } from "@yap/core/files";
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, writeFile, stat, symlink } from "node:fs/promises";
 import { fstatSync } from "node:fs";

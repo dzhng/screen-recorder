@@ -116,11 +116,11 @@ await writeFile(
   fence,
   `#!${process.execPath}
 import {spawn} from 'node:child_process';import {appendFileSync} from 'node:fs';
-const log=value=>appendFileSync(process.env.SCREENREC_READINESS_NATIVE_LOG,JSON.stringify(value)+'\\n');let input='';
+const log=value=>appendFileSync(process.env.YAP_READINESS_NATIVE_LOG,JSON.stringify(value)+'\\n');let input='';
 process.stdin.setEncoding('utf8').on('data',value=>input+=value);process.stdin.on('end',()=>{
 const request=JSON.parse(input);log({event:'request',request});
 if(request.operation!=='media.audioCapabilities'||Object.keys(request.params).length){log({event:'refused',request});process.stdout.write(JSON.stringify({id:request.id,ok:false,error:{code:'UNEXPECTED_NATIVE_CALL',message:request.operation,retryable:false,details:{}}})+'\\n');return;}
-const child=spawn(process.env.SCREENREC_READINESS_NATIVE,[],{stdio:['pipe','pipe','pipe']});log({event:'forwarded',pid:child.pid});
+const child=spawn(process.env.YAP_READINESS_NATIVE,[],{stdio:['pipe','pipe','pipe']});log({event:'forwarded',pid:child.pid});
 let stdout='',stderr='';child.stdout.on('data',value=>stdout+=value);child.stderr.on('data',value=>stderr+=value);
 child.on('close',(code,signal)=>{log({event:'close',pid:child.pid,code,signal,stdout,stderr});process.stdout.write(stdout);process.stderr.write(stderr);process.exitCode=code??1;});child.stdin.end(input);
 });
@@ -129,17 +129,17 @@ child.on('close',(code,signal)=>{log({event:'close',pid:child.pid,code,signal,st
 await chmod(fence, 0o700);
 const env = {
   ...process.env,
-  SCREENREC_HOME: home,
-  SCREENREC_NATIVE: fence,
-  SCREENREC_READINESS_NATIVE: native,
-  SCREENREC_READINESS_NATIVE_LOG: nativeLog,
+  YAP_HOME: home,
+  YAP_NATIVE: fence,
+  YAP_READINESS_NATIVE: native,
+  YAP_READINESS_NATIVE_LOG: nativeLog,
 };
 const observer = join(out, "cli-observer.mjs");
 await writeFile(
   observer,
   `import {appendFileSync} from 'node:fs';import {pathToFileURL} from 'node:url';
-process.on('exit',code=>appendFileSync(process.env.SCREENREC_READINESS_CLI_LOG,JSON.stringify({event:'node-exit',pid:process.pid,code})+'\\n'));
-await import(pathToFileURL(process.env.SCREENREC_READINESS_CLI).href);
+process.on('exit',code=>appendFileSync(process.env.YAP_READINESS_CLI_LOG,JSON.stringify({event:'node-exit',pid:process.pid,code})+'\\n'));
+await import(pathToFileURL(process.env.YAP_READINESS_CLI).href);
 `,
 );
 const cliLog = join(out, "mcp-terminal.jsonl");
@@ -148,8 +148,8 @@ const serviceObserver = join(out, "service-observer.mjs");
 await writeFile(
   serviceObserver,
   `import childProcess from 'node:child_process';import {syncBuiltinESMExports} from 'node:module';import {appendFileSync} from 'node:fs';import {pathToFileURL} from 'node:url';
-const spawn=childProcess.spawn;childProcess.spawn=(...args)=>{const child=spawn(...args);child.once('close',(code,signal)=>appendFileSync(process.env.SCREENREC_READINESS_CHILD_LOG,JSON.stringify({event:'close',pid:child.pid,executable:args[0],args:args[1],code,signal})+'\\n'));return child;};syncBuiltinESMExports();
-await import(pathToFileURL(process.env.SCREENREC_READINESS_SERVICE).href);
+const spawn=childProcess.spawn;childProcess.spawn=(...args)=>{const child=spawn(...args);child.once('close',(code,signal)=>appendFileSync(process.env.YAP_READINESS_CHILD_LOG,JSON.stringify({event:'close',pid:child.pid,executable:args[0],args:args[1],code,signal})+'\\n'));return child;};syncBuiltinESMExports();
+await import(pathToFileURL(process.env.YAP_READINESS_SERVICE).href);
 `,
 );
 await withReadinessProcesses(

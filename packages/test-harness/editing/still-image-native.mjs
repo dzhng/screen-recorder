@@ -9,7 +9,7 @@ import { root, run, hash } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({
   options: { out: { type: "string" }, baseline: { type: "string" } },
 });
-assert.ok(process.env.SCREENREC_NATIVE, "A frozen image worker is required");
+assert.ok(process.env.YAP_NATIVE, "A frozen image worker is required");
 const out = values.out
   ? resolve(values.out)
   : await mkdtemp(join(tmpdir(), "still-native-evidence-"));
@@ -145,7 +145,7 @@ try {
     await refused(image(animation, join(home, `${format}-output.png`)), "UNSUPPORTED_MEDIA");
   }
   if (values.baseline) {
-    const baseline = mediaWorker({ ...process.env, SCREENREC_NATIVE: values.baseline });
+    const baseline = mediaWorker({ ...process.env, YAP_NATIVE: values.baseline });
     for (const name of ["a.mov", "orientation.mov"]) {
       const path = join(root, "specs/done/agent-editing/assets/00-corpus", name);
       const probe = nativeResult(await worker("media.probe", { path }));
@@ -183,8 +183,8 @@ try {
     }
   }
   report.worker = {
-    path: process.env.SCREENREC_NATIVE,
-    sha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+    path: process.env.YAP_NATIVE,
+    sha256: hash(await readFile(process.env.YAP_NATIVE)),
   };
   report.passed = true;
 } catch (error) {

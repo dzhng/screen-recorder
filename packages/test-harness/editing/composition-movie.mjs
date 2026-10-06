@@ -18,7 +18,7 @@ import {
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { createCompiler, validateComposition } from "../../composition/dist/index.js";
-const native = process.env.SCREENREC_NATIVE;
+const native = process.env.YAP_NATIVE;
 assert(native);
 const scratch = mkdtempSync(join(tmpdir(), "sr-composition-movie-"));
 const fractionalTailOnly = process.argv.includes("--fractional-tail");
@@ -179,8 +179,8 @@ try {
       },
     ],
   };
-  const inspector = process.env.SCREENREC_MOVIE_INSPECT ?? join(scratch, "inspect");
-  if (!process.env.SCREENREC_MOVIE_INSPECT) {
+  const inspector = process.env.YAP_MOVIE_INSPECT ?? join(scratch, "inspect");
+  if (!process.env.YAP_MOVIE_INSPECT) {
     run("swiftc", [
       "-parse-as-library",
       new URL("../../../helpers/mac/Tests/MovieTiming/main.swift", import.meta.url).pathname,
@@ -189,15 +189,15 @@ try {
     ]);
   }
   const tailControls = run(
-    process.env.SCREENREC_COMPOSITION_VIDEO_TESTS ??
-      join(dirname(native), "ScreenRecorderCompositionVideoTests"),
+    process.env.YAP_COMPOSITION_VIDEO_TESTS ??
+      join(dirname(native), "YapCompositionVideoTests"),
     ["--audio-tail", join(scratch, "tail-controls")],
   ).toString();
   writeFileSync(join(scratch, "tail-controls.log"), tailControls);
   assert(tailControls.startsWith("PASS"));
   const tailDirectory = join(scratch, "tail-controls");
   const replacements = readdirSync(tailDirectory).filter((name) =>
-    name.startsWith(".screenrec-output-"),
+    name.startsWith(".yap-output-"),
   );
   assert.equal(replacements.length, 1, "Only the unrelated replacement may survive cleanup");
   assert.equal(
@@ -264,8 +264,8 @@ try {
         JSON.stringify({ ...base, audio, output: join(collisionDirectory, "occupied.mp4") }),
       );
       const observed = run(
-        process.env.SCREENREC_COMPOSITION_VIDEO_TESTS ??
-          join(dirname(native), "ScreenRecorderCompositionVideoTests"),
+        process.env.YAP_COMPOSITION_VIDEO_TESTS ??
+          join(dirname(native), "YapCompositionVideoTests"),
         [requestFile, "media.renderCompositionMovie", "collision"],
       ).toString();
       writeFileSync(join(collisionDirectory, "observer.log"), observed);
@@ -671,8 +671,8 @@ try {
       }),
     );
     const cancellation = run(
-      process.env.SCREENREC_COMPOSITION_VIDEO_TESTS ??
-        join(dirname(native), "ScreenRecorderCompositionVideoTests"),
+      process.env.YAP_COMPOSITION_VIDEO_TESTS ??
+        join(dirname(native), "YapCompositionVideoTests"),
       [cancelRequest, "media.renderCompositionMovie"],
     )
       .toString()
@@ -680,7 +680,7 @@ try {
     assert(cancellation.startsWith("PASS"));
     checks.push({ cancellation });
     assert(
-      readdirSync(scratch).every((name) => !name.startsWith(".screenrec-output-")),
+      readdirSync(scratch).every((name) => !name.startsWith(".yap-output-")),
       "Attempt scratch must be cleaned",
     );
   }
@@ -699,6 +699,6 @@ try {
   console.log(report);
   completed = true;
 } finally {
-  if (!completed || process.env.SCREENREC_KEEP_TEST_FILES) console.error(scratch);
+  if (!completed || process.env.YAP_KEEP_TEST_FILES) console.error(scratch);
   else rmSync(scratch, { recursive: true, force: true });
 }

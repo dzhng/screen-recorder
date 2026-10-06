@@ -1,5 +1,5 @@
 import Foundation
-import ScreenRecorderMedia
+import YapMedia
 
 struct Vector: Decodable {
     let program: ScalarSampleProgram

@@ -9,9 +9,9 @@ import { findIdentity } from "./signing-identity.mjs";
 import { stageFFmpeg, verifyFFmpeg } from "../helpers/ffmpeg/prepare.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-if (process.env.SCREENREC_RELEASE_BUILD === "1") releaseSigningInputs();
+if (process.env.YAP_RELEASE_BUILD === "1") releaseSigningInputs();
 const { framework } = verifiedFramework(root);
-process.env.SCREENREC_SPARKLE_FRAMEWORK = framework;
+process.env.YAP_SPARKLE_FRAMEWORK = framework;
 const facts = await bundleFacts(root);
 const signingIdentity = () => findIdentity() ?? "-";
 // The app runs its service under the interpreter recorded below and accepts only Node 24, so a
@@ -33,12 +33,12 @@ execFileSync(process.execPath, [join(root, "helpers/denoise/prepare.mjs"), "--ve
   stdio: "inherit",
 });
 await verifyFFmpeg(join(root, "helpers/ffmpeg/.build/distribution"));
-const app = join(root, "dist/ScreenRecorder.app");
+const app = join(root, "dist/Yap.app");
 const macOS = join(app, "Contents/MacOS");
 mkdirSync(macOS, { recursive: true });
 for (const [directory, executable] of [
-  ["helpers/mac", "screenrec-native"],
-  ["apps/macos", "ScreenRecorder"],
+  ["helpers/mac", "yap-native"],
+  ["apps/macos", "Yap"],
 ]) {
   const args = [
     "build",

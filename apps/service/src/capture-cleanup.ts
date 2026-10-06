@@ -1,10 +1,10 @@
 import { join } from "node:path";
 import { lstat, type FileHandle } from "node:fs/promises";
-import { CatalogError } from "@screenrec/core/catalog";
-import { openDirectoryLease } from "@screenrec/core/files";
-import type { CaptureStore } from "@screenrec/core/capture-store";
-import { isSettled } from "@screenrec/core/capture-store";
-import type { JobExecution, JobQueue } from "@screenrec/core/jobs";
+import { CatalogError } from "@yap/core/catalog";
+import { openDirectoryLease } from "@yap/core/files";
+import type { CaptureStore } from "@yap/core/capture-store";
+import { isSettled } from "@yap/core/capture-store";
+import type { JobExecution, JobQueue } from "@yap/core/jobs";
 import { nativeResult, MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
 import { publicationDeadlineMs } from "./publication.js";
 

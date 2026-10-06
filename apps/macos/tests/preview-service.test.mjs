@@ -14,7 +14,7 @@ test(
   "native player consumes the bundled service's pinned preview and renewable lease",
   { timeout: 100000 },
   async () => {
-    const home = await mkdtemp("/tmp/screenrec-player-service-");
+    const home = await mkdtemp("/tmp/yap-player-service-");
     let safeToRemove = true;
     try {
       const source = join(home, "fixture");
@@ -167,7 +167,7 @@ import CryptoKit
         const child = spawn(
           binary,
           [
-            join(root, "dist/ScreenRecorder.app"),
+            join(root, "dist/Yap.app"),
             project.projectId,
             movie,
             original,
@@ -175,7 +175,7 @@ import CryptoKit
             project.clipId,
             project.trackId,
           ],
-          { env: { ...process.env, SCREENREC_HOME: home }, stdio: ["ignore", "pipe", "pipe"] },
+          { env: { ...process.env, YAP_HOME: home }, stdio: ["ignore", "pipe", "pipe"] },
         );
         let stdout = "",
           stderr = "";

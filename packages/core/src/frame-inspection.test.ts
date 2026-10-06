@@ -1,4 +1,4 @@
-import { floor, fromTime, add } from "@screenrec/composition";
+import { floor, fromTime, add } from "@yap/composition";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
@@ -69,7 +69,7 @@ const renderer: ProjectFrameRenderer = {
   },
 };
 async function fixture(render = renderer) {
-  const home = await mkdtemp("/tmp/screenrec-project-frames-");
+  const home = await mkdtemp("/tmp/yap-project-frames-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
   await assets.recover();

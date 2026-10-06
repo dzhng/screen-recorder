@@ -1,14 +1,14 @@
-import { mediaProbeSchema } from "@screenrec/core/assets";
+import { mediaProbeSchema } from "@yap/core/assets";
 import { constants } from "node:fs";
 import { lstat, open, type FileHandle } from "node:fs/promises";
 import { isDeepStrictEqual } from "node:util";
 import { dirname, join } from "node:path";
 import { readMediaProbe } from "./media-probe.js";
-import { sourcePublicationMembers, type SourceExporter } from "@screenrec/core/source-admission";
+import { sourcePublicationMembers, type SourceExporter } from "@yap/core/source-admission";
 import { publicationDeadlineMs } from "./publication.js";
-import { CatalogError } from "@screenrec/core/catalog";
-import { fileIdentity } from "@screenrec/core/files";
-import type { SourceEvidenceReceipt } from "@screenrec/core/evidence";
+import { CatalogError } from "@yap/core/catalog";
+import { fileIdentity } from "@yap/core/files";
+import type { SourceEvidenceReceipt } from "@yap/core/evidence";
 import { MAX_MEDIA_TIMEOUT_MS, nativeResult, type MediaWorker } from "./worker.js";
 
 /** Canonical verification budgets source work separately from file size: sparse media can

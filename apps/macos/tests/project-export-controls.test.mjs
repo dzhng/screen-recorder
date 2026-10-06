@@ -10,7 +10,7 @@ test(
   "native project exports pin explicit owners and discard late forgotten replies",
   { timeout: 90_000 },
   () => {
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-project-export-controls-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-project-export-controls-"));
     try {
       const folder = join(scratch, "folder");
       const selected = join(scratch, "chosen-link");
@@ -23,7 +23,7 @@ test(
         ["ExportController", "ServiceBundle", "NodeRuntime"],
         String.raw`
 import Foundation
-import ScreenRecorderControls
+import YapControls
 
 let selectedFolder = CommandLine.arguments[1]
 let canonicalFolder = CommandLine.arguments[2]

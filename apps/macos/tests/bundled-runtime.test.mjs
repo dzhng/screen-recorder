@@ -16,7 +16,7 @@ import { after, before, test } from "node:test";
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 let scratch, probe;
 before(() => {
-  scratch = mkdtempSync("/tmp/screenrec-runtime-");
+  scratch = mkdtempSync("/tmp/yap-runtime-");
   const source = join(scratch, "main.swift");
   writeFileSync(
     source,
@@ -35,8 +35,8 @@ exit(3)
   execFileSync(
     "swiftc",
     [
-      join(root, "apps/macos/Sources/ScreenRecorder/ServiceBundle.swift"),
-      join(root, "apps/macos/Sources/ScreenRecorder/NodeRuntime.swift"),
+      join(root, "apps/macos/Sources/Yap/ServiceBundle.swift"),
+      join(root, "apps/macos/Sources/Yap/NodeRuntime.swift"),
       source,
       "-o",
       probe,
@@ -56,11 +56,11 @@ test("a relocated app resolves its bundled Node without the builder's path or sh
   writeFileSync(
     join(app, "Contents/Info.plist"),
     `<?xml version="1.0"?><plist version="1.0"><dict>
-<key>CFBundleIdentifier</key><string>test.screenrec.runtime</string>
-<key>CFBundleExecutable</key><string>ScreenRecorder</string>
+<key>CFBundleIdentifier</key><string>test.yap.runtime</string>
+<key>CFBundleExecutable</key><string>Yap</string>
 <key>CFBundlePackageType</key><string>APPL</string></dict></plist>`,
   );
-  copyFileSync("/usr/bin/true", join(app, "Contents/MacOS/ScreenRecorder"));
+  copyFileSync("/usr/bin/true", join(app, "Contents/MacOS/Yap"));
   writeFileSync(join(service, "main.mjs"), "");
   writeFileSync(
     join(service, "runtime.json"),

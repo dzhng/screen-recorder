@@ -1,5 +1,5 @@
 {
-  "name": "screen-recorder",
+  "name": "yap",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -22,7 +22,7 @@
     "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
     "lab:av-sync": "node packages/test-harness/av-sync.mjs",
     "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
-    "screenrec": "node apps/cli/dist/main.js",
+    "yap": "node apps/cli/dist/main.js",
     "eval:agents": "node evals/run.mjs",
     "eval:test": "node --test evals/*.test.mjs",
     "install:personal": "bun run build && node scripts/install-personal.mjs",

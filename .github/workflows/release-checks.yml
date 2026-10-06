@@ -12,8 +12,8 @@ on:
       - scripts/sparkle/**
       - packages/core/src/catalog.ts
       - apps/macos/package.json
-      - apps/macos/Sources/ScreenRecorder/ServiceBundle.swift
-      - apps/macos/Sources/ScreenRecorder/NodeRuntime.swift
+      - apps/macos/Sources/Yap/ServiceBundle.swift
+      - apps/macos/Sources/Yap/NodeRuntime.swift
       - apps/macos/tests/bundled-runtime.test.mjs
   push:
     branches: [main]
@@ -28,8 +28,8 @@ on:
       - scripts/sparkle/**
       - packages/core/src/catalog.ts
       - apps/macos/package.json
-      - apps/macos/Sources/ScreenRecorder/ServiceBundle.swift
-      - apps/macos/Sources/ScreenRecorder/NodeRuntime.swift
+      - apps/macos/Sources/Yap/ServiceBundle.swift
+      - apps/macos/Sources/Yap/NodeRuntime.swift
       - apps/macos/tests/bundled-runtime.test.mjs
 permissions:
   contents: read

@@ -1,4 +1,4 @@
-import type { SignedTimeValue } from "@screenrec/composition";
+import type { SignedTimeValue } from "@yap/composition";
 import {
   createCompiler,
   captionSidecar,
@@ -12,7 +12,7 @@ import {
   validateComposition,
   type ProcessingTap,
   type ProcessorImplementations,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { AssetStore, compositionAsset } from "./assets.js";
 import { ProjectStore, type ProjectRevision } from "./projects.js";
 import { CatalogError } from "./catalog.js";

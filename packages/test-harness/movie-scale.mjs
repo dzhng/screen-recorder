@@ -18,12 +18,12 @@ import { nativeProcessing } from "../../apps/service/dist/native-processing.js";
 import { renderFrames } from "../../helpers/mac/Tests/fixtures/render-frames.mjs";
 
 const dir =
-  process.env.SCREENREC_MOVIE_SCALE_EVIDENCE ??
-  (await mkdtemp(join(tmpdir(), "screenrec-movie-scale-")));
+  process.env.YAP_MOVIE_SCALE_EVIDENCE ??
+  (await mkdtemp(join(tmpdir(), "yap-movie-scale-")));
 assert.ok(isAbsolute(dir));
 await mkdir(dir, { recursive: true });
 assert.deepEqual(await readdir(dir), []);
-const native = new URL("../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname;
+const native = new URL("../../helpers/mac/.build/debug/yap-native", import.meta.url).pathname;
 function execute(command, args, { input, env = process.env } = {}) {
   const result = spawnSync(command, args, {
     input,

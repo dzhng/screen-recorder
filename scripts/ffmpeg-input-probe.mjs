@@ -10,7 +10,7 @@ if (![tools, evidence, output, native].every((value) => value && isAbsolute(valu
   throw new Error(
     "Usage: node scripts/ffmpeg-input-probe.mjs /prepared/bin /retained/native-probe-evidence /report.json /frozen/native",
   );
-const directory = await mkdtemp("/tmp/screenrec-input-proof-");
+const directory = await mkdtemp("/tmp/yap-input-proof-");
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const receipts = [];
 try {

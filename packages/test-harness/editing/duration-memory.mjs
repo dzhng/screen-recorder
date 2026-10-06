@@ -11,13 +11,13 @@ import { sourceEventDurationFixture } from "./source-event-duration-fixture.mjs"
 const { values } = parseArgs({
   options: { out: { type: "string" }, query: { type: "string", default: "timeline" } },
 });
-assert.ok(process.env.SCREENREC_NATIVE);
+assert.ok(process.env.YAP_NATIVE);
 assert.ok(
   ["timeline", "waveform", "transcript", "transcript-search", "events", "cursor"].includes(
     values.query,
   ),
 );
-const out = values.out ? resolve(values.out) : await mkdtemp("/tmp/screenrec-duration-memory-");
+const out = values.out ? resolve(values.out) : await mkdtemp("/tmp/yap-duration-memory-");
 await mkdir(out, { recursive: true });
 const source = join(out, "source.wav");
 const search = values.query === "transcript-search";
@@ -37,7 +37,7 @@ const report = {
     " queries; no native decode or movie memory claim",
   query: values.query,
   ...(!capture ? { sourceSha256: hash(await readFile(source)) } : {}),
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   harnessSha256: hash(await readFile(import.meta.filename)),
   nodeVersion: process.version,
   mcpReceiveBytes,

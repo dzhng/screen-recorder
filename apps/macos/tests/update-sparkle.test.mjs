@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
 
-const sources = fileURLToPath(new URL("../Sources/ScreenRecorder/", import.meta.url));
+const sources = fileURLToPath(new URL("../Sources/Yap/", import.meta.url));
 const defaultFramework = fileURLToPath(
   new URL("../../../dist/sparkle/Sparkle.framework", import.meta.url),
 );
@@ -25,7 +25,7 @@ test(
   "production Sparkle boundary persists preferences and completes no-update checks",
   { timeout: 60000 },
   async (t) => {
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-sparkle-check-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-sparkle-check-"));
     const feed = spawn(
       process.execPath,
       [
@@ -55,8 +55,8 @@ server.listen(0,'127.0.0.1',()=>writeFileSync(join(root,'feed-url'),'http://127.
       await delay(10);
     assert(existsSync(join(scratch, "feed-url")), "Local feed starts within the fixture deadline");
     const token = randomUUID();
-    const identity = `dev.screenrec.sparkle-proof.${token}`;
-    const lockRelative = `Library/Caches/screenrec-sparkle-check-${token}/launch.lock`;
+    const identity = `dev.yap.sparkle-proof.${token}`;
+    const lockRelative = `Library/Caches/yap-sparkle-check-${token}/launch.lock`;
     // Foundation and the installer use the account home, not an overridden HOME.
     const accountCache = join(userInfo().homedir, dirname(lockRelative));
     t.after(() => {
@@ -64,7 +64,7 @@ server.listen(0,'127.0.0.1',()=>writeFileSync(join(root,'feed-url'),'http://127.
       rmSync(accountCache, { recursive: true, force: true });
       rmSync(scratch, { recursive: true, force: true });
     });
-    const framework = realpathSync(process.env.SCREENREC_SPARKLE_FRAMEWORK || defaultFramework);
+    const framework = realpathSync(process.env.YAP_SPARKLE_FRAMEWORK || defaultFramework);
     const app = join(scratch, "SparkleCheck.app");
     const contents = join(app, "Contents");
     const executable = join(contents, "MacOS", "SparkleCheck");
@@ -86,8 +86,8 @@ server.listen(0,'127.0.0.1',()=>writeFileSync(join(root,'feed-url'),'http://127.
       SUEnableAutomaticChecks: true,
       SUAllowsAutomaticUpdates: false,
       SUAutomaticallyUpdate: false,
-      ScreenrecCatalogFormat: 23,
-      ScreenrecLaunchLockRelativePath: lockRelative,
+      YapCatalogFormat: 23,
+      YapLaunchLockRelativePath: lockRelative,
     };
     const plist = join(contents, "Info.plist");
     writeFileSync(plist, JSON.stringify(metadata));
@@ -243,8 +243,8 @@ func diagnostic(_ message: String) {}
         env: {
           ...process.env,
           HOME: join(scratch, "home"),
-          SCREENREC_HOME: join(scratch, "library"),
-          SCREENREC_DEFAULTS: join(scratch, "defaults"),
+          YAP_HOME: join(scratch, "library"),
+          YAP_DEFAULTS: join(scratch, "defaults"),
         },
       });
       assert.equal(child.status, 0, child.stdout + child.stderr);

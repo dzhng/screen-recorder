@@ -1,10 +1,10 @@
 import { afterEach, expect, test } from "vitest";
 import { writeFile } from "node:fs/promises";
 import { projectServiceFixture } from "./project-service.fixture.js";
-import { operationSchema } from "@screenrec/protocol";
+import { operationSchema } from "@yap/protocol";
 // Consumer helpers have no runtime dependency on workspace packages.
 // @ts-expect-error The distributed helper is plain JavaScript.
-import { inspectTimeline } from "../../../skills/screenrec/scripts/timeline-inspection.mjs";
+import { inspectTimeline } from "../../../skills/yap/scripts/timeline-inspection.mjs";
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const cleanup of cleanups.splice(0).reverse()) await cleanup();

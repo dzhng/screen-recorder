@@ -1,9 +1,9 @@
 @preconcurrency import AVFoundation
 import Foundation
 import ScreenCaptureKit
-import ScreenRecorderCapture
-import ScreenRecorderMedia
-import ScreenRecorderWire
+import YapCapture
+import YapMedia
+import YapWire
 
 // Offline only: no device discovery, capture input, session start or permission request.
 private struct Input: Codable {

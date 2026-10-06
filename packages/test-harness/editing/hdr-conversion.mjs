@@ -12,7 +12,7 @@ import {
   qualifyHdrInterpretation,
   withHdrDerivative,
 } from "../../../apps/service/dist/hdr-conversion.js";
-import { readHdrConversionFacts } from "@screenrec/core/hdr-conversion-facts";
+import { readHdrConversionFacts } from "@yap/core/hdr-conversion-facts";
 import { cliWorker, mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
 
 // Reproduction only: explicitly supplied prepared/candidate runtime, immutable
@@ -29,7 +29,7 @@ if (!distribution || !native || !output)
     "Usage: node hdr-conversion.mjs DISTRIBUTION NATIVE NEW_OUTPUT_DIRECTORY [held-out] [encoded] [producer] [producer-audio]",
   );
 await mkdir(output, { mode: 0o700 });
-const scratch = await mkdtemp("/tmp/screenrec-hdr-owner-");
+const scratch = await mkdtemp("/tmp/yap-hdr-owner-");
 const ffmpeg = join(distribution, "bin/ffmpeg"),
   ffprobe = join(distribution, "bin/ffprobe");
 const hash = async (path) =>
@@ -70,7 +70,7 @@ const calibration = (actual, expected) => {
 };
 try {
   const owner = await compileCliOwner(scratch),
-    worker = mediaWorker({ SCREENREC_NATIVE: native });
+    worker = mediaWorker({ YAP_NATIVE: native });
   const attemptParent = join(scratch, "attempts");
   await mkdir(attemptParent, { mode: 0o700 });
   const result = {

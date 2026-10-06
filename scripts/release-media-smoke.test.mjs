@@ -14,16 +14,16 @@ import { tmpdir } from "node:os";
 import { test } from "node:test";
 
 test("relocated media verification reports service startup refusal without running the production app or launcher", () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-media-smoke-contract-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-media-smoke-contract-"));
   try {
     for (const directory of [
       "scripts",
       "dist/release",
       "bin",
       "packages/test-harness/editing",
-      "kit/Screen Recorder.app/Contents/MacOS",
-      "kit/Screen Recorder.app/Contents/Resources/node/bin",
-      "kit/Screen Recorder.app/Contents/Resources/service",
+      "kit/Yap.app/Contents/MacOS",
+      "kit/Yap.app/Contents/Resources/node/bin",
+      "kit/Yap.app/Contents/Resources/service",
     ])
       mkdirSync(join(scratch, directory), { recursive: true });
     copyFileSync(
@@ -34,11 +34,11 @@ test("relocated media verification reports service startup refusal without runni
       join(scratch, "packages/test-harness/editing/hevc-delivery.mjs"),
       "export function verifyVideoDelivery(){throw Error('unexpected media execution')}\n",
     );
-    const app = join(scratch, "kit/Screen Recorder.app");
+    const app = join(scratch, "kit/Yap.app");
     const forbidden = join(scratch, "forbidden");
     const trap = `#!${process.execPath}\nrequire('node:fs').writeFileSync(${JSON.stringify(forbidden)},'unexpected');process.exit(79);\n`;
-    writeFileSync(join(app, "Contents/MacOS/ScreenRecorder"), trap, { mode: 0o755 });
-    writeFileSync(join(scratch, "kit/screenrec"), trap, { mode: 0o755 });
+    writeFileSync(join(app, "Contents/MacOS/Yap"), trap, { mode: 0o755 });
+    writeFileSync(join(scratch, "kit/yap"), trap, { mode: 0o755 });
     symlinkSync(process.execPath, join(app, "Contents/Resources/node/bin/node"));
     writeFileSync(
       join(app, "Contents/Resources/service/main.mjs"),
@@ -54,7 +54,7 @@ test("relocated media verification reports service startup refusal without runni
       "-c",
       "-k",
       join(scratch, "kit"),
-      join(scratch, "dist/release/ScreenRecorder-v0.1.3-macos-arm64.zip"),
+      join(scratch, "dist/release/Yap-v0.1.3-macos-arm64.zip"),
     ]);
     const result = spawnSync(process.execPath, [join(scratch, "scripts/release-media-smoke.mjs")], {
       encoding: "utf8",

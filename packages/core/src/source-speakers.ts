@@ -8,7 +8,7 @@ import {
   subtract,
   add,
   multiply,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";

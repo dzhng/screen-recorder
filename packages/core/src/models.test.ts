@@ -59,7 +59,7 @@ const serveFile: Handler = (path, response) => {
 };
 
 async function fixture(handler: Handler = serveFile) {
-  const home = await mkdtemp("/tmp/screenrec-speech-models-");
+  const home = await mkdtemp("/tmp/yap-speech-models-");
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const requests: string[] = [];
   const server = createServer((request, response) => {
@@ -362,7 +362,7 @@ test("a models directory that is a link is refused", async () => {
 });
 
 async function voiceFixture() {
-  const home = await mkdtemp("/tmp/screenrec-model-runtime-");
+  const home = await mkdtemp("/tmp/yap-model-runtime-");
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const f = {
     home,
@@ -630,7 +630,7 @@ test("speaker runtime uses managed preparation and remains readable offline afte
 });
 
 test("the registered original speaker keeps its verified execution identity and refuses implicit acquisition", async () => {
-  const home = await mkdtemp("/tmp/screenrec-original-speaker-");
+  const home = await mkdtemp("/tmp/yap-original-speaker-");
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const models = new Models(home, offline);
   expect(models.list().find((entry) => entry.modelId === "speaker-runtime-control")).toMatchObject({

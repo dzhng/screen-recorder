@@ -26,10 +26,10 @@ const args = process.argv.slice(2);
 assert.equal(args[0], "--case");
 assert.equal(args[1], "relocate-edit-undo");
 assert.ok(args.length === 2 || (args.length === 4 && args[2] === "--out"));
-assert.ok(process.env.SCREENREC_NATIVE, "Select a frozen native worker with SCREENREC_NATIVE");
+assert.ok(process.env.YAP_NATIVE, "Select a frozen native worker with YAP_NATIVE");
 assert.ok(
-  process.env.SCREENREC_ASR_REQUEST,
-  "Select an existing prepared speech.transcribe request with SCREENREC_ASR_REQUEST",
+  process.env.YAP_ASR_REQUEST,
+  "Select an existing prepared speech.transcribe request with YAP_ASR_REQUEST",
 );
 let out = args[3] ? resolve(args[3]) : await mkdtemp("/tmp/sr-package-evidence-");
 await mkdir(out, { recursive: true });
@@ -159,7 +159,7 @@ try {
     "narration.mov",
     new URL("../../../fixtures/narrated-workbench/narration.mov", import.meta.url).pathname,
   );
-  const prepared = JSON.parse(await readFile(process.env.SCREENREC_ASR_REQUEST, "utf8")).params
+  const prepared = JSON.parse(await readFile(process.env.YAP_ASR_REQUEST, "utf8")).params
     .models;
   const modelPins = await copyModels(donor, prepared);
   assert.equal((await call("model.status", { modelId: "parakeet" })).state, "ready");

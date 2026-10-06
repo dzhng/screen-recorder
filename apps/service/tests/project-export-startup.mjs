@@ -5,7 +5,7 @@ import { spawn, spawnSync } from "node:child_process";
 import { once } from "node:events";
 import { mkdtemp, readFile, rename, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { projectMovieRenderer } from "../dist/project-render.js";
 import { fixture, until, native, nativeBinary } from "./fixtures/project-export.mjs";
 
@@ -40,7 +40,7 @@ test(
     assert.equal(pending.state, "queued");
     assert.equal(f.jobs.job(pending.jobId).state, "waiting");
     await f.close();
-    const home = await mkdtemp("/tmp/screenrec-bundled-export-");
+    const home = await mkdtemp("/tmp/yap-bundled-export-");
     t.after(() => rm(home, { recursive: true, force: true }));
     await rename(f.home, join(home, "library"));
     const bundle = join(home, "service.mjs");
@@ -54,7 +54,7 @@ test(
       cwd: "/",
       detached: true,
       stdio: ["pipe", "pipe", "pipe"],
-      env: { ...process.env, SCREENREC_HOME: home, SCREENREC_NATIVE: nativeBinary },
+      env: { ...process.env, YAP_HOME: home, YAP_NATIVE: nativeBinary },
     });
     const closed = once(child, "close");
     let stdout = "",

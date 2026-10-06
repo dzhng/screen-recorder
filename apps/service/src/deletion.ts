@@ -1,7 +1,7 @@
 import type { CaptureSources } from "./capture-sources.js";
-import type { CaptureStore } from "@screenrec/core/capture-store";
-import { CatalogError } from "@screenrec/core/catalog";
-import type { JobQueue } from "@screenrec/core/jobs";
+import type { CaptureStore } from "@yap/core/capture-store";
+import { CatalogError } from "@yap/core/catalog";
+import type { JobQueue } from "@yap/core/jobs";
 import type { CaptureService } from "./capture.js";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { ManagedFiles } from "./managed-files.js";

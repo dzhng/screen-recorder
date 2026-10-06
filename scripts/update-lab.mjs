@@ -56,7 +56,7 @@ if (
   ].includes(scenario)
 )
   throw new Error("Select a scenario from scripts/update-lab.test.mjs");
-const distribution = join(tmpdir(), "screenrec-sparkle-2.10.0.tar.xz");
+const distribution = join(tmpdir(), "yap-sparkle-2.10.0.tar.xz");
 const digest = "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c";
 const commands = new Set();
 let interrupted;
@@ -109,9 +109,9 @@ async function run(command, args) {
     commands.delete(child);
   }
 }
-const root = mkdtempSync(join(tmpdir(), "screenrec-update-lab-"));
+const root = mkdtempSync(join(tmpdir(), "yap-update-lab-"));
 const frameworkRoot = join(root, "sparkle");
-const id = `dev.screenrec.update-lab.${randomUUID()}`;
+const id = `dev.yap.update-lab.${randomUUID()}`;
 const lockDirectory = join(homedir(), "Library", "Caches", id);
 const lockPath = join(lockDirectory, "launch.lock");
 const eventsPath = join(root, "events.jsonl");
@@ -146,7 +146,7 @@ const receipt = {
   inputs: {
     hostControlledInstallation: values["host-controlled-installation"],
     retainedPublicFixtures: values["retain-public-fixtures"],
-    executionContext: { SCREENREC_HOME: join(root, "home"), SCREENREC_DEFAULTS: `${id}.settings` },
+    executionContext: { YAP_HOME: join(root, "home"), YAP_DEFAULTS: `${id}.settings` },
     publicKey: publicKey.export({ type: "spki", format: "der" }).subarray(-32).toString("base64"),
   },
   sparkle: { version: "2.10.0", distributionSha256: digest },
@@ -270,7 +270,7 @@ try {
       SURequireSignedFeed: true,
       SUVerifyUpdateBeforeExtraction: true,
       SUSignedFeedFailureExpirationInterval: 0,
-      ScreenrecLaunchLockRelativePath: `Library/Caches/${id}/launch.lock`,
+      YapLaunchLockRelativePath: `Library/Caches/${id}/launch.lock`,
       NSAppTransportSecurity: { NSAllowsLocalNetworking: true },
     };
     const plist = (obj) =>
@@ -317,7 +317,7 @@ try {
   const formatElement =
     scenario === "missing-format"
       ? ""
-      : `<screenrecCatalogFormat>${format}</screenrecCatalogFormat>`;
+      : `<yapCatalogFormat>${format}</yapCatalogFormat>`;
   writeFileSync(
     join(root, "appcast.xml"),
     `<?xml version="1.0"?><rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><title>Lab</title><item><title>0.1.1</title><sparkle:version>${candidateVersion}</sparkle:version><sparkle:shortVersionString>${candidateVersion}</sparkle:shortVersionString>${formatElement}<enclosure url="${url}/update.zip" ${attrs} type="application/octet-stream"/></item></channel></rss>`,
@@ -358,7 +358,7 @@ try {
   if (interrupted) throw interrupted;
   if (scenario === "stopped-launch") writeFileSync(join(root, "stop"), "stop");
   child = spawn(join(app, "Contents", "MacOS", "UpdateLab"), [], {
-    env: { ...process.env, ...receipt.inputs.executionContext, SCREENREC_UPDATE_LAB: root },
+    env: { ...process.env, ...receipt.inputs.executionContext, YAP_UPDATE_LAB: root },
     stdio: ["ignore", "ignore", "pipe"],
   });
   childCompletion = new Promise((resolveExit) => {

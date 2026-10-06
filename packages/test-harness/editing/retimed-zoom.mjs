@@ -7,10 +7,10 @@ import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
 import { sourceFrame, width, height, fps } from "./retiming-fixture.mjs";
 
 export async function runRetimedZoom(output) {
-  assert(output && process.env.SCREENREC_NATIVE);
+  assert(output && process.env.YAP_NATIVE);
   const out = resolve(output);
   await mkdir(out);
-  const home = await mkdtemp(join(tmpdir(), "screenrec-retimed-zoom-"));
+  const home = await mkdtemp(join(tmpdir(), "yap-retimed-zoom-"));
   const stride = width * height * 3;
   const report = {
     passed: false,
@@ -18,7 +18,7 @@ export async function runRetimedZoom(output) {
     exchanges: [],
     pictures: [],
     movies: [],
-    workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+    workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
     harnessSha256: hash(await readFile(new URL(import.meta.url))),
     scope:
       "All-frame delivered counter and analytic zoom trajectory; no continuous playback or sound",

@@ -13,7 +13,7 @@ if (process.argv.slice(2).join(" ") !== "--fixture imports")
   throw new Error("Expected --fixture imports");
 const run = promisify(execFile);
 const cli = new URL("../../../apps/cli/dist/main.js", import.meta.url).pathname;
-const home = await mkdtemp(join(tmpdir(), "screenrec-assets-cli-"));
+const home = await mkdtemp(join(tmpdir(), "yap-assets-cli-"));
 let service;
 let mcp;
 const observations = [];
@@ -91,7 +91,7 @@ try {
     [asset.id],
   );
   assert.equal(page.nextCursor, null);
-  mcp = new Client({ name: "screenrec-asset-acceptance", version: "1" });
+  mcp = new Client({ name: "yap-asset-acceptance", version: "1" });
   await mcp.connect(
     new StdioClientTransport({
       command: process.execPath,

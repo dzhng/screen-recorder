@@ -4,10 +4,10 @@ import { existsSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from 
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
-import { callLocal } from "@screenrec/client";
-import { CaptureStore } from "@screenrec/core/capture-store";
-import { AssetStore } from "@screenrec/core/assets";
-import { DerivedCache } from "@screenrec/core/cache";
+import { callLocal } from "@yap/client";
+import { CaptureStore } from "@yap/core/capture-store";
+import { AssetStore } from "@yap/core/assets";
+import { DerivedCache } from "@yap/core/cache";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 function file(path, contents) {
@@ -23,8 +23,8 @@ test(
   "bundled startup resumes durable deletion and preserves unrelated files across restart",
   { timeout: 60_000 },
   async () => {
-    const home = temporary("/tmp/screenrec-delete-restart-");
-    const outside = temporary("/tmp/screenrec-delete-external-");
+    const home = temporary("/tmp/yap-delete-restart-");
+    const outside = temporary("/tmp/yap-delete-external-");
     const library = join(home, "library");
     mkdirSync(library, { mode: 0o700 });
     const path = join(library, "catalog.sqlite");

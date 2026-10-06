@@ -6,7 +6,7 @@ import {
   subtract,
   compare,
   type SignedTimeValue,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import {
   verifySourceEvidence,
   sourcePublicationFiles,
@@ -28,7 +28,7 @@ import {
   type FileHandle,
 } from "node:fs/promises";
 import { dirname, isAbsolute, join, relative, sep } from "node:path";
-import { acquisitionContextSchema, type AcquisitionContext } from "@screenrec/composition";
+import { acquisitionContextSchema, type AcquisitionContext } from "@yap/composition";
 import {
   AssetStore,
   compositionAsset,

@@ -1,5 +1,5 @@
 {
-  "name": "@screenrec/protocol",
+  "name": "@yap/protocol",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@screenrec/composition": "workspace:*",
+    "@yap/composition": "workspace:*",
     "zod": "4.6.5"
   }
 }

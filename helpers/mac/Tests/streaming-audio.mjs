@@ -6,12 +6,12 @@ import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { isAbsolute, join } from "node:path";
 const out =
-  process.env.SCREENREC_AUDIO_STREAM_EVIDENCE ??
-  (await mkdtemp(join(tmpdir(), "screenrec-audio-stream-")));
+  process.env.YAP_AUDIO_STREAM_EVIDENCE ??
+  (await mkdtemp(join(tmpdir(), "yap-audio-stream-")));
 assert.ok(isAbsolute(out));
 await mkdir(out, { recursive: true });
 assert.deepEqual(await readdir(out), []);
-const executable = new URL("../.build/debug/ScreenRecorderSourceAudioTests", import.meta.url)
+const executable = new URL("../.build/debug/YapSourceAudioTests", import.meta.url)
   .pathname;
 function run(command, args, env = process.env) {
   const result = spawnSync(command, args, {
@@ -84,9 +84,9 @@ for (const seconds of [10, 300]) {
   const report = JSON.parse(
     run(executable, [], {
       ...process.env,
-      SCREENREC_SOURCE_AUDIO_EVIDENCE: out,
-      SCREENREC_AUDIO_STREAM_SOURCE: source,
-      SCREENREC_AUDIO_STREAM_SECONDS: String(seconds),
+      YAP_SOURCE_AUDIO_EVIDENCE: out,
+      YAP_AUDIO_STREAM_SOURCE: source,
+      YAP_AUDIO_STREAM_SECONDS: String(seconds),
     }),
   );
   const file = join(out, `stream-${seconds}.wav`),

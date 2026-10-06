@@ -22,8 +22,8 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 const executable =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 
 /**
  * Stands in for the service that spawns the worker: the worker inherits this owner's stdio,
@@ -63,7 +63,7 @@ async function waitForExit(pid, deadlineMs) {
  * spawns it, so an owner's death cannot take the worker's input or its diagnostics with it.
  */
 function harness() {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-lifetime-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-lifetime-"));
   const fifo = join(directory, "stdin.fifo");
   assert.equal(spawnSync("mkfifo", [fifo]).status, 0);
   const outputPath = join(directory, "stdout.log");
@@ -175,7 +175,7 @@ test("a worker started with no living owner refuses the work waiting on its stdi
 
 test("an owner that dies mid-operation ends the worker and leaves the source untouched", async () => {
   const fixture = harness();
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-lifetime-media-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-lifetime-media-"));
   const source = join(directory, "source.wav");
   const output = join(directory, "audio.wav");
   const encode = spawnSync(
@@ -227,7 +227,7 @@ test("an owner that dies mid-operation ends the worker and leaves the source unt
       assert.equal(fixture.responses().length, 1, "the audio finished before it was interrupted");
       assert.ok(Date.now() < deadline, "source audio never wrote nonzero PCM before the deadline");
       for (const name of readdirSync(directory).filter((name) =>
-        name.startsWith(".screenrec-output-"),
+        name.startsWith(".yap-output-"),
       )) {
         const staged = join(directory, name, "mix.wav");
         if (!existsSync(staged)) continue;

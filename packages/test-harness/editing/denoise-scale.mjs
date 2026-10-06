@@ -18,7 +18,7 @@ import { JourneyService, hash, run } from "./source-evidence-fixture.mjs";
 import { referenceLanes, compareWavePCM } from "./denoise-pcm.mjs";
 import { writeSourceWave, sourcePeriod, waveHeader } from "./audio-project-fixture.mjs";
 
-const priorUnavailableOperations = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
+const priorUnavailableOperations = process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
 const { values } = parseArgs({
   options: {
     out: { type: "string" },
@@ -32,7 +32,7 @@ const seconds = Number(values.seconds),
 assert(
   values.out &&
     values.reference &&
-    process.env.SCREENREC_NATIVE &&
+    process.env.YAP_NATIVE &&
     Number.isSafeInteger(seconds) &&
     seconds > 0,
 );
@@ -42,7 +42,7 @@ assert(span <= 1e6, "Repeated source fixture has one second of support");
 const out = resolve(values.out),
   home = await mkdtemp("/tmp/sr-denoise-scale-");
 await mkdir(out);
-const native = process.env.SCREENREC_NATIVE;
+const native = process.env.YAP_NATIVE;
 const reference = resolve(values.reference);
 const referenceSha256 = hash(await readFile(reference));
 assert.equal(referenceSha256, "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee");
@@ -227,7 +227,7 @@ try {
   await copyFile(full, join(out, "prepared.wav"));
   assert.deepEqual(await readdir(join(home, "library/render"), { recursive: true }), []);
   await service.stop();
-  process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
+  process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
     "media.audioCapabilities",
     "media.mixCompositionAudio",
   ]);
@@ -270,8 +270,8 @@ try {
   throw error;
 } finally {
   if (priorUnavailableOperations === undefined)
-    delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
-  else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
+    delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
   clearInterval(observer);
   while (sampling) await new Promise((resolve) => setImmediate(resolve));
   let shutdownFailure;

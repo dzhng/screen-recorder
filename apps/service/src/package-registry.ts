@@ -1,18 +1,18 @@
 import { randomUUID } from "node:crypto";
 import type { FileHandle } from "node:fs/promises";
-import { CatalogError } from "@screenrec/core/catalog";
+import { CatalogError } from "@yap/core/catalog";
 import {
   archiveLimits,
   validateArchiveLimits,
   type ArchiveLimits,
   type ArchiveManifest,
-} from "@screenrec/core/package-archive";
+} from "@yap/core/package-archive";
 import {
   type JobQueue,
   type JobContext,
   type ContextJobRequest,
   type ContextJob,
-} from "@screenrec/core/jobs";
+} from "@yap/core/jobs";
 import { admitArchive, type AdmittedArchive } from "./archive-input.js";
 import {
   openPackageArchive,

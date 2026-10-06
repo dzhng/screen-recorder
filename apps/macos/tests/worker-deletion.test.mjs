@@ -8,8 +8,8 @@ import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
-import { callLocal } from "@screenrec/client";
-import { CaptureStore } from "@screenrec/core/capture-store";
+import { callLocal } from "@yap/client";
+import { CaptureStore } from "@yap/core/capture-store";
 import { importAcquisition } from "./fixtures/public-service.mjs";
 import { startProjectService } from "../../service/dist/project-service.js";
 import { mediaWorker } from "../../service/dist/worker.js";
@@ -106,9 +106,9 @@ test(
     const home = temporary("/tmp/scr-worker-delete-");
     const sibling = await generated(home, 2);
     const native =
-      process.env.SCREENREC_NATIVE ??
-      fileURLToPath(new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url));
-    const directWorker = mediaWorker({ SCREENREC_NATIVE: native });
+      process.env.YAP_NATIVE ??
+      fileURLToPath(new URL("../../../helpers/mac/.build/debug/yap-native", import.meta.url));
+    const directWorker = mediaWorker({ YAP_NATIVE: native });
     let report;
     await withArchiveCopyBarrier(
       home,
@@ -317,9 +317,9 @@ test(
       },
     );
     console.log(JSON.stringify(report));
-    if (process.env.SCREENREC_WORKER_DELETE_EVIDENCE)
+    if (process.env.YAP_WORKER_DELETE_EVIDENCE)
       await writeFile(
-        process.env.SCREENREC_WORKER_DELETE_EVIDENCE,
+        process.env.YAP_WORKER_DELETE_EVIDENCE,
         JSON.stringify(report, null, 2) + "\n",
         { flag: "wx" },
       );

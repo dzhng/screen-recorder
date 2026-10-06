@@ -7,7 +7,7 @@ import { after } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 
 export const app = fileURLToPath(
-  new URL("../../../dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder", import.meta.url),
+  new URL("../../../dist/Yap.app/Contents/MacOS/Yap", import.meta.url),
 );
 
 // A Finder launch inherits launchd's minimal environment, not a developer shell's, so
@@ -112,13 +112,13 @@ export function temporary(prefix) {
  */
 export function launch(home, environment = {}, args = []) {
   const defaults = join(home, "preferences");
-  if (!environment.SCREENREC_DEFAULTS) setDefault(defaults, "showSettingsAtLaunch", "-bool", "NO");
+  if (!environment.YAP_DEFAULTS) setDefault(defaults, "showSettingsAtLaunch", "-bool", "NO");
   const child = spawn(app, args, {
     cwd: "/",
     env: {
       ...finderEnvironment,
-      SCREENREC_HOME: home,
-      SCREENREC_DEFAULTS: defaults,
+      YAP_HOME: home,
+      YAP_DEFAULTS: defaults,
       ...environment,
     },
     stdio: ["ignore", "pipe", "pipe"],

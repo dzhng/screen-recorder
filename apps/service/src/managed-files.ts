@@ -1,9 +1,9 @@
 import { join } from "node:path";
 import { constants, lstatSync, realpathSync, type BigIntStats } from "node:fs";
 import { open, realpath } from "node:fs/promises";
-import type { DirectoryIdentity } from "@screenrec/core/cache";
-import { CatalogError } from "@screenrec/core/catalog";
-import { O_NOFOLLOW_ANY, openDirectoryLease } from "@screenrec/core/files";
+import type { DirectoryIdentity } from "@yap/core/cache";
+import { CatalogError } from "@yap/core/catalog";
+import { O_NOFOLLOW_ANY, openDirectoryLease } from "@yap/core/files";
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
 /** A directory only this user can enter: the precondition for every private workspace. */

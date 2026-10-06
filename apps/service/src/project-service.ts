@@ -2,41 +2,41 @@ import { AssetConversionJobs, assetConversionRuntime } from "./asset-conversion.
 import { UpdateAdmission } from "./update-admission.js";
 import { RecordingDeletion } from "./deletion.js";
 import { CaptureCleanup } from "./capture-cleanup.js";
-import { ManagedStorage } from "@screenrec/core/storage";
-import { VoiceGenerationJobs } from "@screenrec/core/voice-generation";
+import { ManagedStorage } from "@yap/core/storage";
+import { VoiceGenerationJobs } from "@yap/core/voice-generation";
 import { voiceRenderer } from "./voice.js";
-import { AudioExtraction } from "@screenrec/core/audio-extraction";
+import { AudioExtraction } from "@yap/core/audio-extraction";
 import { assetProbe } from "./media-probe.js";
 import { sourceExporter } from "./source-export.js";
-import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
-import { projectComposition } from "@screenrec/core/project-window";
-import { selectSource } from "@screenrec/core/source-selection";
-import { outputCapabilities, audioOutputCapabilities } from "@screenrec/composition";
+import { PreparedAudioStore } from "@yap/core/prepared-audio";
+import { projectComposition } from "@yap/core/project-window";
+import { selectSource } from "@yap/core/source-selection";
+import { outputCapabilities, audioOutputCapabilities } from "@yap/composition";
 import { ProjectPackages } from "./project-packages.js";
 import { writeFile } from "node:fs/promises";
-import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
-import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
-import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
-import { SourceEvents } from "@screenrec/core/source-events";
-import { SourceSceneRead } from "@screenrec/core/scene-source-read";
-import { SceneEvidenceStore, assetSceneOwner } from "@screenrec/core/scene-evidence";
-import { IndexProcessing } from "@screenrec/core/index-processing";
-import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
-import { sourceIndexDomain, type SourceIndexRecords } from "@screenrec/core/source-index";
-import { projectIndexDomain, type ProjectIndexRecords } from "@screenrec/core/project-index";
-import { SceneProcessing } from "@screenrec/core/scene-processing";
-import type { SourceVisualObservations } from "@screenrec/core/source-scenes";
-import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
-import { ProjectEvidenceInspection } from "@screenrec/core/project-evidence";
-import { Models } from "@screenrec/core/models";
-import { TranscriptStore, type SpeechTranscriptionReceipt } from "@screenrec/core/transcript";
-import { TranscriptProcessing, assetTranscriptOwner } from "@screenrec/core/transcript-processing";
-import { SourceTranscriptRead } from "@screenrec/core/transcript-read";
-import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisitions";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { AcousticInspection } from "@yap/core/acoustic-inspection";
+import { MediaFrameInspection } from "@yap/core/frame-inspection";
+import { CaptureSourceRead } from "@yap/core/capture-source-read";
+import { SourceEvents } from "@yap/core/source-events";
+import { SourceSceneRead } from "@yap/core/scene-source-read";
+import { SceneEvidenceStore, assetSceneOwner } from "@yap/core/scene-evidence";
+import { IndexProcessing } from "@yap/core/index-processing";
+import { ScreenshotIndexStore } from "@yap/core/screenshot-index";
+import { sourceIndexDomain, type SourceIndexRecords } from "@yap/core/source-index";
+import { projectIndexDomain, type ProjectIndexRecords } from "@yap/core/project-index";
+import { SceneProcessing } from "@yap/core/scene-processing";
+import type { SourceVisualObservations } from "@yap/core/source-scenes";
+import { MediaAudioInspection } from "@yap/core/audio-inspection";
+import { ProjectEvidenceInspection } from "@yap/core/project-evidence";
+import { Models } from "@yap/core/models";
+import { TranscriptStore, type SpeechTranscriptionReceipt } from "@yap/core/transcript";
+import { TranscriptProcessing, assetTranscriptOwner } from "@yap/core/transcript-processing";
+import { SourceTranscriptRead } from "@yap/core/transcript-read";
+import { AcquisitionStore, AcquisitionImporter } from "@yap/core/acquisitions";
+import { SourceEvidenceStore } from "@yap/core/evidence";
 import { MediaExports } from "./exports.js";
-import { PointerPreparation } from "@screenrec/core/pointer-preparation";
-import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
+import { PointerPreparation } from "@yap/core/pointer-preparation";
+import { ProjectPreviewInspection } from "@yap/core/project-preview";
 import {
   nativeAudioCapabilities,
   nativePictureCapabilities,
@@ -47,20 +47,20 @@ import {
 } from "./project-render.js";
 import { clearRenderWorkspace, withRenderedFile } from "./render.js";
 import { DerivativeDelivery } from "./delivery.js";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache } from "@yap/core/cache";
 import { ManagedFiles } from "./managed-files.js";
 import { ProjectDeletion } from "./project-deletion.js";
-import { ProjectStore } from "@screenrec/core/projects";
+import { ProjectStore } from "@yap/core/projects";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
-import { AssetStore } from "@screenrec/core/assets";
-import { CatalogError } from "@screenrec/core/catalog";
-import { CaptureStore, isSettled } from "@screenrec/core/capture-store";
+import { AssetStore } from "@yap/core/assets";
+import { CatalogError } from "@yap/core/catalog";
+import { CaptureStore, isSettled } from "@yap/core/capture-store";
 import { CaptureService } from "./capture.js";
 import { CaptureSources } from "./capture-sources.js";
 import { openControl, type ControlChannel } from "./control.js";
 import type { Readable, Writable } from "node:stream";
-import { JobQueue, type JobTargets } from "@screenrec/core/jobs";
+import { JobQueue, type JobTargets } from "@yap/core/jobs";
 import {
   operationSchema,
   operationNames,
@@ -73,7 +73,7 @@ import {
   updateControlOperations,
   type UpdateStatus,
   type UpdateBlocker,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import {
   listenLocal,
   prepareRuntimeDirectory,
@@ -92,9 +92,9 @@ import { operationFailure } from "./operation-errors.js";
 import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
 import { audioProcessingRuntime } from "./audio-processing.js";
 import { ffmpegLoudnessAnalyzer } from "./loudness.js";
-import { SpeakerEvidenceStore, assetSpeakerOwner } from "@screenrec/core/speaker-evidence";
-import { SpeakerProcessing } from "@screenrec/core/speaker-processing";
-import { SourceSpeakerRead } from "@screenrec/core/speaker-read";
+import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
+import { SpeakerProcessing } from "@yap/core/speaker-processing";
+import { SourceSpeakerRead } from "@yap/core/speaker-read";
 import { speakerDecoder, speakerObserver } from "./speaker.js";
 
 export async function startProjectService(options: {
@@ -220,9 +220,9 @@ export async function startProjectService(options: {
     );
     const capture = new CaptureSourceRead(assets, acquisitions, evidence);
     const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
-    const nativeExecutable = options.nativeExecutable ?? process.env.SCREENREC_NATIVE;
+    const nativeExecutable = options.nativeExecutable ?? process.env.YAP_NATIVE;
     const worker =
-      options.worker ?? mediaWorker({ ...process.env, SCREENREC_NATIVE: nativeExecutable });
+      options.worker ?? mediaWorker({ ...process.env, YAP_NATIVE: nativeExecutable });
     const models = new Models(library);
     const speakerRecords = new SpeakerEvidenceStore(
       catalog,

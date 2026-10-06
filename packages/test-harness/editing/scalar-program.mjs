@@ -8,7 +8,7 @@ import { compileScalarCurve } from "../../composition/dist/curve.js";
 import { sampleScalarSamples } from "../../composition/dist/scalar-program.js";
 
 const root = new URL("../../../", import.meta.url).pathname;
-const scratch = mkdtempSync(join(tmpdir(), "screenrec-scalar-program-"));
+const scratch = mkdtempSync(join(tmpdir(), "yap-scalar-program-"));
 const doc = {
   canvas: {
     width: 64,
@@ -171,7 +171,7 @@ try {
   const input = join(scratch, "vectors.json");
   writeFileSync(input, JSON.stringify(vectors));
   const binary =
-    process.env.SCALAR_NATIVE ?? join(root, "helpers/mac/.build/debug/ScreenRecorderScalarTests");
+    process.env.SCALAR_NATIVE ?? join(root, "helpers/mac/.build/debug/YapScalarTests");
   const result = spawnSync(binary, [input], { encoding: "utf8", maxBuffer: 10 * 1024 * 1024 });
   assert.equal(result.status, 0, result.stderr || String(result.error));
   const native = JSON.parse(result.stdout);

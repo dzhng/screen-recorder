@@ -16,7 +16,7 @@ const { values } = parseArgs({
 });
 for (const key of ["inputs", "out", "runtime", "model", "preserved-home"])
   assert(values[key], `Missing --${key}`);
-assert(process.env.SCREENREC_NATIVE, "Pin the frozen native worker");
+assert(process.env.YAP_NATIVE, "Pin the frozen native worker");
 const out = resolve(values.out);
 await mkdir(out, { mode: 0o700 }); // New directory only; never overwrite previous producer evidence.
 const inputsPath = resolve(values.inputs);
@@ -81,8 +81,8 @@ async function preserved() {
     identity: await identity(join(root, "receipt.json")),
   };
   const worker = {
-    ...(await identifyFile(process.env.SCREENREC_NATIVE)),
-    identity: await identity(process.env.SCREENREC_NATIVE),
+    ...(await identifyFile(process.env.YAP_NATIVE)),
+    identity: await identity(process.env.YAP_NATIVE),
   };
   const installed = [];
   for (const pin of manifest.files)

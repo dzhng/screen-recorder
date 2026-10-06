@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import {
   launchReady,
   requireScreenPermission,
@@ -47,7 +47,7 @@ async function displayTake(origin) {
   // The count is off so the take starts at once, and the controls go where this take wants them.
   setDefault(domain, "countdownBeforeRecording", "-bool", "NO");
   setDefault(domain, "overlayOrigin", "-string", origin);
-  const { instance } = await launchReady(home, { SCREENREC_DEFAULTS: domain });
+  const { instance } = await launchReady(home, { YAP_DEFAULTS: domain });
   const sources = await succeeds(home, "capture.sources");
   const display = sources.displays[0];
   const started = await succeeds(home, "capture.start", {

@@ -1,12 +1,12 @@
 import { randomUUID } from "node:crypto";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { AcquisitionStore } from "@screenrec/core/acquisitions";
-import { Models } from "@screenrec/core/models";
-import { JobQueue } from "@screenrec/core/jobs";
-import { SpeakerEvidenceStore, assetSpeakerOwner } from "@screenrec/core/speaker-evidence";
-import { SpeakerProcessing } from "@screenrec/core/speaker-processing";
-import { selectSpeakerSource, type SpeakerSourceInput } from "@screenrec/core/source-speakers";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { AcquisitionStore } from "@yap/core/acquisitions";
+import { Models } from "@yap/core/models";
+import { JobQueue } from "@yap/core/jobs";
+import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
+import { SpeakerProcessing } from "@yap/core/speaker-processing";
+import { selectSpeakerSource, type SpeakerSourceInput } from "@yap/core/source-speakers";
 import { afterEach, expect, test } from "vitest";
 import { writeFile, realpath, rm } from "node:fs/promises";
 import { join } from "node:path";
@@ -248,9 +248,9 @@ test.runIf(process.platform === "darwin")(
   async () => {
     const native = jsonWorker({
       executable:
-        process.env.SCREENREC_NATIVE ??
+        process.env.YAP_NATIVE ??
         fileURLToPath(
-          new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url),
+          new URL("../../../helpers/mac/.build/debug/yap-native", import.meta.url),
         ),
       args: [],
     });

@@ -4,22 +4,22 @@ import { randomUUID, hash } from "node:crypto";
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { AcquisitionStore } from "@screenrec/core/acquisitions";
-import { ProjectStore } from "@screenrec/core/projects";
-import { TranscriptStore } from "@screenrec/core/transcript";
-import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
-import { DerivedCache } from "@screenrec/core/cache";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { AcquisitionStore } from "@yap/core/acquisitions";
+import { ProjectStore } from "@yap/core/projects";
+import { TranscriptStore } from "@yap/core/transcript";
+import { assetTranscriptOwner } from "@yap/core/transcript-processing";
+import { DerivedCache } from "@yap/core/cache";
 import { temporary, waitFor } from "./harness.mjs";
 import { startPublicService, importAcquisition } from "./fixtures/public-service.mjs";
 import { journalRows } from "./fixtures/generated-capture.mjs";
 const native =
-  process.env.SCREENREC_NATIVE ??
-  new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname;
+  process.env.YAP_NATIVE ??
+  new URL("../../../helpers/mac/.build/debug/yap-native", import.meta.url).pathname;
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
 function run(command, args, encoding = "utf8") {
   const result = spawnSync(command, args, {
@@ -60,7 +60,7 @@ function pointerPixels(file, second, x, y) {
 }
 
 test("public project preview pins an explicitly authored pointer movie through edits, delivery and restart", async () => {
-  const home = temporary("/tmp/screenrec-public-preview-");
+  const home = temporary("/tmp/yap-public-preview-");
   const sourceId = randomUUID();
   const source = join(home, "authored-capture");
   await mkdir(source, { recursive: true });

@@ -9,7 +9,7 @@ import { createDenoiseReference } from "./denoise-reference.mjs";
 import { authoredDryBlocks } from "./denoise-routing.mjs";
 import { writeDryReference, compareWavePCM, referenceLanes } from "./denoise-pcm.mjs";
 
-const priorUnavailableOperations = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
+const priorUnavailableOperations = process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
 const { values } = parseArgs({
   options: {
     out: { type: "string" },
@@ -18,7 +18,7 @@ const { values } = parseArgs({
     source: { type: "string" },
   },
 });
-assert(values.out && values.reference && process.env.SCREENREC_NATIVE);
+assert(values.out && values.reference && process.env.YAP_NATIVE);
 const cohorts = { short: [8, 512], "five-minute": [300, 500], "two-hour": [7200, 10000] };
 assert(Object.hasOwn(cohorts, values.case));
 const [seconds, occurrences] = cohorts[values.case],
@@ -40,7 +40,7 @@ const report = {
     ? "Long connected learned state with original deep/wide authored routing; no listening/disk-I/O claim"
     : "Eight-second deep/wide learned traversal; no two-hour or listening claim",
   fixture: { seconds, occurrences, depth: 128, width: 32, rootGainSteps: 128 },
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   referenceSha256: hash(await readFile(resolve(values.reference))),
 };
 const reference = createDenoiseReference(resolve(values.reference), out);
@@ -346,7 +346,7 @@ try {
   assert.deepEqual(await readdir(join(home, "library/render"), { recursive: true }), []);
   await service.stop();
   if (long) service.evidence = join(out, "native-restart");
-  process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
+  process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
     "media.audioCapabilities",
     ...(!long ? ["media.mixCompositionAudio"] : []),
   ]);
@@ -395,8 +395,8 @@ try {
   throw error;
 } finally {
   if (priorUnavailableOperations === undefined)
-    delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
-  else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
+    delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
   clearInterval(observer);
   while (observing) await new Promise((resolve) => setImmediate(resolve));
   if (progress) clearInterval(progress);

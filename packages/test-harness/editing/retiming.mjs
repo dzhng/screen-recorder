@@ -21,11 +21,11 @@ import { tonePitch } from "./stretch-measurements.mjs";
 
 const { values } = parseArgs({ options: { case: { type: "string" }, out: { type: "string" } } });
 assert.equal(values.case, "linked-and-independent");
-assert(values.out && process.env.SCREENREC_NATIVE, "Use --out and a frozen SCREENREC_NATIVE");
+assert(values.out && process.env.YAP_NATIVE, "Use --out and a frozen YAP_NATIVE");
 const out = resolve(values.out);
 await mkdir(out);
-const home = await realpath(await mkdtemp("/tmp/screenrec-retiming-"));
-const receiverHome = await realpath(await mkdtemp("/tmp/screenrec-retiming-receiver-"));
+const home = await realpath(await mkdtemp("/tmp/yap-retiming-"));
+const receiverHome = await realpath(await mkdtemp("/tmp/yap-retiming-receiver-"));
 const rate = 48000;
 const full = { startUs: 0, endUs: 4000000 };
 const report = {
@@ -36,7 +36,7 @@ const report = {
   receipts: {},
   frames: [],
   failures: [],
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   harnessSha256: hash(await readFile(new URL(import.meta.url))),
   runtime: process.version,
   scope:
@@ -1087,8 +1087,8 @@ try {
     asset.retainedPath = join(out, "frozen-sources", asset.path.split("/").at(-1));
     await rename(asset.path, asset.retainedPath);
   }
-  const previous = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
-  process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
+  const previous = process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
     "media.audioCapabilities",
     "media.validateCompositionAudio",
   ]);
@@ -1096,8 +1096,8 @@ try {
   try {
     await service.start();
   } finally {
-    if (previous === undefined) delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
-    else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = previous;
+    if (previous === undefined) delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+    else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = previous;
   }
   const opened = await call("package.open", { path: packaged.output });
   const ready = await poll(

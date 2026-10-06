@@ -1,5 +1,5 @@
 import type { FileHandle } from "node:fs/promises";
-import { CatalogError } from "@screenrec/core/catalog";
+import { CatalogError } from "@yap/core/catalog";
 import {
   archiveLimits,
   validateArchiveLimits,
@@ -7,8 +7,8 @@ import {
   type ArchiveLimits,
   type ArchiveManifest,
   type ArchiveManifestValidator,
-} from "@screenrec/core/package-archive";
-import { IdentifiedFiles, fileSubdirectory, type FileAccess } from "@screenrec/core/files";
+} from "@yap/core/package-archive";
+import { IdentifiedFiles, fileSubdirectory, type FileAccess } from "@yap/core/files";
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 import type { AdmittedArchive } from "./archive-input.js";
 import { isPrivateDirectory } from "./managed-files.js";

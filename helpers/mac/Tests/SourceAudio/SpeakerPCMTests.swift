@@ -1,8 +1,8 @@
 @preconcurrency import AVFoundation
 import CryptoKit
 import Foundation
-import ScreenRecorderAudio
-import ScreenRecorderMedia
+import YapAudio
+import YapMedia
 
 func verifySpeakerPCM(in directory: URL) async throws {
     func sample(_ frame: Int, _ channel: Int) -> Float {

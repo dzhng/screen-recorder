@@ -7,14 +7,14 @@ import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
 import { exportJourney } from "./first-export.mjs";
-const priorAudioBitrate = process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE;
-const priorUnavailableOperations = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
+const priorAudioBitrate = process.env.YAP_TEST_AUDIO_DEFAULT_BITRATE;
+const priorUnavailableOperations = process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
 const { values } = parseArgs({
   options: { out: { type: "string" }, formats: { type: "string", default: "all" } },
 });
-assert.ok(process.env.SCREENREC_NATIVE, "Pin the native worker before running");
+assert.ok(process.env.YAP_NATIVE, "Pin the native worker before running");
 assert.ok(["wav", "all"].includes(values.formats));
-const out = resolve(values.out ?? "/tmp/screenrec-audio-export"),
+const out = resolve(values.out ?? "/tmp/yap-audio-export"),
   home = await mkdtemp(join(tmpdir(), "sr-audio-export-"));
 await mkdir(out, { recursive: true });
 const report = {
@@ -22,7 +22,7 @@ const report = {
   trace: [],
   exchanges: [],
   checks: {},
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   performance: "unmeasured",
 };
 const forbidden = [
@@ -31,7 +31,7 @@ const forbidden = [
   "media.presentationEvidence",
   "media.outputCapabilities",
 ];
-process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify(forbidden);
+process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify(forbidden);
 const service = new JourneyService(
   home,
   report,
@@ -534,7 +534,7 @@ try {
       "Equivalent settings failed to reuse encoded PCM work",
     );
     await service.stop();
-    process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE = "128000";
+    process.env.YAP_TEST_AUDIO_DEFAULT_BITRATE = "128000";
     await service.start();
     const replay = await call(
       "export.create",
@@ -618,7 +618,7 @@ try {
       retry,
       encodedReady,
     };
-    delete process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE;
+    delete process.env.YAP_TEST_AUDIO_DEFAULT_BITRATE;
   }
   assert.equal(hash(await readFile(video)), originalSha);
   const operations = (await readFile(join(out, "native", "operations.jsonl"), "utf8"))
@@ -637,10 +637,10 @@ try {
   report.passed = true;
 } finally {
   if (priorUnavailableOperations === undefined)
-    delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
-  else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
-  if (priorAudioBitrate === undefined) delete process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE;
-  else process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE = priorAudioBitrate;
+    delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
+  if (priorAudioBitrate === undefined) delete process.env.YAP_TEST_AUDIO_DEFAULT_BITRATE;
+  else process.env.YAP_TEST_AUDIO_DEFAULT_BITRATE = priorAudioBitrate;
   try {
     await service.stop();
     await writeFile(join(out, "service.log"), service.logs.join(""));

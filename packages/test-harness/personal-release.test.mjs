@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 test("a repeated ready transcript cursor stops the caller before another page request", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-repeat-cursor-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-caller-repeat-cursor-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const trace = join(directory, "calls.jsonl");
   const editPlan = join(directory, "edit-plan.json");
@@ -35,7 +35,7 @@ test("a repeated ready transcript cursor stops the caller before another page re
     {
       encoding: "utf8",
       timeout: 10000,
-      env: { ...process.env, SCREENREC_CALLER_TRACE: trace, SCREENREC_CALLER_REPEAT_CURSOR: "1" },
+      env: { ...process.env, YAP_CALLER_TRACE: trace, YAP_CALLER_REPEAT_CURSOR: "1" },
     },
   );
   assert.equal(result.error, undefined, result.error?.message);
@@ -67,13 +67,13 @@ test("a repeated ready transcript cursor stops the caller before another page re
 });
 
 test("personal release requires an explicit edit plan before calling the CLI", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-plan-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-caller-plan-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const trace = join(directory, "calls.txt");
-  const cli = join(directory, "screenrec-fixture");
+  const cli = join(directory, "yap-fixture");
   writeFileSync(
     cli,
-    '#!/bin/sh\nprintf "called\\n" >> "$SCREENREC_CALLER_TRACE"\nprintf \'{"ok":false,"error":{"code":"FIXTURE_SENTINEL","message":"CLI must not be called"}}\\n\'\n',
+    '#!/bin/sh\nprintf "called\\n" >> "$YAP_CALLER_TRACE"\nprintf \'{"ok":false,"error":{"code":"FIXTURE_SENTINEL","message":"CLI must not be called"}}\\n\'\n',
   );
   chmodSync(cli, 0o755);
   const output = join(directory, "evidence");
@@ -88,7 +88,7 @@ test("personal release requires an explicit edit plan before calling the CLI", (
     ],
     {
       encoding: "utf8",
-      env: { ...process.env, SCREENREC_CALLER_TRACE: trace },
+      env: { ...process.env, YAP_CALLER_TRACE: trace },
     },
   );
 
@@ -99,14 +99,14 @@ test("personal release requires an explicit edit plan before calling the CLI", (
 });
 
 test("search-only intent cannot authorize an edit or start the CLI journey", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-intent-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-caller-intent-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const trace = join(directory, "calls.txt");
-  const cli = join(directory, "screenrec-fixture");
+  const cli = join(directory, "yap-fixture");
   const editPlan = join(directory, "search-only.json");
   writeFileSync(
     cli,
-    '#!/bin/sh\nprintf "called\\n" >> "$SCREENREC_CALLER_TRACE"\nprintf \'{"ok":false,"error":{"code":"FIXTURE_SENTINEL","message":"CLI must not be called"}}\\n\'\n',
+    '#!/bin/sh\nprintf "called\\n" >> "$YAP_CALLER_TRACE"\nprintf \'{"ok":false,"error":{"code":"FIXTURE_SENTINEL","message":"CLI must not be called"}}\\n\'\n',
   );
   chmodSync(cli, 0o755);
   writeFileSync(
@@ -128,7 +128,7 @@ test("search-only intent cannot authorize an edit or start the CLI journey", (t)
     ],
     {
       encoding: "utf8",
-      env: { ...process.env, SCREENREC_CALLER_TRACE: trace },
+      env: { ...process.env, YAP_CALLER_TRACE: trace },
     },
   );
 
@@ -139,7 +139,7 @@ test("search-only intent cannot authorize an edit or start the CLI journey", (t)
 });
 
 test("a terminal per-frame error is refused without another media poll", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-frame-error-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-caller-frame-error-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const trace = join(directory, "calls.jsonl");
   const editPlan = join(directory, "edit-plan.json");
@@ -168,8 +168,8 @@ test("a terminal per-frame error is refused without another media poll", (t) => 
       encoding: "utf8",
       env: {
         ...process.env,
-        SCREENREC_CALLER_TRACE: trace,
-        SCREENREC_CALLER_FRAME_ITEM_ERROR: "1",
+        YAP_CALLER_TRACE: trace,
+        YAP_CALLER_FRAME_ITEM_ERROR: "1",
       },
     },
   );
@@ -182,7 +182,7 @@ test("a terminal per-frame error is refused without another media poll", (t) => 
 });
 
 test("a canceled source job is terminal for readiness polling", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-job-canceled-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-caller-job-canceled-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const trace = join(directory, "calls.jsonl");
   const editPlan = join(directory, "edit-plan.json");
@@ -211,8 +211,8 @@ test("a canceled source job is terminal for readiness polling", (t) => {
       encoding: "utf8",
       env: {
         ...process.env,
-        SCREENREC_CALLER_TRACE: trace,
-        SCREENREC_CALLER_JOB_STATE: "canceled",
+        YAP_CALLER_TRACE: trace,
+        YAP_CALLER_JOB_STATE: "canceled",
       },
     },
   );
@@ -225,7 +225,7 @@ test("a canceled source job is terminal for readiness polling", (t) => {
 });
 
 test("package cleanup failure is terminal for readiness polling", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-cleanup-failed-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-caller-cleanup-failed-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const trace = join(directory, "calls.jsonl");
   const editPlan = join(directory, "edit-plan.json");
@@ -254,8 +254,8 @@ test("package cleanup failure is terminal for readiness polling", (t) => {
       encoding: "utf8",
       env: {
         ...process.env,
-        SCREENREC_CALLER_TRACE: trace,
-        SCREENREC_CALLER_PACKAGE_STATE: "cleanup_failed",
+        YAP_CALLER_TRACE: trace,
+        YAP_CALLER_PACKAGE_STATE: "cleanup_failed",
       },
     },
   );
@@ -268,7 +268,7 @@ test("package cleanup failure is terminal for readiness polling", (t) => {
 });
 
 test("asset-clock cuts outside the acquired narration support stop before project creation", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-support-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-caller-support-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const trace = join(directory, "calls.jsonl");
   const output = join(directory, "evidence");
@@ -296,7 +296,7 @@ test("asset-clock cuts outside the acquired narration support stop before projec
     ],
     {
       encoding: "utf8",
-      env: { ...process.env, SCREENREC_CALLER_TRACE: trace, SCREENREC_CALLER_OUT: output },
+      env: { ...process.env, YAP_CALLER_TRACE: trace, YAP_CALLER_OUT: output },
     },
   );
 
@@ -320,7 +320,7 @@ test("asset-clock cuts outside the acquired narration support stop before projec
 });
 
 test("overlapping caller cuts stop before transcript and media work", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-overlap-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-caller-overlap-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const trace = join(directory, "calls.jsonl");
   const output = join(directory, "evidence");
@@ -351,7 +351,7 @@ test("overlapping caller cuts stop before transcript and media work", (t) => {
     ],
     {
       encoding: "utf8",
-      env: { ...process.env, SCREENREC_CALLER_TRACE: trace, SCREENREC_CALLER_OUT: output },
+      env: { ...process.env, YAP_CALLER_TRACE: trace, YAP_CALLER_OUT: output },
     },
   );
 
@@ -375,7 +375,7 @@ test("overlapping caller cuts stop before transcript and media work", (t) => {
 });
 
 test("personal release keeps search evidence separate from its explicit source-range edit", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-flow-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-caller-flow-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const trace = join(directory, "calls.jsonl");
   const output = join(directory, "evidence");
@@ -407,8 +407,8 @@ test("personal release keeps search evidence separate from its explicit source-r
       encoding: "utf8",
       env: {
         ...process.env,
-        SCREENREC_CALLER_TRACE: trace,
-        SCREENREC_CALLER_OUT: output,
+        YAP_CALLER_TRACE: trace,
+        YAP_CALLER_OUT: output,
       },
     },
   );

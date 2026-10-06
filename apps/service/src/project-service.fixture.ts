@@ -5,8 +5,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { expect } from "vitest";
-import { callLocal } from "@screenrec/client";
-import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
+import { callLocal } from "@yap/client";
+import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@yap/protocol";
 import { startProjectService } from "./project-service.js";
 import type { MediaWorker } from "./worker.js";
 import { PassThrough } from "node:stream";
@@ -16,7 +16,7 @@ import {
   JsonLineStream,
   type ControlMessage,
   type ControlResponse,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 
 /** The same framed pipe and socket composition as the native host, with observable write completion. */
 export async function projectServiceControlFixture(

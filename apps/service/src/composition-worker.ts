@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { open, unlink } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
+import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@yap/protocol";
 import type { MediaWorker } from "./worker.js";
 
 /** Large compiled plans share the attempt lifetime; control framing stays bounded. */

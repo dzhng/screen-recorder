@@ -81,12 +81,12 @@ test("compiler stalls and MCP errors follow owned teardown", async () => {
   const { join } = await import("node:path");
   const { setTimeout: delay } = await import("node:timers/promises");
   for (const mode of ["compiler", "mcp"]) {
-    const fixture = mkdtempSync(join(tmpdir(), "screenrec-launcher-failure-"));
+    const fixture = mkdtempSync(join(tmpdir(), "yap-launcher-failure-"));
     const marker = join(fixture, "child.json");
     const cli = `import fs from 'node:fs';
 if(process.argv.includes('--help')) console.log(JSON.stringify({operations:[{name:'service.health'}]}));
 else {
-fs.writeFileSync(${JSON.stringify(marker)},JSON.stringify({pid:process.pid,scratch:process.env.SCREENREC_APP.split('/Relocated with spaces/')[0]}));
+fs.writeFileSync(${JSON.stringify(marker)},JSON.stringify({pid:process.pid,scratch:process.env.YAP_APP.split('/Relocated with spaces/')[0]}));
 let input=''; process.stdin.on('data',bytes=> {input+=bytes; if(input.includes('"id":2')) console.log(JSON.stringify({jsonrpc:'2.0',id:2,error:{code:-32603,message:'controlled failure'}}));});
 setInterval(()=>{},1000);
 }`;

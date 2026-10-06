@@ -8,7 +8,7 @@ import {
   type TextSeed,
   type TextSeedCue,
   type ValidatedComposition,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { CatalogError } from "./catalog.js";
 import { TranscriptStore, transcriptGenerationResource } from "./transcript.js";
 import type { ResourceReference } from "./references.js";

@@ -3,8 +3,8 @@ import { link, mkdtemp, open, rm } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { z } from "zod";
-import { callLocal, resolveServiceSocket, type ServiceSelection } from "@screenrec/client";
-import { ARTIFACT_CHUNK_BYTES, resultSchema, type OperationResponse } from "@screenrec/protocol";
+import { callLocal, resolveServiceSocket, type ServiceSelection } from "@yap/client";
+import { ARTIFACT_CHUNK_BYTES, resultSchema, type OperationResponse } from "@yap/protocol";
 
 export const batchReferences = new Map<string, "atUs" | "ordinal">([
   ["frame.batch", "atUs"],
@@ -241,10 +241,10 @@ export async function artifactFile(
       const output = destination
         ? resolve(destination)
         : join(
-            (ownedDirectory = await mkdtemp(join(tmpdir(), "screenrec-media-"))),
+            (ownedDirectory = await mkdtemp(join(tmpdir(), "yap-media-"))),
             names[info.mediaType],
           );
-      const staging = await mkdtemp(join(dirname(output), ".screenrec-media-"));
+      const staging = await mkdtemp(join(dirname(output), ".yap-media-"));
       try {
         const file = await open(join(staging, "media"), "wx", 0o600);
         try {

@@ -13,7 +13,7 @@ import { sourceIndexDomain } from "../../../packages/core/dist/source-index.js";
 import { selectSource } from "../../../packages/core/dist/source-selection.js";
 
 function fixture(t) {
-  const home = mkdtempSync("/tmp/screenrec-scale-metrics-lock-");
+  const home = mkdtempSync("/tmp/yap-scale-metrics-lock-");
   const database = join(home, "catalog.sqlite");
   const catalog = new Catalog(database);
   new DerivedCache(catalog, home, () => {});

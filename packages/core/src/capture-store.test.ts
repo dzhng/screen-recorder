@@ -8,7 +8,7 @@ import { CaptureStore } from "./capture-store.js";
 const roots: string[] = [];
 const stores: CaptureStore[] = [];
 function fixture() {
-  const root = mkdtempSync(join(tmpdir(), "screenrec-capture-facts-"));
+  const root = mkdtempSync(join(tmpdir(), "yap-capture-facts-"));
   roots.push(root);
   let id = 0;
   const path = join(root, "catalog.sqlite");

@@ -1,6 +1,6 @@
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import { CaptureStore } from "@screenrec/core/capture-store";
+import { CaptureStore } from "@yap/core/capture-store";
 import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { JsonLineStream, CONTROL_FRAME_BYTES } from "../../../../packages/protocol/dist/index.js";
 const main = fileURLToPath(new URL("../../../service/dist/main.js", import.meta.url));
 const cli = fileURLToPath(new URL("../../../cli/dist/main.js", import.meta.url));
@@ -23,16 +23,16 @@ export async function until(read, message, timeoutMs = 15_000) {
 }
 export async function startPublicService(
   home,
-  native = process.env.SCREENREC_NATIVE ??
+  native = process.env.YAP_NATIVE ??
     fileURLToPath(
-      new URL("../../../../helpers/mac/.build/debug/screenrec-native", import.meta.url),
+      new URL("../../../../helpers/mac/.build/debug/yap-native", import.meta.url),
     ),
 ) {
   const child = spawn(process.execPath, [main], {
     cwd: "/",
     detached: true,
     stdio: ["pipe", "pipe", "pipe"],
-    env: { ...process.env, SCREENREC_HOME: home, SCREENREC_NATIVE: native },
+    env: { ...process.env, YAP_HOME: home, YAP_NATIVE: native },
   });
   const terminal = new Promise((resolve) =>
     child.once("close", (code, signal) => resolve({ code, signal })),

@@ -13,7 +13,7 @@ import { skillCaseFiles } from "./runtime/skills.mjs";
 
 const directory = dirname(fileURLToPath(import.meta.url));
 const root = resolve(directory, "..");
-const image = "screenrec-evals:local";
+const image = "yap-evals:local";
 const cases = JSON.parse(await readFile(join(directory, "cases.json"), "utf8"));
 const { values } = parseArgs({
   options: {
@@ -88,7 +88,7 @@ async function saveSummary() {
   await writeFile(join(output, "summary.json"), JSON.stringify(summary, null, 2) + "\n");
 }
 async function skillFiles() {
-  const source = join(root, "skills/screenrec");
+  const source = join(root, "skills/yap");
   const files = {};
   for (const entry of await readdir(source, { recursive: true, withFileTypes: true }))
     if (entry.isFile()) {
@@ -164,8 +164,8 @@ try {
         const name = `${testCase.id}-${agent}-${trial}`;
         console.log(`Running ${name}`);
         const target = testCase.readme
-          ? "work/skills/screenrec"
-          : `work/${agent === "codex" ? ".agents" : ".claude"}/skills/screenrec`;
+          ? "work/skills/yap"
+          : `work/${agent === "codex" ? ".agents" : ".claude"}/skills/yap`;
         const files = Object.fromEntries(
           Object.entries(skill).map(([path, bytes]) => [`${target}/${path}`, bytes]),
         );
@@ -174,8 +174,8 @@ try {
           Object.assign(files, skillCaseFiles(skill, testCase.fixture));
         if (testCase.readme) {
           const prefix = testCase.fixture?.startsWith("skill-")
-            ? "work/upstream/skills/screenrec/"
-            : "work/skills/screenrec/";
+            ? "work/upstream/skills/yap/"
+            : "work/skills/yap/";
           files["work/SOURCE.json"] = JSON.stringify({
             kind: "complete controlled consumer-source mirror; acquisition only",
             sourceRevision: summary.sourceRevision,

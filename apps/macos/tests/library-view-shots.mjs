@@ -6,9 +6,9 @@ import { join, resolve } from "node:path";
 import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 
 // Library presentation only: synthetic observations, native controls, no service or activation.
-const output = resolve(process.env.SHOTS ?? "/tmp/screenrec-library-view-shots");
+const output = resolve(process.env.SHOTS ?? "/tmp/yap-library-view-shots");
 mkdirSync(output, { recursive: true });
-const scratch = mkdtempSync(join(tmpdir(), "screenrec-library-view-"));
+const scratch = mkdtempSync(join(tmpdir(), "yap-library-view-"));
 try {
   writeFileSync(
     join(output, "source-revision.json"),
@@ -17,10 +17,10 @@ try {
         revision: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
         hashes: Object.fromEntries(
           [
-            "Sources/ScreenRecorder/LibraryView.swift",
-            "Sources/ScreenRecorderControls/LibraryPresentation.swift",
-            "Sources/ScreenRecorderControls/ExportPresentation.swift",
-            "Sources/ScreenRecorderControls/SavedItem.swift",
+            "Sources/Yap/LibraryView.swift",
+            "Sources/YapControls/LibraryPresentation.swift",
+            "Sources/YapControls/ExportPresentation.swift",
+            "Sources/YapControls/SavedItem.swift",
             "tests/fixtures/library-view.swift",
           ].map((path) => [
             path,

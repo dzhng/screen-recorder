@@ -1,8 +1,8 @@
 @preconcurrency import AVFoundation
 import Darwin
 import Foundation
-import ScreenRecorderAudio
-import ScreenRecorderMedia
+import YapAudio
+import YapMedia
 
 func verifyDescriptorLifetime(source: URL, parent: URL) async throws {
     let directory = parent.appendingPathComponent("descriptor-lifetime-\(UUID().uuidString)")

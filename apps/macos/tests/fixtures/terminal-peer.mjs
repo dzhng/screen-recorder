@@ -5,7 +5,7 @@ import { createInterface } from "node:readline";
 import { randomUUID } from "node:crypto";
 
 // The service boundary is held; capture/controller/writers in the app remain real.
-const home = process.env.SCREENREC_HOME;
+const home = process.env.YAP_HOME;
 const socketPath = join(home, "run", "service.sock");
 mkdirSync(join(home, "run"), { recursive: true });
 const pending = new Map();

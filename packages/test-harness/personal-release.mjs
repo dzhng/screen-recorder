@@ -16,7 +16,7 @@ import {
   round,
   subtract,
   toTime,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import {
   mkdirSync,
   mkdtempSync,
@@ -34,12 +34,12 @@ const { values } = parseArgs({
   options: {
     recording: { type: "string" },
     out: { type: "string" },
-    cli: { type: "string", default: join(homedir(), ".local", "bin", "screenrec") },
+    cli: { type: "string", default: join(homedir(), ".local", "bin", "yap") },
     phrase: { type: "string", default: "this is free" },
     "edit-plan": { type: "string" },
   },
 });
-const out = values.out ?? mkdtempSync("/tmp/screenrec-journey-");
+const out = values.out ?? mkdtempSync("/tmp/yap-journey-");
 mkdirSync(out, { recursive: true });
 const report = { startedAt: new Date().toISOString(), steps: [] };
 const step = (name, detail) => {
@@ -105,7 +105,7 @@ function workerResidentBytes() {
   let peak = 0;
   for (const line of listed.split("\n")) {
     const match = line.trim().match(/^(\d+)\s+(.*)$/);
-    if (match && match[2].includes("screenrec-native"))
+    if (match && match[2].includes("yap-native"))
       peak = Math.max(peak, Number(match[1]) * 1024);
   }
   return peak;
@@ -636,7 +636,7 @@ const main = async () => {
 
   // Relocation: adoption gives the moved package a fresh durable project identity.
   // Opening a package refuses symlinked path components, and /tmp is one.
-  const moved = join(realpathSync(mkdtempSync("/tmp/screenrec-moved-")), "relocated.zip");
+  const moved = join(realpathSync(mkdtempSync("/tmp/yap-moved-")), "relocated.zip");
   renameSync(exports["processed-package"].output, moved);
   const admission = call("package.open", { path: moved });
   // Whatever happens from here, the service must not be left holding this package open with its

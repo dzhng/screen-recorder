@@ -1,5 +1,5 @@
 import AppKit
-import ScreenRecorderControls
+import YapControls
 
 @main struct CaptureViewCheck {
     @MainActor static func main() {

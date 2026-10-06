@@ -9,14 +9,14 @@ test("a corrupt published ZIP is rejected before its CLI can execute", () => {
     JSON.stringify({ tag: "v1.2.3", architecture: "arm64", platform: "macOS" }),
   );
   const sum = (bytes) => createHash("sha256").update(bytes).digest("hex");
-  const checksums = `${sum(original)}  ScreenRecorder-v1.2.3-macos-arm64.zip\n${sum(receipt)}  release.json\n`;
+  const checksums = `${sum(original)}  Yap-v1.2.3-macos-arm64.zip\n${sum(receipt)}  release.json\n`;
   assert.throws(
     () =>
       verifyRelease({
         archive: Buffer.from("corrupt archive"),
         receipt,
         checksums,
-        archiveName: "ScreenRecorder-v1.2.3-macos-arm64.zip",
+        archiveName: "Yap-v1.2.3-macos-arm64.zip",
         tag: "v1.2.3",
       }),
     /Checksum mismatch/,

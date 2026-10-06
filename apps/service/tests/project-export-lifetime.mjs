@@ -13,7 +13,7 @@ import {
   chmod,
   realpath,
 } from "node:fs/promises";
-import { ResourceReferences } from "@screenrec/core/references";
+import { ResourceReferences } from "@yap/core/references";
 import { fixture, gate } from "./fixtures/project-export.mjs";
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
@@ -47,7 +47,7 @@ test("project deletion needs no removed, moved or replaced export destination", 
   );
   await rm(directories[0], { recursive: true });
   await rm(directories[1], { recursive: true });
-  const foreign = join(directories[2], ".screenrec-export-" + ids[2]);
+  const foreign = join(directories[2], ".yap-export-" + ids[2]);
   await rename(directories[2], directories[2] + "-original");
   directories.push(directories[2] + "-original");
   await mkdir(foreign, { recursive: true, mode: 0o700 });
@@ -245,7 +245,7 @@ test("one unsafe export staging entry does not prevent retiring independent inte
     });
     await f.jobs.idle();
   }
-  const stage = join(f.output, ".screenrec-export-" + ids[0]);
+  const stage = join(f.output, ".yap-export-" + ids[0]);
   await rename(stage, stage + "-original");
   await mkdir(stage, { mode: 0o700 });
   await writeFile(join(stage, "sentinel"), "keep");
@@ -262,7 +262,7 @@ test("one unsafe export staging entry does not prevent retiring independent inte
     [discovered.state, discovered.abandoning, discovered.cleanupPending],
   );
   assert.equal(await readFile(join(stage, "sentinel"), "utf8"), "keep");
-  await assert.rejects(readdir(join(f.output, ".screenrec-export-" + ids[1])), {
+  await assert.rejects(readdir(join(f.output, ".yap-export-" + ids[1])), {
     code: "ENOENT",
   });
 });
@@ -621,7 +621,7 @@ test("unsafe package staging keeps abandonment fence resource pins and capacity 
   await f.exports.create(request);
   await f.jobs.idle();
   assert.equal(f.exports.status(request.exportId).state, "failed");
-  const stage = join(f.output, ".screenrec-export-" + request.exportId),
+  const stage = join(f.output, ".yap-export-" + request.exportId),
     saved = stage + "-saved",
     substitute = stage + "-substitute";
   await rename(stage, saved);

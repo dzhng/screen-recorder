@@ -1,13 +1,13 @@
 import { setImmediate } from "node:timers/promises";
-import { CatalogError } from "@screenrec/core/catalog";
-import type { ProjectStore } from "@screenrec/core/projects";
-import type { DerivedCache } from "@screenrec/core/cache";
+import { CatalogError } from "@yap/core/catalog";
+import type { ProjectStore } from "@yap/core/projects";
+import type { DerivedCache } from "@yap/core/cache";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { MediaExports } from "./exports.js";
 import type { ManagedFiles } from "./managed-files.js";
-import type { JobQueue } from "@screenrec/core/jobs";
-import type { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
-import type { ProjectIndexRecords } from "@screenrec/core/project-index";
+import type { JobQueue } from "@yap/core/jobs";
+import type { ScreenshotIndexStore } from "@yap/core/screenshot-index";
+import type { ProjectIndexRecords } from "@yap/core/project-index";
 
 type Deleted = { projectId: string; deleted: true };
 

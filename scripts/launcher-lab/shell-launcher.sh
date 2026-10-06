@@ -1,4 +1,4 @@
 #!/bin/sh
-app=${SCREENREC_APP:-"$HOME/Applications/Screen Recorder.app"}
-export SCREENREC_APP="$app"
+app=${YAP_APP:-"$HOME/Applications/Yap.app"}
+export YAP_APP="$app"
 exec "$app/Contents/Resources/node/bin/node" "$app/Contents/Resources/cli/main.mjs" "$@"

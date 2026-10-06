@@ -6,7 +6,7 @@ import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, root } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Use an explicitly frozen native worker");
+assert.ok(process.env.YAP_NATIVE, "Use an explicitly frozen native worker");
 const out = values.out
   ? resolve(values.out)
   : await mkdtemp(join(tmpdir(), "audio-taps-evidence-"));
@@ -193,7 +193,7 @@ try {
   const source = join(out, "phase-stereo.wav");
   await writeFile(source, wave());
   report.sourceSha256 = hash(await readFile(source));
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   await service.start();
   async function admit(path, requestId) {
     const status = await call("asset.import", { requestId, path });

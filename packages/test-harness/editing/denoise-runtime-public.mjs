@@ -11,7 +11,7 @@ import { gunzipSync } from "node:zlib";
 import { JourneyService, hash, poll, root } from "./source-evidence-fixture.mjs";
 import { waveHeader } from "./audio-project-fixture.mjs";
 
-const priorUnavailableOperations = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
+const priorUnavailableOperations = process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
 const { values } = parseArgs({
   options: {
     out: { type: "string" },
@@ -25,7 +25,7 @@ assert(
   values.out &&
     (values.source || values["post-retime"] || values.follow) &&
     values.reference &&
-    process.env.SCREENREC_NATIVE,
+    process.env.YAP_NATIVE,
 );
 assert(!(values["post-retime"] && values.follow), "Choose one fixture mode");
 const captured = values["post-retime"] || values.follow;
@@ -39,7 +39,7 @@ const report = {
   ...(captured ? { exchanges: [] } : {}),
   checks: {},
   receipts: [],
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   harnessSha256: hash(await readFile(import.meta.filename)),
   referenceSha256: hash(await readFile(resolve(values.reference))),
   scope: values.follow
@@ -797,7 +797,7 @@ async function unitRateJourney() {
     cancelAndCleanupMs: performance.now() - cancelAt,
   };
   await service.stop();
-  process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
+  process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
     "media.audioCapabilities",
     "media.mixCompositionAudio",
   ]);
@@ -838,7 +838,7 @@ async function unitRateJourney() {
   );
   assert.equal(refusal.code, "NOT_READY");
   await service.stop();
-  process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify(["media.audioCapabilities"]);
+  process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify(["media.audioCapabilities"]);
   await service.start();
   await projectAudio(
     transitions.initial,
@@ -891,8 +891,8 @@ try {
   report.passed = true;
 } finally {
   if (priorUnavailableOperations === undefined)
-    delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
-  else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
+    delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
   try {
     await service.stop();
     await writeFile(join(out, "service.log"), service.logs.join("\n"));

@@ -6,7 +6,7 @@ import {
   ceil,
   type SignedTimeValue,
   type TimeValue,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { z } from "zod";
 import { ResourceReferences } from "./references.js";
 import { isDeepStrictEqual } from "node:util";
@@ -26,7 +26,7 @@ import {
 
 import { normalizeSourceSceneChunk, type SourceSceneChunk } from "./source-scene-chunks.js";
 import { sourceScenePolicy, sceneSampleSourceTime } from "./source-scenes.js";
-import { compare, fromTime } from "@screenrec/composition";
+import { compare, fromTime } from "@yap/composition";
 import type { TimeRange } from "./presentation-time.js";
 
 export type SceneOwner = Extract<JobOwner, { kind: "recording" | "asset" }>;

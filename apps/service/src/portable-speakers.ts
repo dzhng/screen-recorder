@@ -1,16 +1,16 @@
 import { createHash } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
-import { acquisitionContext } from "@screenrec/core/acquisitions";
-import { CatalogError } from "@screenrec/core/catalog";
-import { projectCompositionFromRevision } from "@screenrec/core/project-window";
-import { sourceSelectionKey, type SourceSelection } from "@screenrec/core/source-selection";
-import { selectSpeakerChannel } from "@screenrec/core/source-speakers";
+import { acquisitionContext } from "@yap/core/acquisitions";
+import { CatalogError } from "@yap/core/catalog";
+import { projectCompositionFromRevision } from "@yap/core/project-window";
+import { sourceSelectionKey, type SourceSelection } from "@yap/core/source-selection";
+import { selectSpeakerChannel } from "@yap/core/source-speakers";
 import {
   speakerOperandRecords,
   speakerGenerationResource,
   type SpeakerEvidenceMetadata,
   type SpeakerEvidenceStore,
-} from "@screenrec/core/speaker-evidence";
+} from "@yap/core/speaker-evidence";
 import {
   initialProjectSpeakers,
   mergeSpeakers,
@@ -18,21 +18,21 @@ import {
   projectSpeakerTracks,
   type ProjectSpeakerPosition,
   type ProjectSpeakerRow,
-} from "@screenrec/core/project-speakers";
+} from "@yap/core/project-speakers";
 import type {
   EvidenceCheckpoint,
   EvidenceManifest,
   ProjectEvidenceCursor,
   ProjectSpeakerInput,
-} from "@screenrec/core/project-evidence";
-import type { PortableResource, ValidatedProjectPackage } from "@screenrec/core/project-package";
-import type { FileAccess } from "@screenrec/core/files";
+} from "@yap/core/project-evidence";
+import type { PortableResource, ValidatedProjectPackage } from "@yap/core/project-package";
+import type { FileAccess } from "@yap/core/files";
 import {
   createSourceRangeProjection,
   rangeSchema,
   toTime,
   type ExactRange,
-} from "@screenrec/composition";
+} from "@yap/composition";
 
 type Context = { manifest: ValidatedProjectPackage; files: FileAccess };
 export type PortableSpeakerCheckpoint = {

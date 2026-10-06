@@ -6,7 +6,7 @@ import {
   ceil,
   type TimeValue,
   type ProjectCut,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import {
   initialSourceEvents,
   SourceEvents,

@@ -68,7 +68,7 @@ function run(command, args) {
   assert.ifError(result.error);
   return result;
 }
-let binary = process.env.SCREENREC_CAMERA_PROBE;
+let binary = process.env.YAP_CAMERA_PROBE;
 if (!binary) {
   const build = run("swift", [
     "build",

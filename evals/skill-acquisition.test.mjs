@@ -9,7 +9,7 @@ test("documented Git-free acquisition pins every recursive fetch and rejects una
   const scratch = await mkdtemp(join(tmpdir(), "skill-api-"));
   try {
     const guide = await readFile(
-      new URL("../skills/screenrec/references/skill-lifecycle.md", import.meta.url),
+      new URL("../skills/yap/references/skill-lifecycle.md", import.meta.url),
       "utf8",
     );
     const script = guide.match(
@@ -24,13 +24,13 @@ test("documented Git-free acquisition pins every recursive fetch and rejects una
       globalThis.fetch = async (url) => {
         if (process.env.FIXTURE_UNAVAILABLE) return new Response('unavailable', {status:503});
         if (url.endsWith('/commits/main')) return Response.json({sha});
-        if (url.endsWith('/contents/skills/screenrec?ref='+sha)) return Response.json([
-          {type:'file',name:'SKILL.md',path:'skills/screenrec/SKILL.md'},
-          {type:process.env.FIXTURE_INCOMPLETE?'symlink':'dir',name:'references',path:'skills/screenrec/references'}
+        if (url.endsWith('/contents/skills/yap?ref='+sha)) return Response.json([
+          {type:'file',name:'SKILL.md',path:'skills/yap/SKILL.md'},
+          {type:process.env.FIXTURE_INCOMPLETE?'symlink':'dir',name:'references',path:'skills/yap/references'}
         ]);
-        if (url.endsWith('/contents/skills/screenrec/references?ref='+sha)) return Response.json([{type:'file',name:'installation.md',path:'skills/screenrec/references/installation.md'}]);
-        if (url.endsWith('/'+sha+'/skills/screenrec/SKILL.md')) return new Response('complete skill');
-        if (url.endsWith('/'+sha+'/skills/screenrec/references/installation.md')) return new Response('complete reference');
+        if (url.endsWith('/contents/skills/yap/references?ref='+sha)) return Response.json([{type:'file',name:'installation.md',path:'skills/yap/references/installation.md'}]);
+        if (url.endsWith('/'+sha+'/skills/yap/SKILL.md')) return new Response('complete skill');
+        if (url.endsWith('/'+sha+'/skills/yap/references/installation.md')) return new Response('complete reference');
         throw new Error('Unpinned or unexpected fetch: '+url);
       };
     `,
@@ -38,14 +38,14 @@ test("documented Git-free acquisition pins every recursive fetch and rejects una
     const execute = (extra = {}) =>
       spawnSync(process.execPath, ["--import", preload, "--input-type=module", "-"], {
         input: script,
-        env: { ...process.env, SCREENREC_SKILL_STAGE: scratch, ...extra },
+        env: { ...process.env, YAP_SKILL_STAGE: scratch, ...extra },
         encoding: "utf8",
       });
     const success = execute();
     assert.equal(success.status, 0, success.stderr);
     assert.equal(await readFile(join(scratch, "source-commit.txt"), "utf8"), sha + "\n");
     assert.equal(
-      await readFile(join(scratch, "screenrec/references/installation.md"), "utf8"),
+      await readFile(join(scratch, "yap/references/installation.md"), "utf8"),
       "complete reference",
     );
     const unavailable = execute({ FIXTURE_UNAVAILABLE: "1" });

@@ -1,4 +1,4 @@
-import { ceil, fromTime, type TimeValue, type SelectionRange } from "@screenrec/composition";
+import { ceil, fromTime, type TimeValue, type SelectionRange } from "@yap/composition";
 import { SourceIndexStillness, sourceIndexPoints } from "./source-index-equality.js";
 import { waitForIndexFrame, retainIndexFrame } from "./index-frame.js";
 import { CatalogError } from "./catalog.js";

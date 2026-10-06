@@ -19,10 +19,10 @@ import { fileURLToPath } from "node:url";
 import { applyBatch, createCompiler, validateComposition } from "../../composition/dist/index.js";
 
 assert.equal(process.argv.slice(2).join(" "), "--case music-and-replacement");
-const worker = process.env.SCREENREC_NATIVE;
-assert(worker, "Set SCREENREC_NATIVE to the built native worker");
-const baseline = process.env.SCREENREC_BASELINE_NATIVE;
-assert(baseline, "Set SCREENREC_BASELINE_NATIVE to the frozen pre-cutover worker");
+const worker = process.env.YAP_NATIVE;
+assert(worker, "Set YAP_NATIVE to the built native worker");
+const baseline = process.env.YAP_BASELINE_NATIVE;
+assert(baseline, "Set YAP_BASELINE_NATIVE to the frozen pre-cutover worker");
 const pin = frozenWorkers.files.find(
   (entry) => entry.scope === "canonical worker used by retained package/native/archive proofs",
 );
@@ -602,10 +602,10 @@ try {
   evidence.checks.push(
     "simultaneous44.1k mono and48k stereo sum exactly after resampling, retaining fractional window and split phase",
   );
-  if (process.env.SCREENREC_RATE_EVIDENCE)
+  if (process.env.YAP_RATE_EVIDENCE)
     evidence.mixedCodecRates = verifyMixedCodecRates({
-      out: process.env.SCREENREC_RATE_EVIDENCE,
-      cohort: process.env.SCREENREC_RATE_COHORT,
+      out: process.env.YAP_RATE_EVIDENCE,
+      cohort: process.env.YAP_RATE_COHORT,
       worker,
       fixture,
       sources,
@@ -927,7 +927,7 @@ try {
     const deadline = Date.now() + 10000;
     while (Date.now() < deadline && !terminal) {
       began = readdirSync(scratch)
-        .filter((name) => name.startsWith(".screenrec-output-"))
+        .filter((name) => name.startsWith(".yap-output-"))
         .some((name) => {
           const file = join(scratch, name, "mix.wav");
           return existsSync(file) && statSync(file).size > 100000;

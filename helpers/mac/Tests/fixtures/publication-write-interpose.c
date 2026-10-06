@@ -7,7 +7,7 @@
 // Abruptly end the actual worker after a partial receipt write, without production test hooks.
 static ssize_t interrupted_receipt_write(int fd, const void *bytes, size_t count) {
     char path[PATH_MAX];
-    const char *mode = getenv("SCREENREC_RECEIPT_FAULT");
+    const char *mode = getenv("YAP_RECEIPT_FAULT");
     if ((!mode || strcmp(mode, "after-link")) && count && fcntl(fd, F_GETPATH, path) == 0) {
         const char *leaf = strrchr(path, '/');
         if (leaf && (!strcmp(leaf + 1, "prepared.json") || !strcmp(leaf + 1, "receipt.pending"))) {
@@ -25,7 +25,7 @@ __attribute__((used)) static struct {
 };
 
 static int interrupted_pending_unlink(int parent, const char *name, int flags) {
-    const char *mode = getenv("SCREENREC_RECEIPT_FAULT");
+    const char *mode = getenv("YAP_RECEIPT_FAULT");
     if (mode && !strcmp(mode, "after-link") && !strcmp(name, "receipt.pending")) _exit(86);
     return unlinkat(parent, name, flags);
 }

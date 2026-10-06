@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, root, hash, poll, run } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({ options: { out: { type: "string" }, fixture: { type: "string" } } });
-assert(values.out && values.fixture && process.env.SCREENREC_NATIVE);
+assert(values.out && values.fixture && process.env.YAP_NATIVE);
 let out = resolve(values.out);
 const scratch = await mkdtemp("/tmp/ca-");
 await mkdir(out, { recursive: false });
@@ -15,7 +15,7 @@ const report = {
   passed: false,
   trace: [],
   checks: {},
-  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const save = (name, value) => writeFile(join(out, name), JSON.stringify(value, null, 2) + "\n");
 async function resourceFile(directory, manifest, kind, id) {

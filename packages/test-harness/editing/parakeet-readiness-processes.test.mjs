@@ -15,7 +15,7 @@ async function control(
   expectedCode = 1,
   deadlineMs,
 ) {
-  const base = process.env.SCREENREC_READINESS_CONTROLS_OUT;
+  const base = process.env.YAP_READINESS_CONTROLS_OUT;
   const directory = base ? join(base, name) : await mkdtemp(join(tmpdir(), "readiness-control-"));
   await mkdir(directory, { recursive: true });
   await writeFile(join(directory, "service.mjs"), serviceSource);
@@ -23,8 +23,8 @@ async function control(
   await writeFile(
     join(directory, "observer.mjs"),
     `import {appendFileSync} from 'node:fs';import {pathToFileURL} from 'node:url';
-process.on('exit',code=>appendFileSync(process.env.SCREENREC_READINESS_CLI_LOG,JSON.stringify({pid:process.pid,code})+'\\n'));
-await import(pathToFileURL(process.env.SCREENREC_READINESS_CLI).href);`,
+process.on('exit',code=>appendFileSync(process.env.YAP_READINESS_CLI_LOG,JSON.stringify({pid:process.pid,code})+'\\n'));
+await import(pathToFileURL(process.env.YAP_READINESS_CLI).href);`,
   );
   await writeFile(
     join(directory, "driver.mjs"),

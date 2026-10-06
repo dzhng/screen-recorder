@@ -20,13 +20,13 @@ jobs:
     runs-on: macos-26
     timeout-minutes: 40
     env:
-      SCREENREC_RELEASE_BUILD: "1"
-      SCREENREC_RELEASE_IDENTITY_P12: ${{ secrets.SCREENREC_RELEASE_IDENTITY_P12 }}
-      SCREENREC_RELEASE_IDENTITY_PASSWORD: ${{ secrets.SCREENREC_RELEASE_IDENTITY_PASSWORD }}
-      SCREENREC_SPARKLE_PRIVATE_KEY: ${{ secrets.SCREENREC_SPARKLE_PRIVATE_KEY }}
-      SCREENREC_RELEASE_IDENTITY_SHA1: ${{ vars.SCREENREC_RELEASE_IDENTITY_SHA1 }}
-      SCREENREC_RELEASE_CERTIFICATE_SHA256: ${{ vars.SCREENREC_RELEASE_CERTIFICATE_SHA256 }}
-      SCREENREC_SPARKLE_PUBLIC_KEY: ${{ vars.SCREENREC_SPARKLE_PUBLIC_KEY }}
+      YAP_RELEASE_BUILD: "1"
+      YAP_RELEASE_IDENTITY_P12: ${{ secrets.YAP_RELEASE_IDENTITY_P12 }}
+      YAP_RELEASE_IDENTITY_PASSWORD: ${{ secrets.YAP_RELEASE_IDENTITY_PASSWORD }}
+      YAP_SPARKLE_PRIVATE_KEY: ${{ secrets.YAP_SPARKLE_PRIVATE_KEY }}
+      YAP_RELEASE_IDENTITY_SHA1: ${{ vars.YAP_RELEASE_IDENTITY_SHA1 }}
+      YAP_RELEASE_CERTIFICATE_SHA256: ${{ vars.YAP_RELEASE_CERTIFICATE_SHA256 }}
+      YAP_SPARKLE_PUBLIC_KEY: ${{ vars.YAP_SPARKLE_PUBLIC_KEY }}
     outputs:
       revision: ${{ steps.source.outputs.revision }}
     steps:
@@ -59,7 +59,7 @@ jobs:
       - name: Build app and its dependencies
         run: |
           bun install --frozen-lockfile
-          bunx turbo run build --filter=@screenrec/macos --concurrency=1
+          bunx turbo run build --filter=@yap/macos --concurrency=1
       - name: Package and verify relocated release
         run: |
           node scripts/release.mjs package "$RELEASE_TAG"

@@ -1,6 +1,6 @@
 import Foundation
 import Darwin
-import ScreenRecorderStretch
+import YapStretch
 
 // Offline caller proof: scratch output is removed on failure, linked only on success.
 func run() throws {

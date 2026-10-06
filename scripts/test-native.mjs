@@ -5,9 +5,9 @@ import { withEvidenceDirectory } from "../helpers/mac/Tests/fixtures/evidence-di
 
 const [product, ...args] = process.argv.slice(2);
 const key = {
-  ScreenRecorderFrameTests: "SCREENREC_FRAME_EVIDENCE",
-  ScreenRecorderSourceAudioTests: "SCREENREC_SOURCE_AUDIO_EVIDENCE",
-  ScreenRecorderSelectedAudioTests: "SCREENREC_SELECTED_AUDIO_EVIDENCE",
+  YapFrameTests: "YAP_FRAME_EVIDENCE",
+  YapSourceAudioTests: "YAP_SOURCE_AUDIO_EVIDENCE",
+  YapSelectedAudioTests: "YAP_SELECTED_AUDIO_EVIDENCE",
 }[product];
 if (!key) throw Error("Select a native test product with an evidence directory");
 const packagePath = fileURLToPath(new URL("../helpers/mac/", import.meta.url));

@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "screen-recorder",
+      "name": "yap",
       "devDependencies": {
         "@types/node": "24.13.4",
         "oxfmt": "0.68.0",
@@ -14,90 +14,90 @@
       },
     },
     "apps/cli": {
-      "name": "@screenrec/cli",
+      "name": "@yap/cli",
       "bin": {
-        "screenrec": "dist/main.js",
+        "yap": "dist/main.js",
       },
       "dependencies": {
         "@modelcontextprotocol/sdk": "1.30.0",
-        "@screenrec/client": "workspace:*",
-        "@screenrec/protocol": "workspace:*",
+        "@yap/client": "workspace:*",
+        "@yap/protocol": "workspace:*",
         "zod": "4.6.5",
       },
       "devDependencies": {
-        "@screenrec/core": "workspace:*",
-        "@screenrec/service": "workspace:*",
+        "@yap/core": "workspace:*",
+        "@yap/service": "workspace:*",
       },
     },
     "apps/macos": {
-      "name": "@screenrec/macos",
+      "name": "@yap/macos",
       "version": "0.1.4",
       "dependencies": {
-        "@screenrec/service": "workspace:*",
+        "@yap/service": "workspace:*",
       },
       "devDependencies": {
         "@modelcontextprotocol/sdk": "1.30.0",
-        "@screenrec/cli": "workspace:*",
-        "@screenrec/client": "workspace:*",
-        "@screenrec/core": "workspace:*",
+        "@yap/cli": "workspace:*",
+        "@yap/client": "workspace:*",
+        "@yap/core": "workspace:*",
       },
     },
     "apps/service": {
-      "name": "@screenrec/service",
+      "name": "@yap/service",
       "version": "0.0.0",
       "dependencies": {
-        "@screenrec/composition": "workspace:*",
-        "@screenrec/core": "workspace:*",
-        "@screenrec/protocol": "workspace:*",
+        "@yap/composition": "workspace:*",
+        "@yap/core": "workspace:*",
+        "@yap/protocol": "workspace:*",
         "zod": "4.6.5",
       },
       "devDependencies": {
-        "@screenrec/client": "workspace:*",
+        "@yap/client": "workspace:*",
       },
     },
     "apps/workbench": {
-      "name": "@screenrec/workbench",
+      "name": "@yap/workbench",
       "version": "0.0.0",
     },
     "packages/client": {
-      "name": "@screenrec/client",
+      "name": "@yap/client",
       "version": "0.0.0",
       "dependencies": {
-        "@screenrec/protocol": "workspace:*",
+        "@yap/protocol": "workspace:*",
       },
     },
     "packages/composition": {
-      "name": "@screenrec/composition",
+      "name": "@yap/composition",
       "version": "0.0.0",
       "dependencies": {
         "zod": "4.6.5",
       },
     },
     "packages/core": {
-      "name": "@screenrec/core",
+      "name": "@yap/core",
       "version": "0.0.0",
       "dependencies": {
-        "@screenrec/composition": "workspace:*",
+        "@yap/composition": "workspace:*",
         "zod": "4.6.5",
       },
     },
     "packages/protocol": {
-      "name": "@screenrec/protocol",
+      "name": "@yap/protocol",
       "version": "0.0.0",
       "dependencies": {
-        "@screenrec/composition": "workspace:*",
+        "@yap/composition": "workspace:*",
         "zod": "4.6.5",
       },
     },
     "packages/test-harness": {
-      "name": "@screenrec/test-harness",
+      "name": "@yap/test-harness",
       "version": "0.0.0",
       "dependencies": {
         "@modelcontextprotocol/sdk": "1.30.0",
-        "@screenrec/client": "workspace:*",
-        "@screenrec/composition": "workspace:*",
-        "@screenrec/core": "workspace:*",
-        "@screenrec/protocol": "workspace:*",
+        "@yap/client": "workspace:*",
+        "@yap/composition": "workspace:*",
+        "@yap/core": "workspace:*",
+        "@yap/protocol": "workspace:*",
         "zod": "4.6.5",
       },
     },
@@ -223,23 +223,23 @@
 
     "@rolldown/pluginutils": ["@rolldown/pluginutils@1.0.1", "", {}, "sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw=="],
 
-    "@screenrec/cli": ["@screenrec/cli@workspace:apps/cli"],
+    "@yap/cli": ["@yap/cli@workspace:apps/cli"],
 
-    "@screenrec/client": ["@screenrec/client@workspace:packages/client"],
+    "@yap/client": ["@yap/client@workspace:packages/client"],
 
-    "@screenrec/composition": ["@screenrec/composition@workspace:packages/composition"],
+    "@yap/composition": ["@yap/composition@workspace:packages/composition"],
 
-    "@screenrec/core": ["@screenrec/core@workspace:packages/core"],
+    "@yap/core": ["@yap/core@workspace:packages/core"],
 
-    "@screenrec/macos": ["@screenrec/macos@workspace:apps/macos"],
+    "@yap/macos": ["@yap/macos@workspace:apps/macos"],
 
-    "@screenrec/protocol": ["@screenrec/protocol@workspace:packages/protocol"],
+    "@yap/protocol": ["@yap/protocol@workspace:packages/protocol"],
 
-    "@screenrec/service": ["@screenrec/service@workspace:apps/service"],
+    "@yap/service": ["@yap/service@workspace:apps/service"],
 
-    "@screenrec/test-harness": ["@screenrec/test-harness@workspace:packages/test-harness"],
+    "@yap/test-harness": ["@yap/test-harness@workspace:packages/test-harness"],
 
-    "@screenrec/workbench": ["@screenrec/workbench@workspace:apps/workbench"],
+    "@yap/workbench": ["@yap/workbench@workspace:apps/workbench"],
 
     "@turbo/darwin-64": ["@turbo/darwin-64@2.10.13", "", { "os": "darwin", "cpu": "x64" }, "sha512-m5DBcpkxmcKpEJHHFUfqf9GLUjSmw3cDnBJM9nghPW3kjCNb5OyNKmzG7/yT5x5AwzOO+HMwKN+UI4iVKL87YA=="],
 

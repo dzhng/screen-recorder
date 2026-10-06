@@ -19,7 +19,7 @@ import { createInterface } from "node:readline";
 import { once } from "node:events";
 import { randomUUID } from "node:crypto";
 const native =
-  process.env.SCREENREC_NATIVE ?? resolve(import.meta.dirname, "../.build/debug/screenrec-native");
+  process.env.YAP_NATIVE ?? resolve(import.meta.dirname, "../.build/debug/yap-native");
 async function fixture(t) {
   const root = await realpath(await mkdtemp(join(tmpdir(), "managed-files-")));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -221,10 +221,10 @@ for (const cache of [false, true])
       env: {
         ...process.env,
         DYLD_INSERT_LIBRARIES: dylib,
-        SCREENREC_SWAP_NAME: cache ? "derived" : id,
-        SCREENREC_SWAP_FROM: from,
-        SCREENREC_SWAP_SAVE: save,
-        SCREENREC_SWAP_EXTERNAL: outside,
+        YAP_SWAP_NAME: cache ? "derived" : id,
+        YAP_SWAP_FROM: from,
+        YAP_SWAP_SAVE: save,
+        YAP_SWAP_EXTERNAL: outside,
       },
     });
     if (fd !== undefined) closeSync(fd);
@@ -359,8 +359,8 @@ test("native directory identity comparisons preserve inode bits above JavaScript
       env: {
         ...process.env,
         DYLD_INSERT_LIBRARIES: dylib,
-        SCREENREC_ACTUAL_HOME_INO: f.expectedHome.ino,
-        SCREENREC_REPORTED_HOME_INO: "9007199254740993",
+        YAP_ACTUAL_HOME_INO: f.expectedHome.ino,
+        YAP_REPORTED_HOME_INO: "9007199254740993",
       },
     });
     assert.equal(run.status, 0, run.stderr);

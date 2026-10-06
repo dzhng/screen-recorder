@@ -10,10 +10,10 @@ import { mkdtempSync, mkdirSync, writeFileSync, readdirSync, rmSync, linkSync } 
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 
-const engineArgs = process.env.SCREENREC_SPARKLE_FRAMEWORK
+const engineArgs = process.env.YAP_SPARKLE_FRAMEWORK
   ? [
       "--framework",
-      process.env.SCREENREC_SPARKLE_FRAMEWORK,
+      process.env.YAP_SPARKLE_FRAMEWORK,
       "--host-controlled-installation",
       "--retain-public-fixtures",
     ]
@@ -23,9 +23,9 @@ test(
   "an explicit framework input runs its actual bytes and records separate provenance",
   { timeout: 120_000 },
   () => {
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-framework-input-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-framework-input-"));
     try {
-      const distribution = join(tmpdir(), "screenrec-sparkle-2.10.0.tar.xz");
+      const distribution = join(tmpdir(), "yap-sparkle-2.10.0.tar.xz");
       if (!existsSync(distribution)) {
         const prepared = spawnSync(process.execPath, ["scripts/update-lab.mjs", "stopped-launch"], {
           encoding: "utf8",
@@ -79,14 +79,14 @@ for (const tool of ["curl", "clang"])
     `${tool} interruption reaps the setup process and removes partial acquisition`,
     { timeout: 120_000 },
     async () => {
-      const scratch = mkdtempSync(join(tmpdir(), "screenrec-update-download-"));
+      const scratch = mkdtempSync(join(tmpdir(), "yap-update-download-"));
       const bin = join(scratch, "bin");
       mkdirSync(bin);
       const pidFile = join(scratch, "download-pid");
       if (tool === "clang")
         linkSync(
-          join(tmpdir(), "screenrec-sparkle-2.10.0.tar.xz"),
-          join(scratch, "screenrec-sparkle-2.10.0.tar.xz"),
+          join(tmpdir(), "yap-sparkle-2.10.0.tar.xz"),
+          join(scratch, "yap-sparkle-2.10.0.tar.xz"),
         );
       writeFileSync(
         join(bin, tool),
@@ -128,7 +128,7 @@ for (const tool of ["curl", "clang"])
         assert.deepEqual(
           readdirSync(scratch).filter(
             (p) =>
-              p.startsWith("screenrec-sparkle") &&
+              p.startsWith("yap-sparkle") &&
               (tool === "curl" || p.endsWith(".tar.xz") === false),
           ),
           [],

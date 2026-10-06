@@ -3,7 +3,7 @@ import { createServer, type Server } from "node:net";
 import { mkdtemp, mkdir, readFile, rm, writeFile, chmod } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { dirname, join } from "node:path";
-import { serviceRuntimeDirectory, serviceSocketPath } from "@screenrec/protocol";
+import { serviceRuntimeDirectory, serviceSocketPath } from "@yap/protocol";
 import { resolveServiceSocket } from "./discovery.js";
 
 /** Where a service of this personal root listens. */
@@ -119,7 +119,7 @@ async function appBundle(
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
 <key>CFBundleExecutable</key><string>Fixture</string>
-<key>CFBundleIdentifier</key><string>dev.screenrec.fixture.${randomUUID()}</string>
+<key>CFBundleIdentifier</key><string>dev.yap.fixture.${randomUUID()}</string>
 <key>CFBundleName</key><string>Fixture</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>LSUIElement</key><true/>
@@ -133,7 +133,7 @@ async function appBundle(
 const { appendFileSync, mkdirSync } = require("node:fs");
 const { createServer } = require("node:net");
 const { dirname, join } = require("node:path");
-const home = process.env.SCREENREC_HOME ?? "";
+const home = process.env.YAP_HOME ?? "";
 appendFileSync(${JSON.stringify(log)}, process.pid + " " + home + "\\n");
 ${body}
 setTimeout(() => process.exit(0), 20_000);
@@ -179,7 +179,7 @@ it("uses a service that already answers without launching an app", async () => {
   const service = await serve(socketPath);
   const app = await appBundle(SERVES_ITS_HOME);
   expect(
-    await resolveServiceSocket({ env: { SCREENREC_HOME: home, SCREENREC_APP: app.path } }),
+    await resolveServiceSocket({ env: { YAP_HOME: home, YAP_APP: app.path } }),
   ).toBe(socketPath);
   expect(await app.launches()).toEqual([]);
   expect(launcherRuns).toEqual([]);
@@ -190,15 +190,15 @@ it("launches the personal app once and reaches the service it opens for that hom
   const home = await personalHome();
   const app = await appBundle(SERVES_ITS_HOME);
   const socketPath = await resolveServiceSocket({
-    env: { SCREENREC_HOME: home, SCREENREC_APP: app.path },
+    env: { YAP_HOME: home, YAP_APP: app.path },
   });
   expect(socketPath).toBe(socketIn(home));
   expect(await app.launches()).toEqual([home]);
   expect(launcherRuns).toHaveLength(1);
   // The app is started to serve this request, so it opens no window of its own.
-  expect(launcherRuns[0]).toContain("SCREENREC_SERVICE_LAUNCH=1");
+  expect(launcherRuns[0]).toContain("YAP_SERVICE_LAUNCH=1");
   const again = await resolveServiceSocket({
-    env: { SCREENREC_HOME: home, SCREENREC_APP: app.path },
+    env: { YAP_HOME: home, YAP_APP: app.path },
   });
   expect(again).toBe(socketPath);
   expect(await app.launches()).toEqual([home]);
@@ -211,13 +211,13 @@ it("carries the selected scratch preferences into the app it launches", async ()
   const receipt = join(home, "preferences-received.json");
   const app = await appBundle(`
 require("node:fs").writeFileSync(${JSON.stringify(receipt)}, JSON.stringify({
-  preferences: process.env.SCREENREC_DEFAULTS ?? null,
-  serviceLaunch: process.env.SCREENREC_SERVICE_LAUNCH,
+  preferences: process.env.YAP_DEFAULTS ?? null,
+  serviceLaunch: process.env.YAP_SERVICE_LAUNCH,
 }));
 ${SERVES_ITS_HOME}`);
   expect(
     await resolveServiceSocket({
-      env: { SCREENREC_HOME: home, SCREENREC_APP: app.path, SCREENREC_DEFAULTS: preferences },
+      env: { YAP_HOME: home, YAP_APP: app.path, YAP_DEFAULTS: preferences },
     }),
   ).toBe(socketIn(home));
   expect(JSON.parse(await readFile(receipt, "utf8"))).toEqual({
@@ -228,17 +228,17 @@ ${SERVES_ITS_HOME}`);
 
 it.each([
   ["a bundle that is not installed", (app: string) => join(app, "..", "Missing.app")],
-  ["a relative override", () => "ScreenRecorder.app"],
+  ["a relative override", () => "Yap.app"],
 ])("reports %s as an actionable failure instead of looking elsewhere", async (_case, choose) => {
   const home = await personalHome();
   const app = await appBundle(SERVES_ITS_HOME);
-  const SCREENREC_APP = choose(app.path);
+  const YAP_APP = choose(app.path);
   const failure = await resolveServiceSocket({
-    env: { SCREENREC_HOME: home, SCREENREC_APP },
+    env: { YAP_HOME: home, YAP_APP },
   }).catch((error: unknown) => error as { code: string; message: string });
   expect(failure).toMatchObject({
     code: "APP_NOT_FOUND",
-    message: expect.stringContaining(SCREENREC_APP),
+    message: expect.stringContaining(YAP_APP),
   });
   expect(launcherRuns).toEqual([]);
   expect(await app.launches()).toEqual([]);
@@ -250,7 +250,7 @@ it("ends one attempt within the budget when the launched app never serves", asyn
   const started = Date.now();
   const budgetMs = 2_000;
   await expect(
-    resolveServiceSocket({ env: { SCREENREC_HOME: home, SCREENREC_APP: app.path }, budgetMs }),
+    resolveServiceSocket({ env: { YAP_HOME: home, YAP_APP: app.path }, budgetMs }),
   ).rejects.toMatchObject({ code: "TIMEOUT" });
   const elapsed = Date.now() - started;
   expect(elapsed).toBeGreaterThanOrEqual(budgetMs);
@@ -267,7 +267,7 @@ it.each([100, 1_500])("stops a bootstrap the caller canceled after %i ms", async
   const canceling = setTimeout(() => controller.abort(), cancelMs);
   const started = Date.now();
   const failure = await resolveServiceSocket({
-    env: { SCREENREC_HOME: home, SCREENREC_APP: app.path },
+    env: { YAP_HOME: home, YAP_APP: app.path },
     signal: controller.signal,
     budgetMs: 10_000,
   }).catch((error: unknown) => error as { code: string; message: string });
@@ -287,7 +287,7 @@ it("connects to an explicitly selected socket without probing or launching anyth
   expect(
     await resolveServiceSocket({
       socketPath: "/tmp/chosen-by-the-caller.sock",
-      env: { SCREENREC_HOME: home, SCREENREC_APP: app.path },
+      env: { YAP_HOME: home, YAP_APP: app.path },
     }),
   ).toBe("/tmp/chosen-by-the-caller.sock");
   expect(service.connections()).toBe(0);
@@ -300,7 +300,7 @@ it("answers concurrent discoveries from one service without launching an app", a
   const socketPath = socketIn(home);
   const service = await serve(socketPath);
   const app = await appBundle(SERVES_ITS_HOME);
-  const env = { SCREENREC_HOME: home, SCREENREC_APP: app.path };
+  const env = { YAP_HOME: home, YAP_APP: app.path };
   const resolved = await Promise.all(
     Array.from({ length: 5 }, () => resolveServiceSocket({ env })),
   );
@@ -318,7 +318,7 @@ it("cancels during a probe rather than going on to launch an app", async () => {
   const canceling = setTimeout(() => controller.abort(), 200);
   const started = Date.now();
   const failure = await resolveServiceSocket({
-    env: { SCREENREC_HOME: home, SCREENREC_APP: app.path },
+    env: { YAP_HOME: home, YAP_APP: app.path },
     signal: controller.signal,
   }).catch((error: unknown) => error as { code: string });
   clearTimeout(canceling);
@@ -333,7 +333,7 @@ it("spends the same budget on the initial probe and never launches after expiry"
   const app = await appBundle(SERVES_ITS_HOME);
   const started = Date.now();
   await expect(
-    resolveServiceSocket({ env: { SCREENREC_HOME: home, SCREENREC_APP: app.path }, budgetMs: 100 }),
+    resolveServiceSocket({ env: { YAP_HOME: home, YAP_APP: app.path }, budgetMs: 100 }),
   ).rejects.toMatchObject({ code: "TIMEOUT" });
   expect(Date.now() - started).toBeLessThan(1_000);
   expect(launcherRuns).toEqual([]);
@@ -346,7 +346,7 @@ it("kills a stalled launcher within the shared startup budget", async () => {
   launcherFixture.stall = true;
   const started = Date.now();
   await expect(
-    resolveServiceSocket({ env: { SCREENREC_HOME: home, SCREENREC_APP: app.path }, budgetMs: 100 }),
+    resolveServiceSocket({ env: { YAP_HOME: home, YAP_APP: app.path }, budgetMs: 100 }),
   ).rejects.toMatchObject({ code: "TIMEOUT" });
   expect(Date.now() - started).toBeLessThan(1_000);
   const child = launcherFixture.child;
@@ -371,7 +371,7 @@ it.each(["cancel", "timeout"])(
     inspection.finished = finished.resolve;
     const controller = new AbortController();
     const discovery = resolveServiceSocket({
-      env: { SCREENREC_HOME: home, SCREENREC_APP: app.path },
+      env: { YAP_HOME: home, YAP_APP: app.path },
       signal: controller.signal,
       budgetMs: 100,
     });

@@ -9,7 +9,7 @@ import { journalRows } from "./fixtures/generated-capture.mjs";
 import { app, temporary } from "./harness.mjs";
 
 test("explicit source admission supports both spellings of an absolute temporary home", async () => {
-  const native = process.env.SCREENREC_NATIVE ?? join(dirname(app), "screenrec-native");
+  const native = process.env.YAP_NATIVE ?? join(dirname(app), "yap-native");
   for (const canonical of [false, true]) {
     const aliased = temporary("/tmp/scr-source-locator-"),
       home = canonical ? await realpath(aliased) : aliased;

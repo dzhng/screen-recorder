@@ -6,7 +6,7 @@ import {
   toSignedTime,
   subtract,
   ceil,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { SourceIndexStillness, sourceIndexPoints } from "./source-index-equality.js";
 import { z } from "zod";
 import { sourceSceneClockSchema } from "./source-scene-chunks.js";

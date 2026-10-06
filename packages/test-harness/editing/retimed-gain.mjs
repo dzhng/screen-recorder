@@ -8,16 +8,16 @@ import { writeSourceWave, waveHeader } from "./audio-project-fixture.mjs";
 
 // This small delivery gate uses no composition evaluator for its expected envelope.
 export async function runRetimedGain(output) {
-  assert(output && process.env.SCREENREC_NATIVE);
+  assert(output && process.env.YAP_NATIVE);
   const out = resolve(output);
   await mkdir(out);
-  const home = await mkdtemp(join(tmpdir(), "screenrec-retimed-gain-"));
+  const home = await mkdtemp(join(tmpdir(), "yap-retimed-gain-"));
   const report = {
     passed: false,
     trace: [],
     exchanges: [],
     cases: [],
-    workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+    workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
     harnessSha256: hash(await readFile(new URL(import.meta.url))),
     scope:
       "Delivered retimed stereo PCM and independent animated envelope; no listening or playback",

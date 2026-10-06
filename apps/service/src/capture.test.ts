@@ -1,13 +1,13 @@
-import { JobQueue } from "@screenrec/core/jobs";
-import { CaptureStore } from "@screenrec/core/capture-store";
-import { CatalogError } from "@screenrec/core/catalog";
+import { JobQueue } from "@yap/core/jobs";
+import { CaptureStore } from "@yap/core/capture-store";
+import { CatalogError } from "@yap/core/catalog";
 import { afterEach, expect, it } from "vitest";
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { chmod, mkdir, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { once } from "node:events";
 import { join } from "node:path";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import {
   CONTROL_FRAME_BYTES,
   DEFAULT_CALL_TIMEOUT_MS,
@@ -16,7 +16,7 @@ import {
   controlMessageSchema,
   captureSelectionSchema,
   type OperationResult,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 
 const entry = new URL("../dist/main.js", import.meta.url).pathname;
 const cleanup: (() => Promise<void>)[] = [];
@@ -60,7 +60,7 @@ it(
         return peer(operation, params);
       },
       // Real worker wait exceeds the old control-only deadline; acknowledgment must not.
-      { SCREENREC_NATIVE: await recovers({ durationUs: 0, journal: null }, 16) },
+      { YAP_NATIVE: await recovers({ durationUs: 0, journal: null }, 16) },
     );
     const started = await service.call("capture.start", {
       requestId: "slow-cancel",
@@ -99,7 +99,7 @@ async function temporaryHome(): Promise<string> {
 async function nativeWorker(
   recoveryScript = `reply({ ok: false, error: { code: "NO_FIXTURE_MEDIA", message: "No scripted media operation", retryable: false, details: {} } });`,
 ): Promise<string> {
-  const path = join(await temporaryHome(), "screenrec-native");
+  const path = join(await temporaryHome(), "yap-native");
   await writeFile(
     path,
     `#!${process.execPath}
@@ -179,8 +179,8 @@ async function startService(
     cwd: "/",
     env: {
       ...process.env,
-      SCREENREC_HOME: home,
-      SCREENREC_NATIVE: await nativeWorker(),
+      YAP_HOME: home,
+      YAP_NATIVE: await nativeWorker(),
       ...environment,
     },
     stdio: ["pipe", "pipe", "pipe"],
@@ -383,7 +383,7 @@ it("recovery keeps diagnostic code and message paired even without usable video"
     const recordingId = (started.data as { recordingId: string }).recordingId;
     await abandoned.close();
     const recovered = await startService(home, capturingPeer(), {
-      SCREENREC_NATIVE: await recovers({
+      YAP_NATIVE: await recovers({
         durationUs: 0,
         journal: { header: {}, completion },
         tracks: [{ failure: { code: "ROLE_FAILED", message: "Role decode failed" } }],
@@ -611,7 +611,7 @@ it("settles a stranded take from its own recovered media when a service starts a
   await abandoned.kill();
 
   const service = await startService(home, capturingPeer(), {
-    SCREENREC_NATIVE: await recovers({
+    YAP_NATIVE: await recovers({
       durationUs: 5_000_000,
       journal: { header: { sessionID: "s" } },
     }),
@@ -642,7 +642,7 @@ it("settles a stranded take with no recoverable video without authoring a projec
   await abandoned.kill();
 
   const service = await startService(home, capturingPeer(), {
-    SCREENREC_NATIVE: await recovers(
+    YAP_NATIVE: await recovers(
       { durationUs: 0, journal: { header: { sessionID: "s" } } },
       1.2,
     ),
@@ -672,7 +672,7 @@ it("leaves a take alone when its recovery cannot run, and settles it once one ca
   await abandoned.kill();
 
   const blind = await startService(home, capturingPeer(), {
-    SCREENREC_NATIVE: await nativeWorker("process.exit(3)"),
+    YAP_NATIVE: await nativeWorker("process.exit(3)"),
   });
   await blind.waitForDiagnostic(/recovery failed/);
   // Failed recovery remains discoverable and retryable without inventing a terminal outcome.
@@ -683,7 +683,7 @@ it("leaves a take alone when its recovery cannot run, and settles it once one ca
   await blind.close();
 
   const service = await startService(home, capturingPeer(), {
-    SCREENREC_NATIVE: await recovers({ durationUs: 2_000_000, journal: { header: {} } }),
+    YAP_NATIVE: await recovers({ durationUs: 2_000_000, journal: { header: {} } }),
   });
   await expect
     .poll(() => service.call("recording.get", { recordingId }), { timeout: 5_000 })
@@ -734,7 +734,7 @@ it(
     const [recordingId] = await takes(home);
 
     const service = await startService(home, capturingPeer(), {
-      SCREENREC_NATIVE: await recovers(
+      YAP_NATIVE: await recovers(
         { durationUs: 3_000_000, journal: { header: { sessionID: "s" } } },
         2,
       ),
@@ -774,7 +774,7 @@ it(
   async () => {
     const home = await temporaryHome();
     const service = await startService(home, capturingPeer({ answerStart: false }), {
-      SCREENREC_NATIVE: await recovers({
+      YAP_NATIVE: await recovers({
         durationUs: 6_000_000,
         journal: { header: { sessionID: "s" } },
       }),
@@ -897,7 +897,7 @@ it(
   async () => {
     const home = await temporaryHome();
     const service = await startService(home, heldStartPeer(), {
-      SCREENREC_NATIVE: await recovers({
+      YAP_NATIVE: await recovers({
         durationUs: 6_000_000,
         journal: { header: { sessionID: "s" } },
       }),
@@ -1101,7 +1101,7 @@ it(
         }
         return answer;
       },
-      { SCREENREC_NATIVE: await recovers({ durationUs: 6_000_000 }) },
+      { YAP_NATIVE: await recovers({ durationUs: 6_000_000 }) },
     );
     const started = await service.call("capture.start", {
       requestId: "unproved-stop",
@@ -1176,7 +1176,7 @@ it("resumes persisted queued cleanup only after the recording service owners and
   await queue.close();
   store.close();
   const service = await startService(home, capturingPeer(), {
-    SCREENREC_NATIVE: await recovers([
+    YAP_NATIVE: await recovers([
       { role: "narration", outcome: "alreadyClear" },
       { role: "system", outcome: "alreadyClear" },
     ]),

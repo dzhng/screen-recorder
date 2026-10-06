@@ -14,7 +14,7 @@ const { values } = parseArgs({
     "runtime-root": { type: "string" },
   },
 });
-assert.ok(values.out && values["source-home"] && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && values["source-home"] && process.env.YAP_NATIVE);
 const runtime = resolve(values["runtime-root"] ?? new URL("../../../", import.meta.url).pathname);
 const { JourneyService, poll, run, hash } = await import(
   pathToFileURL(join(runtime, "packages/test-harness/editing/source-evidence-fixture.mjs"))
@@ -77,7 +77,7 @@ function support(document, seconds) {
   };
 }
 try {
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   assert.equal(
     report.nativeSha256,
     "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",

@@ -5,13 +5,13 @@ import { createHash, randomUUID } from "node:crypto";
 import { chmod, cp, link, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { CaptureStore } from "@screenrec/core/capture-store";
-import { callLocal } from "@screenrec/client";
+import { CaptureStore } from "@yap/core/capture-store";
+import { callLocal } from "@yap/client";
 import { startProjectService } from "../dist/project-service.js";
 import { mediaWorker } from "../dist/worker.js";
 
-const pinFile = process.env.SCREENREC_NATIVE_PINS;
-const output = process.env.SCREENREC_LIFETIME_OUTPUT;
+const pinFile = process.env.YAP_NATIVE_PINS;
+const output = process.env.YAP_LIFETIME_OUTPUT;
 assert(pinFile && output, "Supply the native source/binary pins and evidence output directory");
 const pins = JSON.parse(await readFile(pinFile, "utf8"));
 const binary = pins.binary.path,
@@ -98,7 +98,7 @@ async function fixture(t, name) {
     nativeOperations: [],
     passed: false,
   };
-  const native = mediaWorker({ SCREENREC_NATIVE: binary });
+  const native = mediaWorker({ YAP_NATIVE: binary });
   let service;
   const start = async () => {
     service = await startProjectService({

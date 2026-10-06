@@ -7,7 +7,7 @@ import {
   toTime,
   rational,
   type TimeValue,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { createHash } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
 import { writeFile } from "node:fs/promises";

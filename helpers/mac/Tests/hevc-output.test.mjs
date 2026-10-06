@@ -12,10 +12,10 @@ import {
 } from "../../../packages/composition/dist/index.js";
 
 function verifyOutput(t, name) {
-  const evidence = process.env.SCREENREC_HEVC_EVIDENCE;
+  const evidence = process.env.YAP_HEVC_EVIDENCE;
   const directory = evidence
     ? join(evidence, name)
-    : mkdtempSync(join(tmpdir(), "screenrec-hevc-"));
+    : mkdtempSync(join(tmpdir(), "yap-hevc-"));
   if (evidence) mkdirSync(directory, { recursive: true });
   else t.after(() => rmSync(directory, { recursive: true, force: true }));
   let source = new URL(
@@ -49,8 +49,8 @@ function verifyOutput(t, name) {
     source = encoded;
   }
   const native =
-    process.env.SCREENREC_NATIVE ??
-    new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
+    process.env.YAP_NATIVE ??
+    new URL("../.build/debug/yap-native", import.meta.url).pathname;
   const hash = (file) => createHash("sha256").update(readFileSync(file)).digest("hex");
   const before = hash(source);
   const report = { sourceSha256: before, nativeSha256: hash(native), operands: {} };

@@ -6,11 +6,11 @@ import { startProjectService } from "../../../apps/service/dist/project-service.
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
 
 // Barriers hold real native replies. Declared test probe overrides never change decoding results.
-const probeOverrides = process.env.SCREENREC_TEST_PROBE_OVERRIDES
-  ? JSON.parse(await readFile(process.env.SCREENREC_TEST_PROBE_OVERRIDES, "utf8"))
+const probeOverrides = process.env.YAP_TEST_PROBE_OVERRIDES
+  ? JSON.parse(await readFile(process.env.YAP_TEST_PROBE_OVERRIDES, "utf8"))
   : [];
 const unavailableOperations = new Set(
-  JSON.parse(process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS ?? "[]"),
+  JSON.parse(process.env.YAP_TEST_UNAVAILABLE_OPERATIONS ?? "[]"),
 );
 const native = mediaWorker();
 let armed;
@@ -144,9 +144,9 @@ try {
   const service = await startProjectService({
     home: process.argv[2],
     worker,
-    ...(process.env.SCREENREC_TEST_FFMPEG_INSTALLATION
+    ...(process.env.YAP_TEST_FFMPEG_INSTALLATION
       ? {
-          ffmpeg: JSON.parse(process.env.SCREENREC_TEST_FFMPEG_INSTALLATION),
+          ffmpeg: JSON.parse(process.env.YAP_TEST_FFMPEG_INSTALLATION),
         }
       : {}),
   });

@@ -1,6 +1,6 @@
 import { afterEach, expect, it } from "vitest";
 import { mkdtemp, rm, stat } from "node:fs/promises";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { listenLocal } from "./index.js";
 import { EventEmitter, once } from "node:events";
 

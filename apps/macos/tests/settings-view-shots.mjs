@@ -9,7 +9,7 @@ const output = resolve(
   process.env.SHOTS ?? "specs/done/auto-update/assets/update-settings/candidate",
 );
 mkdirSync(output, { recursive: true });
-const scratch = mkdtempSync(join(tmpdir(), "screenrec-settings-view-"));
+const scratch = mkdtempSync(join(tmpdir(), "yap-settings-view-"));
 try {
   const executable = compileControlsCheck(
     scratch,
@@ -17,7 +17,7 @@ try {
     String.raw`
 import AppKit
 import SwiftUI
-import ScreenRecorderControls
+import YapControls
 
 enum ControlsProbe { static let observed = true }
 @main struct Shots {
@@ -39,7 +39,7 @@ enum ControlsProbe { static let observed = true }
                 let preferences = Preferences(defaults: UserDefaults(suiteName: "\(scratch)/\(theme)-\(name)")!)
                 let model = SettingsModel(preferences: preferences, perform: { _ in }, update: { _, _ in })
                 model.state.permissions = ControlsState.Permissions(screen: .granted, microphone: .granted)
-                model.state.shortcutOverridePath = "/Users/example/.screenrec/shortcuts.json"
+                model.state.shortcutOverridePath = "/Users/example/.yap/shortcuts.json"
                 model.state.updates = updates
                 let content = NSHostingView(rootView: SettingsView(model: model))
                 content.sizingOptions = []

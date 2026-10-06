@@ -10,7 +10,7 @@ let owner: string;
 let tool: string;
 const ownedPids: number[] = [];
 beforeAll(async () => {
-  directory = await mkdtemp("/tmp/screenrec-cli-native-");
+  directory = await mkdtemp("/tmp/yap-cli-native-");
   owner = await compileCliOwner(directory);
   tool = join(directory, "tool.cjs");
   await writeFile(

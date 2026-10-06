@@ -6,7 +6,7 @@ import { test } from "node:test";
 import { frameworkIdentity } from "./framework.mjs";
 
 test("framework provenance rejects executable links to bytes outside its tree", () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-framework-links-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-framework-links-"));
   try {
     const framework = join(scratch, "Sparkle.framework");
     mkdirSync(framework);
@@ -19,7 +19,7 @@ test("framework provenance rejects executable links to bytes outside its tree", 
 });
 
 test("framework provenance changes when its enclosing directory loses recipient access", () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-framework-mode-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-framework-mode-"));
   try {
     const framework = join(scratch, "Sparkle.framework");
     mkdirSync(framework, { mode: 0o755 });

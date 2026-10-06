@@ -15,7 +15,7 @@ export async function withArchiveCopyBarrier(
 ) {
   const marker = join(home, `copy-held-${randomUUID()}`);
   const library = `${marker}.dylib`;
-  const run = mediaWorker({ SCREENREC_NATIVE: native });
+  const run = mediaWorker({ YAP_NATIVE: native });
   const abort = new AbortController();
   const active = new Set();
   const track = (call) => {
@@ -44,9 +44,9 @@ export async function withArchiveCopyBarrier(
       assert.equal(pending, undefined, "Copy barrier admits one extraction");
       const environment = {
         DYLD_INSERT_LIBRARIES: library,
-        SCREENREC_TEST_COPY_BARRIER: marker,
-        SCREENREC_TEST_COPY_MIN_FD: String(minimumFd),
-        SCREENREC_TEST_COPY_PARTIAL: partial ? "1" : "0",
+        YAP_TEST_COPY_BARRIER: marker,
+        YAP_TEST_COPY_MIN_FD: String(minimumFd),
+        YAP_TEST_COPY_PARTIAL: partial ? "1" : "0",
       };
       const previous = Object.fromEntries(
         Object.keys(environment).map((key) => [key, process.env[key]]),

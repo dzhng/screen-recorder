@@ -18,8 +18,8 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import { Publication } from "../dist/publication.js";
 import { mediaWorker } from "../dist/worker.js";
-const binary = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
-const worker = mediaWorker({ SCREENREC_NATIVE: binary });
+const binary = process.env.YAP_NATIVE ?? resolve("helpers/mac/.build/debug/yap-native");
+const worker = mediaWorker({ YAP_NATIVE: binary });
 const script = fileURLToPath(import.meta.url);
 if (process.argv[2] === "owner") {
   process.on("message", () => {});
@@ -54,7 +54,7 @@ if (process.argv[2] === "owner") {
   }
 } else {
   async function fixture(t) {
-    const root = await mkdtemp(join(tmpdir(), "screenrec-publication-service-"));
+    const root = await mkdtemp(join(tmpdir(), "yap-publication-service-"));
     await mkdir(join(root, "stage"), { mode: 0o700 });
     await mkdir(join(root, "output"), { mode: 0o755 });
     await writeFile(join(root, "source"), "known complete output");
@@ -65,7 +65,7 @@ if (process.argv[2] === "owner") {
   async function killedOwner(t, f, mode) {
     const child = fork(script, ["owner", f.root, mode], {
       stdio: ["ignore", "ignore", "inherit", "ipc"],
-      env: { ...process.env, SCREENREC_NATIVE: binary },
+      env: { ...process.env, YAP_NATIVE: binary },
     });
     t.after(() => child.kill("SIGKILL"));
     const [message] = await once(child, "message");
@@ -260,7 +260,7 @@ if (process.argv[2] === "owner") {
       `#!/bin/sh\nulimit -f 1\nexec '${binary.replaceAll("'", "'\\''")}'\n`,
       { mode: 0o700 },
     );
-    const limited = mediaWorker({ SCREENREC_NATIVE: executable });
+    const limited = mediaWorker({ YAP_NATIVE: executable });
     const owner = await Publication.open(join(f.root, "stage"), join(f.root, "output"), limited);
     t.after(() => owner.close());
     const source = await open(join(f.root, "source"));
@@ -296,7 +296,7 @@ if (process.argv[2] === "owner") {
     const owner = await Publication.open(
       join(f.root, "stage"),
       join(f.root, "output"),
-      mediaWorker({ SCREENREC_NATIVE: binary }, 1),
+      mediaWorker({ YAP_NATIVE: binary }, 1),
       { timeoutMs: 5000 },
     );
     t.after(() => owner.close());

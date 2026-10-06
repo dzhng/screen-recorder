@@ -7,8 +7,8 @@ const result = await Bun.build({
     {
       name: "workspace-source",
       setup(build) {
-        build.onResolve({ filter: /^@screenrec\/(client|protocol|composition)$/ }, ({ path }) => ({
-          path: join(root, "packages", path.slice("@screenrec/".length), "src/index.ts"),
+        build.onResolve({ filter: /^@yap\/(client|protocol|composition)$/ }, ({ path }) => ({
+          path: join(root, "packages", path.slice("@yap/".length), "src/index.ts"),
         }));
       },
     },

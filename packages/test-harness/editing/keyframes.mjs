@@ -27,7 +27,7 @@ assert.ok(["moved-split-zoom", "moved-split-pose", "moved-split-geometry"].inclu
 assert.ok(!values.convenience || values.case === "moved-split-zoom");
 const pose = values.case !== "moved-split-zoom";
 const box = values.case === "moved-split-geometry";
-assert.ok(values.out && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 assert.ok(!existsSync(out));
 await mkdir(out);
@@ -41,7 +41,7 @@ const report = {
   pictures: [],
   checks: {},
   runnerSha256: hash(await readFile(fileURLToPath(import.meta.url))),
-  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
   decoderSha256: hash(await readFile("/opt/homebrew/bin/ffmpeg")),
 };
 const service = new JourneyService(

@@ -2,9 +2,9 @@ import { afterEach, expect, test } from "vitest";
 import { mkdir, writeFile, readFile, cp } from "node:fs/promises";
 import { join } from "node:path";
 import { projectServiceFixture } from "./project-service.fixture.js";
-import { operationSchema } from "@screenrec/protocol";
+import { operationSchema } from "@yap/protocol";
 // @ts-expect-error The distributed consumer helper is plain JavaScript.
-import { resumeTaskNotes } from "../../../skills/screenrec/scripts/task-notes.mjs";
+import { resumeTaskNotes } from "../../../skills/yap/scripts/task-notes.mjs";
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanups.splice(0).reverse()) await close();
@@ -80,7 +80,7 @@ test("actual public metadata leaves transferred annotations historical without p
   const before = await invoke("revision.history", { projectId });
   const historical = await resumeTaskNotes({ notesPath }, invoke);
   const after = await invoke("revision.history", { projectId });
-  const evidence = process.env.SCREENREC_NOTES_TEST_OUTPUT;
+  const evidence = process.env.YAP_NOTES_TEST_OUTPUT;
   if (evidence) {
     await mkdir(evidence, { recursive: true });
     await writeFile(

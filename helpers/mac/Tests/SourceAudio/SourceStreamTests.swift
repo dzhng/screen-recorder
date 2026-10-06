@@ -1,7 +1,7 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderAudio
-import ScreenRecorderMedia
+import YapAudio
+import YapMedia
 
 func verifySourceStream(in directory: URL) async throws {
     let source = try fixture(rate: 48_000, channels: 2, name: "stream-sink", seconds: 0.6)

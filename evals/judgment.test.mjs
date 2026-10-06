@@ -27,7 +27,7 @@ test("repeated large CLI outputs reach the judge once without dropping calls or 
       { args: ["service.tools"], exit: 1, stdout: failure, stderr: "" },
     ],
     serviceCalls: [],
-    commands: [{ command: "screenrec --help", output: catalog, exitCode: 0 }],
+    commands: [{ command: "yap --help", output: catalog, exitCode: 0 }],
   };
   const prompt = judgePrompt({ prompt: "Check tools", bar: "Report the failure" }, artifact);
   assert.ok(prompt.length < 1_000_000, "Repeated schema bytes must not exceed judge input limit");

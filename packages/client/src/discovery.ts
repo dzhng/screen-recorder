@@ -9,7 +9,7 @@ import {
   personalHome,
   serviceRuntimeDirectory,
   serviceSocketPath,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import { callLocal, LocalTransportError } from "./transport.js";
 
 export const DISCOVERY_BUDGET_MS = DEFAULT_CALL_TIMEOUT_MS;
@@ -71,11 +71,11 @@ async function discover(
 ): Promise<string> {
   if (await answering(socketPath, signal)) return socketPath;
   signal.throwIfAborted();
-  const bundle = env.SCREENREC_APP ?? join(homedir(), "Applications", "Screen Recorder.app");
+  const bundle = env.YAP_APP ?? join(homedir(), "Applications", "Yap.app");
   if (!isAbsolute(bundle))
     throw new LocalTransportError(
       "APP_NOT_FOUND",
-      `SCREENREC_APP must be an absolute path to a .app bundle; received ${JSON.stringify(bundle)}`,
+      `YAP_APP must be an absolute path to a .app bundle; received ${JSON.stringify(bundle)}`,
     );
   const executables = await stat(join(bundle, "Contents", "MacOS")).catch(() => undefined);
   signal.throwIfAborted();
@@ -83,11 +83,11 @@ async function discover(
     throw new LocalTransportError(
       "APP_NOT_FOUND",
       `No recorder app bundle at ${JSON.stringify(bundle)}. ` +
-        "Install the personal app there, set SCREENREC_APP to its absolute path, or pass --socket PATH.",
+        "Install the personal app there, set YAP_APP to its absolute path, or pass --socket PATH.",
     );
   // Always carry the resolved home, including the default/empty-env case. LaunchServices
   // may inherit a different environment; an already-running app retains its original home.
-  await launch(bundle, personalHome(env), env.SCREENREC_DEFAULTS, signal);
+  await launch(bundle, personalHome(env), env.YAP_DEFAULTS, signal);
   while (true) {
     await delay(100, undefined, { signal });
     if (await answering(socketPath, signal)) return socketPath;
@@ -126,10 +126,10 @@ function launch(
         "-a",
         bundle,
         "--env",
-        `SCREENREC_HOME=${home}`,
+        `YAP_HOME=${home}`,
         "--env",
-        "SCREENREC_SERVICE_LAUNCH=1",
-        ...(preferences === undefined ? [] : ["--env", `SCREENREC_DEFAULTS=${preferences}`]),
+        "YAP_SERVICE_LAUNCH=1",
+        ...(preferences === undefined ? [] : ["--env", `YAP_DEFAULTS=${preferences}`]),
       ],
       {
         stdio: ["ignore", "ignore", "pipe"],

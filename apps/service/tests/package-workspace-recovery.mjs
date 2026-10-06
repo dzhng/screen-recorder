@@ -26,10 +26,10 @@ import {
   cleanupFailedPackageWorkspace,
 } from "../dist/package-workspace.js";
 import { mediaWorker } from "../dist/worker.js";
-const binary = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
-const worker = mediaWorker({ SCREENREC_NATIVE: binary });
+const binary = process.env.YAP_NATIVE ?? resolve("helpers/mac/.build/debug/yap-native");
+const worker = mediaWorker({ YAP_NATIVE: binary });
 async function fixture(t) {
-  const root = await realpath(await mkdtemp("/tmp/screenrec-recovery-"));
+  const root = await realpath(await mkdtemp("/tmp/yap-recovery-"));
   const directory = join(root, "parent");
   await mkdir(directory, { mode: 0o700 });
   const handle = await open(directory);
@@ -211,7 +211,7 @@ test(
       [f.parent.directory],
       {
         stdio: ["ignore", "ignore", "inherit", "ipc"],
-        env: { ...process.env, SCREENREC_NATIVE: binary },
+        env: { ...process.env, YAP_NATIVE: binary },
       },
     );
     const closed = once(owner, "exit");

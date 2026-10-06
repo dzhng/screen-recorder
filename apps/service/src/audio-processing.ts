@@ -4,17 +4,17 @@ import { isDeepStrictEqual } from "node:util";
 import { setImmediate } from "node:timers/promises";
 import { open, unlink, type FileHandle } from "node:fs/promises";
 import { join } from "node:path";
-import type { ProcessorImplementations } from "@screenrec/composition";
-import { CatalogError } from "@screenrec/core/catalog";
-import { fileIdentity, O_NOFOLLOW_ANY } from "@screenrec/core/files";
-import { readAudioWave } from "@screenrec/core/audio-wave";
+import type { ProcessorImplementations } from "@yap/composition";
+import { CatalogError } from "@yap/core/catalog";
+import { fileIdentity, O_NOFOLLOW_ANY } from "@yap/core/files";
+import { readAudioWave } from "@yap/core/audio-wave";
 import {
   normalizationGain,
   admitNormalization,
   normalizationTolerance,
   type AudioProcessingEvidence,
-} from "@screenrec/core/audio-measurement";
-import type { AudioWindowInput } from "@screenrec/core/project-window";
+} from "@yap/core/audio-measurement";
+import type { AudioWindowInput } from "@yap/core/project-window";
 import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
 import { ffmpegLoudnessAnalyzer } from "./loudness.js";
 import { cliWorker, nativeResult, type MediaWorker } from "./worker.js";

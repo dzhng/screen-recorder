@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { randomUUID, createHash } from "node:crypto";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import {
   alive,
   launchReady,
@@ -46,7 +46,7 @@ async function succeeds(home, operation, params) {
 /** An ordinary launch that also opens this app's own window and exposes only that window. */
 async function fixtureApp(home, environment = {}) {
   const { instance, servicePid } = await launchReady(home, {
-    SCREENREC_FIXTURE_WINDOW: "1",
+    YAP_FIXTURE_WINDOW: "1",
     ...environment,
   });
   const [, windowId] = await instance.waitFor(/capture fixture window=(\d+)/);
@@ -58,7 +58,7 @@ function holdRelease(home) {
   return join(home, "release-start");
 }
 function holding(home) {
-  return { SCREENREC_FIXTURE_START_HOLD: holdRelease(home) };
+  return { YAP_FIXTURE_START_HOLD: holdRelease(home) };
 }
 function release(home) {
   writeFileSync(holdRelease(home), "");

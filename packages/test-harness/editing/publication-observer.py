@@ -7,7 +7,7 @@ import subprocess
 import sys
 import time
 
-folder = Path(os.environ['SCREENREC_PUBLICATION_OBSERVER'])
+folder = Path(os.environ['YAP_PUBLICATION_OBSERVER'])
 # Capture inherited descriptors before opening observer files or subprocess pipes.
 descriptors = []
 identities = []
@@ -31,7 +31,7 @@ record = {'proxyPid': os.getpid(), 'servicePid': os.getppid(), 'operation': oper
 if not (operation.startswith(('publication.', 'storage.')) or operation in ('packageWorkspace.recover', 'media.audioCapabilities')):
     (folder / (name + '.forbidden.json')).write_text(json.dumps(record))
     sys.exit(42)  # No fabricated response and no media/model work forwarded.
-child = subprocess.Popen([os.environ['SCREENREC_REAL_NATIVE']], stdin=subprocess.PIPE,
+child = subprocess.Popen([os.environ['YAP_REAL_NATIVE']], stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                          pass_fds=tuple(descriptors))
 record['nativePid'] = child.pid

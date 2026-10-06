@@ -6,10 +6,10 @@
 
 static ssize_t held_pread(int fd, void *buffer, size_t bytes, off_t offset) {
     ssize_t read_bytes = pread(fd, buffer, bytes, offset);
-    const char *marker = getenv("SCREENREC_TEST_COPY_BARRIER");
-    const char *partial = getenv("SCREENREC_TEST_COPY_PARTIAL");
+    const char *marker = getenv("YAP_TEST_COPY_BARRIER");
+    const char *partial = getenv("YAP_TEST_COPY_PARTIAL");
     int at_barrier = partial && partial[0] == '1' ? offset > 0 : offset == 0;
-    const char *minimum = getenv("SCREENREC_TEST_COPY_MIN_FD");
+    const char *minimum = getenv("YAP_TEST_COPY_MIN_FD");
     if (fd >= (minimum ? atoi(minimum) : 4) && at_barrier && read_bytes > 0 && marker) {
         int output = open(marker, O_WRONLY | O_CREAT | O_EXCL, 0600);
         if (output >= 0) {

@@ -1,4 +1,4 @@
-import { fromTime, sampleAt, compare, type TimeValue } from "@screenrec/composition";
+import { fromTime, sampleAt, compare, type TimeValue } from "@yap/composition";
 import {
   AcousticInspection,
   type AcousticRenderer,

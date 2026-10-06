@@ -24,14 +24,14 @@ function compile(args, sources) {
     "-swift-version",
     "6",
     "-package-name",
-    "ScreenRecorderNative",
+    "YapNative",
     ...args,
     ...sources,
   ];
   commands.push(command);
   execFileSync("swiftc", command, { stdio: "inherit", timeout: 120000 });
 }
-for (const name of ["ScreenRecorderMedia", "ScreenRecorderCapture"]) {
+for (const name of ["YapMedia", "YapCapture"]) {
   compile(
     [
       "-emit-library",
@@ -44,15 +44,15 @@ for (const name of ["ScreenRecorderMedia", "ScreenRecorderCapture"]) {
       output,
       "-L",
       output,
-      ...(name === "ScreenRecorderCapture" ? ["-lScreenRecorderMedia"] : []),
+      ...(name === "YapCapture" ? ["-lYapMedia"] : []),
       "-o",
       join(output, `lib${name}.dylib`),
     ],
     files(join(root, "helpers/mac/Sources", name)),
   );
 }
-const app = join(root, "apps/macos/Sources/ScreenRecorder");
-const nativeTests = join(root, "helpers/mac/Tests/ScreenRecorderCaptureTests");
+const app = join(root, "apps/macos/Sources/Yap");
+const nativeTests = join(root, "helpers/mac/Tests/YapCaptureTests");
 const executable = join(output, "controller-journey");
 compile(
   [
@@ -60,8 +60,8 @@ compile(
     output,
     "-L",
     output,
-    "-lScreenRecorderCapture",
-    "-lScreenRecorderMedia",
+    "-lYapCapture",
+    "-lYapMedia",
     "-Xlinker",
     "-rpath",
     "-Xlinker",
@@ -88,7 +88,7 @@ compile(
   ],
 );
 const binaries = Object.fromEntries(
-  ["controller-journey", "libScreenRecorderMedia.dylib", "libScreenRecorderCapture.dylib"].map(
+  ["controller-journey", "libYapMedia.dylib", "libYapCapture.dylib"].map(
     (name) => {
       const bytes = readFileSync(join(output, name));
       return [

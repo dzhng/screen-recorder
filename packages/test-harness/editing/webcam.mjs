@@ -4,7 +4,7 @@ import { Socket } from "node:net";
 import { cp, mkdir, mkdtemp, readFile, realpath, rename, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
+import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@yap/protocol";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 import { waveHeader } from "./audio-project-fixture.mjs";
 import { ControllerJourneyService } from "./controller-journey-service.mjs";
@@ -20,22 +20,22 @@ const { values } = parseArgs({
   },
 });
 assert.equal(values.case, "capture-to-project");
-assert.equal(process.env.SCREENREC_TEST_PROBE_OVERRIDES, undefined);
-assert.equal(process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS, undefined);
+assert.equal(process.env.YAP_TEST_PROBE_OVERRIDES, undefined);
+assert.equal(process.env.YAP_TEST_UNAVAILABLE_OPERATIONS, undefined);
 assert.ok(
   (values.primary || values.controller) &&
     values.camera &&
     values.pixels &&
     values.out &&
-    process.env.SCREENREC_NATIVE,
+    process.env.YAP_NATIVE,
 );
 const controllerFixture = values.controller
   ? JSON.parse(await readFile(resolve(values.controller), "utf8"))
   : null;
 await mkdir(resolve(values.out));
 const out = await realpath(resolve(values.out));
-const home = await mkdtemp("/tmp/screenrec-webcam-project-");
-const receiver = await mkdtemp("/tmp/screenrec-webcam-receiver-");
+const home = await mkdtemp("/tmp/yap-webcam-project-");
+const receiver = await mkdtemp("/tmp/yap-webcam-receiver-");
 const report = {
   scope: controllerFixture
     ? "Public camera selection through actual controller/native prerecorded input and allocated source admission, explicit caller project, edits, delivery and relocation; no physical capture claim"
@@ -44,7 +44,7 @@ const report = {
   trace: [],
   exchanges: [],
   checks: {},
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   harnessSha256: hash(await readFile(import.meta.filename)),
   imagePixelsSha256: hash(await readFile(resolve(values.pixels))),
 };

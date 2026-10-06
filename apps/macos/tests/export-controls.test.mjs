@@ -15,7 +15,7 @@ test(
   "native exports pin the revision, keep one identity through lost replies and rediscover pages",
   { timeout: 120_000 },
   () => {
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-export-controls-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-export-controls-"));
     try {
       const firstDirectory = join(scratch, "exports");
       const secondDirectory = join(scratch, "packages");
@@ -26,7 +26,7 @@ test(
         ["ExportController", "ServiceBundle", "NodeRuntime"],
         String.raw`
 import AppKit
-import ScreenRecorderControls
+import YapControls
 
 @MainActor final class Script {
     var calls: [(String, [String: Any])] = []
@@ -181,7 +181,7 @@ test(
   "native exports consume retained recording and project statuses",
   { timeout: 120_000 },
   async () => {
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-export-owners-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-export-owners-"));
     try {
       const retained = JSON.parse(
         await readFile(
@@ -202,7 +202,7 @@ test(
         ["ExportController", "ServiceBundle", "NodeRuntime"],
         String.raw`
 import AppKit
-import ScreenRecorderControls
+import YapControls
 
 @MainActor final class Script {
     var calls: [(String, [String: Any])] = []
@@ -448,9 +448,9 @@ test(
   "native exports commit through the bundled service and rediscover an unfinished export after restart",
   { timeout: 180_000 },
   async () => {
-    const home = mkdtempSync("/tmp/screenrec-export-controls-home-");
-    const output = await realpath(mkdtempSync("/tmp/screenrec-export-controls-output-"));
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-export-controls-build-"));
+    const home = mkdtempSync("/tmp/yap-export-controls-home-");
+    const output = await realpath(mkdtempSync("/tmp/yap-export-controls-output-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-export-controls-build-"));
     let safeToRemove = true;
     try {
       const source = join(home, "fixture");
@@ -488,7 +488,7 @@ test(
         ["ExportController", "ServiceHost", "ServiceBundle", "NodeRuntime"],
         String.raw`
 import AppKit
-import ScreenRecorderControls
+import YapControls
 
 @MainActor final class Service {
     var state: ServiceHost.State = .starting
@@ -603,8 +603,8 @@ import ScreenRecorderControls
       const result = await new Promise((resolve, reject) => {
         const child = spawn(
           executable,
-          [join(root, "dist/ScreenRecorder.app"), projectId, output, pinnedRevision, clipId],
-          { env: { ...process.env, SCREENREC_HOME: home }, stdio: ["ignore", "pipe", "pipe"] },
+          [join(root, "dist/Yap.app"), projectId, output, pinnedRevision, clipId],
+          { env: { ...process.env, YAP_HOME: home }, stdio: ["ignore", "pipe", "pipe"] },
         );
         let stdout = "",
           stderr = "";

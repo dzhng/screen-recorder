@@ -11,10 +11,10 @@ import {
   RESPONSE_FRAME_BYTES,
   operationSchema,
   MCP_RESULT_INLINE_BYTES,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import { z } from "zod";
-import { listenLocal, DerivativeDelivery } from "@screenrec/service";
-import { callLocal } from "@screenrec/client";
+import { listenLocal, DerivativeDelivery } from "@yap/service";
+import { callLocal } from "@yap/client";
 import { startProjectService } from "../../service/dist/project-service.js";
 import { DatabaseSync } from "node:sqlite";
 import { join } from "node:path";

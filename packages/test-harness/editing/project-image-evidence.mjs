@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -8,7 +8,7 @@ import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Freeze a native worker before running this journey");
+assert.ok(process.env.YAP_NATIVE, "Freeze a native worker before running this journey");
 const out = values.out
   ? resolve(values.out)
   : await mkdtemp(join(tmpdir(), "project-image-evidence-"));

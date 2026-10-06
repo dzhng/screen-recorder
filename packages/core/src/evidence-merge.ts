@@ -1,4 +1,4 @@
-import { compare, fromTime, type TimeValue } from "@screenrec/composition";
+import { compare, fromTime, type TimeValue } from "@yap/composition";
 import { CatalogError } from "./catalog.js";
 export type EvidenceKey = {
   projectStartUs: TimeValue;

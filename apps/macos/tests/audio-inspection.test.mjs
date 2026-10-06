@@ -4,13 +4,13 @@ import { randomUUID, createHash } from "node:crypto";
 import { readFile, writeFile, mkdir, rename } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { Catalog } from "@screenrec/core/catalog";
-import { ProjectStore } from "@screenrec/core/projects";
-import { AssetStore } from "@screenrec/core/assets";
-import { AcquisitionStore } from "@screenrec/core/acquisitions";
-import { TranscriptStore } from "@screenrec/core/transcript";
-import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
-import { DerivedCache } from "@screenrec/core/cache";
+import { Catalog } from "@yap/core/catalog";
+import { ProjectStore } from "@yap/core/projects";
+import { AssetStore } from "@yap/core/assets";
+import { AcquisitionStore } from "@yap/core/acquisitions";
+import { TranscriptStore } from "@yap/core/transcript";
+import { assetTranscriptOwner } from "@yap/core/transcript-processing";
+import { DerivedCache } from "@yap/core/cache";
 import { temporary, waitFor } from "./harness.mjs";
 import {
   startPublicService,
@@ -19,8 +19,8 @@ import {
 } from "./fixtures/public-service.mjs";
 
 const native =
-  process.env.SCREENREC_NATIVE ??
-  new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname;
+  process.env.YAP_NATIVE ??
+  new URL("../../../helpers/mac/.build/debug/yap-native", import.meta.url).pathname;
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
 function ffmpeg(args) {
   const result = spawnSync("ffmpeg", ["-v", "error", ...args], {

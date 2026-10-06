@@ -1,17 +1,17 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderMedia
+import YapMedia
 #if DEBUG
-@testable import ScreenRecorderAudio
+@testable import YapAudio
 
 @main
 struct SelectedAudioTests {
     static func main() async throws {
-        let directory = URL(fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_SELECTED_AUDIO_EVIDENCE"]
+        let directory = URL(fileURLWithPath: ProcessInfo.processInfo.environment["YAP_SELECTED_AUDIO_EVIDENCE"]
             ?? NSTemporaryDirectory() + UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer {
-            if ProcessInfo.processInfo.environment["SCREENREC_SELECTED_AUDIO_EVIDENCE"] == nil {
+            if ProcessInfo.processInfo.environment["YAP_SELECTED_AUDIO_EVIDENCE"] == nil {
                 try? FileManager.default.removeItem(at: directory)
             }
         }
@@ -191,7 +191,7 @@ struct SelectedAudioTests {
             } catch let error as NativeFailure { precondition(error.code == "INVALID_REQUEST") }
         }
         let leftovers = try FileManager.default.contentsOfDirectory(atPath: directory.path)
-        precondition(!leftovers.contains { $0.hasPrefix(".screenrec-output-") })
+        precondition(!leftovers.contains { $0.hasPrefix(".yap-output-") })
         print("PASS zero/empty/truncated refusal, sink failure, one-consumer lifetime, cancellation and failed-output cleanup")
 
 

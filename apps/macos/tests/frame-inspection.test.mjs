@@ -6,7 +6,7 @@ import { randomUUID, createHash } from "node:crypto";
 import { readFile, copyFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import {
@@ -21,7 +21,7 @@ const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
 test("real clean frames retain edit identity and reach CLI files and MCP pixels", async () => {
   requireScreenPermission();
   const home = temporary("/tmp/scr-frame-delivery-");
-  const { instance } = await launchReady(home, { SCREENREC_FIXTURE_WINDOW: "1" });
+  const { instance } = await launchReady(home, { YAP_FIXTURE_WINDOW: "1" });
   const [, window] = await instance.waitFor(/capture fixture window=(\d+)/);
   const call = async (operation, params = {}) => {
     const result = await callLocal(socketPath(home), { id: randomUUID(), operation, params });
@@ -129,9 +129,9 @@ test("real clean frames retain edit identity and reach CLI files and MCP pixels"
   assert.equal(bytes.readUInt32BE(16), ready.published.frame.width);
   assert.equal(bytes.readUInt32BE(20), ready.published.frame.height);
   assert.equal(result.data.published.frame.cacheId, ready.published.frame.cacheId);
-  if (process.env.SCREENREC_FRAME_EVIDENCE) {
-    await mkdir(process.env.SCREENREC_FRAME_EVIDENCE, { recursive: true });
-    await copyFile(output, join(process.env.SCREENREC_FRAME_EVIDENCE, "delivered.png"));
+  if (process.env.YAP_FRAME_EVIDENCE) {
+    await mkdir(process.env.YAP_FRAME_EVIDENCE, { recursive: true });
+    await copyFile(output, join(process.env.YAP_FRAME_EVIDENCE, "delivered.png"));
   }
 
   const client = new Client({ name: "frame-delivery-proof", version: "1" });
@@ -184,10 +184,10 @@ test("real clean frames retain edit identity and reach CLI files and MCP pixels"
     if (["failed", "unavailable"].includes(result.state)) throw new Error(JSON.stringify(result));
     return result.state === "ready" && result;
   }, 20000);
-  if (process.env.SCREENREC_FRAME_EVIDENCE)
+  if (process.env.YAP_FRAME_EVIDENCE)
     await copyFile(
       cropped.published.frame.file,
-      join(process.env.SCREENREC_FRAME_EVIDENCE, "cropped.png"),
+      join(process.env.YAP_FRAME_EVIDENCE, "cropped.png"),
     );
   assert.equal(cropped.published.frame.width, 200);
   assert.equal(cropped.published.frame.height, 100);

@@ -41,7 +41,7 @@ async function call(operation, params, expected = true) {
   return result.ok ? result.data : result.error;
 }
 async function connectMcp() {
-  mcp = new Client({ name: "screenrec-project-journey", version: "1" });
+  mcp = new Client({ name: "yap-project-journey", version: "1" });
   await mcp.connect(
     new StdioClientTransport({
       command: process.execPath,

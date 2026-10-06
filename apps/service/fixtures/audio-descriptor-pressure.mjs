@@ -2,12 +2,12 @@ import assert from "node:assert/strict";
 import { readFile, writeFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { mediaWorker } from "../dist/worker.js";
 import { startProjectService } from "../dist/project-service.js";
 
 // The caller lowers only this disposable process's descriptor limit before exec.
-const home = process.env.SCREENREC_PRESSURE_HOME;
+const home = process.env.YAP_PRESSURE_HOME;
 const source = join(home, "source.wav");
 const frames = 4800;
 
@@ -30,7 +30,7 @@ for (let i = 0; i < frames; i++) {
 }
 await writeFile(source, bytes);
 const calls = [];
-const execute = mediaWorker({ SCREENREC_NATIVE: process.env.SCREENREC_NATIVE });
+const execute = mediaWorker({ YAP_NATIVE: process.env.YAP_NATIVE });
 const service = await startProjectService({
   worker: async (operation, params, options) => {
     const record = {
@@ -49,11 +49,11 @@ const service = await startProjectService({
     return result;
   },
   home,
-  nativeExecutable: process.env.SCREENREC_NATIVE,
+  nativeExecutable: process.env.YAP_NATIVE,
   ffmpeg: {
-    directory: process.env.SCREENREC_FFMPEG_DIRECTORY,
+    directory: process.env.YAP_FFMPEG_DIRECTORY,
     receiptSha256:
-      process.env.SCREENREC_FFMPEG_RECEIPT ??
+      process.env.YAP_FFMPEG_RECEIPT ??
       "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
   },
 });
@@ -123,7 +123,7 @@ try {
   const failed = await settled(preparation.jobId);
   await writeFile(join(home, "native-calls.json"), JSON.stringify(calls, null, 2));
   let recovered = failed;
-  if (process.env.SCREENREC_PRESSURE_EXPECT_FAILURE === "1") {
+  if (process.env.YAP_PRESSURE_EXPECT_FAILURE === "1") {
     assert.equal(failed.state, "failed", JSON.stringify(failed));
     assert.equal(failed.retryable, true);
     assert.match(

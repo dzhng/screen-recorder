@@ -41,24 +41,24 @@ test(
   "actual source metadata pages and composed historical preview consumption",
   { timeout: 90000 },
   async () => {
-    const candidate = join(repository, "dist/ScreenRecorder.app/Contents");
-    const out = process.env.SCREENREC_23K_EVIDENCE
-      ? realpathSync(process.env.SCREENREC_23K_EVIDENCE)
-      : mkdtempSync(join(tmpdir(), "screenrec-consumer-bridge-"));
+    const candidate = join(repository, "dist/Yap.app/Contents");
+    const out = process.env.YAP_23K_EVIDENCE
+      ? realpathSync(process.env.YAP_23K_EVIDENCE)
+      : mkdtempSync(join(tmpdir(), "yap-consumer-bridge-"));
     try {
       const service = pin(
-          process.env.SCREENREC_23K_SERVICE ?? join(candidate, "Resources/service/main.mjs"),
+          process.env.YAP_23K_SERVICE ?? join(candidate, "Resources/service/main.mjs"),
         ),
-        worker = pin(process.env.SCREENREC_23K_NATIVE ?? join(candidate, "MacOS/screenrec-native"));
+        worker = pin(process.env.YAP_23K_NATIVE ?? join(candidate, "MacOS/yap-native"));
       // The explicit override reproduces the retained historical worker cohort.
-      if (process.env.SCREENREC_23K_NATIVE)
+      if (process.env.YAP_23K_NATIVE)
         assert.equal(
           worker.sha256,
           "0a9cd72a62af990a2bccef585184df0a2bbc36220a2fc258e0198ee43d726928",
         );
       const config = JSON.parse(
         readFileSync(
-          process.env.SCREENREC_23K_CONFIG ?? join(candidate, "Resources/service/runtime.json"),
+          process.env.YAP_23K_CONFIG ?? join(candidate, "Resources/service/runtime.json"),
           "utf8",
         ),
       );
@@ -106,22 +106,22 @@ test(
       writeFileSync(
         tap,
         `import {appendFileSync} from 'node:fs';import {pathToFileURL} from 'node:url';
-const log=x=>appendFileSync(process.env.SCREENREC_23K_CONTROL,JSON.stringify(x)+'\\n');
+const log=x=>appendFileSync(process.env.YAP_23K_CONTROL,JSON.stringify(x)+'\\n');
 process.stdin.on('data',b=>log({direction:'request',base64:b.toString('base64')}));
 const write=process.stdout.write.bind(process.stdout);process.stdout.write=(b,...args)=>{log({direction:'response',base64:Buffer.from(b).toString('base64')});return write(b,...args)};
 process.on('exit',code=>log({event:'source-node-exit',pid:process.pid,code}));
-await import(pathToFileURL(process.env.SCREENREC_23K_SERVICE).href);
+await import(pathToFileURL(process.env.YAP_23K_SERVICE).href);
 `,
       );
       writeFileSync(
         native,
         `#!${config.nodePath}
 import {spawn} from 'node:child_process';import {appendFileSync} from 'node:fs';
-const log=x=>appendFileSync(process.env.SCREENREC_23K_NATIVE_LOG,JSON.stringify(x)+'\\n');let bytes='';
+const log=x=>appendFileSync(process.env.YAP_23K_NATIVE_LOG,JSON.stringify(x)+'\\n');let bytes='';
 process.stdin.setEncoding('utf8').on('data',x=>bytes+=x);process.stdin.on('end',()=>{
 const request=JSON.parse(bytes);log({event:'request',request});const operation=request.operation;
 if(!/^media\\.(audio|picture|speaker)Capabilities$/.test(operation)||Object.keys(request.params).length){log({event:'refused',operation});process.stdout.write(JSON.stringify({id:request.id,ok:false,error:{code:'FIXTURE_UNEXPECTED_NATIVE',message:operation,retryable:false,details:{}}})+'\\n');return;}
-const child=spawn(process.env.SCREENREC_23K_NATIVE,[],{stdio:['pipe','pipe','pipe']});log({event:'forwarded',operation,pid:child.pid});
+const child=spawn(process.env.YAP_23K_NATIVE,[],{stdio:['pipe','pipe','pipe']});log({event:'forwarded',operation,pid:child.pid});
 let stdout='',stderr='';child.stdout.on('data',b=>stdout+=b);child.stderr.on('data',b=>stderr+=b);
 child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code,signal,stdout,stderr});process.stdout.write(stdout);process.stderr.write(stderr);process.exitCode=code??1});child.stdin.end(bytes);
 });
@@ -147,12 +147,12 @@ child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code
         writeFileSync(join(out, "compiler.json"), JSON.stringify(compile, null, 2));
       });
       const sources = appSources.map((name) =>
-        join(root, "Sources/ScreenRecorder", `${name}.swift`),
+        join(root, "Sources/Yap", `${name}.swift`),
       );
       sources.push(
-        ...readdirSync(join(root, "Sources/ScreenRecorderControls"))
+        ...readdirSync(join(root, "Sources/YapControls"))
           .filter((n) => n.endsWith(".swift"))
-          .map((n) => join(root, "Sources/ScreenRecorderControls", n)),
+          .map((n) => join(root, "Sources/YapControls", n)),
       );
       sources.push(
         fileURLToPath(import.meta.url),
@@ -173,11 +173,11 @@ child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code
       writeFileSync(join(out, "authority.json"), JSON.stringify(authority, null, 2));
       const env = {
         ...process.env,
-        SCREENREC_HOME: home,
-        SCREENREC_23K_SERVICE: service.path,
-        SCREENREC_23K_NATIVE: worker.path,
-        SCREENREC_23K_CONTROL: join(out, "source-control.jsonl"),
-        SCREENREC_23K_NATIVE_LOG: join(out, "native.jsonl"),
+        YAP_HOME: home,
+        YAP_23K_SERVICE: service.path,
+        YAP_23K_NATIVE: worker.path,
+        YAP_23K_CONTROL: join(out, "source-control.jsonl"),
+        YAP_23K_NATIVE_LOG: join(out, "native.jsonl"),
       };
       const green = await run(
         executable,
@@ -187,7 +187,7 @@ child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code
       );
       writeFileSync(join(out, "consumer.json"), JSON.stringify(green, null, 2));
       assert.deepEqual(green.exit, { code: 0, signal: null }, green.stderr);
-      const nativeRows = readFileSync(env.SCREENREC_23K_NATIVE_LOG, "utf8")
+      const nativeRows = readFileSync(env.YAP_23K_NATIVE_LOG, "utf8")
         .trim()
         .split("\n")
         .map(JSON.parse);
@@ -207,7 +207,7 @@ child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code
           [0, null],
         ],
       );
-      const control = readFileSync(env.SCREENREC_23K_CONTROL, "utf8")
+      const control = readFileSync(env.YAP_23K_CONTROL, "utf8")
         .trim()
         .split("\n")
         .map(JSON.parse);
@@ -268,7 +268,7 @@ child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code
       assert.equal(digest(readFileSync(worker.path)), worker.sha256);
       console.log(`PASS complete actual metadata and historical ownership records: ${out}`);
     } finally {
-      if (!process.env.SCREENREC_23K_EVIDENCE) rmSync(out, { recursive: true, force: true });
+      if (!process.env.YAP_23K_EVIDENCE) rmSync(out, { recursive: true, force: true });
     }
   },
 );

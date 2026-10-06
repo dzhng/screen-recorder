@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -12,7 +12,7 @@ import { layerCases } from "./layers-cases.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
 assert.ok(
-  process.env.SCREENREC_NATIVE,
+  process.env.YAP_NATIVE,
   "Freeze the native worker before the project-index journey",
 );
 const out = values.out

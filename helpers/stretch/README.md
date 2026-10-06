@@ -6,7 +6,7 @@ license identity; both native execution and the independent research reference
 consume that owner. Exact presets and representation limits belong to the adapter,
 not a second settings table here.
 
-[The file adapter](Sources/ScreenRecorderStretch/SignalsmithProcessor.swift) serves
+[The file adapter](Sources/YapStretch/SignalsmithProcessor.swift) serves
 native preparation without splitting the upstream call into independent windows.
 The algorithm revisits input and corrects earlier output using reflected tail
 support, so forward-only streaming would change the recipe. Immutable input and a
@@ -23,7 +23,7 @@ and phase coupling differ from two independent mono processors. Counts are frame
 not individual channel samples. Cancellation at page transfers bounds adapter work
 between checks, not every upstream loop or operating-system IO latency.
 
-The [native retime owner](../mac/Sources/ScreenRecorderAudio/CompositionRetime.swift)
+The [native retime owner](../mac/Sources/YapAudio/CompositionRetime.swift)
 uses this seam through existing prepared-audio, job and asset lifetimes. The
 [reference guide](../../packages/test-harness/editing/stretch/README.md) locates parity
 and acoustic experiments; [bounded](../../specs/done/agent-editing/assets/14-bounded-stretch/README.md)

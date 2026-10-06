@@ -8,7 +8,7 @@ import { PassThrough } from "node:stream";
 import { promisify } from "node:util";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { CONTROL_FRAME_BYTES, JsonLineStream, controlMessageSchema } from "@screenrec/protocol";
+import { CONTROL_FRAME_BYTES, JsonLineStream, controlMessageSchema } from "@yap/protocol";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
 
 assert.equal(process.argv[2], "--out");

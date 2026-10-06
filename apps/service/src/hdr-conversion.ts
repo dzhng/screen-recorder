@@ -1,7 +1,7 @@
 import type { FileHandle } from "node:fs/promises";
 import { isDeepStrictEqual } from "node:util";
-import { fileIdentity, hashFile } from "@screenrec/core/files";
-import { mediaProbeSchema } from "@screenrec/core/assets";
+import { fileIdentity, hashFile } from "@yap/core/files";
+import { mediaProbeSchema } from "@yap/core/assets";
 import { withRenderAttempt } from "./render.js";
 import { withFfmpegArtifact, type FfmpegArtifact } from "./ffmpeg-artifact.js";
 import { readMediaProbe } from "./media-probe.js";
@@ -12,8 +12,8 @@ import {
   readHdrAudioConversionFacts,
   type HdrAudioConversionFacts,
   type HdrConversionFacts,
-} from "@screenrec/core/hdr-conversion-facts";
-import { CatalogError } from "@screenrec/core/catalog";
+} from "@yap/core/hdr-conversion-facts";
+import { CatalogError } from "@yap/core/catalog";
 import {
   add,
   compare,
@@ -22,7 +22,7 @@ import {
   subtract,
   toTime,
   type SignedTimeValue,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import type { FfmpegColorDeclarations } from "./ffmpeg-input.js";
 
 /** Interpretation only. Physical support, clock mapping and actual derivative

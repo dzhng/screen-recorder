@@ -10,9 +10,9 @@ import {
   operationError,
   resultSchema,
   type OperationResult,
-} from "@screenrec/protocol";
-import { CatalogError } from "@screenrec/core/catalog";
-import type { PreparedRuntime } from "@screenrec/core/models";
+} from "@yap/protocol";
+import { CatalogError } from "@yap/core/catalog";
+import type { PreparedRuntime } from "@yap/core/models";
 import {
   subtract,
   fromTime,
@@ -20,7 +20,7 @@ import {
   divide,
   ceil,
   type SelectionRange,
-} from "@screenrec/composition";
+} from "@yap/composition";
 
 /**
  * Where the packaged app's native worker executable is. The app is the one owner of that path:
@@ -28,7 +28,7 @@ import {
  * the service never guesses a bundle layout. A test that runs the service without an app sets it
  * explicitly, and an unset variable is reported rather than searched around.
  */
-const NATIVE_EXECUTABLE_VARIABLE = "SCREENREC_NATIVE";
+const NATIVE_EXECUTABLE_VARIABLE = "YAP_NATIVE";
 export const MAX_MEDIA_TIMEOUT_MS = 2_147_483_647;
 
 /** Budget selected output, including silence, without charging for discarded source prefixes. */
@@ -222,7 +222,7 @@ function ownedProcess(
           if (!overrun && performance.now() - started >= 5000) {
             overrun = true;
             console.error(
-              "screenrec: CLI process group retirement exceeded 5s; retaining owned work",
+              "yap: CLI process group retirement exceeded 5s; retaining owned work",
               { groupId: child.pid },
             );
           }

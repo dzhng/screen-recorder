@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { controlsProbe, launchReady, setDefault, temporary, waitFor } from "./harness.mjs";
 
-const title = "Screen Recorder Settings";
+const title = "Yap Settings";
 
 /**
  * An ordinary launch of the packaged app with its own scratch defaults domain, observed through the
@@ -17,8 +17,8 @@ async function launchWith(preferences = []) {
   const commands = join(home, "controls");
   mkdirSync(commands, { recursive: true });
   const { instance } = await launchReady(home, {
-    SCREENREC_DEFAULTS: domain,
-    SCREENREC_FIXTURE_CONTROLS: commands,
+    YAP_DEFAULTS: domain,
+    YAP_FIXTURE_CONTROLS: commands,
   });
   await instance.waitFor(/controls probe listening/);
   const send = controlsProbe(commands);

@@ -1,8 +1,8 @@
 @preconcurrency import AVFoundation
 import Darwin
 import Foundation
-import ScreenRecorderAudio
-import ScreenRecorderMedia
+import YapAudio
+import YapMedia
 
 func streamingProof(source: String, seconds: Int64, evidence: URL) async throws {
     let span = TimeSpan(startUs: 0, endUs: seconds * 1_000_000)

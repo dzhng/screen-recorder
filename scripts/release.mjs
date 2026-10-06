@@ -72,7 +72,7 @@ async function prepare() {
   run(process.execPath, [join(root, "helpers/ffmpeg/prepare.mjs"), "prepare", "--cache", inputs]);
   await download(sparkleTools.url, join(inputs, sparkleTools.archive), sparkleTools.sha256);
   if (
-    !process.env.SCREENREC_SPARKLE_FRAMEWORK &&
+    !process.env.YAP_SPARKLE_FRAMEWORK &&
     !existsSync(join(root, "dist/sparkle/build-receipt.json"))
   ) {
     const pin = JSON.parse(readFileSync(join(root, "scripts/sparkle/upstream.json")));
@@ -103,7 +103,7 @@ async function packageRelease(tag) {
   }).trim();
   if (dirty) throw new Error("Commit source changes before packaging a release.");
   await verified(join(inputs, node.archive), node.sha256);
-  const built = join(root, "dist/ScreenRecorder.app");
+  const built = join(root, "dist/Yap.app");
   const builtVersion = execFileSync(
     "/usr/libexec/PlistBuddy",
     ["-c", "Print :CFBundleShortVersionString", join(built, "Contents/Info.plist")],
@@ -128,8 +128,8 @@ async function packageRelease(tag) {
   mkdirSync(out, { recursive: true });
   const work = mkdtempSync(join(out, "package-"));
   const tools = mkdtempSync(join(out, "tools-"));
-  const app = join(work, "Screen Recorder.app");
-  const archive = join(out, `ScreenRecorder-${tag}-macos-arm64.zip`);
+  const app = join(work, "Yap.app");
+  const archive = join(out, `Yap-${tag}-macos-arm64.zip`);
   const temporaryArchive = `${archive}.part-${process.pid}`;
   try {
     run("tar", ["-xf", join(inputs, sparkleTools.archive), "-C", tools]);
@@ -175,13 +175,13 @@ async function packageRelease(tag) {
     configureReleasePlist(join(app, "Contents/Info.plist"), facts, signing.publicKey);
     for (const executable of [
       join(runtime, "node"),
-      join(app, "Contents/MacOS/screenrec-native"),
-      join(app, "Contents/MacOS/ScreenRecorder"),
+      join(app, "Contents/MacOS/yap-native"),
+      join(app, "Contents/MacOS/Yap"),
     ]) {
       const arch = execFileSync("lipo", ["-archs", executable], { encoding: "utf8" }).trim();
       if (arch !== "arm64") throw new Error(`Expected arm64 executable: ${executable} (${arch})`);
     }
-    const launcher = join(work, "screenrec");
+    const launcher = join(work, "yap");
     run("xcrun", [
       "clang",
       "-Wall",
@@ -216,7 +216,7 @@ async function packageRelease(tag) {
       writeFileSync(manifestFile, JSON.stringify(manifest, null, 2) + "\n");
       signReleaseTree(app, identity, keychain, { signedResources });
       signReleaseTree(launcher, identity, keychain);
-      const updateArchive = join(out, `ScreenRecorder-${tag}-update-macos-arm64.zip`);
+      const updateArchive = join(out, `Yap-${tag}-update-macos-arm64.zip`);
       run("ditto", ["-c", "-k", "--sequesterRsrc", "--keepParent", app, updateArchive]);
       const tool = join(tools, "bin/sign_update");
       const signature = execFileSync(tool, ["--ed-key-file", keyFile, "-p", updateArchive], {
@@ -228,7 +228,7 @@ async function packageRelease(tag) {
       const feed = join(out, "appcast.xml");
       writeFileSync(
         feed,
-        `<?xml version="1.0"?><rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><title>Screen Recorder</title><item><title>${version}</title><sparkle:version>${version}</sparkle:version><sparkle:shortVersionString>${version}</sparkle:shortVersionString><sparkle:minimumSystemVersion>${minimumMacOS}</sparkle:minimumSystemVersion><screenrecCatalogFormat>${facts.catalogFormat}</screenrecCatalogFormat><enclosure url="https://github.com/dzhng/screen-recorder/releases/download/${tag}/${updateName}" sparkle:edSignature="${signature}" length="${readFileSync(updateArchive).length}" type="application/octet-stream"/></item></channel></rss>\n`,
+        `<?xml version="1.0"?><rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><title>Yap</title><item><title>${version}</title><sparkle:version>${version}</sparkle:version><sparkle:shortVersionString>${version}</sparkle:shortVersionString><sparkle:minimumSystemVersion>${minimumMacOS}</sparkle:minimumSystemVersion><yapCatalogFormat>${facts.catalogFormat}</yapCatalogFormat><enclosure url="https://github.com/dzhng/yap/releases/download/${tag}/${updateName}" sparkle:edSignature="${signature}" length="${readFileSync(updateArchive).length}" type="application/octet-stream"/></item></channel></rss>\n`,
       );
       run(tool, ["--ed-key-file", keyFile, feed]);
       run(tool, ["--ed-key-file", keyFile, "--verify", feed]);

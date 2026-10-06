@@ -7,7 +7,7 @@ import { JourneyService, hash, poll } from "./source-evidence-fixture.mjs";
 import { readAudioWaveFile } from "../../core/dist/audio-wave.js";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out),
   home = await realpath(await mkdtemp("/tmp/sr-pause-"));
 await mkdir(out);
@@ -16,7 +16,7 @@ const report = {
   trace: [],
   exchanges: [],
   checks: {},
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);

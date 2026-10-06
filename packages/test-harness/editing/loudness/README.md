@@ -17,5 +17,5 @@ The public journey uses the shared scratch service/CLI/MCP fixture, an explicitl
 selected bundled FFmpeg distribution and a pinned native worker. It proves signal
 selection, channel interpretation, null gating results and retained preparation.
 It never plays audio or changes a personal library. Its source owns arguments;
-`SCREENREC_NATIVE` pins the native executable. Generated sources remain intact.
+`YAP_NATIVE` pins the native executable. Generated sources remain intact.
 Neither journey establishes universal meter compliance or subjective sound quality.

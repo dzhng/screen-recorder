@@ -9,7 +9,7 @@ import {
   DEFAULT_CALL_TIMEOUT_MS,
   CONTROL_FRAME_BYTES,
   MAX_PENDING_CONTROL_CALLS,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import { JourneyService, poll, root } from "./source-evidence-fixture.mjs";
 
 /** Only the physical input is prerecorded; controller, host, public transport and service are real. */
@@ -37,13 +37,13 @@ export class ControllerJourneyService extends JourneyService {
       stdio: ["pipe", "pipe", "pipe"],
       env: {
         ...process.env,
-        SCREENREC_CONTROLLER_HOME: this.home,
-        ...(this.fixture.evidence ? { SCREENREC_CONTROLLER_EVIDENCE: this.fixture.evidence } : {}),
+        YAP_CONTROLLER_HOME: this.home,
+        ...(this.fixture.evidence ? { YAP_CONTROLLER_EVIDENCE: this.fixture.evidence } : {}),
         ...(this.fixture.recoveryHold
-          ? { SCREENREC_CONTROLLER_RECOVERY_HOLD: this.fixture.recoveryHold }
+          ? { YAP_CONTROLLER_RECOVERY_HOLD: this.fixture.recoveryHold }
           : {}),
         ...(this.fixture.importFault
-          ? { SCREENREC_CONTROLLER_IMPORT_FAULT: this.fixture.importFault }
+          ? { YAP_CONTROLLER_IMPORT_FAULT: this.fixture.importFault }
           : {}),
       },
     });

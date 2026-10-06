@@ -17,7 +17,7 @@ import {
 } from "./audio-project-fixture.mjs";
 import { maskedProject } from "./audio-project-mask.mjs";
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Explicit frozen native required");
+assert.ok(process.env.YAP_NATIVE, "Explicit frozen native required");
 const out = values.out
   ? resolve(values.out)
   : await mkdtemp(join(tmpdir(), "large-project-evidence-"));
@@ -80,7 +80,7 @@ async function sampleMemory() {
     descendants([process.pid]).reduce((n, r) => n + r.rss, 0),
   );
   for (const row of selected)
-    if (row.command === process.env.SCREENREC_NATIVE)
+    if (row.command === process.env.YAP_NATIVE)
       report.memory.nativePeakRssBytes = Math.max(report.memory.nativePeakRssBytes, row.rss);
 }
 async function ready(params) {
@@ -111,7 +111,7 @@ async function readBytes(token, offset, length) {
   return Buffer.concat(blocks);
 }
 try {
-  report.nativeSha256 = await digest(process.env.SCREENREC_NATIVE);
+  report.nativeSha256 = await digest(process.env.YAP_NATIVE);
   report.runtime = {};
   for (const directory of [
     "packages/composition",

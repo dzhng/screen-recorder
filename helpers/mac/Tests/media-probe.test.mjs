@@ -26,8 +26,8 @@ import {
   changeLaterSampleDescription,
 } from "./fixtures/hevc-interpretation.mjs";
 const executable =
-  process.env.SCREENREC_NATIVE ??
-  new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
+  process.env.YAP_NATIVE ??
+  new URL("../.build/debug/yap-native", import.meta.url).pathname;
 const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url);
 function probe(name, extra = {}, fileDescriptor, diagnosticPath) {
   const result = spawnSync(executable, [], {
@@ -113,7 +113,7 @@ test("probe keeps still-image alpha and odd dimensions without inventing a durat
 });
 
 test("probe normalizes one shared asset clock while retaining stream offsets", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-probe-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const path = join(directory, "offset.mov");
   const encoded = spawnSync(
@@ -155,7 +155,7 @@ test("probe normalizes one shared asset clock while retaining stream offsets", (
 });
 
 test("probe maps B-frame edit lists and excludes stream-copy preroll", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-edits-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-probe-edits-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const source = join(directory, "bframes.mp4"),
     trimmed = join(directory, "trimmed.mp4");
@@ -190,7 +190,7 @@ test("probe maps B-frame edit lists and excludes stream-copy preroll", (t) => {
 });
 
 test("probe distinguishes absent range metadata from a declared video color profile", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-color-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-probe-color-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const path = join(directory, "pq.mov");
   const encoded = spawnSync(
@@ -236,7 +236,7 @@ test("probe distinguishes absent range metadata from a declared video color prof
 });
 
 test("probe reports alpha on timed ProRes pictures", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-alpha-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-probe-alpha-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const path = join(directory, "alpha.mov");
   const encoded = spawnSync(
@@ -268,12 +268,12 @@ test("probe reports alpha on timed ProRes pictures", (t) => {
 });
 
 test("probe timing digest detects interior changes hidden by summaries", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-timing-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-probe-timing-"));
   const operandsPath = join(directory, "operands.json");
   let passed = false;
   t.after(() => {
     if (!passed && existsSync(operandsPath)) {
-      const diagnostic = mkdtempSync(join(tmpdir(), "screenrec-probe-timing-failure-"));
+      const diagnostic = mkdtempSync(join(tmpdir(), "yap-probe-timing-failure-"));
       copyFileSync(operandsPath, join(diagnostic, "operands.json"));
       t.diagnostic(`Unverified timing operands retained at ${diagnostic}/operands.json`);
     }
@@ -343,7 +343,7 @@ test("probe timing digest detects interior changes hidden by summaries", (t) => 
 });
 
 test("probe retains codec atom names without changing ordinary packet work", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-codec-atoms-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-probe-codec-atoms-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const path = join(directory, "pq.mov");
   const encoded = spawnSync(
@@ -387,12 +387,12 @@ test("probe retains codec atom names without changing ordinary packet work", (t)
 });
 
 test("requested compressed inspection covers native HEVC packets", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-compressed-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-probe-compressed-"));
   const operandsPath = join(directory, "operands.json");
   let passed = false;
   t.after(() => {
     if (!passed && existsSync(operandsPath)) {
-      const diagnostic = mkdtempSync(join(tmpdir(), "screenrec-probe-compressed-failure-"));
+      const diagnostic = mkdtempSync(join(tmpdir(), "yap-probe-compressed-failure-"));
       copyFileSync(operandsPath, join(diagnostic, "operands.json"));
       t.diagnostic(`Unverified operands retained at ${diagnostic}/operands.json`);
     }
@@ -479,12 +479,12 @@ test("requested compressed inspection covers native HEVC packets", (t) => {
 });
 
 test("native interpretation evidence separates packet-only and codec-atom markers", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-interpretation-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-probe-interpretation-"));
   const operandsPath = join(directory, "operands.json");
   let passed = false;
   t.after(() => {
     if (!passed && existsSync(operandsPath)) {
-      const diagnostic = mkdtempSync(join(tmpdir(), "screenrec-probe-interpretation-failure-"));
+      const diagnostic = mkdtempSync(join(tmpdir(), "yap-probe-interpretation-failure-"));
       copyFileSync(operandsPath, join(diagnostic, "operands.json"));
       t.diagnostic(`Unverified operands retained at ${diagnostic}/operands.json`);
     }
@@ -602,12 +602,12 @@ test("native interpretation evidence separates packet-only and codec-atom marker
 });
 
 test("explicit compressed inspection streams a held source beyond the metadata read allowance", (t) => {
-  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-held-packets-"));
+  const directory = mkdtempSync(join(tmpdir(), "yap-probe-held-packets-"));
   const diagnosticNames = ["ordinary.json", "inspected.json", "oversized.json"];
   let passed = false;
   t.after(() => {
     if (!passed) {
-      const retained = mkdtempSync(join(tmpdir(), "screenrec-probe-held-failure-"));
+      const retained = mkdtempSync(join(tmpdir(), "yap-probe-held-failure-"));
       for (const name of diagnosticNames) {
         if (existsSync(join(directory, name)))
           copyFileSync(join(directory, name), join(retained, name));

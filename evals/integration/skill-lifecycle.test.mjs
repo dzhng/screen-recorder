@@ -12,7 +12,7 @@ test("documented real installer steps preserve inspection and restore failed rep
     project = join(scratch, "project"),
     home = join(scratch, "home");
   const guide = await readFile(
-    new URL("../../skills/screenrec/references/skill-lifecycle.md", import.meta.url),
+    new URL("../../skills/yap/references/skill-lifecycle.md", import.meta.url),
     "utf8",
   );
   const allBlocks = [...guide.matchAll(/```sh\n([\s\S]*?)```/g)].map((match) => match[1]);
@@ -20,7 +20,7 @@ test("documented real installer steps preserve inspection and restore failed rep
     allBlocks[0],
     allBlocks.find((block) => block.startsWith("test ! -e")),
     allBlocks.find((block) => block.startsWith("diff -ru")),
-    allBlocks.find((block) => block.includes("screenrec_backup=$(mktemp -d)")),
+    allBlocks.find((block) => block.includes("yap_backup=$(mktemp -d)")),
   ];
   const receipt = {
     sourceRevision: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
@@ -33,7 +33,7 @@ test("documented real installer steps preserve inspection and restore failed rep
         ...process.env,
         HOME: home,
         TMPDIR: join(project, "backups"),
-        screenrec_source: candidate,
+        yap_source: candidate,
         DISABLE_TELEMETRY: "1",
         NODE_DISABLE_COMPILE_CACHE: "1",
       },
@@ -48,20 +48,20 @@ test("documented real installer steps preserve inspection and restore failed rep
     return result.status;
   }
   try {
-    if (process.env.SCREENREC_SKILL_BASELINE) {
+    if (process.env.YAP_SKILL_BASELINE) {
       await mkdir(source);
       const archive = execFileSync("git", [
         "archive",
-        process.env.SCREENREC_SKILL_BASELINE,
-        "skills/screenrec",
+        process.env.YAP_SKILL_BASELINE,
+        "skills/yap",
       ]);
       const extraction = join(scratch, "extraction");
       await mkdir(extraction);
       execFileSync("tar", ["-xf", "-", "-C", extraction], { input: archive });
-      await cp(join(extraction, "skills/screenrec"), source, { recursive: true });
-      receipt.matchedBaseline = process.env.SCREENREC_SKILL_BASELINE;
+      await cp(join(extraction, "skills/yap"), source, { recursive: true });
+      receipt.matchedBaseline = process.env.YAP_SKILL_BASELINE;
     } else
-      await cp(new URL("../../skills/screenrec/", import.meta.url), source, { recursive: true });
+      await cp(new URL("../../skills/yap/", import.meta.url), source, { recursive: true });
     await mkdir(project);
     await mkdir(home);
     await mkdir(join(project, "backups"));
@@ -71,13 +71,13 @@ test("documented real installer steps preserve inspection and restore failed rep
     assert.equal(await call(1), 0);
     receipt.installed = await projectSnapshot(project, 500);
     assert.equal(
-      receipt.installed[".claude/skills/screenrec"].target,
-      "../../.agents/skills/screenrec",
+      receipt.installed[".claude/skills/yap"].target,
+      "../../.agents/skills/yap",
     );
-    await writeFile(join(project, ".agents/skills/screenrec/SKILL.md"), "LOCAL CUSTOMIZATION\n");
-    await writeFile(join(project, ".agents/skills/screenrec/local-notes.md"), "Local extra\n");
+    await writeFile(join(project, ".agents/skills/yap/SKILL.md"), "LOCAL CUSTOMIZATION\n");
+    await writeFile(join(project, ".agents/skills/yap/local-notes.md"), "Local extra\n");
     await writeFile(
-      join(project, ".agents/skills/screenrec/references/removed.md"),
+      join(project, ".agents/skills/yap/references/removed.md"),
       "Upstream deleted\n",
     );
     await writeFile(join(source, "references/added.md"), "Upstream addition\n");
@@ -95,17 +95,17 @@ test("documented real installer steps preserve inspection and restore failed rep
       assert.deepEqual(receipt.failedRestored[path], entry, path);
     assert.equal(await call(3), 0);
     receipt.replaced = await projectSnapshot(project, 500);
-    assert.ok(!receipt.replaced[".agents/skills/screenrec/local-notes.md"]);
-    assert.ok(!receipt.replaced[".agents/skills/screenrec/references/removed.md"]);
+    assert.ok(!receipt.replaced[".agents/skills/yap/local-notes.md"]);
+    assert.ok(!receipt.replaced[".agents/skills/yap/references/removed.md"]);
     assert.equal(
-      receipt.replaced[".agents/skills/screenrec/references/added.md"].text,
+      receipt.replaced[".agents/skills/yap/references/added.md"].text,
       "Upstream addition\n",
     );
     assert.deepEqual(
       receipt.replaced[".claude/settings.json"],
       receipt.customized[".claude/settings.json"],
     );
-    const blocked = join(project, ".agents/skills/screenrec/blocked");
+    const blocked = join(project, ".agents/skills/yap/blocked");
     await mkdir(blocked);
     await writeFile(
       join(blocked, "retained.txt"),
@@ -124,9 +124,9 @@ test("documented real installer steps preserve inspection and restore failed rep
     }
     receipt.verdict =
       "Documented installer/diff/replacement/failed-add restore executed against complete controlled local folders.";
-    if (process.env.SCREENREC_SKILL_PROOF_OUTPUT)
+    if (process.env.YAP_SKILL_PROOF_OUTPUT)
       await writeFile(
-        process.env.SCREENREC_SKILL_PROOF_OUTPUT,
+        process.env.YAP_SKILL_PROOF_OUTPUT,
         JSON.stringify(receipt, null, 2) + "\n",
       );
   } finally {

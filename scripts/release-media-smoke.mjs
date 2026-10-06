@@ -8,17 +8,17 @@ import { setTimeout as delay } from "node:timers/promises";
 import { verifyVideoDelivery } from "../packages/test-harness/editing/hevc-delivery.mjs";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const receipt = JSON.parse(readFileSync(join(root, "dist/release/release.json")));
-const scratch = mkdtempSync("/tmp/screenrec-release-");
+const scratch = mkdtempSync("/tmp/yap-release-");
 let child, exited, cleanupError, spawnError;
 try {
   const moved = join(scratch, "Relocated release");
   execFileSync("ditto", [
     "-x",
     "-k",
-    join(root, `dist/release/ScreenRecorder-${receipt.tag}-macos-arm64.zip`),
+    join(root, `dist/release/Yap-${receipt.tag}-macos-arm64.zip`),
     moved,
   ]);
-  const app = join(moved, "Screen Recorder.app");
+  const app = join(moved, "Yap.app");
   execFileSync("codesign", ["--verify", "--deep", "--strict", app]);
   const node = join(app, "Contents/Resources/node/bin/node");
   const cli = join(app, "Contents/Resources/cli/main.mjs");
@@ -28,11 +28,11 @@ try {
     HOME: scratch,
     PATH: "/usr/bin:/bin:/usr/sbin:/sbin",
     TMPDIR: tmpdir(),
-    SCREENREC_HOME: join(scratch, "home"),
-    SCREENREC_APP: app,
-    SCREENREC_NATIVE: join(app, "Contents/MacOS/screenrec-native"),
-    SCREENREC_FFMPEG_DIRECTORY: resolve(dirname(service), runtime.ffmpegDirectory),
-    SCREENREC_FFMPEG_RECEIPT_SHA256: runtime.ffmpegReceiptSha256,
+    YAP_HOME: join(scratch, "home"),
+    YAP_APP: app,
+    YAP_NATIVE: join(app, "Contents/MacOS/yap-native"),
+    YAP_FFMPEG_DIRECTORY: resolve(dirname(service), runtime.ffmpegDirectory),
+    YAP_FFMPEG_RECEIPT_SHA256: runtime.ffmpegReceiptSha256,
   };
   let diagnostics = "";
   // Execute the packaged service directly: the production host and launcher own
@@ -76,7 +76,7 @@ try {
         cli,
         operation,
         "--socket",
-        join(env.SCREENREC_HOME, "run/service.sock"),
+        join(env.YAP_HOME, "run/service.sock"),
         "--params",
         JSON.stringify(params),
       ],

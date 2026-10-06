@@ -7,7 +7,7 @@ import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Freeze the native source-picture implementation first");
+assert.ok(process.env.YAP_NATIVE, "Freeze the native source-picture implementation first");
 const out = values.out
   ? resolve(values.out)
   : await mkdtemp(join(tmpdir(), "source-frame-evidence-"));

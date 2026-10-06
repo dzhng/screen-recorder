@@ -17,7 +17,7 @@ import {
   processingTapSchema,
   type ProcessingTap,
   type CompiledFrame,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import type { ProjectStore } from "./projects.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
@@ -155,7 +155,7 @@ export type ProjectFrameRenderer = ProjectRenderSupport & {
   implementationId: string;
   render(
     request: {
-      model: import("@screenrec/composition").ValidatedComposition;
+      model: import("@yap/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
       fonts: readonly FontAssetBinding[];

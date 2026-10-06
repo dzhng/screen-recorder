@@ -1,8 +1,8 @@
-import { CatalogError } from "@screenrec/core/catalog";
+import { CatalogError } from "@yap/core/catalog";
 import { fstatSync, readFileSync } from "node:fs";
-import { fileIdentity, type FileAccess } from "@screenrec/core/files";
-import type { IndexRecords, PortableIndexRecord } from "@screenrec/core/screenshot-index";
-import { indexMemberPath, type PortableResource } from "@screenrec/core/project-package";
+import { fileIdentity, type FileAccess } from "@yap/core/files";
+import type { IndexRecords, PortableIndexRecord } from "@yap/core/screenshot-index";
+import { indexMemberPath, type PortableResource } from "@yap/core/project-package";
 
 type RecordData<D extends IndexRecords> =
   | { kind: "entry"; candidate: D["candidate"]; frame: D["frame"] }

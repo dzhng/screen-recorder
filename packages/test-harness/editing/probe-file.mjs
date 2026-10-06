@@ -16,13 +16,13 @@ const { values } = parseArgs({
     font: { type: "string" },
   },
 });
-assert.ok(values.out && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 await mkdir(out);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const report = {
   passed: false,
-  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
   checks: [],
 };
 const worker = mediaWorker();

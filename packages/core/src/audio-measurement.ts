@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { stateRecipeSchema, type ProcessingStep } from "@screenrec/composition";
+import { stateRecipeSchema, type ProcessingStep } from "@yap/composition";
 import { CatalogError } from "./catalog.js";
 
 export const loudnessMeasurementSchema = z.strictObject({

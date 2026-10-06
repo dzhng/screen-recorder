@@ -1,4 +1,4 @@
-import type { CompiledProcessingInstruction } from "@screenrec/composition";
+import type { CompiledProcessingInstruction } from "@yap/composition";
 
 /** Visual parameters and activation are already resolved in picture instructions, not native metadata. */
 export function nativeProcessing(plan: readonly CompiledProcessingInstruction[]) {

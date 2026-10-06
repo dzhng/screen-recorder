@@ -46,14 +46,14 @@ try {
         "--verify-tag",
         "--draft",
         "--title",
-        `Screen Recorder ${tag}`,
+        `Yap ${tag}`,
         "--notes-file",
         "NOTES.md",
         ...(prerelease ? ["--prerelease"] : []),
       ]);
       if (created.status !== 0) throw new Error(created.stderr || "Draft release creation failed");
     }
-    const assets = [`ScreenRecorder-${tag}-macos-arm64.zip`, receipt.updateArchive.name];
+    const assets = [`Yap-${tag}-macos-arm64.zip`, receipt.updateArchive.name];
     for (const name of ["appcast.xml", "SHA256SUMS", "release.json"]) assets.push(name);
     const upload = gh(["release", "upload", tag, ...assets, "--clobber"]);
     if (upload.status !== 0) throw new Error(upload.stderr || "Draft upload failed");

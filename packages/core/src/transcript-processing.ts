@@ -1,4 +1,4 @@
-import { fromTime, compare, type SelectionRange } from "@screenrec/composition";
+import { fromTime, compare, type SelectionRange } from "@yap/composition";
 import { z } from "zod";
 import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";

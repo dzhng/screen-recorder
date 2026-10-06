@@ -15,7 +15,7 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
 
-export const identityName = "Screen Recorder Local";
+export const identityName = "Yap Local";
 const keychain = execFileSync("security", ["default-keychain"], { encoding: "utf8" })
   .trim()
   .replace(/^"|"$/g, "");
@@ -29,7 +29,7 @@ export function findIdentity() {
 }
 
 function create() {
-  const work = mkdtempSync("/tmp/screenrec-identity-");
+  const work = mkdtempSync("/tmp/yap-identity-");
   try {
     // Code signing needs the certificate to say it is for code signing, which `openssl req` only
     // writes from a config file.

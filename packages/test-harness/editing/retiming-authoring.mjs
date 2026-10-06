@@ -17,7 +17,7 @@ const { values } = parseArgs({
     "public-audio": { type: "boolean" },
   },
 });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 assert(
   !(values.renderer && values["public-audio"]),
   "Choose direct native or public audio execution",
@@ -31,7 +31,7 @@ const report = {
   trace: [],
   exchanges: [],
   cases: [],
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   scope: values["public-audio"]
     ? "Public integer-duration authoring and delivered audio.get PCM against accepted A-D files."
     : "Public integer-duration authoring and compiler plans; native rendering is a separate prerequisite entry, not public capability adoption.",

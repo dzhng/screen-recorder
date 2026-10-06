@@ -1,5 +1,5 @@
 import Foundation
-import ScreenRecorderCapture
+import YapCapture
 
 func diagnostic(_ message: String) { FileHandle.standardError.write(Data((message + "\n").utf8)) }
 
@@ -19,15 +19,15 @@ struct ControllerLifecycle {
     }
     static func main() async throws {
         let env = ProcessInfo.processInfo.environment
-        let mode = env["SCREENREC_CONTROLLER_MODE"]!
-        let root = URL(fileURLWithPath: env["SCREENREC_CONTROLLER_REPORT_ROOT"]!)
-        let source = URL(fileURLWithPath: env["SCREENREC_CONTROLLER_VIDEO"] ?? root.appendingPathComponent("input.mov").path)
-        if env["SCREENREC_CONTROLLER_VIDEO"] == nil {
+        let mode = env["YAP_CONTROLLER_MODE"]!
+        let root = URL(fileURLWithPath: env["YAP_CONTROLLER_REPORT_ROOT"]!)
+        let source = URL(fileURLWithPath: env["YAP_CONTROLLER_VIDEO"] ?? root.appendingPathComponent("input.mov").path)
+        if env["YAP_CONTROLLER_VIDEO"] == nil {
             try await RecoveryFixture.writeVariableDurationVideo(to: source,
                 timesUs: [0, 100000, 200000, 300000], endUs: 400000)
         }
         let input = PrerecordedCaptureInput(source: source)
-        if mode == "cleanup-pending" { input.audio = URL(fileURLWithPath: env["SCREENREC_CONTROLLER_AUDIO"]!) }
+        if mode == "cleanup-pending" { input.audio = URL(fileURLWithPath: env["YAP_CONTROLLER_AUDIO"]!) }
         input.videoDeliveryInterval = .milliseconds(10)
         input.holdStop = true
         let prepareEntered = InputGate(), prepareRelease = InputGate()
@@ -47,8 +47,8 @@ struct ControllerLifecycle {
         let controller = CaptureController(fixtureWindow: nil, capture: capture)
         let ready = InputGate()
         let host = ServiceHost(bundle: ServiceBundle(
-            script: URL(fileURLWithPath: env["SCREENREC_CONTROLLER_PEER"]!),
-            node: env["SCREENREC_CONTROLLER_NODE"]!, native: source,
+            script: URL(fileURLWithPath: env["YAP_CONTROLLER_PEER"]!),
+            node: env["YAP_CONTROLLER_NODE"]!, native: source,
             controlFrameBytes: 1_048_576, maxPendingCalls: 32, callTimeout: 10,
             startupDeadline: Date().addingTimeInterval(10)),
             onNativeCall: { _, _, answer in answer(.failure(ServiceFailure(code: "UNKNOWN_OPERATION", message: "No native calls from report peer"))) },

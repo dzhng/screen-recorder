@@ -15,7 +15,7 @@ import {
   clipAssetIds,
   type Composition,
   type EditBatchResult,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { TranscriptStore } from "./transcript.js";
 import { seedTextOperations, textSeeds, validateTextSeeds } from "./text-seeds.js";
 import { Catalog, CatalogError } from "./catalog.js";

@@ -5,7 +5,7 @@ import { join } from "node:path";
 /** The parent owns anonymous output even when the native child aborts. */
 export function withEvidenceDirectory(key, run) {
   const supplied = process.env[key];
-  const directory = supplied ?? mkdtempSync(join(tmpdir(), "screenrec-test-"));
+  const directory = supplied ?? mkdtempSync(join(tmpdir(), "yap-test-"));
   try {
     return run({ ...process.env, [key]: directory });
   } finally {

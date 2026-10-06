@@ -18,8 +18,8 @@ assert.ok(
   "Expected [--out DIRECTORY]",
 );
 assert.ok(
-  process.env.SCREENREC_NATIVE,
-  "SCREENREC_NATIVE must name an isolated frozen native build",
+  process.env.YAP_NATIVE,
+  "YAP_NATIVE must name an isolated frozen native build",
 );
 const out = args[1] ? resolve(args[1]) : await mkdtemp(join(tmpdir(), "acquisition-evidence-"));
 await mkdir(out, { recursive: true });
@@ -501,8 +501,8 @@ try {
     original,
   );
   report.runtime = {
-    native: process.env.SCREENREC_NATIVE,
-    nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+    native: process.env.YAP_NATIVE,
+    nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
     modules: Object.fromEntries(
       await Promise.all(
         [

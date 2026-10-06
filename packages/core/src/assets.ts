@@ -4,7 +4,7 @@ import {
   fromTime,
   compare,
   type SelectionRange,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import {
   assetOriginSchema,
   hdrConversionEvidenceMatchesMetadata,
@@ -13,7 +13,7 @@ import {
 export type { AssetProvenance } from "./asset-origins.js";
 import { isDeepStrictEqual } from "node:util";
 import { ResourceReferences, resourceKinds, type ResourceOwner } from "./references.js";
-import type { Asset as CompositionAsset } from "@screenrec/composition";
+import type { Asset as CompositionAsset } from "@yap/composition";
 import { randomUUID } from "node:crypto";
 import { constants } from "node:fs";
 import { mkdir, open, link, unlink, opendir, rm, lstat } from "node:fs/promises";

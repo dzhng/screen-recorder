@@ -8,7 +8,7 @@ import { sourcePeriod, waveHeader } from "./audio-project-fixture.mjs";
 const { values } = parseArgs({
   options: { out: { type: "string" }, home: { type: "string" }, request: { type: "string" } },
 });
-assert(values.out && values.home && values.request && process.env.SCREENREC_NATIVE);
+assert(values.out && values.home && values.request && process.env.YAP_NATIVE);
 const out = resolve(values.out),
   home = join(out, "home"),
   original = JSON.parse(await readFile(resolve(values.request))),
@@ -18,7 +18,7 @@ const out = resolve(values.out),
     checks: {},
     normalization:
       "Identical operations and complete pre-edit document; public restore requires new requestId/expectedRevisionId. No SQL head/receipt changes.",
-    nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+    nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
     harnessSha256: hash(await readFile(import.meta.filename)),
   };
 await mkdir(out);

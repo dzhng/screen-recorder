@@ -1,5 +1,5 @@
-import { applyBatch, createCompiler, validateComposition } from "@screenrec/composition";
-import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
+import { applyBatch, createCompiler, validateComposition } from "@yap/composition";
+import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@yap/protocol";
 import { mkdtemp, readFile, rm, writeFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";

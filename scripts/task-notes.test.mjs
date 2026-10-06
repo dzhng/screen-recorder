@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { resumeTaskNotes } from "../skills/screenrec/scripts/task-notes.mjs";
+import { resumeTaskNotes } from "../skills/yap/scripts/task-notes.mjs";
 const notes = {
   version: 1,
   projectId: "project",
@@ -38,7 +38,7 @@ const notes = {
   ],
 };
 test("transferred notes keep caller decisions historical and missing artifacts missing without preparation", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-notes-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-notes-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const donor = join(directory, "donor"),
     recipient = join(directory, "recipient");
@@ -76,7 +76,7 @@ test("transferred notes keep caller decisions historical and missing artifacts m
 });
 
 test("escaped files and unavailable historical identities stay explicit, and unsupported notes never dispatch", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-notes-unavailable-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-notes-unavailable-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const path = join(directory, "notes.json");
   const input = {
@@ -115,7 +115,7 @@ test("escaped files and unavailable historical identities stay explicit, and uns
 });
 
 test("a task-local artifact key cannot make an unpinned occurrence authoritative", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-notes-unpinned-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-notes-unpinned-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const notesPath = join(directory, "notes.json");
   await writeFile(
@@ -142,7 +142,7 @@ test("a task-local artifact key cannot make an unpinned occurrence authoritative
 });
 
 test("a fabricated media identity cannot stand in for an owner receipt", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-notes-no-owner-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-notes-no-owner-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const notesPath = join(directory, "notes.json");
   await writeFile(
@@ -159,7 +159,7 @@ test("a fabricated media identity cannot stand in for an owner receipt", async (
 });
 
 test("standalone acquisitions retain their independently owned immutable identity", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-notes-acquisition-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-notes-acquisition-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const notesPath = join(directory, "notes.json"),
     input = {
@@ -177,7 +177,7 @@ test("standalone acquisitions retain their independently owned immutable identit
 });
 
 test("nullable absent fields in source and unavailable-frame receipts stay verbatim without becoming anchors", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-notes-null-fields-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-notes-null-fields-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const notesPath = join(directory, "notes.json"),
     input = {
@@ -212,7 +212,7 @@ test("nullable absent fields in source and unavailable-frame receipts stay verba
 });
 
 test("an export owner receipt preserves its nested pinned snapshot without inventing a top-level revision", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-notes-export-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-notes-export-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const notesPath = join(directory, "notes.json"),
     receipt = {
@@ -238,13 +238,13 @@ test(
   "a named pipe cannot block the explicitly regular notes-file read",
   { skip: process.platform === "win32" },
   async (t) => {
-    const directory = await mkdtemp(join(tmpdir(), "screenrec-notes-pipe-"));
+    const directory = await mkdtemp(join(tmpdir(), "yap-notes-pipe-"));
     t.after(() => rm(directory, { recursive: true, force: true }));
     const notesPath = join(directory, "notes.pipe");
     const made = spawnSync("mkfifo", [notesPath], { encoding: "utf8", timeout: 1500 });
     assert.equal(made.status, 0, made.stderr);
     const helper = fileURLToPath(
-      new URL("../skills/screenrec/scripts/task-notes.mjs", import.meta.url),
+      new URL("../skills/yap/scripts/task-notes.mjs", import.meta.url),
     );
     const result = spawnSync(process.execPath, [helper], {
       input: JSON.stringify({ notesPath }),

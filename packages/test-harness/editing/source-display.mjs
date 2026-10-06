@@ -7,9 +7,9 @@ import { createCompiler, validateComposition } from "../../composition/dist/inde
 import { prepareLayersFixture } from "./layers-fixture.mjs";
 const out = resolve(process.argv[2] ?? "");
 const historicalParity = process.argv.includes("--historical-parity");
-assert.ok(process.argv[2] && process.env.SCREENREC_NATIVE);
+assert.ok(process.argv[2] && process.env.YAP_NATIVE);
 if (historicalParity)
-  assert.ok(process.env.SCREENREC_BASELINE_NATIVE, "Historical parity requires the retired worker");
+  assert.ok(process.env.YAP_BASELINE_NATIVE, "Historical parity requires the retired worker");
 await mkdir(out);
 const home = join(out, "fixture"),
   refs = join(out, "references");
@@ -39,7 +39,7 @@ for (const [name, path, width, height, background, extent] of [
 ]) {
   const directory = join(out, name);
   await mkdir(directory);
-  const probe = call(process.env.SCREENREC_NATIVE, "media.probe", { path }),
+  const probe = call(process.env.YAP_NATIVE, "media.probe", { path }),
     stream = probe.streams.find((s) => s.kind === "video");
   assert.deepEqual([stream.orientedWidth, stream.orientedHeight], extent);
   const asset = {
@@ -92,8 +92,8 @@ for (const [name, path, width, height, background, extent] of [
   const pixels = {},
     receipts = {};
   for (const [label, binary] of [
-    ...(historicalParity ? [["before", process.env.SCREENREC_BASELINE_NATIVE]] : []),
-    ["after", process.env.SCREENREC_NATIVE],
+    ...(historicalParity ? [["before", process.env.YAP_BASELINE_NATIVE]] : []),
+    ["after", process.env.YAP_NATIVE],
   ]) {
     const request = structuredClone(params);
     request.output = join(directory, label + ".png");

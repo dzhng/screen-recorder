@@ -1,7 +1,7 @@
 import { afterEach, expect, test, vi } from "vitest";
 import { mkdtemp, rm, readFile, readdir } from "node:fs/promises";
-import { listenLocal } from "@screenrec/service";
-import type { OperationResponse } from "@screenrec/protocol";
+import { listenLocal } from "@yap/service";
+import type { OperationResponse } from "@yap/protocol";
 import { artifactBytes, consumeBatch, artifactFile } from "./artifact-delivery.js";
 
 const cleanups: (() => Promise<void>)[] = [];
@@ -212,7 +212,7 @@ test.each(["video/mp4", "audio/wav"] as const)(
   async (mediaType) => {
     const bytes = Buffer.alloc(49 * 1024 * 1024 + 17, 0x5d);
     const f = await fixture(bytes, false, mediaType);
-    const directory = await mkdtemp("/tmp/screenrec-preview-delivery-");
+    const directory = await mkdtemp("/tmp/yap-preview-delivery-");
     cleanups.push(() => rm(directory, { recursive: true, force: true }));
     const output = directory + "/preview.mp4";
     if (mediaType === "audio/wav") {
@@ -237,7 +237,7 @@ test.each(["video/mp4", "audio/wav"] as const)(
 
 test("a failed streamed read leaves no output or partial staging and releases its lease", async () => {
   const f = await fixture(Buffer.alloc(512 * 1024 + 17, 0x6d), 2, "video/mp4");
-  const directory = await mkdtemp("/tmp/screenrec-preview-failure-");
+  const directory = await mkdtemp("/tmp/yap-preview-failure-");
   cleanups.push(() => rm(directory, { recursive: true, force: true }));
   await expect(
     artifactFile(f.selection, f.result, directory + "/preview.mp4"),
@@ -255,7 +255,7 @@ test("streaming renews the same delivery beyond its original expiry", async () =
   const f = await fixture(bytes, false, "audio/wav", () => {
     now += 9000;
   });
-  const directory = await mkdtemp("/tmp/screenrec-renew-delivery-");
+  const directory = await mkdtemp("/tmp/yap-renew-delivery-");
   cleanups.push(() => rm(directory, { recursive: true, force: true }));
   const output = directory + "/full.wav";
   await artifactFile(f.selection, f.result, output);

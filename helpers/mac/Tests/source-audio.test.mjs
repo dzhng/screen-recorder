@@ -7,16 +7,16 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 const native =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 const fixture =
-  process.env.SCREENREC_SOURCE_AUDIO_FIXTURE ??
-  fileURLToPath(new URL("../.build/debug/ScreenRecorderSourceAudioTests", import.meta.url));
+  process.env.YAP_SOURCE_AUDIO_FIXTURE ??
+  fileURLToPath(new URL("../.build/debug/YapSourceAudioTests", import.meta.url));
 test("source WAV wire delivery retains native fixture samples and refuses ambiguous selection", () => {
   const directory = mkdtempSync(join(tmpdir(), "source-audio-wire-"));
   try {
     const proof = spawnSync(fixture, ["--wire-fixtures"], {
-      env: { ...process.env, SCREENREC_SOURCE_AUDIO_EVIDENCE: directory },
+      env: { ...process.env, YAP_SOURCE_AUDIO_EVIDENCE: directory },
       encoding: "utf8",
       timeout: 120000,
     });
@@ -83,7 +83,7 @@ test("source WAV wire delivery retains native fixture samples and refuses ambigu
       assert.equal(execute({ ...params, unexpected: true }).error.code, "INVALID_REQUEST");
     }
     assert.deepEqual(
-      readdirSync(directory).filter((name) => name.startsWith(".screenrec-output-")),
+      readdirSync(directory).filter((name) => name.startsWith(".yap-output-")),
       [],
     );
   } finally {
@@ -190,7 +190,7 @@ test("AAC terminal windows decode bounded real packet context and truncated sour
     const refused = execute(broken, { startUs: 0, endUs: 2000000 }, output);
     assert.equal(refused.error.code, "NATIVE_DECODE_FAILED");
     assert.equal(existsSync(output), false);
-    assert.ok(!readdirSync(directory).some((name) => name.startsWith(".screenrec-output-")));
+    assert.ok(!readdirSync(directory).some((name) => name.startsWith(".yap-output-")));
     assert.ok(before.equals(readFileSync(broken)));
   } finally {
     rmSync(directory, { recursive: true, force: true });

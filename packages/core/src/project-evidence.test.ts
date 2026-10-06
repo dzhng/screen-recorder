@@ -7,7 +7,7 @@ import {
   subtract,
   type SignedTimeValue,
   type TimeValue,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import {
   SpeakerEvidenceStore,
   assetSpeakerOwner,
@@ -24,7 +24,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test, vi } from "vitest";
-import type { EditOperation } from "@screenrec/composition";
+import type { EditOperation } from "@yap/composition";
 import { Catalog } from "./catalog.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { CaptureSourceRead } from "./capture-source-read.js";

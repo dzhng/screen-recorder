@@ -13,7 +13,7 @@ import {
   type ProcessingInstruction,
   type CompiledFrame,
   type ValidatedComposition,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import type { SourceEvidenceReader } from "./evidence-read.js";
 import { sourceSelectionKey, type SourceSelection } from "./source-selection.js";
 import type { PointerPreparation } from "./pointer-preparation.js";

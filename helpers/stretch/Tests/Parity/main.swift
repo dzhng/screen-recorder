@@ -1,5 +1,5 @@
 import Foundation
-import ScreenRecorderStretch
+import YapStretch
 
 // Offline parity seam; file publication occurs only after a complete successful result.
 do {

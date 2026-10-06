@@ -9,7 +9,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 const execute = promisify(execFile);
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import {
   launchReady,
   socketPath,
@@ -24,8 +24,8 @@ test(
   { timeout: 60_000 },
   async () => {
     requireScreenPermission();
-    const home = temporary("/tmp/screenrec-public-delete-");
-    const { instance } = await launchReady(home, { SCREENREC_FIXTURE_WINDOW: "1" });
+    const home = temporary("/tmp/yap-public-delete-");
+    const { instance } = await launchReady(home, { YAP_FIXTURE_WINDOW: "1" });
     const [, windowId] = await instance.waitFor(/capture fixture window=(\d+)/);
     const call = (operation, params = {}) =>
       callLocal(socketPath(home), { id: randomUUID(), operation, params }, { timeoutMs: 30_000 });

@@ -1,5 +1,5 @@
-import { parseProjectPackageManifest } from "@screenrec/core/project-package";
-import { Catalog } from "@screenrec/core/catalog";
+import { parseProjectPackageManifest } from "@yap/core/project-package";
+import { Catalog } from "@yap/core/catalog";
 import { projectArchiveContents } from "./fixtures/project-archive.mjs";
 import { withArchiveCopyBarrier } from "../../macos/tests/fixtures/archive-copy-barrier.mjs";
 import { admitArchive } from "../dist/archive-input.js";
@@ -31,16 +31,16 @@ import { archiveLimits } from "../../../packages/core/dist/package-archive.js";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const native = resolve(
-  process.env.SCREENREC_NATIVE ?? join(root, "helpers/mac/.build/debug/screenrec-native"),
+  process.env.YAP_NATIVE ?? join(root, "helpers/mac/.build/debug/yap-native"),
 );
-const run = mediaWorker({ SCREENREC_NATIVE: native });
+const run = mediaWorker({ YAP_NATIVE: native });
 const fixtureWriter = fileURLToPath(
   new URL("../../macos/tests/fixtures/package-archive.py", import.meta.url),
 );
 const results = [];
 
 async function fixture(mode = "valid", contents) {
-  const home = await realpath(await mkdtemp(join(tmpdir(), "screenrec-archive-")));
+  const home = await realpath(await mkdtemp(join(tmpdir(), "yap-archive-")));
   const store = new Catalog(join(home, "catalog.sqlite"));
   let generated;
   try {
@@ -587,7 +587,7 @@ test("native file-size fault leaves workspace empty after worker termination", a
     const wrapper = join(f.home, "limited-native");
     await writeFile(wrapper, `#!/bin/sh\nulimit -f 1\nexec '${native}'\n`);
     await chmod(wrapper, 0o700);
-    await assert.rejects(inspect(f, {}, mediaWorker({ SCREENREC_NATIVE: wrapper })), (error) =>
+    await assert.rejects(inspect(f, {}, mediaWorker({ YAP_NATIVE: wrapper })), (error) =>
       ["MEDIA_WORKER_FAILED", "INVALID_STORAGE"].includes(error.code),
     );
   } finally {
@@ -596,11 +596,11 @@ test("native file-size fault leaves workspace empty after worker termination", a
 });
 
 process.on("exit", () => {
-  if (process.env.SCREENREC_ARCHIVE_EVIDENCE)
+  if (process.env.YAP_ARCHIVE_EVIDENCE)
     execFileSync(process.execPath, [
       "-e",
       'require("node:fs").writeFileSync(process.argv[1],process.argv[2])',
-      process.env.SCREENREC_ARCHIVE_EVIDENCE,
+      process.env.YAP_ARCHIVE_EVIDENCE,
       JSON.stringify(
         {
           scope:

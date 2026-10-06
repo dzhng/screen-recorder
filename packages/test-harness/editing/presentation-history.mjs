@@ -5,7 +5,7 @@ import { join, resolve } from "node:path";
 import { PresentationEvidence } from "../../core/dist/presentation-evidence.js";
 const out = resolve(process.argv[2] ?? "");
 assert.ok(
-  process.argv[2] && process.env.SCREENREC_NATIVE && process.env.SCREENREC_COMPOSITION_CANCEL_TEST,
+  process.argv[2] && process.env.YAP_NATIVE && process.env.YAP_COMPOSITION_CANCEL_TEST,
 );
 await mkdir(out);
 const run = (program, args, input) => {
@@ -42,7 +42,7 @@ run("swiftc", [
 ]);
 const source = join(out, "multitrack.mov");
 run(author, [join(out, "first.mov"), join(out, "second.mov"), source]);
-const probe = call(process.env.SCREENREC_NATIVE, { path: source }, "media.probe");
+const probe = call(process.env.YAP_NATIVE, { path: source }, "media.probe");
 assert.ok(probe.ok, JSON.stringify(probe));
 assert.equal(probe.data.originUs, 1_000_000);
 assert.equal(probe.data.streams.length, 2);
@@ -50,13 +50,13 @@ const plan = (startUs, endUs) => [
   { source: { startUs, endUs }, playback: { startUs: 0, endUs: endUs - startUs } },
 ];
 const legacy = { source, plan: plan(1_000_000, 4_000_000), maxBytes: 8 * 1024 ** 2 };
-const old = process.env.SCREENREC_BASELINE_NATIVE
-  ? call(process.env.SCREENREC_BASELINE_NATIVE, {
+const old = process.env.YAP_BASELINE_NATIVE
+  ? call(process.env.YAP_BASELINE_NATIVE, {
       ...legacy,
       output: join(out, "legacy-before.jsonl"),
     })
   : undefined;
-const current = call(process.env.SCREENREC_NATIVE, {
+const current = call(process.env.YAP_NATIVE, {
   ...legacy,
   output: join(out, "legacy-after.jsonl"),
 });
@@ -79,7 +79,7 @@ for (const offset of [0, 2_000_000, -1_000_000]) {
     maxDecodedSamples: 1000,
     output: join(out, `selected-${offset}.jsonl`),
   };
-  const result = call(process.env.SCREENREC_NATIVE, request);
+  const result = call(process.env.YAP_NATIVE, request);
   assert.ok(result.ok, JSON.stringify(result));
   assert.equal(result.data.sourceWidth, 32);
   assert.equal(result.data.sourceHeight, 24);
@@ -123,7 +123,7 @@ for (const [name, limits] of [
 ]) {
   const directory = join(out, name);
   await mkdir(directory);
-  const response = call(process.env.SCREENREC_NATIVE, {
+  const response = call(process.env.YAP_NATIVE, {
     source,
     streamId: "track:2",
     clockOffsetUs: 2_000_000,
@@ -155,7 +155,7 @@ run("ffmpeg", [
 ]);
 const precisionDirectory = join(out, "precision");
 await mkdir(precisionDirectory);
-const precision = call(process.env.SCREENREC_NATIVE, {
+const precision = call(process.env.YAP_NATIVE, {
   source: precisionSource,
   streamId: "track:1",
   clockOffsetUs: -1,
@@ -184,7 +184,7 @@ await writeFile(
     output: join(canceled, "history.jsonl"),
   }),
 );
-run(process.env.SCREENREC_COMPOSITION_CANCEL_TEST, [requestFile, "media.presentationEvidence"]);
+run(process.env.YAP_COMPOSITION_CANCEL_TEST, [requestFile, "media.presentationEvidence"]);
 assert.deepEqual(await readdir(canceled), []);
 rows.push({ cancellation: true, unpublished: true });
 await writeFile(

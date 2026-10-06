@@ -29,7 +29,7 @@ afterEach(async () => {
   for (const cleanup of cleanups.splice(0).reverse()) await cleanup();
 });
 async function fixture(cacheBudget?: number) {
-  const home = await mkdtemp("/tmp/screenrec-storage-");
+  const home = await mkdtemp("/tmp/yap-storage-");
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => "fixture",
@@ -119,7 +119,7 @@ test("actual usage includes partial, canceled and deleting bytes and separates s
 
 test("symlinked files and directories never import external bytes", async () => {
   const { home, storage, take, file } = await fixture();
-  const external = await mkdtemp("/tmp/screenrec-storage-external-");
+  const external = await mkdtemp("/tmp/yap-storage-external-");
   cleanups.push(() => rm(external, { recursive: true, force: true }));
   const sentinel = await file(join(external, "sentinel"), 511);
   const source = join(home, "recordings", take.recordingId, "source");
@@ -187,7 +187,7 @@ test("a directory replaced by an external symlink mid-scan cannot contribute byt
   const source = join(home, "recordings", take.recordingId, "source");
   await file(join(source, "a"), 3);
   await file(join(source, "b"), 5);
-  const external = await mkdtemp("/tmp/screenrec-storage-swap-");
+  const external = await mkdtemp("/tmp/yap-storage-swap-");
   cleanups.push(() => rm(external, { recursive: true, force: true }));
   await file(join(external, "a"), 511);
   await file(join(external, "b"), 512);
@@ -220,7 +220,7 @@ test.each(["lstat", "open"] as const)(
     const { home, storage, take, file } = await fixture();
     const source = join(home, "recordings", take.recordingId, "source");
     await file(join(source, "a"), 3);
-    const external = await mkdtemp("/tmp/screenrec-storage-transient-");
+    const external = await mkdtemp("/tmp/yap-storage-transient-");
     cleanups.push(() => rm(external, { recursive: true, force: true }));
     await file(join(external, "a"), 511);
     const actual = await vi.importActual<typeof import("node:fs/promises")>("node:fs/promises");

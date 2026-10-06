@@ -1,5 +1,5 @@
 import { projectStoreFixture } from "./project-store.fixture.js";
-import { validateComposition, projectToSource } from "@screenrec/composition";
+import { validateComposition, projectToSource } from "@yap/composition";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { backup } from "node:sqlite";
@@ -12,7 +12,7 @@ afterEach(async () => {
   for (const run of cleanup.splice(0).reverse()) await run();
 });
 async function setup({ memory = false } = {}) {
-  const home = await mkdtemp(join(tmpdir(), "screenrec-projects-"));
+  const home = await mkdtemp(join(tmpdir(), "yap-projects-"));
   cleanup.push(() => rm(home, { recursive: true, force: true }));
   const path = join(home, "catalog.sqlite");
   const catalog = new Catalog(memory ? ":memory:" : path);

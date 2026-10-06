@@ -5,14 +5,14 @@ import { once } from "node:events";
 import { mkdtemp, mkdir, readFile, copyFile, rm, writeFile, readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisitions";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { AcquisitionStore, AcquisitionImporter } from "@yap/core/acquisitions";
+import { SourceEvidenceStore } from "@yap/core/evidence";
 import { mediaWorker, nativeResult } from "../dist/worker.js";
 import { sourceExporter } from "../dist/source-export.js";
 import { waitFor } from "../../macos/tests/harness.mjs";
-const binary = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
+const binary = process.env.YAP_NATIVE ?? resolve("helpers/mac/.build/debug/yap-native");
 function owners(root) {
   const catalog = new Catalog(join(root, "catalog.sqlite"));
   const assets = new AssetStore(catalog, root);
@@ -33,18 +33,18 @@ if (process.argv[2] === "--child") {
   const prepared = await f.importer.prepareImport("orphan", donor);
   const intent = f.store.admitImport(prepared);
   f.store.admitPortable("pending-package", "fixture-package");
-  const native = mediaWorker({ SCREENREC_NATIVE: binary });
+  const native = mediaWorker({ YAP_NATIVE: binary });
   const worker = (name, params, options) => {
     if (name !== operation) return native(name, params, options);
     process.env.DYLD_INSERT_LIBRARIES = library;
-    process.env.SCREENREC_TEST_COPY_BARRIER = marker;
-    process.env.SCREENREC_TEST_COPY_MIN_FD = "3";
+    process.env.YAP_TEST_COPY_BARRIER = marker;
+    process.env.YAP_TEST_COPY_MIN_FD = "3";
     try {
       return native(name, params, options);
     } finally {
       delete process.env.DYLD_INSERT_LIBRARIES;
-      delete process.env.SCREENREC_TEST_COPY_BARRIER;
-      delete process.env.SCREENREC_TEST_COPY_MIN_FD;
+      delete process.env.YAP_TEST_COPY_BARRIER;
+      delete process.env.YAP_TEST_COPY_MIN_FD;
     }
   };
   process.send({ acquisitionId: intent.acquisitionId });
@@ -147,10 +147,10 @@ if (process.argv[2] === "--child") {
       } catch (error) {
         recoveryFailure = error;
       }
-      if (process.env.SCREENREC_ACQUISITION_LIFETIME_OUTPUT) {
-        await mkdir(process.env.SCREENREC_ACQUISITION_LIFETIME_OUTPUT, { recursive: true });
+      if (process.env.YAP_ACQUISITION_LIFETIME_OUTPUT) {
+        await mkdir(process.env.YAP_ACQUISITION_LIFETIME_OUTPUT, { recursive: true });
         await writeFile(
-          join(process.env.SCREENREC_ACQUISITION_LIFETIME_OUTPUT, `${operation}-held.json`),
+          join(process.env.YAP_ACQUISITION_LIFETIME_OUTPUT, `${operation}-held.json`),
           JSON.stringify(
             {
               operation,
@@ -193,10 +193,10 @@ if (process.argv[2] === "--child") {
         undefined,
       );
       assert.deepEqual(await readdir(join(root, "acquisitions")), []);
-      if (process.env.SCREENREC_ACQUISITION_LIFETIME_OUTPUT) {
-        await mkdir(process.env.SCREENREC_ACQUISITION_LIFETIME_OUTPUT, { recursive: true });
+      if (process.env.YAP_ACQUISITION_LIFETIME_OUTPUT) {
+        await mkdir(process.env.YAP_ACQUISITION_LIFETIME_OUTPUT, { recursive: true });
         await writeFile(
-          join(process.env.SCREENREC_ACQUISITION_LIFETIME_OUTPUT, `${operation}.json`),
+          join(process.env.YAP_ACQUISITION_LIFETIME_OUTPUT, `${operation}.json`),
           JSON.stringify(
             {
               operation,

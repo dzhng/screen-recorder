@@ -1,8 +1,8 @@
 @preconcurrency import AVFoundation
 import CryptoKit
 import Foundation
-import ScreenRecorderAudio
-import ScreenRecorderMedia
+import YapAudio
+import YapMedia
 
 /// Recorded quiet is readable source material; a physical edit-list hole is unavailable even
 /// though both produce zero PCM. Source inspection reports that distinction without editing it.

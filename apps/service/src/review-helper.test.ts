@@ -2,9 +2,9 @@ import { afterEach, expect, test } from "vitest";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { projectServiceFixture } from "./project-service.fixture.js";
-import { operationSchema } from "@screenrec/protocol";
+import { operationSchema } from "@yap/protocol";
 // @ts-expect-error The distributed consumer helper is plain JavaScript.
-import { reviewBundle } from "../../../skills/screenrec/scripts/review-bundle.mjs";
+import { reviewBundle } from "../../../skills/yap/scripts/review-bundle.mjs";
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanups.splice(0).reverse()) await close();
@@ -132,7 +132,7 @@ test("public revision review distinguishes a pure silence split from a moved joi
     invoke,
   );
   const after = await invoke("revision.history", { projectId });
-  const evidence = process.env.SCREENREC_REVIEW_TEST_OUTPUT;
+  const evidence = process.env.YAP_REVIEW_TEST_OUTPUT;
   if (evidence) {
     await mkdir(evidence, { recursive: true });
     await writeFile(

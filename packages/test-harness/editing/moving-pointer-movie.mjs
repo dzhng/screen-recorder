@@ -71,8 +71,8 @@ test(
   "current movie moves an authored pointer while holding the same source picture",
   { timeout: 120000 },
   async () => {
-    assert.ok(process.env.SCREENREC_NATIVE, "Pin the current worker explicitly");
-    const retained = process.env.SCREENREC_POINTER_MOVIE_EVIDENCE;
+    assert.ok(process.env.YAP_NATIVE, "Pin the current worker explicitly");
+    const retained = process.env.YAP_POINTER_MOVIE_EVIDENCE;
     const out = retained
       ? resolve(retained)
       : await mkdtemp(join(tmpdir(), "pointer-movie-output-"));
@@ -164,7 +164,7 @@ test(
       const sourceRGB = await readFile(join(inputs, prefix, "source.rgb"));
       assert.equal(sourceRGB.length, width * height * 3 * 6);
       report.sourceRGBSHA = sha(sourceRGB);
-      report.workerSHA = sha(await readFile(process.env.SCREENREC_NATIVE));
+      report.workerSHA = sha(await readFile(process.env.YAP_NATIVE));
       const donor = join(home, "donor");
       await mkdir(donor, { mode: 0o700 });
       await copyFile(source, join(donor, "video.mov"));
@@ -235,7 +235,7 @@ test(
         assert.equal(bytes.length, width * height * 4);
         return bytes;
       };
-      service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+      service = await startPublicService(home, process.env.YAP_NATIVE);
       const imported = await importAcquisition(
         { call: async (op, params) => ({ ok: true, data: await call(op, params) }) },
         donor,

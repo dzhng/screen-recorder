@@ -1,7 +1,7 @@
 # Protected Sparkle input
 
 This product-specific source patch has [native boundary proof](../../specs/done/auto-update/assets/protected-engine-proof.json), separate from installed product acceptance. The
-[upstream pin](upstream.json) and [maintained patch](screenrec.patch) bind its
+[upstream pin](upstream.json) and [maintained patch](yap.patch) bind its
 inputs. Preparation and linking do not establish runtime safety or production
 parity; accept the engine only after updater and launcher labs pass against its
 actual output.
@@ -30,7 +30,7 @@ revocation rather than expiring permission. Failed channel invalidation is not a
 successful cancellation acknowledgement. Once final replacement begins,
 cancellation is too late.
 
-The installed, signed host metadata owns `ScreenrecLaunchLockRelativePath`, relative
+The installed, signed host metadata owns `YapLaunchLockRelativePath`, relative
 to the account home already supplied to Sparkle's helper. The app/launcher must
 precreate its persistent account-owned private lock file; the helper opens and
 locks it but never unlinks or creates it. All entries must use this same inode.
@@ -42,8 +42,8 @@ resumability. This reduces accidental permission sources; it does not claim that
 self-signed code gains host-authenticated IPC. Same-account code modification is
 outside this coordination boundary. Failed locks preserve the live host. The
 helper keeps exclusion through replacement and the completion of a quiet launch
-request. The app owns interpretation of `--screenrec-update-relaunch`, including
-suppressed Settings. Only `SCREENREC_HOME` and `SCREENREC_DEFAULTS` travel through
+request. The app owns interpretation of `--yap-update-relaunch`, including
+suppressed Settings. Only `YAP_HOME` and `YAP_DEFAULTS` travel through
 the existing secure installation input into the relaunch environment; no complete
 environment or credentials are copied. Relaunch
 failure reports an updated bundle with unavailable startup; it does not roll back.

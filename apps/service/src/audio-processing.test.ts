@@ -4,17 +4,17 @@ import {
   validateComposition,
   type ProcessingStep,
   resolveOutputSettings,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { constants, readSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { createHash, randomUUID } from "node:crypto";
 import { open, realpath } from "node:fs/promises";
-import { readAudioWave } from "@screenrec/core/audio-wave";
+import { readAudioWave } from "@yap/core/audio-wave";
 import { mkdtemp, mkdir, writeFile, readFile, rm, copyFile } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { setTimeout as delay } from "node:timers/promises";
 import { startProjectService } from "./project-service.js";
 import { test, expect } from "vitest";
@@ -26,9 +26,9 @@ import {
 import { ffmpegLoudnessAnalyzer } from "./loudness.js";
 import { audioProcessingRuntime } from "./audio-processing.js";
 import { mediaWorker } from "./worker.js";
-const installation = process.env.SCREENREC_FFMPEG_DIRECTORY;
-const native = process.env.SCREENREC_NATIVE;
-const acceptanceEvidence = process.env.SCREENREC_AUDIO_ACCEPTANCE_EVIDENCE;
+const installation = process.env.YAP_FFMPEG_DIRECTORY;
+const native = process.env.YAP_NATIVE;
+const acceptanceEvidence = process.env.YAP_AUDIO_ACCEPTANCE_EVIDENCE;
 function wave(frames: number, sample?: (frame: number) => [number, number]) {
   const b = Buffer.alloc(44 + frames * 8);
   b.write("RIFF");
@@ -114,13 +114,13 @@ async function fixture(
       },
     ],
   };
-  const worker = mediaWorker({ SCREENREC_NATIVE: native });
+  const worker = mediaWorker({ YAP_NATIVE: native });
   const capabilities = await nativeAudioCapabilities(worker);
   const runtime = await audioProcessingRuntime(
     {
       directory: installation!,
       receiptSha256:
-        process.env.SCREENREC_FFMPEG_RECEIPT ??
+        process.env.YAP_FFMPEG_RECEIPT ??
         "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
     },
     native,
@@ -868,7 +868,7 @@ real(
         ffmpeg: {
           directory: installation!,
           receiptSha256:
-            process.env.SCREENREC_FFMPEG_RECEIPT ??
+            process.env.YAP_FFMPEG_RECEIPT ??
             "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
         },
       });
@@ -1120,8 +1120,8 @@ real(
           {
             env: {
               ...process.env,
-              SCREENREC_PRESSURE_HOME: home,
-              SCREENREC_PRESSURE_EXPECT_FAILURE: limit === 64 ? "1" : "0",
+              YAP_PRESSURE_HOME: home,
+              YAP_PRESSURE_EXPECT_FAILURE: limit === 64 ? "1" : "0",
             },
             stdio: ["ignore", "pipe", "pipe"],
           },

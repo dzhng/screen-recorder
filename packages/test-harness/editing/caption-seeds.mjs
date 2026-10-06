@@ -6,8 +6,8 @@ import { copyModels, hash, poll, root } from "./source-evidence-fixture.mjs";
 
 /** Real retained speech evidence, ordinary edits and independent package relocation. */
 export async function captionSeeds({ service, call, out, home, font, picture, admit, report }) {
-  assert.ok(process.env.SCREENREC_ASR_REQUEST, "Select existing pinned speech models");
-  const prepared = JSON.parse(await readFile(process.env.SCREENREC_ASR_REQUEST, "utf8")).params
+  assert.ok(process.env.YAP_ASR_REQUEST, "Select existing pinned speech models");
+  const prepared = JSON.parse(await readFile(process.env.YAP_ASR_REQUEST, "utf8")).params
     .models;
   const model = await copyModels(home, prepared);
   assert.equal((await call("model.status", { modelId: "parakeet" })).state, "ready");

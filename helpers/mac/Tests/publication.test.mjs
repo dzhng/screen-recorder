@@ -17,10 +17,10 @@ import { join, resolve } from "node:path";
 import { spawn } from "node:child_process";
 import { test } from "node:test";
 const binary =
-  process.env.SCREENREC_NATIVE ?? resolve(import.meta.dirname, "../.build/debug/screenrec-native");
+  process.env.YAP_NATIVE ?? resolve(import.meta.dirname, "../.build/debug/yap-native");
 const identity = (s) => ({ dev: String(s.dev), ino: String(s.ino) });
 async function fixture(t) {
-  const root = await mkdtemp(join(tmpdir(), "screenrec-publication-"));
+  const root = await mkdtemp(join(tmpdir(), "yap-publication-"));
   await mkdir(join(root, "stage"), { mode: 0o700 });
   await mkdir(join(root, "output"), { mode: 0o755 });
   await writeFile(join(root, "source"), "known complete output");

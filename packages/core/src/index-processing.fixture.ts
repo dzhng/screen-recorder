@@ -1,7 +1,7 @@
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { projectComposition } from "./project-window.js";
 import { selectSource } from "./source-selection.js";
-import { floor, fromTime, add, compare, type CompiledFrame } from "@screenrec/composition";
+import { floor, fromTime, add, compare, type CompiledFrame } from "@yap/composition";
 import { afterEach } from "vitest";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";

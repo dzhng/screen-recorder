@@ -99,7 +99,7 @@ const videoOptions = [
 
 async function generate(out) {
   await mkdir(out, { recursive: true });
-  const scratch = await mkdtemp(join(tmpdir(), "screenrec-fixtures-"));
+  const scratch = await mkdtemp(join(tmpdir(), "yap-fixtures-"));
   const files = [];
   try {
     for (const [id, width, height, fps, count, hz, impulses] of [

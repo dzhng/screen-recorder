@@ -10,7 +10,7 @@ import { parseArgs } from "node:util";
 import { JourneyService, hash, poll } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE);
+assert.ok(process.env.YAP_NATIVE);
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "pointer-public-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-pointer-public-"));

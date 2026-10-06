@@ -14,7 +14,7 @@ test("actual owner death after staging allocation retries the same intent", asyn
       .get(exportId).staging,
     null,
   );
-  assert.deepEqual(await readdir(join(f.output, ".screenrec-export-" + exportId)), []);
+  assert.deepEqual(await readdir(join(f.output, ".yap-export-" + exportId)), []);
   await reopened.exports.retry(exportId);
   await reopened.jobs.idle();
   assert.equal(reopened.exports.status(exportId).state, "committed");
@@ -33,7 +33,7 @@ test("actual owner death between external commit and catalog acknowledgement rec
       null,
     );
     const metadataBytes = (
-      await stat(join(f.output, ".screenrec-export-" + exportId, "prepared.json"))
+      await stat(join(f.output, ".yap-export-" + exportId, "prepared.json"))
     ).size;
     assert.equal((await reopened.storage.usage()).otherBytes, metadataBytes);
     await reopened.exports.recover(exportId);
@@ -55,7 +55,7 @@ test("actual owner death after catalog commit finishes private acknowledgement o
   try {
     const committed = await reopened.exports.status(exportId);
     assert.equal(committed.state, "committed");
-    assert.deepEqual((await readdir(join(f.output, ".screenrec-export-" + exportId))).sort(), [
+    assert.deepEqual((await readdir(join(f.output, ".yap-export-" + exportId))).sort(), [
       "payload",
       "prepared.json",
     ]);
@@ -312,7 +312,7 @@ test("startup admission is bounded and capacity events discover the remaining re
 test("interrupted allocation refuses nonempty substituted staging and keeps deletion pending", async (t) => {
   const { f, reopened, exportId } = await crashFixture(t, "allocate");
   try {
-    const sentinel = join(f.output, ".screenrec-export-" + exportId, "sentinel");
+    const sentinel = join(f.output, ".yap-export-" + exportId, "sentinel");
     await writeFile(sentinel, "external sentinel");
     await reopened.exports.retry(exportId);
     await reopened.jobs.idle();

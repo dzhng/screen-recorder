@@ -18,7 +18,7 @@ assert.ok(
     "caption-clock",
   ].includes(values.case),
 );
-assert.ok(values.out && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out),
   home = await mkdtemp("/tmp/sr-captions-");
 await mkdir(out);
@@ -27,7 +27,7 @@ const report = {
   trace: [],
   pictures: [],
   checks: [],
-  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);

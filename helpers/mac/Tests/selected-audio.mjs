@@ -6,14 +6,14 @@ import { resolve, join } from "node:path";
 
 const out = resolve(process.argv[2]);
 mkdirSync(out, { recursive: false });
-const worker = new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
-const tests = new URL("../.build/debug/ScreenRecorderSelectedAudioTests", import.meta.url).pathname;
+const worker = new URL("../.build/debug/yap-native", import.meta.url).pathname;
+const tests = new URL("../.build/debug/YapSelectedAudioTests", import.meta.url).pathname;
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const report = { passed: false, workerSha256: hash(readFileSync(worker)), cases: [], repeated: [] };
 try {
   for (const name of ["first", "repeat"]) {
     const run = spawnSync(tests, [], {
-      env: { ...process.env, SCREENREC_SELECTED_AUDIO_EVIDENCE: join(out, name) },
+      env: { ...process.env, YAP_SELECTED_AUDIO_EVIDENCE: join(out, name) },
       encoding: "utf8",
       timeout: 60000,
     });

@@ -10,7 +10,7 @@ import { pointerFixture } from "./pointer-fixture.mjs";
 import { compareLandmarks } from "./layers-oracle.mjs";
 import { canonical, assertMatchedInputs } from "./encoded-appearance-inputs.mjs";
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out),
   home = await mkdtemp("/tmp/sr-appearance-");
 await mkdir(out);
@@ -21,7 +21,7 @@ const report = {
   trace: [],
   cohorts: [],
   settings: resolveOutputSettings({ preset: "balanced" }),
-  nativeSHA256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSHA256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report, native),
   call = service.call.bind(service);

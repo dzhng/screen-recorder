@@ -7,7 +7,7 @@ import { parseArgs } from "node:util";
 import { JourneyService, poll, hash } from "./source-evidence-fixture.mjs";
 import { writeSourceWave } from "./audio-project-fixture.mjs";
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out),
   home = await mkdtemp("/tmp/sr-job-inspection-");
 await mkdir(out);
@@ -23,7 +23,7 @@ const report = {
   scope:
     "Matched public prepared-audio recipes admitted then canceled. SQL capture separated from latency observations; no long DSP, whole-service constant-memory or throughput claim.",
   harnessSha256: hash(await readFile(import.meta.filename)),
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 let service = new JourneyService(home, report);
 async function snapshot(enable = false) {

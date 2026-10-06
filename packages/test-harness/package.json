@@ -1,5 +1,5 @@
 {
-  "name": "@screenrec/test-harness",
+  "name": "@yap/test-harness",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0",
-    "@screenrec/client": "workspace:*",
-    "@screenrec/composition": "workspace:*",
-    "@screenrec/core": "workspace:*",
-    "@screenrec/protocol": "workspace:*",
+    "@yap/client": "workspace:*",
+    "@yap/composition": "workspace:*",
+    "@yap/core": "workspace:*",
+    "@yap/protocol": "workspace:*",
     "zod": "4.6.5"
   }
 }

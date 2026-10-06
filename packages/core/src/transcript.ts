@@ -8,7 +8,7 @@ import {
   type SelectionRange,
   type SignedTimeValue,
   type TimeValue,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { createHash } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
 import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from "./files.js";

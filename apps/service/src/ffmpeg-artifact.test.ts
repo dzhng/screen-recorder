@@ -9,7 +9,7 @@ import type { MediaWorker } from "./worker.js";
 
 let directory: string, owner: string, writer: string, parent: string;
 beforeAll(async () => {
-  directory = await mkdtemp("/tmp/screenrec-cli-artifact-");
+  directory = await mkdtemp("/tmp/yap-cli-artifact-");
   parent = join(directory, "attempts");
   await mkdir(parent, { mode: 0o700 });
   owner = await compileCliOwner(directory);

@@ -4,8 +4,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const directory = process.env.SCREENREC_PROBE_DIR;
-if (!directory) throw new Error("SCREENREC_PROBE_DIR must name generated fixture images");
+const directory = process.env.YAP_PROBE_DIR;
+if (!directory) throw new Error("YAP_PROBE_DIR must name generated fixture images");
 const frameId = z.enum(["first", "second"]);
 const imagePath = (id: z.infer<typeof frameId>) => resolve(directory, `${id}.png`);
 
@@ -14,7 +14,7 @@ if (process.argv[2] === "--file") {
   await readFile(imagePath(id));
   process.stdout.write(JSON.stringify({ path: imagePath(id), mimeType: "image/png" }) + "\n");
 } else {
-  const server = new McpServer({ name: "screenrec-image-probe", version: "0.0.0" });
+  const server = new McpServer({ name: "yap-image-probe", version: "0.0.0" });
   server.registerTool(
     "frame",
     {

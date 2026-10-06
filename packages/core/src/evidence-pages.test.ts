@@ -174,10 +174,10 @@ test("relocated bounded source pages preserve normalized queries without the ori
   expect(() => reader.latestCursor({ ...f.identity, generation: "other" }, 10)).toThrow(
     "not indexed",
   );
-  if (process.env.SCREENREC_SOURCE_PAGES_EVIDENCE) {
+  if (process.env.YAP_SOURCE_PAGES_EVIDENCE) {
     const manifest = JSON.parse(readFileSync(join(moved, "pages.json"), "utf8"));
     writeFileSync(
-      process.env.SCREENREC_SOURCE_PAGES_EVIDENCE,
+      process.env.YAP_SOURCE_PAGES_EVIDENCE,
       JSON.stringify(
         {
           scope:

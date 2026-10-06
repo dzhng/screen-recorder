@@ -1,10 +1,10 @@
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 
-/** The personal root every local peer shares. `SCREENREC_HOME` relocates it, as tests do. */
+/** The personal root every local peer shares. `YAP_HOME` relocates it, as tests do. */
 export function personalHome(environment: NodeJS.ProcessEnv = process.env): string {
-  const override = environment.SCREENREC_HOME;
-  return override ? resolve(override) : join(homedir(), ".screen-recorder");
+  const override = environment.YAP_HOME;
+  return override ? resolve(override) : join(homedir(), ".yap");
 }
 
 /** The private directory a running service owns inside a personal root. */

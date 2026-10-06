@@ -22,12 +22,12 @@ assert.equal(flag, "--rendered");
 assert.equal(outFlag, "--out");
 const rendered = resolve(input),
   out = resolve(output);
-const native = process.env.SCREENREC_NATIVE;
-const baseline = process.env.SCREENREC_BASELINE_NATIVE;
-const cancellationWorker = process.env.SCREENREC_COMPOSITION_CANCEL_TEST;
+const native = process.env.YAP_NATIVE;
+const baseline = process.env.YAP_BASELINE_NATIVE;
+const cancellationWorker = process.env.YAP_COMPOSITION_CANCEL_TEST;
 assert.ok(cancellationWorker, "The production NativeWire cancellation test executable is required");
 assert.ok(native, "The current native binary is required");
-if (historicalParity) assert.ok(baseline, "Historical parity requires SCREENREC_BASELINE_NATIVE");
+if (historicalParity) assert.ok(baseline, "Historical parity requires YAP_BASELINE_NATIVE");
 await mkdir(out, { recursive: true });
 assert.deepEqual(await readdir(out), []);
 const run = (binary, args, input) => {

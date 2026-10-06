@@ -27,12 +27,12 @@ int main(int argc, char **argv) {
     const char *appHome = getenv("HOME");
     if (!appHome || !*appHome) appHome = lockHome;
     char path[PATH_MAX], app[PATH_MAX], node[PATH_MAX], cli[PATH_MAX];
-    const char *parts[] = {"Library", "Library/Caches", "Library/Caches/com.dzhng.screenrec"};
+    const char *parts[] = {"Library", "Library/Caches", "Library/Caches/com.dzhng.yap"};
     for (size_t i = 0; i < sizeof(parts) / sizeof(parts[0]); ++i) {
         if (snprintf(path, sizeof(path), "%s/%s", lockHome, parts[i]) >= (int)sizeof(path) || directory(path) != 0)
             return fail("SERVICE_UNAVAILABLE", "Cannot prepare installation lock directory", 0, 74);
     }
-    if (snprintf(path, sizeof(path), "%s/Library/Caches/com.dzhng.screenrec/launch.lock", lockHome) >= (int)sizeof(path))
+    if (snprintf(path, sizeof(path), "%s/Library/Caches/com.dzhng.yap/launch.lock", lockHome) >= (int)sizeof(path))
         return fail("SERVICE_UNAVAILABLE", "Account home path is too long", 0, 74);
     // Deliberately inherited: exclusion owns the complete CLI/MCP or media tool lifetime.
     int fd = open(path, O_CREAT | O_RDWR | O_NOFOLLOW, 0600);
@@ -44,13 +44,13 @@ int main(int argc, char **argv) {
         return fail("SERVICE_UNAVAILABLE", "Cannot acquire installation lock", 0, 74);
     }
     // No access to the replaceable bundle occurs before shared exclusion is held.
-    const char *override = getenv("SCREENREC_APP");
+    const char *override = getenv("YAP_APP");
     if (override && *override) {
         if (snprintf(app, sizeof(app), "%s", override) >= (int)sizeof(app))
             return fail("SERVICE_UNAVAILABLE", "App path is too long", 0, 74);
-    } else if (snprintf(app, sizeof(app), "%s/Applications/Screen Recorder.app", appHome) >= (int)sizeof(app))
+    } else if (snprintf(app, sizeof(app), "%s/Applications/Yap.app", appHome) >= (int)sizeof(app))
         return fail("SERVICE_UNAVAILABLE", "App path is too long", 0, 74);
-    setenv("SCREENREC_APP", app, 1);
+    setenv("YAP_APP", app, 1);
     if (argc > 1 && (!strcmp(argv[1], "ffmpeg") || !strcmp(argv[1], "ffprobe"))) {
         if (snprintf(path, sizeof(path), "%s/Contents/Resources/ffmpeg/bin/%s", app, argv[1]) >= (int)sizeof(path))
             return fail("SERVICE_UNAVAILABLE", "App path is too long", 0, 74);

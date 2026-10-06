@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const reportPath = process.argv[2] ?? process.env.SCREENREC_AUDIO_EXPORT_REPORT;
+const reportPath = process.argv[2] ?? process.env.YAP_AUDIO_EXPORT_REPORT;
 assert.ok(reportPath, "Provide a real audio export report");
 const report = JSON.parse(readFileSync(reportPath, "utf8"));
 const records = report.exchanges
@@ -27,20 +27,20 @@ try {
       "2",
       "--package-path",
       packagePath,
-      "ScreenRecorderControlsTests",
+      "YapControlsTests",
     ],
     {
-      env: { ...process.env, SCREENREC_AUDIO_EXPORT_RECORDS: file },
+      env: { ...process.env, YAP_AUDIO_EXPORT_RECORDS: file },
       stdio: "inherit",
       timeout: 60000,
     },
   );
-  const evidence = process.env.SCREENREC_AUDIO_EXPORT_CONTROL_EVIDENCE;
+  const evidence = process.env.YAP_AUDIO_EXPORT_CONTROL_EVIDENCE;
   if (evidence) {
     mkdirSync(evidence, { recursive: true });
     copyFileSync(file, join(evidence, "actual-audio-receipts.json"));
     copyFileSync(
-      join(packagePath, ".build/debug/ScreenRecorderControlsTests"),
+      join(packagePath, ".build/debug/YapControlsTests"),
       join(evidence, "pure-controls"),
     );
   }

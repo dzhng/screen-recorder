@@ -13,7 +13,7 @@ import {
   RESPONSE_FRAME_BYTES,
   deliveredResponseSchema,
   responseSchema,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import { z } from "zod";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { cliReply } from "./first-preview-transport.mjs";

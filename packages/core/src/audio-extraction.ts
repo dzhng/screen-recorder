@@ -1,4 +1,4 @@
-import { rational, toTime, type TimeValue } from "@screenrec/composition";
+import { rational, toTime, type TimeValue } from "@yap/composition";
 import { z } from "zod";
 import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";

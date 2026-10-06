@@ -4,7 +4,7 @@ import Foundation
 import ObjectiveC
 import Synchronization
 
-@testable import ScreenRecorderWire
+@testable import YapWire
 
 // Readiness interleave is controlled scheduling; all original SDK calls and samples still run.
 private final class MoviePumps {
@@ -107,7 +107,7 @@ private final class MoviePumps {
       let accepted = forwardStart(writer, startSelector)
       let url = writer.outputURL
       if accepted, url.lastPathComponent == "movie.mp4",
-        url.deletingLastPathComponent().lastPathComponent.hasPrefix(".screenrec-output-"),
+        url.deletingLastPathComponent().lastPathComponent.hasPrefix(".yap-output-"),
         url.deletingLastPathComponent().deletingLastPathComponent() == directory
       {
         c.state.withLock { value in
@@ -294,7 +294,7 @@ func checkMoviePumpFailure(requestFile: String, faultRequested: Bool) async thro
   precondition(state.callerCanceledAtFault == false && !work.isCancelled)
   precondition(state.active == 0 && before == after)
   precondition(
-    !remaining.contains { $0.hasPrefix(".screenrec-output-") }, "Mux attempt leaked staging")
+    !remaining.contains { $0.hasPrefix(".yap-output-") }, "Mux attempt leaked staging")
   let response = try JSONSerialization.jsonObject(with: reply) as! [String: Any]
   if faultRequested {
     let error = response["error"] as? [String: Any]

@@ -44,18 +44,18 @@ await writeFile(
     "--package-path",
     "helpers/mac",
     "--product",
-    "ScreenRecorderCaptureTests",
+    "YapCaptureTests",
   ]),
 );
-const binary = join(root, "helpers/mac/.build/debug/ScreenRecorderCaptureTests");
+const binary = join(root, "helpers/mac/.build/debug/YapCaptureTests");
 await writeFile(
   join(out, "native.log"),
   run(binary, [], {
     env: {
       ...process.env,
-      SCREENREC_AUDIO_FORMAT_OUTPUT: join(out, "native"),
-      SCREENREC_CAPTURE_GAP_CORPUS: corpus,
-      SCREENREC_CAPTURE_FORMAT_STEREO: stereo,
+      YAP_AUDIO_FORMAT_OUTPUT: join(out, "native"),
+      YAP_CAPTURE_GAP_CORPUS: corpus,
+      YAP_CAPTURE_FORMAT_STEREO: stereo,
     },
   }),
 );

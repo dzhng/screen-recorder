@@ -2,7 +2,7 @@ import { deepStrictEqual, equal } from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { parseRequest } from "@screenrec/protocol";
+import { parseRequest } from "@yap/protocol";
 
 const root = new URL("../../../", import.meta.url);
 const fixtures = JSON.parse(
@@ -16,7 +16,7 @@ const ping = fixtures[0];
 if (!ping) throw new Error("Missing native ping conformance fixture");
 parseRequest(JSON.parse(ping.line));
 const binary = fileURLToPath(
-  new URL("dist/ScreenRecorder.app/Contents/MacOS/screenrec-native", root),
+  new URL("dist/Yap.app/Contents/MacOS/yap-native", root),
 );
 const result = spawnSync(binary, [], {
   input: fixtures.map((fixture) => fixture.line).join("\n") + "\n",

@@ -28,8 +28,8 @@ export async function withReadinessProcesses(
     const child = spawn(process.execPath, [serviceObserver], {
       env: {
         ...env,
-        SCREENREC_READINESS_SERVICE: join(runtime, "service.mjs"),
-        SCREENREC_READINESS_CHILD_LOG: childLog,
+        YAP_READINESS_SERVICE: join(runtime, "service.mjs"),
+        YAP_READINESS_CHILD_LOG: childLog,
       },
       detached: true,
       stdio: ["pipe", "pipe", "pipe"],
@@ -94,8 +94,8 @@ export async function withReadinessProcesses(
       args: [observer, "mcp", "--socket", started.socketPath],
       env: {
         ...env,
-        SCREENREC_READINESS_CLI: join(runtime, "cli.mjs"),
-        SCREENREC_READINESS_CLI_LOG: cliLog,
+        YAP_READINESS_CLI: join(runtime, "cli.mjs"),
+        YAP_READINESS_CLI_LOG: cliLog,
       },
       stderr: "pipe",
     });

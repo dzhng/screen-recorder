@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   bool read = std::fseek(input, int64_t(first)*4, SEEK_SET) == 0 &&
     std::fread(samples.data(), 4, count, input) == size_t(count);
   std::fclose(input);
-  if (!read || screenrec_stretch_exact(samples.data(), count, output.data(), wanted) != SCREENREC_STRETCH_OK) return 1;
+  if (!read || yap_stretch_exact(samples.data(), count, output.data(), wanted) != YAP_STRETCH_OK) return 1;
   auto destination = std::fopen(argv[2], "wbx");
   if (!destination) return 1;
   bool written = std::fwrite(output.data(), 4, wanted, destination) == size_t(wanted);

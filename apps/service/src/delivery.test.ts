@@ -12,8 +12,8 @@ import {
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { tmpdir } from "node:os";
-import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { CaptureStore } from "@screenrec/core/capture-store";
+import { DerivedCache, recordingCacheOwnerCheck } from "@yap/core/cache";
+import { CaptureStore } from "@yap/core/capture-store";
 import { DerivativeDelivery } from "./delivery.js";
 const cleanups: (() => void)[] = [];
 afterEach(() => {

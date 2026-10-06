@@ -14,7 +14,7 @@ const { values } = parseArgs({
 });
 assert.equal(values.case, "presenter-and-screen");
 assert.ok(
-  process.env.SCREENREC_NATIVE,
+  process.env.YAP_NATIVE,
   "Freeze the native compositor before running the layer journey",
 );
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "layers-evidence-"));

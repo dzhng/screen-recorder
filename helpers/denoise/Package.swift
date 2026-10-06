@@ -2,9 +2,9 @@
 import PackageDescription
 
 let package = Package(
-  name: "ScreenRecorderDenoise",
+  name: "YapDenoise",
   platforms: [.macOS("26.0")],
-  products: [.library(name: "ScreenRecorderDenoise", targets: ["ScreenRecorderDenoise"])],
+  products: [.library(name: "YapDenoise", targets: ["YapDenoise"])],
   targets: [
     .target(
       name: "CRNNoise", publicHeadersPath: "include",
@@ -12,8 +12,8 @@ let package = Package(
         .headerSearchPath("src"), .define("RNNOISE_BUILD"), .define("DISABLE_DEBUG_FLOAT"),
         .unsafeFlags(["-O2"]),
       ]),
-    .target(name: "ScreenRecorderDenoise", dependencies: ["CRNNoise"]),
+    .target(name: "YapDenoise", dependencies: ["CRNNoise"]),
     .executableTarget(
-      name: "DenoiseParity", dependencies: ["ScreenRecorderDenoise"], path: "Tests/Parity"),
+      name: "DenoiseParity", dependencies: ["YapDenoise"], path: "Tests/Parity"),
   ]
 )

@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { controlsProbe, launchReady, setDefault, temporary, waitFor } from "./harness.mjs";
 
-const title = "Screen Recorder Controls";
+const title = "Yap Controls";
 
 // A take that passes an hour spends a character more on its clock. The controls must widen for it:
 // a panel that keeps its old width wraps its own buttons onto a second line.
@@ -15,8 +15,8 @@ test("the floating controls widen for a clock past an hour", { timeout: 90_000 }
   const commands = join(home, "controls");
   mkdirSync(commands, { recursive: true });
   const { instance } = await launchReady(home, {
-    SCREENREC_DEFAULTS: domain,
-    SCREENREC_FIXTURE_CONTROLS: commands,
+    YAP_DEFAULTS: domain,
+    YAP_FIXTURE_CONTROLS: commands,
   });
   try {
     await instance.waitFor(/controls probe listening/);

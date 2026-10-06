@@ -1,7 +1,7 @@
 import { fstatSync } from "node:fs";
-import { mediaProbeSchema, type MediaProbe } from "@screenrec/core/assets";
-import { CatalogError } from "@screenrec/core/catalog";
-import type { OpenedFile } from "@screenrec/core/files";
+import { mediaProbeSchema, type MediaProbe } from "@yap/core/assets";
+import { CatalogError } from "@yap/core/catalog";
+import type { OpenedFile } from "@yap/core/files";
 import { cliWorker, nativeResult } from "./worker.js";
 
 // Self-contained demuxers only. These are execution families, never media admission.

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { toTime, type TimeValue } from "@screenrec/composition";
+import { toTime, type TimeValue } from "@yap/composition";
 import { CatalogError } from "./catalog.js";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";

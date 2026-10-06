@@ -1,7 +1,7 @@
 import Darwin
 import Foundation
-import ScreenRecorderAudio
-import ScreenRecorderMedia
+import YapAudio
+import YapMedia
 
 func verifySourceStreaming(in parent: URL) async throws {
     let source = parent.appendingPathComponent("streaming-authority.wav")

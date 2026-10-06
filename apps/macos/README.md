@@ -21,7 +21,7 @@ retains the last-good catalog and reports the error. A camera choice preserves
 its device identity and never silently substitutes a disconnected device.
 Login registration is the system's answer, not a second locally cached preference.
 The Settings window stays available while macOS presents a permission or privacy
-pane, then refreshes its state and returns to the front when Screen Recorder
+pane, then refreshes its state and returns to the front when Yap
 becomes active again.
 A client-triggered service launch suppresses the ordinary launch window; a headless
 check must not take focus or play audio.
@@ -33,9 +33,9 @@ Escalation targets that child alone under a bounded deadline. Pending calls sett
 on terminal failure instead of waiting for a channel nobody serves. Control writes
 are asynchronous and bounded so a non-reading peer cannot block every deadline.
 
-Release updates use a separate lifetime contract. The [update coordinator](Sources/ScreenRecorder/UpdateCoordinator.swift)
+Release updates use a separate lifetime contract. The [update coordinator](Sources/Yap/UpdateCoordinator.swift)
 joins existing native intent with the service's atomic permit; waiting leaves
-normal operations and preview renewals usable. The [Sparkle boundary](Sources/ScreenRecorder/SparkleDriver.swift)
+normal operations and preview renewals usable. The [Sparkle boundary](Sources/Yap/SparkleDriver.swift)
 owns scheduling and preferences through the pinned SDK. Its acknowledged launch
 exclusion permits clean service EOF, and observed clean exit permits replacement.
 An authenticated check that finds no newer version completes normally; a fresh
@@ -46,12 +46,12 @@ manufacture idle. An unconfirmed permit release or stalled shutdown requires an
 explicit quit and reopen; there is no competing successor or automatic restart loop.
 Updater relaunch preserves the selected home/defaults and suppresses launch Settings.
 
-The [library controller](Sources/ScreenRecorder/LibraryController.swift) presents
+The [library controller](Sources/Yap/LibraryController.swift) presents
 source facts and caller-created projects separately. Last-good observations survive
 read errors; generations fence delayed replies after deletion, page changes or
 service replacement. A recording becoming ready cannot silently create a composition.
 
-A [preview controller](Sources/ScreenRecorder/PreviewController.swift) pins identity
+A [preview controller](Sources/Yap/PreviewController.swift) pins identity
 and holds the renewable service lease; its presentation window owns platform
 player events. Export choices pin revision and destination before sending, retaining
 the exact request after a lost answer. Forgotten owners cannot be revived by late
@@ -63,7 +63,7 @@ selection, so the app's destination chooser does not offer that request.
 ## Runtime resolution
 
 The [build and release owner](../../scripts/README.md) distinguishes bundled and
-host interpreters. The [resolver](Sources/ScreenRecorder/NodeRuntime.swift) consumes
+host interpreters. The [resolver](Sources/Yap/NodeRuntime.swift) consumes
 the bundle manifest and explicit overrides. An invalid override is reported rather
 than silently selecting another interpreter. A movable bundle resolves its runtime
 relative to itself.
@@ -87,8 +87,9 @@ claims from installed, physical and perceptual acceptance.
 
 Capture, geometry and media behavior belong to the [native owner](../../helpers/mac/README.md).
 Probe entry points use those same owners; they do not define a second recorder.
-The checked-in icon is an input to the build, with its [drawing tool](../../scripts/render-app-icon.swift)
-kept separately so building is not a drawing step.
+The checked-in icon is an input to the build. Its [packing tool](../../scripts/render-app-icon.swift)
+fits the [artwork](AppIcon-artwork.png) to the macOS icon grid and shape; it runs
+separately so building is not a drawing step.
 
 ## Update controls
 
@@ -118,7 +119,7 @@ and the installed-update gate.
 
 ## Capture and Library presentation
 
-The [capture view](Sources/ScreenRecorder/CaptureView.swift) consumes immutable
+The [capture view](Sources/Yap/CaptureView.swift) consumes immutable
 rendering facts and emits supplied intents. It holds no capture selection, service
 state or recording clock. The controls owner admits those intents; the transient popover owns native dismissal
 and leaves capture selection with the shared controls state. Camera Only requires
@@ -131,7 +132,7 @@ owns synthetic scenarios; its images and metadata record native size, appearance
 and backing scale. This renderer never enumerates devices, inspects permissions,
 starts capture or activates the app.
 
-The [Library view](Sources/ScreenRecorder/LibraryView.swift) consumes shared
+The [Library view](Sources/Yap/LibraryView.swift) consumes shared
 saved-item facts from the controls presentation owners. Those owners retain title,
 failure detail and action applicability; the view keeps only its session-local tab,
 filter and scroll position. The paging owner explicitly clears the page filter.

@@ -1,19 +1,19 @@
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
 import { JourneyService, hash, poll } from "./source-evidence-fixture.mjs";
 
 // One retained, already-qualified whole-stream operand; no quality cohort or demo edit.
 const [source, distribution, output] = process.argv.slice(2).map((value) => resolve(value));
 assert.ok(
-  source && distribution && output && process.env.SCREENREC_NATIVE,
-  "Usage: SCREENREC_NATIVE=... node hdr-managed.mjs SOURCE DISTRIBUTION NEW_OUTPUT",
+  source && distribution && output && process.env.YAP_NATIVE,
+  "Usage: YAP_NATIVE=... node hdr-managed.mjs SOURCE DISTRIBUTION NEW_OUTPUT",
 );
 await mkdir(output, { mode: 0o700 });
-const home = await mkdtemp("/tmp/screenrec-hdr-managed-");
-process.env.SCREENREC_TEST_FFMPEG_INSTALLATION = JSON.stringify({
+const home = await mkdtemp("/tmp/yap-hdr-managed-");
+process.env.YAP_TEST_FFMPEG_INSTALLATION = JSON.stringify({
   directory: distribution,
   receiptSha256: hash(await readFile(join(distribution, "receipt.json"))),
 });

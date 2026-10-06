@@ -4,11 +4,11 @@ import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promi
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { parseArgs } from "node:util";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "A frozen native still-image worker is required");
+assert.ok(process.env.YAP_NATIVE, "A frozen native still-image worker is required");
 const out = values.out
   ? resolve(values.out)
   : await mkdtemp(join(tmpdir(), "source-image-evidence-"));
@@ -261,8 +261,8 @@ try {
   );
   report.checks.invalidSelectorsAndTimedVideoPreservation = true;
   report.worker = {
-    path: process.env.SCREENREC_NATIVE,
-    sha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+    path: process.env.YAP_NATIVE,
+    sha256: hash(await readFile(process.env.YAP_NATIVE)),
   };
   report.passed = true;
 } catch (error) {

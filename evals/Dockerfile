@@ -4,8 +4,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
     && npm install --global @openai/codex@0.160.0 @anthropic-ai/claude-code@2.1.289 skills@1.7.0 \
     && npm cache clean --force
 COPY runtime/ /opt/evals/
-RUN printf '#!/bin/sh\nexec node /opt/evals/cli-launcher.mjs "$@"\n' > /usr/local/bin/screenrec \
-    && chmod 755 /usr/local/bin/screenrec
+RUN printf '#!/bin/sh\nexec node /opt/evals/cli-launcher.mjs "$@"\n' > /usr/local/bin/yap \
+    && chmod 755 /usr/local/bin/yap
 ENV HOME=/sandbox/home
 ENV PATH=/usr/local/bin:/usr/bin:/bin
 USER node

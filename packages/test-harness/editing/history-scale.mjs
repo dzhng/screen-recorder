@@ -13,7 +13,7 @@ import { assetTranscriptOwner } from "../../core/dist/transcript-processing.js";
 import { JourneyService, hash, run } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-const out = values.out ? resolve(values.out) : await mkdtemp("/tmp/screenrec-history-scale-");
+const out = values.out ? resolve(values.out) : await mkdtemp("/tmp/yap-history-scale-");
 await mkdir(out, { recursive: true });
 const report = {
   passed: false,

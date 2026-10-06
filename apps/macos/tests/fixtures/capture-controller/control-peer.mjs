@@ -3,8 +3,8 @@ import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { setTimeout as delay } from "node:timers/promises";
 
-const directory = process.env.SCREENREC_CONTROLLER_REPORT_ROOT;
-const mode = process.env.SCREENREC_CONTROLLER_MODE;
+const directory = process.env.YAP_CONTROLLER_REPORT_ROOT;
+const mode = process.env.YAP_CONTROLLER_MODE;
 process.stdout.write(
   JSON.stringify({ event: "started", pid: process.pid, socketPath: "/fixture" }) + "\n",
 );

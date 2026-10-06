@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { appendFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { operationSchema } from "@screenrec/protocol";
+import { operationSchema } from "@yap/protocol";
 
 const operation = process.argv[2];
 const paramsAt = process.argv.indexOf("--params");
@@ -11,7 +11,7 @@ const output = outputAt < 0 ? null : process.argv[outputAt + 1];
 const entry = { operation, params, output };
 const tracedCalls = () => {
   try {
-    return readFileSync(process.env.SCREENREC_CALLER_TRACE, "utf8")
+    return readFileSync(process.env.YAP_CALLER_TRACE, "utf8")
       .trim()
       .split("\n")
       .map(JSON.parse);
@@ -40,7 +40,7 @@ try {
     ok: false,
     error: { code: "INVALID_REQUEST", message: error.message, retryable: false, details: {} },
   };
-  appendFileSync(process.env.SCREENREC_CALLER_TRACE, JSON.stringify(entry) + "\n");
+  appendFileSync(process.env.YAP_CALLER_TRACE, JSON.stringify(entry) + "\n");
   process.stdout.write(JSON.stringify(entry.response));
   process.exitCode = 1;
   process.exit();
@@ -124,7 +124,7 @@ switch (operation) {
     const prior = tracedCalls().filter((item) => item.operation === "job.get").length;
     data = {
       jobId: params.jobId,
-      state: prior === 0 ? (process.env.SCREENREC_CALLER_JOB_STATE ?? "ready") : "failed",
+      state: prior === 0 ? (process.env.YAP_CALLER_JOB_STATE ?? "ready") : "failed",
       reason: prior === 0 ? "fixture terminal job state" : "unexpected repeat poll",
       result: { acquisitionId: "fixture-acquisition" },
     };
@@ -168,7 +168,7 @@ switch (operation) {
     break;
   case "transcript.get":
     data = readyTranscript;
-    if (process.env.SCREENREC_CALLER_REPEAT_CURSOR) {
+    if (process.env.YAP_CALLER_REPEAT_CURSOR) {
       const prior = tracedCalls().filter((item) => item.operation === operation).length;
       if (prior >= 2) {
         entry.response = {
@@ -180,7 +180,7 @@ switch (operation) {
             details: {},
           },
         };
-        appendFileSync(process.env.SCREENREC_CALLER_TRACE, JSON.stringify(entry) + "\n");
+        appendFileSync(process.env.YAP_CALLER_TRACE, JSON.stringify(entry) + "\n");
         process.stdout.write(JSON.stringify(entry.response));
         process.exit(0);
       }
@@ -240,7 +240,7 @@ switch (operation) {
     };
     break;
   case "edit.apply": {
-    const previous = readFileSync(process.env.SCREENREC_CALLER_TRACE, "utf8")
+    const previous = readFileSync(process.env.YAP_CALLER_TRACE, "utf8")
       .trim()
       .split("\n")
       .map(JSON.parse);
@@ -262,7 +262,7 @@ switch (operation) {
           details: {},
         },
       };
-      appendFileSync(process.env.SCREENREC_CALLER_TRACE, JSON.stringify(entry) + "\n");
+      appendFileSync(process.env.YAP_CALLER_TRACE, JSON.stringify(entry) + "\n");
       process.stdout.write(JSON.stringify(entry.response));
       process.exit(0);
     }
@@ -311,7 +311,7 @@ switch (operation) {
   case "frame.batch": {
     const previousFrames = tracedCalls().filter((item) => item.operation === "frame.batch").length;
     if (
-      (process.env.SCREENREC_CALLER_FRAME_ITEM_ERROR ||
+      (process.env.YAP_CALLER_FRAME_ITEM_ERROR ||
         (!params.projectId &&
           params.atUs.some(
             (atUs) =>
@@ -333,7 +333,7 @@ switch (operation) {
           },
         ],
       };
-    } else if (process.env.SCREENREC_CALLER_FRAME_ITEM_ERROR && previousFrames > 0) {
+    } else if (process.env.YAP_CALLER_FRAME_ITEM_ERROR && previousFrames > 0) {
       data = { state: "failed", reason: "unexpected repeat poll" };
     } else {
       data = {
@@ -352,7 +352,7 @@ switch (operation) {
     data = { exportId: params.exportId, state: "queued" };
     break;
   case "export.status": {
-    const creation = readFileSync(process.env.SCREENREC_CALLER_TRACE, "utf8")
+    const creation = readFileSync(process.env.YAP_CALLER_TRACE, "utf8")
       .trim()
       .split("\n")
       .map(JSON.parse)
@@ -372,7 +372,7 @@ switch (operation) {
     break;
   case "package.status": {
     const prior = tracedCalls().filter((item) => item.operation === "package.status").length;
-    const state = process.env.SCREENREC_CALLER_PACKAGE_STATE;
+    const state = process.env.YAP_CALLER_PACKAGE_STATE;
     data =
       state && prior === 0
         ? { id: params.admissionId, state, error: { message: "fixture package status" } }
@@ -399,4 +399,4 @@ switch (operation) {
 
 process.stdout.write(JSON.stringify({ ok: true, data }));
 entry.response = { ok: true, data };
-appendFileSync(process.env.SCREENREC_CALLER_TRACE, JSON.stringify(entry) + "\n");
+appendFileSync(process.env.YAP_CALLER_TRACE, JSON.stringify(entry) + "\n");

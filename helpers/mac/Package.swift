@@ -2,11 +2,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "ScreenRecorderNative",
+    name: "YapNative",
     platforms: [.macOS("26.0")],
     products: [
-        .library(name: "ScreenRecorderCapture", targets: ["ScreenRecorderCapture"]),
-        .executable(name: "screenrec-native", targets: ["ScreenRecorderNative"]),
+        .library(name: "YapCapture", targets: ["YapCapture"]),
+        .executable(name: "yap-native", targets: ["YapNative"]),
     ],
     dependencies: [
         .package(path: "../denoise"),
@@ -17,41 +17,41 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "ScreenRecorderWire",
+            name: "YapWire",
             dependencies: [
-                "ScreenRecorderAudio", "ScreenRecorderCapture", "ScreenRecorderFrames",
-                "ScreenRecorderMedia", "ScreenRecorderSpeech", "CLibArchive",
+                "YapAudio", "YapCapture", "YapFrames",
+                "YapMedia", "YapSpeech", "CLibArchive",
             ],
             linkerSettings: [.linkedLibrary("archive.2")]),
         .systemLibrary(name: "CLibArchive"),
-        .target(name: "ScreenRecorderCapture", dependencies: ["ScreenRecorderMedia"]),
-        .target(name: "ScreenRecorderFrames", dependencies: ["ScreenRecorderMedia"]),
-        .target(name: "ScreenRecorderAudio", dependencies: ["ScreenRecorderMedia", .product(name: "ScreenRecorderDenoise", package: "denoise"), .product(name: "ScreenRecorderStretch", package: "stretch")]),
+        .target(name: "YapCapture", dependencies: ["YapMedia"]),
+        .target(name: "YapFrames", dependencies: ["YapMedia"]),
+        .target(name: "YapAudio", dependencies: ["YapMedia", .product(name: "YapDenoise", package: "denoise"), .product(name: "YapStretch", package: "stretch")]),
         .target(
-            name: "ScreenRecorderSpeech",
+            name: "YapSpeech",
             dependencies: [
-                "ScreenRecorderAudio", "ScreenRecorderMedia",
+                "YapAudio", "YapMedia",
                 .product(name: "FluidAudio", package: "FluidAudio"),
             ]),
-        .target(name: "ScreenRecorderMedia"),
-        .executableTarget(name: "CameraReproduction", dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia", "ScreenRecorderWire", "ScreenRecorderAudio"], path: "Tests/CameraReproduction"),
+        .target(name: "YapMedia"),
+        .executableTarget(name: "CameraReproduction", dependencies: ["YapCapture", "YapMedia", "YapWire", "YapAudio"], path: "Tests/CameraReproduction"),
         .executableTarget(
-            name: "ScreenRecorderCaptureTests",
-            dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia", "ScreenRecorderWire", "ScreenRecorderAudio"],
-            path: "Tests/ScreenRecorderCaptureTests", exclude: ["fixtures"]),
+            name: "YapCaptureTests",
+            dependencies: ["YapCapture", "YapMedia", "YapWire", "YapAudio"],
+            path: "Tests/YapCaptureTests", exclude: ["fixtures"]),
         .executableTarget(
-            name: "ScreenRecorderFrameTests", dependencies: ["ScreenRecorderFrames", "ScreenRecorderMedia"],
-            path: "Tests/ScreenRecorderFrameTests"),
+            name: "YapFrameTests", dependencies: ["YapFrames", "YapMedia"],
+            path: "Tests/YapFrameTests"),
         .executableTarget(
-            name: "ScreenRecorderSpeechTests",
-            dependencies: ["ScreenRecorderSpeech", "ScreenRecorderMedia", .product(name: "FluidAudio", package: "FluidAudio")],
-            path: "Tests/ScreenRecorderSpeechTests"),
-        .executableTarget(name: "ScreenRecorderSelectedAudioTests", dependencies: ["ScreenRecorderAudio", "ScreenRecorderMedia"], path: "Tests/SelectedAudio"),
-        .executableTarget(name: "ScreenRecorderSourceAudioTests", dependencies: ["ScreenRecorderAudio", "ScreenRecorderMedia"], path: "Tests/SourceAudio"),
-        .executableTarget(name: "ScreenRecorderCompositionAudioTests", dependencies: ["ScreenRecorderAudio", "ScreenRecorderMedia"], path: "Tests/CompositionAudio"),
-        .executableTarget(name: "ScreenRecorderCompositionVideoTests", dependencies: ["ScreenRecorderWire"], path: "Tests/CompositionVideo"),
-        .executableTarget(name: "ScreenRecorderAudioFileTests", dependencies: ["ScreenRecorderWire"], path: "Tests/AudioFile"),
-        .executableTarget(name: "ScreenRecorderScalarTests", dependencies: ["ScreenRecorderMedia"], path: "Tests/ScalarProgram"),
-        .executableTarget(name: "ScreenRecorderNative", dependencies: ["ScreenRecorderWire", "ScreenRecorderMedia"]),
+            name: "YapSpeechTests",
+            dependencies: ["YapSpeech", "YapMedia", .product(name: "FluidAudio", package: "FluidAudio")],
+            path: "Tests/YapSpeechTests"),
+        .executableTarget(name: "YapSelectedAudioTests", dependencies: ["YapAudio", "YapMedia"], path: "Tests/SelectedAudio"),
+        .executableTarget(name: "YapSourceAudioTests", dependencies: ["YapAudio", "YapMedia"], path: "Tests/SourceAudio"),
+        .executableTarget(name: "YapCompositionAudioTests", dependencies: ["YapAudio", "YapMedia"], path: "Tests/CompositionAudio"),
+        .executableTarget(name: "YapCompositionVideoTests", dependencies: ["YapWire"], path: "Tests/CompositionVideo"),
+        .executableTarget(name: "YapAudioFileTests", dependencies: ["YapWire"], path: "Tests/AudioFile"),
+        .executableTarget(name: "YapScalarTests", dependencies: ["YapMedia"], path: "Tests/ScalarProgram"),
+        .executableTarget(name: "YapNative", dependencies: ["YapWire", "YapMedia"]),
     ]
 )

@@ -14,7 +14,7 @@ afterEach(async () => {
 });
 
 test("asset-owned derivatives evict and reopen without modifying original media", async () => {
-  const home = await mkdtemp(join(tmpdir(), "screenrec-cache-assets-"));
+  const home = await mkdtemp(join(tmpdir(), "yap-cache-assets-"));
   cleanup.push(() => rm(home, { recursive: true, force: true }));
   const path = join(home, "catalog.sqlite");
   const catalog = new Catalog(path);
@@ -66,7 +66,7 @@ test("asset-owned derivatives evict and reopen without modifying original media"
 });
 
 test("project retirement fences derived files and cannot purge another owner kind", async () => {
-  const home = await mkdtemp(join(tmpdir(), "screenrec-cache-owners-"));
+  const home = await mkdtemp(join(tmpdir(), "yap-cache-owners-"));
   cleanup.push(() => rm(home, { recursive: true, force: true }));
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   cleanup.push(async () => catalog.close());

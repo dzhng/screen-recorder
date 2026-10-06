@@ -18,7 +18,7 @@ export async function killExportOwner(f, gap, extra = {}) {
   };
   const child = fork(fileURLToPath(import.meta.url), [JSON.stringify(existing), gap], {
     stdio: ["ignore", "ignore", "inherit", "ipc"],
-    env: { ...process.env, SCREENREC_NATIVE: nativeBinary },
+    env: { ...process.env, YAP_NATIVE: nativeBinary },
   });
   const closed = once(child, "close");
   try {
@@ -77,17 +77,17 @@ export async function receiptCrash(t, mode = "write") {
   const quote = (value) => "'" + value.replaceAll("'", "'\\''") + "'";
   await writeFile(
     executable,
-    `#!/bin/sh\nSCREENREC_RECEIPT_FAULT=${quote(mode)} DYLD_INSERT_LIBRARIES=${quote(library)} exec ${quote(nativeBinary)}\n`,
+    `#!/bin/sh\nYAP_RECEIPT_FAULT=${quote(mode)} DYLD_INSERT_LIBRARIES=${quote(library)} exec ${quote(nativeBinary)}\n`,
     { mode: 0o700 },
   );
-  interruptedWorker = mediaWorker({ SCREENREC_NATIVE: executable });
+  interruptedWorker = mediaWorker({ YAP_NATIVE: executable });
   const request = { ...f.request(), leaf: "retry.mp4" };
   await f.exports.create(request);
   await f.jobs.idle();
   return {
     f,
     exportId: request.exportId,
-    stage: join(f.output, ".screenrec-export-" + request.exportId),
+    stage: join(f.output, ".yap-export-" + request.exportId),
   };
 }
 
@@ -114,9 +114,9 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
           if (gap === "package-survivor" && op === "archive.write") {
             const environment = {
               DYLD_INSERT_LIBRARIES: existing.library,
-              SCREENREC_TEST_COPY_BARRIER: existing.marker,
-              SCREENREC_TEST_COPY_PARTIAL: "0",
-              SCREENREC_TEST_COPY_MIN_FD: "6",
+              YAP_TEST_COPY_BARRIER: existing.marker,
+              YAP_TEST_COPY_PARTIAL: "0",
+              YAP_TEST_COPY_MIN_FD: "6",
             };
             const previous = Object.fromEntries(
               Object.keys(environment).map((key) => [key, process.env[key]]),

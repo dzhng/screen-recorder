@@ -14,7 +14,7 @@ import {
   type OperationResult,
   updateControlOperations,
   updateCommandOperations,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 
 export type ControlChannel = {
   /** Asks the app's native side for one operation, bounded and correlated like its own calls. */

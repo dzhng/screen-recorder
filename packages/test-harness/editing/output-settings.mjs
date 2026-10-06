@@ -9,8 +9,8 @@ const { values } = parseArgs({
   options: { out: { type: "string" }, case: { type: "string", default: "explicit-and-preset" } },
 });
 assert.equal(values.case, "explicit-and-preset");
-assert.ok(process.env.SCREENREC_NATIVE);
-const out = resolve(values.out ?? "/tmp/screenrec-output-settings"),
+assert.ok(process.env.YAP_NATIVE);
+const out = resolve(values.out ?? "/tmp/yap-output-settings"),
   home = await mkdtemp(join(tmpdir(), "sr-output-"));
 await mkdir(out, { recursive: true });
 const report = {
@@ -18,7 +18,7 @@ const report = {
   trace: [],
   checks: [],
   variants: [],
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);

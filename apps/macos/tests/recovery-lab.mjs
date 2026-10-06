@@ -18,7 +18,7 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import {
   launchReady,
   requireScreenPermission,
@@ -34,7 +34,7 @@ const { values } = parseArgs({
     microphone: { type: "boolean", default: false },
   },
 });
-const out = values.out ?? temporary("/tmp/screenrec-recovery-");
+const out = values.out ?? temporary("/tmp/yap-recovery-");
 mkdirSync(out, { recursive: true });
 
 requireScreenPermission();
@@ -59,8 +59,8 @@ async function app(home) {
   setDefault(domain, "showSettingsAtLaunch", "-bool", "NO");
   setDefault(domain, "countdownBeforeRecording", "-bool", "NO");
   const { instance } = await launchReady(home, {
-    SCREENREC_DEFAULTS: domain,
-    SCREENREC_FIXTURE_WINDOW: "1",
+    YAP_DEFAULTS: domain,
+    YAP_FIXTURE_WINDOW: "1",
   });
   const [, windowId] = await instance.waitFor(/capture fixture window=(\d+)/);
   return { instance, source: { kind: "window", windowId: Number(windowId) } };

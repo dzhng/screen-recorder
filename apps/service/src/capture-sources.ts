@@ -1,13 +1,13 @@
 import { realpathSync } from "node:fs";
 import { join } from "node:path";
-import { AcquisitionStore } from "@screenrec/core/acquisitions";
-import { CatalogError } from "@screenrec/core/catalog";
-import { CaptureStore, type Recording } from "@screenrec/core/capture-store";
-import { JobQueue } from "@screenrec/core/jobs";
+import { AcquisitionStore } from "@yap/core/acquisitions";
+import { CatalogError } from "@yap/core/catalog";
+import { CaptureStore, type Recording } from "@yap/core/capture-store";
+import { JobQueue } from "@yap/core/jobs";
 import type { ManagedFiles } from "./managed-files.js";
 import { sourceDirectory } from "./capture.js";
 import { operationFailure } from "./operation-errors.js";
-import type { OperationFailure } from "@screenrec/protocol";
+import type { OperationFailure } from "@yap/protocol";
 
 export type CaptureSourceAdmission = {
   kind: "primary" | "camera";

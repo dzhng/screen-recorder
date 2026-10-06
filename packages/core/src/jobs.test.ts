@@ -101,7 +101,7 @@ function open(path: string, prefix: string) {
 }
 
 function fixture(prefix = "run") {
-  const root = mkdtempSync(join(tmpdir(), "screenrec-jobs-"));
+  const root = mkdtempSync(join(tmpdir(), "yap-jobs-"));
   roots.push(root);
   const path = join(root, "library.sqlite");
   return { path, ...open(path, prefix) };
@@ -1968,7 +1968,7 @@ test("deleting a project drains every pinned revision without touching a same-na
 });
 
 test("an import job runs on the shared Catalog without a recording store", async () => {
-  const root = mkdtempSync(join(tmpdir(), "screenrec-managed-jobs-"));
+  const root = mkdtempSync(join(tmpdir(), "yap-managed-jobs-"));
   roots.push(root);
   const store = new Catalog(join(root, "catalog.sqlite"));
   stores.push(store);
@@ -2774,7 +2774,7 @@ test("source-owned work refuses live or discarded recordings without pinning a r
 });
 
 test("persisted queued work and dependency admission wait for an assembled owner's explicit start", async () => {
-  const root = mkdtempSync(join(tmpdir(), "screenrec-deferred-start-"));
+  const root = mkdtempSync(join(tmpdir(), "yap-deferred-start-"));
   roots.push(root);
   const store = new Catalog(join(root, "catalog.sqlite"));
   stores.push(store);
@@ -2837,7 +2837,7 @@ test("persisted queued work and dependency admission wait for an assembled owner
 });
 
 test("ordinary scheduling resumes durable queued work after retryable activation contention", async () => {
-  const root = mkdtempSync(join(tmpdir(), "screenrec-start-contention-"));
+  const root = mkdtempSync(join(tmpdir(), "yap-start-contention-"));
   roots.push(root);
   const path = join(root, "catalog.sqlite"),
     store = new Catalog(path);

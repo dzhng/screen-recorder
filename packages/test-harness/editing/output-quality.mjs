@@ -13,7 +13,7 @@ const { values } = parseArgs({
     start: { type: "string", default: "0" },
   },
 });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out),
   startUs = Number(values.start),
   durationUs = Number(values.duration) * 1000000;
@@ -33,7 +33,7 @@ const report = {
   durationUs,
   references: [],
   variants: [],
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   presetPromoted: false,
 };
 const service = new JourneyService(home, report),

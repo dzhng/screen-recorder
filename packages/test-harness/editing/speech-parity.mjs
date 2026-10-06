@@ -20,7 +20,7 @@ const { values } = parseArgs({
   },
 });
 assert.ok(values.reference, "Pass --reference with the retained speech baseline");
-assert.ok(process.env.SCREENREC_NATIVE, "Select an isolated native worker");
+assert.ok(process.env.YAP_NATIVE, "Select an isolated native worker");
 const actualInference = !!values["existing-models"];
 const existingModels = actualInference
   ? { directory: resolve(values["existing-models"]), files: parakeetModel.files }
@@ -67,27 +67,27 @@ try {
   for (const [from, specifier, expected] of [
     [
       "apps/service/dist/project-service.js",
-      "@screenrec/core/models",
+      "@yap/core/models",
       "packages/core/dist/models.js",
     ],
     [
       "apps/service/dist/project-service.js",
-      "@screenrec/core/transcript-processing",
+      "@yap/core/transcript-processing",
       "packages/core/dist/transcript-processing.js",
     ],
     [
       "apps/service/dist/project-service.js",
-      "@screenrec/protocol",
+      "@yap/protocol",
       "packages/protocol/dist/index.js",
     ],
     [
       "packages/core/dist/transcript-processing.js",
-      "@screenrec/composition",
+      "@yap/composition",
       "packages/composition/dist/index.js",
     ],
-    ["apps/cli/dist/main.js", "@screenrec/client", "packages/client/dist/index.js"],
-    ["apps/cli/dist/main.js", "@screenrec/protocol", "packages/protocol/dist/index.js"],
-    ["packages/client/dist/index.js", "@screenrec/protocol", "packages/protocol/dist/index.js"],
+    ["apps/cli/dist/main.js", "@yap/client", "packages/client/dist/index.js"],
+    ["apps/cli/dist/main.js", "@yap/protocol", "packages/protocol/dist/index.js"],
+    ["packages/client/dist/index.js", "@yap/protocol", "packages/protocol/dist/index.js"],
   ]) {
     const resolved = await realpath(createRequire(join(root, from)).resolve(specifier));
     assert.equal(
@@ -440,7 +440,7 @@ try {
       ].map(async (path) => [path, hash(await readFile(join(root, path)))]),
     ),
   );
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   report.passed = true;
 } catch (error) {
   report.error = { message: error.message, stack: error.stack };

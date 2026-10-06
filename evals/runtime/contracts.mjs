@@ -5,8 +5,8 @@ import { failedJobFixture } from "./fixture.mjs";
 export async function contracts() {
   const outcomes = [];
   async function call(args, input) {
-    const child = spawn("screenrec", args, {
-      env: { ...process.env, SCREENREC_APP: "/does/not/exist.app" },
+    const child = spawn("yap", args, {
+      env: { ...process.env, YAP_APP: "/does/not/exist.app" },
       stdio: ["pipe", "pipe", "pipe"],
     });
     let stdout = "",

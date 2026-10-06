@@ -1,4 +1,4 @@
-import { rational, toTime } from "@screenrec/composition";
+import { rational, toTime } from "@yap/composition";
 import { createHash } from "node:crypto";
 import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";

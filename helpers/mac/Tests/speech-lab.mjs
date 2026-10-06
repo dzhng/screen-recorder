@@ -1,6 +1,6 @@
 // Opt-in: transcribes generated narration through the worker with network denied and compares each
 // interval with the pinned FluidAudio CLI. Needs a cache from `node scripts/speech-eval.mjs prepare
-// parakeet CACHE`: SCREENREC_SPEECH_CACHE=CACHE node helpers/mac/Tests/speech-lab.mjs
+// parakeet CACHE`: YAP_SPEECH_CACHE=CACHE node helpers/mac/Tests/speech-lab.mjs
 // Synthetic speech proves plumbing only; it says nothing about accuracy on real narration.
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
@@ -19,19 +19,19 @@ import { tmpdir } from "node:os";
 import { dirname, isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const cache = process.env.SCREENREC_SPEECH_CACHE;
-assert.ok(cache && isAbsolute(cache), "Set SCREENREC_SPEECH_CACHE to a prepared speech-eval cache");
+const cache = process.env.YAP_SPEECH_CACHE;
+assert.ok(cache && isAbsolute(cache), "Set YAP_SPEECH_CACHE to a prepared speech-eval cache");
 const out =
-  process.env.SCREENREC_SPEECH_LAB_EVIDENCE ?? mkdtempSync(join(tmpdir(), "screenrec-speech-lab-"));
+  process.env.YAP_SPEECH_LAB_EVIDENCE ?? mkdtempSync(join(tmpdir(), "yap-speech-lab-"));
 assert.ok(isAbsolute(out));
 mkdirSync(out, { recursive: true });
 assert.deepEqual(readdirSync(out), [], "Evidence directory must start empty");
 const executable =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 const selectedReference =
-  process.env.SCREENREC_SOURCE_AUDIO_TESTS ??
-  fileURLToPath(new URL("../.build/debug/ScreenRecorderSourceAudioTests", import.meta.url));
+  process.env.YAP_SOURCE_AUDIO_TESTS ??
+  fileURLToPath(new URL("../.build/debug/YapSourceAudioTests", import.meta.url));
 const cli = join(cache, "source", ".build", "release", "fluidaudiocli");
 const pinned = JSON.parse(
   readFileSync(
@@ -222,7 +222,7 @@ for (const line of lines.filter((line) => line.state === "transcribed")) {
     JSON.stringify({ output: wav, spans: [line.source], source: track }),
   );
   run(offline[0], [...offline.slice(1), selectedReference], {
-    env: { ...process.env, SCREENREC_AUDIO_SELECTED_PLAN: referencePlan },
+    env: { ...process.env, YAP_AUDIO_SELECTED_PLAN: referencePlan },
   });
   const report = join(out, `cli-${line.ordinal}.json`);
   run(offline[0], [

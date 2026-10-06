@@ -5,7 +5,7 @@ import {
   type Composition,
   type Asset,
   type ProcessingTap,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import type { SourceSceneChunk } from "./source-scene-chunks.js";
 import { selectProjectIndex } from "./project-index-selection.js";
 

@@ -1,6 +1,6 @@
 import Foundation
-import ScreenRecorderMedia
-@testable import ScreenRecorderWire
+import YapMedia
+@testable import YapWire
 
 // Generated ISO headers isolate finalization arithmetic and ownership; they are not decode fixtures.
 func checkMovieAudioTail(at directory: URL) async throws {

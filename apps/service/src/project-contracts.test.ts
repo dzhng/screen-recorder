@@ -5,15 +5,15 @@ import { join, dirname } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { afterEach, expect, test } from "vitest";
 import { createHash } from "node:crypto";
-import { Models, parakeetModel } from "@screenrec/core/models";
-import type { SpeechTranscriptionRequest } from "@screenrec/core/transcript";
-import type { SourceTranscriptRow } from "@screenrec/core/transcript-read";
-import { callLocal } from "@screenrec/client";
+import { Models, parakeetModel } from "@yap/core/models";
+import type { SpeechTranscriptionRequest } from "@yap/core/transcript";
+import type { SourceTranscriptRow } from "@yap/core/transcript-read";
+import { callLocal } from "@yap/client";
 import {
   REQUEST_FRAME_BYTES,
   type OperationRequest,
   type OperationResponse,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import { projectServiceFixture } from "./project-service.fixture.js";
 
 const cleanups: (() => Promise<void>)[] = [];
@@ -21,7 +21,7 @@ afterEach(async () => {
   for (const close of cleanups.splice(0).reverse()) await close();
 });
 async function save(name: string, value: unknown) {
-  const directory = process.env.SCREENREC_CONTRACT_TEST_OUTPUT;
+  const directory = process.env.YAP_CONTRACT_TEST_OUTPUT;
   if (!directory) return;
   await mkdir(directory, { recursive: true });
   await writeFile(join(directory, `${name}.json`), JSON.stringify(value, null, 2) + "\n");

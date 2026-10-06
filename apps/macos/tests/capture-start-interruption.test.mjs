@@ -13,7 +13,7 @@ test(
   "actual controller preserves pending-start interruptions and finalization races",
   { timeout: 150_000 },
   () => {
-    const temporary = mkdtempSync(join(tmpdir(), "screenrec-controller-start-"));
+    const temporary = mkdtempSync(join(tmpdir(), "yap-controller-start-"));
     try {
       const build = join(temporary, "build");
       execFileSync(
@@ -40,14 +40,14 @@ test(
           timeout: 12_000,
           env: {
             ...process.env,
-            SCREENREC_CONTROLLER_MODE: mode,
-            SCREENREC_CONTROLLER_REPORT_ROOT: evidence,
-            SCREENREC_CONTROLLER_NODE: process.execPath,
-            SCREENREC_CONTROLLER_AUDIO: join(
+            YAP_CONTROLLER_MODE: mode,
+            YAP_CONTROLLER_REPORT_ROOT: evidence,
+            YAP_CONTROLLER_NODE: process.execPath,
+            YAP_CONTROLLER_AUDIO: join(
               root,
               "specs/done/agent-editing/assets/20a-sparse-storage/run/continuous-48000.mov",
             ),
-            SCREENREC_CONTROLLER_PEER: join(fixtures, "control-peer.mjs"),
+            YAP_CONTROLLER_PEER: join(fixtures, "control-peer.mjs"),
           },
         });
         assert.equal(

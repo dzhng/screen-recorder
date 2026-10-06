@@ -13,7 +13,7 @@ const { values } = parseArgs({
   },
 });
 assert.equal(values.fixture, "repeated-picture");
-assert.ok(process.env.SCREENREC_NATIVE, "Freeze a native worker before this journey");
+assert.ok(process.env.YAP_NATIVE, "Freeze a native worker before this journey");
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "frame-evidence-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-frame-evidence-"));
@@ -114,7 +114,7 @@ async function delivered(params, transport) {
 }
 try {
   await prepareReferences();
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   await service.start();
   const media = {};
   for (const name of ["a", "b"]) {

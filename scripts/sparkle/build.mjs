@@ -19,11 +19,11 @@ import { frameworkIdentity } from "./framework.mjs";
 
 const directory = dirname(fileURLToPath(import.meta.url));
 const pin = JSON.parse(readFileSync(join(directory, "upstream.json"), "utf8"));
-const patchPath = join(directory, "screenrec.patch");
+const patchPath = join(directory, "yap.patch");
 const patch = readFileSync(patchPath);
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const inputFiles = new Map(
-  ["build.mjs", "framework.mjs", "upstream.json", "screenrec.patch"].map((name) => [
+  ["build.mjs", "framework.mjs", "upstream.json", "yap.patch"].map((name) => [
     name,
     sha256(readFileSync(join(directory, name))),
   ]),
@@ -51,7 +51,7 @@ function git(source, args, env = process.env) {
 }
 
 function rawInputMismatch(source, patched) {
-  const temporary = mkdtempSync(join(tmpdir(), "screenrec-sparkle-inputs-"));
+  const temporary = mkdtempSync(join(tmpdir(), "yap-sparkle-inputs-"));
   const env = { ...process.env, GIT_INDEX_FILE: join(temporary, "index") };
   try {
     git(source, ["read-tree", pin.commit], env);
@@ -247,7 +247,7 @@ async function main() {
     force: false,
   });
   const receipt = {
-    engine: "screenrec-sparkle-source",
+    engine: "yap-sparkle-source",
     inputs,
     builderSha256: inputFiles.get("build.mjs"),
     identityUtilitySha256: inputFiles.get("framework.mjs"),

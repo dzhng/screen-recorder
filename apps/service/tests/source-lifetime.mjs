@@ -7,11 +7,11 @@ import { randomUUID } from "node:crypto";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DatabaseSync } from "node:sqlite";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisitions";
-import { SourceEvidenceStore } from "@screenrec/core/evidence";
-import { callLocal } from "@screenrec/client";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { AcquisitionStore, AcquisitionImporter } from "@yap/core/acquisitions";
+import { SourceEvidenceStore } from "@yap/core/evidence";
+import { callLocal } from "@yap/client";
 import { ManagedFiles } from "../dist/managed-files.js";
 import { startProjectService } from "../dist/project-service.js";
 import { mediaWorker } from "../dist/worker.js";
@@ -22,7 +22,7 @@ import {
   startPublicService,
   until,
 } from "../../macos/tests/fixtures/public-service.mjs";
-const native = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
+const native = process.env.YAP_NATIVE ?? resolve("helpers/mac/.build/debug/yap-native");
 if (process.argv[2] === "--child") {
   const [, , , home, recordingId, mode] = process.argv;
   const library = join(home, "library");
@@ -35,17 +35,17 @@ if (process.argv[2] === "--child") {
       barrier,
       resolve("apps/service/tests/fixtures/native-start-barrier.c"),
     ]);
-    const nativeWorker = mediaWorker({ SCREENREC_NATIVE: native });
+    const nativeWorker = mediaWorker({ YAP_NATIVE: native });
     const files = new ManagedFiles(library, (operation, params, options) => {
       if (operation !== "storage.removeRecordingDirectory")
         return nativeWorker(operation, params, options);
       process.env.DYLD_INSERT_LIBRARIES = barrier;
-      process.env.SCREENREC_TEST_NATIVE_HELD = marker;
+      process.env.YAP_TEST_NATIVE_HELD = marker;
       try {
         return nativeWorker(operation, params, { ...options, timeoutMs: 5000 });
       } finally {
         delete process.env.DYLD_INSERT_LIBRARIES;
-        delete process.env.SCREENREC_TEST_NATIVE_HELD;
+        delete process.env.YAP_TEST_NATIVE_HELD;
       }
     });
     const lifetime = await files.recordingDirectory(recordingId);
@@ -203,7 +203,7 @@ if (process.argv[2] === "--child") {
         }
       }
       if (mode !== "cleanup") {
-        const files = new ManagedFiles(library, mediaWorker({ SCREENREC_NATIVE: native }));
+        const files = new ManagedFiles(library, mediaWorker({ YAP_NATIVE: native }));
         await assert.rejects(files.recordingDirectory(take.recordingId), {
           code: "RECORDING_BUSY",
           retryable: true,
@@ -219,10 +219,10 @@ if (process.argv[2] === "--child") {
         workspaceRetained: generation ? true : null,
       };
       const save = async () => {
-        if (!process.env.SCREENREC_SOURCE_LIFETIME_OUTPUT) return;
-        await mkdir(process.env.SCREENREC_SOURCE_LIFETIME_OUTPUT, { recursive: true });
+        if (!process.env.YAP_SOURCE_LIFETIME_OUTPUT) return;
+        await mkdir(process.env.YAP_SOURCE_LIFETIME_OUTPUT, { recursive: true });
         await writeFile(
-          join(process.env.SCREENREC_SOURCE_LIFETIME_OUTPUT, `${mode}.json`),
+          join(process.env.YAP_SOURCE_LIFETIME_OUTPUT, `${mode}.json`),
           JSON.stringify(report, null, 2),
         );
       };

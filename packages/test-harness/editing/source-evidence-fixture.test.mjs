@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { RESPONSE_FRAME_BYTES } from "@screenrec/protocol";
+import { RESPONSE_FRAME_BYTES } from "@yap/protocol";
 import { JourneyService, hash } from "./source-evidence-fixture.mjs";
 import { mkdtemp, writeFile, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";

@@ -7,7 +7,7 @@ import { randomUUID } from "node:crypto";
 import { JourneyService, hash, poll, run, root } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert(values.out && process.env.SCREENREC_NATIVE, "Use --out and a frozen SCREENREC_NATIVE");
+assert(values.out && process.env.YAP_NATIVE, "Use --out and a frozen YAP_NATIVE");
 const out = resolve(values.out),
   home = await mkdtemp("/tmp/sr-narration-");
 await mkdir(out);
@@ -18,7 +18,7 @@ const report = {
   receipts: {},
   scope:
     "12 seconds of recorded narration; visual-only edits; exact lossless PCM preservation, separate encoded clocks/observations; no listening acceptance",
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   runtime: process.version,
   harnessSha256: hash(await readFile(new URL(import.meta.url))),
 };
@@ -339,7 +339,7 @@ try {
   };
   report.listening =
     "Optional original/edited excerpts prepared; no listening assessment performed";
-  if (process.env.SCREENREC_NARRATION_MUSIC)
+  if (process.env.YAP_NARRATION_MUSIC)
     report.musicOverlap = await verifyNarrationMusic({
       out,
       call,

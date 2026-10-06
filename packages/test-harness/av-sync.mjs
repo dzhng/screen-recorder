@@ -19,14 +19,14 @@ import { parseArgs } from "node:util";
 const { values } = parseArgs({
   options: {
     recording: { type: "string" },
-    home: { type: "string", default: join(homedir(), ".screen-recorder") },
+    home: { type: "string", default: join(homedir(), ".yap") },
     out: { type: "string" },
     /** How far apart a flash and a click may be and still be the same clap. */
     pairMs: { type: "string", default: "400" },
   },
 });
 
-const cli = join(homedir(), ".local", "bin", "screenrec");
+const cli = join(homedir(), ".local", "bin", "yap");
 const home = resolve(values.home);
 const call = (operation, params = {}) => {
   const answer = JSON.parse(
@@ -37,7 +37,7 @@ const call = (operation, params = {}) => {
         encoding: "utf8",
         cwd: "/",
         timeout: 120_000,
-        env: { ...process.env, SCREENREC_HOME: home },
+        env: { ...process.env, YAP_HOME: home },
       },
     ),
   );

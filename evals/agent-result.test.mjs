@@ -100,7 +100,7 @@ test("a recovered Codex connection retains its completed response and commands",
       type: "item.completed",
       item: {
         type: "command_execution",
-        command: "screenrec capture.status --help",
+        command: "yap capture.status --help",
         aggregated_output: '{"operations":[{"name":"capture.status"}]}',
         exit_code: 0,
       },
@@ -128,7 +128,7 @@ test("Claude successful, failed and incomplete reads remain distinct judge evide
             input: { file_path: "/skill/references/installation.md" },
           },
           { type: "tool_use", id: "read-2", name: "Read", input: { file_path: "/missing.md" } },
-          { type: "tool_use", id: "skill-1", name: "Skill", input: { skill: "screenrec" } },
+          { type: "tool_use", id: "skill-1", name: "Skill", input: { skill: "yap" } },
           {
             type: "tool_use",
             id: "incomplete",
@@ -178,7 +178,7 @@ test("Claude successful, failed and incomplete reads remain distinct judge evide
     },
     {
       tool: "Skill",
-      input: { skill: "screenrec" },
+      input: { skill: "yap" },
       output: "Loaded consumer skill",
       isError: false,
       completed: true,

@@ -9,7 +9,7 @@ import { test } from "node:test";
 
 const here = dirname(fileURLToPath(import.meta.url));
 function fixture(t) {
-  const root = mkdtempSync(join(tmpdir(), "screenrec-sparkle-builder-"));
+  const root = mkdtempSync(join(tmpdir(), "yap-sparkle-builder-"));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const source = join(root, "source");
   const tools = join(root, "tools");
@@ -50,7 +50,7 @@ function fixture(t) {
   git("reset", "--hard", "--quiet", "HEAD");
   cpSync(join(here, "build.mjs"), join(tools, "build.mjs"));
   cpSync(join(here, "framework.mjs"), join(tools, "framework.mjs"));
-  writeFileSync(join(tools, "screenrec.patch"), patch);
+  writeFileSync(join(tools, "yap.patch"), patch);
   writeFileSync(
     join(tools, "upstream.json"),
     JSON.stringify({

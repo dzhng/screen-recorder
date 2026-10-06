@@ -6,10 +6,10 @@ import { mediaWorker } from "../../../apps/service/dist/worker.js";
 
 // One-shot fixture barriers control commit entry and reply timing. All bytes and publication
 // receipts come from the production native worker; ordinary requests pass through.
-if (process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE)
+if (process.env.YAP_TEST_AUDIO_DEFAULT_BITRATE)
   outputPresets.balanced.audio.rateControl = {
     mode: "constant",
-    bitrate: Number(process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE),
+    bitrate: Number(process.env.YAP_TEST_AUDIO_DEFAULT_BITRATE),
   };
 const native = mediaWorker();
 let armed,
@@ -42,7 +42,7 @@ const worker = async (operation, params, options) => {
       JSON.stringify({ operation, params }) + "\n",
     );
   }
-  if (JSON.parse(process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS ?? "[]").includes(operation))
+  if (JSON.parse(process.env.YAP_TEST_UNAVAILABLE_OPERATIONS ?? "[]").includes(operation))
     return {
       ok: false,
       error: {

@@ -18,12 +18,12 @@ import {
   compare,
   type TimeValue,
   type SelectionRange,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { createHash } from "node:crypto";
 import { readAudioWaveFile } from "./audio-wave.js";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
-import { rangeSchema, processingTapSchema, type ProcessingTap } from "@screenrec/composition";
+import { rangeSchema, processingTapSchema, type ProcessingTap } from "@yap/composition";
 import type { ProjectStore } from "./projects.js";
 import {
   projectComposition,

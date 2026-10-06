@@ -6,7 +6,7 @@ import {
   toSignedTime,
   subtract,
   fromTime,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { compositionAsset, type Asset, type AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";

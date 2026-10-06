@@ -10,7 +10,7 @@ const { values } = parseArgs({ options: { out: { type: "string" }, retime: { typ
 const retime = Boolean(values.retime),
   durationUs = retime ? 1250000 : 1000000;
 const frames = (durationUs * 48000) / 1000000;
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out),
   home = await realpath(await mkdtemp("/tmp/sr-prepared-public-"));
 await mkdir(out);
@@ -20,7 +20,7 @@ const report = {
   ...(retime ? { exchanges: [] } : {}),
   checks: {},
   receipts: [],
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   scope: retime
     ? "Public preserve-pitch preparation lifecycle: post-native-reply cancellation, pinned retry and restart; PCM compared with public baseline for storage/gain only, no quality or in-flight DSP cancellation claim."
     : "public full-output unit-rate/gain preparation; no stretch, denoise or speech-quality claim",

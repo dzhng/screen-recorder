@@ -1,4 +1,4 @@
-import { parakeetModel } from "@screenrec/core/models";
+import { parakeetModel } from "@yap/core/models";
 
 export const engines = {
   parakeet: {

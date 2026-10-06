@@ -8,12 +8,12 @@ import { JourneyService, hash, poll, run, root } from "./source-evidence-fixture
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
 assert.ok(
-  values.out && process.env.SCREENREC_NATIVE,
-  "Pass --out NEW_DIRECTORY and SCREENREC_NATIVE",
+  values.out && process.env.YAP_NATIVE,
+  "Pass --out NEW_DIRECTORY and YAP_NATIVE",
 );
 const out = resolve(values.out);
 await mkdir(out);
-const home = await mkdtemp("/tmp/screenrec-sdr-");
+const home = await mkdtemp("/tmp/yap-sdr-");
 const source = join(root, "specs/done/ffmpeg-parity/evidence/motion-interchange/phase-0.png");
 const reference = join(
   root,
@@ -25,7 +25,7 @@ const report = {
   exchanges: [],
   checks: [],
   sourceSha256: hash(await readFile(source)),
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report);
 const call = service.call.bind(service);
@@ -177,7 +177,7 @@ try {
         },
       },
     };
-    const execution = spawnSync(process.env.SCREENREC_NATIVE, [], {
+    const execution = spawnSync(process.env.YAP_NATIVE, [], {
       input: JSON.stringify(request) + "\n",
       encoding: "utf8",
       timeout: 10000,

@@ -11,7 +11,7 @@ assert.ok(values.out);
 const out = resolve(values.out),
   root = new URL("../../../", import.meta.url).pathname;
 const corpus = join(root, "specs/done/agent-editing/assets/00-corpus");
-const binary = join(root, "helpers/mac/.build/debug/ScreenRecorderCaptureTests");
+const binary = join(root, "helpers/mac/.build/debug/YapCaptureTests");
 const hash = (b) => createHash("sha256").update(b).digest("hex");
 function run(command, args, options = {}) {
   const r = spawnSync(command, args, {
@@ -35,14 +35,14 @@ await writeFile(
     "--package-path",
     "helpers/mac",
     "--product",
-    "ScreenRecorderCaptureTests",
+    "YapCaptureTests",
   ]),
 );
 run(binary, [], {
   env: {
     ...process.env,
-    SCREENREC_CAPTURE_GAP_OUTPUT: join(out, "native"),
-    SCREENREC_CAPTURE_GAP_CORPUS: corpus,
+    YAP_CAPTURE_GAP_OUTPUT: join(out, "native"),
+    YAP_CAPTURE_GAP_CORPUS: corpus,
   },
 });
 const native = join(out, "native");

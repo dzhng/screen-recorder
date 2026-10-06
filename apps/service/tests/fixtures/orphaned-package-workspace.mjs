@@ -10,7 +10,7 @@ export async function withOrphanedPackageWorkspace(parentDirectory, native, insp
     [parentDirectory],
     {
       stdio: ["ignore", "ignore", "inherit", "ipc"],
-      env: { ...process.env, SCREENREC_NATIVE: native },
+      env: { ...process.env, YAP_NATIVE: native },
     },
   );
   const ownerReaped = once(owner, "close");

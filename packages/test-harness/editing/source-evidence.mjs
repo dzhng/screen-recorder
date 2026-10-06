@@ -21,7 +21,7 @@ const { values } = parseArgs({
   },
 });
 assert.equal(values.fixture, "selected-streams");
-assert.ok(process.env.SCREENREC_NATIVE, "Use an isolated frozen SCREENREC_NATIVE binary");
+assert.ok(process.env.YAP_NATIVE, "Use an isolated frozen YAP_NATIVE binary");
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "source-evidence-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-source-"));
@@ -103,7 +103,7 @@ try {
   report.fixture = {
     asset,
     originalHash,
-    nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+    nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   };
   const transcripts = [];
   for (const [index, selection] of selections.entries()) {

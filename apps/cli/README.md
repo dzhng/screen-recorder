@@ -1,7 +1,7 @@
 # CLI and MCP adapters
 
 The CLI is the primary external-agent adapter, paired with the
-[consumer skill](../../skills/screenrec/SKILL.md). It formats
+[consumer skill](../../skills/yap/SKILL.md). It formats
 [service operations](../service/README.md) as JSON command-line calls; optional
 MCP stdio exposes the same contracts. The [protocol declaration](../../packages/protocol/README.md)
 owns schemas and help; adapters never edit the catalog or infer another operation.

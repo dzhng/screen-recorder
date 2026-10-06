@@ -14,9 +14,9 @@ import { tmpdir } from "node:os";
 import { test } from "node:test";
 
 test("the production launcher refuses bundled entry before loading and holds exclusion until Node exits", async () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-launcher-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-launcher-"));
   const accountHome = join(scratch, "Account home");
-  const lockDirectory = join(accountHome, "Library/Caches/com.dzhng.screenrec");
+  const lockDirectory = join(accountHome, "Library/Caches/com.dzhng.yap");
   let holder, ownedClosed;
   try {
     mkdirSync(accountHome);
@@ -27,7 +27,7 @@ test("the production launcher refuses bundled entry before loading and holds exc
 struct passwd *fixture_getpwuid(uid_t uid) { static struct passwd account; account.pw_uid=uid; account.pw_dir=${JSON.stringify(accountHome)}; return &account; }
 `,
     );
-    const launcher = join(scratch, "screenrec"),
+    const launcher = join(scratch, "yap"),
       lockExec = join(scratch, "lock-exec");
     execFileSync("clang", [
       "-Wall",
@@ -46,9 +46,9 @@ struct passwd *fixture_getpwuid(uid_t uid) { static struct passwd account; accou
     copyFileSync(process.execPath, join(app, "Contents/Resources/node/bin/node"));
     writeFileSync(
       join(app, "Contents/Resources/cli/main.mjs"),
-      `console.log(JSON.stringify({app:process.env.SCREENREC_APP,args:process.argv.slice(2)}));process.stdin.resume();`,
+      `console.log(JSON.stringify({app:process.env.YAP_APP,args:process.argv.slice(2)}));process.stdin.resume();`,
     );
-    const env = { ...process.env, HOME: scratch, SCREENREC_APP: app };
+    const env = { ...process.env, HOME: scratch, YAP_APP: app };
     holder = spawn(launcher, ["mcp", "with spaces"], { env, stdio: ["pipe", "pipe", "pipe"] });
     const closed = (ownedClosed = new Promise((resolve) => holder.once("close", resolve)));
     const line = await new Promise((resolve, reject) => {
@@ -74,7 +74,7 @@ struct passwd *fixture_getpwuid(uid_t uid) { static struct passwd account; accou
     const otherHome = join(scratch, "Different HOME");
     mkdirSync(otherHome);
     const denied = spawnSync(launcher, ["--help"], {
-      env: { ...env, HOME: otherHome, SCREENREC_APP: join(scratch, "absent.app") },
+      env: { ...env, HOME: otherHome, YAP_APP: join(scratch, "absent.app") },
       encoding: "utf8",
     });
     assert.equal(denied.status, 75);
@@ -86,11 +86,11 @@ struct passwd *fixture_getpwuid(uid_t uid) { static struct passwd account; accou
     holder.kill("SIGKILL");
     await exclusiveClosed;
     holder = undefined;
-    const defaultApp = join(otherHome, "Applications/Screen Recorder.app");
+    const defaultApp = join(otherHome, "Applications/Yap.app");
     mkdirSync(join(otherHome, "Applications"));
     symlinkSync(app, defaultApp);
     const defaultEnv = { ...env, HOME: otherHome };
-    delete defaultEnv.SCREENREC_APP;
+    delete defaultEnv.YAP_APP;
     const defaultEntry = spawnSync(launcher, ["--help"], {
       env: defaultEnv,
       input: "",
@@ -115,7 +115,7 @@ struct passwd *fixture_getpwuid(uid_t uid) { static struct passwd account; accou
 });
 
 test("bundled media tools preserve arguments, streams and exit status while excluding installation", async () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-media-launcher-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-media-launcher-"));
   const accountHome = join(scratch, "Account home");
   let child, closed;
   try {
@@ -127,7 +127,7 @@ test("bundled media tools preserve arguments, streams and exit status while excl
 struct passwd *fixture_getpwuid(uid_t uid) { static struct passwd account; account.pw_uid=uid; account.pw_dir=${JSON.stringify(accountHome)}; return &account; }
 `,
     );
-    const launcher = join(scratch, "screenrec");
+    const launcher = join(scratch, "yap");
     const lockExec = join(scratch, "lock-exec");
     execFileSync("clang", [
       "-Wall",
@@ -159,8 +159,8 @@ int main(int argc, char **argv) {
     );
     execFileSync("clang", [source, "-o", join(bin, "ffmpeg")]);
     copyFileSync(join(bin, "ffmpeg"), join(bin, "ffprobe"));
-    const env = { ...process.env, HOME: scratch, SCREENREC_APP: app };
-    const lock = join(accountHome, "Library/Caches/com.dzhng.screenrec/launch.lock");
+    const env = { ...process.env, HOME: scratch, YAP_APP: app };
+    const lock = join(accountHome, "Library/Caches/com.dzhng.yap/launch.lock");
     for (const tool of ["ffmpeg", "ffprobe"]) {
       const args = [
         "-filter_complex",

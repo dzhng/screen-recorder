@@ -7,22 +7,22 @@ import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
 assert.ok(
-  values.out && process.env.SCREENREC_NATIVE,
-  "usage: SCREENREC_NATIVE=... node caption-sidecars.mjs --out NEW_EVIDENCE_DIRECTORY",
+  values.out && process.env.YAP_NATIVE,
+  "usage: YAP_NATIVE=... node caption-sidecars.mjs --out NEW_EVIDENCE_DIRECTORY",
 );
 const out = resolve(values.out),
-  home = await mkdtemp("/tmp/screenrec-sidecar-");
+  home = await mkdtemp("/tmp/yap-sidecar-");
 await mkdir(out);
 const report = {
   passed: false,
   trace: [],
   exchanges: [],
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   checks: [],
 };
 const service = new JourneyService(home, report);
-const unavailable = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
-process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
+const unavailable = process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify([
   "media.renderCompositionMovie",
   "media.validateOutput",
   "speech.transcribe",
@@ -271,7 +271,7 @@ try {
   assert.equal(failed.state, "failed");
   assert.equal(await readFile(join(out, "taken.srt"), "utf8"), "foreign content");
   await call("export.abandon", { exportId: collision.exportId });
-  assert.ok(!(await readdir(out)).some((name) => name.startsWith(".screenrec-export-")));
+  assert.ok(!(await readdir(out)).some((name) => name.startsWith(".yap-export-")));
   report.checks.push(
     "CLI/MCP same owner",
     "exact UTF8 text and format-specific escaping independently decoded",
@@ -289,7 +289,7 @@ try {
   report.logs = service.logs;
   await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
   await rm(home, { recursive: true, force: true });
-  if (unavailable === undefined) delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
-  else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = unavailable;
+  if (unavailable === undefined) delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = unavailable;
 }
 console.log(JSON.stringify({ passed: report.passed, checks: report.checks, evidence: out }));

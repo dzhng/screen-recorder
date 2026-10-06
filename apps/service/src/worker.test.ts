@@ -32,7 +32,7 @@ process.stdin.on('end', () => {
 `,
   );
   await chmod(executable, 0o755);
-  expect((await mediaWorker({ SCREENREC_NATIVE: executable }, 30_000)("answer", {})).ok).toBe(true);
+  expect((await mediaWorker({ YAP_NATIVE: executable }, 30_000)("answer", {})).ok).toBe(true);
 });
 afterAll(async () => {
   await rm(join(executable, ".."), { recursive: true, force: true });
@@ -41,7 +41,7 @@ afterAll(async () => {
 async function fixture() {
   const home = await mkdtemp("/tmp/scr-worker-");
   homes.push(home);
-  return { home, run: mediaWorker({ SCREENREC_NATIVE: executable }, 2000) };
+  return { home, run: mediaWorker({ YAP_NATIVE: executable }, 2000) };
 }
 
 async function readyPid(path: string) {
@@ -94,7 +94,7 @@ it("a deadline terminates work before reporting failure", async () => {
 it("pre-canceled work never starts and spawn failure settles", async () => {
   const controller = new AbortController();
   controller.abort();
-  const run = mediaWorker({ SCREENREC_NATIVE: "/nonexistent/screenrec-test-worker" });
+  const run = mediaWorker({ YAP_NATIVE: "/nonexistent/yap-test-worker" });
   expect(await run("hold", {}, { signal: controller.signal })).toMatchObject({
     ok: false,
     error: { code: "CANCELED" },
@@ -106,7 +106,7 @@ it("pre-canceled work never starts and spawn failure settles", async () => {
 });
 
 it("rejects invalid per-call deadlines before starting work", async () => {
-  const run = mediaWorker({ SCREENREC_NATIVE: "/nonexistent/worker" });
+  const run = mediaWorker({ YAP_NATIVE: "/nonexistent/worker" });
   for (const timeoutMs of [0, -1, NaN, Infinity, 2_147_483_648]) {
     expect(await run("hold", {}, { timeoutMs })).toMatchObject({
       ok: false,
@@ -151,7 +151,7 @@ it("inherited descriptor remains owned by parent after canceled worker closes", 
 it("native binding resolves its supplied executable on each call", async () => {
   const environment: NodeJS.ProcessEnv = {};
   const run = mediaWorker(environment);
-  environment.SCREENREC_NATIVE = executable;
+  environment.YAP_NATIVE = executable;
   const result = await run("answer", {});
   expect(result.ok).toBe(true);
   if (result.ok) expectGone((result.data as { pid: number }).pid);

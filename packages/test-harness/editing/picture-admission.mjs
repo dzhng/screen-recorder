@@ -6,7 +6,7 @@ import { mkdir, readFile, writeFile, readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { createCompiler, validateComposition } from "../../composition/dist/index.js";
 const out = resolve(process.argv[2] ?? "");
-assert.ok(process.argv[2] && process.env.SCREENREC_NATIVE);
+assert.ok(process.argv[2] && process.env.YAP_NATIVE);
 await mkdir(out);
 let sequence = 0;
 const checks = [];
@@ -18,7 +18,7 @@ const run = (program, args, input) => {
 const call = (operation, params) =>
   JSON.parse(
     run(
-      process.env.SCREENREC_NATIVE,
+      process.env.YAP_NATIVE,
       [],
       JSON.stringify({ id: String(++sequence), operation, params }) + "\n",
     ),

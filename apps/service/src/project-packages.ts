@@ -1,36 +1,36 @@
 import { portableProjectSpeakers, type PortableSpeakerCheckpoint } from "./portable-speakers.js";
-import type { ProjectSpeakerInput, ProjectEvidenceCursor } from "@screenrec/core/project-evidence";
+import type { ProjectSpeakerInput, ProjectEvidenceCursor } from "@yap/core/project-evidence";
 import { randomUUID } from "node:crypto";
 import { resolveProjectPackageMetadata } from "./project-package-metadata.js";
 import { sourceExporter } from "./source-export.js";
-import { preparedAudioResource, type PreparedAudioStore } from "@screenrec/core/prepared-audio";
-import { acquisitionContext } from "@screenrec/core/acquisitions";
-import { indexGenerationResource } from "@screenrec/core/screenshot-index";
+import { preparedAudioResource, type PreparedAudioStore } from "@yap/core/prepared-audio";
+import { acquisitionContext } from "@yap/core/acquisitions";
+import { indexGenerationResource } from "@yap/core/screenshot-index";
 import { portableIndexRecords } from "./portable-index.js";
-import { projectCompositionFromRevision } from "@screenrec/core/project-window";
+import { projectCompositionFromRevision } from "@yap/core/project-window";
 import {
   projectIndexDomain,
   portableProjectIndexMetadataSchema,
   portableProjectIndexRecordSchema,
   type ProjectIndexRecords,
-} from "@screenrec/core/project-index";
-import { selectSourceMetadata } from "@screenrec/core/source-selection";
+} from "@yap/core/project-index";
+import { selectSourceMetadata } from "@yap/core/source-selection";
 import {
   sourceIndexDomain,
   portableSourceIndexMetadataSchema,
   portableSourceIndexRecordSchema,
   type SourceIndexRecords,
-} from "@screenrec/core/source-index";
-import type { ScreenshotIndexStore, IndexRecords } from "@screenrec/core/screenshot-index";
-import type { IndexProcessing } from "@screenrec/core/index-processing";
+} from "@yap/core/source-index";
+import type { ScreenshotIndexStore, IndexRecords } from "@yap/core/screenshot-index";
+import type { IndexProcessing } from "@yap/core/index-processing";
 import { createHash } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
 import { fstatSync, readFileSync, constants } from "node:fs";
 import { mkdir, open, writeFile, type FileHandle } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { CatalogError } from "@screenrec/core/catalog";
-import { copyImportedFile, fileIdentity, type IdentifiedFile } from "@screenrec/core/files";
-import { archiveLimits, checkProjectJsonBytes } from "@screenrec/core/package-archive";
+import { CatalogError } from "@yap/core/catalog";
+import { copyImportedFile, fileIdentity, type IdentifiedFile } from "@yap/core/files";
+import { archiveLimits, checkProjectJsonBytes } from "@yap/core/package-archive";
 import {
   collectPortableResources,
   projectResourceRoots,
@@ -47,31 +47,31 @@ import {
   type ProjectPackageManifest,
   validateProjectPackage,
   type ValidatedProjectPackage,
-} from "@screenrec/core/project-package";
-import type { ProjectStore, ProjectSnapshot } from "@screenrec/core/projects";
-import type { AssetStore } from "@screenrec/core/assets";
+} from "@yap/core/project-package";
+import type { ProjectStore, ProjectSnapshot } from "@yap/core/projects";
+import type { AssetStore } from "@yap/core/assets";
 import type {
   AcquisitionImporter,
   AcquisitionMember,
   PortableAcquisitionFiles,
-} from "@screenrec/core/acquisitions";
+} from "@yap/core/acquisitions";
 import {
   sceneGenerationResource,
   type PortableSceneMetadata,
   type SceneEvidenceStore,
-} from "@screenrec/core/scene-evidence";
-import type { SceneProcessing } from "@screenrec/core/scene-processing";
+} from "@yap/core/scene-evidence";
+import type { SceneProcessing } from "@yap/core/scene-processing";
 import {
   assetSpeakerOwner,
   speakerOperandRecords,
   type SpeakerEvidenceStore,
-} from "@screenrec/core/speaker-evidence";
-import type { SpeakerProcessing } from "@screenrec/core/speaker-processing";
-import { SourceSpeakerRead } from "@screenrec/core/speaker-read";
-import { selectSpeakerSource } from "@screenrec/core/source-speakers";
-import type { TranscriptStore } from "@screenrec/core/transcript";
-import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
-import type { JobQueue } from "@screenrec/core/jobs";
+} from "@yap/core/speaker-evidence";
+import type { SpeakerProcessing } from "@yap/core/speaker-processing";
+import { SourceSpeakerRead } from "@yap/core/speaker-read";
+import { selectSpeakerSource } from "@yap/core/source-speakers";
+import type { TranscriptStore } from "@yap/core/transcript";
+import type { TranscriptProcessing } from "@yap/core/transcript-processing";
+import type { JobQueue } from "@yap/core/jobs";
 import { PackageRegistry } from "./package-registry.js";
 import { openPackageParent } from "./package-workspace.js";
 import { writeArchive } from "./archive-write.js";
@@ -286,8 +286,8 @@ export class ProjectPackages {
   }
   sourceSpeakers(
     packageHandle: string,
-    input: import("@screenrec/core/source-speakers").SpeakerSourceInput,
-    query: import("@screenrec/core/speaker-read").SpeakerReadInput,
+    input: import("@yap/core/source-speakers").SpeakerSourceInput,
+    query: import("@yap/core/speaker-read").SpeakerReadInput,
   ) {
     if (!this.registry) throw new CatalogError("CONTEXT_CLOSED", "Project package is not open");
     const { manifest, files } = this.registry.lookup(packageHandle);
@@ -675,7 +675,7 @@ export class ProjectPackages {
             return [];
           }),
         );
-        const reference = (value: import("@screenrec/core/references").ResourceReference) =>
+        const reference = (value: import("@yap/core/references").ResourceReference) =>
           (value.kind === "prepared-audio" || value.kind === "index-generation") &&
           mappedResources.has(value.id)
             ? { ...value, id: mappedResources.get(value.id)! }

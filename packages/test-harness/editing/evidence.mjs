@@ -18,7 +18,7 @@ const { values } = parseArgs({
   options: { fixture: { type: "string", default: "repeated-speech" }, out: { type: "string" } },
 });
 assert.equal(values.fixture, "repeated-speech");
-assert.ok(process.env.SCREENREC_NATIVE, "Set an isolated frozen native worker");
+assert.ok(process.env.YAP_NATIVE, "Set an isolated frozen native worker");
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "project-evidence-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-evidence-"));
@@ -731,7 +731,7 @@ try {
       ].map(async (path) => [path, hash(await readFile(join(root, path)))]),
     ),
   );
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   report.passed = true;
 } catch (error) {
   report.error = { message: error.message, stack: error.stack };

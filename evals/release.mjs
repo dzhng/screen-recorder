@@ -20,7 +20,7 @@ export function verifyRelease({ archive, receipt, checksums, archiveName, tag })
 }
 async function download(url) {
   const response = await fetch(url, {
-    headers: { "User-Agent": "screenrec-evals" },
+    headers: { "User-Agent": "yap-evals" },
     signal: AbortSignal.timeout(60000),
   });
   if (!response.ok) throw new Error(`Release download failed: HTTP ${response.status} ${url}`);
@@ -29,9 +29,9 @@ async function download(url) {
 export async function releaseCli({ tag = "latest", cache, image }) {
   const endpoint = tag === "latest" ? "latest" : `tags/${encodeURIComponent(tag)}`;
   const release = JSON.parse(
-    await download(`https://api.github.com/repos/dzhng/screen-recorder/releases/${endpoint}`),
+    await download(`https://api.github.com/repos/dzhng/yap/releases/${endpoint}`),
   );
-  const archiveName = `ScreenRecorder-${release.tag_name}-macos-arm64.zip`;
+  const archiveName = `Yap-${release.tag_name}-macos-arm64.zip`;
   const directory = join(cache, release.tag_name);
   await mkdir(directory, { recursive: true });
   try {

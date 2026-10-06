@@ -13,8 +13,8 @@ export async function runContainer({
   network = true,
   timeoutMs = 180000,
 }) {
-  const scratch = await mkdtemp(join(tmpdir(), "screenrec-eval-"));
-  const name = `screenrec-eval-${randomUUID()}`;
+  const scratch = await mkdtemp(join(tmpdir(), "yap-eval-"));
+  const name = `yap-eval-${randomUUID()}`;
   const input = {
     ...files,
     ...auth.files,

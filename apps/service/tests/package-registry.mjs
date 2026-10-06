@@ -30,11 +30,11 @@ import { PackageRegistry } from "../dist/package-registry.js";
 import { DerivativeDelivery } from "../dist/delivery.js";
 import { mediaWorker } from "../dist/worker.js";
 
-const native = process.env.SCREENREC_NATIVE;
-assert.ok(native, "SCREENREC_NATIVE must select the built native executable");
-const worker = mediaWorker({ SCREENREC_NATIVE: native });
+const native = process.env.YAP_NATIVE;
+assert.ok(native, "YAP_NATIVE must select the built native executable");
+const worker = mediaWorker({ YAP_NATIVE: native });
 async function fixture(t, options = {}, content = "generated source") {
-  const home = await realpath(await mkdtemp("/tmp/screenrec-registry-"));
+  const home = await realpath(await mkdtemp("/tmp/yap-registry-"));
   const directory = join(home, "packages");
   await mkdir(directory, { mode: 0o700 });
   const handle = await open(
@@ -442,9 +442,9 @@ test("close fences delivery and drains an actual native media worker before remo
       assert.equal(workerClosed, true, "Directory cleanup must follow actual worker closure");
     if (operation !== "media.probe") return worker(operation, params, options);
     const previousLibrary = process.env.DYLD_INSERT_LIBRARIES,
-      previousMarker = process.env.SCREENREC_TEST_NATIVE_HELD;
+      previousMarker = process.env.YAP_TEST_NATIVE_HELD;
     process.env.DYLD_INSERT_LIBRARIES = library;
-    process.env.SCREENREC_TEST_NATIVE_HELD = marker;
+    process.env.YAP_TEST_NATIVE_HELD = marker;
     let pending;
     try {
       pending = worker(operation, params, { ...options, timeoutMs: 5000 });
@@ -452,8 +452,8 @@ test("close fences delivery and drains an actual native media worker before remo
     } finally {
       if (previousLibrary === undefined) delete process.env.DYLD_INSERT_LIBRARIES;
       else process.env.DYLD_INSERT_LIBRARIES = previousLibrary;
-      if (previousMarker === undefined) delete process.env.SCREENREC_TEST_NATIVE_HELD;
-      else process.env.SCREENREC_TEST_NATIVE_HELD = previousMarker;
+      if (previousMarker === undefined) delete process.env.YAP_TEST_NATIVE_HELD;
+      else process.env.YAP_TEST_NATIVE_HELD = previousMarker;
     }
     const result = await pending;
     assert.ok(
@@ -580,7 +580,7 @@ test("correctly hashed malformed project resource metadata fails before readines
   // Structural admission and exact hashes succeed; the canonical typed resource owner refuses.
   assert.equal(
     parseProjectPackageManifest(f.files["manifest.json"], new Map(), archiveLimits).format,
-    "screenrec-project",
+    "yap-project",
   );
   await f.writeArchive();
   await f.registry.recover();

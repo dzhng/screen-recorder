@@ -18,8 +18,8 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 const executable =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 
 // Stand-in model files: the worker checks bytes and digests, not what they mean, so none of these
 // requests needs the real model. Nested paths exercise the directory walk.
@@ -33,7 +33,7 @@ const modelContents = {
 };
 
 function fixture(t) {
-  const home = realpathSync(mkdtempSync(join(tmpdir(), "screenrec-speech-wire-")));
+  const home = realpathSync(mkdtempSync(join(tmpdir(), "yap-speech-wire-")));
   t.after(() => rmSync(home, { recursive: true, force: true }));
   const directory = join(home, "models", "parakeet-tdt-0.6b-v2");
   const files = Object.entries(modelContents).map(([path, content]) => {

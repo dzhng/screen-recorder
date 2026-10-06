@@ -4,14 +4,14 @@ import { join, resolve } from "node:path";
 import { JourneyService, hash, poll } from "../source-evidence-fixture.mjs";
 const [distribution, destination] = process.argv.slice(2);
 assert.ok(
-  distribution && destination && process.env.SCREENREC_NATIVE,
-  "Expected DISTRIBUTION NEW_DESTINATION and SCREENREC_NATIVE",
+  distribution && destination && process.env.YAP_NATIVE,
+  "Expected DISTRIBUTION NEW_DESTINATION and YAP_NATIVE",
 );
 const out = resolve(destination),
   home = await realpath(await mkdtemp("/tmp/sr-lufs-"));
 await mkdir(out);
 const receipt = await readFile(join(distribution, "receipt.json"));
-process.env.SCREENREC_TEST_FFMPEG = JSON.stringify({
+process.env.YAP_TEST_FFMPEG = JSON.stringify({
   directory: resolve(distribution),
   receiptSha256: hash(receipt),
 });
@@ -20,8 +20,8 @@ const report = {
   trace: [],
   exchanges: [],
   checks: {},
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
-  cliOwnerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
+  cliOwnerSha256: hash(await readFile(process.env.YAP_NATIVE)),
   receiptSha256: hash(receipt),
 };
 const service = new JourneyService(

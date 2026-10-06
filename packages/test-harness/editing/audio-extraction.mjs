@@ -16,8 +16,8 @@ const { values } = parseArgs({
 });
 assert.ok(["aac", "alac"].includes(values.codec));
 assert.ok(["marker", "silence"].includes(values.signal));
-assert.ok(process.env.SCREENREC_NATIVE, "Freeze SCREENREC_NATIVE before this journey");
-assert.ok(process.env.SCREENREC_SOURCE_AUDIO_FIXTURE, "Freeze the real native fixture generator");
+assert.ok(process.env.YAP_NATIVE, "Freeze YAP_NATIVE before this journey");
+assert.ok(process.env.YAP_SOURCE_AUDIO_FIXTURE, "Freeze the real native fixture generator");
 const out = values.out
   ? resolve(values.out)
   : await mkdtemp(join(tmpdir(), "audio-extraction-evidence-"));
@@ -156,14 +156,14 @@ async function sampleMemory() {
     selected.reduce((n, r) => n + r.rss, 0),
   );
   for (const row of selected)
-    if (row.command.includes("screenrec"))
+    if (row.command.includes("yap"))
       report.memory.nativePeakRssBytes = Math.max(report.memory.nativePeakRssBytes, row.rss);
 }
 try {
-  report.nativeSha256 = await digest(process.env.SCREENREC_NATIVE);
-  report.fixtureSha256 = await digest(process.env.SCREENREC_SOURCE_AUDIO_FIXTURE);
-  await run(process.env.SCREENREC_SOURCE_AUDIO_FIXTURE, [], {
-    env: { ...process.env, SCREENREC_SOURCE_AUDIO_EVIDENCE: media },
+  report.nativeSha256 = await digest(process.env.YAP_NATIVE);
+  report.fixtureSha256 = await digest(process.env.YAP_SOURCE_AUDIO_FIXTURE);
+  await run(process.env.YAP_SOURCE_AUDIO_FIXTURE, [], {
+    env: { ...process.env, YAP_SOURCE_AUDIO_EVIDENCE: media },
     timeout: 120000,
   });
   await run(

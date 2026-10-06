@@ -12,7 +12,7 @@ import {
   sourceAvailability,
   type TimeValue,
   type SignedTimeValue,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import type { SourceEvidenceReader } from "./evidence-read.js";

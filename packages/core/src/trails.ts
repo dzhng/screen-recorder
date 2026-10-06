@@ -1,4 +1,4 @@
-import { maximumPointerTrailUs } from "@screenrec/composition";
+import { maximumPointerTrailUs } from "@yap/composition";
 import { evidenceRecordingId } from "./evidence.js";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";

@@ -10,13 +10,13 @@ import { selectSourceMetadata } from "../packages/core/dist/source-selection.js"
 import { fromTime, rational, round, subtract } from "../packages/composition/dist/index.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const app = join(root, "dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder");
-const worker = join(root, "dist/ScreenRecorder.app/Contents/MacOS/screenrec-native");
+const app = join(root, "dist/Yap.app/Contents/MacOS/Yap");
+const worker = join(root, "dist/Yap.app/Contents/MacOS/yap-native");
 
 const flags = process.argv.slice(2);
 const outputIndex = flags.indexOf("--out");
 const output = resolve(
-  outputIndex >= 0 ? flags[outputIndex + 1] : `/tmp/screenrec-cursor-evidence/run-${Date.now()}`,
+  outputIndex >= 0 ? flags[outputIndex + 1] : `/tmp/yap-cursor-evidence/run-${Date.now()}`,
 );
 mkdirSync(output, { recursive: true });
 

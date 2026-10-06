@@ -2,15 +2,15 @@ import assert from "node:assert/strict";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { createHash } from "node:crypto";
-import { captionProposals } from "../../../skills/screenrec/scripts/caption-proposals.mjs";
+import { captionProposals } from "../../../skills/yap/scripts/caption-proposals.mjs";
 import { applyBatch, createCompiler, validateComposition } from "../../composition/dist/index.js";
 import { mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 
 const out = resolve(process.argv[2] ?? "");
 assert.ok(
-  process.argv[2] && process.env.SCREENREC_NATIVE,
-  "SCREENREC_NATIVE=... node caption-proposals.mjs NEW_EVIDENCE_DIRECTORY",
+  process.argv[2] && process.env.YAP_NATIVE,
+  "YAP_NATIVE=... node caption-proposals.mjs NEW_EVIDENCE_DIRECTORY",
 );
 await mkdir(out);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
@@ -19,7 +19,7 @@ const fontPath = "/System/Library/Fonts/Supplemental/Arial.ttf";
 const fontId = hash(await readFile(fontPath));
 const report = {
   passed: false,
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   fontSha256: fontId,
   pictures: [],
   syntheticWords: true,

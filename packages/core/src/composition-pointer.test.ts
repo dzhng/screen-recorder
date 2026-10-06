@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { createCompiler, validateComposition, type ProcessingTap } from "@screenrec/composition";
+import { createCompiler, validateComposition, type ProcessingTap } from "@yap/composition";
 import { projectCapabilities } from "./project-window.js";
 import { compositionPointerSources } from "./composition-pointer.js";
 

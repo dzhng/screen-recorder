@@ -33,7 +33,7 @@ const cases = [
 ];
 try {
   const code = join(root, "packages/test-harness/editing/RenderReproduction.swift");
-  const timing = join(root, "helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift");
+  const timing = join(root, "helpers/mac/Sources/YapMedia/SampleTiming.swift");
   const binary = join(scratch, "reference");
   run("swiftc", ["-parse-as-library", timing, code, "-o", binary]);
   const results = [];

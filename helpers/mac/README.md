@@ -4,13 +4,13 @@ This package owns platform capture and bounded media execution. The
 [package manifest](Package.swift) defines targets and dependencies. The rule for
 placement is the platform responsibility, not a second interpretation of edits:
 
-- [Capture](Sources/ScreenRecorderCapture/README.md) owns selected inputs, the
+- [Capture](Sources/YapCapture/README.md) owns selected inputs, the
   acquisition clock, source writers, journals and cursor geometry.
-- [Media primitives](Sources/ScreenRecorderMedia/README.md) own physical support,
+- [Media primitives](Sources/YapMedia/README.md) own physical support,
   descriptor containment and new-output publication shared by native consumers.
-- [Pictures](Sources/ScreenRecorderFrames/README.md) and
-  [audio](Sources/ScreenRecorderAudio/README.md) execute compiled plans.
-- [Speech](Sources/ScreenRecorderSpeech/README.md) owns local engine execution and
+- [Pictures](Sources/YapFrames/README.md) and
+  [audio](Sources/YapAudio/README.md) execute compiled plans.
+- [Speech](Sources/YapSpeech/README.md) owns local engine execution and
   source-bound word timing.
 
 The [composition compiler](../../packages/composition/README.md) owns project
@@ -19,19 +19,19 @@ evidence identity. Native code consumes their explicit selections and requiremen
 
 ## Owned worker lifetime
 
-The [wire boundary](Sources/ScreenRecorderWire/Wire.swift) owns native dispatch and
+The [wire boundary](Sources/YapWire/Wire.swift) owns native dispatch and
 strict decoding. Request types are authoritative; unknown fields cannot silently
 become ignored instructions. Retry meaning distinguishes a transient execution
 failure from an invalid identity or occupied output.
 
 A worker is owned work, not another service. Closing request input is not a parent
 death signal: ordinary callers close stdin after sending. The
-[parent watcher](Sources/ScreenRecorderNative/ParentLifetime.swift) observes process
+[parent watcher](Sources/YapNative/ParentLifetime.swift) observes process
 exit and rechecks identity after registration to cover reparenting races. Service
 cancellation terminates the worker; attempt ownership must therefore clean staging
 even when native cleanup cannot run.
 
-The private [CLI mode](Sources/ScreenRecorderNative/CommandWorker.swift) uses this
+The private [CLI mode](Sources/YapNative/CommandWorker.swift) uses this
 same parent watcher to own an argv-only child and its inherited process group.
 Standard streams and source descriptors pass through unchanged; an explicitly
 reserved output slot is replaced only by the requested allocation. A private
@@ -42,22 +42,22 @@ creates the group, retires it on cancellation or unexpected wrapper exit, and
 waits for kernel absence before settling work; parent death retires the group
 from the native watcher when the service can no longer do so.
 
-[Recovery](Sources/ScreenRecorderWire/MediaRecovery.swift) restores each source's
+[Recovery](Sources/YapWire/MediaRecovery.swift) restores each source's
 proven support independently. Optional audio cannot shorten video extent, and an
 unrequested track is different from an unexplained missing one. Library reconciliation
 belongs to the service; recovery cannot manufacture completion or editorial intent.
 
-[Normalized evidence export](Sources/ScreenRecorderWire/SourceEvidenceExport.swift)
+[Normalized evidence export](Sources/YapWire/SourceEvidenceExport.swift)
 streams original observations and integrity disposition. Journal record order is
 not global source-time order; consumers index explicit clocks rather than inventing
 movement or treating a completion claim as new media validation.
 
 ## Verification
 
-The [primary-camera fixture](Tests/ScreenRecorderCaptureTests/PrimaryCameraPublicationTests.swift)
+The [primary-camera fixture](Tests/YapCaptureTests/PrimaryCameraPublicationTests.swift)
 substitutes prerecorded pictures at the input boundary and exercises ordinary native
 finish, recovery and held-byte evidence admission. Run the capture test product with
-`SCREENREC_PRIMARY_CAMERA_PUBLICATION_OUTPUT` naming a new evidence directory; without
+`YAP_PRIMARY_CAMERA_PUBLICATION_OUTPUT` naming a new evidence directory; without
 that override the case participates in the ordinary capture suite. The
 [core admission probe](Tests/fixtures/primary-camera-admission.mjs) consumes that same
 directory after building core, proving publication and normalized evidence survive

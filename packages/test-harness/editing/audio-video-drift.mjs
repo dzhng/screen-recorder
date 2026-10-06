@@ -7,10 +7,10 @@ import { setTimeout as delay } from "node:timers/promises";
 import { JourneyService, poll, run, hash } from "./source-evidence-fixture.mjs";
 import { digest } from "./audio-project-fixture.mjs";
 
-assert.ok(process.env.SCREENREC_NATIVE, "Use an explicit frozen native worker");
+assert.ok(process.env.YAP_NATIVE, "Use an explicit frozen native worker");
 const out = resolve(process.argv[2]);
 await mkdir(out);
-const home = await mkdtemp(join(tmpdir(), "screenrec-av-drift-"));
+const home = await mkdtemp(join(tmpdir(), "yap-av-drift-"));
 const report = {
   passed: false,
   trace: [],
@@ -57,7 +57,7 @@ try {
     source,
   ]);
   report.sourceSha256 = await digest(source);
-  report.workerSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.workerSha256 = hash(await readFile(process.env.YAP_NATIVE));
   await service.start();
   const imported = await call("asset.import", { requestId: "markers", path: source });
   const admission = await poll(

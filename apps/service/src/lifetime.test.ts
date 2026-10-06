@@ -5,7 +5,7 @@ import { DatabaseSync } from "node:sqlite";
 import { lstat, mkdir, mkdtemp, readFile, rm, stat, symlink, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import {
   CONTROL_FRAME_BYTES,
   MAX_PENDING_CONTROL_CALLS,
@@ -13,10 +13,10 @@ import {
   controlMessageSchema,
   updatePreparationSchema,
   type ControlMessage,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import { listenLocal } from "./index.js";
 import { claimStartup } from "./startup.js";
-import { CaptureStore } from "@screenrec/core/capture-store";
+import { CaptureStore } from "@yap/core/capture-store";
 import { randomUUID } from "node:crypto";
 
 const entry = fileURLToPath(new URL("../dist/main.js", import.meta.url));
@@ -43,7 +43,7 @@ type Service = {
 async function startService(home: string): Promise<Service> {
   const child = spawn(process.execPath, [entry], {
     cwd: "/",
-    env: { ...process.env, SCREENREC_HOME: home },
+    env: { ...process.env, YAP_HOME: home },
     stdio: ["pipe", "pipe", "pipe"],
   });
   const messages: ControlMessage[] = [];
@@ -382,7 +382,7 @@ it("validates project composition requests at the canonical wire boundary", asyn
     }),
     deletion: await call("recording.delete", { recordingId: "same-id" }),
   };
-  const output = process.env.SCREENREC_CONTRACT_OUTPUT;
+  const output = process.env.YAP_CONTRACT_OUTPUT;
   if (output)
     await writeFile(output, JSON.stringify({ pid: service.pid, project, responses }, null, 2));
   expect(responses.project).toMatchObject({
@@ -418,7 +418,7 @@ it("starts the canonical fresh composition without interpreting retained recordi
   await writeFile(legacyMedia, mediaBytes);
   const service = await startService(home);
   const first = (await service.awaiting(1))[0];
-  const output = process.env.SCREENREC_SERVICE_ENTRY_OUTPUT;
+  const output = process.env.YAP_SERVICE_ENTRY_OUTPUT;
   if (output) await mkdir(output);
   const record = async (name: string, value: unknown) => {
     if (output) await writeFile(join(output, name + ".json"), JSON.stringify(value, null, 2));

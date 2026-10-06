@@ -13,7 +13,7 @@ import {
   type TimeValue,
   type SelectionRange,
   type SourceWindowOccurrence,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { AssetStore, compositionAsset } from "./assets.js";
 import { CatalogError } from "./catalog.js";
 import { ProjectStore } from "./projects.js";

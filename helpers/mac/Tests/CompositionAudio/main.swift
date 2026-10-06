@@ -1,7 +1,7 @@
 import Foundation
 import Darwin
-import ScreenRecorderAudio
-import ScreenRecorderMedia
+import YapAudio
+import YapMedia
 
 struct CompositionAudioTests {
     static func main() async {

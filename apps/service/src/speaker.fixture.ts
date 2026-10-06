@@ -1,4 +1,4 @@
-import type { SpeakerEvidenceSource } from "@screenrec/core/speaker-evidence";
+import type { SpeakerEvidenceSource } from "@yap/core/speaker-evidence";
 
 export function nativeOutput(
   lines = ["0.000 1.000 speaker_0", "0.500 2.000 speaker_1"],

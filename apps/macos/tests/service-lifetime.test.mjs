@@ -4,7 +4,7 @@ import { chmodSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import {
   alive,
   app,
@@ -74,7 +74,7 @@ test("a native probe run owns no service and leaves the personal root untouched"
   const home = temporary("/tmp/scr-app-");
   const probe = spawnSync(app, ["--probe", "preflight"], {
     cwd: "/",
-    env: { ...finderEnvironment, SCREENREC_HOME: home },
+    env: { ...finderEnvironment, YAP_HOME: home },
     encoding: "utf8",
     timeout: 20_000,
   });
@@ -154,7 +154,7 @@ test("normal quit ends a ready child that honours neither EOF nor SIGTERM", asyn
   const deaf = fakeNode(
     `echo "{\\"event\\":\\"started\\",\\"pid\\":$$,\\"socketPath\\":\\"${socketPath(home)}\\"}"\n${ignoresTermination}`,
   );
-  const instance = launch(home, { SCREENREC_NODE: deaf });
+  const instance = launch(home, { YAP_NODE: deaf });
   const [, pid] = await instance.waitFor(/service ready pid=(\d+)/);
   const started = Date.now();
   instance.kill("SIGTERM");
@@ -172,9 +172,9 @@ test("normal quit ends a ready child that honours neither EOF nor SIGTERM", asyn
 
 test("a missing interpreter is a reported startup failure, not a hidden retry", async () => {
   const home = temporary("/tmp/scr-app-");
-  const instance = launch(home, { SCREENREC_NODE: "/nonexistent/node" });
+  const instance = launch(home, { YAP_NODE: "/nonexistent/node" });
   const [line] = await instance.waitFor(/service failed code=NODE_UNAVAILABLE message=(.*)/);
-  assert.match(line, /SCREENREC_NODE/);
+  assert.match(line, /YAP_NODE/);
   await delay(1_000);
   assert.equal(instance.running, true);
   assert.deepEqual(instance.children(), []);
@@ -184,7 +184,7 @@ test("a missing interpreter is a reported startup failure, not a hidden retry", 
 test("unreadable control output fails the start and ends a child that ignores SIGTERM", async () => {
   const home = temporary("/tmp/scr-app-");
   const instance = launch(home, {
-    SCREENREC_NODE: fakeNode(`echo 'not a control message'\n${ignoresTermination}`),
+    YAP_NODE: fakeNode(`echo 'not a control message'\n${ignoresTermination}`),
   });
   await instance.waitFor(/service failed code=CONTROL_PROTOCOL/);
   // A terminal failure that only asks politely leaves a live child holding the runtime
@@ -200,7 +200,7 @@ test("unreadable control output fails the start and ends a child that ignores SI
 test("oversized control output fails the start", async () => {
   const home = temporary("/tmp/scr-app-");
   const oversized = "/usr/bin/head -c 70000 /dev/zero | /usr/bin/tr '\\0' 'x'\necho\nexec sleep 60";
-  const instance = launch(home, { SCREENREC_NODE: fakeNode(oversized) });
+  const instance = launch(home, { YAP_NODE: fakeNode(oversized) });
   await instance.waitFor(/service failed code=CONTROL_LIMIT_EXCEEDED/);
   await waitFor(
     () => instance.children().length === 0,
@@ -213,7 +213,7 @@ test("one startup budget covers a slow interpreter probe and a silent service", 
   const home = temporary("/tmp/scr-app-");
   const started = Date.now();
   const slowToAnswer = fakeNode("exec sleep 60", '/bin/sleep 1; echo "v24.14.0"; exit 0');
-  const instance = launch(home, { SCREENREC_NODE: slowToAnswer });
+  const instance = launch(home, { YAP_NODE: slowToAnswer });
   await instance.waitFor(/service failed code=SERVICE_TIMEOUT/, 25_000);
   const elapsed = Date.now() - started;
   assert.ok(elapsed >= 10_000, `The startup budget must not be cut short, took ${elapsed}ms`);
@@ -231,7 +231,7 @@ test("one startup budget covers a slow interpreter probe and a silent service", 
 test("an interpreter that never answers is abandoned inside the startup budget", async () => {
   const home = temporary("/tmp/scr-app-");
   const started = Date.now();
-  const instance = launch(home, { SCREENREC_NODE: interpreter(ignoresTermination) });
+  const instance = launch(home, { YAP_NODE: interpreter(ignoresTermination) });
   await instance.waitFor(/service failed code=NODE_UNAVAILABLE/, 15_000);
   const elapsed = Date.now() - started;
   assert.ok(elapsed < 10_000, `A hung candidate consumed the whole budget, took ${elapsed}ms`);
@@ -247,7 +247,7 @@ test("an interpreter that never answers is abandoned inside the startup budget",
 test("an interpreter that answers endlessly is abandoned rather than buffered", async () => {
   const home = temporary("/tmp/scr-app-");
   const flooding = `trap "" TERM\nwhile :; do /usr/bin/head -c 200000 /dev/zero | /usr/bin/tr '\\0' 'x'; done`;
-  const instance = launch(home, { SCREENREC_NODE: interpreter(flooding) });
+  const instance = launch(home, { YAP_NODE: interpreter(flooding) });
   await instance.waitFor(/service failed code=NODE_UNAVAILABLE/, 15_000);
   await waitFor(
     () => instance.children().length === 0,
@@ -278,7 +278,7 @@ test("simultaneous launches against one home leave exactly one owner", async () 
 test("quitting during interpreter validation reaps the owned probe", async () => {
   const home = temporary("/tmp/scr-app-");
   const executable = interpreter(ignoresTermination);
-  const instance = launch(home, { SCREENREC_NODE: executable });
+  const instance = launch(home, { YAP_NODE: executable });
   const probe = await waitFor(
     () => instance.children().find((child) => child.command.includes(executable)),
     3_000,

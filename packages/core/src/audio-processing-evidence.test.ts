@@ -1,4 +1,4 @@
-import { createCompiler, validateComposition } from "@screenrec/composition";
+import { createCompiler, validateComposition } from "@yap/composition";
 import { mkdtemp, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";

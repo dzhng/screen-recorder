@@ -277,7 +277,7 @@ export async function prepareFFmpeg({
   mkdirSync(dirname(output), { recursive: true });
   // Upstream configure/pkg-config split dependency paths. Keep compilation in a
   // whitespace-free private directory; publication still commits beside output.
-  const scratch = mkdtempSync("/tmp/screenrec-ffmpeg-prepare-");
+  const scratch = mkdtempSync("/tmp/yap-ffmpeg-prepare-");
   let publication;
   try {
     publication = mkdtempSync(join(dirname(output), ".ffmpeg-publish-"));

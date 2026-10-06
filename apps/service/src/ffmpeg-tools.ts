@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { constants } from "node:fs";
 import { access, open, realpath } from "node:fs/promises";
 import { isAbsolute, join, relative, sep } from "node:path";
-import type { FFmpegToolAvailability } from "@screenrec/protocol";
+import type { FFmpegToolAvailability } from "@yap/protocol";
 import { cliWorker, nativeResult } from "./worker.js";
 
 export type FFmpegInstallation = { directory: string; receiptSha256: string };
@@ -46,7 +46,7 @@ async function readResource(path: string, limit: number, signal: AbortSignal, re
 export async function inspectFFmpegTools(
   installation?: FFmpegInstallation,
   requestSignal?: AbortSignal,
-  nativeExecutable: string | undefined = process.env.SCREENREC_NATIVE,
+  nativeExecutable: string | undefined = process.env.YAP_NATIVE,
 ): Promise<FFmpegToolAvailability> {
   try {
     const deadline = AbortSignal.timeout(5000);

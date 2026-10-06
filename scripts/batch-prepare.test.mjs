@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { createBatch, prepareBatch } from "../skills/screenrec/scripts/batch-prepare.mjs";
+import { createBatch, prepareBatch } from "../skills/yap/scripts/batch-prepare.mjs";
 
 test("selected imports retain success when a sibling fails and resume without duplicating work", async () => {
   const manifest = createBatch([{ path: "/selected/good.mov" }, { path: "/selected/bad.mov" }]);
@@ -122,12 +122,12 @@ for (const errorCode of ["CLI_TIMEOUT", "TIMEOUT", "CONNECTION_ERROR", "ABORTED"
 }
 
 test("the executable saves replay identities and preserves source bytes across repeated runs", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-batch-command-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-batch-command-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const source = join(directory, "selected.mov"),
     manifest = join(directory, "batch.json"),
     log = join(directory, "imports.jsonl");
-  const executable = join(directory, "screenrec");
+  const executable = join(directory, "yap");
   await writeFile(source, "original source bytes");
   await writeFile(manifest, JSON.stringify({ items: [{ path: source }] }));
   await writeFile(
@@ -149,7 +149,7 @@ test("the executable saves replay identities and preserves source bytes across r
     { mode: 0o755 },
   );
   const script = fileURLToPath(
-    new URL("../skills/screenrec/scripts/batch-prepare.mjs", import.meta.url),
+    new URL("../skills/yap/scripts/batch-prepare.mjs", import.meta.url),
   );
   const run = () =>
     spawnSync(process.execPath, [script, "--manifest", manifest, "--cli", executable], {
@@ -174,11 +174,11 @@ test("the executable saves replay identities and preserves source bytes across r
 });
 
 test("the installed helper can be invoked through a symlink", async (t) => {
-  const directory = await mkdtemp(join(tmpdir(), "screenrec-batch-link-"));
+  const directory = await mkdtemp(join(tmpdir(), "yap-batch-link-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const alias = join(directory, "batch.mjs");
   await symlink(
-    fileURLToPath(new URL("../skills/screenrec/scripts/batch-prepare.mjs", import.meta.url)),
+    fileURLToPath(new URL("../skills/yap/scripts/batch-prepare.mjs", import.meta.url)),
     alias,
   );
   const result = spawnSync(process.execPath, [alias, "--help"], {

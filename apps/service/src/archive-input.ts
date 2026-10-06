@@ -1,13 +1,13 @@
 import { constants, fstatSync, openSync } from "node:fs";
-import { CatalogError } from "@screenrec/core/catalog";
+import { CatalogError } from "@yap/core/catalog";
 import {
   openedFile,
   type OpenedFile,
   type FileIdentity,
   fileIdentity,
   O_NOFOLLOW_ANY,
-} from "@screenrec/core/files";
-import { archiveLimits } from "@screenrec/core/package-archive";
+} from "@yap/core/files";
+import { archiveLimits } from "@yap/core/package-archive";
 
 export type AdmittedArchive = OpenedFile &
   Readonly<{

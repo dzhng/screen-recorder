@@ -14,7 +14,7 @@ import {
   rational,
   multiply,
   type SignedTimeValue,
-} from "@screenrec/composition";
+} from "@yap/composition";
 
 const integer = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const sampleRange = z.strictObject({ start: integer, end: integer });

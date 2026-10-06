@@ -1,13 +1,13 @@
 import { getSystemErrorMap } from "node:util";
 import type { CallToolResult, RequestId } from "@modelcontextprotocol/sdk/types.js";
-import type { ServiceSelection } from "@screenrec/client";
+import type { ServiceSelection } from "@yap/client";
 import {
   CONTROL_FRAME_BYTES,
   MCP_RESULT_INLINE_BYTES,
   RESPONSE_FRAME_BYTES,
   type OperationResponse,
   type OperationWireResponse,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import {
   artifactOperations,
   batchReferences,

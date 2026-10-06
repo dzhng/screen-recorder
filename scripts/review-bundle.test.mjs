@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { reviewBundle } from "../skills/screenrec/scripts/review-bundle.mjs";
+import { reviewBundle } from "../skills/yap/scripts/review-bundle.mjs";
 
 function fixture(cuts = {}) {
   const calls = [];

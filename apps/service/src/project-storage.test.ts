@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, writeFile, rm, realpath } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { startProjectService } from "./project-service.js";
 import { projectServiceControlFixture } from "./project-service.fixture.js";
 import { once } from "node:events";

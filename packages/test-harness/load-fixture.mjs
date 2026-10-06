@@ -15,8 +15,8 @@ const { values } = parseArgs({
     fixture: { type: "string", default: join(root, "fixtures/narrated-workbench") },
   },
 });
-const home = values.home ? resolve(values.home) : await mkdtemp("/tmp/screenrec-fixture-home-");
-const service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+const home = values.home ? resolve(values.home) : await mkdtemp("/tmp/yap-fixture-home-");
+const service = await startPublicService(home, process.env.YAP_NATIVE);
 try {
   const before = await service.call("project.list", {});
   assert.equal(before.ok, true, JSON.stringify(before));

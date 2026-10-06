@@ -9,14 +9,14 @@ import { parseArgs } from "node:util";
 const { values } = parseArgs({
   options: { out: { type: "string" }, reference: { type: "string" } },
 });
-assert(values.out && values.reference && process.env.SCREENREC_NATIVE);
+assert(values.out && values.reference && process.env.YAP_NATIVE);
 const root = resolve(import.meta.dirname, "../../..");
 const { createCompiler, validateComposition, applyBatch } = await import(
   root + "/packages/composition/dist/index.js"
 );
 const out = resolve(values.out);
 mkdirSync(out);
-const worker = resolve(process.env.SCREENREC_NATIVE);
+const worker = resolve(process.env.YAP_NATIVE);
 const reference = resolve(values.reference);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const report = {

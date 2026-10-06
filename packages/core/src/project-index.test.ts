@@ -1,7 +1,7 @@
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { createHash } from "node:crypto";
 import { afterEach, expect, test } from "vitest";
-import { floor, fromTime, type CompiledFrame } from "@screenrec/composition";
+import { floor, fromTime, type CompiledFrame } from "@yap/composition";
 import { validateProjectFrameReceipt } from "./frame-inspection.js";
 import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";

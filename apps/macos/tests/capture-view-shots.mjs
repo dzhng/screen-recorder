@@ -6,9 +6,9 @@ import { join, resolve } from "node:path";
 import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 
 // Draw and drive the production view. Facts are synthetic; no device/service/permission access.
-const output = resolve(process.env.SHOTS ?? "/tmp/screenrec-capture-view-shots");
+const output = resolve(process.env.SHOTS ?? "/tmp/yap-capture-view-shots");
 mkdirSync(output, { recursive: true });
-const scratch = mkdtempSync(join(tmpdir(), "screenrec-capture-view-"));
+const scratch = mkdtempSync(join(tmpdir(), "yap-capture-view-"));
 try {
   writeFileSync(
     join(output, "source-revision.json"),
@@ -17,7 +17,7 @@ try {
         revision: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
         productionViewSha256: createHash("sha256")
           .update(
-            readFileSync(new URL("../Sources/ScreenRecorder/CaptureView.swift", import.meta.url)),
+            readFileSync(new URL("../Sources/Yap/CaptureView.swift", import.meta.url)),
           )
           .digest("hex"),
         fixtureSha256: createHash("sha256")
@@ -30,7 +30,7 @@ try {
               "status",
               "--porcelain",
               "--",
-              "apps/macos/Sources/ScreenRecorder/CaptureView.swift",
+              "apps/macos/Sources/Yap/CaptureView.swift",
               "apps/macos/tests/fixtures/capture-view.swift",
             ],
             { encoding: "utf8" },

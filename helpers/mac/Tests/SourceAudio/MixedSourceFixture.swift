@@ -1,8 +1,8 @@
 @preconcurrency import AVFoundation
 import CryptoKit
 import Foundation
-import ScreenRecorderAudio
-import ScreenRecorderMedia
+import YapAudio
+import YapMedia
 
 /// One shared physical clock covers earlier video, later audio and a true empty audio edit.
 /// The positive donor pattern makes every output zero attributable to the declared gap.

@@ -5,7 +5,7 @@ import { mkdir, mkdtemp, readFile, rename, rm, writeFile } from "node:fs/promise
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { afterEach, expect, test } from "vitest";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { startProjectService } from "./project-service.js";
 import { compileCliOwner } from "./cli-owner.fixture.js";
 
@@ -16,7 +16,7 @@ afterEach(async () => {
 const sha = (bytes: string | Buffer) => createHash("sha256").update(bytes).digest("hex");
 
 test("tool discovery identifies only the selected relocated tools and refuses changed bytes without disabling native service", async () => {
-  const home = await mkdtemp(join(tmpdir(), "screenrec-tools-"));
+  const home = await mkdtemp(join(tmpdir(), "yap-tools-"));
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const built = join(home, "Build tools"),
     moved = join(home, "Moved App.app", "tools");

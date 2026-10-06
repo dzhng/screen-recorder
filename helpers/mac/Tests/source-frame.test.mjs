@@ -15,8 +15,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 const native =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 function run(file, args, options = {}) {
   const result = spawnSync(file, args, { timeout: 30000, ...options });
   assert.equal(result.status, 0, String(result.stderr || result.error));
@@ -24,7 +24,7 @@ function run(file, args, options = {}) {
 }
 test("selected source pictures preserve explicit streams, physical sample clocks and excluded support", () => {
   const dir =
-    process.env.SCREENREC_SOURCE_FRAME_EVIDENCE ?? mkdtempSync(join(tmpdir(), "source-frame-"));
+    process.env.YAP_SOURCE_FRAME_EVIDENCE ?? mkdtempSync(join(tmpdir(), "source-frame-"));
   mkdirSync(dir, { recursive: true });
   try {
     for (const [name, color, box] of [
@@ -81,7 +81,7 @@ test("selected source pictures preserve explicit streams, physical sample clocks
         }),
       );
       trace.push({ params, reply });
-      if (process.env.SCREENREC_SOURCE_FRAME_EVIDENCE)
+      if (process.env.YAP_SOURCE_FRAME_EVIDENCE)
         writeFileSync(join(dir, "requests.json"), JSON.stringify(trace, null, 2));
       return { params, reply };
     };
@@ -148,7 +148,7 @@ test("selected source pictures preserve explicit streams, physical sample clocks
     assert.ok(late.reply.data.decodedSamples <= 2);
     assert.equal(hash(), before);
   } finally {
-    if (!process.env.SCREENREC_SOURCE_FRAME_EVIDENCE) rmSync(dir, { recursive: true, force: true });
+    if (!process.env.YAP_SOURCE_FRAME_EVIDENCE) rmSync(dir, { recursive: true, force: true });
   }
 });
 

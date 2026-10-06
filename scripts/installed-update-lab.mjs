@@ -35,7 +35,7 @@ const { values } = parseArgs({
 });
 if (values.help) {
   console.log(
-    "node scripts/installed-update-lab.mjs --app <final signed .app> --launcher <final kit screenrec> --sign-update <pinned Sparkle bin/sign_update> --evidence <outside-git dir> [--fail-successor-startup]\nRequires approved SCREENREC_RELEASE_* / SCREENREC_SPARKLE_* credential env. Uses retained silent media and production compiled app, service, CLI and patched SDK. Startup-failure case removes only the candidate service entry file, then demonstrates manual reinstall. Deadline: 180 seconds after artifact preparation.",
+    "node scripts/installed-update-lab.mjs --app <final signed .app> --launcher <final kit yap> --sign-update <pinned Sparkle bin/sign_update> --evidence <outside-git dir> [--fail-successor-startup]\nRequires approved YAP_RELEASE_* / YAP_SPARKLE_* credential env. Uses retained silent media and production compiled app, service, CLI and patched SDK. Startup-failure case removes only the candidate service entry file, then demonstrates manual reinstall. Deadline: 180 seconds after artifact preparation.",
   );
   process.exit(0);
 }
@@ -48,14 +48,14 @@ assert.ok(
 );
 mkdirSync(resolve(values.evidence), { recursive: true });
 const root = realpathSync(mkdtempSync(join(resolve(values.evidence), "installed-")));
-const id = `dev.screenrec.installed.${randomUUID()}`;
+const id = `dev.yap.installed.${randomUUID()}`;
 const lockRelative = `Library/Caches/${id}/launch.lock`;
 const lockDirectory = join(homedir(), "Library/Caches", id);
 const home = join(root, "home"),
   defaults = join(root, "preferences");
-const app = join(root, "installed/Screen Recorder.app"),
-  next = join(root, "candidate/Screen Recorder.app");
-const launcher = join(root, "screenrec"),
+const app = join(root, "installed/Yap.app"),
+  next = join(root, "candidate/Yap.app");
+const launcher = join(root, "yap"),
   plist = (bundle) => join(bundle, "Contents/Info.plist");
 const reportPath = join(root, "receipt.json");
 const digest = (path) => createHash("sha256").update(readFileSync(path)).digest("hex");
@@ -113,10 +113,10 @@ const env = {
   HOME: homedir(),
   PATH: "/usr/bin:/bin:/usr/sbin:/sbin",
   TMPDIR: tmpdir(),
-  SCREENREC_HOME: home,
-  SCREENREC_DEFAULTS: defaults,
-  SCREENREC_APP: app,
-  SCREENREC_SERVICE_LAUNCH: "1",
+  YAP_HOME: home,
+  YAP_DEFAULTS: defaults,
+  YAP_APP: app,
+  YAP_SERVICE_LAUNCH: "1",
 };
 const spawnOwned = (command, args, options) => {
   const child = spawn(command, args, options);
@@ -134,7 +134,7 @@ const wait = (predicate, label, ms = 30_000) =>
     evidence: reportPath,
   });
 function launch() {
-  appChild = spawnOwned(join(app, "Contents/MacOS/ScreenRecorder"), [], {
+  appChild = spawnOwned(join(app, "Contents/MacOS/Yap"), [], {
     cwd: "/",
     env,
     stdio: ["ignore", "ignore", "pipe"],
@@ -206,8 +206,8 @@ try {
   report.engine = frameworkIdentity(join(originalApp, "Contents/Frameworks/Sparkle.framework"));
   report.payload = {};
   for (const relative of [
-    "Contents/MacOS/ScreenRecorder",
-    "Contents/MacOS/screenrec-native",
+    "Contents/MacOS/Yap",
+    "Contents/MacOS/yap-native",
     "Contents/Resources/node/bin/node",
     "Contents/Resources/cli/main.mjs",
     "Contents/Resources/service/main.mjs",
@@ -216,7 +216,7 @@ try {
   const textDigest = (bundle) =>
     createHash("sha256")
       .update(
-        run("otool", ["-s", "__TEXT", "__text", join(bundle, "Contents/MacOS/ScreenRecorder")], {
+        run("otool", ["-s", "__TEXT", "__text", join(bundle, "Contents/MacOS/Yap")], {
           maxBuffer: 32 * 1024 ** 2,
         })
           .split("\n")
@@ -263,7 +263,7 @@ try {
   );
   const catalogFormat = run("/usr/libexec/PlistBuddy", [
     "-c",
-    "Print :ScreenrecCatalogFormat",
+    "Print :YapCatalogFormat",
     plist(next),
   ]).trim();
   for (const [bundle, candidateVersion] of [
@@ -275,7 +275,7 @@ try {
       ["CFBundleVersion", "string", candidateVersion],
       ["CFBundleShortVersionString", "string", candidateVersion],
       ["SUFeedURL", "string", `${url}/appcast.xml`],
-      ["ScreenrecLaunchLockRelativePath", "string", lockRelative],
+      ["YapLaunchLockRelativePath", "string", lockRelative],
     ]) {
       run("/usr/libexec/PlistBuddy", ["-c", `Delete :${key}`, plist(bundle)]);
       run("/usr/libexec/PlistBuddy", ["-c", `Add :${key} ${type} ${value}`, plist(bundle)]);
@@ -305,7 +305,7 @@ try {
     );
   }
   const source = readFileSync(join(repo, "scripts/launcher/main.c"), "utf8");
-  const fixtureSource = source.replaceAll("com.dzhng.screenrec", id);
+  const fixtureSource = source.replaceAll("com.dzhng.yap", id);
   assert.notEqual(fixtureSource, source);
   const cfile = join(root, "launcher.c");
   writeFileSync(cfile, fixtureSource);
@@ -325,7 +325,7 @@ try {
     sha256: digest(launcher),
     productionSourceSha256: digest(join(repo, "scripts/launcher/main.c")),
     fixtureSourceSha256: digest(cfile),
-    substitution: `com.dzhng.screenrec -> ${id}`,
+    substitution: `com.dzhng.yap -> ${id}`,
   };
   await withReleaseIdentity(signing, async ({ keychain, keyFile, identity }) => {
     for (const bundle of [app, next]) signReleaseTree(bundle, identity, keychain);
@@ -339,7 +339,7 @@ try {
     ]).trim();
     writeFileSync(
       join(root, "appcast.xml"),
-      `<?xml version="1.0"?><rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><title>Installed fixture</title><item><title>${version}</title><sparkle:version>${version}</sparkle:version><sparkle:shortVersionString>${version}</sparkle:shortVersionString><screenrecCatalogFormat>${catalogFormat}</screenrecCatalogFormat><enclosure url="${url}/update.zip" ${attributes} type="application/octet-stream"/></item></channel></rss>`,
+      `<?xml version="1.0"?><rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><title>Installed fixture</title><item><title>${version}</title><sparkle:version>${version}</sparkle:version><sparkle:shortVersionString>${version}</sparkle:shortVersionString><yapCatalogFormat>${catalogFormat}</yapCatalogFormat><enclosure url="${url}/update.zip" ${attributes} type="application/octet-stream"/></item></channel></rss>`,
     );
     run(values["sign-update"], ["--ed-key-file", keyFile, join(root, "appcast.xml")]);
     run(values["sign-update"], ["--ed-key-file", keyFile, "--verify", join(root, "appcast.xml")]);

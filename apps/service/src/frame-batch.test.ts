@@ -1,8 +1,8 @@
 import { afterEach, expect, test } from "vitest";
 import { writeFile, readFile, chmod } from "node:fs/promises";
-import type { OperationFailure, OperationResult } from "@screenrec/protocol";
-import type { MediaFrameInspection } from "@screenrec/core/frame-inspection";
-import type { SourceSelection } from "@screenrec/core/source-selection";
+import type { OperationFailure, OperationResult } from "@yap/protocol";
+import type { MediaFrameInspection } from "@yap/core/frame-inspection";
+import type { SourceSelection } from "@yap/core/source-selection";
 import type { DerivativeDelivery } from "./delivery.js";
 import { projectServiceFixture } from "./project-service.fixture.js";
 

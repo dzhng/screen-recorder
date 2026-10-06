@@ -8,7 +8,7 @@ import { createInterface } from "node:readline";
 import test from "node:test";
 
 test("original audio supports exact byte ranges for paused word-edge seeking", async () => {
-  const out = await mkdtemp(join(tmpdir(), "screenrec-marking-test-"));
+  const out = await mkdtemp(join(tmpdir(), "yap-marking-test-"));
   const child = spawn(
     process.execPath,
     [new URL("./speech-labeling.mjs", import.meta.url).pathname, "--out", out],
@@ -72,7 +72,7 @@ test("original audio supports exact byte ranges for paused word-edge seeking", a
 });
 
 test("explicit packet targets own the word export without inventing default neighbors", async () => {
-  const scratch = await mkdtemp(join(tmpdir(), "screenrec-target-packet-"));
+  const scratch = await mkdtemp(join(tmpdir(), "yap-target-packet-"));
   const packet = join(scratch, "packet"),
     out = join(scratch, "marks");
   await mkdir(packet);

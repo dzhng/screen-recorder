@@ -1,4 +1,4 @@
-import { fromTime, ceil, type SignedTimeValue, type SelectionRange } from "@screenrec/composition";
+import { fromTime, ceil, type SignedTimeValue, type SelectionRange } from "@yap/composition";
 import { CatalogError } from "./catalog.js";
 import { setImmediate } from "node:timers/promises";
 import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";

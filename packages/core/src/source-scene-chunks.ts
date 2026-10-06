@@ -1,4 +1,4 @@
-import { signedTimeValueSchema, timeValueSchema, fromTime, compare } from "@screenrec/composition";
+import { signedTimeValueSchema, timeValueSchema, fromTime, compare } from "@yap/composition";
 import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";

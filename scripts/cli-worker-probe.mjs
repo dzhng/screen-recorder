@@ -11,7 +11,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const ffmpeg = process.argv[2];
 if (!ffmpeg || !isAbsolute(ffmpeg))
   throw new Error("Usage: node scripts/cli-worker-probe.mjs /absolute/pinned/ffmpeg");
-const directory = await mkdtemp("/tmp/screenrec-ffmpeg-lifetime-");
+const directory = await mkdtemp("/tmp/yap-ffmpeg-lifetime-");
 const pids = new Set();
 const tasks = [];
 async function childPid(parent) {

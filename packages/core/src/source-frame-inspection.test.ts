@@ -1,4 +1,4 @@
-import { add, fromTime } from "@screenrec/composition";
+import { add, fromTime } from "@yap/composition";
 import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";

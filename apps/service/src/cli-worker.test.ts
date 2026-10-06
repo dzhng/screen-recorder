@@ -5,7 +5,7 @@ import { cliWorker } from "./worker.js";
 let directory: string;
 let runner: string;
 beforeAll(async () => {
-  directory = await mkdtemp("/tmp/screenrec-cli-worker-");
+  directory = await mkdtemp("/tmp/yap-cli-worker-");
   runner = join(directory, "runner");
   await writeFile(
     runner,

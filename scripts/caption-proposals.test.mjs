@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { captionProposals } from "../skills/screenrec/scripts/caption-proposals.mjs";
+import { captionProposals } from "../skills/yap/scripts/caption-proposals.mjs";
 
 const word = (ordinal, text, startUs, endUs, extra = {}) => ({
   type: "word",
@@ -215,7 +215,7 @@ test("explicit gaps, skipped words and fragmented support split proposals withou
 
 test("consumer command returns pure proposals even when no CLI is available", async () => {
   const { spawn } = await import("node:child_process");
-  const child = spawn(process.execPath, ["skills/screenrec/scripts/caption-proposals.mjs"], {
+  const child = spawn(process.execPath, ["skills/yap/scripts/caption-proposals.mjs"], {
     stdio: ["pipe", "pipe", "pipe"],
   });
   let stdout = "",
@@ -223,7 +223,7 @@ test("consumer command returns pure proposals even when no CLI is available", as
   child.stdout.on("data", (chunk) => (stdout += chunk));
   child.stderr.on("data", (chunk) => (stderr += chunk));
   child.stdin.end(
-    JSON.stringify({ ...request(), cli: { executable: "/does/not/exist/screenrec" } }),
+    JSON.stringify({ ...request(), cli: { executable: "/does/not/exist/yap" } }),
   );
   const code = await new Promise((resolve) => child.once("close", resolve));
   assert.equal(code, 0, stderr);

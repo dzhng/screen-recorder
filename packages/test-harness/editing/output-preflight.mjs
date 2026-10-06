@@ -4,17 +4,17 @@ import { join, resolve } from "node:path";
 import { createHash } from "node:crypto";
 import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
-const worker = process.env.SCREENREC_NATIVE;
+const worker = process.env.YAP_NATIVE;
 assert(worker);
 const workerSha256 = createHash("sha256")
   .update(await readFile(worker))
   .digest("hex");
 const out = process.argv[2]
   ? resolve(process.argv[2])
-  : await mkdtemp("/tmp/screenrec-preflight-evidence-");
+  : await mkdtemp("/tmp/yap-preflight-evidence-");
 await mkdir(out, { recursive: true });
 const home = await mkdtemp("/tmp/sr-preflight-");
-const call = mediaWorker({ ...process.env, SCREENREC_NATIVE: worker });
+const call = mediaWorker({ ...process.env, YAP_NATIVE: worker });
 const request = {
   output: join(home, "movie.mp4"),
   frames: join(home, "missing-frames.jsonl"),

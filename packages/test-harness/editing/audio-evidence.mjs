@@ -8,7 +8,7 @@ import { parseArgs } from "node:util";
 import { JourneyService, acquisitionDonor, hash, poll, run } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" }, fixture: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Use a frozen native worker");
+assert.ok(process.env.YAP_NATIVE, "Use a frozen native worker");
 assert.ok(!values.fixture || ["tones-and-clicks", "retimed-tones"].includes(values.fixture));
 // Analytically authored tones/clicks: no speech model or subjective listening claim.
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "acoustic-evidence-"));
@@ -474,12 +474,12 @@ async function unitRateJourney() {
     "render attempt or sidecar leaked",
   );
   report.checks.renderWorkspaceClean = true;
-  if (process.env.SCREENREC_ACOUSTIC_RATES)
+  if (process.env.YAP_ACOUSTIC_RATES)
     report.checks.rateAxes = await verifyAcousticRateAxes({ out, call, delivered });
 }
 
 try {
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   await service.start();
   if (values.fixture === "retimed-tones") {
     report.checks.retiming = await verifyAcousticRetiming({ out, call, delivered, pixels });

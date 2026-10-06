@@ -1,6 +1,6 @@
 import Darwin
 import Foundation
-import ScreenRecorderMedia
+import YapMedia
 
 // The replacement contains unrelated bytes; discard owns only its original staging inode.
 func checkNewFileCleanup(at directory: URL) throws {

@@ -11,7 +11,7 @@ import { writeSourceWave, sourcePeriod, waveHeader } from "./audio-project-fixtu
 const { values } = parseArgs({ options: { case: { type: "string" }, out: { type: "string" } } });
 assert.ok(["long-project", "reorder-query"].includes(values.case));
 const queryOnly = values.case === "reorder-query";
-assert.ok(process.env.SCREENREC_NATIVE);
+assert.ok(process.env.YAP_NATIVE);
 const out = values.out ? resolve(values.out) : await mkdtemp("/tmp/routing-scale-");
 await mkdir(out, { recursive: true });
 const home = await mkdtemp("/tmp/sr-routing-scale-");

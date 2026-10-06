@@ -8,15 +8,15 @@ import { JourneyService, hash, poll, root } from "./source-evidence-fixture.mjs"
 import { writeSourceWave, waveHeader } from "./audio-project-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(values.out && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out),
-  home = await mkdtemp(join(tmpdir(), "screenrec-conveniences-"));
+  home = await mkdtemp(join(tmpdir(), "yap-conveniences-"));
 await mkdir(out);
 const report = {
   passed: false,
   checks: [],
   trace: [],
-  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
   runnerSha256: hash(await readFile(new URL(import.meta.url))),
 };
 const service = new JourneyService(home, report),

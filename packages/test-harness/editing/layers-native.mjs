@@ -11,8 +11,8 @@ import { layerTree, expectedRgba, compareGeometry, compareLandmarks } from "./la
 
 const out = resolve(process.argv[2] ?? "");
 assert.ok(
-  process.argv[2] && process.env.SCREENREC_NATIVE,
-  "Pass a fresh output directory and SCREENREC_NATIVE",
+  process.argv[2] && process.env.YAP_NATIVE,
+  "Pass a fresh output directory and YAP_NATIVE",
 );
 await mkdir(out);
 const scratch = join(out, "fixture");
@@ -22,7 +22,7 @@ await mkdir(references);
 const { media, pixelTool } = await prepareLayersFixture(scratch, references);
 let sequence = 0;
 const call = (operation, params) => {
-  const run = spawnSync(process.env.SCREENREC_NATIVE, [], {
+  const run = spawnSync(process.env.YAP_NATIVE, [], {
     input: JSON.stringify({ id: String(++sequence), operation, params }) + "\n",
     encoding: "utf8",
     timeout: 60000,
@@ -46,9 +46,9 @@ for (const [width, height] of [
   const canvas = { width, height, fps: { numerator: 10, denominator: 1 }, background: "#000000ff" };
   for (const scenario of layerCases(canvas).filter(
     (c) =>
-      !process.env.SCREENREC_LAYER_CASE ||
-      c.name === process.env.SCREENREC_LAYER_CASE ||
-      (process.env.SCREENREC_LAYER_CASE === "explicit-default" && c.name === "baseline"),
+      !process.env.YAP_LAYER_CASE ||
+      c.name === process.env.YAP_LAYER_CASE ||
+      (process.env.YAP_LAYER_CASE === "explicit-default" && c.name === "baseline"),
   )) {
     const directory = join(out, `${width}x${height}-${scenario.name}`);
     await mkdir(directory);

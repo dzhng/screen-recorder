@@ -4,7 +4,7 @@ import { afterEach, expect, test } from "vitest";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { ReadBuffer, serializeMessage } from "@modelcontextprotocol/sdk/shared/stdio.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { listenLocal, DerivativeDelivery } from "@screenrec/service";
+import { listenLocal, DerivativeDelivery } from "@yap/service";
 import {
   operationSchema,
   responseSchema,
@@ -12,9 +12,9 @@ import {
   serviceRuntimeDirectory,
   RESPONSE_FRAME_BYTES,
   operationError,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 import { mcpResult, mcpInlineBytes } from "./mcp-result.js";
-import { LocalTransportError } from "@screenrec/client";
+import { LocalTransportError } from "@yap/client";
 import { ArtifactDeliveryError } from "./artifact-delivery.js";
 
 const cleanup: (() => Promise<void>)[] = [];
@@ -92,7 +92,7 @@ async function fixture(
         ...(options.discovery ? [] : ["--socket", server.socketPath]),
       ],
       stderr: "pipe",
-      env: { ...process.env, SCREENREC_HOME: home },
+      env: { ...process.env, YAP_HOME: home },
     }),
   );
   return { client, calls, firstRead, result, operations, socketPath: server.socketPath, delivery };

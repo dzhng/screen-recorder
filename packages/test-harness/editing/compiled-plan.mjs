@@ -15,7 +15,7 @@ import {
 } from "../../../apps/service/dist/project-render.js";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 await mkdir(out, { recursive: false });
 const report = { passed: false, requests: [], checks: {} };
@@ -134,6 +134,6 @@ for (const mode of ["cancel", "invalid"]) {
 report.checks.workspaceEmpty = true;
 report.passed = true;
 report.nativeSHA256 = createHash("sha256")
-  .update(await readFile(process.env.SCREENREC_NATIVE))
+  .update(await readFile(process.env.YAP_NATIVE))
   .digest("hex");
 await writeFile(out + "/report.json", JSON.stringify(report, null, 2));

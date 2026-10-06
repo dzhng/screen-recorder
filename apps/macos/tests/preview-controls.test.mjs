@@ -13,7 +13,7 @@ test(
   "native preview consumes retained project receipts without a window or player",
   { timeout: 90_000 },
   () => {
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-preview-controls-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-preview-controls-"));
     try {
       const retained = ["preview-get.json", "preview-get-2.json"].map(
         (name) =>
@@ -31,7 +31,7 @@ test(
         ["PreviewController", "PreviewWindow"],
         String.raw`
 import Foundation
-import ScreenRecorderControls
+import YapControls
 
 @MainActor final class Presentation: PreviewPresenting {
     var titles: [String] = []
@@ -301,14 +301,14 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
 );
 
 test("preview replacement reports continuous native intent without an intermediate idle notification", () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-preview-intent-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-preview-intent-"));
   try {
     const executable = compileControlsCheck(
       scratch,
       ["PreviewController", "PreviewWindow"],
       String.raw`
 import Foundation
-import ScreenRecorderControls
+import YapControls
 @MainActor final class Presentation: PreviewPresenting {
     func open(title: String, retry: @escaping @MainActor () -> Void, closed: @escaping @MainActor () -> Void) {}
     func show(title: String, message: String, canRetry: Bool) {}

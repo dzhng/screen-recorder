@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { alive, launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 const peer = fileURLToPath(new URL("./fixtures/terminal-peer.mjs", import.meta.url));
@@ -20,8 +20,8 @@ async function heldReportApp(home) {
   );
   chmodSync(interpreter, 0o755);
   const launched = await launchReady(home, {
-    SCREENREC_NODE: interpreter,
-    SCREENREC_FIXTURE_WINDOW: "1",
+    YAP_NODE: interpreter,
+    YAP_FIXTURE_WINDOW: "1",
   });
   const [, fixtureId] = await launched.instance.waitFor(/capture fixture window=(\d+)/);
   const call = (operation, params = {}) =>

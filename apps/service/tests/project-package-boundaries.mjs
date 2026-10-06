@@ -139,7 +139,7 @@ test(
       {
         detached: true,
         stdio: ["ignore", "ignore", "inherit", "ipc"],
-        env: { ...process.env, SCREENREC_NATIVE: nativeBinary },
+        env: { ...process.env, YAP_NATIVE: nativeBinary },
       },
     );
     const closed = once(child, "close");

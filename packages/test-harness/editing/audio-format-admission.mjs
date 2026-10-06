@@ -7,13 +7,13 @@ import { mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js"
 import { waveHeader } from "./audio-project-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 await mkdir(out);
-const home = await realpath(await mkdtemp("/tmp/screenrec-format-library-"));
+const home = await realpath(await mkdtemp("/tmp/yap-format-library-"));
 const report = {
   passed: false,
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   trace: [],
   formats: [],
   scope:

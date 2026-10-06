@@ -7,13 +7,13 @@ import { dirname, isAbsolute, join } from "node:path";
 import { arch, cpus, platform, release } from "node:os";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { until } from "./fixtures/public-service.mjs";
 import { app, launchReady, socketPath, temporary } from "./harness.mjs";
 
 // Explicit long-running lab, excluded from the default native test glob. Build first.
-// SCREENREC_INDEX_SCALE_EVIDENCE: empty absolute output directory (default: fresh /tmp directory).
-// SCREENREC_INDEX_SCALE_VIDEO: optional absolute path to the preserved generated fixture;
+// YAP_INDEX_SCALE_EVIDENCE: empty absolute output directory (default: fresh /tmp directory).
+// YAP_INDEX_SCALE_VIDEO: optional absolute path to the preserved generated fixture;
 // copied read-only into this run's disposable source fixture. Its hash identifies comparable runs.
 const durationUs = 1_800_000_000;
 // This bounds the measurement run; the fixture duration is not a processing-time SLA.
@@ -30,7 +30,7 @@ function run(command, args, timeout = 30_000) {
 
 async function fixture(home) {
   const video = join(home, "video.mov");
-  const input = process.env.SCREENREC_INDEX_SCALE_VIDEO;
+  const input = process.env.YAP_INDEX_SCALE_VIDEO;
   if (input) {
     assert.ok(isAbsolute(input), "Fixture input must be an absolute path");
     await copyFile(input, video);
@@ -100,8 +100,8 @@ function sampleMemory(servicePid, report) {
 
 test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_000 }, async (t) => {
   const output =
-    process.env.SCREENREC_INDEX_SCALE_EVIDENCE ??
-    (await mkdtemp("/tmp/screenrec-index-scale-evidence-"));
+    process.env.YAP_INDEX_SCALE_EVIDENCE ??
+    (await mkdtemp("/tmp/yap-index-scale-evidence-"));
   assert.ok(isAbsolute(output), "Evidence output must be an absolute path");
   await mkdir(output, { recursive: true });
   assert.deepEqual(await readdir(output), [], "Evidence output must be empty");

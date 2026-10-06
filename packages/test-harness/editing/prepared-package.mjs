@@ -28,13 +28,13 @@ import { writeSourceWave, sourcePeriod, waveHeader } from "./audio-project-fixtu
 import { cliReply } from "./first-preview-transport.mjs";
 const run = promisify(execFile),
   hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
-assert(process.env.SCREENREC_NATIVE && process.argv[2] === "--out" && process.argv[3]);
+assert(process.env.YAP_NATIVE && process.argv[2] === "--out" && process.argv[3]);
 await mkdir(resolve(process.argv[3]), { recursive: true });
 const out = await realpath(resolve(process.argv[3]));
 const scratch = await realpath(await mkdtemp("/tmp/prepared-package-"));
 const donor = join(scratch, "donor"),
   receiver = join(scratch, "receiver");
-const occurrences = Number(process.env.SCREENREC_PREPARED_OCCURRENCES ?? 1);
+const occurrences = Number(process.env.YAP_PREPARED_OCCURRENCES ?? 1);
 assert(
   Number.isSafeInteger(occurrences) &&
     occurrences > 0 &&
@@ -48,7 +48,7 @@ const worker = mediaWorker(process.env);
 const cli = new URL("../../../apps/cli/dist/main.js", import.meta.url).pathname;
 const report = {
   passed: false,
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   scope:
     "historical owner-seeded unit-rate/gain plus public learned preparation; exact portable PCM preservation with processing unavailable; no listening or model-absent binary claim",
   occurrences,

@@ -12,7 +12,7 @@ const root = fileURLToPath(new URL("../../../", import.meta.url));
 const installer = join(root, "scripts/install-personal.mjs");
 const builtIdentifier = execFileSync(
   "/usr/libexec/PlistBuddy",
-  ["-c", "Print :CFBundleIdentifier", join(root, "dist/ScreenRecorder.app/Contents/Info.plist")],
+  ["-c", "Print :CFBundleIdentifier", join(root, "dist/Yap.app/Contents/Info.plist")],
   { encoding: "utf8" },
 ).trim();
 
@@ -28,15 +28,15 @@ test(
   "the installed app and launcher serve CLI and MCP from outside the checkout",
   { timeout: 120_000 },
   async () => {
-    const scratch = realpathSync(mkdtempSync("/tmp/screenrec-install-"));
-    const app = join(scratch, "Applications/Screen Recorder.app");
+    const scratch = realpathSync(mkdtempSync("/tmp/yap-install-"));
+    const app = join(scratch, "Applications/Yap.app");
     const bin = join(scratch, "bin");
-    const launcher = join(bin, "screenrec");
-    const executable = join(app, "Contents/MacOS/ScreenRecorder");
+    const launcher = join(bin, "yap");
+    const executable = join(app, "Contents/MacOS/Yap");
     const env = {
       ...finderEnvironment,
-      SCREENREC_APP: app,
-      SCREENREC_HOME: join(scratch, "home"),
+      YAP_APP: app,
+      YAP_HOME: join(scratch, "home"),
     };
     const install = () =>
       spawnSync(process.execPath, [installer, "--app", app, "--bin", bin], {
@@ -46,18 +46,18 @@ test(
     const installed = () => processes().find(({ command }) => command === executable);
     try {
       // A copy installed under the earlier bundle name is the same app, so it is replaced.
-      const superseded = join(scratch, "Applications/ScreenRecorder.app");
-      execFileSync("ditto", [join(root, "dist/ScreenRecorder.app"), superseded]);
+      const superseded = join(scratch, "Applications/Yap.app");
+      execFileSync("ditto", [join(root, "dist/Yap.app"), superseded]);
       const first = install();
       assert.equal(first.status, 0, first.stderr);
-      assert.deepEqual(readdirSync(join(scratch, "Applications")), ["Screen Recorder.app"]);
+      assert.deepEqual(readdirSync(join(scratch, "Applications")), ["Yap.app"]);
       const info = (key) =>
         execFileSync(
           "/usr/libexec/PlistBuddy",
           ["-c", `Print :${key}`, join(app, "Contents/Info.plist")],
           { encoding: "utf8" },
         ).trim();
-      assert.equal(info("CFBundleDisplayName"), "Screen Recorder");
+      assert.equal(info("CFBundleDisplayName"), "Yap");
       assert.equal(
         info("CFBundleIdentifier"),
         builtIdentifier,
@@ -96,7 +96,7 @@ test(
 
       const refused = install();
       assert.equal(refused.status, 1);
-      assert.match(refused.stderr, /Quit Screen Recorder/);
+      assert.match(refused.stderr, /Quit Yap/);
 
       const client = new Client({ name: "install-proof", version: "1" });
       try {
@@ -124,7 +124,7 @@ test(
       assert.equal(second.status, 0, second.stderr);
       assert.deepEqual(
         readdirSync(join(scratch, "Applications")),
-        ["Screen Recorder.app"],
+        ["Yap.app"],
         "no staging copy remains",
       );
       execFileSync("codesign", ["--verify", "--strict", app]);

@@ -18,14 +18,14 @@ const { values } = parseArgs({
     package: { type: "string" },
   },
 });
-assert.ok(values.out && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && process.env.YAP_NATIVE);
 await mkdir(resolve(values.out));
 const out = await realpath(resolve(values.out));
 const report = {
   passed: false,
   trace: [],
   checks: [],
-  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 let service;
 async function start(home) {

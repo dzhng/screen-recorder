@@ -11,7 +11,7 @@ import {
   publicCommand,
   until,
 } from "./fixtures/public-service.mjs";
-import { renderPlan } from "@screenrec/core/presentation-time";
+import { renderPlan } from "@yap/core/presentation-time";
 function run(command, args) {
   const result = spawnSync(command, args, {
     encoding: "utf8",
@@ -32,10 +32,10 @@ test(
   { timeout: 60000 },
   async () => {
     assert.ok(
-      process.env.SCREENREC_CAPTURE_RENDER_SOURCE,
+      process.env.YAP_CAPTURE_RENDER_SOURCE,
       "Name the retained paused-capture source directory",
     );
-    const donor = resolve(process.env.SCREENREC_CAPTURE_RENDER_SOURCE),
+    const donor = resolve(process.env.YAP_CAPTURE_RENDER_SOURCE),
       source = join(donor, "video.mov");
     const before = await hash(source),
       journalBefore = await hash(join(donor, "capture.journal.jsonl"));
@@ -55,8 +55,8 @@ test(
       end = Math.round(Number(sourceMetadata.format.duration) * 1e6);
     const [numerator, denominator] = video.time_base.split("/").map(BigInt);
     assert.equal(BigInt(video.duration_ts) * numerator * 1_000_000n, BigInt(end) * denominator);
-    const home = temporary("/tmp/screenrec-render-capture-");
-    const service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+    const home = temporary("/tmp/yap-render-capture-");
+    const service = await startPublicService(home, process.env.YAP_NATIVE);
     const call = async (operation, params) => {
       const reply = await service.call(operation, params);
       assert.equal(reply.ok, true, JSON.stringify(reply));
@@ -153,9 +153,9 @@ test(
         assert.equal(await hash(join(donor, "capture.journal.jsonl")), journalBefore);
         results.push({ name, plan, receipt, metadata });
       }
-      if (process.env.SCREENREC_CAPTURE_RENDER_EVIDENCE)
+      if (process.env.YAP_CAPTURE_RENDER_EVIDENCE)
         await writeFile(
-          process.env.SCREENREC_CAPTURE_RENDER_EVIDENCE,
+          process.env.YAP_CAPTURE_RENDER_EVIDENCE,
           JSON.stringify(
             {
               sourceMetadata,

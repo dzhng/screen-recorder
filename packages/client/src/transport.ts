@@ -12,7 +12,7 @@ import {
   type OperationResponse,
   type OperationWireRequest,
   type OperationWireResponse,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 
 export class LocalTransportError extends Error {
   constructor(

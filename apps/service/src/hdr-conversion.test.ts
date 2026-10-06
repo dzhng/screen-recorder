@@ -2,8 +2,8 @@ import { expect, test } from "vitest";
 import {
   readHdrAudioConversionFacts,
   readHdrConversionFacts,
-} from "@screenrec/core/hdr-conversion-facts";
-import { add, fromTime, multiply, rational, toTime } from "@screenrec/composition";
+} from "@yap/core/hdr-conversion-facts";
+import { add, fromTime, multiply, rational, toTime } from "@yap/composition";
 import {
   prepareHdrClock,
   qualifyHdrInterpretation,

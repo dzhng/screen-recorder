@@ -16,12 +16,12 @@ import { JourneyService, hash, poll, run, root } from "./source-evidence-fixture
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
 assert.ok(
-  values.out && process.env.SCREENREC_NATIVE,
-  "Pass --out NEW_DIRECTORY and SCREENREC_NATIVE",
+  values.out && process.env.YAP_NATIVE,
+  "Pass --out NEW_DIRECTORY and YAP_NATIVE",
 );
 await mkdir(resolve(values.out));
 const out = await realpath(resolve(values.out)),
-  home = await mkdtemp("/tmp/screenrec-motion-");
+  home = await mkdtemp("/tmp/yap-motion-");
 const source = join(root, "specs/done/ffmpeg-parity/evidence/motion-alpha/alpha.mov");
 const report = {
   passed: false,
@@ -29,7 +29,7 @@ const report = {
   exchanges: [],
   checks: [],
   sourceSha256: hash(await readFile(source)),
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(join(home, "sender"), report);
 const call = service.call.bind(service);

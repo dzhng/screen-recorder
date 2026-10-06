@@ -8,7 +8,7 @@ let directory: string;
 let owner: string;
 let probe: string;
 beforeAll(async () => {
-  directory = await mkdtemp("/tmp/screenrec-input-");
+  directory = await mkdtemp("/tmp/yap-input-");
   owner = await compileCliOwner(directory);
   probe = join(directory, "probe.cjs");
   await writeFile(

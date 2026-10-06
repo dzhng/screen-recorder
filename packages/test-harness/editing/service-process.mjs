@@ -45,7 +45,7 @@ for (const [entry, output] of [
 const worker = join(out, "startup-worker.mjs");
 await writeFile(
   worker,
-  `#!${process.execPath}\nimport { appendFileSync } from 'node:fs';\nlet input=''; process.stdin.setEncoding('utf8'); process.stdin.on('data',x=>input+=x); process.stdin.on('end',()=>{const r=JSON.parse(input);appendFileSync(process.env.SCREENREC_BOOT_WORKER_LOG,JSON.stringify(r)+'\\n');const data=r.operation==='media.audioCapabilities'?{}:r.operation==='storage.clearRenderWorkspace'?{removed:true}:r.operation==='packageWorkspace.recover'?{recovered:0}:null;process.stdout.write(JSON.stringify(data===null?{ok:false,error:{code:'UNEXPECTED_NATIVE_CALL',message:r.operation,retryable:false,details:{}}}:{ok:true,data})+'\\n');});\n`,
+  `#!${process.execPath}\nimport { appendFileSync } from 'node:fs';\nlet input=''; process.stdin.setEncoding('utf8'); process.stdin.on('data',x=>input+=x); process.stdin.on('end',()=>{const r=JSON.parse(input);appendFileSync(process.env.YAP_BOOT_WORKER_LOG,JSON.stringify(r)+'\\n');const data=r.operation==='media.audioCapabilities'?{}:r.operation==='storage.clearRenderWorkspace'?{removed:true}:r.operation==='packageWorkspace.recover'?{recovered:0}:null;process.stdout.write(JSON.stringify(data===null?{ok:false,error:{code:'UNEXPECTED_NATIVE_CALL',message:r.operation,retryable:false,details:{}}}:{ok:true,data})+'\\n');});\n`,
   { mode: 0o700 },
 );
 const home = join(out, "home");
@@ -57,16 +57,16 @@ await mkdir(dirname(legacyMedia), { recursive: true, mode: 0o700 });
 await writeFile(legacyMedia, "original source sentinel\n");
 const env = {
   ...process.env,
-  SCREENREC_HOME: home,
-  SCREENREC_APP: join(out, "never-launch.app"),
-  SCREENREC_NATIVE: worker,
-  SCREENREC_BOOT_WORKER_LOG: join(out, "native-requests.jsonl"),
+  YAP_HOME: home,
+  YAP_APP: join(out, "never-launch.app"),
+  YAP_NATIVE: worker,
+  YAP_BOOT_WORKER_LOG: join(out, "native-requests.jsonl"),
 };
 let ordinal = 0;
 function start(label, selectedHome = home, entry = serviceEntry) {
   const child = spawn(process.execPath, [entry], {
     cwd: out,
-    env: { ...env, SCREENREC_HOME: selectedHome },
+    env: { ...env, YAP_HOME: selectedHome },
     stdio: ["pipe", "pipe", "pipe"],
   });
   children.push(child);
@@ -271,7 +271,7 @@ try {
   await absent(join(refusedHome, "library", "catalog.sqlite"));
   assert.deepEqual(await readFile(join(home, "library.sqlite")), legacyBytes);
   assert.equal(await readFile(legacyMedia, "utf8"), "original source sentinel\n");
-  const nativeRequests = (await readFile(env.SCREENREC_BOOT_WORKER_LOG, "utf8"))
+  const nativeRequests = (await readFile(env.YAP_BOOT_WORKER_LOG, "utf8"))
     .trim()
     .split("\n")
     .map(JSON.parse);

@@ -21,7 +21,7 @@ import {
 import { renderPlan } from "../../core/dist/presentation-time.js";
 
 const out = resolve(process.argv[2] ?? "");
-assert.ok(process.argv[2] && process.env.SCREENREC_NATIVE);
+assert.ok(process.argv[2] && process.env.YAP_NATIVE);
 await mkdir(out);
 const run = (program, args, input) => {
   const result = spawnSync(program, args, {
@@ -36,7 +36,7 @@ const run = (program, args, input) => {
 const rawCall = (operation, params) =>
   JSON.parse(
     run(
-      process.env.SCREENREC_NATIVE,
+      process.env.YAP_NATIVE,
       [],
       JSON.stringify({ id: "pointer", operation, params }) + "\n",
     ),
@@ -542,8 +542,8 @@ try {
         }),
       );
       const result = run(
-        process.env.SCREENREC_COMPOSITION_VIDEO_TESTS ??
-          join(dirname(process.env.SCREENREC_NATIVE), "ScreenRecorderCompositionVideoTests"),
+        process.env.YAP_COMPOSITION_VIDEO_TESTS ??
+          join(dirname(process.env.YAP_NATIVE), "YapCompositionVideoTests"),
         [requestFile, "media.renderCompositionMovie", "mutate-pointers"],
       );
       await writeFile(join(changing, "observer.log"), result);

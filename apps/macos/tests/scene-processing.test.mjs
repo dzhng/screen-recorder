@@ -57,7 +57,7 @@ test("selected-source scenes retain sparse actual-time transitions across transp
       .update(await readFile(video))
       .digest("hex");
   const original = await hash();
-  let service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+  let service = await startPublicService(home, process.env.YAP_NATIVE);
   try {
     const pending = await service.call("asset.import", { requestId: randomUUID(), path: video });
     assert.equal(pending.ok, true, JSON.stringify(pending));
@@ -112,7 +112,7 @@ test("selected-source scenes retain sparse actual-time transitions across transp
       await client.close();
     }
     await service.close();
-    service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+    service = await startPublicService(home, process.env.YAP_NATIVE);
     const again = await service.call("timeline.events", params);
     assert.equal(again.ok, true, JSON.stringify(again));
     assert.deepEqual(again.data, ready);

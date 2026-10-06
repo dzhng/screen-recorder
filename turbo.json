@@ -12,29 +12,29 @@
     "test": {
       "dependsOn": ["build"]
     },
-    "@screenrec/macos#build": {
+    "@yap/macos#build": {
       "dependsOn": ["^build"],
       "passThroughEnv": [
-        "SCREENREC_SPARKLE_FRAMEWORK",
-        "SCREENREC_RELEASE_BUILD",
-        "SCREENREC_RELEASE_IDENTITY_P12",
-        "SCREENREC_RELEASE_IDENTITY_PASSWORD",
-        "SCREENREC_RELEASE_IDENTITY_SHA1",
-        "SCREENREC_RELEASE_CERTIFICATE_SHA256",
-        "SCREENREC_SPARKLE_PRIVATE_KEY",
-        "SCREENREC_SPARKLE_PUBLIC_KEY"
+        "YAP_SPARKLE_FRAMEWORK",
+        "YAP_RELEASE_BUILD",
+        "YAP_RELEASE_IDENTITY_P12",
+        "YAP_RELEASE_IDENTITY_PASSWORD",
+        "YAP_RELEASE_IDENTITY_SHA1",
+        "YAP_RELEASE_CERTIFICATE_SHA256",
+        "YAP_SPARKLE_PRIVATE_KEY",
+        "YAP_SPARKLE_PUBLIC_KEY"
       ],
       "cache": false,
       "outputs": []
     },
-    "@screenrec/macos#test": {
+    "@yap/macos#test": {
       "dependsOn": ["build"],
-      "passThroughEnv": ["SCREENREC_SPARKLE_FRAMEWORK"],
+      "passThroughEnv": ["YAP_SPARKLE_FRAMEWORK"],
       "cache": false
     },
-    "@screenrec/test-harness#test": {
-      "dependsOn": ["build", "@screenrec/macos#build"],
-      "passThroughEnv": ["SCREENREC_SPARKLE_FRAMEWORK"],
+    "@yap/test-harness#test": {
+      "dependsOn": ["build", "@yap/macos#build"],
+      "passThroughEnv": ["YAP_SPARKLE_FRAMEWORK"],
       "cache": false
     }
   },

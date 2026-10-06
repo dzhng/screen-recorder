@@ -23,7 +23,7 @@ function run(exe, args, options = {}) {
   assert.equal(result.status, 0, result.stderr?.toString());
   return result.stdout;
 }
-for (const product of ["ScreenRecorderCaptureTests", "CameraReproduction"])
+for (const product of ["YapCaptureTests", "CameraReproduction"])
   writeFileSync(
     join(out, product + "-build.log"),
     run("swift", [
@@ -36,7 +36,7 @@ for (const product of ["ScreenRecorderCaptureTests", "CameraReproduction"])
       product,
     ]),
   );
-const binary = join(root, "helpers/mac/.build/debug/ScreenRecorderCaptureTests");
+const binary = join(root, "helpers/mac/.build/debug/YapCaptureTests");
 const storage = join(root, "helpers/mac/.build/debug/CameraReproduction");
 const reference = join(
   root,
@@ -45,8 +45,8 @@ const reference = join(
 run(binary, [], {
   env: {
     ...process.env,
-    SCREENREC_PCM_ADMISSION_OUTPUT: join(out, "owner"),
-    SCREENREC_PCM_ADMISSION_CANONICAL: reference,
+    YAP_PCM_ADMISSION_OUTPUT: join(out, "owner"),
+    YAP_PCM_ADMISSION_CANONICAL: reference,
   },
 });
 const owner = JSON.parse(readFileSync(join(out, "owner/report.json")));

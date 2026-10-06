@@ -20,7 +20,7 @@ test("storage totals include failed private exports and exclude the committed ex
   });
   await f.jobs.idle();
   assert.equal(f.exports.status(exportId).state, "failed");
-  const stage = join(f.output, ".screenrec-export-" + exportId);
+  const stage = join(f.output, ".yap-export-" + exportId);
   const bytes =
     (await stat(join(stage, "payload"))).size + (await stat(join(stage, "prepared.json"))).size;
   assert.ok(bytes > 0);
@@ -57,7 +57,7 @@ test("storage reconciles retired staging but rejects a substituted private direc
     leaf: "taken.mp4",
   });
   await f.jobs.idle();
-  const name = ".screenrec-export-" + exportId,
+  const name = ".yap-export-" + exportId,
     stage = join(f.output, name);
   const retainedDirectory = await open(stage);
   t.after(() => retainedDirectory.close());
@@ -138,7 +138,7 @@ test("committed storage excludes the movie before acknowledgement and skips clea
     "committed",
     JSON.stringify(f.exports.status(exportId)),
   );
-  const stage = join(f.output, ".screenrec-export-" + exportId);
+  const stage = join(f.output, ".yap-export-" + exportId);
   const metadataBytes = (await stat(join(stage, "prepared.json"))).size;
   assert.equal((await f.storage.usage()).otherBytes, metadataBytes);
   failAcknowledgement = false;

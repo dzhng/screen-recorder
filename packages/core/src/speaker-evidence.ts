@@ -12,7 +12,7 @@ import {
   subtract,
   toTime,
   type SelectionRange,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { CatalogError, type Catalog } from "./catalog.js";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";

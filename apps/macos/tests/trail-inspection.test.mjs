@@ -256,7 +256,7 @@ test("explicit pointer steps preserve held-frame gesture pixels and reach CLI an
   const home = temporary("/tmp/scr-trail-public-"),
     source = await fixture(home);
   const hashes = { video: await hash(source.video), journal: await hash(source.journal) };
-  const service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+  const service = await startPublicService(home, process.env.YAP_NATIVE);
   try {
     const { deliver, results } = await inspector(home, source, service);
     await deliver("clean", { clean: true });
@@ -292,12 +292,12 @@ test("explicit pointer steps preserve held-frame gesture pixels and reach CLI an
       { video: await hash(source.video), journal: await hash(source.journal) },
       hashes,
     );
-    if (process.env.SCREENREC_TRAIL_EVIDENCE) {
-      await mkdir(process.env.SCREENREC_TRAIL_EVIDENCE, { recursive: true });
+    if (process.env.YAP_TRAIL_EVIDENCE) {
+      await mkdir(process.env.YAP_TRAIL_EVIDENCE, { recursive: true });
       for (const [name, result] of Object.entries(results))
-        await copyFile(result.output, join(process.env.SCREENREC_TRAIL_EVIDENCE, `${name}.png`));
+        await copyFile(result.output, join(process.env.YAP_TRAIL_EVIDENCE, `${name}.png`));
       await writeFile(
-        join(process.env.SCREENREC_TRAIL_EVIDENCE, "metrics.json"),
+        join(process.env.YAP_TRAIL_EVIDENCE, "metrics.json"),
         JSON.stringify(
           {
             syntheticObservations: true,
@@ -320,7 +320,7 @@ test("explicit pointer steps preserve held-frame gesture pixels and reach CLI an
 test("explicit project cut follows source history while its pinned historical revision preserves the gesture", async () => {
   const home = temporary("/tmp/scr-trail-cut-"),
     source = await fixture(home, undefined, 500_000);
-  const service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+  const service = await startPublicService(home, process.env.YAP_NATIVE);
   try {
     const { deliver, edit, clipId, trackId } = await inspector(home, source, service);
     const historical = await deliver("before-cut");
@@ -369,7 +369,7 @@ for (const resized of [false, true])
             }
       return rows;
     });
-    const service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+    const service = await startPublicService(home, process.env.YAP_NATIVE);
     try {
       const { deliver } = await inspector(home, source, service);
       const clean = await deliver("clean", { clean: true }),
@@ -411,7 +411,7 @@ for (const eligibility of ["outside", "unknownGeometry"])
         }
       return rows;
     });
-    const service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+    const service = await startPublicService(home, process.env.YAP_NATIVE);
     try {
       const { deliver } = await inspector(home, source, service);
       const clean = await deliver("clean", { clean: true }),
@@ -429,7 +429,7 @@ for (const eligibility of ["outside", "unknownGeometry"])
 test("missing geometry refuses authored pointer work while the clean project remains usable", async () => {
   const home = temporary("/tmp/scr-trail-missing-geometry-");
   const source = await fixture(home, (rows) => rows.filter((row) => row.event !== "geometry"));
-  const service = await startPublicService(home, process.env.SCREENREC_NATIVE);
+  const service = await startPublicService(home, process.env.YAP_NATIVE);
   try {
     const { call, request, deliver } = await inspector(home, source, service);
     const params = await request();

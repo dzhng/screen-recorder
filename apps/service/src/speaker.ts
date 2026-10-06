@@ -3,10 +3,10 @@ import { open } from "node:fs/promises";
 import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
-import { CatalogError } from "@screenrec/core/catalog";
-import { hashFile } from "@screenrec/core/files";
-import type { SpeakerObserver } from "@screenrec/core/speaker-processing";
-import type { SpeakerEvidenceSource } from "@screenrec/core/speaker-evidence";
+import { CatalogError } from "@yap/core/catalog";
+import { hashFile } from "@yap/core/files";
+import type { SpeakerObserver } from "@yap/core/speaker-processing";
+import type { SpeakerEvidenceSource } from "@yap/core/speaker-evidence";
 import { withRenderAttempt } from "./render.js";
 import { nativeResult, preparedModelWorker, type MediaWorker } from "./worker.js";
 

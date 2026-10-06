@@ -7,7 +7,7 @@ import { test } from "node:test";
 import { withReleaseIdentity, signReleaseTree } from "./release-signing.mjs";
 
 test("the release signing setup carries certificate DER as binary and removes its private scratch inputs", async () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-signing-input-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-signing-input-"));
   const previousPath = process.env.PATH;
   let privateDirectory;
   try {
@@ -55,7 +55,7 @@ async function headlessFixture(
     secret = "fixture-update-secret",
   } = {},
 ) {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-headless-signing-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-headless-signing-"));
   const previousPath = process.env.PATH;
   const searchList = join(scratch, "search-list.json");
   writeFileSync(
@@ -261,7 +261,7 @@ test("the owned signing keychain remains appended during the action and cleanup 
 });
 
 test("already sealed media resources retain their bytes while enclosing bundles are signed and verified", () => {
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-sealed-signing-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-sealed-signing-"));
   const previousPath = process.env.PATH;
   try {
     const app = join(scratch, "Media.app");

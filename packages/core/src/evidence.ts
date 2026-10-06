@@ -3,7 +3,7 @@ import { setImmediate } from "node:timers/promises";
 import type { CaptureStore } from "./capture-store.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { SourceEvidenceReader, type RecordQuery, type EvidenceIndex } from "./evidence-read.js";
-import { selectionRangeSchema, type SelectionRange } from "@screenrec/composition";
+import { selectionRangeSchema, type SelectionRange } from "@yap/composition";
 
 export type EvidenceOwner =
   | Readonly<{ kind: "recording"; recordingId: string }>

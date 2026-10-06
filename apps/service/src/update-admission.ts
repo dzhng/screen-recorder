@@ -4,7 +4,7 @@ import {
   operationError,
   type OperationFailure,
   type UpdateBlocker,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 
 /** The fence owns only admission and its permit. Domain and transport owners retain their work. */
 export class UpdateAdmission {

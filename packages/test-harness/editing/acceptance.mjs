@@ -32,8 +32,8 @@ assert.ok(
 );
 assert.ok(["both", "cli", "mcp"].includes(values.transport));
 assert.ok(
-  process.env.SCREENREC_NATIVE,
-  "Pin SCREENREC_NATIVE to the compatible frozen native worker",
+  process.env.YAP_NATIVE,
+  "Pin YAP_NATIVE to the compatible frozen native worker",
 );
 const out = resolve(values.out);
 let prior;
@@ -58,7 +58,7 @@ const report = {
   trace: [],
   exchanges: [],
   home,
-  worker: await identifyFile(process.env.SCREENREC_NATIVE),
+  worker: await identifyFile(process.env.YAP_NATIVE),
   inputs: [],
   bindings: {},
   modelStatus: [],

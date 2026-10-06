@@ -6,8 +6,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 const native =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 function run(file, args, options = {}) {
   const r = spawnSync(file, args, { timeout: 30000, ...options });
   assert.equal(r.status, 0, String(r.stderr || r.error));

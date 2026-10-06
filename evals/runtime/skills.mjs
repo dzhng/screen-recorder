@@ -5,18 +5,18 @@ import { createHash } from "node:crypto";
 // Source mirrors replace acquisition only. Agents still execute the real installer.
 export function skillCaseFiles(skill, fixture) {
   const files = Object.fromEntries(
-    Object.entries(skill).map(([path, bytes]) => [`work/upstream/skills/screenrec/${path}`, bytes]),
+    Object.entries(skill).map(([path, bytes]) => [`work/upstream/skills/yap/${path}`, bytes]),
   );
   files["work/.claude/settings.json"] = '{"fixtureUnrelatedSetting":true}\n';
   if (fixture !== "skill-install") {
     for (const [path, bytes] of Object.entries(skill))
-      files[`work/.agents/skills/screenrec/${path}`] = bytes;
-    files["work/.agents/skills/screenrec/SKILL.md"] =
+      files[`work/.agents/skills/yap/${path}`] = bytes;
+    files["work/.agents/skills/yap/SKILL.md"] =
       `${skill["SKILL.md"]}\nLOCAL CUSTOMIZATION: retain this user's recording preference.\n`;
-    files["work/.agents/skills/screenrec/local-notes.md"] =
+    files["work/.agents/skills/yap/local-notes.md"] =
       "Local notes: preserve on surgical updates.\n";
-    files["work/.agents/skills/screenrec/references/removed.md"] = "Deleted upstream reference.\n";
-    files["work/upstream/skills/screenrec/references/added.md"] = "New upstream reference.\n";
+    files["work/.agents/skills/yap/references/removed.md"] = "Deleted upstream reference.\n";
+    files["work/upstream/skills/yap/references/added.md"] = "New upstream reference.\n";
   }
   return files;
 }

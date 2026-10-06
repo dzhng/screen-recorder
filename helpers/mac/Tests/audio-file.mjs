@@ -360,7 +360,7 @@ try {
   report.invalid.push(bad);
   assert.equal(bad.reply.ok, false);
   assert.equal(sha(readFileSync(source)), originalHash);
-  assert.ok(readdirSync(out).every((name) => !name.startsWith(".screenrec-output-")));
+  assert.ok(readdirSync(out).every((name) => !name.startsWith(".yap-output-")));
   report.passed = true;
 } finally {
   writeFileSync(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");

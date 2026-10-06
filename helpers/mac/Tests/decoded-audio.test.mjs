@@ -6,9 +6,9 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { test } from "node:test";
 const native =
-  process.env.SCREENREC_NATIVE ??
-  new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
-const ffmpeg = process.env.SCREENREC_FFMPEG ?? "ffmpeg";
+  process.env.YAP_NATIVE ??
+  new URL("../.build/debug/yap-native", import.meta.url).pathname;
+const ffmpeg = process.env.YAP_FFMPEG ?? "ffmpeg";
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, { encoding: "utf8", timeout: 30000, ...options });
   assert.equal(result.status, 0, result.stderr);

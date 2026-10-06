@@ -1,5 +1,5 @@
-import { CatalogError } from "@screenrec/core/catalog";
-import type { LoudnessAnalyzer, LoudnessMeasurement } from "@screenrec/core/acoustic-inspection";
+import { CatalogError } from "@yap/core/catalog";
+import type { LoudnessAnalyzer, LoudnessMeasurement } from "@yap/core/acoustic-inspection";
 import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
 import { cliWorker, nativeResult } from "./worker.js";
 

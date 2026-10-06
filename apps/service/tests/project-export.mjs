@@ -1,11 +1,11 @@
-import { operationSchema } from "@screenrec/protocol";
-import { outputPresets } from "@screenrec/composition";
+import { operationSchema } from "@yap/protocol";
+import { outputPresets } from "@yap/composition";
 import assert from "node:assert/strict";
 import { randomUUID, createHash } from "node:crypto";
 import { readFile, readdir, rename, rm, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { CatalogError } from "@screenrec/core/catalog";
+import { CatalogError } from "@yap/core/catalog";
 import { mediaWorker } from "../dist/worker.js";
 import { fixture, gate, until, nativeBinary } from "./fixtures/project-export.mjs";
 test("project export pins an omitted revision, replays it after edits and atomically publishes exact cached bytes", async (t) => {
@@ -693,7 +693,7 @@ test("publication uses its known-byte budget instead of the worker's unrelated s
   await writeFile(executable, `#!/bin/sh\nsleep 0.05\nexec ${quote(nativeBinary)}\n`, {
     mode: 0o700,
   });
-  delayed = mediaWorker({ SCREENREC_NATIVE: executable }, 1);
+  delayed = mediaWorker({ YAP_NATIVE: executable }, 1);
   const exportId = randomUUID();
   await f.exports.create({
     exportId,

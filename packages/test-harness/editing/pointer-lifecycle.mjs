@@ -8,7 +8,7 @@ import { JourneyService, hash, poll } from "./source-evidence-fixture.mjs";
 import { pointerFixture } from "./pointer-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(values.out && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 await mkdir(out);
 const home = await mkdtemp(join(tmpdir(), "sr-pointer-lifecycle-"));

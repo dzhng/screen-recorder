@@ -4,13 +4,13 @@ import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
-const bundle = join(root, "dist/ScreenRecorder.app");
+const bundle = join(root, "dist/Yap.app");
 const files = globSync("apps/service/tests/*.mjs", { cwd: root }).sort();
 const child = spawn(process.execPath, ["--test", "--test-concurrency=2", ...files], {
   cwd: root,
   env: {
     ...process.env,
-    SCREENREC_NATIVE: join(bundle, "Contents/MacOS/screenrec-native"),
+    YAP_NATIVE: join(bundle, "Contents/MacOS/yap-native"),
   },
   stdio: "inherit",
 });

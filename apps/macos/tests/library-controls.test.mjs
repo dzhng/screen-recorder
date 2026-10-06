@@ -10,14 +10,14 @@ test(
   "native library reads explicit project pages and preserves fresh source facts",
   { timeout: 90_000 },
   () => {
-    const scratch = mkdtempSync(join(tmpdir(), "screenrec-library-controls-"));
+    const scratch = mkdtempSync(join(tmpdir(), "yap-library-controls-"));
     try {
       const executable = compileControlsCheck(
         scratch,
         ["LibraryController", "ServiceBundle", "NodeRuntime"],
         String.raw`
 import Foundation
-import ScreenRecorderControls
+import YapControls
 @MainActor final class Script {
     var calls: [(String, [String: Any])] = []
     static var exchanges: [[String: Any]] = []

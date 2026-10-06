@@ -19,8 +19,8 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import { waveHeader } from "../../../packages/test-harness/editing/audio-project-fixture.mjs";
 const native =
-  process.env.SCREENREC_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+  process.env.YAP_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 function run(command, args, options = {}) {
   const r = spawnSync(command, args, { encoding: "utf8", timeout: 30000, ...options });
   assert.equal(r.status, 0, r.stderr);

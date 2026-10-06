@@ -16,7 +16,7 @@ import {
 import { prepareMotionFixture } from "./layer-edit-motion-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Freeze the native compositor before running this journey");
+assert.ok(process.env.YAP_NATIVE, "Freeze the native compositor before running this journey");
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "motion-evidence-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-motion-"));
@@ -304,7 +304,7 @@ async function protectedAudio(revisionId, name) {
 }
 try {
   fixtures = await prepareMotionFixture(home, out);
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   await service.start();
   const [motion, screen, narration] = await Promise.all([
     importMedia(fixtures.motion),

@@ -6,8 +6,8 @@ import { fstatSync, readdirSync } from "node:fs";
 import { mkdir, mkdtemp, readFile, readdir, realpath, rm, stat, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { gunzipSync } from "node:zlib";
-import { callLocal } from "@screenrec/client";
-import { encodeJsonLine } from "@screenrec/protocol";
+import { callLocal } from "@yap/client";
+import { encodeJsonLine } from "@yap/protocol";
 import { createConnection } from "node:net";
 import { startProjectService } from "../dist/project-service.js";
 import { native, nativeBinary, until } from "./fixtures/project-export.mjs";
@@ -15,7 +15,7 @@ import { native, nativeBinary, until } from "./fixtures/project-export.mjs";
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 async function adoptedMedia(t, kind) {
-  const root = await realpath(await mkdtemp("/tmp/screenrec-adopted-media-"));
+  const root = await realpath(await mkdtemp("/tmp/yap-adopted-media-"));
   let home = join(root, "producer");
   const output = join(root, "output");
   await mkdir(home);
@@ -71,17 +71,17 @@ async function adoptedMedia(t, kind) {
       }
       if (!hold) return native(operation, params, options);
       const previousLibrary = process.env.DYLD_INSERT_LIBRARIES,
-        previousMarker = process.env.SCREENREC_TEST_NATIVE_HELD;
+        previousMarker = process.env.YAP_TEST_NATIVE_HELD;
       process.env.DYLD_INSERT_LIBRARIES = library;
-      process.env.SCREENREC_TEST_NATIVE_HELD = marker;
+      process.env.YAP_TEST_NATIVE_HELD = marker;
       let pending;
       try {
         pending = native(operation, params, { ...options, timeoutMs: 5000 });
       } finally {
         if (previousLibrary === undefined) delete process.env.DYLD_INSERT_LIBRARIES;
         else process.env.DYLD_INSERT_LIBRARIES = previousLibrary;
-        if (previousMarker === undefined) delete process.env.SCREENREC_TEST_NATIVE_HELD;
-        else process.env.SCREENREC_TEST_NATIVE_HELD = previousMarker;
+        if (previousMarker === undefined) delete process.env.YAP_TEST_NATIVE_HELD;
+        else process.env.YAP_TEST_NATIVE_HELD = previousMarker;
       }
       try {
         return await pending;

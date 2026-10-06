@@ -5,7 +5,7 @@ import {
   compare,
   fromTime,
   type SelectionRange,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { CatalogError } from "./catalog.js";
 import type { SpeakerEvidenceMetadata, SpeakerEvidenceStore } from "./speaker-evidence.js";
 

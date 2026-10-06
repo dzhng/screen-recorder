@@ -3,19 +3,19 @@ import {
   normalizeAudioOutputRequest,
   type AudioOutputSettingsInput,
   type OutputSettingsInput,
-} from "@screenrec/composition";
-import { ResourceReferences, resourceKinds } from "@screenrec/core/references";
-import { resourceIdentity } from "@screenrec/core/project-package";
+} from "@yap/composition";
+import { ResourceReferences, resourceKinds } from "@yap/core/references";
+import { resourceIdentity } from "@yap/core/project-package";
 import type { ProjectPackages, PinnedProjectPackage } from "./project-packages.js";
-import type { operationSchema } from "@screenrec/protocol";
-import { projectCaptionSidecar, type PinnedCaptionSidecar } from "@screenrec/core/project-window";
-import type { AssetStore } from "@screenrec/core/assets";
+import type { operationSchema } from "@yap/protocol";
+import { projectCaptionSidecar, type PinnedCaptionSidecar } from "@yap/core/project-window";
+import type { AssetStore } from "@yap/core/assets";
 import { writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { CatalogError, type Catalog } from "@screenrec/core/catalog";
-import type { DerivedCache, DirectoryIdentity } from "@screenrec/core/cache";
+import { CatalogError, type Catalog } from "@yap/core/catalog";
+import type { DerivedCache, DirectoryIdentity } from "@yap/core/cache";
 import {
   JobDependencyLost,
   ownerIdentity,
@@ -24,12 +24,12 @@ import {
   type JobAdmission,
   type JobExecution,
   type JobQueue,
-} from "@screenrec/core/jobs";
-import type { ProjectStore } from "@screenrec/core/projects";
+} from "@yap/core/jobs";
+import type { ProjectStore } from "@yap/core/projects";
 import type {
   ProjectPreviewInspection,
   PinnedProjectPreview,
-} from "@screenrec/core/project-preview";
+} from "@yap/core/project-preview";
 import { Publication, publicationDeadlineMs, type PublicationReceipt } from "./publication.js";
 import {
   provisionPackageWorkspace,
@@ -43,7 +43,7 @@ import type { MediaWorker } from "./worker.js";
 import type {
   MediaAudioInspection,
   PinnedProjectAudioExport,
-} from "@screenrec/core/audio-inspection";
+} from "@yap/core/audio-inspection";
 
 type Request = Extract<
   ReturnType<typeof operationSchema.parse>,
@@ -117,7 +117,7 @@ const statusSnapshotSql = `CASE WHEN targetKind='project' AND kind='processed-pa
 const artifact = "export-media",
   recoveryArtifact = "export-recovery";
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
-const stageName = (id: string) => `.screenrec-export-${id}`;
+const stageName = (id: string) => `.yap-export-${id}`;
 
 /** Lifecycle columns as stored: JSON or null for staging, assembly and receipt, 0/1 flags. */
 type Lifecycle = {

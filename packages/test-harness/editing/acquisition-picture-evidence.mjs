@@ -8,8 +8,8 @@ import { prepareLayersFixture } from "./layers-fixture.mjs";
 import { compareGeometry } from "./layers-oracle.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(process.env.SCREENREC_NATIVE, "Freeze the native worker before this journey");
-assert.equal(process.env.SCREENREC_TEST_PROBE_OVERRIDES, undefined, "Use real public admission");
+assert.ok(process.env.YAP_NATIVE, "Freeze the native worker before this journey");
+assert.equal(process.env.YAP_TEST_PROBE_OVERRIDES, undefined, "Use real public admission");
 const out = values.out
   ? resolve(values.out)
   : await mkdtemp(join(tmpdir(), "acquisition-pictures-"));
@@ -83,7 +83,7 @@ function picture(frame, atUs, clipId) {
   return excluded;
 }
 try {
-  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  report.nativeSha256 = hash(await readFile(process.env.YAP_NATIVE));
   fixtures = await prepareLayersFixture(home, out);
   const audio = join(home, "narration.mov");
   await run("ffmpeg", [

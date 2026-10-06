@@ -6,7 +6,7 @@ import { seedSource, populateLibrary, observeLibrary } from "./library.mjs";
 import { startPublicService } from "../../apps/macos/tests/fixtures/public-service.mjs";
 
 test("installed fixture retains actual source bytes and public facts after service restart", async () => {
-  const root = await mkdtemp("/tmp/screenrec-installed-library-");
+  const root = await mkdtemp("/tmp/yap-installed-library-");
   const home = join(root, "home");
   const media = new URL(
     "../../specs/done/recording-for-ai/assets/agent-mcp-journey/source.mov",
@@ -15,8 +15,8 @@ test("installed fixture retains actual source bytes and public facts after servi
   let service;
   try {
     const source = await seedSource(home, media);
-    const native = process.env.SCREENREC_NATIVE;
-    assert.ok(native, "Set SCREENREC_NATIVE to an already-built native worker");
+    const native = process.env.YAP_NATIVE;
+    assert.ok(native, "Set YAP_NATIVE to an already-built native worker");
     service = await startPublicService(home, native);
     const manifest = await populateLibrary(home, source, service.call);
     const before = await observeLibrary(home, manifest, service.call);

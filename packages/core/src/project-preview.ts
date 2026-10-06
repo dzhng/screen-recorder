@@ -6,7 +6,7 @@ import {
   type OutputSettings,
   type OutputSettingsInput,
   rangeSchema,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import type { PreparedAudioStore, PreparedAudioRead } from "./prepared-audio.js";
 import { AssetStore } from "./assets.js";
 import {
@@ -47,7 +47,7 @@ export type ProjectMovieRenderer = ProjectRenderSupport & {
   render(
     request: {
       prepared?: PreparedAudioRead | undefined;
-      model: import("@screenrec/composition").ValidatedComposition;
+      model: import("@yap/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
       fonts: readonly FontAssetBinding[];

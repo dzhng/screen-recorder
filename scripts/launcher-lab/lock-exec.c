@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     }
     char descriptor[32];
     snprintf(descriptor, sizeof(descriptor), "%d", fd);
-    setenv("SCREENREC_LAB_LOCK_FD", descriptor, 1);
+    setenv("YAP_LAB_LOCK_FD", descriptor, 1);
     execvp(argv[3], argv + 3);
     perror("exec");
     return 74;

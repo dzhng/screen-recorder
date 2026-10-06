@@ -1,10 +1,10 @@
 @preconcurrency import AVFoundation
 import Foundation
-import ScreenRecorderAudio
-import ScreenRecorderMedia
+import YapAudio
+import YapMedia
 
 func verifyResamplingEndpoints() async throws {
-    let directory = URL(fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_COMPOSITION_AUDIO_EVIDENCE"]
+    let directory = URL(fileURLWithPath: ProcessInfo.processInfo.environment["YAP_COMPOSITION_AUDIO_EVIDENCE"]
         ?? NSTemporaryDirectory() + UUID().uuidString)
     try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
     // The original third retained span uses recording time and a +125ms source offset.

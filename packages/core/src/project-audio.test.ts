@@ -429,12 +429,12 @@ test("audio taps reject a picture target, retiming and sub-sample output before 
   expect(calls).toBe(0);
 });
 
-test.runIf(Boolean(process.env.SCREENREC_NATIVE))(
+test.runIf(Boolean(process.env.YAP_NATIVE))(
   "native mixer serves every project audio tap without parent leakage or clock reset",
   async () => {
     const native: ProjectAudioRenderer["render"] = async ({ window, assets, output }, signal) => {
       signal.throwIfAborted();
-      const result = spawnSync(process.env.SCREENREC_NATIVE!, [], {
+      const result = spawnSync(process.env.YAP_NATIVE!, [], {
         encoding: "utf8",
         timeout: 30000,
         input:

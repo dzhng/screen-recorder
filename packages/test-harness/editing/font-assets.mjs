@@ -8,7 +8,7 @@ import { JourneyService, hash, poll } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({
   options: { out: { type: "string" }, font: { type: "string" }, collection: { type: "string" } },
 });
-assert.ok(values.out && values.font && values.collection && process.env.SCREENREC_NATIVE);
+assert.ok(values.out && values.font && values.collection && process.env.YAP_NATIVE);
 const out = resolve(values.out),
   home = await mkdtemp("/tmp/sr-font-");
 await mkdir(out);
@@ -17,7 +17,7 @@ const report = {
   trace: [],
   exchanges: [],
   checks: [],
-  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  workerSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report);
 async function call(operation, params, options) {

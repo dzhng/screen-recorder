@@ -1,7 +1,7 @@
 import { randomUUID, createHash } from "node:crypto";
 import { open, rm } from "node:fs/promises";
 import { join } from "node:path";
-import { CatalogError } from "@screenrec/core/catalog";
+import { CatalogError } from "@yap/core/catalog";
 import { withRenderAttempt } from "./render.js";
 import { nativeResult, type MediaWorker } from "./worker.js";
 

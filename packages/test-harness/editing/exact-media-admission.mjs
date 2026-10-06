@@ -7,15 +7,15 @@ import { gunzipSync } from "node:zlib";
 import { JourneyService, hash, poll, root } from "./source-evidence-fixture.mjs";
 import { readAudioWaveFile } from "../../core/dist/audio-wave.js";
 
-assert(process.argv[2] && process.env.SCREENREC_NATIVE);
+assert(process.argv[2] && process.env.YAP_NATIVE);
 const out = resolve(process.argv[2]);
 await mkdir(out);
-const home = await realpath(await mkdtemp("/tmp/screenrec-exact-admission-"));
+const home = await realpath(await mkdtemp("/tmp/yap-exact-admission-"));
 const report = {
   passed: false,
   scope:
     "Exact public media admission, raw/project selection and portable metadata; no listening claim",
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
   harnessSha256: hash(await readFile(import.meta.filename)),
   trace: [],
   exchanges: [],
@@ -303,7 +303,7 @@ try {
   );
   await service.stop();
   await writeFile(join(out, "donor-service.log"), service.logs.join(""));
-  receiver = await realpath(await mkdtemp("/tmp/screenrec-exact-receiver-"));
+  receiver = await realpath(await mkdtemp("/tmp/yap-exact-receiver-"));
   service = new JourneyService(receiver, report, join(out, "receiver-native"));
   await service.start();
   const opened = await call("package.open", { path: exported.output });

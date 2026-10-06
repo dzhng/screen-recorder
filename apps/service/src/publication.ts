@@ -1,8 +1,8 @@
 import { constants } from "node:fs";
 import { lstat, open, realpath, type FileHandle } from "node:fs/promises";
-import { CatalogError } from "@screenrec/core/catalog";
-import type { DirectoryIdentity } from "@screenrec/core/cache";
-import { O_EXLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { CatalogError } from "@yap/core/catalog";
+import type { DirectoryIdentity } from "@yap/core/cache";
+import { O_EXLOCK, O_NOFOLLOW_ANY } from "@yap/core/files";
 import { isPrivateDirectory } from "./managed-files.js";
 import { MAX_MEDIA_TIMEOUT_MS, nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 

@@ -8,10 +8,10 @@ import { test } from "node:test";
 import { createCompiler, validateComposition } from "../../../packages/composition/dist/index.js";
 
 const native =
-  process.env.SCREENREC_NATIVE ??
-  new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
+  process.env.YAP_NATIVE ??
+  new URL("../.build/debug/yap-native", import.meta.url).pathname;
 const ffmpeg =
-  process.env.SCREENREC_FFMPEG ??
+  process.env.YAP_FFMPEG ??
   new URL("../../ffmpeg/.build/distribution/bin/ffmpeg", import.meta.url).pathname;
 const hash = (file) => createHash("sha256").update(readFileSync(file)).digest("hex");
 function run(executable, args, input) {
@@ -22,8 +22,8 @@ function run(executable, args, input) {
 }
 
 test("finite ProRes alpha motion preserves edges, orientation and off-grid phase on both backgrounds", (t) => {
-  const retained = process.env.SCREENREC_ALPHA_EVIDENCE;
-  const directory = retained ?? mkdtempSync(join(tmpdir(), "screenrec-alpha-"));
+  const retained = process.env.YAP_ALPHA_EVIDENCE;
+  const directory = retained ?? mkdtempSync(join(tmpdir(), "yap-alpha-"));
   if (retained) mkdirSync(directory);
   else t.after(() => rmSync(directory, { recursive: true, force: true }));
   const report = {

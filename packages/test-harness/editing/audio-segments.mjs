@@ -11,7 +11,7 @@ assert.ok(
   fixtureDirectory && outputDirectory,
   "Existing native SourceAudio fixture and fresh output directory required",
 );
-const worker = process.env.SCREENREC_NATIVE;
+const worker = process.env.YAP_NATIVE;
 assert.ok(worker);
 mkdirSync(outputDirectory);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");

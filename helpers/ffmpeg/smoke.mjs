@@ -11,7 +11,7 @@ export async function smokeFFmpeg(directory) {
   const receipt = await verifyFFmpeg(directory);
   const ffmpeg = join(directory, "bin/ffmpeg"),
     ffprobe = join(directory, "bin/ffprobe");
-  const scratch = mkdtempSync(join(tmpdir(), "screenrec-ffmpeg-smoke-"));
+  const scratch = mkdtempSync(join(tmpdir(), "yap-ffmpeg-smoke-"));
   const run = (executable, args) =>
     execFileSync(executable, args, {
       encoding: "utf8",

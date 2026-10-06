@@ -15,7 +15,7 @@ import {
 } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert(values.out && process.env.SCREENREC_NATIVE);
+assert(values.out && process.env.YAP_NATIVE);
 const out = resolve(values.out);
 await mkdir(out);
 const home = await realpath(await mkdtemp("/tmp/sr-extract-"));
@@ -24,7 +24,7 @@ const report = {
   trace: [],
   receipts: [],
   checks: {},
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
 };
 const service = new JourneyService(home, report, join(out, "native"));
 const call = service.call.bind(service);

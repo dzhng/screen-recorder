@@ -9,7 +9,7 @@ import {
   captionSidecarRequestSchema,
   processingTargetSchema,
   processingTapSchema,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { z } from "zod";
 import { captureSelectionSchema } from "./capture.js";
 import { DEFAULT_CALL_TIMEOUT_MS, MEDIA_WORKER_TIMEOUT_MS } from "./framing.js";

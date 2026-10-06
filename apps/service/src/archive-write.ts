@@ -1,12 +1,12 @@
 import type { FileHandle } from "node:fs/promises";
-import { CatalogError } from "@screenrec/core/catalog";
-import { IdentifiedFiles, fileIdentity } from "@screenrec/core/files";
+import { CatalogError } from "@yap/core/catalog";
+import { IdentifiedFiles, fileIdentity } from "@yap/core/files";
 import {
   archiveLimits,
   verifyArchiveWriteReceipt,
   validateArchiveLimits,
   type ArchiveLimits,
-} from "@screenrec/core/package-archive";
+} from "@yap/core/package-archive";
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 import { publicationDeadlineMs } from "./publication.js";
 

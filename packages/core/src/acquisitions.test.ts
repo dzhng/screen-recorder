@@ -1,10 +1,10 @@
-import { add, fromTime, toTime } from "@screenrec/composition";
+import { add, fromTime, toTime } from "@yap/composition";
 import { fileIdentity } from "./files.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { CaptureSourceRead } from "./capture-source-read.js";
 import { selectSource } from "./source-selection.js";
 import { compositionAsset } from "./assets.js";
-import { createSourceRangeProjection, validateComposition } from "@screenrec/composition";
+import { createSourceRangeProjection, validateComposition } from "@yap/composition";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, mkdir, readFile, rm, writeFile, lstat } from "node:fs/promises";
 import { tmpdir } from "node:os";

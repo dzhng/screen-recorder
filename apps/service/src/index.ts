@@ -22,7 +22,7 @@ import {
   type OperationResult,
   updateControlOperations,
   updateCommandOperations,
-} from "@screenrec/protocol";
+} from "@yap/protocol";
 
 export type LocalHandler = (
   request: OperationRequest,

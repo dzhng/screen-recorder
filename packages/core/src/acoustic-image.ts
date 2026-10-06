@@ -1,4 +1,4 @@
-import { fromTime, sampleAt, ceil, multiply, rational } from "@screenrec/composition";
+import { fromTime, sampleAt, ceil, multiply, rational } from "@yap/composition";
 import type { waveformBuckets } from "./audio-wave.js";
 import type { spectralWindows } from "./audio-spectrum.js";
 import type { AcousticArtifact } from "./acoustic-inspection.js";

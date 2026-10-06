@@ -9,7 +9,7 @@ import {
   isMediaClip,
   type ProcessingTap,
   type ExecutionWindowManifest,
-} from "@screenrec/composition";
+} from "@yap/composition";
 import { AssetStore, type AssetProbe } from "./assets.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { ResourceReferences, resourceKinds, type ResourceReference } from "./references.js";

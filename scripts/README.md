@@ -98,7 +98,7 @@ replacement; neither launcher nor updater may unlink it. Neither is a notarizati
 claim. The
 [recipient guide](release-notes.md) is also the release-notes template and links
 to [agent setup](../README.md#agent-setup). The consumer skill's
-[installation procedure](../skills/screenrec/references/installation.md) owns
+[installation procedure](../skills/yap/references/installation.md) owns
 executable release-install commands and readiness checks.
 
 The released launcher also dispatches direct media-tool invocations under that

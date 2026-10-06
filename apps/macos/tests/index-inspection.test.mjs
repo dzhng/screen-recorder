@@ -4,12 +4,12 @@ import { randomUUID, createHash } from "node:crypto";
 import { mkdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
-import { Catalog } from "@screenrec/core/catalog";
-import { AssetStore } from "@screenrec/core/assets";
-import { DerivedCache } from "@screenrec/core/cache";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { DerivedCache } from "@yap/core/cache";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { callLocal } from "@screenrec/client";
+import { callLocal } from "@yap/client";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");

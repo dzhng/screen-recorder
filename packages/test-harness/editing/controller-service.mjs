@@ -7,12 +7,12 @@ import { setTimeout as delay } from "node:timers/promises";
 
 // The actual private channel and project service share the production app host's pipes.
 const native = mediaWorker();
-const evidence = process.env.SCREENREC_CONTROLLER_EVIDENCE;
-const hold = process.env.SCREENREC_CONTROLLER_RECOVERY_HOLD
-  ? JSON.parse(await readFile(process.env.SCREENREC_CONTROLLER_RECOVERY_HOLD, "utf8"))
+const evidence = process.env.YAP_CONTROLLER_EVIDENCE;
+const hold = process.env.YAP_CONTROLLER_RECOVERY_HOLD
+  ? JSON.parse(await readFile(process.env.YAP_CONTROLLER_RECOVERY_HOLD, "utf8"))
   : null;
-const fault = process.env.SCREENREC_CONTROLLER_IMPORT_FAULT
-  ? JSON.parse(await readFile(process.env.SCREENREC_CONTROLLER_IMPORT_FAULT, "utf8"))
+const fault = process.env.YAP_CONTROLLER_IMPORT_FAULT
+  ? JSON.parse(await readFile(process.env.YAP_CONTROLLER_IMPORT_FAULT, "utf8"))
   : null;
 let ordinal = 0;
 const worker = async (operation, params, options) => {
@@ -80,7 +80,7 @@ const worker = async (operation, params, options) => {
   return response;
 };
 await startProjectService({
-  home: process.env.SCREENREC_CONTROLLER_HOME,
+  home: process.env.YAP_CONTROLLER_HOME,
   worker,
   control: { input: process.stdin, output: process.stdout },
 });

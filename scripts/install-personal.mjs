@@ -1,4 +1,4 @@
-// Installs the built app outside the checkout for this person's own Mac and puts a `screenrec`
+// Installs the built app outside the checkout for this person's own Mac and puts a `yap`
 // launcher on disk for the CLI and MCP. Run `bun run install:personal`; see the CLI README.
 import { execFileSync } from "node:child_process";
 import {
@@ -19,7 +19,7 @@ import { parseArgs } from "node:util";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const { values } = parseArgs({
   options: {
-    app: { type: "string", default: join(homedir(), "Applications", "Screen Recorder.app") },
+    app: { type: "string", default: join(homedir(), "Applications", "Yap.app") },
     bin: { type: "string", default: join(homedir(), ".local", "bin") },
   },
 });
@@ -32,9 +32,9 @@ for (const [flag, path] of [
   if (!isAbsolute(path)) fail(`${flag} must be an absolute path; received ${JSON.stringify(path)}`);
 }
 // Finder, Spotlight and Login Items show the bundle's file name.
-if (basename(app) !== "Screen Recorder.app") fail('--app must name a "Screen Recorder.app" bundle');
+if (basename(app) !== "Yap.app") fail('--app must name a "Yap.app" bundle');
 
-const built = join(root, "dist/ScreenRecorder.app");
+const built = join(root, "dist/Yap.app");
 const cli = "Contents/Resources/cli/main.mjs";
 if (!existsSync(join(built, cli))) fail(`No built app at ${built}; run \`bun run build\` first.`);
 const builtIdentifier = execFileSync(
@@ -53,9 +53,9 @@ if (!node.startsWith("v24.")) fail(`${nodePath} is ${node}; this personal releas
 mkdirSync(dirname(app), { recursive: true });
 app = join(realpathSync(dirname(app)), basename(app));
 
-// Earlier installs were named ScreenRecorder.app under the same identity. Left beside the new copy,
+// Earlier installs were named Yap.app under the same identity. Left beside the new copy,
 // Spotlight and Login Items would offer two apps that are one.
-const superseded = join(dirname(app), "ScreenRecorder.app");
+const superseded = join(dirname(app), "Yap.app");
 const supersededIdentity = existsSync(superseded)
   ? execFileSync(
       "/usr/libexec/PlistBuddy",
@@ -68,16 +68,16 @@ const replaced = [app, ...(supersededIdentity === builtIdentifier ? [superseded]
 // Replacing a running app's bundle would pull its service code out from under it.
 const commands = execFileSync("ps", ["-axo", "command="], { encoding: "utf8" }).split("\n");
 for (const bundle of replaced) {
-  const executable = join(bundle, "Contents/MacOS/ScreenRecorder");
+  const executable = join(bundle, "Contents/MacOS/Yap");
   if (commands.some((command) => command === executable || command.startsWith(`${executable} `)))
-    fail(`Quit Screen Recorder (${bundle}) before installing over it.`);
+    fail(`Quit Yap (${bundle}) before installing over it.`);
 }
 
 // What an install that did not finish left here. A copy set aside mid-swap is the app itself, so
 // it goes back rather than being thrown away; a half-built one is worth nothing and goes.
 const leftovers = (kind) =>
   readdirSync(dirname(app))
-    .filter((name) => name.startsWith(`.Screen Recorder.app.${kind}-`))
+    .filter((name) => name.startsWith(`.Yap.app.${kind}-`))
     .map((name) => join(dirname(app), name));
 for (const abandoned of leftovers("previous")) {
   if (existsSync(app)) rmSync(abandoned, { recursive: true, force: true });
@@ -91,8 +91,8 @@ for (const abandoned of leftovers("installing"))
 
 // Stage beside the destination so the swap is a rename on one volume; the previous copy is
 // removed only after the new one is in place.
-const staging = join(dirname(app), `.Screen Recorder.app.installing-${process.pid}`);
-const previous = join(dirname(app), `.Screen Recorder.app.previous-${process.pid}`);
+const staging = join(dirname(app), `.Yap.app.installing-${process.pid}`);
+const previous = join(dirname(app), `.Yap.app.previous-${process.pid}`);
 try {
   execFileSync("ditto", [built, staging]);
   execFileSync("codesign", ["--verify", "--strict", staging]);
@@ -113,7 +113,7 @@ if (replacing) rmSync(previous, { recursive: true, force: true });
 if (replaced.includes(superseded)) rmSync(superseded, { recursive: true, force: true });
 
 const quote = (text) => `'${text.replaceAll("'", `'\\''`)}'`;
-const launcher = join(bin, "screenrec");
+const launcher = join(bin, "yap");
 mkdirSync(bin, { recursive: true });
 writeFileSync(
   `${launcher}.installing`,
@@ -125,7 +125,7 @@ renameSync(`${launcher}.installing`, launcher);
 const onPath = (process.env.PATH ?? "").split(":").includes(bin);
 console.log(`Installed ${app}
 Installed ${launcher} (Node ${node} at ${nodePath})
-${onPath ? "" : `Add ${bin} to PATH to run \`screenrec\` by name.\n`}MCP client configuration: {"command": ${JSON.stringify(launcher)}, "args": ["mcp"]}`);
+${onPath ? "" : `Add ${bin} to PATH to run \`yap\` by name.\n`}MCP client configuration: {"command": ${JSON.stringify(launcher)}, "args": ["mcp"]}`);
 
 function fail(message) {
   console.error(message);

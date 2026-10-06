@@ -14,18 +14,18 @@ import { tmpdir } from "node:os";
 import { basename, join, relative } from "node:path";
 
 const required = [
-  "SCREENREC_RELEASE_IDENTITY_P12",
-  "SCREENREC_RELEASE_IDENTITY_PASSWORD",
-  "SCREENREC_RELEASE_IDENTITY_SHA1",
-  "SCREENREC_RELEASE_CERTIFICATE_SHA256",
-  "SCREENREC_SPARKLE_PRIVATE_KEY",
-  "SCREENREC_SPARKLE_PUBLIC_KEY",
+  "YAP_RELEASE_IDENTITY_P12",
+  "YAP_RELEASE_IDENTITY_PASSWORD",
+  "YAP_RELEASE_IDENTITY_SHA1",
+  "YAP_RELEASE_CERTIFICATE_SHA256",
+  "YAP_SPARKLE_PRIVATE_KEY",
+  "YAP_SPARKLE_PUBLIC_KEY",
 ];
 export function releaseSigningInputs(env = process.env) {
   const missing = required.filter((name) => !env[name]);
   if (missing.length) throw new Error(`Missing release signing inputs: ${missing.join(", ")}`);
-  const sha1 = env.SCREENREC_RELEASE_IDENTITY_SHA1.toLowerCase();
-  const certificateSha256 = env.SCREENREC_RELEASE_CERTIFICATE_SHA256.toLowerCase();
+  const sha1 = env.YAP_RELEASE_IDENTITY_SHA1.toLowerCase();
+  const certificateSha256 = env.YAP_RELEASE_CERTIFICATE_SHA256.toLowerCase();
   if (!/^[0-9a-f]{40}$/.test(sha1) || !/^[0-9a-f]{64}$/.test(certificateSha256))
     throw new Error("Release certificate fingerprints must be SHA-1 and SHA-256 hex");
   const decode = (value, size, name) => {
@@ -34,9 +34,9 @@ export function releaseSigningInputs(env = process.env) {
       throw new Error(`Invalid ${name}`);
     return bytes;
   };
-  const p12 = decode(env.SCREENREC_RELEASE_IDENTITY_P12, undefined, "release PKCS#12");
-  const secret = decode(env.SCREENREC_SPARKLE_PRIVATE_KEY, 32, "Sparkle private seed");
-  const publicKey = decode(env.SCREENREC_SPARKLE_PUBLIC_KEY, 32, "Sparkle public key");
+  const p12 = decode(env.YAP_RELEASE_IDENTITY_P12, undefined, "release PKCS#12");
+  const secret = decode(env.YAP_SPARKLE_PRIVATE_KEY, 32, "Sparkle private seed");
+  const publicKey = decode(env.YAP_SPARKLE_PUBLIC_KEY, 32, "Sparkle public key");
   const privateKey = createPrivateKey({
     key: Buffer.concat([
       Buffer.from("302e020100300506032b657004220420", "hex"),
@@ -50,10 +50,10 @@ export function releaseSigningInputs(env = process.env) {
     throw new Error("Sparkle public key does not match the supplied private seed");
   return {
     p12,
-    password: env.SCREENREC_RELEASE_IDENTITY_PASSWORD,
+    password: env.YAP_RELEASE_IDENTITY_PASSWORD,
     sha1,
     certificateSha256,
-    secret: env.SCREENREC_SPARKLE_PRIVATE_KEY,
+    secret: env.YAP_SPARKLE_PRIVATE_KEY,
     publicKey: publicKey.toString("base64"),
   };
 }
@@ -106,7 +106,7 @@ function secureRun(command, args, options = {}) {
   return answer.stdout;
 }
 export async function withReleaseIdentity(inputs, action) {
-  const scratch = realpathSync(mkdtempSync(join(tmpdir(), "screenrec-release-signing-")));
+  const scratch = realpathSync(mkdtempSync(join(tmpdir(), "yap-release-signing-")));
   const keychain = join(scratch, "signing.keychain-db");
   const password = randomUUID();
   const searchList = () =>

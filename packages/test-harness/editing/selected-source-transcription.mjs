@@ -128,11 +128,11 @@ try {
         plan,
         JSON.stringify({ source: selection, spans: available, output: selectedWav }),
       );
-      run(join(root, "helpers/mac/.build/debug/ScreenRecorderSourceAudioTests"), [], {
+      run(join(root, "helpers/mac/.build/debug/YapSourceAudioTests"), [], {
         env: {
           ...process.env,
-          SCREENREC_AUDIO_SELECTED_PLAN: plan,
-          SCREENREC_AUDIO_EVIDENCE: join(out, "pcm-evidence"),
+          YAP_AUDIO_SELECTED_PLAN: plan,
+          YAP_AUDIO_EVIDENCE: join(out, "pcm-evidence"),
         },
       });
       const referenceWav = join(out, `${name}-${mask}-baseline.wav`);
