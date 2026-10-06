@@ -4,7 +4,7 @@ This checkpoint covers the explicit composition and native seams for slices 27â€
 
 - Crossfade, dip and flash lower to the existing gain/opacity curves.
 - Zoom transitions lower to the existing animated geometry processor and require scales at least 1 for canvas coverage.
-- Directional whip transitions lower to overscanned geometry with signed x/y travel. The implementation refuses travel beyond the caller's overscan coverage budget rather than exposing an uncovered edge.
+- Directional whip transitions lower to overscanned geometry with signed x/y travel. The implementation refuses travel beyond the caller's overscan coverage budget rather than exposing an uncovered edge; a fixed caller-supplied geometry rectangle supplies the relevant axis dimension, while animated rectangle dimensions are refused because coverage cannot be proven before rendering.
 - Motion blur is a bounded visual processor with 1â€“8 samples and a shutter fraction from 0 to 1. `samples: 1` or `shutter: 0` is an identity bypass. Native preflight charges requested sample work to the existing intermediate-pixel budget and the executor uses the shared Core Image picture path.
 
 Focused proof:

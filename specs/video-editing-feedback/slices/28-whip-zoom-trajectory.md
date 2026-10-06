@@ -1,6 +1,6 @@
 # 28 — Make whip/zoom motion preserve coverage
 
-Status: composition checkpoint and current native zoom delivery are verified; strict delivered trajectory/perimeter parity remains open. Depends on: [27](27-basic-transitions.md).
+Status: composition checkpoint implemented, including authored-rectangle coverage refusal; delivered trajectory/perimeter evidence remains open. Depends on: [27](27-basic-transitions.md).
 
 ## Contract
 
@@ -21,7 +21,7 @@ These are current discovery pointers, not a claim every listed module must chang
 
 ## Scope and frozen decisions
 
-Replicate selected trajectory on asymmetric authored input. Freeze direction/pivot/duration, overlap, overscan/edge policy and source-handle requirements. Coverage failures return constraints rather than invent hidden samples. Motion blur is deliberately frozen off until slice 29.
+Replicate selected trajectory on asymmetric authored input. Freeze direction/pivot/duration, overlap, overscan/edge policy and source-handle requirements. Coverage failures return constraints rather than invent hidden samples. Directional whip coverage is calculated from the caller's fixed geometry rectangle when one is supplied; animated rectangle dimensions are refused because their perimeter cannot be proven at edit time. Motion blur is deliberately frozen off until slice 29.
 
 ## Runnable checkpoint
 

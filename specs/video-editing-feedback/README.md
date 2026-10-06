@@ -17,6 +17,8 @@ change the installed app until the user requests release. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
+Current pickup: slice 31/32 speaker continuity and labeling feasibility. The latest trajectory checkpoint also binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open.
+
 Current pickup: slice 31/32 speaker continuity and labeling feasibility. The current
 registered speaker provider is still provisional: `speakerModel` sets
 `modelSourceRequired: true`, and its NeMo runtime has no acquisition descriptor, so

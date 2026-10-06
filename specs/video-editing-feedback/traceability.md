@@ -252,3 +252,8 @@ pass. A public/native four-sample delivery receipt now retains matched frames, m
 cost and a fresh visual critique. The appearance repair compares the blur with an unblurred
 authored-trajectory control and keeps its visible envelope within one pixel on each edge;
 strict reference-conditioned blur parity and source-edge refusal receipts remain open.
+
+
+### Slice 28 authored-rectangle coverage
+
+The directional whip guard now derives its travel budget from a caller-authored fixed geometry rectangle when present and refuses animated or non-positive dimensions. The focused public regression covers the previously admitted uncovered-edge case. This closes the composition admission gap only; native delivered trajectory/perimeter parity remains open.

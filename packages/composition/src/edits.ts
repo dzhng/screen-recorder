@@ -915,10 +915,23 @@ export function applyBatch(
             operation.kind === "zoom"
               ? { type: "geometry" as const, ...operation.geometry, scale: { x: curve, y: curve } }
               : (() => {
+                  const width = operation.geometry?.rect?.width ?? model.document.canvas.width;
+                  const height = operation.geometry?.rect?.height ?? model.document.canvas.height;
+                  if (
+                    typeof width !== "number" ||
+                    typeof height !== "number" ||
+                    !Number.isFinite(width) ||
+                    !Number.isFinite(height) ||
+                    width <= 0 ||
+                    height <= 0
+                  )
+                    invalid(
+                      "Whip coverage requires fixed positive geometry rectangle dimensions",
+                    );
                   const dimension =
                     operation.direction === "left" || operation.direction === "right"
-                      ? model.document.canvas.width
-                      : model.document.canvas.height;
+                      ? width
+                      : height;
                   const maximum = ((operation.overscan! - 1) * dimension) / 2;
                   if (operation.distance! > maximum)
                     invalid("Whip distance exceeds overscan coverage; increase overscan or reduce distance", {

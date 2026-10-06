@@ -1722,3 +1722,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   until a real acquisition recipe and quality proof exist.
 - **Confidence:** high; auto-downloading an unverified or guessed runtime would
   violate the accepted first-party model policy and make the quality claim worse.
+
+
+## Use the authored rectangle for whip coverage — slice28
+
+- **When:** directional whip transition lowering with caller-supplied geometry.
+- **The choice:** Compute admitted travel from the fixed rectangle dimension on the travel axis when one is supplied; refuse animated or non-positive dimensions.
+- **The gap:** Canvas-only bounds could let a smaller authored rectangle expose an uncovered edge.
+- **The reach:** The public transition operation now rejects travel beyond the authored coverage budget without adding a second geometry owner or automatic crop. Native delivered trajectory parity remains open.
+- **Verdict:** sound for the deterministic composition guard; visual delivery remains a separate gate.

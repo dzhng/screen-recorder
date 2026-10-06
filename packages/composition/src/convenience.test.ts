@@ -498,6 +498,54 @@ test("zoom transition lowers to a bounded geometry trajectory and whip refuses u
   });
 });
 
+test("whip coverage uses the caller's authored rectangle instead of the canvas", () => {
+  const assets = [{ id: "image", streams: [{ id: "s", kind: "image", width: 80, height: 60 }] }];
+  const setup = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "video" },
+      {
+        operation: "place",
+        label: "image",
+        clip: {
+          assetId: "image",
+          streamId: "s",
+          trackId: { label: "video" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    { assets, namespace: "trajectory-rect" },
+  );
+  const target = { kind: "clip", id: setup.labels.image };
+  const window = {
+    kind: "clip",
+    clipId: setup.labels.image,
+    start: { numerator: 0, denominator: 1 },
+    end: { numerator: 1, denominator: 1 },
+  };
+  expect(() =>
+    applyBatch(
+      setup.document,
+      [
+        {
+          operation: "transition",
+          kind: "whip",
+          targets: [target],
+          mediaKind: "video",
+          direction: "left",
+          distance: 15,
+          overscan: 1.5,
+          geometry: { rect: { x: 0, y: 0, width: 40, height: 60 } },
+          window,
+        },
+      ],
+      { assets, namespace: "trajectory-rect-invalid" },
+    ),
+  ).toThrow(/coverage|overscan|distance/i);
+});
+
 test("angle declaration retains explicit session members, source identity, offsets and validity", () => {
   const assets = [
     {
