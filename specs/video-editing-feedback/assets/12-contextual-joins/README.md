@@ -46,8 +46,8 @@ that assertion fail. This is source-coordinate proof, not an availability verdic
 
 Scope: this checkpoint adds no public operation or editorial policy. Retained
 contextual reporting and the real-media exercise are accepted as evidence; no
-clean-cut verdict is inferred. Autonomous repair remains open in
-[slice12](../../slices/12-contextual-join-verification.md).
+clean-cut verdict is inferred. Caller-owned repair is accepted through the
+retained fresh-agent replay below.
 
 ## Explicit repair and changed-output recheck (12C/12D)
 
@@ -77,14 +77,13 @@ recognition because a word estimate exceeds the delivered interval, while the jo
 report retains its two-sided source jump, acoustic evidence and `unknown` phonetic
 completeness.
 
-Checkpoint D still requires a fresh agent to discover the defect without a timecode
-hint and drive the bounded caller-owned repair helper.
-
-The read-only [fresh-agent audit](fresh-discovery-audit.md) confirms the clipped
-case is discoverable from the retained receipt and derives the explicit repair
-inputs. It could not replay that repair because the receipt does not retain a live
-managed service/home or original request payload, so the runnable 12D gate remains
-open.
+Checkpoint D is now runnable: the fresh consumer planner reads only the public
+receipt, identifies the clipped Parakeet edge from the energetic tail and divergent
+recognition, authors one explicit full-range replacement, and drives the public
+helper through a changed-revision recheck. The compact [fresh-agent replay](fresh-agent-replay.json)
+retains the discovery operands, revision advance, model/native identities and
+changed-output Parakeet recognition. The [read-only audit](fresh-discovery-audit.md)
+remains as the independent discovery rationale.
 
 The [independent follow-up](followup-review.md) accepts the implementation. Its
 remaining receipt wording finding is resolved: eight tests and three retained

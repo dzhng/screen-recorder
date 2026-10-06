@@ -1,0 +1,94 @@
+{
+  "status": "passed",
+  "scope": "fresh-agent discovery and caller-owned contextual repair replay",
+  "nativeSha256": "b6719ae0dbc9493e24bd2992b4addf23bba98c4a3c42ca071f71f517dff187af",
+  "modelManifest": {
+    "id": "parakeet",
+    "revision": "ee09c569f73759e6d44c9bd16766f477b2b36d39"
+  },
+  "discovery": {
+    "caseName": "clipped",
+    "controlCaseName": "intact",
+    "projectId": "44540be8-a63f-4be8-92e8-4652530a9ea4",
+    "revisionId": "ad48631d-bbfe-4409-ae15-a0be7891bca0",
+    "clipId": "clip:9985b8a1010591a6f4ece7c0ab3bbf1147b7fc6faf40c4427222413105497b34:0",
+    "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+    "streamId": "track:1",
+    "trackId": "track:515fd4dd41980bf3672ba3eb641fe2a8a27475ce629c4ffdfdf050b993f93cf4:0",
+    "expectedText": "fortunate",
+    "observedText": "'Kay.",
+    "tailRMS": 0.061766198443664364,
+    "sourceRange": {
+      "startUs": 0,
+      "endUs": 951000
+    },
+    "projectRange": {
+      "startUs": 0,
+      "endUs": 951000
+    },
+    "boundaryAtUs": 391375
+  },
+  "repair": {
+    "beforeRevisionId": "ad48631d-bbfe-4409-ae15-a0be7891bca0",
+    "afterRevisionId": "1d4e8667-b24d-43aa-a040-be4afe2e4146",
+    "recheckRevisionId": "1d4e8667-b24d-43aa-a040-be4afe2e4146",
+    "recheckRecognition": "missing"
+  },
+  "changedOutput": {
+    "rendered": {
+      "state": "ready",
+      "generation": "76d6bca8-e803-475b-a7df-67211cff9af8",
+      "frames": 15216,
+      "transcript": {
+        "generation": "76d6bca8-e803-475b-a7df-67211cff9af8",
+        "wordCount": 1,
+        "segmentCount": 1
+      }
+    },
+    "join": {
+      "revisionId": "1d4e8667-b24d-43aa-a040-be4afe2e4146",
+      "expectedText": "fortunate",
+      "phoneticCompleteness": "unknown",
+      "recognition": {
+        "state": "observed",
+        "requestedRange": {
+          "startUs": 701000,
+          "endUs": 951000
+        },
+        "coverage": {
+          "observed": [
+            {
+              "startUs": 701000,
+              "endUs": 951000
+            }
+          ],
+          "missing": []
+        },
+        "generation": "76d6bca8-e803-475b-a7df-67211cff9af8",
+        "textComparison": {
+          "expectedText": "fortunate",
+          "observedText": "Fortunately,",
+          "literalMatch": false,
+          "interpretation": "recognition_observation_not_phonetic_certification"
+        },
+        "wordCount": 1,
+        "completePage": true,
+        "phoneticCompleteness": "unknown"
+      },
+      "audio": {
+        "dimensions": {
+          "bytes": 369280,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 45648,
+          "dataOffset": 4096,
+          "dataBytes": 365184
+        },
+        "sampleRange": {
+          "start": 0,
+          "end": 45648
+        }
+      }
+    }
+  }
+}

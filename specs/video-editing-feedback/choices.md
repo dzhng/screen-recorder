@@ -1417,3 +1417,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound. It preserves the zero-editorial-decision boundary and the
   frozen Parakeet word-completion limitation while still proving delivered audio.
 - **Confidence:** high.
+
+## Let the consumer discover the clipped Parakeet edge — slice12D
+
+- **When:** fresh-agent contextual repair replay.
+- **The choice:** Select the clipped case from public receipt evidence by requiring divergent recognition plus an energetic delivered tail, then use the intact same-asset control to author one full-range replacement. The product remains read-only; the consumer owns the edit and changed-output recheck.
+- **The gap:** The slice required an unhinted discovery but did not prescribe how a fresh process should distinguish the clipped edge from an intentional jump or a complete control.
+- **The reach:** The helper can be replayed from retained operands without a timecode hint, while the threshold and case selection remain fixture-scoped consumer logic rather than a new product verdict.
+- **Verdict:** sound. The real isolated run discovered `clipped`, advanced the revision, rendered Parakeet again and observed `Fortunately,`; phonetic completeness remains unknown.
+- **Confidence:** medium; the planner is intentionally narrow to this retained fixture and is not a general editorial detector.

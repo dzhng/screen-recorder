@@ -1,7 +1,7 @@
 # 12 — Verify joins and repair through the agent
 
-Status: checkpoints A–C are implemented and reviewed; the bounded consumer repair
-helper for C/D is implemented, while a fresh-agent discovery run remains open. Depends on:
+Status: checkpoints A–D are implemented and reviewed, including a fresh-agent
+Parakeet discovery and caller-owned changed-output replay. Depends on:
 [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [06](06-exact-removal.md).
 
 ## Contract
@@ -85,10 +85,11 @@ revision-advance refusal. See [repair verification](../assets/12-contextual-join
 The real media exercise passes with exact prepared sample support and fresh
 Parakeet recognition for the intact, clipped and repaired revisions; its lexical
 comparison remains observational and `phoneticCompleteness` stays `unknown`.
-The fresh-agent audit now confirms report-level discovery, but the runnable helper
-replay remains the next acceptance gate because the retained receipt does not carry
-a clean managed service/home and original request payload. An unavailable stub or
-undocumented fallback is not implementation completion.
+The fresh-agent audit and [retained replay](../assets/12-contextual-joins/fresh-agent-replay.json)
+confirm report-level discovery, one explicit repair, revision advance and changed
+output recognition. The helper recheck intentionally reports recognition as missing
+until the caller supplies the changed rendered-speech generation; the subsequent
+real fixture render supplies that evidence. Phonetic completeness remains unknown.
 
 ## Delegated choices
 

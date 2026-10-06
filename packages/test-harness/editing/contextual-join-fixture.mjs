@@ -7,6 +7,7 @@ import { setTimeout as delay } from "node:timers/promises";
 import { parakeetModel } from "../../../packages/core/dist/models.js";
 import { JourneyService, copyModels, hash, poll, root } from "./source-evidence-fixture.mjs";
 import { repairJoinAndRecheck } from "../../../skills/yap/scripts/join-repair.mjs";
+import { discoverContextualRepair } from "./contextual-join-replay.mjs";
 
 const { values } = parseArgs({
   options: {
@@ -376,6 +377,67 @@ try {
     "jump",
     { allowRenderedFailure: true },
   );
+
+  // A fresh consumer pass reads only the public receipts above, identifies the
+  // clipped Parakeet edge, authors one bounded replacement and rechecks the new
+  // revision. The product still makes no repair decision.
+  const discovery = discoverContextualRepair(report);
+  assert.equal(discovery.caseName, "clipped");
+  const freshRepair = await repairJoinAndRecheck(
+    {
+      projectId: clippedProject.projectId,
+      revisionId: clippedProject.revisionId,
+      repair: {
+        requestId: "fresh-agent-replace-clipped-edge",
+        operations: [
+          { operation: "remove", clipIds: [discovery.clipId], ripple: "none" },
+          {
+            operation: "place",
+            clip: {
+              trackId: discovery.trackId,
+              assetId: discovery.assetId,
+              streamId: discovery.streamId,
+              source: { kind: "range", range: discovery.sourceRange },
+              placement: { kind: "project", range: discovery.projectRange },
+            },
+          },
+        ],
+      },
+      recheck: {
+        preparedResourceId: "unused-before-preparation",
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+        prepare: { tap: { target: { kind: "output" }, point: { kind: "processed" } } },
+        boundary: { trackId: discovery.trackId, projectAtUs: discovery.projectRange.endUs },
+        context: { beforeUs: 250000, afterUs: 250000 },
+        expectedText: discovery.expectedText,
+        thresholdRMS: 0.01,
+        candidateOffsetsUs: [-100000, 100000],
+      },
+    },
+    (operation, params) => call(operation, params),
+  );
+  const freshRevision = freshRepair.afterRevisionId;
+  const freshOutput = await prepareAndVerify(
+    "fresh-agent-repaired",
+    { ...clippedProject, revisionId: freshRevision },
+    full,
+    intactDurationUs,
+    "end",
+  );
+  report.freshAgentReplay = {
+    discovery,
+    repair: {
+      beforeRevisionId: freshRepair.beforeRevisionId,
+      afterRevisionId: freshRepair.afterRevisionId,
+      recheckRevisionId: freshRepair.recheck.revisionId,
+      recheckRecognition: freshRepair.recheck.rendered?.recognition?.state,
+    },
+    changedOutput: {
+      prepared: freshOutput.prepared,
+      rendered: freshOutput.rendered,
+      join: freshOutput.join,
+    },
+  };
   report.passed = true;
 } finally {
   try {
