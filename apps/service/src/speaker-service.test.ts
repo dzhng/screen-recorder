@@ -256,6 +256,107 @@ test("public speaker bindings are pinned to one retained generation and decorate
   ).toMatchObject({ ok: false, error: { code: "ARTIFACT_CHANGED" } });
 });
 
+test("project speaker rows carry caller labels for their retained generation", async () => {
+  const f = await projectServiceFixture(cleanup, async (operation) => {
+    if (operation !== "media.probe") throw new Error(operation);
+    return {
+      ok: true,
+      data: {
+        originUs: -250000,
+        streams: [
+          {
+            id: "audio",
+            kind: "audio",
+            codec: "controlled",
+            decodable: true,
+            channels: 2,
+            sampleRate: 16000,
+            startUs: 0,
+            endUs: 40000000,
+            segments: [{ startUs: 0, endUs: 40000000, empty: false }],
+          },
+        ],
+      },
+    };
+  });
+  const imported = await f.call("asset.import", { requestId: "project-labels", path: f.path });
+  if (!imported.ok) throw new Error(JSON.stringify(imported));
+  const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
+  const input = {
+    assetId: job.published!.output.assetId,
+    streamId: "audio",
+    channel: 1,
+    sourceRange: speakerSource.observationRange,
+    modelId: speakerSource.engine.modelId,
+  };
+  const metadata = await publishControlledObservation(f.home, input);
+  expect(
+    await f.call("speaker.bind", {
+      assetId: input.assetId,
+      streamId: input.streamId,
+      channel: input.channel,
+      modelId: input.modelId,
+      observationRange: input.sourceRange,
+      generation: metadata.generation,
+      bindings: [{ slot: 1, displayName: "Ada" }],
+    }),
+  ).toMatchObject({ ok: true });
+  const created = await f.call("project.create", {
+    requestId: "project-labels-create",
+    canvas: {
+      width: 64,
+      height: 48,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const { project, revision } = created.data as {
+    project: { projectId: string };
+    revision: { id: string };
+  };
+  const edited = await f.call("edit.apply", {
+    projectId: project.projectId,
+    requestId: "project-labels-place",
+    expectedRevisionId: revision.id,
+    operations: [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "sound" },
+      {
+        operation: "place",
+        clip: {
+          trackId: { label: "sound" },
+          assetId: input.assetId,
+          streamId: input.streamId,
+          source: { kind: "range", range: { startUs: 0, endUs: 30000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 30000000 } },
+        },
+      },
+    ],
+  });
+  if (!edited.ok) throw new Error(JSON.stringify(edited));
+  const editedData = edited.data as { revision: { id: string } };
+  const query = {
+    projectId: project.projectId,
+    revisionId: editedData.revision.id,
+    range: { startUs: 0, endUs: 3000000 },
+    channel: input.channel,
+    modelId: input.modelId,
+  };
+  let read;
+  for (;;) {
+    read = await f.call("speaker.get", query);
+    if (!read.ok || (read.data as { page: unknown }).page !== null) break;
+    await delay(10);
+  }
+  expect(read).toMatchObject({ ok: true });
+  if (read.ok) {
+    const data = read.data as { page: { rows: { slot: number; label?: string }[] } };
+    const rows = data.page.rows;
+    expect(rows.find((row) => row.slot === 1)).toMatchObject({ slot: 1, label: "Ada" });
+    expect(rows.find((row) => row.slot === 0)).not.toHaveProperty("label");
+  }
+});
+
 async function publishControlledObservation(home: string, input: SpeakerSourceInput) {
   const library = join(home, "library"),
     catalog = new Catalog(join(library, "catalog.sqlite"));

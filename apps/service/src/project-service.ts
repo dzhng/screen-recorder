@@ -1210,22 +1210,50 @@ export async function startProjectService(options: {
             };
           }
           case "speaker.get": {
-            if ("projectId" in operation.params)
+            if ("projectId" in operation.params) {
+              if (operation.params.packageHandle !== undefined)
+                return {
+                  ok: true,
+                  data: projectPackages.projectSpeakers(
+                    operation.params.packageHandle,
+                    (() => {
+                      const input = { ...operation.params };
+                      delete input.packageHandle;
+                      delete input.view;
+                      return input;
+                    })(),
+                  ),
+                };
+              const result = await projectEvidence.speakers(operation.params);
+              const labelsByGeneration = new Map<string, Map<number, string>>();
+              const rows = result.page?.rows.map((row) => {
+                const key = `${row.assetId}:${row.generation}`;
+                let labels = labelsByGeneration.get(key);
+                if (!labels) {
+                  labels = new Map(
+                    speakerLabels
+                      .read({
+                        owner: { kind: "asset", assetId: row.assetId },
+                        sourceId: row.assetId,
+                        generation: row.generation,
+                        policy: "speaker-v1",
+                      })
+                      .map((binding) => [binding.slot, binding.displayName]),
+                  );
+                  labelsByGeneration.set(key, labels);
+                }
+                return labels.has(row.slot) ? { ...row, label: labels.get(row.slot)! } : row;
+              });
               return {
                 ok: true,
-                data:
-                  operation.params.packageHandle === undefined
-                    ? await projectEvidence.speakers(operation.params)
-                    : projectPackages.projectSpeakers(
-                        operation.params.packageHandle,
-                        (() => {
-                          const input = { ...operation.params };
-                          delete input.packageHandle;
-                          delete input.view;
-                          return input;
-                        })(),
-                      ),
+                data: {
+                  ...result,
+                  ...(result.page === null || rows === undefined
+                    ? {}
+                    : { page: { ...result.page, rows } }),
+                },
               };
+            }
             const {
               observationRange,
               sourceRange,
