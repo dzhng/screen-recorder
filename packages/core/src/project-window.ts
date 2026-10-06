@@ -120,6 +120,7 @@ const implementations = (support: ProjectRenderSupport): ProcessorImplementation
   ...(support.sdrCorrection ? { "sdr-correction": support.sdrCorrection } : {}),
   geometry: support.implementationId,
   opacity: support.implementationId,
+  blend: support.implementationId,
   gain: support.implementationId,
   ...(support.rnnoise ? { rnnoise: support.rnnoise } : {}),
   ...(support.pointers ? { pointer: support.implementationId } : {}),
