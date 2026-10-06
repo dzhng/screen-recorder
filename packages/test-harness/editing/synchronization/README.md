@@ -7,6 +7,13 @@ missing or incompatible evidence. The score is not calibrated confidence.
 
 [The estimator](offset.py) owns the bounded candidate and parameter interpretation;
 [its controls](offset.test.py) independently plant offsets, ambiguity and drift.
+[The receipt adapter](receipt.py) is the only bridge from an estimator result to
+source-bound synchronization evidence. `receipt.make` requires an evidence id,
+generation and distinct asset/stream identities; it accepts only a measured
+constant offset whose three anchors satisfy the estimator's spread policy. A
+refused, drifting or malformed result has no offset and cannot be consumed by
+`angle.declare`. The adapter never declares an angle, retimes a source or
+changes the composition.
 [The case-selected runner](research.py) owns usage, native acquisition, lossless
 fixture wrapping and replay. Use an existing prepared Python runtime with NumPy
 and SciPy; `-I -B` isolates it from ambient packages and avoids runtime writes.

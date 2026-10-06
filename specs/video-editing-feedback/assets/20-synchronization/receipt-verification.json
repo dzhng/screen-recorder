@@ -1,0 +1,36 @@
+{
+  "state": "passed",
+  "scope": "bounded estimator-to-receipt admission; no global synchronization claim",
+  "tests": 5,
+  "command": [
+    "<prepared-python-runtime>",
+    "-I",
+    "-B",
+    "packages/test-harness/editing/synchronization/receipt.test.py"
+  ],
+  "result": ".....\\n----------------------------------------------------------------------\\nRan 5 tests in 0.015s\\n\\nOK",
+  "sourceSha256": {
+    "packages/test-harness/editing/synchronization/receipt.py": "b05b6ca52f74666a8e15b61d5914eb36c89d432645b658805cb4ec09faff09b7",
+    "packages/test-harness/editing/synchronization/receipt.test.py": "4404b7ebcaae515c4a452030788a2aa8cfefd8af2c8e715940a9494e67ec9f8b"
+  },
+  "acceptedControl": {
+    "method": "waveform",
+    "offsetFrames": 125,
+    "sampleRate": 1000,
+    "sources": [
+      {"assetId": "camera-a", "streamId": "audio"},
+      {"assetId": "camera-b", "streamId": "audio"}
+    ]
+  },
+  "refusedControls": [
+    "nonconstant-offset",
+    "insufficient-or-ambiguous-shared-waveform",
+    "duplicate-source",
+    "anchor-spread"
+  ],
+  "realCorpus": {
+    "accepted": 0,
+    "comparisons": 9,
+    "status": "global synchronization remains open"
+  }
+}

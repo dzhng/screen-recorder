@@ -1749,3 +1749,26 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The gap:** Canvas-only bounds could let a smaller authored rectangle expose an uncovered edge.
 - **The reach:** The public transition operation now rejects travel beyond the authored coverage budget without adding a second geometry owner or automatic crop. Native delivered trajectory parity remains open.
 - **Verdict:** sound for the deterministic composition guard; visual delivery remains a separate gate.
+
+## Keep estimator admission separate from synchronization proof — slice20
+
+- **When:** bounded synchronization follow-up after the real unlike-microphone
+  waveform and lexical hypotheses refused.
+- **The choice:** Add one small receipt adapter at the estimator boundary. It
+  accepts only a `constant-offset` result with three selected anchors inside the
+  estimator's spread policy, binds the evidence id/generation and exact source
+  identities, and hashes those operands into the receipt fingerprint. Drift,
+  ambiguity, duplicate sources and malformed measurements remain refused or
+  fail before evidence can be consumed.
+- **The gap:** The estimator returned useful numerical controls but had no
+  single owner for converting a successful control into the source-bound
+  evidence shape required by `angle.declare`. Without that seam, callers could
+  copy offsets or fingerprints inconsistently.
+- **The reach:** Synthetic known-offset controls can now produce a complete
+  accepted evidence receipt, while the nine real unlike-microphone comparisons
+  remain refused and no angle declaration or retime is automatic. A future
+  accepted real estimator can feed the existing composition contract directly.
+- **Verdict:** sound for bounded admission; it does not close global
+  synchronization or promote the frozen real corpus.
+- **Confidence:** high for receipt identity and refusal semantics; low for
+  global/raw-to-raw synchronization, which remains an explicit open gate.

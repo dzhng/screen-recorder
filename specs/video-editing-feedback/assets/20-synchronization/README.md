@@ -26,6 +26,14 @@ missing-anchor mutations genuinely failed their focused tests, then the restored
 candidate passed. The existing immutable alignment runtime supplied NumPy/SciPy;
 no dependency or inference work was repeated for this numerical experiment.
 
+The bounded [receipt adapter](../../../../packages/test-harness/editing/synchronization/receipt.py)
+now turns a measured constant-offset control into source-bound accepted evidence
+with a deterministic fingerprint. Its focused controls cover estimator-to-receipt
+admission, duplicate-source refusal and anchor-spread refusal. This is an
+admission contract only: none of the nine real unlike-microphone comparisons
+produced an accepted receipt. The [focused receipt verification](receipt-verification.json)
+retains the command, source hashes, control shape and explicit real-corpus limit.
+
 The waveform hypothesis is refused for these unlike microphone inputs. Slice20
 remains open. The next frozen hypothesis is lexical anchors from independently
 recognized shared content plus accepted10B alignment evidence. Supplied text alone

@@ -67,7 +67,8 @@ matching, compressor makeup and a complete independently measured strict master.
 
 [Synchronization waveform research](20-synchronization/README.md) retains exact
 real microphone operands, independent controls and all frozen acoustic refusals;
-it establishes no camera clock or production provider.
+the bounded receipt verification also proves source-bound admission for synthetic
+constant-offset controls. It establishes no camera clock or production provider.
 
 [Native switched-angle delivery](21-synced-angles/README.md) retains a public
 CLI/MCP/native replay of three explicit angle sources, source-bound accepted
