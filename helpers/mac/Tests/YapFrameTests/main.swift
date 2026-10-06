@@ -52,6 +52,11 @@ if CommandLine.arguments.contains("--pointer-readability") {
     finish()
 }
 
+if CommandLine.arguments.contains("--text-vertical") {
+    try verifyTextVerticalPlacement()
+    finish()
+}
+
 try verifyPictureObservations(in: images)
 try await verifySDRCorrection(in: images)
 try await verifyCompositionPNG(in: images)

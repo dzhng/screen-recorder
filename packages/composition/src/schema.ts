@@ -127,6 +127,7 @@ export const textSourceSchema = z
     size: finite.positive().max(512),
     color: z.string().regex(/^#[0-9a-fA-F]{8}$/),
     alignment: z.enum(["left", "center", "right"]),
+    verticalAlignment: z.enum(["top", "center", "bottom"]).optional(),
     wrap: z.boolean(),
   })
   .strict();

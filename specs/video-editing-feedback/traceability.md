@@ -165,3 +165,8 @@ Slice20 waveform checkpoint retains physical inputs and controls, but the real
 unlike-microphone comparisons all refuse. [The frozen result](assets/20-synchronization/README.md)
 keeps the synchronization feedback open for lexical-anchor research; equal
 duration/session provenance does not close it.
+
+Slice22A evidence: composition authoring retains optional `verticalAlignment`; native TextRaster
+reports glyph-path `inkBounds`, clipped `visibleBounds`, and `verticalOffset`. Focused
+`YapFrameTests --text-vertical` proves top/center/bottom placement against a real Arial font,
+including empty text. Decoration and public caption-sheet evidence remain open in22B.

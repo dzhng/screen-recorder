@@ -14,14 +14,16 @@ struct TextSource: Codable, Hashable {
     let size: Double
     let color: String
     let alignment: String
+    let verticalAlignment: String?
     let wrap: Bool
 
     // Swift String equality normalizes Unicode; receipts retain exact UTF-16 literals.
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.kind == rhs.kind && lhs.text.utf16.elementsEqual(rhs.text.utf16)
             && lhs.font == rhs.font && lhs.width == rhs.width && lhs.height == rhs.height
-            && lhs.size == rhs.size && lhs.color == rhs.color
-            && lhs.alignment == rhs.alignment && lhs.wrap == rhs.wrap
+        && lhs.size == rhs.size && lhs.color == rhs.color
+            && lhs.alignment == rhs.alignment && lhs.verticalAlignment == rhs.verticalAlignment
+            && lhs.wrap == rhs.wrap
     }
 
     func hash(into hasher: inout Hasher) {
@@ -33,6 +35,7 @@ struct TextSource: Codable, Hashable {
         hasher.combine(size)
         hasher.combine(color)
         hasher.combine(alignment)
+        hasher.combine(verticalAlignment)
         hasher.combine(wrap)
     }
 }
@@ -41,7 +44,7 @@ struct TextLayout: Encodable {
     struct Line: Encodable {
         let range: [Int]
         let text: String
-        let origin: [Double]
+        var origin: [Double]
         let width: Double
         let fonts: [String]
     }
@@ -49,6 +52,9 @@ struct TextLayout: Encodable {
     let text: String
     let visibleRange: [Int]
     let lines: [Line]
+    let inkBounds: [Double]
+    let visibleBounds: [Double]
+    let verticalOffset: Double
 }
 
 struct TextRaster {
@@ -72,6 +78,10 @@ struct TextRaster {
         case "center": alignment = .center
         case "right": alignment = .right
         default: throw NativeFailure("INVALID_REQUEST", "Invalid text alignment.")
+        }
+        let verticalAlignment = request.verticalAlignment ?? "top"
+        guard ["top", "center", "bottom"].contains(verticalAlignment) else {
+            throw NativeFailure("INVALID_REQUEST", "Invalid vertical text alignment.")
         }
         var lineBreak: CTLineBreakMode = request.wrap ? .byWordWrapping : .byClipping
         let paragraph = withUnsafePointer(to: &alignment) { alignmentPointer in
@@ -97,6 +107,7 @@ struct TextRaster {
         var origins = [CGPoint](repeating: .zero, count: lines.count)
         CTFrameGetLineOrigins(frame, CFRange(location: 0, length: 0), &origins)
         var reports: [TextLayout.Line] = []
+        var glyphBounds = CGRect.null
         for (index, line) in lines.enumerated() {
             try Task.checkCancellation()
             let range = CTLineGetStringRange(line)
@@ -116,6 +127,32 @@ struct TextRaster {
                 text: (request.text as NSString).substring(with: NSRange(location: range.location, length: range.length)),
                 origin: [origins[index].x, Double(request.height) - origins[index].y],
                 width: CTLineGetTypographicBounds(line, nil, nil, nil), fonts: usedFonts))
+            glyphBounds = glyphBounds.union(CTLineGetBoundsWithOptions(line, .useGlyphPathBounds).offsetBy(dx: origins[index].x, dy: origins[index].y))
+        }
+        let hasGlyphBounds = !glyphBounds.isNull
+        guard !hasGlyphBounds || (glyphBounds.width.isFinite && glyphBounds.height.isFinite) else {
+            throw NativeFailure("UNSUPPORTED_MEDIA", "FONT_GLYPH_BOUNDS_UNAVAILABLE")
+        }
+        let verticalOffset: CGFloat
+        if hasGlyphBounds {
+            let targetMinY: CGFloat
+            switch verticalAlignment {
+            case "bottom": targetMinY = 0
+            case "center": targetMinY = (CGFloat(request.height) - glyphBounds.height) / 2
+            default: targetMinY = glyphBounds.minY
+            }
+            verticalOffset = targetMinY - glyphBounds.minY
+            glyphBounds = glyphBounds.offsetBy(dx: 0, dy: verticalOffset)
+        } else {
+            verticalOffset = 0
+            glyphBounds = .zero
+        }
+        if verticalOffset != 0 {
+            reports = reports.map { line in
+                var line = line
+                line.origin[1] += -Double(verticalOffset)
+                return line
+            }
         }
         guard let context = CGContext(data: nil, width: request.width, height: request.height,
             bitsPerComponent: 8, bytesPerRow: request.width * 4, space: colorSpace,
@@ -124,11 +161,19 @@ struct TextRaster {
         }
         context.textMatrix = .identity
         context.clip(to: box)
+        context.translateBy(x: 0, y: verticalOffset)
         CTFrameDraw(frame, context)
         guard let image = context.makeImage() else { throw NativeFailure.decodeFailed("Cannot create text raster.") }
         let visible = CTFrameGetVisibleStringRange(frame)
+        let visibleGlyphBounds = hasGlyphBounds ? glyphBounds.intersection(box) : .null
         self.image = CIImage(cgImage: image)
-        self.layout = .init(font: request.font, text: request.text, visibleRange: [visible.location, visible.length], lines: reports)
+        self.layout = .init(
+            font: request.font, text: request.text, visibleRange: [visible.location, visible.length], lines: reports,
+            inkBounds: hasGlyphBounds
+                ? [glyphBounds.minX, Double(request.height) - glyphBounds.maxY, glyphBounds.width, glyphBounds.height]
+                : [0, 0, 0, 0],
+            visibleBounds: visibleGlyphBounds.isNull ? [] : [visibleGlyphBounds.minX, Double(request.height) - visibleGlyphBounds.maxY, visibleGlyphBounds.width, visibleGlyphBounds.height],
+            verticalOffset: Double(verticalOffset))
         self.pixels = Int64(request.width) * Int64(request.height)
     }
 }

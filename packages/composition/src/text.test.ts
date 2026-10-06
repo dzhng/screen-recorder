@@ -247,3 +247,28 @@ test("text edits preserve placement and reject a font name outside its asset", (
     ),
   ).toThrow(/font face/);
 });
+
+test("explicit vertical text placement survives authoring and compiled frame delivery", () => {
+  const authored = { ...source, verticalAlignment: "bottom" };
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+      {
+        operation: "place",
+        clip: {
+          trackId: ref("v"),
+          source: authored,
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    context,
+  );
+  const frames = [...createCompiler(validateComposition(result.document, assets), "r").frames({
+    startUs: 0,
+    endUs: 1000000,
+  })];
+  expect(frames[0]!.layers).toMatchObject([{ kind: "text", text: authored }]);
+  expect(result.document.clips[0]!.source).toEqual(authored);
+});

@@ -81,6 +81,18 @@ const textLayoutSchema = z
           .strict(),
       )
       .max(8192),
+    inkBounds: z.tuple([
+      z.number().finite(), z.number().finite(),
+      z.number().finite().nonnegative(), z.number().finite().nonnegative(),
+    ]),
+    visibleBounds: z.union([
+      z.tuple([
+        z.number().finite(), z.number().finite(),
+        z.number().finite().nonnegative(), z.number().finite().nonnegative(),
+      ]),
+      z.tuple([]),
+    ]),
+    verticalOffset: z.number().finite(),
   })
   .strict();
 const nativeProjectReceiptSchema = pictureDeliverySchema.extend({

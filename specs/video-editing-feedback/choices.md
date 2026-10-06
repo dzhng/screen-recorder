@@ -791,3 +791,31 @@ all captured PCM bytes unchanged. No new production owner, clock policy, depende
 or inferred edit was introduced. The failed waveform hypothesis cannot authorize
 relationship declaration; lexical research remains independently open. No
 unlisted architecture or user-only choice was found in this research pass.
+
+## Native vertical caption alignment — slice22A
+
+- **When:** slice22A, native text layout checkpoint.
+- **The choice:** A caption's top/center/bottom setting moves the CoreText frame by
+  the measured union of its glyph paths. The receipt records the raw ink rectangle,
+  the clipped visible rectangle, and the applied offset. It does not use the text box
+  height or typographic leading as a substitute for visible letters. A two-line
+  caption is centered by the pixels a viewer can see; clipping says which part remains.
+- **The gap:** The slice required truthful glyph bounds but did not choose whether
+  alignment follows the nominal text box or rendered ink.
+- **The reach:** Native receipts, later decoration masks and visual checks share one
+  geometry authority; omitted alignment keeps the existing top behavior.
+- **Verdict:** sound. CoreText glyph-path bounds are the observable placement contract.
+- **Confidence:** high.
+
+## Empty caption bounds — slice22A corrective review
+
+- **When:** slice22A corrective review.
+- **The choice:** Empty text remains a valid transparent raster with zero ink bounds,
+  an empty visible rectangle and zero vertical offset. A nonempty source whose font
+  cannot provide glyph paths still refuses.
+- **The gap:** The original receipt did not state whether no-glyph text was invalid or
+  simply invisible.
+- **The reach:** Caption validation and decoration handle empty layers without
+  inventing bounds or substituting a glyph.
+- **Verdict:** sound. The composition schema permits empty text and the native test proves it.
+- **Confidence:** high.
