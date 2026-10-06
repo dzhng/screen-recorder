@@ -6,6 +6,37 @@ import struct
 import subprocess
 
 
+def remove_rpaths(path, selected):
+    """Remove declared thin-ARM64 search commands without moving occupied sections."""
+    data = bytearray(path.read_bytes())
+    assert data[:4] == bytes.fromhex("cffaedfe") and struct.unpack_from("<I", data, 4)[0] == 0x100000c, "Expected thin arm64 Mach-O"
+    count, size = struct.unpack_from("<II", data, 16)
+    assert 0 < count <= 4096 and size <= 1024 * 1024 and 32 + size <= len(data), "Invalid native command region"
+    assert selected and len(set(selected)) == len(selected), "Distinct selected search paths required"
+    offset, kept, removed = 32, [], []
+    for _ in range(count):
+        command, length = struct.unpack_from("<II", data, offset)
+        assert length >= 8 and length % 8 == 0 and offset + length <= 32 + size, "Invalid native load command"
+        name = None
+        if command == 0x8000001c:
+            assert length >= 12, "Invalid native search command"
+            start = struct.unpack_from("<I", data, offset + 8)[0]
+            assert 12 <= start < length, "Invalid native search string"
+            encoded = data[offset + start:offset + length]
+            assert 0 in encoded, "Unterminated native search string"
+            name = bytes(encoded).split(b"\0")[0].decode()
+        if name in selected:
+            removed.append(name)
+        else:
+            kept.append(data[offset:offset + length])
+        offset += length
+    assert offset == 32 + size and sorted(removed) == sorted(selected), "Selected search policy differs from native commands"
+    commands = b"".join(kept)
+    data[32:32 + size] = commands + bytes(size - len(commands))
+    struct.pack_into("<II", data, 16, len(kept), len(commands))
+    path.write_bytes(data)
+
+
 def inspect(path):
     data = path.read_bytes()
     assert data[:4] == bytes.fromhex("cffaedfe") and struct.unpack_from("<I", data, 4)[0] == 0x100000c, "Expected thin arm64 Mach-O"
@@ -80,8 +111,9 @@ def relocate(policy_path, bundle, sources, out, clone_file, sha):
                    for path in remove), "Only identified foreign absolute rpaths may be removed"
         packaging_error = None
         try:
-            commands = [["/usr/bin/install_name_tool", *[part for path in remove for part in ["-delete_rpath", path]], str(target)],
-                        ["/usr/bin/codesign", "--force", "--sign", "-", str(target)],
+            remove_rpaths(target, remove)
+            row["loadCommandRemoval"] = {"recipe": "thin-arm64-load-command-removal-v1", "paths": remove}
+            commands = [["/usr/bin/codesign", "--force", "--sign", "-", str(target)],
                         ["/usr/bin/codesign", "--verify", "--strict", str(target)]]
             row["commands"] = []
             for command in commands:

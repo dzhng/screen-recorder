@@ -102,6 +102,10 @@ The [worker lifetime](src/worker.ts) is shared by native JSON requests and argv-
 CLI execution. CLI progress cannot certify completion: zero exit, bounded output
 and retirement of the owned process group are required before its caller resumes.
 The existing native executable watches parent death for CLI descendants as well.
+The [runtime materializer](src/runtime-materialization.ts) lends that same lifetime
+to explicit model preparation. Core owns acquisition and inventory admission;
+offline assembly needs the public pinned interpreter and system tools, without
+borrowing developer-installed packages or creating a second downloader.
 A rare kernel retirement overrun retains the owned task, logs after five seconds,
 and observes slowly until the group is absent; it cannot safely release capacity
 or staging merely because the standard streams closed.

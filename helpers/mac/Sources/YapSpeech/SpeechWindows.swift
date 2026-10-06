@@ -118,34 +118,20 @@ package enum SpeechBoundaryMerge {
             let point = lhs.source.startUs == lhs.source.endUs || rhs.source.startUs == rhs.source.endUs
             return key(lhs) == key(rhs) && (!point || lhs.source == rhs.source)
         }
-        var before = Array(repeating: Array(repeating: 0, count: b.count + 1), count: a.count + 1)
-        var after = before
-        for i in a.indices {
-            for j in b.indices {
-                before[i + 1][j + 1] = equal(i, j) ? before[i][j] + 1 : max(before[i][j + 1], before[i + 1][j])
-            }
-        }
-        for i in a.indices.reversed() {
-            for j in b.indices.reversed() {
-                after[i][j] = equal(i, j) ? after[i + 1][j + 1] + 1 : max(after[i + 1][j], after[i][j + 1])
-            }
-        }
-        let length = before[a.count][b.count]
+        let correspondence = OrderedCorrespondence.resolve(leftCount: a.count, rightCount: b.count, equal: equal)
         func refuse(_ side: String, _ index: Int, _ word: SpeechObservation) -> NativeFailure {
             NativeFailure("TRANSCRIPT_BOUNDARY_DISAGREEMENT",
                 "Boundary \(boundaryUs): \(side) observation \(index) '\(word.text)' [\(word.source.startUs),\(word.source.endUs)] has no unique mandatory shared-context correspondence.")
         }
         var matches: [Int: Int] = [:]
         for (position, index) in a.enumerated() where try intersects(left[index], guardStart, guardEnd) {
-            let candidates = b.indices.filter { equal(position, $0) && before[position][$0] + 1 + after[position + 1][$0 + 1] == length }
-            let optional = (0...b.count).contains { before[position][$0] + after[position + 1][$0] == length }
-            guard candidates.count == 1 && !optional else { throw refuse("left", index, left[index]) }
+            let row = correspondence.left[position], candidates = row.indices
+            guard candidates.count == 1 && !row.omissionPossible else { throw refuse("left", index, left[index]) }
             matches[index] = b[candidates[0]]
         }
         for (position, index) in b.enumerated() where try intersects(right[index], guardStart, guardEnd) {
-            let candidates = a.indices.filter { equal($0, position) && before[$0][position] + 1 + after[$0 + 1][position + 1] == length }
-            let optional = (0...a.count).contains { before[$0][position] + after[$0][position + 1] == length }
-            guard candidates.count == 1 && !optional else { throw refuse("right", index, right[index]) }
+            let row = correspondence.right[position], candidates = row.indices
+            guard candidates.count == 1 && !row.omissionPossible else { throw refuse("right", index, right[index]) }
             let leftIndex = a[candidates[0]]
             guard matches[leftIndex] == nil || matches[leftIndex] == index else { throw refuse("right", index, right[index]) }
             matches[leftIndex] = index

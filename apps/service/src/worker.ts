@@ -13,14 +13,7 @@ import {
 } from "@yap/protocol";
 import { CatalogError } from "@yap/core/catalog";
 import type { PreparedRuntime } from "@yap/core/models";
-import {
-  subtract,
-  fromTime,
-  rational,
-  divide,
-  ceil,
-  type SelectionRange,
-} from "@yap/composition";
+import { subtract, fromTime, rational, divide, ceil, type SelectionRange } from "@yap/composition";
 
 /**
  * Where the packaged app's native worker executable is. The app is the one owner of that path:
@@ -221,10 +214,9 @@ function ownedProcess(
           }
           if (!overrun && performance.now() - started >= 5000) {
             overrun = true;
-            console.error(
-              "yap: CLI process group retirement exceeded 5s; retaining owned work",
-              { groupId: child.pid },
-            );
+            console.error("yap: CLI process group retirement exceeded 5s; retaining owned work", {
+              groupId: child.pid,
+            });
           }
           // A closed pipe is not descendant retirement. No safe synthetic result
           // can release this slot while the kernel still reports the owned group.
@@ -319,6 +311,7 @@ export function preparedModelWorker(runtime: PreparedRuntime, timeoutMs: number)
         HF_HUB_DISABLE_IMPLICIT_TOKEN: "1",
         TOKENIZERS_PARALLELISM: "false",
         PYTHONDONTWRITEBYTECODE: "1",
+        NUMBA_CACHE_DIR: runtime.cache,
       },
     },
     timeoutMs,

@@ -46,6 +46,8 @@ let package = Package(
             name: "YapSpeechTests",
             dependencies: ["YapSpeech", "YapMedia", .product(name: "FluidAudio", package: "FluidAudio")],
             path: "Tests/YapSpeechTests"),
+        .executableTarget(name: "YapCorrespondenceTests", dependencies: ["YapMedia"],
+            path: "Tests/YapCorrespondenceTests"),
         .executableTarget(name: "YapSelectedAudioTests", dependencies: ["YapAudio", "YapMedia"], path: "Tests/SelectedAudio"),
         .executableTarget(name: "YapSourceAudioTests", dependencies: ["YapAudio", "YapMedia"], path: "Tests/SourceAudio"),
         .executableTarget(name: "YapCompositionAudioTests", dependencies: ["YapAudio", "YapMedia"], path: "Tests/CompositionAudio"),

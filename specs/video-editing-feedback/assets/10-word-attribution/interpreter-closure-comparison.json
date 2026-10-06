@@ -1,0 +1,130 @@
+[
+  {
+    "path": "bin/python3.12",
+    "publicSha256": "77d322db9095f4aebe28b192a618cadcdba54bf184445182cbc97698fcd36def",
+    "donorSha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/itcl4.3.8/libitcl4.3.8.dylib",
+    "publicSha256": "08b0e12ed876caa7dd782586d29c24f99c8f441a65f975385379542cf047510b",
+    "donorSha256": "aee2341883cd009dc6f06ba289d0591b2f0c1c8bda8f0790683d0eb94b0dd270",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/itcl4.3.8/libtcl9itcl4.3.8.dylib",
+    "publicSha256": "69a542712571ac2a4cd50106583e83eb22140ebe8913316e52790a0adf49f380",
+    "donorSha256": "819c2e28780cd16ab4747f4dd068ad94f07408b89920820c7b9bc4670dba1df3",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/libpython3.12.dylib",
+    "publicSha256": "b0698e2e20bd862cf42fa0082b81b25e0ac00d00c482ff383c79df2c6833c187",
+    "donorSha256": "7f620421c3a8fd8cea4b9400747356e1eb12f2216cd1045aff7de40dc1ef3732",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/libtcl9.0.dylib",
+    "publicSha256": "ffa545824bd84cf79f279d2e8dcf633cfa1609a291d1377d8d4df130b0820334",
+    "donorSha256": "638e3af0b036eeba09c696b3351b730240fa9bf95099b3d69678223dba06cdf1",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/libtcl9tk9.0.dylib",
+    "publicSha256": "e1d12a9c30e19fd4ee83b82a74f96b7135d3fefd7daa9eb40e4b41a7210cd521",
+    "donorSha256": "6bc8099b082c212481bae339982325bfd0772d34798fe16d48f20eff9db01954",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/python3.12/encodings/__pycache__/__init__.cpython-312.pyc",
+    "publicSha256": "582d790079e44b1132bf6d1e63eaa03e9f61ff119e34b8d2b720f7bfb2644eaa",
+    "donorSha256": "3670cf9ef6568bd215c21c6b5fb0ccbe04e6004bbb7363998056e8eb7c885322",
+    "native": false
+  },
+  {
+    "path": "lib/python3.12/encodings/__pycache__/aliases.cpython-312.pyc",
+    "publicSha256": "56c1d956c0f793ed627db011789df840833cb40606067b1e267ac1b6e094fba4",
+    "donorSha256": "f83d8accc7082832f1be313cec830152f529b23a73e47205997f2cf6a3753f23",
+    "native": false
+  },
+  {
+    "path": "lib/python3.12/encodings/__pycache__/utf_8.cpython-312.pyc",
+    "publicSha256": "0cfd10a4dc1fcee9a2dcd048aac4a3c7963988be7e04853418ed3e0ec19f6052",
+    "donorSha256": "cfe7ed618a06a7fe40b362d923a2952556a64de69c9b2df87146468ba2a6cb53",
+    "native": false
+  },
+  {
+    "path": "lib/python3.12/lib-dynload/_crypt.cpython-312-darwin.so",
+    "publicSha256": "0cefbeb983984a7156cd7d6b97b87edd4cfcfb1a8fc635f68f6618ba2558ca06",
+    "donorSha256": "c8cca371475536ea602c669032c5dcfcc7aec6239753b4ba0211f2d6245ccb87",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/python3.12/lib-dynload/_dbm.cpython-312-darwin.so",
+    "publicSha256": "df50f565f00fe86a0bad4330b58c80f5b91653984f761bd3ce96c885999e4f2b",
+    "donorSha256": "d68f131ab573eba7ff0a0047cd0108230dd65b6fa49c0955a604a9c74345cb1b",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/python3.12/lib-dynload/_tkinter.cpython-312-darwin.so",
+    "publicSha256": "d77857bafcf1b6f0c49fbd0290692dab9cc87996b4078b125cdd8395298c17fa",
+    "donorSha256": "9167261fb72c84dadc64ccfc628dff06bda2d36cd6cd3acb42aaffb97196660a",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/thread3.0.6/libtcl9thread3.0.6.dylib",
+    "publicSha256": "6eca699f093e33238ba8c55efa76c5b5d48122c908266c1ec0f96f37b12685cb",
+    "donorSha256": "26ebe32d24fae28eea9b5e3f788e301fca8b1487060dbb3bf1c64cd1b1d2386a",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  },
+  {
+    "path": "lib/thread3.0.6/libthread3.0.6.dylib",
+    "publicSha256": "649448e0140ec7583bf175f549c659fa65d73dcf3605be21f5c19e07d53365e2",
+    "donorSha256": "6448665438d2a4888b8bc7561b971e61805c8b0f0e0ede6ebad389b78d364e5d",
+    "native": true,
+    "sectionsEqual": true,
+    "loadsEqual": true,
+    "installIdsEqual": true,
+    "rpathsEqual": true
+  }
+]

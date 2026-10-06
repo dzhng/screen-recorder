@@ -1,0 +1,33 @@
+{
+  "runtime": {
+    "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+    "runtimeRevision": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "modelRevision": "431a349f3051ab85c22b9b7a2741b5fe77065665"
+  },
+  "engine": {
+    "modelId": "nemo-ctc110",
+    "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+    "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+    "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "recipe": "nemo-auxiliary-ctc110-v1"
+  },
+  "status": {
+    "state": "ready"
+  },
+  "requests": 182,
+  "runtimeInputFiles": 181,
+  "runtimeInputBytes": 390285590,
+  "runtimeEntries": 61154,
+  "runtimeLogicalBytes": 1329328714,
+  "seconds": 51.19912525,
+  "responseReplay": "Original acquired and pinned upstream bytes; no new networking",
+  "preparationRoute": "Default Models registration with production service runtime materializer; no modelSource/runtimeSource",
+  "inheritedUmask": "077",
+  "processLocalAssemblyUmask": "022",
+  "impliedArchiveDirectoryMode": "0755",
+  "assemblyResourceMode": "0644",
+  "inventoryDigestUnchanged": true
+}

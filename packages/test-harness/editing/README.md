@@ -57,6 +57,11 @@ remain separate from caller edit intent.
 explicit dependency precedence for local inference experiments. It produces an
 artifact for the existing preparation owner, never another installer.
 
+[Conditional alignment](../../../helpers/alignment/README.md) separates controlled
+provider-response parity, native correspondence arithmetic and actual prepared
+runtime inference. A matching forced path does not establish that the supplied
+word was spoken; physical admission and interpretation retain separate proof.
+
 ## Delivery, lifetime and work
 
 Public journeys exercise the complete request, readiness, delivery and publication
