@@ -75,7 +75,9 @@
     "candidate": "Original upstream PyTorch Community-1 instead of converted CoreML",
     "reason": "Converted runtime failed merging identities and support endpoints; original segmentation/clustering path is a distinct provider/runtime hypothesis, not count-hint or threshold tuning.",
     "admission": "Freeze license/pins, full raw segmentation/embedding access and exact physical support before short inference. Share immutable PCM; isolated optional dependency layers; no production fallback or promotion.",
-    "confirmation": "Required short gates first; long controls only after all short gates pass. No hidden speaker-count truth in candidate."
+    "confirmation": "Required short gates first; long controls only after all short gates pass. No hidden speaker-count truth in candidate.",
+    "verdict": "Rejected at first short control; complete upstream raw operands retained.",
+    "evidence": "community1-original-evidence/README.md"
   },
   "pendingJobs": [],
   "promotion": false,
@@ -86,5 +88,15 @@
     "combinedWallSeconds": 72.479533999,
     "budgetPerProtocol": "3 native calls maximum180s each; <=300s analysis, zero downloads; both ran within budget.",
     "excluded": "Coding, source inspection and review elapsed time; cold load is retained separately from inference."
+  },
+  "nextHypothesisAfterOriginal": {
+    "candidate": "Independent Ultra-Sortformer8 weights/architecture with documented high-context recipe",
+    "model": "mago-ai/ultra_diar_streaming_sortformer_8spk_v1@08c94f3d289e426288b15a580f7ce47b93b99bf2",
+    "reason": "Original Community1 exposes3local segmentation slots (fixed model capacity, not proof of3 detected identities) but final2global centroids against3 reference identities. A distinct direct neural provider removes the separate clustering stage. Nemotron direct short controls retain count/identity yet long overlap remains red; independently trained8-slot weights test a distinct weights/architecture hypothesis, not a proven clustering cause or threshold/count fitting.",
+    "admission": "Inspect Apache2 plus upstream NVIDIA Open Model terms, source compatibility, complete raw access and native support. Pin and acquire through Models only after admission; strict native load; no count hints or non-strict dropped parameters.",
+    "recipe": "Model-card high-context buffering; output interpretation fixed.5/.1 before all short cases, no tuning on failed confirmation.",
+    "quality": "Same six mandatory gates and short-first stop rule; no packaging or promotion until all short and long gates pass.",
+    "status": "Metadata/card/source admission only; no Ultra weights acquired or inference.",
+    "admissionFinding": "Pinned author documentation describes split heads and n_base_spks unsupported by the currently admitted stock NeMo source; published patch source is absent. Architecture/source admission remains incomplete; no weights acquired."
   }
 }

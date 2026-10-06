@@ -1,0 +1,33 @@
+{
+  "id": "bspxd30",
+  "metrics": {
+    "referenceSpeakerSeconds": 29.840000000000003,
+    "overlapSeconds": 3.039999999999992,
+    "silenceSeconds": 3.1999999999999886,
+    "missedSpeakerSeconds": 1.7618124999999996,
+    "falseSpeakerSeconds": 0.5755624999999962,
+    "confusedSpeakerSeconds": 5.85499999999999,
+    "mapping": {
+      "SPEAKER_00": "spk00",
+      "SPEAKER_01": "spk02"
+    },
+    "der": 0.2745433981233239
+  },
+  "referenceOverlapSeconds": 3.039999999999992,
+  "retainedOverlapSeconds": 2.0456249999999927,
+  "overlapRecall": 0.6729029605263152,
+  "confusionRatio": 0.19621313672922217,
+  "count": 2,
+  "requiredCount": 3,
+  "gates": {
+    "der": false,
+    "identity": false,
+    "overlap": false,
+    "count": false,
+    "time": true,
+    "rss": true
+  },
+  "passed": false,
+  "inferenceSeconds": 42.13266383399605,
+  "peakProcessRSSBytes": 3956277248
+}
