@@ -241,5 +241,6 @@ opposite directions retain mirrored signed paths. The bounded motion-blur proces
 sample count (1–8) and shutter fraction (0–1) into compiled visual operations and the native
 picture executor; identity settings bypass the filter and native preflight charges sample work
 against the existing intermediate-pixel budget. Focused composition tests and TypeScript checks
-pass. Delivered frame/movie trajectory coverage, blur appearance parity, source-edge refusal
-receipts, visual critique and observed cost remain open.
+pass. A public/native four-sample delivery receipt now retains matched frames, measured local
+cost and a fresh visual critique. Delivered frame/movie trajectory coverage, blur appearance
+parity and source-edge refusal receipts remain open.

@@ -1,0 +1,74 @@
+{
+  "kind": "screenshot-parity-diff",
+  "generatedAt": "2026-10-06T19:51:30.778Z",
+  "note": "Lower parityDistance means the candidate is closer to the reference for this fixed pair. This is a distance metric, not an acceptance gate.",
+  "pairCount": 1,
+  "worstPair": "base",
+  "results": [
+    {
+      "id": "base",
+      "current": "motion-blur/reference/base.png",
+      "candidate": "motion-blur/candidate/base.png",
+      "dimensions": {
+        "width": 64,
+        "height": 48
+      },
+      "parityDistance": 0.14169,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 4,
+          "colorEntropyBits": 0.66023,
+          "edgeDensity": 0.02972,
+          "dominantColorShare": 0.87012,
+          "transparentShare": 0,
+          "luminanceMean": 4.83987,
+          "luminanceP5": 0,
+          "luminanceP95": 39.9688,
+          "luminanceContrast": 39.9688
+        },
+        "candidate": {
+          "colorBuckets": 62,
+          "colorEntropyBits": 1.89962,
+          "edgeDensity": 0.01891,
+          "dominantColorShare": 0.70833,
+          "transparentShare": 0,
+          "luminanceMean": 8.69967,
+          "luminanceP5": 0,
+          "luminanceP95": 39.9688,
+          "luminanceContrast": 39.9688
+        }
+      },
+      "grayscale": {
+        "mae": 3.91586,
+        "rmse": 10.29578,
+        "diffRatio16": 0.10579,
+        "diffRatio32": 0.03548,
+        "diffRatio64": 0,
+        "pixelmatchRatio": 0.08464
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0.88184,
+        "blackRatioCandidate": 0.79427,
+        "terrainLikeRatioCurrent": 0,
+        "terrainLikeRatioCandidate": 0,
+        "avgLuminanceCurrent": 4.83987,
+        "avgLuminanceCandidate": 8.69967,
+        "avgLuminanceDelta": 3.8598,
+        "edgeEnergyCurrent": 0.03103,
+        "edgeEnergyCandidate": 0.04112,
+        "edgeEnergyRatio": 1.32507,
+        "edgeDiffRatio32": 0.1888
+      },
+      "artifacts": {
+        "sideBySide": "report/base-side-by-side.png",
+        "currentGray": "report/base-current-gray.png",
+        "candidateGray": "report/base-candidate-gray.png",
+        "absDiff": "report/base-absdiff.png",
+        "pixelmatch": "report/base-pixelmatch.png",
+        "currentEdges": "report/base-current-edges.png",
+        "candidateEdges": "report/base-candidate-edges.png",
+        "edgeDiff": "report/base-edge-diff.png"
+      }
+    }
+  ]
+}

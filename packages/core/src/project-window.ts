@@ -121,6 +121,7 @@ const implementations = (support: ProjectRenderSupport): ProcessorImplementation
   ...(support.lut ? { lut: support.lut } : {}),
   ...(support.sdrCorrection ? { "sdr-correction": support.sdrCorrection } : {}),
   geometry: support.implementationId,
+  "motion-blur": support.implementationId,
   opacity: support.implementationId,
   blend: support.implementationId,
   gain: support.implementationId,

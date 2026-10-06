@@ -323,6 +323,7 @@ test("binds supported gain throughout audio routing and output, but refuses unpr
           implementationId: null,
         },
         { type: "geometry", execution: true, implementationId: renderer.implementationId },
+        { type: "motion-blur", execution: true, implementationId: renderer.implementationId },
         { type: "opacity", execution: true, implementationId: renderer.implementationId },
         { type: "gain", execution: true, implementationId: renderer.implementationId },
       ].map((capability) => expect.objectContaining(capability)),

@@ -95,6 +95,11 @@ crossfade/dip/flash picture and audio receipts plus a frozen nine-pair comparato
 run against deterministic solid-color controls. Moving-shot and
 reference-conditioned acceptance remains open.
 
+[Motion blur delivery](27-29-transitions/motion-blur/README.md) retains a public
+CLI/native four-sample receipt, matched before/after frames, bounded cost and
+fresh visual critique. Delivery and opacity pass; the final blur appearance
+remains an explicit open gate.
+
 [Focused use-case routing](33-editing-references/README.md) retains the
 case-selected launch, podcast and teaser reference identities and portable
 hash receipt. It is a documentation checkpoint; media-aware fresh-agent
