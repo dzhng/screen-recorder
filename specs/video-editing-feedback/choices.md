@@ -1373,6 +1373,7 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** medium; this is the simplest contract consistent with the
   existing exact-offset and source-preservation rules, but the original slice
   delegated relationship semantics.
+
 ## Keep delivered scene changes as evidence — slice30
 
 - **When:** slice30 portable report pass.
@@ -1381,3 +1382,19 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** Future repair and review work can use one report to compare physical delivered changes with the revision that produced them without relabeling cuts or silently editing a project. Native acceptance must still prove flash/gap/hold coverage through actual export/import/scene reads.
 - **Verdict:** sound. It preserves source bytes, exact clocks, coverage state and the product boundary that detection supplies evidence rather than permission.
 - **Confidence:** high.
+
+## Keep motion treatments explicit — slices27–29
+
+- **When:** transition, trajectory and blur composition pass.
+- **The choice:** Lower zoom and directional whip requests into the existing
+  geometry processor, require caller-supplied overscan for travel, and represent
+  motion blur as a bounded processor with samples and shutter. Identity settings
+  bypass blur; uncovered travel refuses instead of exposing a synthetic edge.
+- **The gap:** The slices asked for reusable motion primitives but left the
+  lowering owner and coverage policy open. A second renderer or an automatic
+  crop would duplicate picture ownership or hide missing pixels.
+- **The reach:** Composition remains exact and non-editorial; native delivery
+  consumes ordinary geometry/visual operations. Delivered motion appearance and
+  cost evidence remain explicitly open.
+- **Verdict:** sound for the structural checkpoint; no delivered-quality claim.
+- **Confidence:** high for bounds and ownership, medium for native visual parity.

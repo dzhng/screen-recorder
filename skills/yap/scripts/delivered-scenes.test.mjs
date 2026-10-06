@@ -87,7 +87,8 @@ describe("associateDeliveredScenes", () => {
           return {
             state: "committed",
             output,
-            snapshot: { projectId: "project", revisionId: "revision" },
+            projectId: "project",
+            snapshot: { revisionId: "revision" },
           };
         if (operation === "asset.import") return { jobId: "import-job" };
         if (operation === "job.get")
