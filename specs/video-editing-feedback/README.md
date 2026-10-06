@@ -24,7 +24,7 @@ The matching native worker includes22's rounded glyph strokes; frame/movie cache
 identities change with that rendering behavior. Generic operations omit tonal fields,
 while an actual correction must supply them.
 
-Priority:20 mixed-reference synchronization →
+Priority:20 global/raw-to-raw synchronization after retained local bridges →
 21 switched-angle delivery;12 contextual joins;15/16 face/framing delivery;25 reference-conditioned tone;27–29 delivered transitions/trajectory/blur;
 30 delivered scenes;31/32 speaker continuity/attribution;33 runnable workflows →34
 fresh-agent delivery/replay. Follow slice dependencies rather than this list when
@@ -52,7 +52,10 @@ independent visual/code review and a red/green stroke-bounds correction. [24](as
 arithmetic and the original raw hard-edge H.264 loss; matched encoded references
 pass every pixel of both samples in all seven cases under unchanged tolerance8.
 Independent visual/code review is accepted for this declared-codec scope. [20](assets/20-synchronization/README.md) refuses
-all nine real waveform comparisons, so lexical anchors remain necessary. [31](assets/31-speaker-replication/README.md)
+all nine real waveform comparisons. [Mixed-reference research](assets/20-synchronization/bridge/README.md)
+retains four independently recognized local sampled bridges, with surrounding-window
+and global-clock refusals intact. Cropped fixtures replay retained operands and
+recognition, not full-domain candidate selection. [31](assets/31-speaker-replication/README.md)
 still fails ten-minute four-speaker overlap at57.49%, below the unchanged80% gate;
 no long-form provider is promoted.10 retains the accepted NeMo alignment reference
 and verified default runtime acquisition; its public source acoustic cells pass

@@ -1,0 +1,97 @@
+{
+  "scope": "Focused checkpoint checks only; whole-spec suite deferred to completion",
+  "checks": [
+    {
+      "command": [
+        "/tmp/yap-editing-alignment-integration/default-acquisition/library/models/nemo-ctc110/431a349f3051ab85c22b9b7a2741b5fe77065665/runtime/python/bin/python3.12",
+        "-I",
+        "-B",
+        "packages/test-harness/editing/synchronization/offset.test.py"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.125s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/tmp/yap-editing-alignment-integration/default-acquisition/library/models/nemo-ctc110/431a349f3051ab85c22b9b7a2741b5fe77065665/runtime/python/bin/python3.12",
+        "-I",
+        "-B",
+        "packages/test-harness/editing/synchronization/bridge.test.py"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.999s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/tmp/yap-editing-alignment-integration/default-acquisition/library/models/nemo-ctc110/431a349f3051ab85c22b9b7a2741b5fe77065665/runtime/python/bin/python3.12",
+        "-I",
+        "-B",
+        "packages/test-harness/editing/synchronization/local.test.py"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/tmp/yap-editing-alignment-integration/default-acquisition/library/models/nemo-ctc110/431a349f3051ab85c22b9b7a2741b5fe77065665/runtime/python/bin/python3.12",
+        "-I",
+        "-B",
+        "packages/test-harness/editing/synchronization/bridge-replay.test.py"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.895s\n\nOK\n"
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "packages/test-harness/editing/synchronization/lexical.test.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "\u2714 independently observed unique phrases retain their separate source clocks (0.586875ms)\n\u2714 a repeated utterance retains all competing occurrences without choosing one (0.076542ms)\n\u2714 missing speech cannot be manufactured by joining selected windows (0.049333ms)\n\u2714 outer replay preserves frozen observations and refuses a changed model identity (82.227375ms)\n\u2139 tests 4\n\u2139 suites 0\n\u2139 pass 4\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 122.814958\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/server/dev/screen-recorder/node_modules/.bin/oxlint",
+        "packages/test-harness/editing/synchronization/local-recognition.mjs",
+        "packages/test-harness/editing/synchronization/recognition.mjs",
+        "packages/test-harness/editing/synchronization/lexical-scout.mjs",
+        "packages/test-harness/editing/synchronization/lexical.test.mjs",
+        "packages/test-harness/editing/synchronization/lexical.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/server/dev/screen-recorder/node_modules/.bin/oxfmt",
+        "--check",
+        "packages/test-harness/editing/synchronization/lexical-scout.mjs",
+        "packages/test-harness/editing/synchronization/local-recognition.mjs",
+        "packages/test-harness/editing/synchronization/recognition.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 0ms on 3 files using 12 threads.\n",
+      "stderr": "No config found, using defaults. Please add a config file or try `oxfmt --init` if needed.\n"
+    }
+  ],
+  "inferenceRepeated": false,
+  "summaryCorrection": {
+    "command": [
+      "/tmp/yap-editing-alignment-integration/default-acquisition/library/models/nemo-ctc110/431a349f3051ab85c22b9b7a2741b5fe77065665/runtime/python/bin/python3.12",
+      "-I",
+      "-B",
+      "packages/test-harness/editing/synchronization/bridge-replay.test.py"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.903s\n\nOK\n",
+    "change": "Distinguish all nine scout refusals from seven actual strict20s comparisons and two coarse refusals; model-identity mutation preserves report byte count."
+  }
+}

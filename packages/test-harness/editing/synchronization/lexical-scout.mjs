@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { lexicalCandidates } from "./lexical.mjs";
+import { preparedParakeet, recognize } from "./recognition.mjs";
 
 const usage =
   "node lexical-scout.mjs --fixtures <retained-WAV-dir> --out <fresh-dir> (--native <frozen-worker> --models <Parakeet-ready.json> | --capture <existing-scout-dir>)\nRecognition runs at most nine bounded20s calls. Replay reads captured observations without inference. Neither mode estimates or declares synchronization.";
@@ -75,23 +75,7 @@ if (prior) {
   assert.equal(prior.protocolSha256, hash(protocolBytes));
   assert.equal(prior.manifestSha256, hash(manifestBytes));
 }
-const models = !prior && JSON.parse(readFileSync(values.models)).nativeRequest;
-if (!prior) {
-  assert(models?.directory && models.files.length, "Use verified first-class Parakeet preparation");
-  const expected = JSON.parse(
-    readFileSync(
-      new URL(
-        "../../../../specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/requests.json",
-        import.meta.url,
-      ),
-    ),
-  )[0].params.models;
-  assert.deepEqual(
-    models.files,
-    expected.files,
-    "Use the frozen first-class Parakeet model inventory",
-  );
-}
+const models = !prior && preparedParakeet(values.models);
 const frozen = {
   protocolSha256: hash(protocolBytes),
   manifestSha256: hash(manifestBytes),
@@ -108,43 +92,15 @@ for (const entry of manifest.cases) {
     raw = readFileSync(join(values.capture, filename));
     assert.equal(hash(raw), identity.sha256, "Captured recognition changed");
   } else {
-    const request = {
-      id: entry.name,
-      operation: "speech.transcribe",
-      params: {
-        models,
-        track: {
-          source: resolve(values.fixtures, entry.path),
-          sourceOffsetUs: 0,
-          available: [{ startUs: 0, endUs: 20000000 }],
-        },
-        output: join(out, filename),
-        execution: {
-          executionRange: null,
-          context: { beforeUs: 0, afterUs: 0 },
-          recipe: "source-windows-20s-context4s-guard1s-v2",
-        },
-      },
-    };
-    save(entry.name + "-request.json", request);
-    const result = spawnSync(
-      "/usr/bin/sandbox-exec",
-      ["-p", "(version 1)(allow default)(deny network*)", resolve(values.native)],
-      {
-        input: JSON.stringify(request) + "\n",
-        encoding: "utf8",
-        timeout: protocol.budget.secondsPerCall * 1000,
-        maxBuffer: 8 * 1024 * 1024,
-      },
-    );
-    writeFileSync(join(out, entry.name + ".stderr.log"), result.stderr ?? "");
-    writeFileSync(join(out, entry.name + "-response.json"), result.stdout ?? "");
-    assert.ifError(result.error);
-    assert.equal(result.status, 0, result.stderr);
-    const response = JSON.parse(result.stdout);
-    assert(response.ok, JSON.stringify(response));
-    raw = readFileSync(join(out, filename));
-    assert.equal(hash(raw), response.data.output.sha256);
+    raw = recognize({
+      native: values.native,
+      models,
+      source: resolve(values.fixtures, entry.path),
+      durationUs: 20000000,
+      name: entry.name,
+      out,
+      secondsPerCall: protocol.budget.secondsPerCall,
+    });
   }
   const records = raw.toString().trim().split("\n").map(JSON.parse);
   const words = records.flatMap((record) => record.words);

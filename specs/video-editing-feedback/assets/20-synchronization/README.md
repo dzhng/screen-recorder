@@ -43,6 +43,7 @@ Corrective independent review of the original waveform runner is pending.
 [The independent lexical scout](lexical/README.md) also refuses its prerequisites
 on the same retained windows: independently recognized sources share no candidate
 utterance across any selected windows. No timing inference or synchronization
-promotion follows that failure. Slice20 remains open for a separately frozen
-mixed/reference bridge hypothesis; this bounded scout does not rule out shared
-content elsewhere in the originals.
+promotion follows that failure. This bounded scout does not rule out shared content elsewhere in the originals.
+[Mixed-reference bridge research](bridge/README.md) now retains separately frozen
+local observations while preserving all original acoustic, lexical and global-clock
+refusals. Slice20 remains open; local sampled bridges do not declare a session clock.

@@ -1,0 +1,370 @@
+{
+  "protocolSha256": "2ed10fbb7a3da2bbc796a2621e570a42d043fe678687398efece92dea3f2ddde",
+  "localProtocolSha256": "76a71fe83e4006896abc835d093f3481a5a11346bb916d06a0fed83d7b06a626",
+  "sources": {
+    "main": {
+      "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+      "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+      "rangeSeconds": [
+        0,
+        1960
+      ]
+    },
+    "grahamRaw": {
+      "file": "fullvideo_graham_p1.mp4",
+      "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+      "rangeSeconds": [
+        0,
+        2340
+      ]
+    },
+    "madisonRaw": {
+      "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+      "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+      "rangeSeconds": [
+        0,
+        2340
+      ]
+    },
+    "lilyRawP1": {
+      "file": "fullvideo_lily_p1.mp4",
+      "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+      "rangeSeconds": [
+        0,
+        2340
+      ]
+    }
+  },
+  "operands": [
+    {
+      "name": "grahamRaw-253",
+      "side": "raw",
+      "path": "scout/grahamRaw-253.wav",
+      "source": "grahamRaw",
+      "originUs": 253000000,
+      "durationUs": 20000000,
+      "sha256": "c11de7d0da4148374cd72b019937a24aee9db4019ceba0b63ae602017008ee8c",
+      "bytes": 1280058,
+      "pcmSha256": "fe241af7b99baa23db5c62f6cd661bd8942933ad62d31c647b2925db6d3f63fa"
+    },
+    {
+      "name": "grahamRaw-253",
+      "side": "reference",
+      "path": "scout/grahamRaw-253-reference.wav",
+      "source": "main",
+      "originUs": 183705000,
+      "durationUs": 20000000,
+      "sha256": "970911eecc2148b3882901ca3a9184eb0757b65a58aabe8b7e4167653cab8d39",
+      "bytes": 1280058,
+      "pcmSha256": "b49458cc23b2000d7a2bab5a5b059ac6431326dd9394e8227e62b148e27cda98"
+    },
+    {
+      "name": "grahamRaw-937",
+      "side": "raw",
+      "path": "scout/grahamRaw-937.wav",
+      "source": "grahamRaw",
+      "originUs": 937000000,
+      "durationUs": 20000000,
+      "sha256": "f8f628c15d17b88b78327903695decaa4a00bf3d861167f820c169f099928952",
+      "bytes": 1280058,
+      "pcmSha256": "f4b72fe096586fc74a648629451a683fcc3bb9cd7240eb6a1d3d5585f6ddb961"
+    },
+    {
+      "name": "grahamRaw-937",
+      "side": "reference",
+      "path": "scout/grahamRaw-937-reference.wav",
+      "source": "main",
+      "originUs": 708743000,
+      "durationUs": 20000000,
+      "sha256": "87b038a4793bf5279fdd18317afc125506f4c6de094d60035a97614f7e60cc4a",
+      "bytes": 1280058,
+      "pcmSha256": "78ff7e31cb3c67843b21bdead20e3e1b8429b7b5468d2308f949699e7347cec6"
+    },
+    {
+      "name": "grahamRaw-2171",
+      "side": "raw",
+      "path": "scout/grahamRaw-2171.wav",
+      "source": "grahamRaw",
+      "originUs": 2171000000,
+      "durationUs": 20000000,
+      "sha256": "3f0278b2683266bdd2431bd035e875c81af63d0b1a01c48e3b7d650205507e41",
+      "bytes": 1280058,
+      "pcmSha256": "227807c1bd2c91fd8a52fce740d668140def4b64883de2e0804d717b58c5be04"
+    },
+    {
+      "name": "grahamRaw-2171",
+      "side": "reference",
+      "path": "scout/grahamRaw-2171-reference.wav",
+      "source": "main",
+      "originUs": 1851773000,
+      "durationUs": 20000000,
+      "sha256": "818a72899072ac47fc177d6e538ba1565985ef2884d8e16bcb1f452493027c61",
+      "bytes": 1280058,
+      "pcmSha256": "88b153a1be4c9be92384ebf3e36fcf7dff158a03c9ebf561921103826a0ac43e"
+    },
+    {
+      "name": "madisonRaw-296",
+      "side": "raw",
+      "path": "scout/madisonRaw-296.wav",
+      "source": "madisonRaw",
+      "originUs": 296000000,
+      "durationUs": 20000000,
+      "sha256": "325c2b68488fdaf13240958c175c944a7cadf7ebb33ae6d48451a025bec84a1d",
+      "bytes": 1280058,
+      "pcmSha256": "1799354a428769d4c15226a294596ee0ab095d4c85bd1af5976a6f94164c9327"
+    },
+    {
+      "name": "madisonRaw-296",
+      "side": "reference",
+      "path": "scout/madisonRaw-296-reference.wav",
+      "source": "main",
+      "originUs": 223195000,
+      "durationUs": 20000000,
+      "sha256": "d8637f9ce9fbf69d15680dcb3e1b77365c4245f23fe6acab6f5732b2af1b308a",
+      "bytes": 1280058,
+      "pcmSha256": "b2bca73f6699f21fafccc87f189df293b79b6cc1883491fc314cbeb36ae50fcf"
+    },
+    {
+      "name": "madisonRaw-1139",
+      "side": "raw",
+      "path": "scout/madisonRaw-1139.wav",
+      "source": "madisonRaw",
+      "originUs": 1139000000,
+      "durationUs": 20000000,
+      "sha256": "f1edd9d9b3b25b5762d81e6f9d71da5d629b15586ed9dae7bad7ec496eb5bc9c",
+      "bytes": 1280058,
+      "pcmSha256": "818917dde618a959081b166d0c9c27f516ca6ae056d585ee33db996285a3d692"
+    },
+    {
+      "name": "madisonRaw-1139",
+      "side": "reference",
+      "path": "scout/madisonRaw-1139-reference.wav",
+      "source": "main",
+      "originUs": 889353000,
+      "durationUs": 20000000,
+      "sha256": "b1fca6029fcd59a2120b3740091e76a232348b8fafe5e5c92ac7aeb122bd5410",
+      "bytes": 1280058,
+      "pcmSha256": "096f93a8996210bf863220a8fe8e76912ff6a1ef7bb21202353c9923bd942797"
+    },
+    {
+      "name": "madisonRaw-1905",
+      "side": "raw",
+      "path": "scout/madisonRaw-1905.wav",
+      "source": "madisonRaw",
+      "originUs": 1905000000,
+      "durationUs": 20000000,
+      "sha256": "76ee5f6bb7c8ae8440cb2b397128980a123dbb0bf270fc171d42b05d33b0e2de",
+      "bytes": 1280058,
+      "pcmSha256": "ecd14d2ad69b4957c4a4dfa09c2ce40029edd0726e6f291971296f5f20460d75"
+    },
+    {
+      "name": "lilyRawP1-15",
+      "side": "raw",
+      "path": "scout/lilyRawP1-15.wav",
+      "source": "lilyRawP1",
+      "originUs": 15000000,
+      "durationUs": 20000000,
+      "sha256": "6946fe0610bcd8b684d70c2d7fb9543852d5c3dc2f8be18849c329a94d81d9c1",
+      "bytes": 1280058,
+      "pcmSha256": "3ef37229d6b9ef4ce4a2ac26f33e2de711187b122a6809063f7fafcc161573c8"
+    },
+    {
+      "name": "lilyRawP1-1106",
+      "side": "raw",
+      "path": "scout/lilyRawP1-1106.wav",
+      "source": "lilyRawP1",
+      "originUs": 1106000000,
+      "durationUs": 20000000,
+      "sha256": "05393d6bd549c8729d4f5f628b771e49217991fad10fa12ef6dbef84e5bc9972",
+      "bytes": 1280058,
+      "pcmSha256": "3506285158c5e59912f6d2290c6f0aa8bd3e90e02583b9d6859bb8f6862c1da4"
+    },
+    {
+      "name": "lilyRawP1-1106",
+      "side": "reference",
+      "path": "scout/lilyRawP1-1106-reference.wav",
+      "source": "main",
+      "originUs": 858953000,
+      "durationUs": 20000000,
+      "sha256": "5921e04a6a38aaa74a94d028ff74ca490c1ae7685431ebbf7ff7f6fab3dd7828",
+      "bytes": 1280058,
+      "pcmSha256": "671e3f7808f7da8f4f9c9be059519b49fb4c9e69bdd5544b3952d350f9737807"
+    },
+    {
+      "name": "lilyRawP1-1693",
+      "side": "raw",
+      "path": "scout/lilyRawP1-1693.wav",
+      "source": "lilyRawP1",
+      "originUs": 1693000000,
+      "durationUs": 20000000,
+      "sha256": "f78146767a65e584f2cae8f1a1a530d73253d662f846b67b8cfbe3f37c4410d9",
+      "bytes": 1280058,
+      "pcmSha256": "7a144b1146a514afa47cc8d3e760f32a8fe2f8548ff9ec58ab7df8db6190292e"
+    },
+    {
+      "name": "lilyRawP1-1693",
+      "side": "reference",
+      "path": "scout/lilyRawP1-1693-reference.wav",
+      "source": "main",
+      "originUs": 1543909000,
+      "durationUs": 20000000,
+      "sha256": "8db794042b27dbd2f1424c146ed31ee9f9442d02da336615d514330b95860173",
+      "bytes": 1280058,
+      "pcmSha256": "2264708d179246dd5662fda075a8c02a62611cf683b41bbc9cb4fc7590ebb47a"
+    },
+    {
+      "name": "grahamRaw-253",
+      "side": "raw",
+      "path": "local/grahamRaw-253-raw.wav",
+      "source": "grahamRaw",
+      "originUs": 261000000,
+      "durationUs": 4000000,
+      "sha256": "7a60ad06b5b81a26b4f9be90d14c7d212c505fecba92365fab2839f43723c31c",
+      "bytes": 256058,
+      "pcmSha256": "d0f5c99434252238a9c612bca6804d505901215cb88ded80d2220a57bb8fcfe3"
+    },
+    {
+      "name": "grahamRaw-253",
+      "side": "reference",
+      "path": "local/grahamRaw-253-reference.wav",
+      "source": "main",
+      "originUs": 191705000,
+      "durationUs": 4000000,
+      "sha256": "00977f71303c796f9b31dbc57ebe426f0aa7db435b97f0fad1a360d3889d0d21",
+      "bytes": 256058,
+      "pcmSha256": "55ec328a44866a086516970627fe37601fed5468bde1a8e73e00e523c206c9db"
+    },
+    {
+      "name": "grahamRaw-937",
+      "side": "raw",
+      "path": "local/grahamRaw-937-raw.wav",
+      "source": "grahamRaw",
+      "originUs": 945000000,
+      "durationUs": 4000000,
+      "sha256": "afd604da8cdcd933effd5a0f3dca0a9acab26f8ea6c8a7e9fee0ee669625988f",
+      "bytes": 256058,
+      "pcmSha256": "12040d32a0e76cd874fd2dcc04415d3eea050aac84826fdfc15b00243689449b"
+    },
+    {
+      "name": "grahamRaw-937",
+      "side": "reference",
+      "path": "local/grahamRaw-937-reference.wav",
+      "source": "main",
+      "originUs": 716743000,
+      "durationUs": 4000000,
+      "sha256": "dc61f70e43c646cfeade55399a2076db28152480e1479bc5095f5c5043608f78",
+      "bytes": 256058,
+      "pcmSha256": "a944895016b94fe67cf85a9de8d612f22020b54aa7c836b8b4a741addbb1f351"
+    },
+    {
+      "name": "grahamRaw-2171",
+      "side": "raw",
+      "path": "local/grahamRaw-2171-raw.wav",
+      "source": "grahamRaw",
+      "originUs": 2179000000,
+      "durationUs": 4000000,
+      "sha256": "b48ffbf66f47e05bf31dc21cea2a7a68015fb84c8d9b68730b93780ce08ad4ab",
+      "bytes": 256058,
+      "pcmSha256": "66da30cd27819b6b8dda71e153fa794fa34a1fcef8a7992c321c462f79dccdb1"
+    },
+    {
+      "name": "grahamRaw-2171",
+      "side": "reference",
+      "path": "local/grahamRaw-2171-reference.wav",
+      "source": "main",
+      "originUs": 1859773000,
+      "durationUs": 4000000,
+      "sha256": "8f819d69f17f5f6e5bdc0287ab1d2cd57094a49a0ef89e72888ef58f83d2252f",
+      "bytes": 256058,
+      "pcmSha256": "4a66f5bcae12e8ed9843c674b21c746a752a2210b4b9828eb937f1593f555d6b"
+    },
+    {
+      "name": "madisonRaw-296",
+      "side": "raw",
+      "path": "local/madisonRaw-296-raw.wav",
+      "source": "madisonRaw",
+      "originUs": 304000000,
+      "durationUs": 4000000,
+      "sha256": "1eb20e6bfc7fd515586dc6da2982557788df0edf6ddac455b33a5ce295dfe59b",
+      "bytes": 256058,
+      "pcmSha256": "0956d90ee1c849bd420fdc3364ca53539abff4367d158354d292c1a6dd8f065f"
+    },
+    {
+      "name": "madisonRaw-296",
+      "side": "reference",
+      "path": "local/madisonRaw-296-reference.wav",
+      "source": "main",
+      "originUs": 231195000,
+      "durationUs": 4000000,
+      "sha256": "47d9f7d5b6eb67f10f5669f8942f6134c020d3d282d1c64f61e8ea8615524cd7",
+      "bytes": 256058,
+      "pcmSha256": "6410a33f5f79b3918a9d5af85efce8ef7bf6e7ad6ff5c43fcc0c8a722fe8c47b"
+    },
+    {
+      "name": "madisonRaw-1139",
+      "side": "raw",
+      "path": "local/madisonRaw-1139-raw.wav",
+      "source": "madisonRaw",
+      "originUs": 1147000000,
+      "durationUs": 4000000,
+      "sha256": "da6db9e6e328e30c4a3ecd9d3410d4ff070a5532130afe339c1c0ff7bd429cda",
+      "bytes": 256058,
+      "pcmSha256": "eea7b980827ddf947822b2551607379498fd5eaa8f245ac1af8feb5146562d10"
+    },
+    {
+      "name": "madisonRaw-1139",
+      "side": "reference",
+      "path": "local/madisonRaw-1139-reference.wav",
+      "source": "main",
+      "originUs": 897353000,
+      "durationUs": 4000000,
+      "sha256": "3c0b8a71eb95f0150fa88d622e6682044e5c0f4c6f0859d11bfabe30062834b6",
+      "bytes": 256058,
+      "pcmSha256": "cd99b7099dace3c15ede60d8e65b13c71eae6a49352b1617c23c27b94e394224"
+    },
+    {
+      "name": "lilyRawP1-1106",
+      "side": "raw",
+      "path": "local/lilyRawP1-1106-raw.wav",
+      "source": "lilyRawP1",
+      "originUs": 1114000000,
+      "durationUs": 4000000,
+      "sha256": "58a998051c7e601ab7f7c60233c9478d62cd2f9e55dbc07faf814621fe16f10a",
+      "bytes": 256058,
+      "pcmSha256": "dd45fd88039f11899fe3a32efdaaa74c7844e2d86ac74ab88d1ef5892b917b9c"
+    },
+    {
+      "name": "lilyRawP1-1106",
+      "side": "reference",
+      "path": "local/lilyRawP1-1106-reference.wav",
+      "source": "main",
+      "originUs": 866953000,
+      "durationUs": 4000000,
+      "sha256": "8f2f98440d92c360357cc98d021d1ec18f18707a6553d41fbaa34e407143b6af",
+      "bytes": 256058,
+      "pcmSha256": "db911ea9591f332749fe9610ac18abf486063e3f6b7b371f5b0357d2ff1ec8ad"
+    },
+    {
+      "name": "lilyRawP1-1693",
+      "side": "raw",
+      "path": "local/lilyRawP1-1693-raw.wav",
+      "source": "lilyRawP1",
+      "originUs": 1701000000,
+      "durationUs": 4000000,
+      "sha256": "2eca91c5d75c1cb1b0e0e491dc77a3b114974741d1e541d4fad244ae1581a0c3",
+      "bytes": 256058,
+      "pcmSha256": "80a9e8ecc7d13b4a62d8aa8fa0912deaf466737187e5e5dec85de274281d8774"
+    },
+    {
+      "name": "lilyRawP1-1693",
+      "side": "reference",
+      "path": "local/lilyRawP1-1693-reference.wav",
+      "source": "main",
+      "originUs": 1551909000,
+      "durationUs": 4000000,
+      "sha256": "c65da70562fb9194e60873eb45df428eda94e456d6bebc2eeb7594323743584b",
+      "bytes": 256058,
+      "pcmSha256": "dc1a8ad6176fd93e1cec2e3acb37b881b6fa6e8e208c73fbccf97f1c487d10fa"
+    }
+  ]
+}

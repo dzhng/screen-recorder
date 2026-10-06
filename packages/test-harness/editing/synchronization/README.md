@@ -27,3 +27,12 @@ retains literal provider text and competing occurrences. Passing a lexical
 prerequisite would still require independent timing controls and source alignment;
 the scout never estimates a clock. Inference-free replay preserves every captured
 raw observation and refuses a changed frozen report identity.
+
+[Mixed-reference research](bridge.py) searches a bounded edited reference using
+separate raw source clocks. [Local subanchors](local.py) and shared [recognition
+capture](recognition.mjs) separate sampled acoustic support from literal provider
+observations. The [retained checkpoint](../../../../specs/video-editing-feedback/assets/20-synchronization/bridge/README.md)
+preserves all surrounding-window refusals alongside local observations.
+[Bridge replay](bridge-replay.py) needs no inference and repeats the retained
+numerical/lexical operands; its help states why full-domain selection cannot be
+reproduced from cropped fixtures. None is a production synchronization fallback.

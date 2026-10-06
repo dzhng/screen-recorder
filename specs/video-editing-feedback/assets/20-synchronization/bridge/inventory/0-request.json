@@ -1,0 +1,7 @@
+{
+  "id": "0",
+  "operation": "media.probe",
+  "params": {
+    "path": "/Users/server/Downloads/20261005_graham-neubig_full-interview_final_1080p.mp4"
+  }
+}

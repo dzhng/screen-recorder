@@ -1257,3 +1257,26 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound. Regression falsification detects the omitted mapping, and
   actual public still/movie output agrees with independently supplied windows.
 - **Confidence:** high.
+
+## Mixed-reference local support — slice20
+
+- **When:** bounded synchronization research after unlike-microphone waveform and
+  independent lexical refusals.
+- **The choice:** Use an edited mixed reference as a bridge into each original
+  microphone. Freeze source-rate conversion and full-domain selection first;
+  preserve the strict surrounding-window refusals. Freeze a separate local
+  hypothesis before measuring exact middle operands, requiring disjoint acoustic
+  subanchors and independent Parakeet phrases. A sampled local bridge supplies
+  evidence only, with no source relationship or edit declaration.
+- **The gap:** Isolated microphones had no shared phrase in the retained windows,
+  while master edits made one surrounding-window offset unsuitable. Conditional
+  supplied-text alignment would not independently establish shared speech.
+- **The reach:** Retained local observations can inform a future synchronization
+  hypothesis, but global/raw-to-raw clocks remain refused. Cropped fixtures replay
+  strict/local operands and captured recognition, not external full-domain search.
+  All failed cases remain retained; thresholds and original precision controls
+  stay unchanged. The existing native source-audio owner and WAV/LFS fixture owner
+  avoid another product decoder or storage mechanism.
+- **Verdict:** sound bounded research; no production estimator promoted.
+- **Confidence:** high for retained operand preservation and literal local provider
+  observations; global clock and unsampled continuity are not established.

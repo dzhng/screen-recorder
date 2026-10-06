@@ -1,0 +1,22 @@
+{
+  "id": "madisonRaw",
+  "operation": "media.sourceAudio",
+  "params": {
+    "source": {
+      "source": "/Users/server/Downloads/riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+      "streamId": "track:2",
+      "sourceOffsetUs": 0,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 2340000000
+        }
+      ]
+    },
+    "range": {
+      "startUs": 0,
+      "endUs": 2340000000
+    },
+    "output": "/private/tmp/yap-bridge-acquisition-r2-20261006/madisonRaw-native.wav"
+  }
+}

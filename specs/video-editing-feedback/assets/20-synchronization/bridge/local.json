@@ -1,0 +1,906 @@
+{
+  "protocolSha256": "76a71fe83e4006896abc835d093f3481a5a11346bb916d06a0fed83d7b06a626",
+  "parentScoutSha256": "e642adc12fc194df6c3f69145bbac185984e8dd025f8848edfabce334086f581",
+  "windows": [
+    {
+      "name": "grahamRaw-253",
+      "source": "grahamRaw",
+      "parent20sState": "refused",
+      "sourceOriginUs": 261000000,
+      "referenceOriginUs": 191705000,
+      "acoustic": {
+        "state": "local-acoustic-candidate",
+        "sampleRate": 16000,
+        "offsetFrames": 0,
+        "spreadFrames": 1,
+        "anchors": [
+          {
+            "rangeFrames": [
+              2000,
+              14000
+            ],
+            "selectedFrames": -1,
+            "alternatives": [
+              {
+                "offsetFrames": -1,
+                "correlation": 0.9968982063696653,
+                "absoluteCorrelation": 0.9968982063696653
+              },
+              {
+                "offsetFrames": -802,
+                "correlation": 0.05716626718684094,
+                "absoluteCorrelation": 0.05716626718684094
+              },
+              {
+                "offsetFrames": 800,
+                "correlation": 0.04983673499121844,
+                "absoluteCorrelation": 0.04983673499121844
+              },
+              {
+                "offsetFrames": -1928,
+                "correlation": -0.027186373993925903,
+                "absoluteCorrelation": 0.027186373993925903
+              },
+              {
+                "offsetFrames": 1930,
+                "correlation": -0.020854382084776954,
+                "absoluteCorrelation": 0.020854382084776954
+              }
+            ],
+            "alternativeRatio": 0.05734413686530679
+          },
+          {
+            "rangeFrames": [
+              26000,
+              38000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9832364292021012,
+                "absoluteCorrelation": 0.9832364292021012
+              },
+              {
+                "offsetFrames": 1059,
+                "correlation": 0.1248248317875831,
+                "absoluteCorrelation": 0.1248248317875831
+              },
+              {
+                "offsetFrames": -1058,
+                "correlation": 0.10993322274962421,
+                "absoluteCorrelation": 0.10993322274962421
+              },
+              {
+                "offsetFrames": -1945,
+                "correlation": 0.10720570644608687,
+                "absoluteCorrelation": 0.10720570644608687
+              },
+              {
+                "offsetFrames": 1944,
+                "correlation": 0.09270920856213612,
+                "absoluteCorrelation": 0.09270920856213612
+              }
+            ],
+            "alternativeRatio": 0.126953017687596
+          },
+          {
+            "rangeFrames": [
+              50000,
+              62000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9906089092827839,
+                "absoluteCorrelation": 0.9906089092827839
+              },
+              {
+                "offsetFrames": -908,
+                "correlation": 0.3761389564030644,
+                "absoluteCorrelation": 0.3761389564030644
+              },
+              {
+                "offsetFrames": 907,
+                "correlation": 0.37285093355295834,
+                "absoluteCorrelation": 0.37285093355295834
+              },
+              {
+                "offsetFrames": -1923,
+                "correlation": 0.29090908026817186,
+                "absoluteCorrelation": 0.29090908026817186
+              },
+              {
+                "offsetFrames": 1922,
+                "correlation": 0.2892939622079413,
+                "absoluteCorrelation": 0.2892939622079413
+              }
+            ],
+            "alternativeRatio": 0.37970479861259754
+          }
+        ],
+        "reason": "independent-lexical-admission-required"
+      },
+      "raw": {
+        "path": "grahamRaw-253-raw.wav",
+        "sha256": "7a60ad06b5b81a26b4f9be90d14c7d212c505fecba92365fab2839f43723c31c",
+        "pcmSha256": "d0f5c99434252238a9c612bca6804d505901215cb88ded80d2220a57bb8fcfe3",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "reference": {
+        "path": "grahamRaw-253-reference.wav",
+        "sha256": "00977f71303c796f9b31dbc57ebe426f0aa7db435b97f0fad1a360d3889d0d21",
+        "pcmSha256": "55ec328a44866a086516970627fe37601fed5468bde1a8e73e00e523c206c9db",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "referenceMinusSourceSamples16k": -1108720
+    },
+    {
+      "name": "grahamRaw-937",
+      "source": "grahamRaw",
+      "parent20sState": "refused",
+      "sourceOriginUs": 945000000,
+      "referenceOriginUs": 716743000,
+      "acoustic": {
+        "state": "refused",
+        "sampleRate": 16000,
+        "offsetFrames": null,
+        "spreadFrames": null,
+        "anchors": [
+          {
+            "rangeFrames": [
+              2000,
+              14000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": -30,
+                "correlation": -0.2240673129184612,
+                "absoluteCorrelation": 0.2240673129184612
+              },
+              {
+                "offsetFrames": 1646,
+                "correlation": 0.17970472899226547,
+                "absoluteCorrelation": 0.17970472899226547
+              },
+              {
+                "offsetFrames": 797,
+                "correlation": -0.15274613149844138,
+                "absoluteCorrelation": 0.15274613149844138
+              },
+              {
+                "offsetFrames": -854,
+                "correlation": -0.14704948065656118,
+                "absoluteCorrelation": 0.14704948065656118
+              },
+              {
+                "offsetFrames": -1851,
+                "correlation": -0.0819946679924413,
+                "absoluteCorrelation": 0.0819946679924413
+              }
+            ],
+            "alternativeRatio": 0.8020122464612257
+          },
+          {
+            "rangeFrames": [
+              26000,
+              38000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9876473342221652,
+                "absoluteCorrelation": 0.9876473342221652
+              },
+              {
+                "offsetFrames": -1188,
+                "correlation": 0.17956226411044077,
+                "absoluteCorrelation": 0.17956226411044077
+              },
+              {
+                "offsetFrames": -2000,
+                "correlation": -0.14028313912240745,
+                "absoluteCorrelation": 0.14028313912240745
+              },
+              {
+                "offsetFrames": 818,
+                "correlation": -0.13772178853146733,
+                "absoluteCorrelation": 0.13772178853146733
+              },
+              {
+                "offsetFrames": 1832,
+                "correlation": 0.0751985266401921,
+                "absoluteCorrelation": 0.0751985266401921
+              }
+            ],
+            "alternativeRatio": 0.18180807854036019
+          },
+          {
+            "rangeFrames": [
+              50000,
+              62000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9928051989267846,
+                "absoluteCorrelation": 0.9928051989267846
+              },
+              {
+                "offsetFrames": -1202,
+                "correlation": 0.2012077340853286,
+                "absoluteCorrelation": 0.2012077340853286
+              },
+              {
+                "offsetFrames": 1203,
+                "correlation": 0.15588356299079528,
+                "absoluteCorrelation": 0.15588356299079528
+              }
+            ],
+            "alternativeRatio": 0.2026658747384006
+          }
+        ],
+        "reason": "insufficient-or-ambiguous-local-waveform"
+      },
+      "raw": {
+        "path": "grahamRaw-937-raw.wav",
+        "sha256": "afd604da8cdcd933effd5a0f3dca0a9acab26f8ea6c8a7e9fee0ee669625988f",
+        "pcmSha256": "12040d32a0e76cd874fd2dcc04415d3eea050aac84826fdfc15b00243689449b",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "reference": {
+        "path": "grahamRaw-937-reference.wav",
+        "sha256": "dc61f70e43c646cfeade55399a2076db28152480e1479bc5095f5c5043608f78",
+        "pcmSha256": "a944895016b94fe67cf85a9de8d612f22020b54aa7c836b8b4a741addbb1f351",
+        "frames": 64000,
+        "sampleRate": 16000
+      }
+    },
+    {
+      "name": "grahamRaw-2171",
+      "source": "grahamRaw",
+      "parent20sState": "refused",
+      "sourceOriginUs": 2179000000,
+      "referenceOriginUs": 1859773000,
+      "acoustic": {
+        "state": "local-acoustic-candidate",
+        "sampleRate": 16000,
+        "offsetFrames": 0,
+        "spreadFrames": 0,
+        "anchors": [
+          {
+            "rangeFrames": [
+              2000,
+              14000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9760853442847149,
+                "absoluteCorrelation": 0.9760853442847149
+              },
+              {
+                "offsetFrames": -1480,
+                "correlation": -0.21331631326603231,
+                "absoluteCorrelation": 0.21331631326603231
+              },
+              {
+                "offsetFrames": 1479,
+                "correlation": -0.1944455797362576,
+                "absoluteCorrelation": 0.1944455797362576
+              }
+            ],
+            "alternativeRatio": 0.21854268636965615
+          },
+          {
+            "rangeFrames": [
+              26000,
+              38000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9902533166157833,
+                "absoluteCorrelation": 0.9902533166157833
+              },
+              {
+                "offsetFrames": -1379,
+                "correlation": -0.11651930043238219,
+                "absoluteCorrelation": 0.11651930043238219
+              },
+              {
+                "offsetFrames": 1379,
+                "correlation": -0.1091611205527158,
+                "absoluteCorrelation": 0.1091611205527158
+              }
+            ],
+            "alternativeRatio": 0.11766615519207747
+          },
+          {
+            "rangeFrames": [
+              50000,
+              62000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.8006213357083122,
+                "absoluteCorrelation": 0.8006213357083122
+              },
+              {
+                "offsetFrames": 801,
+                "correlation": 0.15741274958350654,
+                "absoluteCorrelation": 0.15741274958350654
+              },
+              {
+                "offsetFrames": -801,
+                "correlation": 0.1307539473073513,
+                "absoluteCorrelation": 0.1307539473073513
+              },
+              {
+                "offsetFrames": 1920,
+                "correlation": 0.07189529693089756,
+                "absoluteCorrelation": 0.07189529693089756
+              },
+              {
+                "offsetFrames": -1810,
+                "correlation": -0.05003869660716738,
+                "absoluteCorrelation": 0.05003869660716738
+              }
+            ],
+            "alternativeRatio": 0.19661323345104587
+          }
+        ],
+        "reason": "independent-lexical-admission-required"
+      },
+      "raw": {
+        "path": "grahamRaw-2171-raw.wav",
+        "sha256": "b48ffbf66f47e05bf31dc21cea2a7a68015fb84c8d9b68730b93780ce08ad4ab",
+        "pcmSha256": "66da30cd27819b6b8dda71e153fa794fa34a1fcef8a7992c321c462f79dccdb1",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "reference": {
+        "path": "grahamRaw-2171-reference.wav",
+        "sha256": "8f819d69f17f5f6e5bdc0287ab1d2cd57094a49a0ef89e72888ef58f83d2252f",
+        "pcmSha256": "4a66f5bcae12e8ed9843c674b21c746a752a2210b4b9828eb937f1593f555d6b",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "referenceMinusSourceSamples16k": -5107632
+    },
+    {
+      "name": "madisonRaw-296",
+      "source": "madisonRaw",
+      "parent20sState": "refused",
+      "sourceOriginUs": 304000000,
+      "referenceOriginUs": 231195000,
+      "acoustic": {
+        "state": "local-acoustic-candidate",
+        "sampleRate": 16000,
+        "offsetFrames": 0,
+        "spreadFrames": 0,
+        "anchors": [
+          {
+            "rangeFrames": [
+              2000,
+              14000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.989540201991439,
+                "absoluteCorrelation": 0.989540201991439
+              },
+              {
+                "offsetFrames": -803,
+                "correlation": -0.11653333025478772,
+                "absoluteCorrelation": 0.11653333025478772
+              },
+              {
+                "offsetFrames": 802,
+                "correlation": -0.11402475530737634,
+                "absoluteCorrelation": 0.11402475530737634
+              },
+              {
+                "offsetFrames": -1605,
+                "correlation": -0.04045268216750945,
+                "absoluteCorrelation": 0.04045268216750945
+              },
+              {
+                "offsetFrames": 1921,
+                "correlation": -0.03893577759505628,
+                "absoluteCorrelation": 0.03893577759505628
+              }
+            ],
+            "alternativeRatio": 0.11776512972415436
+          },
+          {
+            "rangeFrames": [
+              26000,
+              38000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9841522698528573,
+                "absoluteCorrelation": 0.9841522698528573
+              },
+              {
+                "offsetFrames": 808,
+                "correlation": -0.11564358095407755,
+                "absoluteCorrelation": 0.11564358095407755
+              },
+              {
+                "offsetFrames": 1752,
+                "correlation": -0.10979705252409128,
+                "absoluteCorrelation": 0.10979705252409128
+              },
+              {
+                "offsetFrames": -1754,
+                "correlation": -0.0979515449186274,
+                "absoluteCorrelation": 0.0979515449186274
+              },
+              {
+                "offsetFrames": -854,
+                "correlation": 0.09184476705014392,
+                "absoluteCorrelation": 0.09184476705014392
+              }
+            ],
+            "alternativeRatio": 0.11750578085987412
+          },
+          {
+            "rangeFrames": [
+              50000,
+              62000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9828733286225777,
+                "absoluteCorrelation": 0.9828733286225777
+              },
+              {
+                "offsetFrames": -1773,
+                "correlation": 0.23093445416058006,
+                "absoluteCorrelation": 0.23093445416058006
+              },
+              {
+                "offsetFrames": 1386,
+                "correlation": 0.158334637099977,
+                "absoluteCorrelation": 0.158334637099977
+              },
+              {
+                "offsetFrames": -858,
+                "correlation": 0.1285713238718402,
+                "absoluteCorrelation": 0.1285713238718402
+              }
+            ],
+            "alternativeRatio": 0.2349585113721797
+          }
+        ],
+        "reason": "independent-lexical-admission-required"
+      },
+      "raw": {
+        "path": "madisonRaw-296-raw.wav",
+        "sha256": "1eb20e6bfc7fd515586dc6da2982557788df0edf6ddac455b33a5ce295dfe59b",
+        "pcmSha256": "0956d90ee1c849bd420fdc3364ca53539abff4367d158354d292c1a6dd8f065f",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "reference": {
+        "path": "madisonRaw-296-reference.wav",
+        "sha256": "47d9f7d5b6eb67f10f5669f8942f6134c020d3d282d1c64f61e8ea8615524cd7",
+        "pcmSha256": "6410a33f5f79b3918a9d5af85efce8ef7bf6e7ad6ff5c43fcc0c8a722fe8c47b",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "referenceMinusSourceSamples16k": -1164880
+    },
+    {
+      "name": "madisonRaw-1139",
+      "source": "madisonRaw",
+      "parent20sState": "refused",
+      "sourceOriginUs": 1147000000,
+      "referenceOriginUs": 897353000,
+      "acoustic": {
+        "state": "refused",
+        "sampleRate": 16000,
+        "offsetFrames": null,
+        "spreadFrames": null,
+        "anchors": [
+          {
+            "rangeFrames": [
+              2000,
+              14000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": -1197,
+                "correlation": -0.032015123806672055,
+                "absoluteCorrelation": 0.032015123806672055
+              },
+              {
+                "offsetFrames": 1035,
+                "correlation": 0.018334627330642686,
+                "absoluteCorrelation": 0.018334627330642686
+              },
+              {
+                "offsetFrames": -1999,
+                "correlation": 0.01611410889814512,
+                "absoluteCorrelation": 0.01611410889814512
+              },
+              {
+                "offsetFrames": -342,
+                "correlation": -0.015251661723710045,
+                "absoluteCorrelation": 0.015251661723710045
+              },
+              {
+                "offsetFrames": 1842,
+                "correlation": -0.008437644153790868,
+                "absoluteCorrelation": 0.008437644153790868
+              }
+            ],
+            "alternativeRatio": 0.5726864416130008
+          },
+          {
+            "rangeFrames": [
+              26000,
+              38000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9849928620952897,
+                "absoluteCorrelation": 0.9849928620952897
+              },
+              {
+                "offsetFrames": -813,
+                "correlation": -0.2539652522707338,
+                "absoluteCorrelation": 0.2539652522707338
+              },
+              {
+                "offsetFrames": 814,
+                "correlation": -0.21520577321530074,
+                "absoluteCorrelation": 0.21520577321530074
+              },
+              {
+                "offsetFrames": -1623,
+                "correlation": 0.15486925996348871,
+                "absoluteCorrelation": 0.15486925996348871
+              },
+              {
+                "offsetFrames": 1627,
+                "correlation": 0.1197801983404551,
+                "absoluteCorrelation": 0.1197801983404551
+              }
+            ],
+            "alternativeRatio": 0.2578346118473342
+          },
+          {
+            "rangeFrames": [
+              50000,
+              62000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9882110338576353,
+                "absoluteCorrelation": 0.9882110338576353
+              },
+              {
+                "offsetFrames": 822,
+                "correlation": 0.1991133509079918,
+                "absoluteCorrelation": 0.1991133509079918
+              },
+              {
+                "offsetFrames": -821,
+                "correlation": 0.19805700235298968,
+                "absoluteCorrelation": 0.19805700235298968
+              },
+              {
+                "offsetFrames": -1644,
+                "correlation": 0.10508553568865328,
+                "absoluteCorrelation": 0.10508553568865328
+              },
+              {
+                "offsetFrames": 1645,
+                "correlation": 0.1047857312458136,
+                "absoluteCorrelation": 0.1047857312458136
+              }
+            ],
+            "alternativeRatio": 0.2014886943032015
+          }
+        ],
+        "reason": "insufficient-or-ambiguous-local-waveform"
+      },
+      "raw": {
+        "path": "madisonRaw-1139-raw.wav",
+        "sha256": "da6db9e6e328e30c4a3ecd9d3410d4ff070a5532130afe339c1c0ff7bd429cda",
+        "pcmSha256": "eea7b980827ddf947822b2551607379498fd5eaa8f245ac1af8feb5146562d10",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "reference": {
+        "path": "madisonRaw-1139-reference.wav",
+        "sha256": "3c0b8a71eb95f0150fa88d622e6682044e5c0f4c6f0859d11bfabe30062834b6",
+        "pcmSha256": "cd99b7099dace3c15ede60d8e65b13c71eae6a49352b1617c23c27b94e394224",
+        "frames": 64000,
+        "sampleRate": 16000
+      }
+    },
+    {
+      "name": "lilyRawP1-1106",
+      "source": "lilyRawP1",
+      "parent20sState": "refused",
+      "sourceOriginUs": 1114000000,
+      "referenceOriginUs": 866953000,
+      "acoustic": {
+        "state": "local-acoustic-candidate",
+        "sampleRate": 16000,
+        "offsetFrames": 1,
+        "spreadFrames": 0,
+        "anchors": [
+          {
+            "rangeFrames": [
+              2000,
+              14000
+            ],
+            "selectedFrames": 1,
+            "alternatives": [
+              {
+                "offsetFrames": 1,
+                "correlation": 0.9839187460002378,
+                "absoluteCorrelation": 0.9839187460002378
+              },
+              {
+                "offsetFrames": 867,
+                "correlation": 0.2661193868380723,
+                "absoluteCorrelation": 0.2661193868380723
+              },
+              {
+                "offsetFrames": -866,
+                "correlation": 0.17635728778999493,
+                "absoluteCorrelation": 0.17635728778999493
+              },
+              {
+                "offsetFrames": -1870,
+                "correlation": 0.09568039069821917,
+                "absoluteCorrelation": 0.09568039069821917
+              },
+              {
+                "offsetFrames": 1716,
+                "correlation": 0.06290393856837811,
+                "absoluteCorrelation": 0.06290393856837811
+              }
+            ],
+            "alternativeRatio": 0.27046886536096953
+          },
+          {
+            "rangeFrames": [
+              26000,
+              38000
+            ],
+            "selectedFrames": 1,
+            "alternatives": [
+              {
+                "offsetFrames": 1,
+                "correlation": 0.9557311424288889,
+                "absoluteCorrelation": 0.9557311424288889
+              },
+              {
+                "offsetFrames": 1211,
+                "correlation": -0.06660818170958506,
+                "absoluteCorrelation": 0.06660818170958506
+              },
+              {
+                "offsetFrames": -1428,
+                "correlation": -0.06395153072287381,
+                "absoluteCorrelation": 0.06395153072287381
+              }
+            ],
+            "alternativeRatio": 0.06969343024682387
+          },
+          {
+            "rangeFrames": [
+              50000,
+              62000
+            ],
+            "selectedFrames": 1,
+            "alternatives": [
+              {
+                "offsetFrames": 1,
+                "correlation": 0.9960683084220215,
+                "absoluteCorrelation": 0.9960683084220215
+              },
+              {
+                "offsetFrames": -1012,
+                "correlation": 0.14852305013553285,
+                "absoluteCorrelation": 0.14852305013553285
+              },
+              {
+                "offsetFrames": 983,
+                "correlation": -0.14110485761246944,
+                "absoluteCorrelation": 0.14110485761246944
+              },
+              {
+                "offsetFrames": -1931,
+                "correlation": -0.07512688306513826,
+                "absoluteCorrelation": 0.07512688306513826
+              },
+              {
+                "offsetFrames": 1932,
+                "correlation": -0.06903597012797878,
+                "absoluteCorrelation": 0.06903597012797878
+              }
+            ],
+            "alternativeRatio": 0.1491093019220982
+          }
+        ],
+        "reason": "independent-lexical-admission-required"
+      },
+      "raw": {
+        "path": "lilyRawP1-1106-raw.wav",
+        "sha256": "58a998051c7e601ab7f7c60233c9478d62cd2f9e55dbc07faf814621fe16f10a",
+        "pcmSha256": "dd45fd88039f11899fe3a32efdaaa74c7844e2d86ac74ab88d1ef5892b917b9c",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "reference": {
+        "path": "lilyRawP1-1106-reference.wav",
+        "sha256": "8f2f98440d92c360357cc98d021d1ec18f18707a6553d41fbaa34e407143b6af",
+        "pcmSha256": "db911ea9591f332749fe9610ac18abf486063e3f6b7b371f5b0357d2ff1ec8ad",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "referenceMinusSourceSamples16k": -3952751
+    },
+    {
+      "name": "lilyRawP1-1693",
+      "source": "lilyRawP1",
+      "parent20sState": "refused",
+      "sourceOriginUs": 1701000000,
+      "referenceOriginUs": 1551909000,
+      "acoustic": {
+        "state": "refused",
+        "sampleRate": 16000,
+        "offsetFrames": null,
+        "spreadFrames": null,
+        "anchors": [
+          {
+            "rangeFrames": [
+              2000,
+              14000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": -253,
+                "correlation": 0.14552879170495694,
+                "absoluteCorrelation": 0.14552879170495694
+              },
+              {
+                "offsetFrames": -1963,
+                "correlation": 0.08656249569860881,
+                "absoluteCorrelation": 0.08656249569860881
+              },
+              {
+                "offsetFrames": 1423,
+                "correlation": -0.03397262619870966,
+                "absoluteCorrelation": 0.03397262619870966
+              },
+              {
+                "offsetFrames": -1084,
+                "correlation": 0.02546727988460164,
+                "absoluteCorrelation": 0.02546727988460164
+              },
+              {
+                "offsetFrames": 594,
+                "correlation": 0.02406158016970552,
+                "absoluteCorrelation": 0.02406158016970552
+              }
+            ],
+            "alternativeRatio": 0.5948135395372788
+          },
+          {
+            "rangeFrames": [
+              26000,
+              38000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": -1311,
+                "correlation": 0.16574049090186002,
+                "absoluteCorrelation": 0.16574049090186002
+              },
+              {
+                "offsetFrames": -302,
+                "correlation": -0.06685246984223991,
+                "absoluteCorrelation": 0.06685246984223991
+              },
+              {
+                "offsetFrames": 1818,
+                "correlation": -0.058055174982004534,
+                "absoluteCorrelation": 0.058055174982004534
+              },
+              {
+                "offsetFrames": 675,
+                "correlation": -0.048706717174576336,
+                "absoluteCorrelation": 0.048706717174576336
+              }
+            ],
+            "alternativeRatio": 0.403356291986762
+          },
+          {
+            "rangeFrames": [
+              50000,
+              62000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9960730462662768,
+                "absoluteCorrelation": 0.9960730462662768
+              },
+              {
+                "offsetFrames": 978,
+                "correlation": 0.11411723150467802,
+                "absoluteCorrelation": 0.11411723150467802
+              },
+              {
+                "offsetFrames": -978,
+                "correlation": 0.10566427854065572,
+                "absoluteCorrelation": 0.10566427854065572
+              },
+              {
+                "offsetFrames": -1916,
+                "correlation": 0.08029669405073997,
+                "absoluteCorrelation": 0.08029669405073997
+              },
+              {
+                "offsetFrames": 1963,
+                "correlation": 0.06974732918357143,
+                "absoluteCorrelation": 0.06974732918357143
+              }
+            ],
+            "alternativeRatio": 0.11456713132881166
+          }
+        ],
+        "reason": "insufficient-or-ambiguous-local-waveform"
+      },
+      "raw": {
+        "path": "lilyRawP1-1693-raw.wav",
+        "sha256": "2eca91c5d75c1cb1b0e0e491dc77a3b114974741d1e541d4fad244ae1581a0c3",
+        "pcmSha256": "80a9e8ecc7d13b4a62d8aa8fa0912deaf466737187e5e5dec85de274281d8774",
+        "frames": 64000,
+        "sampleRate": 16000
+      },
+      "reference": {
+        "path": "lilyRawP1-1693-reference.wav",
+        "sha256": "c65da70562fb9194e60873eb45df428eda94e456d6bebc2eeb7594323743584b",
+        "pcmSha256": "dc1a8ad6176fd93e1cec2e3acb37b881b6fa6e8e208c73fbccf97f1c487d10fa",
+        "frames": 64000,
+        "sampleRate": 16000
+      }
+    }
+  ],
+  "scope": "local sampled acoustic operands only; independent recognition pending; parent20s/global refusals unchanged"
+}

@@ -1,0 +1,50 @@
+{
+  "verifiedBundleFiles": 109,
+  "scoutStates": [
+    "refused",
+    "refused",
+    "refused",
+    "refused",
+    "refused",
+    "refused",
+    "refused",
+    "refused",
+    "refused"
+  ],
+  "strict20sStates": [
+    "unsuitable",
+    "unsuitable",
+    "unsuitable",
+    "unsuitable",
+    "unsuitable",
+    "unsuitable",
+    "unsuitable"
+  ],
+  "coarseRefusedNames": [
+    "madisonRaw-1905",
+    "lilyRawP1-15"
+  ],
+  "localStates": [
+    "local-acoustic-candidate",
+    "refused",
+    "local-acoustic-candidate",
+    "local-acoustic-candidate",
+    "refused",
+    "local-acoustic-candidate",
+    "refused"
+  ],
+  "recognizedStates": [
+    "admitted-local-sampled-bridge",
+    "admitted-local-sampled-bridge",
+    "admitted-local-sampled-bridge",
+    "admitted-local-sampled-bridge"
+  ],
+  "globalStates": [
+    "refused-global-clock",
+    "refused-global-clock",
+    "refused-global-clock"
+  ],
+  "scope": "retained strict20s and local operands plus captured literal recognition only; full-domain selection/coarse competitors need original acquisition",
+  "nativeDecodes": 0,
+  "recognitionCalls": 0
+}

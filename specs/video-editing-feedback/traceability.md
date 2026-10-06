@@ -166,8 +166,10 @@ checked failure accounting, with no speaker provider promotion.
 
 Slice20 waveform checkpoint retains physical inputs and controls, but the real
 unlike-microphone comparisons all refuse. [The frozen result](assets/20-synchronization/README.md)
-keeps the synchronization feedback open for lexical-anchor research; equal
-duration/session provenance does not close it.
+keeps the synchronization feedback open. [Mixed-reference local bridges](assets/20-synchronization/bridge/README.md)
+now combine sampled acoustic support with independently recognized shared phrases,
+but every global clock still refuses. Exact retained replay does not reproduce
+full-domain selection; equal duration/session provenance does not close the gap.
 
 Slice22A/22B evidence: composition authoring retains optional `verticalAlignment` plus
 bounded stroke/shadow/background fields; native TextRaster reports glyph-path `inkBounds`,

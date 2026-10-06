@@ -1,0 +1,18 @@
+[
+  {
+    "scope": "substantive staged checkpoint",
+    "exitCode": 0,
+    "completedEvent": "turn.completed",
+    "threadId": "01a11178-e99d-7ec0-b879-278f15e68415",
+    "verdict": "No actionable correctness issues were found in the staged changes. Targeted JavaScript checks and retained fixture integrity validation passed; Python tests require the repository\u2019s prepared runtime.",
+    "eventsSha256": "1bf31c558b116a159a05d47f21d72296e9c1fdb4c82b04714ef97936d204953e"
+  },
+  {
+    "scope": "proof-summary correction and same-byte-count report identity mutation",
+    "exitCode": 0,
+    "completedEvent": "turn.completed",
+    "threadId": "01a11184-f9b1-7321-a829-6c0d459d7c7a",
+    "verdict": "No actionable findings. Summary fields match retained scout.json and local.json, and the README accurately limits replay scope. The model mutation changes only the hash and preserves the 25,204-byte count, exercising identity rather than size rejection. Bundle identities were verified; replay and tests were not executed.",
+    "eventsSha256": "78c62570bc13c0bfcc9922b4604b090aa47c81c22b670657fa0ce097856dd982"
+  }
+]

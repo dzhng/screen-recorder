@@ -1,0 +1,166 @@
+{
+  "protocolSha256": "2ed10fbb7a3da2bbc796a2621e570a42d043fe678687398efece92dea3f2ddde",
+  "nativeSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+  "sources": {
+    "main": {
+      "source": {
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "rangeSeconds": [
+          0,
+          1960
+        ]
+      },
+      "originUs": 0,
+      "path": "main.f32",
+      "nativeWavSha256": "d1cf185890d93c177ebf482074ccf12b538348035099803c9d4c43e07768b76e",
+      "nativeReceipt": {
+        "bytes": 691492096,
+        "channels": 2,
+        "decodedFrames": 86436001,
+        "file": "/private/tmp/yap-bridge-acquisition-r2-20261006/main-native.wav",
+        "frames": 86436000,
+        "layout": "stereo",
+        "mediaType": "audio/wav",
+        "range": {
+          "endUs": 1960000000,
+          "startUs": 0
+        },
+        "sampleRange": {
+          "end": 86436000,
+          "start": 0
+        },
+        "sampleRate": 44100,
+        "unavailable": []
+      },
+      "receipt": {
+        "sampleRate": 16000,
+        "frames": 31360000,
+        "bytes": 125440000,
+        "sha256": "f8d15ee198aa2581dbadfd59afb5df691dd8ddfd4258f259d9cf41ad17a4c304",
+        "channels": 1
+      },
+      "elapsedSeconds": 0.6311949579976499
+    },
+    "grahamRaw": {
+      "source": {
+        "file": "fullvideo_graham_p1.mp4",
+        "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+        "rangeSeconds": [
+          0,
+          2340
+        ]
+      },
+      "originUs": 0,
+      "path": "grahamRaw.f32",
+      "nativeWavSha256": "0ef4d584c69f63370f6c54e073d6c0ba822b4d4ce2e03e5e1660fb5b60e8b178",
+      "nativeReceipt": {
+        "bytes": 412780096,
+        "channels": 1,
+        "decodedFrames": 103194001,
+        "file": "/private/tmp/yap-bridge-acquisition-r2-20261006/grahamRaw-native.wav",
+        "frames": 103194000,
+        "layout": "mono",
+        "mediaType": "audio/wav",
+        "range": {
+          "endUs": 2340000000,
+          "startUs": 0
+        },
+        "sampleRange": {
+          "end": 103194000,
+          "start": 0
+        },
+        "sampleRate": 44100,
+        "unavailable": []
+      },
+      "receipt": {
+        "sampleRate": 16000,
+        "frames": 37440000,
+        "bytes": 149760000,
+        "sha256": "c8ff5fce064ddace63009571513a2b3ba1e3a1c50410b827d45b2b61585783f9",
+        "channels": 1
+      },
+      "elapsedSeconds": 17.670625166996615
+    },
+    "madisonRaw": {
+      "source": {
+        "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+        "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "rangeSeconds": [
+          0,
+          2340
+        ]
+      },
+      "originUs": 0,
+      "path": "madisonRaw.f32",
+      "nativeWavSha256": "bb4c7f2cc916282b41a2e60eeb6825d340f558112ae1d04b375864ba66cb9cfe",
+      "nativeReceipt": {
+        "bytes": 412780096,
+        "channels": 1,
+        "decodedFrames": 103194001,
+        "file": "/private/tmp/yap-bridge-acquisition-r2-20261006/madisonRaw-native.wav",
+        "frames": 103194000,
+        "layout": "mono",
+        "mediaType": "audio/wav",
+        "range": {
+          "endUs": 2340000000,
+          "startUs": 0
+        },
+        "sampleRange": {
+          "end": 103194000,
+          "start": 0
+        },
+        "sampleRate": 44100,
+        "unavailable": []
+      },
+      "receipt": {
+        "sampleRate": 16000,
+        "frames": 37440000,
+        "bytes": 149760000,
+        "sha256": "94c043784103b90fe4d93595aef2dc6b509d4effbe2a5530d839541462cdc9be",
+        "channels": 1
+      },
+      "elapsedSeconds": 16.758950416988228
+    },
+    "lilyRawP1": {
+      "source": {
+        "file": "fullvideo_lily_p1.mp4",
+        "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+        "rangeSeconds": [
+          0,
+          2340
+        ]
+      },
+      "originUs": 0,
+      "path": "lilyRawP1.f32",
+      "nativeWavSha256": "3639b102d6cd6e52ab1687b276513ed52dbe90193559b2de05121ce2c4736faf",
+      "nativeReceipt": {
+        "bytes": 412780096,
+        "channels": 1,
+        "decodedFrames": 103194001,
+        "file": "/private/tmp/yap-bridge-acquisition-r2-20261006/lilyRawP1-native.wav",
+        "frames": 103194000,
+        "layout": "mono",
+        "mediaType": "audio/wav",
+        "range": {
+          "endUs": 2340000000,
+          "startUs": 0
+        },
+        "sampleRange": {
+          "end": 103194000,
+          "start": 0
+        },
+        "sampleRate": 44100,
+        "unavailable": []
+      },
+      "receipt": {
+        "sampleRate": 16000,
+        "frames": 37440000,
+        "bytes": 149760000,
+        "sha256": "3d490191e44e74463e89179eb603b28145d7f020f46da06894438693b1fb8abb",
+        "channels": 1
+      },
+      "elapsedSeconds": 17.03376754198689
+    }
+  }
+}

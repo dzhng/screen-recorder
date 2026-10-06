@@ -1,6 +1,6 @@
 # 20 — Prove synchronization on unlike microphones
 
-Status: waveform research and isolated-microphone lexical prerequisites refused on frozen real inputs; mixed/reference bridge research open. Depends on: [08](08-bounded-speech-preparation.md), [10](10-alignment-and-boundaries.md), [01](01-certified-corpus.md).
+Status: waveform research and isolated-microphone lexical prerequisites refused on frozen real inputs; mixed-reference local sampled checkpoint retained; global synchronization still open. Depends on: [08](08-bounded-speech-preparation.md), [10](10-alignment-and-boundaries.md), [01](01-certified-corpus.md).
 
 ## Contract
 
@@ -63,8 +63,13 @@ pass; all nine real comparisons refuse the unchanged acoustic gates. This is a
 failed hypothesis, not completion or sync proof.
 [Independent recognition](../assets/20-synchronization/lexical/README.md) of all
 nine retained windows also provides no shared five-word candidate, so alignment
-timing work did not run. Discover actual mixed/reference stream facts before
-freezing the next bridge hypothesis. Keep edited master clocks piecewise, retain
+timing work did not run. [Mixed-reference bridge research](../assets/20-synchronization/bridge/README.md)
+retains the frozen source inventory, full-domain acquisition receipts, all strict
+20-second refusals and separately admitted local sampled bridges. Inference-free
+replay checks retained numerical/lexical operands; full-domain selection and coarse
+search need external acquisition. Global/raw-to-raw synchronization remains open;
+the next hypothesis must target that missing contract rather than repeating the
+completed local recognition. Keep edited master clocks piecewise, retain
 the original known125ms/maximum2ms precision control and long-span/drift refusals,
 and never promote conditional CTC timing as sample-precise sync. No source
 relationship or clock owner changed.

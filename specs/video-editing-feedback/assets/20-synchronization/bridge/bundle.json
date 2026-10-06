@@ -1,0 +1,659 @@
+{
+  "scope": "Complete retained cropped operands and captured observations; full-domain coarse-search vectors remain external",
+  "files": [
+    {
+      "owner": "assets",
+      "path": "README.md",
+      "bytes": 3673,
+      "sha256": "ac4ad35b9f15a0e4553ba4df25db93836deccc0ea1a4cfa814f7fedcf1b6bd64"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/acquisition.json",
+      "bytes": 4955,
+      "sha256": "507cd49ea4827ac6d1af2fd408926b7a9bbaaa25342f6d89569f8cf5ac955eb0"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/grahamRaw-request.json",
+      "bytes": 481,
+      "sha256": "2c0350b866065b4bd9724d26b1cf5321f85f6afe439d672a83c7ae708b19865b"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/grahamRaw-response.json",
+      "bytes": 356,
+      "sha256": "9c34d689300ba7f6239e9365987e307925c19d097fc04a3f1a6f1d6570fafe7b"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/grahamRaw.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/lilyRawP1-request.json",
+      "bytes": 479,
+      "sha256": "f8abf62e8843fd761c970e677037555037cc8885d298d7802c374332968056fa"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/lilyRawP1-response.json",
+      "bytes": 356,
+      "sha256": "be409dc5762f7c33b589864da6fa1f88ab5669e1f003c3753cf93a91126a19f5"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/lilyRawP1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/madisonRaw-request.json",
+      "bytes": 520,
+      "sha256": "510078ef2cc9bce97612ff91926cbf204853673609fb268eba11f83a2056b08b"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/madisonRaw-response.json",
+      "bytes": 358,
+      "sha256": "45b9e1732575e6ff4e4cfe365150d7ec7de05a6a192fd7d44d970952e9a96148"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/madisonRaw.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/main-request.json",
+      "bytes": 501,
+      "sha256": "3eb491a22d78ef14d8bd6ef069718810f5ec7ed1ff2845d592a30f1cedf87eb5"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/main-response.json",
+      "bytes": 345,
+      "sha256": "dcc9918550ca7b1821e3ba8d511587fa7c964ed18895ef10fa47e3b112585973"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/main.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition/protocol.json",
+      "bytes": 5379,
+      "sha256": "2ed10fbb7a3da2bbc796a2621e570a42d043fe678687398efece92dea3f2ddde"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition-refusal/main-request.json",
+      "bytes": 514,
+      "sha256": "80302e46d7d4553eeda784553f0a74978a87df845994c096be7a08cd7d697831"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition-refusal/main-response.json",
+      "bytes": 176,
+      "sha256": "e62babd1714c341afa9a17061e5879755132ef7bfc046c550ea32f0855191fa6"
+    },
+    {
+      "owner": "assets",
+      "path": "acquisition-refusal/main.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-2171-raw-request.json",
+      "bytes": 4928,
+      "sha256": "7c4e5d7036a395f7f88cc79b643af94289d3b4d443d4a49fac5245d088e17871"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-2171-raw-response.json",
+      "bytes": 770,
+      "sha256": "918ac8e935237710c6f30c2901338a8015d4d34f12a67e2c9648a816b4d0261b"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-2171-raw.jsonl",
+      "bytes": 10649,
+      "sha256": "557fae9dabf3a7e747df0886e2f97dabda54dada2e04bb09292d8fb189436d15"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-2171-raw.stderr.log",
+      "bytes": 2383,
+      "sha256": "22cc31fda009dda39129b0c6249080ed42fcf2bc7cdf77a5417b347b73d3afd3"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-2171-reference-request.json",
+      "bytes": 4946,
+      "sha256": "9adc3932a1888ea4c1d310033fde11920a6c44f6e4731ace690eca7c7e00536c"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-2171-reference-response.json",
+      "bytes": 782,
+      "sha256": "ef4c3c617e1db673b5b9755547029ea83682929eb8cbafc8e4c4695a0fe3cfc0"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-2171-reference.jsonl",
+      "bytes": 11545,
+      "sha256": "62cbff401f8ab24543ab711ed613dc73c04b78d9f37fa6d5f6744425584ad3b7"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-2171-reference.stderr.log",
+      "bytes": 2383,
+      "sha256": "5a1d3e663f4d0e4bc139073a2da95a44ae1754b5c783fcb550ac4525e39caca8"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-253-raw-request.json",
+      "bytes": 4925,
+      "sha256": "892e192a448ae105f9efe046ca7fc2d7cf4342664253f9d331ba079bf1a91058"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-253-raw-response.json",
+      "bytes": 765,
+      "sha256": "6f21e3e6523a36c1f29761d8dbfc37df4c72ea9ba40988453d8f43dee98741a8"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-253-raw.jsonl",
+      "bytes": 3572,
+      "sha256": "4402cde018b615a7a2c3056218e20db73280093adda9afe06461adf26f80d90c"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-253-raw.stderr.log",
+      "bytes": 2384,
+      "sha256": "e642d80aef1e7bce3c71aa941dc5a7c4cc3890fc6d788858f1b44ab781a748fe"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-253-reference-request.json",
+      "bytes": 4943,
+      "sha256": "b4e9dd60bc5d13e8191ac3937fc02ba2eae5c08f53878de45e9bb0ab7e2708a3"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-253-reference-response.json",
+      "bytes": 777,
+      "sha256": "c61e27825a39c800a4659a412e418a403d375afe0cbe561d654108ab065c05ca"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-253-reference.jsonl",
+      "bytes": 3581,
+      "sha256": "2ea73761bf8a379c30f487ae2b2092af7d8d3a822b6cad9c2a69186dd4f82cf4"
+    },
+    {
+      "owner": "assets",
+      "path": "grahamRaw-253-reference.stderr.log",
+      "bytes": 2383,
+      "sha256": "cab774990dd1a60e56d0abe5c437f343ba4289e4ec6df161177067b328535cb7"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/0-request.json",
+      "bytes": 157,
+      "sha256": "687c185571bc919301b9d80c93b8e9202115000cebf138070b3867db9a8152a6"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/0-response.json",
+      "bytes": 1387,
+      "sha256": "db6fc49a01f20979fcd1f948dbe4312b596c77f82c291e4c401440724bc1d2d5"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/0.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/1-request.json",
+      "bytes": 127,
+      "sha256": "0ef654de5aaea951a08c4c8bba1c1de28a36af5cdb6c0e88eeab3d14b7b89e4e"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/1-response.json",
+      "bytes": 1394,
+      "sha256": "c70d59cc3a7cd258cd461ca2193c91deebd043d45db6a11f4aad91bad7d532df"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/2-request.json",
+      "bytes": 164,
+      "sha256": "db5d36d92b9568ed7ba6f37e68be58729869f8757c91d62a001a85f4d255acb0"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/2-response.json",
+      "bytes": 1364,
+      "sha256": "59b9f1c53b615f49b4d411342e935c29c7beb3603691f4c4361979a36d25b88c"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/3-request.json",
+      "bytes": 125,
+      "sha256": "124e7c69669eb023ee2be317ba0eb00f05ff1d21ca7e094639f25892e49d39c6"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/3-response.json",
+      "bytes": 1394,
+      "sha256": "c78dab7bc80630844262bf591a3f79ae437b652ab79543ba12488a52c9cb43a5"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/3.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/4-request.json",
+      "bytes": 125,
+      "sha256": "55f708b17640a2095ab14187217945a1b0d5eaeaeeb9f8f58fb3e931b80952f3"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/4-response.json",
+      "bytes": 1387,
+      "sha256": "18fa29bdf4f0d160110b7d9c89799fd17d86c1f12e015604b7831a15de28c698"
+    },
+    {
+      "owner": "assets",
+      "path": "inventory/4.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "owner": "assets",
+      "path": "lilyRawP1-1106-raw-request.json",
+      "bytes": 4928,
+      "sha256": "cc22c1ff5451be695a493d84f312ec6856cb061d9619e515ce517e987cfc94fd"
+    },
+    {
+      "owner": "assets",
+      "path": "lilyRawP1-1106-raw-response.json",
+      "bytes": 769,
+      "sha256": "b5e08ad28a219da40774fc5d627915c7cae4ed9644eaa3704332553da35b6013"
+    },
+    {
+      "owner": "assets",
+      "path": "lilyRawP1-1106-raw.jsonl",
+      "bytes": 7173,
+      "sha256": "4282a2589c888f88fd5861de9fdedcaa777b5714a5cd080d871c88d5eebf1fb5"
+    },
+    {
+      "owner": "assets",
+      "path": "lilyRawP1-1106-raw.stderr.log",
+      "bytes": 2383,
+      "sha256": "d9c035137bfdb448cd88eb4d87b103e48ded002071f51640a6c3f5b855fa0b9c"
+    },
+    {
+      "owner": "assets",
+      "path": "lilyRawP1-1106-reference-request.json",
+      "bytes": 4946,
+      "sha256": "fb7431c1ef81064c78f41d29bdcffcd782097a25665cae0ed1dbad89af18dbca"
+    },
+    {
+      "owner": "assets",
+      "path": "lilyRawP1-1106-reference-response.json",
+      "bytes": 781,
+      "sha256": "3a5e2011c5c2487e19a799ef80873b1b81db0603d980b463b70f69f73bef1805"
+    },
+    {
+      "owner": "assets",
+      "path": "lilyRawP1-1106-reference.jsonl",
+      "bytes": 7104,
+      "sha256": "cbd63b85fb09fc773883c6e2fc140c031b8a8aad87ae90a66880c1151434ce42"
+    },
+    {
+      "owner": "assets",
+      "path": "lilyRawP1-1106-reference.stderr.log",
+      "bytes": 2383,
+      "sha256": "702d8f45b09ee6ab80ae5bdc433e5779c3692eed6563b08f6b03ebffa3fc725f"
+    },
+    {
+      "owner": "assets",
+      "path": "local-protocol.json",
+      "bytes": 2486,
+      "sha256": "76a71fe83e4006896abc835d093f3481a5a11346bb916d06a0fed83d7b06a626"
+    },
+    {
+      "owner": "assets",
+      "path": "local.json",
+      "bytes": 29936,
+      "sha256": "6a6fbab95e6702a82aec79b17d486a5fb849c8b236efae4114ad24b3c219b165"
+    },
+    {
+      "owner": "assets",
+      "path": "madisonRaw-296-raw-request.json",
+      "bytes": 4928,
+      "sha256": "9e5a784d36cdee0c2cd703c72ea8eb66a63f3d9573d845e9cfb50e2b651bac06"
+    },
+    {
+      "owner": "assets",
+      "path": "madisonRaw-296-raw-response.json",
+      "bytes": 769,
+      "sha256": "66c2444b078263088f96937ad94e23657f2600fd1c5498633fa14168d4f88455"
+    },
+    {
+      "owner": "assets",
+      "path": "madisonRaw-296-raw.jsonl",
+      "bytes": 8119,
+      "sha256": "42035d762f2cc34d9f9d9a756ca753cb3606c494bbb54abb1678b1217d0c9015"
+    },
+    {
+      "owner": "assets",
+      "path": "madisonRaw-296-raw.stderr.log",
+      "bytes": 2383,
+      "sha256": "c8101047c73221ee31d907ff094010cf4c509f57200ddeea30de1968176b0adc"
+    },
+    {
+      "owner": "assets",
+      "path": "madisonRaw-296-reference-request.json",
+      "bytes": 4946,
+      "sha256": "2102b71890df6c6f2c1017fdca1daa1d4ac0e9bf5b345af343b704698a96dbe1"
+    },
+    {
+      "owner": "assets",
+      "path": "madisonRaw-296-reference-response.json",
+      "bytes": 781,
+      "sha256": "809dcaee458487f272abd5d57445c81eb3150d7836d3daf52162a3f4dbb1de28"
+    },
+    {
+      "owner": "assets",
+      "path": "madisonRaw-296-reference.jsonl",
+      "bytes": 8092,
+      "sha256": "3a2096845731c3ab1a79fbb6f15b8889aad99cf7b67fb47a66469a3619786f4d"
+    },
+    {
+      "owner": "assets",
+      "path": "madisonRaw-296-reference.stderr.log",
+      "bytes": 2383,
+      "sha256": "5f5e5c37afcdecca7c1dc91102abd6a4fdd46d28f93be3a25f44de60afdab74f"
+    },
+    {
+      "owner": "assets",
+      "path": "original-waveform-preservation.json",
+      "bytes": 438,
+      "sha256": "238c024a1788b07e9d4b7b1381fc947629869515e6f9e7cfc2a06f171f062c3c"
+    },
+    {
+      "owner": "assets",
+      "path": "protocol-r1.json",
+      "bytes": 4449,
+      "sha256": "317bd644e27e698765b05c2895ea1b780515de1dfcf912ba1ce20f781fa6bf90"
+    },
+    {
+      "owner": "assets",
+      "path": "protocol.json",
+      "bytes": 5379,
+      "sha256": "2ed10fbb7a3da2bbc796a2621e570a42d043fe678687398efece92dea3f2ddde"
+    },
+    {
+      "owner": "assets",
+      "path": "recognition.json",
+      "bytes": 25204,
+      "sha256": "e9f41bbc464e5fe08bbe173eb9880a84bca1c5982b3f010584f00ab0c462c01c"
+    },
+    {
+      "owner": "assets",
+      "path": "replay-falsification.json",
+      "bytes": 4105,
+      "sha256": "717ef9684545dcbe6cf7b7cf9b5252cec6a17664defc07675c509a6dd44c1abc"
+    },
+    {
+      "owner": "assets",
+      "path": "retained-replay.json",
+      "bytes": 1103,
+      "sha256": "5c8936cb1bdfaf34558e66f5433e77553bf15b24212e3aaaf84dd0bcefd1ba82"
+    },
+    {
+      "owner": "assets",
+      "path": "review.json",
+      "bytes": 1121,
+      "sha256": "08c1d4a229ec9504d6ddc65006574fae4cfd89bec70c8cc7ea95bde0f6a9b1c2"
+    },
+    {
+      "owner": "assets",
+      "path": "review.md",
+      "bytes": 1263,
+      "sha256": "918fc5634c0bc1be39f852405884c058c8bde0dcea0c12d2a900c49c35721ca3"
+    },
+    {
+      "owner": "assets",
+      "path": "scout.json",
+      "bytes": 60145,
+      "sha256": "e642adc12fc194df6c3f69145bbac185984e8dd025f8848edfabce334086f581"
+    },
+    {
+      "owner": "assets",
+      "path": "verification.json",
+      "bytes": 4590,
+      "sha256": "98f3be7e26514b62503c95dbcf187310085f08be9dadcf3b598f5826eb285eee"
+    },
+    {
+      "owner": "fixtures",
+      "path": "README.md",
+      "bytes": 934,
+      "sha256": "b9c9a05fc2a519855c9c0ea919b0912969c123ac055eb0f25bd8ed1a27c352bd"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/grahamRaw-2171-raw.wav",
+      "bytes": 256058,
+      "sha256": "b48ffbf66f47e05bf31dc21cea2a7a68015fb84c8d9b68730b93780ce08ad4ab"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/grahamRaw-2171-reference.wav",
+      "bytes": 256058,
+      "sha256": "8f819d69f17f5f6e5bdc0287ab1d2cd57094a49a0ef89e72888ef58f83d2252f"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/grahamRaw-253-raw.wav",
+      "bytes": 256058,
+      "sha256": "7a60ad06b5b81a26b4f9be90d14c7d212c505fecba92365fab2839f43723c31c"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/grahamRaw-253-reference.wav",
+      "bytes": 256058,
+      "sha256": "00977f71303c796f9b31dbc57ebe426f0aa7db435b97f0fad1a360d3889d0d21"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/grahamRaw-937-raw.wav",
+      "bytes": 256058,
+      "sha256": "afd604da8cdcd933effd5a0f3dca0a9acab26f8ea6c8a7e9fee0ee669625988f"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/grahamRaw-937-reference.wav",
+      "bytes": 256058,
+      "sha256": "dc61f70e43c646cfeade55399a2076db28152480e1479bc5095f5c5043608f78"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/lilyRawP1-1106-raw.wav",
+      "bytes": 256058,
+      "sha256": "58a998051c7e601ab7f7c60233c9478d62cd2f9e55dbc07faf814621fe16f10a"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/lilyRawP1-1106-reference.wav",
+      "bytes": 256058,
+      "sha256": "8f2f98440d92c360357cc98d021d1ec18f18707a6553d41fbaa34e407143b6af"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/lilyRawP1-1693-raw.wav",
+      "bytes": 256058,
+      "sha256": "2eca91c5d75c1cb1b0e0e491dc77a3b114974741d1e541d4fad244ae1581a0c3"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/lilyRawP1-1693-reference.wav",
+      "bytes": 256058,
+      "sha256": "c65da70562fb9194e60873eb45df428eda94e456d6bebc2eeb7594323743584b"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/madisonRaw-1139-raw.wav",
+      "bytes": 256058,
+      "sha256": "da6db9e6e328e30c4a3ecd9d3410d4ff070a5532130afe339c1c0ff7bd429cda"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/madisonRaw-1139-reference.wav",
+      "bytes": 256058,
+      "sha256": "3c0b8a71eb95f0150fa88d622e6682044e5c0f4c6f0859d11bfabe30062834b6"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/madisonRaw-296-raw.wav",
+      "bytes": 256058,
+      "sha256": "1eb20e6bfc7fd515586dc6da2982557788df0edf6ddac455b33a5ce295dfe59b"
+    },
+    {
+      "owner": "fixtures",
+      "path": "local/madisonRaw-296-reference.wav",
+      "bytes": 256058,
+      "sha256": "47d9f7d5b6eb67f10f5669f8942f6134c020d3d282d1c64f61e8ea8615524cd7"
+    },
+    {
+      "owner": "fixtures",
+      "path": "manifest.json",
+      "bytes": 12973,
+      "sha256": "a5174c051cf2fb9348f4a2c776a20791df21e59fac5cf27c61cf851d5fb65bfd"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/grahamRaw-2171-reference.wav",
+      "bytes": 1280058,
+      "sha256": "818a72899072ac47fc177d6e538ba1565985ef2884d8e16bcb1f452493027c61"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/grahamRaw-2171.wav",
+      "bytes": 1280058,
+      "sha256": "3f0278b2683266bdd2431bd035e875c81af63d0b1a01c48e3b7d650205507e41"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/grahamRaw-253-reference.wav",
+      "bytes": 1280058,
+      "sha256": "970911eecc2148b3882901ca3a9184eb0757b65a58aabe8b7e4167653cab8d39"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/grahamRaw-253.wav",
+      "bytes": 1280058,
+      "sha256": "c11de7d0da4148374cd72b019937a24aee9db4019ceba0b63ae602017008ee8c"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/grahamRaw-937-reference.wav",
+      "bytes": 1280058,
+      "sha256": "87b038a4793bf5279fdd18317afc125506f4c6de094d60035a97614f7e60cc4a"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/grahamRaw-937.wav",
+      "bytes": 1280058,
+      "sha256": "f8f628c15d17b88b78327903695decaa4a00bf3d861167f820c169f099928952"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/lilyRawP1-1106-reference.wav",
+      "bytes": 1280058,
+      "sha256": "5921e04a6a38aaa74a94d028ff74ca490c1ae7685431ebbf7ff7f6fab3dd7828"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/lilyRawP1-1106.wav",
+      "bytes": 1280058,
+      "sha256": "05393d6bd549c8729d4f5f628b771e49217991fad10fa12ef6dbef84e5bc9972"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/lilyRawP1-15.wav",
+      "bytes": 1280058,
+      "sha256": "6946fe0610bcd8b684d70c2d7fb9543852d5c3dc2f8be18849c329a94d81d9c1"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/lilyRawP1-1693-reference.wav",
+      "bytes": 1280058,
+      "sha256": "8db794042b27dbd2f1424c146ed31ee9f9442d02da336615d514330b95860173"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/lilyRawP1-1693.wav",
+      "bytes": 1280058,
+      "sha256": "f78146767a65e584f2cae8f1a1a530d73253d662f846b67b8cfbe3f37c4410d9"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/madisonRaw-1139-reference.wav",
+      "bytes": 1280058,
+      "sha256": "b1fca6029fcd59a2120b3740091e76a232348b8fafe5e5c92ac7aeb122bd5410"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/madisonRaw-1139.wav",
+      "bytes": 1280058,
+      "sha256": "f1edd9d9b3b25b5762d81e6f9d71da5d629b15586ed9dae7bad7ec496eb5bc9c"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/madisonRaw-1905.wav",
+      "bytes": 1280058,
+      "sha256": "76ee5f6bb7c8ae8440cb2b397128980a123dbb0bf270fc171d42b05d33b0e2de"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/madisonRaw-296-reference.wav",
+      "bytes": 1280058,
+      "sha256": "d8637f9ce9fbf69d15680dcb3e1b77365c4245f23fe6acab6f5732b2af1b308a"
+    },
+    {
+      "owner": "fixtures",
+      "path": "scout/madisonRaw-296.wav",
+      "bytes": 1280058,
+      "sha256": "325c2b68488fdaf13240958c175c944a7cadf7ebb33ae6d48451a025bec84a1d"
+    }
+  ]
+}

@@ -13,3 +13,7 @@ No model inference is needed. The [frozen research](../../../specs/video-editing
 records the acoustic refusals and separates byte preservation from synchronization
 quality. External originals remain unchanged. These inputs carry no speaker or
 lexical labels and authorize no edit or clock declaration.
+
+[Mixed-reference bridge operands](bridge/README.md) retain the separate research
+recipe and every successful/refused local case without replacing these original
+unlike-microphone inputs.

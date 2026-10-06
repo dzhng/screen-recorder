@@ -1,0 +1,988 @@
+{
+  "protocolSha256": "76a71fe83e4006896abc835d093f3481a5a11346bb916d06a0fed83d7b06a626",
+  "localSha256": "6a6fbab95e6702a82aec79b17d486a5fb849c8b236efae4114ad24b3c219b165",
+  "nativeSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+  "models": {
+    "directory": "/private/tmp/yap-editing-model-preparation/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2",
+    "files": [
+      {
+        "path": "Decoder.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "46de1a6fe2e49d19a2125bc91acf020df7f2aea84ba821532aade8427a440b05"
+      },
+      {
+        "path": "Decoder.mlmodelc/coremldata.bin",
+        "bytes": 554,
+        "sha256": "d200ca07694a347f6d02a3886a062ae839831e094e443222f2e48a14945966a8"
+      },
+      {
+        "path": "Decoder.mlmodelc/metadata.json",
+        "bytes": 3427,
+        "sha256": "90a279b822496316458febc0ce761ab05954fadd9d66aa97bea077a35fc8f2b2"
+      },
+      {
+        "path": "Decoder.mlmodelc/model.mil",
+        "bytes": 13106,
+        "sha256": "7b95a5a6b672c652000348a67b6d4d92bb8e176b978c6666fe73c28a4d7ec579"
+      },
+      {
+        "path": "Decoder.mlmodelc/weights/weight.bin",
+        "bytes": 14429952,
+        "sha256": "27d26890221d82322c1092fd99d7b40578e435d5cf4b83c887c42603caf97aba"
+      },
+      {
+        "path": "Encoder.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "42e638870d73f26b332918a3496ce36793fbb413a81cbd3d16ba01328637a105"
+      },
+      {
+        "path": "Encoder.mlmodelc/coremldata.bin",
+        "bytes": 485,
+        "sha256": "4def7aa848599ad0e17a8b9a982edcdbf33cf92e1f4b798de32e2ca0bc74b030"
+      },
+      {
+        "path": "Encoder.mlmodelc/metadata.json",
+        "bytes": 2926,
+        "sha256": "58222fbc48c13c49d9715567803cd50cb9c23e4360462e0f8ffcea59a2c73c63"
+      },
+      {
+        "path": "Encoder.mlmodelc/model.mil",
+        "bytes": 959769,
+        "sha256": "ed7b19156ca29fa7dfd6891deb9fda4b0e8893f68597c985d135736546a43808"
+      },
+      {
+        "path": "Encoder.mlmodelc/weights/weight.bin",
+        "bytes": 445187200,
+        "sha256": "4adc7ad44f9d05e1bffeb2b06d3bb02861a5c7602dff63a6b494aed3bf8a6c3e"
+      },
+      {
+        "path": "JointDecision.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "f1183ba213bb94a918c8d2cad19ab045320618f97f6ca662245b3936d7b090f7"
+      },
+      {
+        "path": "JointDecision.mlmodelc/coremldata.bin",
+        "bytes": 534,
+        "sha256": "e2c6752f1c8cf2d3f6f26ec93195c9bfa759ad59edf9f806696a138154f96f11"
+      },
+      {
+        "path": "JointDecision.mlmodelc/metadata.json",
+        "bytes": 2936,
+        "sha256": "ba8d309417b9acd4a175fdb15687de6a941db2f5b06666a60e7cf3cc8e2d3c3c"
+      },
+      {
+        "path": "JointDecision.mlmodelc/model.mil",
+        "bytes": 9722,
+        "sha256": "93bf82042235127cb81ab537dcae47a1c2e7e242ce4ffdaf772981b45eedc4f0"
+      },
+      {
+        "path": "JointDecision.mlmodelc/weights/weight.bin",
+        "bytes": 3453388,
+        "sha256": "ca22a65903a05e64137677da608077578a8606090a598abf4875fa6199aaa19d"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "03ab3c1327a054c54c07a40325db967ec574f2c91dcc8192bfa44aa561bcf2d8"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/coremldata.bin",
+        "bytes": 494,
+        "sha256": "d88ea1fc349459c9e100d6a96688c5b29a1f0d865f544be103001724b986b6d6"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/metadata.json",
+        "bytes": 2974,
+        "sha256": "fb16c581ff5e1b962e7cb2181ed892cd32f9f84c12b6e80ff3e089f28e35bcbb"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/model.mil",
+        "bytes": 27166,
+        "sha256": "3e06d16fd061294c8a75be68c43a3b1ed1f593d4a9c35249e9cdbccadc59721e"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/weights/weight.bin",
+        "bytes": 298880,
+        "sha256": "a5f7df6c7f47147ae9486fe18cc7792f9a44d093ec3c6a11e91ef2dc363c48dc"
+      },
+      {
+        "path": "README.md",
+        "bytes": 1665,
+        "sha256": "491eac9a160dc7b0f7ce1210dea4fff6df0222124e93ea83ae2cd72827b4ce02"
+      },
+      {
+        "path": "parakeet_vocab.json",
+        "bytes": 18762,
+        "sha256": "57019fe3c745772ca83a1b048a4bb951cd51329504ea33d4d83316b96e279a97"
+      }
+    ]
+  },
+  "windows": [
+    {
+      "name": "grahamRaw-253",
+      "source": "grahamRaw",
+      "sourceOriginUs": 261000000,
+      "referenceOriginUs": 191705000,
+      "referenceMinusSourceSamples16k": -1108720,
+      "observations": [
+        {
+          "side": "raw",
+          "path": "grahamRaw-253-raw.jsonl",
+          "bytes": 3572,
+          "sha256": "4402cde018b615a7a2c3056218e20db73280093adda9afe06461adf26f80d90c"
+        },
+        {
+          "side": "reference",
+          "path": "grahamRaw-253-reference.jsonl",
+          "bytes": 3581,
+          "sha256": "2ea73761bf8a379c30f487ae2b2092af7d8d3a822b6cad9c2a69186dd4f82cf4"
+        }
+      ],
+      "errors": [],
+      "unique": [
+        {
+          "phrase": [
+            "if",
+            "you're",
+            "using",
+            "these",
+            "tools"
+          ],
+          "left": {
+            "window": "grahamRaw-253-raw",
+            "originUs": 261000000,
+            "wordIndex": 0
+          },
+          "right": {
+            "window": "grahamRaw-253-reference",
+            "originUs": 191705000,
+            "wordIndex": 0
+          }
+        },
+        {
+          "phrase": [
+            "you're",
+            "using",
+            "these",
+            "tools",
+            "and"
+          ],
+          "left": {
+            "window": "grahamRaw-253-raw",
+            "originUs": 261000000,
+            "wordIndex": 1
+          },
+          "right": {
+            "window": "grahamRaw-253-reference",
+            "originUs": 191705000,
+            "wordIndex": 1
+          }
+        }
+      ],
+      "ambiguous": [],
+      "state": "admitted-local-sampled-bridge"
+    },
+    {
+      "name": "grahamRaw-2171",
+      "source": "grahamRaw",
+      "sourceOriginUs": 2179000000,
+      "referenceOriginUs": 1859773000,
+      "referenceMinusSourceSamples16k": -5107632,
+      "observations": [
+        {
+          "side": "raw",
+          "path": "grahamRaw-2171-raw.jsonl",
+          "bytes": 10649,
+          "sha256": "557fae9dabf3a7e747df0886e2f97dabda54dada2e04bb09292d8fb189436d15"
+        },
+        {
+          "side": "reference",
+          "path": "grahamRaw-2171-reference.jsonl",
+          "bytes": 11545,
+          "sha256": "62cbff401f8ab24543ab711ed613dc73c04b78d9f37fa6d5f6744425584ad3b7"
+        }
+      ],
+      "errors": [],
+      "unique": [
+        {
+          "phrase": [
+            "it's",
+            "going",
+            "to",
+            "be",
+            "presented"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 0
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 0
+          }
+        },
+        {
+          "phrase": [
+            "going",
+            "to",
+            "be",
+            "presented",
+            "in"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 1
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 1
+          }
+        },
+        {
+          "phrase": [
+            "to",
+            "be",
+            "presented",
+            "in",
+            "a"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 2
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 2
+          }
+        },
+        {
+          "phrase": [
+            "be",
+            "presented",
+            "in",
+            "a",
+            "different"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 3
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 3
+          }
+        },
+        {
+          "phrase": [
+            "presented",
+            "in",
+            "a",
+            "different",
+            "way"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 4
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 4
+          }
+        },
+        {
+          "phrase": [
+            "in",
+            "a",
+            "different",
+            "way",
+            "and"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 5
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 5
+          }
+        },
+        {
+          "phrase": [
+            "a",
+            "different",
+            "way",
+            "and",
+            "i"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 6
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 6
+          }
+        },
+        {
+          "phrase": [
+            "different",
+            "way",
+            "and",
+            "i",
+            "think"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 7
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 7
+          }
+        },
+        {
+          "phrase": [
+            "way",
+            "and",
+            "i",
+            "think",
+            "there's"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 8
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 8
+          }
+        },
+        {
+          "phrase": [
+            "and",
+            "i",
+            "think",
+            "there's",
+            "going"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 9
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 9
+          }
+        },
+        {
+          "phrase": [
+            "i",
+            "think",
+            "there's",
+            "going",
+            "to"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 10
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 10
+          }
+        },
+        {
+          "phrase": [
+            "think",
+            "there's",
+            "going",
+            "to",
+            "be"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 11
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 11
+          }
+        },
+        {
+          "phrase": [
+            "there's",
+            "going",
+            "to",
+            "be",
+            "at"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 12
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 12
+          }
+        },
+        {
+          "phrase": [
+            "going",
+            "to",
+            "be",
+            "at",
+            "least"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 13
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 13
+          }
+        },
+        {
+          "phrase": [
+            "to",
+            "be",
+            "at",
+            "least",
+            "a"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 14
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 14
+          }
+        },
+        {
+          "phrase": [
+            "be",
+            "at",
+            "least",
+            "a",
+            "winner"
+          ],
+          "left": {
+            "window": "grahamRaw-2171-raw",
+            "originUs": 2179000000,
+            "wordIndex": 15
+          },
+          "right": {
+            "window": "grahamRaw-2171-reference",
+            "originUs": 1859773000,
+            "wordIndex": 15
+          }
+        }
+      ],
+      "ambiguous": [],
+      "state": "admitted-local-sampled-bridge"
+    },
+    {
+      "name": "madisonRaw-296",
+      "source": "madisonRaw",
+      "sourceOriginUs": 304000000,
+      "referenceOriginUs": 231195000,
+      "referenceMinusSourceSamples16k": -1164880,
+      "observations": [
+        {
+          "side": "raw",
+          "path": "madisonRaw-296-raw.jsonl",
+          "bytes": 8119,
+          "sha256": "42035d762f2cc34d9f9d9a756ca753cb3606c494bbb54abb1678b1217d0c9015"
+        },
+        {
+          "side": "reference",
+          "path": "madisonRaw-296-reference.jsonl",
+          "bytes": 8092,
+          "sha256": "3a2096845731c3ab1a79fbb6f15b8889aad99cf7b67fb47a66469a3619786f4d"
+        }
+      ],
+      "errors": [],
+      "unique": [
+        {
+          "phrase": [
+            "maybe",
+            "the",
+            "word",
+            "maybe",
+            "hopeless"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 0
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 0
+          }
+        },
+        {
+          "phrase": [
+            "the",
+            "word",
+            "maybe",
+            "hopeless",
+            "is"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 1
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 1
+          }
+        },
+        {
+          "phrase": [
+            "word",
+            "maybe",
+            "hopeless",
+            "is",
+            "like"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 2
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 2
+          }
+        },
+        {
+          "phrase": [
+            "maybe",
+            "hopeless",
+            "is",
+            "like",
+            "too"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 3
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 3
+          }
+        },
+        {
+          "phrase": [
+            "hopeless",
+            "is",
+            "like",
+            "too",
+            "strong"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 4
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 4
+          }
+        },
+        {
+          "phrase": [
+            "is",
+            "like",
+            "too",
+            "strong",
+            "but"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 5
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 5
+          }
+        },
+        {
+          "phrase": [
+            "like",
+            "too",
+            "strong",
+            "but",
+            "there"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 6
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 6
+          }
+        },
+        {
+          "phrase": [
+            "too",
+            "strong",
+            "but",
+            "there",
+            "is"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 7
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 7
+          }
+        },
+        {
+          "phrase": [
+            "strong",
+            "but",
+            "there",
+            "is",
+            "like"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 8
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 8
+          }
+        },
+        {
+          "phrase": [
+            "but",
+            "there",
+            "is",
+            "like",
+            "this"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 9
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 9
+          }
+        },
+        {
+          "phrase": [
+            "there",
+            "is",
+            "like",
+            "this",
+            "doomerism"
+          ],
+          "left": {
+            "window": "madisonRaw-296-raw",
+            "originUs": 304000000,
+            "wordIndex": 10
+          },
+          "right": {
+            "window": "madisonRaw-296-reference",
+            "originUs": 231195000,
+            "wordIndex": 10
+          }
+        }
+      ],
+      "ambiguous": [],
+      "state": "admitted-local-sampled-bridge"
+    },
+    {
+      "name": "lilyRawP1-1106",
+      "source": "lilyRawP1",
+      "sourceOriginUs": 1114000000,
+      "referenceOriginUs": 866953000,
+      "referenceMinusSourceSamples16k": -3952751,
+      "observations": [
+        {
+          "side": "raw",
+          "path": "lilyRawP1-1106-raw.jsonl",
+          "bytes": 7173,
+          "sha256": "4282a2589c888f88fd5861de9fdedcaa777b5714a5cd080d871c88d5eebf1fb5"
+        },
+        {
+          "side": "reference",
+          "path": "lilyRawP1-1106-reference.jsonl",
+          "bytes": 7104,
+          "sha256": "cbd63b85fb09fc773883c6e2fc140c031b8a8aad87ae90a66880c1151434ce42"
+        }
+      ],
+      "errors": [],
+      "unique": [
+        {
+          "phrase": [
+            "there",
+            "i",
+            "think",
+            "the",
+            "quality"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 0
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 0
+          }
+        },
+        {
+          "phrase": [
+            "i",
+            "think",
+            "the",
+            "quality",
+            "of"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 1
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 1
+          }
+        },
+        {
+          "phrase": [
+            "think",
+            "the",
+            "quality",
+            "of",
+            "the"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 2
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 2
+          }
+        },
+        {
+          "phrase": [
+            "the",
+            "quality",
+            "of",
+            "the",
+            "paper"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 3
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 3
+          }
+        },
+        {
+          "phrase": [
+            "quality",
+            "of",
+            "the",
+            "paper",
+            "is"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 4
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 4
+          }
+        },
+        {
+          "phrase": [
+            "of",
+            "the",
+            "paper",
+            "is",
+            "super"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 5
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 5
+          }
+        },
+        {
+          "phrase": [
+            "the",
+            "paper",
+            "is",
+            "super",
+            "high"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 6
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 6
+          }
+        },
+        {
+          "phrase": [
+            "paper",
+            "is",
+            "super",
+            "high",
+            "i"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 7
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 7
+          }
+        },
+        {
+          "phrase": [
+            "is",
+            "super",
+            "high",
+            "i",
+            "even"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 8
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 8
+          }
+        },
+        {
+          "phrase": [
+            "super",
+            "high",
+            "i",
+            "even",
+            "in"
+          ],
+          "left": {
+            "window": "lilyRawP1-1106-raw",
+            "originUs": 1114000000,
+            "wordIndex": 9
+          },
+          "right": {
+            "window": "lilyRawP1-1106-reference",
+            "originUs": 866953000,
+            "wordIndex": 9
+          }
+        }
+      ],
+      "ambiguous": [],
+      "state": "admitted-local-sampled-bridge"
+    }
+  ],
+  "globals": [
+    {
+      "source": "grahamRaw",
+      "admittedCheckpoints": 2,
+      "spreadSamples16k": null,
+      "state": "refused-global-clock"
+    },
+    {
+      "source": "madisonRaw",
+      "admittedCheckpoints": 1,
+      "spreadSamples16k": null,
+      "state": "refused-global-clock"
+    },
+    {
+      "source": "lilyRawP1",
+      "admittedCheckpoints": 1,
+      "spreadSamples16k": null,
+      "state": "refused-global-clock"
+    }
+  ],
+  "scope": "independently recognized local sampled bridge evidence only; no global/raw-to-raw clock or edit declaration"
+}
