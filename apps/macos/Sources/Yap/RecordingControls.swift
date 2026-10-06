@@ -159,7 +159,7 @@ final class RecordingControls: NSObject {
         guard let button = statusItem.button else { return }
         readPermissions()
         render()
-        capturePopover.toggle(relativeTo: button)
+        capturePopover.toggle(relativeTo: button, activate: !ControlsProbe.observed)
         if capturePopover.isShown { refresh() }
     }
 

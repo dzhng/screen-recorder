@@ -2,8 +2,18 @@ Yap is the macOS recording and agent-operated video toolkit. This release ships
 `Yap.app`, the `yap` CLI and the `com.dzhng.yap` app identity. Install the complete
 kit for this identity; capture permissions must be granted to Yap separately.
 
-Recording controls stay dark from the first opening, with readable icons, more
-space beneath Start Recording and a fixed status footer outside scrolling.
+Opening recording controls from the menu bar now follows Codex Runway's native
+activation and key-window sequence, including a second focus pass on the next
+event-loop turn. The panel dismisses on outside clicks, Escape and application
+switching. Delayed recording errors do not activate over another app.
+
+This corrects the opening path used by v0.1.12, whose forced appearance flags did
+not resolve the reported frosted first-open state. Compilation and focused native
+checks passed; the actual first-open glass appearance remains visually unverified
+because native UI automation was unavailable. Offscreen layout shots do not prove
+composited glass appearance.
+
+Readable icons, spacing beneath Start Recording and the fixed status footer remain.
 
 Display, Window and Area controls are disabled until Screen Recording access is
 granted, with a clear permission explanation and Allow action. Camera Only remains

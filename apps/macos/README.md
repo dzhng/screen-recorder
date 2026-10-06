@@ -11,7 +11,9 @@ The capture popover, Settings and recording panels consume one controls state an
 the same actions. A running take retains its selected inputs; changing a preference
 cannot rewrite that selection. Countdown precedes the service start request, so
 canceling it creates no take. Recorder-owned controls stay outside recorded media
-and do not activate the app over the source being recorded.
+and do not activate the app over the source being recorded. Opening the capture
+panel from the menu bar activates its window, so its native glass and controls
+are ready before the first content click.
 
 Authorization is read from native capture and requested only through an explicit
 action. Screen source controls remain disabled until access is granted and explain
@@ -126,11 +128,11 @@ and the installed-update gate.
 
 The [capture view](Sources/Yap/CaptureView.swift) consumes immutable
 rendering facts and emits supplied intents. It holds no capture selection, service
-state or recording clock. The controls owner admits those intents; the transient popover owns native dismissal
+state or recording clock. The controls owner admits those intents; the popover owns explicit dismissal
 and leaves capture selection with the shared controls state. Enabling camera capture offers the
 system's default camera when no device has been chosen; an existing choice never substitutes a
-disconnected device. The dark capture palette remains stable while another app is active,
-and status stays outside the scrolling controls.
+disconnected device. The capture panel requests a dark native appearance; menu-bar opening establishes
+key-window focus. Status stays outside the scrolling controls.
 The native popover frame owns the backdrop and arrow together; content adds no
 outer panel or stroke. Library has one entry point in the capture header, and its
 canonical controls action stays the same regardless of that placement.

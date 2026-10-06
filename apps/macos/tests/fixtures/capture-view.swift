@@ -52,17 +52,13 @@ import YapControls
         RunLoop.current.run(until: Date().addingTimeInterval(0.1))
         precondition(popover.view?.effectiveAppearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua,
                      "First popover presentation must use dark appearance")
-        var ancestor: NSView? = popover.view
-        var activeEffects = 0
-        while let current = ancestor {
-            if let effect = current as? NSVisualEffectView {
-                precondition(effect.state == .active, "Popover backdrop must stay active without a key window")
-                precondition(effect.isEmphasized, "Popover emphasis must not wait for a click")
-                activeEffects += 1
-            }
-            ancestor = current.superview
-        }
-        precondition(activeEffects > 0, "The native popover backdrop must be configured")
+        precondition(!NSApp.isActive, "The prohibited offscreen fixture must not activate the desktop")
+        popover.close()
+        popover.toggle(relativeTo: view)
+        RunLoop.current.run(until: Date().addingTimeInterval(0.1))
+        precondition(popover.isShown, "The explicit dismissal panel must reopen cleanly")
+        NotificationCenter.default.post(name: NSApplication.didResignActiveNotification, object: NSApp)
+        precondition(!popover.isShown, "Switching applications must dismiss the recording panel")
         popover.close()
         guard let button = view.control(identifier: "source.cameraOnly") as? NSButton else {
             preconditionFailure("Camera Only must be an explicit source choice")
@@ -138,8 +134,7 @@ import YapControls
             let height = limit > 0 ? limit : capture.contentHeight
             let stage = NSView(frame: NSRect(x: 0, y: 0, width: CaptureView.preferredWidth + 40, height: height + 40))
             stage.wantsLayer = true
-            // The capture surface always uses a dark native popover backdrop, including when
-            // the surrounding application/system uses light appearance.
+            // Layout shots supply a dark backing; they do not verify composited native glass.
             stage.layer?.backgroundColor = NSColor(white: 0.10, alpha: 1).cgColor
             capture.frame = NSRect(x: 20, y: 20, width: CaptureView.preferredWidth, height: height)
             stage.addSubview(capture)
