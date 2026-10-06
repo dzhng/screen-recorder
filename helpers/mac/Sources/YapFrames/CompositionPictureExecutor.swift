@@ -886,10 +886,14 @@ public final class CompositionPictureExecutor {
                 let shutter = operation.shutter, shutter.isFinite, shutter >= 0, shutter <= 1
             else { throw Self.invalid("Invalid bounded motion-blur recipe.") }
             if samples == 1 || shutter == 0 { return image }
+            // Keep the blur envelope proportional to the shutter interval.
+            // Sample count is a bounded work budget; it must not change the
+            // requested appearance for the same authored trajectory.
+            let radius = max(0.25, shutter)
             return image.applyingFilter(
                 "CIMotionBlur",
                 parameters: [
-                    kCIInputRadiusKey: max(0.5, shutter * Double(samples)),
+                    kCIInputRadiusKey: radius,
                     kCIInputAngleKey: 0,
                 ])
         default: throw Self.unsupported("Unknown compiled picture primitive.")

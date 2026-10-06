@@ -1589,6 +1589,29 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** medium; the plan required cost evidence but left the exact
   receipt fields and timing boundary to the implementing agent.
 
+## Bound blur radius to the shutter envelope — slice29 appearance repair
+
+- **When:** motion-blur appearance repair pass.
+- **The choice:** Treat the requested sample count as a bounded work budget and
+  derive the Core Image radius from the shutter interval, with a small floor.
+  Sample count remains a bounded work budget. The public receipt compares the candidate with an
+  unblurred copy of the same authored trajectory and accepts at most one pixel of
+  visible edge expansion.
+- **The gap:** The first native lowering multiplied `shutter * samples`, which
+  inflated the moving red/blue control and produced a broad asymmetric smear. The
+  slice required bounded appearance but did not define how sample count affected
+  the filter radius.
+- **The reach:** Four-sample delivery changes the unblurred trajectory control in
+  329 pixels and changes that control again in 232 blur-specific pixels, remains
+  opaque, and retains the same geometry phase. Strict parity against a separate
+  reference recipe and source-edge refusal remain open; the one-pixel envelope is
+  a fixture-scoped delivery invariant, not a universal aesthetic score.
+- **Verdict:** sound for the repaired bounded recipe. The regression was observed
+  red with the old radius, then green after the correction; the unprimed critique
+  found no displacement, clipping or transparency defect.
+- **Confidence:** high for the footprint regression and public delivery behavior;
+  medium for reference-conditioned visual parity.
+
 ## Keep intentional-jump recognition refusal explicit — slice12C
 
 - **When:** real-media contextual-join fixture pass.

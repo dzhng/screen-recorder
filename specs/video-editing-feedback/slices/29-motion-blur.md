@@ -1,6 +1,6 @@
 # 29 — Add bounded blur to authored motion
 
-Status: public/native bounded delivery, matched moving-delivery evidence and cost receipt are implemented; final blur-appearance acceptance remains open. Depends on: [28](28-whip-zoom-trajectory.md).
+Status: public/native bounded delivery, matched moving-delivery evidence and cost receipt are implemented. The appearance repair now has a one-pixel envelope against an unblurred authored-trajectory control; strict reference-conditioned parity remains open. Depends on: [28](28-whip-zoom-trajectory.md).
 
 ## Contract
 
@@ -39,7 +39,7 @@ Variable: blur appearance. Mask: moving edge at frozen trajectory; path, color a
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. The current receipt proves the public/native seam, bounded four-sample work, delivered opacity and measured local cost. The fresh critique's broad upper-left smear and loss of a crisp anchor keep the appearance verdict open. An unavailable stub or undocumented fallback is not implementation completion.
+A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. The current receipt proves the public/native seam, bounded four-sample work, delivered opacity and measured local cost. The repaired receipt proves the candidate stays within a one-pixel visible envelope against the same authored trajectory; the fresh critique found no displacement, clipping or transparency defect. Strict reference-conditioned parity remains a separate open gate. An unavailable stub or undocumented fallback is not implementation completion.
 
 ## Delegated choices
 

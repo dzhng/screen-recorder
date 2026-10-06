@@ -44,8 +44,9 @@ receipt with neutral and color masks. Native transition picture delivery now has
 crossfade/dip/flash receipts plus a two-source audio oracle, with a moving
 alpha/mirror no-black-gap receipt. Motion-blur parity and broader
 reference-conditioned transition comparison remain open. A public/native motion-blur receipt
-now proves four-sample delivery, opacity and measured local cost; its appearance
-verdict remains open. The delivered-scene export/import
+now proves four-sample delivery, opacity, measured local cost and a repaired one-pixel
+appearance envelope against an unblurred authored trajectory; strict reference-conditioned
+parity remains open. The delivered-scene export/import
 checkpoint covers planted flash/hold observations and a physical empty-edit-list
 gap through native project/export delivery.
 Caption, blend, immutable-LUT, delivered-scene-helper, focused-use-case-routing,

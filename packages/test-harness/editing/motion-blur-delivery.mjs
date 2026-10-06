@@ -36,6 +36,23 @@ const pixels = async (path) =>
       )
     ).stdout,
   );
+const visibleBounds = (rgba) => {
+  const width = 64,
+    height = 48,
+    points = [];
+  for (let y = 0; y < height; y++)
+    for (let x = 0; x < width; x++) {
+      const offset = (y * width + x) * 4;
+      if (rgba[offset] + rgba[offset + 1] + rgba[offset + 2] > 5) points.push([x, y]);
+    }
+  assert.ok(points.length > 0, "motion fixture must contain visible pixels");
+  return {
+    minX: Math.min(...points.map(([x]) => x)),
+    maxX: Math.max(...points.map(([x]) => x)),
+    minY: Math.min(...points.map(([, y]) => y)),
+    maxY: Math.max(...points.map(([, y]) => y)),
+  };
+};
 const renderFrame = async (request, output, label) => {
   const startedAt = performance.now();
   let polls = 0;
@@ -116,34 +133,38 @@ try {
   const baseResult = await renderFrame(baseRequest, join(out, "base.png"), "base frame");
   const base = baseResult.delivered;
   assert.equal(base.state, "ready");
+  const trajectory = {
+    enabled: true,
+    processor: {
+      type: "geometry",
+      scale: {
+        x: {
+          keys: [
+            { at: { numerator: 0, denominator: 1 }, value: 1, interpolation: "linear" },
+            { at: { numerator: 1, denominator: 1 }, value: 1.5, interpolation: "linear" },
+          ],
+        },
+        y: {
+          keys: [
+            { at: { numerator: 0, denominator: 1 }, value: 1, interpolation: "linear" },
+            { at: { numerator: 1, denominator: 1 }, value: 1.5, interpolation: "linear" },
+          ],
+        },
+      },
+    },
+  };
   const changed = await edit(created.project.projectId, placed.revision.id, [
     {
       operation: "processing.set",
       target,
       steps: [
-        {
-          enabled: true,
-          processor: {
-            type: "geometry",
-            scale: {
-              x: {
-                keys: [
-                  { at: { numerator: 0, denominator: 1 }, value: 1, interpolation: "linear" },
-                  { at: { numerator: 1, denominator: 1 }, value: 1.5, interpolation: "linear" },
-                ],
-              },
-              y: {
-                keys: [
-                  { at: { numerator: 0, denominator: 1 }, value: 1, interpolation: "linear" },
-                  { at: { numerator: 1, denominator: 1 }, value: 1.5, interpolation: "linear" },
-                ],
-              },
-            },
-          },
-        },
+        trajectory,
         { enabled: true, processor: { type: "motion-blur", samples: 4, shutter: 0.5 } },
       ],
     },
+  ]);
+  const control = await edit(created.project.projectId, changed.revision.id, [
+    { operation: "processing.set", target, steps: [trajectory] },
   ]);
   const blurRequest = {
     projectId: created.project.projectId,
@@ -153,32 +174,64 @@ try {
   const blurredResult = await renderFrame(blurRequest, join(out, "blurred.png"), "blurred frame");
   const blurred = blurredResult.delivered;
   assert.equal(blurred.state, "ready");
+  const controlResult = await renderFrame(
+    { projectId: created.project.projectId, revisionId: control.revision.id, atUs: 500001 },
+    join(out, "control.png"),
+    "unblurred trajectory control",
+  );
+  assert.equal(controlResult.delivered.state, "ready");
   const before = await pixels(join(out, "base.png"));
+  const controlPixels = await pixels(join(out, "control.png"));
   const after = await pixels(join(out, "blurred.png"));
   assert.equal(before.length, after.length);
-  let changedPixels = 0,
+  assert.equal(controlPixels.length, after.length);
+  let trajectoryChangedPixels = 0,
+    blurChangedPixels = 0,
     sum = 0,
     max = 0,
     transparent = 0;
   for (let i = 0; i < before.length; i += 4) {
+    const trajectoryDelta =
+      Math.abs(before[i] - controlPixels[i]) +
+      Math.abs(before[i + 1] - controlPixels[i + 1]) +
+      Math.abs(before[i + 2] - controlPixels[i + 2]);
     const delta =
-      Math.abs(before[i] - after[i]) +
-      Math.abs(before[i + 1] - after[i + 1]) +
-      Math.abs(before[i + 2] - after[i + 2]);
-    if (delta) changedPixels++;
+      Math.abs(controlPixels[i] - after[i]) +
+      Math.abs(controlPixels[i + 1] - after[i + 1]) +
+      Math.abs(controlPixels[i + 2] - after[i + 2]);
+    if (trajectoryDelta) trajectoryChangedPixels++;
+    if (delta) blurChangedPixels++;
     sum += delta;
     max = Math.max(max, delta);
     if (after[i + 3] !== 255) transparent++;
   }
-  assert.ok(changedPixels > 0, "bounded blur must change the moving control");
+  assert.ok(trajectoryChangedPixels > 0, "the authored trajectory must move the control");
+  assert.ok(blurChangedPixels > 0, "bounded blur must change the moving control");
+  assert.ok(blurChangedPixels >= 32, "bounded blur must have a measurable footprint");
+  assert.ok(sum >= 512, "bounded blur must have a measurable color delta");
   assert.equal(transparent, 0, "delivered H.264 control must remain opaque");
+  const baseBounds = visibleBounds(before),
+    controlBounds = visibleBounds(controlPixels),
+    blurredBounds = visibleBounds(after);
+  assert.ok(
+    blurredBounds.minX >= controlBounds.minX - 1 && blurredBounds.maxX <= controlBounds.maxX + 1,
+    `motion blur expanded the horizontal trajectory footprint too far: ${JSON.stringify({ controlBounds, blurredBounds })}`,
+  );
+  assert.ok(
+    blurredBounds.minY >= controlBounds.minY - 1 && blurredBounds.maxY <= controlBounds.maxY + 1,
+    `motion blur expanded the vertical trajectory footprint too far: ${JSON.stringify({ controlBounds, blurredBounds })}`,
+  );
   report.checks.push({
     frame: 500001,
-    changedPixels,
+    trajectoryChangedPixels,
+    blurChangedPixels,
     totalPixels: before.length / 4,
     meanRgbDelta: sum / (before.length / 4),
     maxRgbDelta: max,
     transparentPixels: transparent,
+    baseBounds,
+    controlBounds,
+    blurredBounds,
   });
   report.cost = {
     base: baseResult.cost,
