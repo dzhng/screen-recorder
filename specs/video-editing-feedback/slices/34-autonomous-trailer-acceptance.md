@@ -1,6 +1,6 @@
 # 34 — Prove a complete autonomous trailer workflow
 
-Status: planned. Depends on: [01](01-certified-corpus.md), [02](02-capability-first-skill.md), [03](03-published-work-contract.md), [04](04-wait-and-json-delivery.md), [05](05-atomic-export-replacement.md), [06](06-exact-removal.md), [07](07-speech-timing-admission.md), [08](08-bounded-speech-preparation.md), [09](09-alignment-replication.md), [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [12](12-contextual-join-verification.md), [13](13-decode-replication.md), [14](14-picture-statistics.md), [15](15-face-observations.md), [16](16-subject-reframe.md), [17](17-normalization-preflight.md), [18](18-reliable-mastering.md), [19](19-dialogue-matching.md), [20](20-sync-replication.md), [21](21-synced-angles.md), [22](22-styled-text.md), [23](23-timed-word-captions.md), [24](24-blend-modes.md), [25](25-tone-controls.md), [26](26-immutable-luts.md), [27](27-basic-transitions.md), [28](28-whip-zoom-trajectory.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [31](31-speaker-continuity-replication.md), [32](32-speaker-labeling.md), [33](33-editing-references.md).
+Status: identity/replay gate integrated; full media workflow remains open. Depends on: [01](01-certified-corpus.md), [02](02-capability-first-skill.md), [03](03-published-work-contract.md), [04](04-wait-and-json-delivery.md), [05](05-atomic-export-replacement.md), [06](06-exact-removal.md), [07](07-speech-timing-admission.md), [08](08-bounded-speech-preparation.md), [09](09-alignment-replication.md), [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [12](12-contextual-join-verification.md), [13](13-decode-replication.md), [14](14-picture-statistics.md), [15](15-face-observations.md), [16](16-subject-reframe.md), [17](17-normalization-preflight.md), [18](18-reliable-mastering.md), [19](19-dialogue-matching.md), [20](20-sync-replication.md), [21](21-synced-angles.md), [22](22-styled-text.md), [23](23-timed-word-captions.md), [24](24-blend-modes.md), [25](25-tone-controls.md), [26](26-immutable-luts.md), [27](27-basic-transitions.md), [28](28-whip-zoom-trajectory.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [31](31-speaker-continuity-replication.md), [32](32-speaker-labeling.md), [33](33-editing-references.md).
 
 ## Contract
 
@@ -9,6 +9,14 @@ A fresh editing agent delivers and reproduces a checked trailer using the instal
 ## Seam and ownership
 
 Existing public/installed journey and consumer skill eval infrastructure. Reuse isolated service/caller lifecycle; no new orchestration framework.
+
+The [fresh-delivery identity checker](../../../skills/yap/scripts/fresh-delivery-check.mjs)
+is now the narrow replay owner. It accepts two agent-produced receipts, one from a
+clean managed root and one from a relocated root, then hashes the brief, sources,
+selection, recipe and delivered artifact. It requires byte-exact delivery and
+rejects source overwrite, changed inputs and replay mismatches. The checker keeps
+native readiness, visual inspection and audio inspection explicitly `unverified`
+and rejects a human-QA prerequisite; it cannot close this slice by itself.
 
 Current owners and starting checks:
 
@@ -46,6 +54,14 @@ Variable: whole-workflow composition after all individual variables passed. Comp
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
 A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
+
+The focused identity/replay test is
+[fresh-delivery-check.test.mjs](../../../packages/test-harness/editing/fresh-delivery-check.test.mjs).
+It covers a successful clean/relocated comparison, changed-delivery refusal and
+overclaimed visual coverage refusal. It uses scratch files only and retains no
+media or model-readiness claim. A complete slice-34 verdict still requires the
+public CLI workflow, actual rendered output, autonomous planted-defect repair and
+the visual/audio/native gates described above.
 
 ## Delegated choices
 
