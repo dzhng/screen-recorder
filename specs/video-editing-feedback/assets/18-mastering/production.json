@@ -1,0 +1,82 @@
+{
+  "requested": {
+    "type": "normalization",
+    "mode": "dynamic",
+    "targetIntegratedLufs": -14.5,
+    "truePeakCeilingDbtp": 0,
+    "maxLoudnessRangeLu": 7
+  },
+  "evidence": {
+    "before": {
+      "integratedLufs": -22.3,
+      "loudnessRangeLu": 0.1,
+      "samplePeakDbfs": -5.4,
+      "truePeakDbtp": -5.3,
+      "integratedReason": null,
+      "rangeReason": null,
+      "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+      "version": "9.0.2"
+    },
+    "after": {
+      "integratedLufs": -14.6,
+      "loudnessRangeLu": 0.2,
+      "samplePeakDbfs": 0,
+      "truePeakDbtp": 0,
+      "integratedReason": null,
+      "rangeReason": null,
+      "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+      "version": "9.0.2"
+    },
+    "attempts": [
+      {
+        "offsetDb": 0.84,
+        "after": {
+          "integratedLufs": -14.9,
+          "loudnessRangeLu": 0.2,
+          "samplePeakDbfs": 0,
+          "truePeakDbtp": 0,
+          "integratedReason": null,
+          "rangeReason": null,
+          "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+          "version": "9.0.2"
+        }
+      },
+      {
+        "offsetDb": 1.2400000000000002,
+        "after": {
+          "integratedLufs": -14.7,
+          "loudnessRangeLu": 0.2,
+          "samplePeakDbfs": 0,
+          "truePeakDbtp": 0,
+          "integratedReason": null,
+          "rangeReason": null,
+          "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+          "version": "9.0.2"
+        }
+      },
+      {
+        "offsetDb": 1.4399999999999995,
+        "after": {
+          "integratedLufs": -14.6,
+          "loudnessRangeLu": 0.2,
+          "samplePeakDbfs": 0,
+          "truePeakDbtp": 0,
+          "integratedReason": null,
+          "rangeReason": null,
+          "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+          "version": "9.0.2"
+        }
+      }
+    ],
+    "selectedAttempt": 2,
+    "meterImplementationId": "ffmpeg-ebur128-v1:758e4224dc11936db602806fa17876dcf46b46f4b2fcd9749c02c754bb1b921c",
+    "tolerances": {
+      "integratedAbsoluteLu": 0.2,
+      "rangeMaximumExcessLu": 0.2,
+      "meterSpecificTruePeakExcessDb": 0.15
+    }
+  },
+  "frames": 576000,
+  "sourceSha256": "3aee2e27368040ceb8fd031ece50f1c62f60cce25925fc54ad425a42ecad7f01",
+  "outputSha256": "a1b40e3ee0bbb44b31df567e448571a77977cb82caa0bc9010a2393a52244106"
+}

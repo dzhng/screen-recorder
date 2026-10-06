@@ -382,3 +382,46 @@ unspecified. They preserve the existing owners rather than adding new schedulers
   adds an externally observable refusal regression rather than another execution path
   or diagnostic store. Existing job failures retain measured reasons; edit admission
   remains cheap and no loudness tolerance changes.
+
+## Slice18 — normalization evidence and retained selection
+
+### Sound — medium confidence
+
+- **Record every attempt and the delivered attempt explicitly.** When three
+  normalization candidates measure −14.9, −14.7 and −14.6 LUFS, the retained
+  result stores all three offsets/measurements and `selectedAttempt:2`. If the
+  second candidate gets worse, the result can instead select the first admitted
+  candidate while retaining both observations. The alternative, storing only the
+  final measurement, would conceal the work and could imply that the last tried
+  PCM was delivered.
+  Gap:18 required iteration operands but did not choose a canonical stored shape.
+  Reach: prepared audio, publication and portable packages share this shape;
+  catalog29/package6 refuse old incomplete records under the authorized cutover.
+  Verdict: sound; the selected measurement is checked against the published
+  measurement without introducing another evidence store. Confidence: medium.
+
+### Sound — high confidence
+
+- **Keep admitted PCM through nested existing artifact lifetimes.** If an
+  already acceptable candidate is followed by a worse correction, its open held
+  file remains available until the correction settles, and downstream processing
+  consumes that file. The alternative would copy the candidate into a new
+  retention owner or fail despite an already acceptable result. Gap: the spec
+  did not prescribe how candidate selection would preserve file lifetime.
+  Reach: correction reuses the existing bounded attempt owner; cancellation and
+  IO failures still fail rather than silently publish stale output. Verdict:
+  sound; one artifact owner preserves the original source and the selected
+  output. Confidence: high.
+- **Charge bounded traversals to the existing audio deadline.** A dynamic
+  request may scan twice and render/measure up to three candidates. Its existing
+  frame-based scheduling budget now accounts for eight traversals, while reads
+  using retained final audio skip them. The alternative, a constant timeout bump,
+  would overcharge short reads and undercharge longer source domains. Gap:18
+  fixed work limits but not scheduler accounting. Reach: the existing capped
+  deadline owner remains shared by preparation and rendering. Verdict: sound;
+  cost follows complete domain duration and the one candidate-count policy.
+  Confidence: high.
+
+The correction constants and original-input recipe were explicitly delegated to
+replication, so their frozen measured selection is not an invented policy choice.
+No unsound or needs-user decision remains in this pass.

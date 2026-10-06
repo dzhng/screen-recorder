@@ -7,6 +7,7 @@ import { constants } from "node:fs";
 import { copyFile, mkdir, open } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { CatalogError } from "@yap/core/catalog";
+import { normalizationCorrectionPolicy } from "@yap/core/audio-measurement";
 import type { CompositionMovie, ProjectMovieRenderer } from "@yap/core/project-preview";
 import type { ProjectFrameRenderer } from "@yap/core/frame-inspection";
 import type { ProjectAudioRenderer } from "@yap/core/audio-inspection";
@@ -18,10 +19,7 @@ import {
   type MediaWorker,
 } from "./worker.js";
 
-import type {
-  PointerPreparation,
-  PointerHistoryRenderer,
-} from "@yap/core/pointer-preparation";
+import type { PointerPreparation, PointerHistoryRenderer } from "@yap/core/pointer-preparation";
 import type { SourceEvidenceReader } from "@yap/core/evidence-read";
 import type { PresentationReceipt } from "@yap/core/presentation-evidence";
 import { prepareCompositionPointers } from "@yap/core/composition-pointer";
@@ -206,8 +204,15 @@ function statePayload(
 export function audioDeadline(window: AudioWindowInput["window"], retained = false) {
   let preparationFrames = 0n;
   if (!retained) {
-    for (const domain of window.manifest.state?.domains ?? [])
-      preparationFrames += BigInt(domain.sampleRange.end - domain.sampleRange.start);
+    for (const domain of window.manifest.state?.domains ?? []) {
+      // Two initial scans plus a render and scanner for each bounded candidate.
+      const passes =
+        domain.recipe.type === "normalization" && domain.recipe.mode === "dynamic"
+          ? normalizationCorrectionPolicy.maximumCandidates + 1
+          : 1;
+      preparationFrames +=
+        BigInt(domain.sampleRange.end - domain.sampleRange.start) * BigInt(passes);
+    }
     const retimed = new Set(
       window.manifest.requirements.flatMap((item) => (item.kind === "retime" ? [item.clipId] : [])),
     );

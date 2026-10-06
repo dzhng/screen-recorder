@@ -1,0 +1,20 @@
+[
+  {
+    "review": "initial",
+    "eventsSha256": "7d271fdc73f809cdb4dd62f0bdd400bb80f215187c85e0cfc923992b6c3b0c74",
+    "verdictSha256": "3d89846b90751690ca13d86764358241c1832ec1bb482a7a378d9c6eb336511b",
+    "exitCode": 0,
+    "turnCompleted": true,
+    "scope": "bounded correction",
+    "testBoundary": "Reviewer sandbox denied Vitest temporary SSR directory creation. Root ran the affected Core evidence test successfully."
+  },
+  {
+    "review": "selection",
+    "eventsSha256": "9a6cfe51d9d6bcb65b2e734e5b3b0a339ea7e52ca28dcdf4ba3ce21551fde400",
+    "verdictSha256": "2dfe7e0fb6a84e214786cf73645bbf0b64644bf865033d2f2d9e5bace6611dd2",
+    "exitCode": 0,
+    "turnCompleted": true,
+    "scope": "admitted-candidate selection correction",
+    "testBoundary": "Reviewer sandbox denied Vitest temporary SSR directory creation. Root ran the affected Core evidence test successfully."
+  }
+]

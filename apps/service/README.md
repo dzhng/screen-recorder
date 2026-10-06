@@ -196,3 +196,12 @@ complete selected processing tap without picture work. Movie rendering resolves
 matching retained final audio, or executes its full audio processing and strict
 postconditions, before starting expensive picture encoding. A prepared dry signal
 or intermediate step never substitutes for that final mix.
+
+Dynamic normalization rerenders the original complete prefix with fixed first-pass
+statistics and unchanged requested targets. The shared correction policy bounds
+candidate count, offset and measurable progress. Every candidate's measured result
+is retained; an admitted candidate stays held through correction, and the delivered
+selection is explicit. Final strict admission still owns publication. Scheduling budgets
+account for these bounded traversals; retained final audio skips recomputation.
+AAC delivery is measured separately after decoding, because a compliant PCM master
+does not establish an encoded true-peak ceiling.
