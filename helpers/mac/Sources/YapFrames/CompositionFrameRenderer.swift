@@ -16,6 +16,7 @@ public enum CompositionFrameRenderer {
         let sdrCorrectionImplementationId: String?
         let pointers: PreparedPointersReceipt?
         let observations: PictureObservationRequest?
+        let faceObservations: FaceObservationRequest?
     }
     public struct Result: Encodable {
         let file: String
@@ -32,6 +33,7 @@ public enum CompositionFrameRenderer {
         let readerOpens: Int
         let bytes: Int
         let observations: PictureObservations?
+        let faceObservations: FaceObservations?
     }
 
     public static func write(_ request: Request) async throws -> Result {
@@ -60,12 +62,12 @@ public enum CompositionFrameRenderer {
         let image = FrameImage(oriented: composed, maxLongEdge: edge)
         let published = try image.publishPNG(
             to: output, context: pictures.context, maxEncodedBytes: limit,
-            observations: request.observations)
+            observations: request.observations, faceObservations: request.faceObservations)
         return Result(
             file: request.output, frame: frame, pictures: pictures.pictures,
             width: image.width, height: image.height,
             sourceWidth: request.canvas.width, sourceHeight: request.canvas.height,
             decodedImages: pictures.decodedImages, decodedSamples: pictures.decodedSamples,
-            readerOpens: pictures.opens, bytes: published.bytes, observations: published.observations)
+            readerOpens: pictures.opens, bytes: published.bytes, observations: published.observations, faceObservations: published.faceObservations)
     }
 }

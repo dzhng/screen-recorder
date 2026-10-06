@@ -69,13 +69,16 @@ struct FrameImage {
     struct Publication {
         let bytes: Int
         let observations: PictureObservations?
+        let faceObservations: FaceObservations?
     }
     func publishPNG(to output: NewFile, context: CIContext, maxEncodedBytes: Int,
-                    observations: PictureObservationRequest? = nil) throws -> Publication {
+                    observations: PictureObservationRequest? = nil,
+                    faceObservations: FaceObservationRequest? = nil) throws -> Publication {
         let rendered = try renderedImage(context: context)
         let measured = try observations.map { try PictureObservations.measure(rendered, request: $0) }
+        let faces = try faceObservations.map { try FaceObservations.detect(rendered, request: $0) }
         let bytes = try publishPNGData(encodePNG(rendered), to: output, maxEncodedBytes: maxEncodedBytes)
-        return Publication(bytes: bytes, observations: measured)
+        return Publication(bytes: bytes, observations: measured, faceObservations: faces)
     }
 
     func renderedImage(context: CIContext) throws -> CGImage {

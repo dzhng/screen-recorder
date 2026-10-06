@@ -129,3 +129,4 @@ export * from "./update.js";
 export * from "./work.js";
 
 export * from "./picture.js";
+export * from "./faces.js";

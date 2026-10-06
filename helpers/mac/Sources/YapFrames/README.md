@@ -44,3 +44,9 @@ are measured contiguous dark candidates; a completely dark scene may reach the
 opposite edge without an observed transition. Neither case proves letterboxing
 or authorizes cropping. Region names describe the caller's rectangles, not native
 face detection or universal exposure targets.
+
+[Face observations](FaceObservations.swift) run Vision on that same delivered,
+upright CGImage when explicitly requested. They return every detected box in
+top-left pixel coordinates, preserve no-face and detector-error states, and
+carry no person identity or largest-face selection. This is evidence for the
+caller; it never changes composition or framing.

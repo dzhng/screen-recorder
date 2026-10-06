@@ -12,6 +12,7 @@ import {
 } from "@yap/composition";
 import { z } from "zod";
 import { pictureObservationRequestSchema } from "./picture.js";
+import { faceObservationRequestSchema } from "./faces.js";
 import { captureSelectionSchema } from "./capture.js";
 import { DEFAULT_CALL_TIMEOUT_MS, MEDIA_WORKER_TIMEOUT_MS } from "./framing.js";
 
@@ -156,6 +157,7 @@ const projectFrameParams = project
     atUs: time,
     maxLongEdge: maxLongEdge,
     observations: pictureObservationRequestSchema.optional(),
+    faceObservations: faceObservationRequestSchema.optional(),
     tap: processingTapSchema.optional(),
   })
   .strict();
@@ -164,6 +166,7 @@ const sourceFrameParams = sourceSelection
     atUs: time,
     maxLongEdge: maxLongEdge,
     observations: pictureObservationRequestSchema.optional(),
+    faceObservations: faceObservationRequestSchema.optional(),
   })
   .strict();
 const frameParams = z.union([
@@ -171,7 +174,7 @@ const frameParams = z.union([
   sourceFrameParams,
   sourceSelection
     .omit({ acquisitionId: true })
-    .extend({ maxLongEdge: maxLongEdge, observations: pictureObservationRequestSchema.optional() })
+    .extend({ maxLongEdge: maxLongEdge, observations: pictureObservationRequestSchema.optional(), faceObservations: faceObservationRequestSchema.optional() })
     .strict(),
 ]);
 
@@ -587,6 +590,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
           {
             limit: z.int().min(1).max(200).default(50),
             observations: pictureObservationRequestSchema.optional(),
+            faceObservations: faceObservationRequestSchema.optional(),
           },
           {
             generation: id,
@@ -604,7 +608,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("index.retry"),
       params: z.union([
         projectIndexParams,
-        sourceSelection.extend({ observations: pictureObservationRequestSchema.optional() }),
+        sourceSelection.extend({ observations: pictureObservationRequestSchema.optional(), faceObservations: faceObservationRequestSchema.optional() }),
       ]),
     })
     .strict()

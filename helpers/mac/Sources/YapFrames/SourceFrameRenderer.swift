@@ -13,6 +13,7 @@ public enum SourceFrameRenderer {
         let maxLongEdge: Int?
         let maxEncodedBytes: Int?
         let observations: PictureObservationRequest?
+        let faceObservations: FaceObservationRequest?
     }
     public struct Sample: Encodable {
         let value: String
@@ -37,6 +38,7 @@ public enum SourceFrameRenderer {
         let readerOpens = 1
         let bytes: Int
         let observations: PictureObservations?
+        let faceObservations: FaceObservations?
     }
 
     public static func write(_ request: Request) async throws -> Result {
@@ -69,7 +71,7 @@ public enum SourceFrameRenderer {
         let image = try FrameImage(buffer: buffer, transform: source.transform, maxLongEdge: edge)
         let published = try image.publishPNG(to: output,
             context: CIContext(options: [.cacheIntermediates: false]), maxEncodedBytes: limit,
-            observations: request.observations)
+            observations: request.observations, faceObservations: request.faceObservations)
         return Result(file: request.output, assetId: request.asset.assetId,
             streamId: request.asset.streamId, requestedSourceUs: request.atUs,
             actualSourceUs: actualUs,
@@ -78,6 +80,6 @@ public enum SourceFrameRenderer {
                 originUs: request.asset.originUs),
             width: image.width, height: image.height, sourceWidth: source.width,
             sourceHeight: source.height, decodedSamples: source.decodedCount,
-            bytes: published.bytes, observations: published.observations)
+            bytes: published.bytes, observations: published.observations, faceObservations: published.faceObservations)
     }
 }

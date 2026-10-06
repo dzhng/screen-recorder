@@ -68,3 +68,8 @@ parent frame's source/sample or project/revision pins. Histograms report opaque
 encoded-sRGB operands with declared luma weights; they are not radiometric light,
 scene semantics or instructions to edit. Coverage and actual color profiles keep
 missing pixels or absent ICC bytes visible instead of filling them with defaults.
+
+[Face observations](src/faces.ts) are a separate explicit request and receipt.
+Vision boxes use delivered top-left pixels and retain every detection, including
+the no-face and detector-error states. They contain no person identity,
+largest-face default or framing permission.
