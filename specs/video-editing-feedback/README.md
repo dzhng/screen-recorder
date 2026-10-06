@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; eight slices complete, corpus partly certified, speaker quality gate red. Last updated: 2026-10-05.
+Status: implementation active; nine slices complete, corpus partly certified, speaker quality gate red. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -16,14 +16,15 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: [17 — audio preflight](slices/17-normalization-preflight.md), first
-reproducing existing preparation/export ordering before extending selected domain
-readiness. Parallel lanes own [05 — replacement](slices/05-atomic-export-replacement.md),
+Current pickup: [18 — strict mastering](slices/18-reliable-mastering.md), first
+reproducing the current two-pass result on bounded peaky audio before freezing a
+correction recipe.17 is integrated: selected taps retain complete domains, and
+video reuses only the matching final mix after strict audio settlement. Parallel lanes own [05 — replacement](slices/05-atomic-export-replacement.md),
 [10 — alignment/boundaries](slices/10-alignment-and-boundaries.md), and
 [14 — picture statistics](slices/14-picture-statistics.md). Their bases include04/08
 and the accepted sampled13 reference; integrate each reviewed pass independently.
 
-Completed: 02, 03, 04, 06, 07, 08, 09, 13. Partial01 has exact source-rate PCM,
+Completed: 02, 03, 04, 06, 07, 08, 09, 13, 17. Partial01 has exact source-rate PCM,
 full-raster picture inputs and all five frozen07 original/derivative speech
 comparisons. Multicamera/speaker controls and remaining behavioral certification
 stay open.08's separate20s/4s ownership recipe is accepted; historical public/native
@@ -67,7 +68,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [14 — Objective picture observations](slices/14-picture-statistics.md)
 - [ ] [15 — Face localization and explicit tracks](slices/15-face-observations.md)
 - [ ] [16 — Constrained subject framing](slices/16-subject-reframe.md)
-- [ ] [17 — Audio-only normalization preflight](slices/17-normalization-preflight.md)
+- [x] [17 — Audio-only normalization preflight](slices/17-normalization-preflight.md)
 - [ ] [18 — Strict, reliable dynamic mastering](slices/18-reliable-mastering.md)
 - [ ] [19 — Dialogue matching and compressor makeup](slices/19-dialogue-matching.md)
 - [ ] [20 — Synchronization feasibility](slices/20-sync-replication.md)

@@ -361,3 +361,24 @@ unspecified. They preserve the existing owners rather than adding new schedulers
   valid JSON up to16MiB can be atomically delivered to disk; model-facing MCP buffering
   retains its existing4MiB limit.04 required validation without selecting a memory
   policy. Reusing each consumer's established budget avoids a new universal limit.
+
+## Slice17 — complete tap preparation
+
+### Sound decisions
+
+- **Preparing a selected signal uses the existing whole-program duration.** A clip,
+  track, group or intermediate step uses the same tap selection and processing-state
+  domains as ordinary inspection; the request adds no arbitrary excerpt normalization
+  contract. This follows the compiler's existing semantics and keeps history/retry
+  identity literal. The public help states complete domains; dynamic feasibility still
+  requires actual execution. No separate duration policy or scheduler was added.
+- **Only the prepared final mix may replace movie audio.** Dry and intermediate
+  preparations remain useful evidence but cannot silently become the delivered soundtrack.
+  Recorded tap and ordered recipe bind retained resolution and portable adoption;
+  omission still means processed output. The public native export test borrows that
+  retained mix and forbids audio recomputation during picture encoding.
+- **Preflight preserves the existing export order.** The movie owner already prepares
+  complete audio and checks strict normalization before encoding pictures. The pass
+  adds an externally observable refusal regression rather than another execution path
+  or diagnostic store. Existing job failures retain measured reasons; edit admission
+  remains cheap and no loudness tolerance changes.
