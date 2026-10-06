@@ -66,8 +66,9 @@ and the stale-revision refusal; the helper receipt is retained in
 [`contextual-join-fixture.mjs`](../../../../packages/test-harness/editing/contextual-join-fixture.mjs)
 replays the four required cases in a private managed home. It imports the retained
 `fortunate` PCM fixture, authors separate clipped, intact, repaired and intentional-
-jump revisions, prepares the pinned first-class Parakeet model, renders each output
-and records exact prepared sample support plus the read-only `join.verify` report.
+jump revisions, prepares the pinned first-class Parakeet model, renders each output,
+and drives the repaired revision through the public `join-repair` helper before
+recording exact prepared sample support plus the read-only `join.verify` report.
 The accepted receipt is [media-fixture-report.json](media-fixture-report.json).
 The intact and repaired outputs are both recognized as `Fortunately,`; the clipped
 output is recognized as `'Kay.`. This is retained as the frozen word-completion

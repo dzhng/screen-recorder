@@ -6,6 +6,7 @@ import { parseArgs } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { parakeetModel } from "../../../packages/core/dist/models.js";
 import { JourneyService, copyModels, hash, poll, root } from "./source-evidence-fixture.mjs";
+import { repairJoinAndRecheck } from "../../../skills/yap/scripts/join-repair.mjs";
 
 const { values } = parseArgs({
   options: {
@@ -289,26 +290,51 @@ try {
     { source: clipped, project: clipped },
   ]);
   // This is the caller-authored repair: replace the clipped source range with
-  // the intact range, then inspect the advanced revision.
-  const replaced = await call("edit.apply", {
-    projectId: repairedProject.projectId,
-    expectedRevisionId: repairedProject.revisionId,
-    requestId: "repaired-replace-cut",
-    operations: [
-      { operation: "remove", clipIds: repairedProject.clipIds, ripple: "none" },
-      {
-        operation: "place",
-        clip: {
-          trackId: repairedProject.trackId,
-          assetId: fixture.asset.id,
-          streamId: fixture.stream.id,
-          source: { kind: "range", range: full },
-          placement: { kind: "project", range: full },
-        },
+  // the intact range, then inspect the advanced revision through the public
+  // consumer helper. The helper still makes no editorial decision.
+  const repair = await repairJoinAndRecheck(
+    {
+      projectId: repairedProject.projectId,
+      revisionId: repairedProject.revisionId,
+      repair: {
+        requestId: "repaired-replace-cut",
+        operations: [
+          { operation: "remove", clipIds: repairedProject.clipIds, ripple: "none" },
+          {
+            operation: "place",
+            clip: {
+              trackId: repairedProject.trackId,
+              assetId: fixture.asset.id,
+              streamId: fixture.stream.id,
+              source: { kind: "range", range: full },
+              placement: { kind: "project", range: full },
+            },
+          },
+        ],
       },
-    ],
-  });
-  const repairedRevision = replaced.revision.id;
+      recheck: {
+        preparedResourceId: "unused-before-preparation",
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+        prepare: { tap: { target: { kind: "output" }, point: { kind: "processed" } } },
+        boundary: { trackId: repairedProject.trackId, projectAtUs: intactDurationUs },
+        context: { beforeUs: 250000, afterUs: 250000 },
+        expectedText: "fortunate",
+        thresholdRMS: 0.01,
+      },
+    },
+    (operation, params) => call(operation, params),
+  );
+  assert.equal(repair.afterRevisionId !== repairedProject.revisionId, true);
+  report.repairHelper = {
+    beforeRevisionId: repair.beforeRevisionId,
+    afterRevisionId: repair.afterRevisionId,
+    recheck: {
+      revisionId: repair.recheck.revisionId,
+      phoneticCompleteness: repair.recheck.phoneticCompleteness,
+      renderedRecognition: repair.recheck.rendered?.recognition?.state,
+    },
+  };
+  const repairedRevision = repair.afterRevisionId;
   const intactProject = await makeProject(fixture, "intact", [{ source: full, project: full }]);
   const clippedProject = await makeProject(fixture, "clipped", [
     { source: clipped, project: clipped },

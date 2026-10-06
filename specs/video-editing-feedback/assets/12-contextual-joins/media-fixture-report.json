@@ -126,7 +126,7 @@
       },
       "boundaryAtUs": 951000,
       "prepared": {
-        "resourceId": "[\"14a15160-3f17-41f7-adc8-46dfc78c7c44\",\"6c904b73-4799-4178-b64f-dfae07e986f0\"]",
+        "resourceId": "[\"284ea695-a78f-4175-a403-3ff74c2f1c45\",\"ea4bb601-0158-4e72-a2e4-e84e028afd89\"]",
         "frames": 45648,
         "sampleRange": {
           "start": 0,
@@ -135,24 +135,24 @@
       },
       "rendered": {
         "state": "ready",
-        "generation": "aebdd6f8-7713-4087-95ac-5431436922e0",
+        "generation": "92946212-5008-4126-8f2a-e192d927ef28",
         "frames": 15216,
         "transcript": {
-          "generation": "aebdd6f8-7713-4087-95ac-5431436922e0",
+          "generation": "92946212-5008-4126-8f2a-e192d927ef28",
           "wordCount": 1,
           "segmentCount": 1
         }
       },
       "join": {
-        "projectId": "14a15160-3f17-41f7-adc8-46dfc78c7c44",
-        "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b",
-        "preparedResourceId": "[\"14a15160-3f17-41f7-adc8-46dfc78c7c44\",\"6c904b73-4799-4178-b64f-dfae07e986f0\"]",
+        "projectId": "284ea695-a78f-4175-a403-3ff74c2f1c45",
+        "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1",
+        "preparedResourceId": "[\"284ea695-a78f-4175-a403-3ff74c2f1c45\",\"ea4bb601-0158-4e72-a2e4-e84e028afd89\"]",
         "boundary": {
           "projectAtUs": 951000,
-          "trackId": "track:893a6f376703a901c80c5e8c9e4c03c348c03ef6b8cf18213669cc63e389b283:0",
+          "trackId": "track:2e681ed81479976821c2c00a96b8101c97f717008143856eff4e928bfd303b25:0",
           "mediaKind": "audio",
           "before": {
-            "clipId": "clip:b1f629f71772fccd00ead906ecc91162d7b2d80532cf53ab6796ccf76246d31b:0",
+            "clipId": "clip:65f9e3738baa3658dc03964be49d4cc0fb5d6ec75fb4bbb79723daf9310ceb0b:0",
             "kind": "range",
             "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
             "streamId": "track:1",
@@ -206,7 +206,7 @@
               ],
               "missing": []
             },
-            "generation": "aebdd6f8-7713-4087-95ac-5431436922e0",
+            "generation": "92946212-5008-4126-8f2a-e192d927ef28",
             "textComparison": {
               "expectedText": "fortunate",
               "observedText": "Fortunately,",
@@ -326,10 +326,10 @@
             "state": "observed",
             "boundary": {
               "projectAtUs": 851000,
-              "trackId": "track:893a6f376703a901c80c5e8c9e4c03c348c03ef6b8cf18213669cc63e389b283:0",
+              "trackId": "track:2e681ed81479976821c2c00a96b8101c97f717008143856eff4e928bfd303b25:0",
               "mediaKind": "audio",
               "before": {
-                "clipId": "clip:b1f629f71772fccd00ead906ecc91162d7b2d80532cf53ab6796ccf76246d31b:0",
+                "clipId": "clip:65f9e3738baa3658dc03964be49d4cc0fb5d6ec75fb4bbb79723daf9310ceb0b:0",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -337,7 +337,7 @@
                 "rate": 1
               },
               "after": {
-                "clipId": "clip:b1f629f71772fccd00ead906ecc91162d7b2d80532cf53ab6796ccf76246d31b:0",
+                "clipId": "clip:65f9e3738baa3658dc03964be49d4cc0fb5d6ec75fb4bbb79723daf9310ceb0b:0",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -361,7 +361,7 @@
       },
       "boundaryAtUs": 391375,
       "prepared": {
-        "resourceId": "[\"1898e6f3-ff0f-4632-b0ac-09081c9a4357\",\"632808c3-e023-40f0-8e84-d66563405559\"]",
+        "resourceId": "[\"e1020ab0-33e9-4db6-8ad8-506e6d0f776b\",\"016e0cc3-8898-48a9-938a-3c289dac204d\"]",
         "frames": 18786,
         "sampleRange": {
           "start": 0,
@@ -370,24 +370,24 @@
       },
       "rendered": {
         "state": "ready",
-        "generation": "e18e74e1-6a9d-4d01-9b92-ed0221647f0a",
+        "generation": "76d87034-77ee-46ea-b96c-0aeb68937288",
         "frames": 6262,
         "transcript": {
-          "generation": "e18e74e1-6a9d-4d01-9b92-ed0221647f0a",
+          "generation": "76d87034-77ee-46ea-b96c-0aeb68937288",
           "wordCount": 1,
           "segmentCount": 1
         }
       },
       "join": {
-        "projectId": "1898e6f3-ff0f-4632-b0ac-09081c9a4357",
-        "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6",
-        "preparedResourceId": "[\"1898e6f3-ff0f-4632-b0ac-09081c9a4357\",\"632808c3-e023-40f0-8e84-d66563405559\"]",
+        "projectId": "e1020ab0-33e9-4db6-8ad8-506e6d0f776b",
+        "revisionId": "c109ec7d-4441-4126-a6cd-1ae1d0d23fec",
+        "preparedResourceId": "[\"e1020ab0-33e9-4db6-8ad8-506e6d0f776b\",\"016e0cc3-8898-48a9-938a-3c289dac204d\"]",
         "boundary": {
           "projectAtUs": 391375,
-          "trackId": "track:37c91108dde89c7afe60a0957120209300d27cd2d6cdfffe6c27fbcf715dd32a:0",
+          "trackId": "track:69cb96d5da665f33fa4d1f81bb89d891c5964ed2215e3e1fb4725b3ef2664d83:0",
           "mediaKind": "audio",
           "before": {
-            "clipId": "clip:cff257b29f635d0a57882da2d53eea0dadf888439d4914ff413e54d54c929470:0",
+            "clipId": "clip:35dc8a01a1cd629172a9401a4e73b22dadb6d660047b24c3f0014d0f8958adf8:0",
             "kind": "range",
             "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
             "streamId": "track:1",
@@ -441,7 +441,7 @@
               ],
               "missing": []
             },
-            "generation": "e18e74e1-6a9d-4d01-9b92-ed0221647f0a",
+            "generation": "76d87034-77ee-46ea-b96c-0aeb68937288",
             "textComparison": {
               "expectedText": "fortunate",
               "observedText": "'Kay.",
@@ -561,10 +561,10 @@
             "state": "observed",
             "boundary": {
               "projectAtUs": 291375,
-              "trackId": "track:37c91108dde89c7afe60a0957120209300d27cd2d6cdfffe6c27fbcf715dd32a:0",
+              "trackId": "track:69cb96d5da665f33fa4d1f81bb89d891c5964ed2215e3e1fb4725b3ef2664d83:0",
               "mediaKind": "audio",
               "before": {
-                "clipId": "clip:cff257b29f635d0a57882da2d53eea0dadf888439d4914ff413e54d54c929470:0",
+                "clipId": "clip:35dc8a01a1cd629172a9401a4e73b22dadb6d660047b24c3f0014d0f8958adf8:0",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -572,7 +572,7 @@
                 "rate": 1
               },
               "after": {
-                "clipId": "clip:cff257b29f635d0a57882da2d53eea0dadf888439d4914ff413e54d54c929470:0",
+                "clipId": "clip:35dc8a01a1cd629172a9401a4e73b22dadb6d660047b24c3f0014d0f8958adf8:0",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -596,7 +596,7 @@
       },
       "boundaryAtUs": 951000,
       "prepared": {
-        "resourceId": "[\"09e1d217-ac8e-4e4c-b84c-bb2de48a9130\",\"2130d9e3-6dc5-418c-9984-55158a45bb69\"]",
+        "resourceId": "[\"34e7927b-272b-4461-9a87-8b41fd086bea\",\"04fe2c2d-4649-4c15-879e-cd8da1d3bd66\"]",
         "frames": 45648,
         "sampleRange": {
           "start": 0,
@@ -605,24 +605,24 @@
       },
       "rendered": {
         "state": "ready",
-        "generation": "f1af191c-a6ba-4b08-9801-459a4072827b",
+        "generation": "421673ee-7521-457d-afd3-087d90fe552b",
         "frames": 15216,
         "transcript": {
-          "generation": "f1af191c-a6ba-4b08-9801-459a4072827b",
+          "generation": "421673ee-7521-457d-afd3-087d90fe552b",
           "wordCount": 1,
           "segmentCount": 1
         }
       },
       "join": {
-        "projectId": "09e1d217-ac8e-4e4c-b84c-bb2de48a9130",
-        "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92",
-        "preparedResourceId": "[\"09e1d217-ac8e-4e4c-b84c-bb2de48a9130\",\"2130d9e3-6dc5-418c-9984-55158a45bb69\"]",
+        "projectId": "34e7927b-272b-4461-9a87-8b41fd086bea",
+        "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea",
+        "preparedResourceId": "[\"34e7927b-272b-4461-9a87-8b41fd086bea\",\"04fe2c2d-4649-4c15-879e-cd8da1d3bd66\"]",
         "boundary": {
           "projectAtUs": 951000,
-          "trackId": "track:765924deab58e480bf05e01331a4fe9c3dff6e6ad05e555f15c7433939b7c636:0",
+          "trackId": "track:8bf3a2f9b540499108992ddd259e0f51504de65c182054ce8000c15c7ef36858:0",
           "mediaKind": "audio",
           "before": {
-            "clipId": "clip:43f3a3579ba246376c23225ae3d870ac570f8e66fd4ba85a0b13fc25a3b6403e:0",
+            "clipId": "clip:db3e63d969c7f66653240fba683330e180e7f35fbcb884adb5f984095b902044:0",
             "kind": "range",
             "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
             "streamId": "track:1",
@@ -676,7 +676,7 @@
               ],
               "missing": []
             },
-            "generation": "f1af191c-a6ba-4b08-9801-459a4072827b",
+            "generation": "421673ee-7521-457d-afd3-087d90fe552b",
             "textComparison": {
               "expectedText": "fortunate",
               "observedText": "Fortunately,",
@@ -796,10 +796,10 @@
             "state": "observed",
             "boundary": {
               "projectAtUs": 851000,
-              "trackId": "track:765924deab58e480bf05e01331a4fe9c3dff6e6ad05e555f15c7433939b7c636:0",
+              "trackId": "track:8bf3a2f9b540499108992ddd259e0f51504de65c182054ce8000c15c7ef36858:0",
               "mediaKind": "audio",
               "before": {
-                "clipId": "clip:43f3a3579ba246376c23225ae3d870ac570f8e66fd4ba85a0b13fc25a3b6403e:0",
+                "clipId": "clip:db3e63d969c7f66653240fba683330e180e7f35fbcb884adb5f984095b902044:0",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -807,7 +807,7 @@
                 "rate": 1
               },
               "after": {
-                "clipId": "clip:43f3a3579ba246376c23225ae3d870ac570f8e66fd4ba85a0b13fc25a3b6403e:0",
+                "clipId": "clip:db3e63d969c7f66653240fba683330e180e7f35fbcb884adb5f984095b902044:0",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -831,7 +831,7 @@
       },
       "boundaryAtUs": 391375,
       "prepared": {
-        "resourceId": "[\"79fde3f5-bbe5-4cf1-bf1e-882d89953a4c\",\"d7ca67f7-dbd2-4489-b032-3618f18d4beb\"]",
+        "resourceId": "[\"e7a341ad-667a-4630-bda3-6694c6d67293\",\"15a9d32f-712c-42a1-926d-09070c18cf64\"]",
         "frames": 37554,
         "sampleRange": {
           "start": 0,
@@ -843,15 +843,15 @@
         "reason": "Segment 0 token 4: engine estimate [0.64,0.8] exceeds interval [ExactTime(numerator: 0, denominator: 1),ExactTime(numerator: 782375, denominator: 1))."
       },
       "join": {
-        "projectId": "79fde3f5-bbe5-4cf1-bf1e-882d89953a4c",
-        "revisionId": "94355a67-371f-4850-824a-4519322f4770",
-        "preparedResourceId": "[\"79fde3f5-bbe5-4cf1-bf1e-882d89953a4c\",\"d7ca67f7-dbd2-4489-b032-3618f18d4beb\"]",
+        "projectId": "e7a341ad-667a-4630-bda3-6694c6d67293",
+        "revisionId": "965697e4-8fd6-4d74-bc19-c230af7e39fa",
+        "preparedResourceId": "[\"e7a341ad-667a-4630-bda3-6694c6d67293\",\"15a9d32f-712c-42a1-926d-09070c18cf64\"]",
         "boundary": {
           "projectAtUs": 391375,
-          "trackId": "track:1078c120f589319ecb6492d8a09ade0cb8a26efc9fd8c5b68ee2fcb16e0b502e:0",
+          "trackId": "track:dddc3cebee42ecf74f8965fb42500941d6a2adf0a03b72201ac9cd5b11ccacdb:0",
           "mediaKind": "audio",
           "before": {
-            "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:0",
+            "clipId": "clip:13e5bad8d0131e585abec55173d28d4b2cefa35ea66ad9870d453c55fbe6bf65:0",
             "kind": "range",
             "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
             "streamId": "track:1",
@@ -859,7 +859,7 @@
             "rate": 1
           },
           "after": {
-            "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:1",
+            "clipId": "clip:13e5bad8d0131e585abec55173d28d4b2cefa35ea66ad9870d453c55fbe6bf65:1",
             "kind": "range",
             "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
             "streamId": "track:1",
@@ -1017,10 +1017,10 @@
             "state": "observed",
             "boundary": {
               "projectAtUs": 291375,
-              "trackId": "track:1078c120f589319ecb6492d8a09ade0cb8a26efc9fd8c5b68ee2fcb16e0b502e:0",
+              "trackId": "track:dddc3cebee42ecf74f8965fb42500941d6a2adf0a03b72201ac9cd5b11ccacdb:0",
               "mediaKind": "audio",
               "before": {
-                "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:0",
+                "clipId": "clip:13e5bad8d0131e585abec55173d28d4b2cefa35ea66ad9870d453c55fbe6bf65:0",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -1028,7 +1028,7 @@
                 "rate": 1
               },
               "after": {
-                "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:0",
+                "clipId": "clip:13e5bad8d0131e585abec55173d28d4b2cefa35ea66ad9870d453c55fbe6bf65:0",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -1042,10 +1042,10 @@
             "state": "observed",
             "boundary": {
               "projectAtUs": 491375,
-              "trackId": "track:1078c120f589319ecb6492d8a09ade0cb8a26efc9fd8c5b68ee2fcb16e0b502e:0",
+              "trackId": "track:dddc3cebee42ecf74f8965fb42500941d6a2adf0a03b72201ac9cd5b11ccacdb:0",
               "mediaKind": "audio",
               "before": {
-                "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:1",
+                "clipId": "clip:13e5bad8d0131e585abec55173d28d4b2cefa35ea66ad9870d453c55fbe6bf65:1",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -1053,7 +1053,7 @@
                 "rate": 1
               },
               "after": {
-                "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:1",
+                "clipId": "clip:13e5bad8d0131e585abec55173d28d4b2cefa35ea66ad9870d453c55fbe6bf65:1",
                 "kind": "range",
                 "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
                 "streamId": "track:1",
@@ -1112,6 +1112,26 @@
       "ok": true
     },
     {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea"
+    },
+    {
+      "operation": "join.verify",
+      "transport": "cli",
+      "ok": true,
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea"
+    },
+    {
       "operation": "project.create",
       "transport": "cli",
       "ok": true
@@ -1161,1438 +1181,1489 @@
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "audio.prepare",
       "transport": "cli",
       "ok": true,
       "state": "ready",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "queued",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "ready",
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "join.verify",
       "transport": "cli",
       "ok": true,
-      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+      "revisionId": "1408a28b-2c6c-4eca-97c0-6d64561843a1"
     },
     {
       "operation": "audio.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+      "revisionId": "c109ec7d-4441-4126-a6cd-1ae1d0d23fec"
     },
     {
       "operation": "audio.prepare",
       "transport": "cli",
       "ok": true,
       "state": "ready",
-      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+      "revisionId": "c109ec7d-4441-4126-a6cd-1ae1d0d23fec"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "queued",
-      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+      "revisionId": "c109ec7d-4441-4126-a6cd-1ae1d0d23fec"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+      "revisionId": "c109ec7d-4441-4126-a6cd-1ae1d0d23fec"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+      "revisionId": "c109ec7d-4441-4126-a6cd-1ae1d0d23fec"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "ready",
-      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+      "revisionId": "c109ec7d-4441-4126-a6cd-1ae1d0d23fec"
     },
     {
       "operation": "join.verify",
       "transport": "cli",
       "ok": true,
-      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
-    },
-    {
-      "operation": "audio.prepare",
-      "transport": "cli",
-      "ok": true,
-      "state": "processing",
-      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+      "revisionId": "c109ec7d-4441-4126-a6cd-1ae1d0d23fec"
     },
     {
       "operation": "audio.prepare",
       "transport": "cli",
       "ok": true,
       "state": "ready",
-      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "queued",
-      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "ready",
-      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea"
     },
     {
       "operation": "join.verify",
       "transport": "cli",
       "ok": true,
-      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea"
     },
     {
       "operation": "audio.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+      "revisionId": "965697e4-8fd6-4d74-bc19-c230af7e39fa"
     },
     {
       "operation": "audio.prepare",
       "transport": "cli",
       "ok": true,
       "state": "ready",
-      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+      "revisionId": "965697e4-8fd6-4d74-bc19-c230af7e39fa"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "queued",
-      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+      "revisionId": "965697e4-8fd6-4d74-bc19-c230af7e39fa"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+      "revisionId": "965697e4-8fd6-4d74-bc19-c230af7e39fa"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "processing",
-      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+      "revisionId": "965697e4-8fd6-4d74-bc19-c230af7e39fa"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "965697e4-8fd6-4d74-bc19-c230af7e39fa"
     },
     {
       "operation": "transcript.render.prepare",
       "transport": "cli",
       "ok": true,
       "state": "failed",
-      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+      "revisionId": "965697e4-8fd6-4d74-bc19-c230af7e39fa"
     },
     {
       "operation": "join.verify",
       "transport": "cli",
       "ok": true,
-      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+      "revisionId": "965697e4-8fd6-4d74-bc19-c230af7e39fa"
     }
-  ]
+  ],
+  "repairHelper": {
+    "beforeRevisionId": "ad3cf90f-fcb4-4ebe-95de-c1e425ccd8fe",
+    "afterRevisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea",
+    "recheck": {
+      "revisionId": "dad2b00a-4bd5-4dd3-b19b-7af9e203cbea",
+      "phoneticCompleteness": "unknown",
+      "renderedRecognition": "missing"
+    }
+  }
 }
