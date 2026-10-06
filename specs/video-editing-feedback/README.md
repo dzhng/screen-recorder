@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; core contracts through19 are integrated, contextual joins now include a fresh-agent Parakeet repair replay, and caption, blend, synchronization-evidence, motion, delivered-scene and focused-use-case routing helpers are present. Native switched-angle and physical empty-edit delivery receipts are integrated; synchronization estimation, broader native parity and long-form speaker quality gates remain open. Last updated: 2026-10-06.
+Status: implementation active; core contracts through19 are integrated, contextual joins now include a fresh-agent Parakeet repair replay, and caption, blend, synchronization-evidence, motion, delivered-scene and focused-use-case routing helpers are present. The retained corpus now has a fresh physical eight-case verifier receipt; native switched-angle, physical empty-edit and deterministic transition comparator receipts are integrated. Synchronization estimation, broader native parity and long-form speaker quality gates remain open. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and

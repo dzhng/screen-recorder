@@ -1,0 +1,53 @@
+{
+  "kind": "retained-corpus-physical-verification",
+  "generatedAt": "2026-10-06T19:41:06.393Z",
+  "command": "node packages/test-harness/editing/video-corpus.mjs verify --fixtures fixtures/video-editing-feedback --ffprobe /opt/homebrew/bin/ffprobe",
+  "ffprobe": "/opt/homebrew/bin/ffprobe",
+  "ffprobeSha256": "56559c234422b0e3722c54b2bd99bbd8cd83d3732a13a6d207589982a6b7085e",
+  "result": {
+    "ok": true,
+    "bytes": 140035393,
+    "cases": [
+      {
+        "id": "false-start",
+        "sha256": "37217b01cf438ff68c51eccf9ebc71f4742bbf852877446474a05c798a0b6a49",
+        "baseline": "recognition-parity-pass"
+      },
+      {
+        "id": "overlap-region",
+        "sha256": "2a8f48a9eb53272fea02520e645859c170f5716d1087f7d2aa365cbcbd451607",
+        "baseline": "fixed-current"
+      },
+      {
+        "id": "overlap-neighbor",
+        "sha256": "ed702a3250b81ae0365f8ef5c3be254e77e41fb6a7a81ea4b4a5e86028e42ba8",
+        "baseline": "fixed-current"
+      },
+      {
+        "id": "phrase-final-trend",
+        "sha256": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+        "baseline": "recognition-parity-pass"
+      },
+      {
+        "id": "madison-context",
+        "sha256": "f54d852925564b232718e16d5be701e36c923a3c24c1e64d7f665b764c42f10c",
+        "baseline": "recognition-parity-pass"
+      },
+      {
+        "id": "graham-picture",
+        "sha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+        "baseline": "unverified"
+      },
+      {
+        "id": "madison-picture",
+        "sha256": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+        "baseline": "unverified"
+      },
+      {
+        "id": "lily-picture",
+        "sha256": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+        "baseline": "unverified"
+      }
+    ]
+  }
+}

@@ -54,3 +54,8 @@ decoded frame must retain square pixels, and first derivation requires its encod
 hash. [The resolution receipt](followup-code-review-receipt.json) records the
 focused checks and complete physical corpus certification. Parent shape, diff and
 docs review found no remaining issue in this checkpoint.
+
+[The latest physical verifier receipt](corpus-verification.json) checks all
+eight retained cases, exact hashes, decoded audio samples, video raster/clock
+support and the 250 MiB budget (`140035393` bytes). It strengthens the physical
+corpus claim without promoting the remaining behavioral or multicamera gates.
