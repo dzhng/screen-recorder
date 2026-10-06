@@ -35,7 +35,9 @@ keeping synchronization and speaker identity refused.
 real case to an existing replayable behavior receipt without broadening its
 multicamera, speaker or editorial claims.
 [Speaker feasibility](31-speaker-replication/README.md) retains reproducible partial
-successes and required failures; it does not establish production readiness.
+successes and required failures; its Ultra-8 bundle also retains an explicitly
+exploratory long-form audit with a replayable four-speaker failure. It does not
+establish production readiness.
 
 [Player reference coverage](13-reference-coverage/README.md) records partial decode
 failures without changing successful pictures; the accepted sampled recipe follows below.

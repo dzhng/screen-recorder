@@ -55,6 +55,13 @@ ten-minute four-speaker control. Its complete raw operands replay without new
 inference. No provider is promoted.
 The historical DER-only pass never established simultaneous-speaker recall.
 
+The independently trained eight-slot direct-activity model has a replayable
+exploratory long audit in [ultra8 evidence](../assets/31-speaker-replication/ultra8-evidence/README.md):
+the 336.32-second three-speaker control passes, while the 600-second
+four-speaker control fails DER `0.371`, overlap recall `0.092` and identity
+confusion `0.076`. The run was not frozen before inference, so it narrows the
+next hypothesis but cannot close the long-form gate or promote a provider.
+
 Keep the required gate unchanged; proceed through these separately verifiable passes:
 
 1. **Provider and short-case admission.** Freeze licensing, complete raw-observation

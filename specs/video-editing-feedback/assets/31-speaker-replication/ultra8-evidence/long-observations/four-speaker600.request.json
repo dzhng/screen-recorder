@@ -1,0 +1,15 @@
+{
+  "operation": "speaker.continuityLab",
+  "params": {
+    "model": "/tmp/yap-speaker-hysteresis-20261006/ultra8-admission/model-library/models/ultra8-checkpoint-research/08c94f3d289e426288b15a580f7ce47b93b99bf2/checkpoint/ultra_diar_streaming_sortformer_8spk_v1.nemo",
+    "cases": [
+      {
+        "id": "four-speaker600",
+        "pcm": "/tmp/yap-editing-speaker-replication/continuity/four-speaker600.f32",
+        "pcmSha256": "147d2e7008361647c2f4b0824d754b6159f783c94e12f7f39dc2e1e2f853d59b",
+        "frames": 9600000,
+        "output": "/tmp/yap-ultra8-long-20261006-1791330168/four-speaker600.json"
+      }
+    ]
+  }
+}

@@ -72,7 +72,9 @@ composition preserves that refusal. The composition compiler and native public
 journey now replay an explicit three-angle sequential switch; the sync estimator
 still remains open. Speaker replication remains below the unchanged
 80% long-form gate; the pinned first-party speaker acquisition is now reproducible
-and auto-prepared, while continuity and labeling remain open as described above.
+and auto-prepared. The Ultra-8 exploratory long audit is replayable but was not
+frozen before inference and still fails the required four-speaker control, so
+continuity and labeling remain open as described above.
 Public split-tone delivery now has an independent CLI/MCP/native
 receipt with neutral and color masks. Native transition picture delivery now has
 crossfade/dip/flash receipts plus a two-source audio oracle, with a moving

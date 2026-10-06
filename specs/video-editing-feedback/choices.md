@@ -1943,3 +1943,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** multicam fixture coverage now includes a deterministic picture behavior checkpoint without copying original movies or adding a renderer. The explicit synchronization refusal and broader composition gate remain intact.
 - **Verdict:** sound for sampled picture behavior and physical preservation; whole multicamera behavioral certification is still open.
 - **Confidence:** high for the retained derivative/decoded identities; medium for broader multicam behavior outside the sampled windows.
+
+## Keep the Ultra-8 long run exploratory — slice31
+
+- **When:** the independently trained eight-slot speaker candidate was available after its short-control stop, and a long-form hypothesis needed a concrete measurement.
+- **The choice:** retain the 336.32-second and 600-second native score outputs, request identities and automatic scorer metrics in a compressed replay bundle. Mark the bundle exploratory because the long protocol was not frozen before this inference; it cannot promote the provider or close the required continuity gate.
+- **The gap:** the short candidate failure stopped a preregistered long expansion, but discarding the observed long result would lose useful evidence about the model's failure mode.
+- **The reach:** the next provider hypothesis now starts with exact evidence: the three-speaker control passes, while the four-speaker control fails DER, overlap recall and identity confusion. The replay refuses changed operands before scoring and leaves public speaker defaults untouched.
+- **Verdict:** sound as directional research evidence; insufficient for acceptance by design.
+- **Confidence:** high for the retained hashes and scorer reproduction; low for any conclusion beyond these two controls.

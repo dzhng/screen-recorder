@@ -1,0 +1,116 @@
+{
+  "kind": "ultra8-long-continuity-audit",
+  "status": "exploratory",
+  "protocolSha256": "e07d38dfa8dd23f974a1cf386bd9d0e773773ca2bac78a83169e794b7101603d",
+  "referenceProtocolSha256": "8f6ca56aefe8ce002679ae0c5d184b044d1c15d80639d51bbda06e530ecffb53",
+  "promotion": false,
+  "cases": [
+    {
+      "id": "bspxd-unedited336",
+      "sourceFrames": 5381120,
+      "audioSeconds": 336.32,
+      "pcmSha256": "fbb76b234aa5a30606b78369880f90361b14ab1f55249fd4dacf0cb1ad902226",
+      "rawSha256": "a9ed4beecbea1507dbd36bac5f613407ec0a81393f5b53f1c77bbd62431cd2cd",
+      "nativeSha256": "c3d1b4e3a291a750672ffe74234d08aafaca3ee115cbba4bc32f9d33f747be1f",
+      "nativeShape": [
+        1,
+        4204,
+        8
+      ],
+      "recipe": {
+        "chunk_len": 340,
+        "chunk_right_context": 40,
+        "fifo_len": 40,
+        "spkcache_update_period": 300,
+        "spkcache_len": 376
+      },
+      "inferenceSeconds": 5.725938999996288,
+      "peakProcessRSSBytes": 3182936064,
+      "metrics": {
+        "referenceSpeakerSeconds": 379.52000000000004,
+        "overlapSeconds": 53.96000000000008,
+        "silenceSeconds": 10.760000000000016,
+        "missedSpeakerSeconds": 0.3599999999999852,
+        "falseSpeakerSeconds": 32.11999999999987,
+        "confusedSpeakerSeconds": 0,
+        "mapping": {
+          "speaker_0": "bspxd:spk00",
+          "speaker_1": "bspxd:spk01",
+          "speaker_2": "bspxd:spk02"
+        },
+        "der": 0.08558178752107887
+      },
+      "overlap": {
+        "referenceSeconds": 53.96000000000008,
+        "retainedSeconds": 53.96000000000008,
+        "recall": 1
+      },
+      "confusionRatio": 0,
+      "observedSpeakerCount": 3,
+      "requiredSpeakerCount": 3,
+      "gates": {
+        "der": true,
+        "identity": true,
+        "overlap": true,
+        "count": true,
+        "time": true,
+        "rss": true
+      },
+      "passed": true
+    },
+    {
+      "id": "four-speaker600",
+      "sourceFrames": 9600000,
+      "audioSeconds": 600,
+      "pcmSha256": "147d2e7008361647c2f4b0824d754b6159f783c94e12f7f39dc2e1e2f853d59b",
+      "rawSha256": "85845f7dae649f52fd82c22a928617b6077108f0034ecaa060038b77f99b8856",
+      "nativeSha256": "f2930e5e3f8b45de896361c3ad3e83a83b90fefa3612527a7512e955dcee7b55",
+      "nativeShape": [
+        1,
+        7500,
+        8
+      ],
+      "recipe": {
+        "chunk_len": 340,
+        "chunk_right_context": 40,
+        "fifo_len": 40,
+        "spkcache_update_period": 300,
+        "spkcache_len": 376
+      },
+      "inferenceSeconds": 10.832158959005028,
+      "peakProcessRSSBytes": 3182936064,
+      "metrics": {
+        "referenceSpeakerSeconds": 577.599999999999,
+        "overlapSeconds": 44.600000000000335,
+        "silenceSeconds": 67.00000000000134,
+        "missedSpeakerSeconds": 61.310000000000386,
+        "falseSpeakerSeconds": 109.31000000000145,
+        "confusedSpeakerSeconds": 43.709999999999894,
+        "mapping": {
+          "speaker_0": "aiqwk:spk02",
+          "speaker_1": "aiqwk:spk04",
+          "speaker_2": "aiqwk:spk05",
+          "speaker_3": "aiqwk:spk03"
+        },
+        "der": 0.3710699445983416
+      },
+      "overlap": {
+        "referenceSeconds": 44.600000000000335,
+        "retainedSeconds": 4.090000000000018,
+        "recall": 0.09170403587443916
+      },
+      "confusionRatio": 0.07567520775623264,
+      "observedSpeakerCount": 4,
+      "requiredSpeakerCount": 4,
+      "gates": {
+        "der": false,
+        "identity": false,
+        "overlap": false,
+        "count": true,
+        "time": true,
+        "rss": true
+      },
+      "passed": false
+    }
+  ]
+}

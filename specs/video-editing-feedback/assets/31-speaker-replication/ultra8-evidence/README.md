@@ -6,4 +6,12 @@ This bundle tests independently trained direct speaker activity with strict nati
 
 The model emits native80ms rows. [Clock projection](native-clock.mjs) preserves integer row boundaries and refuses unsupported turns without upsampling or clipping. Cold load is separate from inference, and resource results describe the process rather than external services. The runtime remains an unsealed experimental bundle, not a release.
 
+An [exploratory long audit](long-protocol.json) also retains the prepared model's
+336.32-second three-speaker pass and its 600-second four-speaker failure. This
+run was made before the long protocol was frozen, so it is explicitly evidence
+for the next hypothesis rather than an acceptance gate. [The replay](../../../../../packages/test-harness/editing/ultra8-long-replay.mjs)
+checks the compressed native scores, request identity and scorer metrics without
+re-running inference. The failed four-speaker result is DER `0.371`, overlap
+recall `0.092` and identity confusion `0.076`; no provider is promoted.
+
 [Acquisition](acquisition-receipt.json) covers the complete checkpoint; the bounded header probe also downloaded65536 artifact bytes before complete checkpoint acquisition. Neither acquisition readiness nor successful loading establishes quality. [License notice](NOTICE.md) explains why derivative and base-model terms must both survive later packaging.

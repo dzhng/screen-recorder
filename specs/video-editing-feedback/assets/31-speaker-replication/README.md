@@ -31,8 +31,10 @@ other short and long controls remain untested under the frozen stop rule.
 
 [Independent eight-slot activity](ultra8-evidence/README.md) strictly restores and
 preserves complete native80ms scores. It passes its first short control but fails
-the second on false activity despite retained overlap and identities; no long call
-is authorized by that partial result.
+the second on false activity despite retained overlap and identities. A later
+exploratory long audit passes the 336-second three-speaker control but fails the
+required 600-second four-speaker control; because that audit was not frozen before
+inference, it remains directional evidence and does not admit the provider.
 
 Each bundle links its read-only replay accepting the repository root. Replay
 checks retained operand hashes and recomputes metrics through the existing scorer;
