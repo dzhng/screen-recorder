@@ -16,7 +16,7 @@ import YapControls
 @MainActor
 final class RecordingControls: NSObject {
     private let home: String
-    private let statusItem = NSStatusBar.system.statusItem(withLength: StatusItemAppearance.menuBarLength)
+    private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private lazy var capturePopover = CapturePopover(perform: { [weak self] in self?.perform($0) })
     private lazy var libraryWindow = LibraryWindow(perform: { [weak self] in self?.perform($0) })
     private var emptySourceMode = CaptureViewInput.Source.display
@@ -843,11 +843,10 @@ final class RecordingControls: NSObject {
     private func showStatusItem() {
         guard let button = statusItem.button else { return }
         let described = CapturePresentation.statusTitle(for: state)
-        let elapsed = StatusItemAppearance.title(for: state)
         button.image = StatusItemAppearance.image(for: state)
         button.image?.isTemplate = state.device?.state != .recording
-        button.imagePosition = elapsed.isEmpty ? .imageOnly : .imageLeading
-        button.title = elapsed.isEmpty ? "" : " \(elapsed)"
+        button.imagePosition = .imageOnly
+        button.title = ""
         button.contentTintColor = state.device?.state == .recording ? .systemRed : nil
         button.setAccessibilityLabel("Yap — \(described)")
     }
