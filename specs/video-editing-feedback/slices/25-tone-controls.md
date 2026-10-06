@@ -1,6 +1,6 @@
 # 25 — Add explicit tonal and color controls
 
-Status: partial —25A delivered tonal recovery matches independent chart/real-wall references; scoped code and final visual review are pending.25B explicit hue/split-tone/curve response remains open through the existing immutable LUT owner. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
+Status: partial — 25A delivered tonal recovery matches independent chart/real-wall references; its final status cleanup remains. 25B now has a public CLI/MCP split-tone delivery receipt through the immutable LUT owner, including neutral and color masks; broader curve and reference-conditioned visual acceptance remain open. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
 
 ## Contract
 
@@ -28,9 +28,9 @@ The current bounded representation adds `shadows` and `highlights` to the existi
 25A preserves the public zero-identity convention and translates the provider's
 reversed highlight convention in the existing native owner. Its
 [frozen evidence](../assets/25-tone-controls/README.md) separates lossless response,
-matched movie encoding and historical former-control parity.25B uses26's explicit
+matched movie encoding and historical former-control parity. 25B uses 26's explicit
 immutable LUT contract for caller-authored curves and hue/split-tone, with a
-separate frozen numerical/color reference; representation alone does not close it. A native LUT probe in [25B evidence](../assets/25-tone-controls/split-tone/README.md) matches its analytic response within one code value, but public CLI/MCP delivery and neutral/color masks remain open.
+separate frozen numerical/color reference. The native probe and the [public CLI/MCP receipt](../assets/25-tone-controls/split-tone/public/README.md) match the independent analytic response within one code value; the public run retains neutral, shadow-color and highlight-neutral masks. Broader curve coverage and reference-conditioned visual acceptance remain open.
 
 Chart/real-wall before/after scopes and reference-conditioned grade frames.
 

@@ -2,6 +2,29 @@
 
 User decisions remain binding; this ledger records implementation discretion outside the approved plan.
 
+## Split-tone public receipt — sound, high confidence
+
+- **When:** slice25B public delivery checkpoint.
+- **The choice:** when a caller imports a `.cube` file and applies it to a chart,
+  the receipt drives the same public CLI and MCP operations that a real consumer
+  uses. It compares the delivered pixels with a separately calculated
+  linear-sRGB curve and reports three fixed rectangles: a grayscale strip, a
+  dark colored quadrant and a bright neutral quadrant. A mask is just a named
+  rectangle whose measurements are retained; it is not an instruction to grade
+  or repair the image.
+- **The gap:** the slice required public hue/split-tone proof and color/neutral
+  coverage, but did not say whether the existing native LUT probe was enough or
+  how to keep those observations independent of the LUT parser. The pass chose a
+  generated chart and a small analytic reference so the same source pixels and
+  explicit curve are checked through the outer public boundary.
+- **The reach:** future curve and color controls can reuse the immutable LUT
+  import/execution owner and the receipt shape without adding a second renderer.
+  The receipt does not claim moving-shot fidelity or an aesthetic look; those
+  remain separate gates.
+- **Verdict:** sound. The run isolates the requested transform, preserves source
+  and LUT bytes, and keeps measurements from acquiring editorial authority.
+- **Confidence:** high.
+
 ## Lexical prerequisite checkpoint — sound, high confidence
 
 - When: slice20 isolated-microphone lexical scout.
@@ -1400,8 +1423,8 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 
 - **When:** slice30 portable report pass.
 - **The choice:** Inspect the committed export file as an immutable external artifact, import that same path through the public asset lifecycle, and read scene observations from the imported video separately from authored project cuts. For example, a measured scene boundary near a project video join is reported as a match, while an audio cut or an unobserved authored join stays distinct. The report declares no editorial decision.
-- **The gap:** The slice required delivered-pixel observations and authored-join association but did not prescribe a new detector or a combined timeline shape. Existing source-scene observations are the current owner, while the real native planted-change fixture is still pending.
-- **The reach:** Future repair and review work can use one report to compare physical delivered changes with the revision that produced them without relabeling cuts or silently editing a project. Native acceptance must still prove flash/gap/hold coverage through actual export/import/scene reads.
+- **The gap:** The slice required delivered-pixel observations and authored-join association but did not prescribe a new detector or a combined timeline shape. Existing source-scene observations are the current owner; the native export/import checkpoint now covers planted flash/hold changes, while a physical empty-edit-list gap remains unproven.
+- **The reach:** Future repair and review work can use one report to compare physical delivered changes with the revision that produced them without relabeling cuts or silently editing a project. A real encoded empty-edit-list gap must still be supplied before that coverage can be claimed.
 - **Verdict:** sound. It preserves source bytes, exact clocks, coverage state and the product boundary that detection supplies evidence rather than permission.
 - **Confidence:** high.
 

@@ -199,3 +199,9 @@ It freezes treatment before delivery, observes caller-declared regions and
 separates matched codec response from lossless reference fidelity. Its usage owns
 invocation; [accepted evidence](../../../specs/video-editing-feedback/assets/25-tone-controls/README.md)
 records the narrow visual scope.
+
+[Public split-tone delivery](split-tone-public.mjs) runs the immutable LUT through
+CLI/MCP import, project authoring and native frame delivery against an independent
+linear-sRGB curve. It retains neutral, shadow-color and highlight-neutral masks in
+its receipt; [the feature evidence](../../../specs/video-editing-feedback/assets/25-tone-controls/split-tone/public/README.md)
+records the scoped response.

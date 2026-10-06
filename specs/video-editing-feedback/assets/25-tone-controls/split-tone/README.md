@@ -8,8 +8,10 @@ representation checkpoint, not an automatic editorial grade.
 
 `report.json` records the native worker request, recipe and full-raster result.
 The delivered candidate matches the independent reference at MAE0.0113 and
-maximum one code value over 172800 RGB bytes. The source is the frozen25A graded
-wall shot; all geometry and source interpretation remain fixed. Region masks and
-an actual public CLI/MCP harness are still required before promoting25B; this
-probe establishes only the existing LUT owner can carry the explicit color
-response through native delivery.
+maximum one code value over 172800 RGB bytes. The source is the frozen 25A graded
+wall shot; all geometry and source interpretation remain fixed. The [public
+receipt](public/README.md) separately runs CLI/MCP import, authoring and frame
+delivery on an independent chart, and retains neutral, shadow-color and
+highlight-neutral masks. This probe and the public receipt establish that the
+existing immutable LUT owner carries the explicit color response through native
+delivery; broader curve and visual acceptance remain outside this checkpoint.
