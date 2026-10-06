@@ -17,7 +17,7 @@ change the installed app until the user requests release. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: slice 31/32 speaker continuity and labeling feasibility. The latest trajectory checkpoint also binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. The synchronization pass now has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. The registered
+Current pickup: slice 31/32 speaker continuity and labeling feasibility. The latest trajectory checkpoint also binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. Face landmark quality now travels from native Vision observations into framing violations without widening uncertain boxes. The synchronization pass now has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. A production-native fresh replay now runs the public CLI/MCP journey twice, replays the real Parakeet repair, and retains normalized delivery plus decoded picture/audio evidence. The registered
 speaker provider now has a measured pinned NeMo runtime acquisition descriptor and
 auto-prepares its first-party inputs by default. That closes acquisition readiness
 only; the exact-30-second provider remains provisional and the unchanged long-form

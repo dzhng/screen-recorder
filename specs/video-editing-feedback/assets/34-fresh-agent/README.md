@@ -23,3 +23,16 @@ The full slice remains open until an installed public-CLI workflow produces real
 media, discovers and repairs the planted speech defect, and supplies the native,
 visual and audio evidence required by
 [34-autonomous-trailer-acceptance.md](../../slices/34-autonomous-trailer-acceptance.md).
+
+The media-aware replay now supplies that concrete fixture workflow. Run it with
+the already prepared first-party model and frozen native worker:
+
+```sh
+YAP_NATIVE=/absolute/path/to/yap-native \
+YAP_PARAKEET_MODEL=/absolute/path/to/parakeet-tdt-0.6b-v2 \
+node packages/test-harness/editing/autonomous-media-replay.mjs --out /fresh/evidence
+```
+
+The retained receipt records the run's hashes and coverage without copying the
+source movies or model into Git. The global synchronization and long-form speaker
+continuity gates remain separate and are not inferred from this replay.

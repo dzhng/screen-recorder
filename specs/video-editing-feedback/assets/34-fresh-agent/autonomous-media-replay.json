@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "scope": "fresh production-native media workflow and relocated replay",
+  "coverage": {
+    "capabilityRouting": "verified",
+    "sourceIdentity": "verified",
+    "deliveryIdentity": "verified",
+    "native": "verified",
+    "visual": "verified",
+    "audio": "verified",
+    "humanQaRequired": false
+  },
+  "nativeSha256": "dc6b18c2dad93e98de5b6dbfa6d3996a0d56d577a743eb54a52d31ed3af921da",
+  "speechRepair": {
+    "expectedText": "fortunate",
+    "observedText": "Fortunately,",
+    "beforeRevisionId": "76121d86-76a2-467b-bc56-8795d03711cd",
+    "afterRevisionId": "483f0c4f-53e9-4b2d-bfb0-9a3e7ab06826"
+  },
+  "runs": [
+    {
+      "state": "clean",
+      "delivery": {
+        "bytes": 89867,
+        "sha256": "33cfe47c993af8b381e961c4bf1c7072c87e539c792a87577b2d3e0ce7478d10"
+      },
+      "normalized": {
+        "bytes": 56056,
+        "sha256": "6ade8a3c6457b0b23feaa6f95c7d65ffabaab2ccfbba79950feb5b4aa6f5361f"
+      },
+      "sources": {
+        "a.mov": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+        "b.mov": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+        "a-audio.wav": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+        "b-audio.wav": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0"
+      },
+      "preview": {
+        "passed": true,
+        "rendering": "production native worker",
+        "checks": [
+          "baseline",
+          "videoReplacement",
+          "audioReplacement",
+          "music",
+          "undoAndHistorical",
+          "projectTimeRange",
+          "allGainScopes",
+          "processedTrackInsertion",
+          "cancellation",
+          "crashRecovery",
+          "exports",
+          "externalAfterDeletion",
+          "deletionAndOriginals"
+        ]
+      }
+    },
+    {
+      "state": "relocated",
+      "delivery": {
+        "bytes": 89867,
+        "sha256": "0499aa5b1166725013aa2b13ff2e09a4f1d6fee44125f25eaece215e3d689749"
+      },
+      "normalized": {
+        "bytes": 56056,
+        "sha256": "6ade8a3c6457b0b23feaa6f95c7d65ffabaab2ccfbba79950feb5b4aa6f5361f"
+      },
+      "sources": {
+        "a.mov": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+        "b.mov": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+        "a-audio.wav": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+        "b-audio.wav": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0"
+      },
+      "preview": {
+        "passed": true,
+        "rendering": "production native worker",
+        "checks": [
+          "baseline",
+          "videoReplacement",
+          "audioReplacement",
+          "music",
+          "undoAndHistorical",
+          "projectTimeRange",
+          "allGainScopes",
+          "processedTrackInsertion",
+          "cancellation",
+          "crashRecovery",
+          "exports",
+          "externalAfterDeletion",
+          "deletionAndOriginals"
+        ]
+      }
+    }
+  ],
+  "replay": {
+    "normalizedDeliveryIdentity": true,
+    "sourceIdentity": true,
+    "sourceMediaPreserved": true
+  }
+}

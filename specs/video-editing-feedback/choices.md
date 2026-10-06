@@ -1796,3 +1796,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   synchronization or promote the frozen real corpus.
 - **Confidence:** high for receipt identity and refusal semantics; low for
   global/raw-to-raw synchronization, which remains an explicit open gate.
+
+## Use the existing production journey as the media-aware fresh-agent checkpoint — slice34
+
+- **When:** the identity-only replay gate could not prove decoded media behavior or the planted speech repair.
+- **The choice:** Reuse the production CLI/MCP preview and export journey, run it from clean and relocated scratch roots, normalize only the delivered movie for deterministic byte comparison, and join the already pinned Parakeet repair receipt. The harness records decoded picture/audio invariants and source-preservation hashes without copying source media or models into Git.
+- **The gap:** A second renderer or a synthetic receipt would test a different contract. The existing journey already exercises the public transports, native renderer, atomic export and audio/video replacement paths.
+- **The reach:** Slice34 now has one reproducible media-aware checkpoint while global synchronization, long-form speaker continuity and strict reference parity remain separate gates.
+- **Verdict:** sound for the concrete fixture workflow; not a whole-spec completion claim.
+- **Confidence:** high for the retained run; medium for broader editorial workflows outside this fixture.

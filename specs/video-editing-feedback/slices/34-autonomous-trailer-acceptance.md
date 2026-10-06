@@ -1,6 +1,6 @@
 # 34 — Prove a complete autonomous trailer workflow
 
-Status: identity/replay gate integrated; full media workflow remains open. Depends on: [01](01-certified-corpus.md), [02](02-capability-first-skill.md), [03](03-published-work-contract.md), [04](04-wait-and-json-delivery.md), [05](05-atomic-export-replacement.md), [06](06-exact-removal.md), [07](07-speech-timing-admission.md), [08](08-bounded-speech-preparation.md), [09](09-alignment-replication.md), [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [12](12-contextual-join-verification.md), [13](13-decode-replication.md), [14](14-picture-statistics.md), [15](15-face-observations.md), [16](16-subject-reframe.md), [17](17-normalization-preflight.md), [18](18-reliable-mastering.md), [19](19-dialogue-matching.md), [20](20-sync-replication.md), [21](21-synced-angles.md), [22](22-styled-text.md), [23](23-timed-word-captions.md), [24](24-blend-modes.md), [25](25-tone-controls.md), [26](26-immutable-luts.md), [27](27-basic-transitions.md), [28](28-whip-zoom-trajectory.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [31](31-speaker-continuity-replication.md), [32](32-speaker-labeling.md), [33](33-editing-references.md).
+Status: production-native media replay and the real Parakeet repair journey are integrated; identity/replay is green, while selected-range speaker continuity, broader transition parity and final whole-spec review remain open. Depends on: [01](01-certified-corpus.md), [02](02-capability-first-skill.md), [03](03-published-work-contract.md), [04](04-wait-and-json-delivery.md), [05](05-atomic-export-replacement.md), [06](06-exact-removal.md), [07](07-speech-timing-admission.md), [08](08-bounded-speech-preparation.md), [09](09-alignment-replication.md), [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [12](12-contextual-join-verification.md), [13](13-decode-replication.md), [14](14-picture-statistics.md), [15](15-face-observations.md), [16](16-subject-reframe.md), [17](17-normalization-preflight.md), [18](18-reliable-mastering.md), [19](19-dialogue-matching.md), [20](20-sync-replication.md), [21](21-synced-angles.md), [22](22-styled-text.md), [23](23-timed-word-captions.md), [24](24-blend-modes.md), [25](25-tone-controls.md), [26](26-immutable-luts.md), [27](27-basic-transitions.md), [28](28-whip-zoom-trajectory.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [31](31-speaker-continuity-replication.md), [32](32-speaker-labeling.md), [33](33-editing-references.md).
 
 ## Contract
 
@@ -17,6 +17,15 @@ selection, recipe and delivered artifact. It requires byte-exact delivery and
 rejects source overwrite, changed inputs and replay mismatches. The checker keeps
 native readiness, visual inspection and audio inspection explicitly `unverified`
 and rejects a human-QA prerequisite; it cannot close this slice by itself.
+
+The [production-native replay harness](../../../packages/test-harness/editing/autonomous-media-replay.mjs)
+now runs two fresh public CLI/MCP journeys against the retained corpus, runs the
+real bounded Parakeet repair, normalizes each delivered movie for deterministic
+comparison, and checks decoded picture/audio invariants plus original-source
+preservation. The compact receipt is retained at
+[autonomous-media-replay.json](../assets/34-fresh-agent/autonomous-media-replay.json).
+It proves one concrete media workflow; it does not promote the remaining global
+synchronization or long-form speaker gates.
 
 Current owners and starting checks:
 
