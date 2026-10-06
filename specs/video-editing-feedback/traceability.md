@@ -154,3 +154,9 @@ claim labeling ready from those partial results.
 Slice19 acceptance is complete for E19/E22/U23; S05 retains its separate33 workflow
 scope. [The dialogue evidence](assets/19-dialogue-matching/README.md) binds the
 actual public receipts, explicit edits, unchanged inputs and independent master.
+
+10B1 retained source alignment is integrated: literal text/source/channel/range
+and provider/PCM pins survive explicit generation reads. Complete words/acoustic/
+scores and captured unverified raw refusals remain distinct. Project tap inference,
+projection and package preservation stay open in10B2.31 native-cache research
+adds complete checked failure accounting, with no speaker provider promotion.

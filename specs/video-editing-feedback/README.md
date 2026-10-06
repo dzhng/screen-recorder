@@ -18,11 +18,12 @@ frozen historical evidence.
 
 Current pickup: retain20 synchronization waveform research in `/Users/server/dev/yap-audio-synchronization`; advance lexical anchors after accepted10B.19 dialogue matching is complete with a clean independent review.
 Reviewed05 atomic replacement,14 delivered-picture observations,10A pinned
-alignment distribution and the31 hysteresis research checkpoint are integrated.
+alignment distribution,10B1 retained source observations and31 native-cache
+research are integrated.
 18 is complete: strict bounded original-input correction retains the best
-admitted PCM and explicit candidate evidence. Active isolated lanes own10B
-source/project alignment,15 face observations and31 documented streaming/cache
-research. Integrate each reviewed pass independently;10B and31 remain open.
+admitted PCM and explicit candidate evidence. Active isolated lanes own10B2 project alignment/projection,15 face observations
+and31 distinct-provider research. Integrate each reviewed pass independently;
+10B and31 remain open.
 
 Completed: 02, 03, 04, 05, 06, 07, 08, 09, 13, 14, 17, 18, 19. Partial01 has exact source-rate PCM,
 full-raster picture inputs and all five frozen07 original/derivative speech
