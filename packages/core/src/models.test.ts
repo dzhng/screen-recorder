@@ -20,6 +20,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import type { AddressInfo } from "node:net";
 import { join } from "node:path";
 import { CatalogError } from "./catalog.js";
+import { speakerModel } from "./model-registry.js";
 import { parakeetModel, Models, type ModelManifest } from "./models.js";
 
 const cleanups: (() => Promise<unknown> | void)[] = [];
@@ -822,18 +823,30 @@ test("unavailable runtime execution refuses before acquiring any upstream bytes"
   expect(await f.staged()).toEqual([]);
 });
 
-test("the registered original speaker keeps its verified execution identity and refuses implicit acquisition", async () => {
+test("the registered original speaker advertises first-party auto-preparation", async () => {
   const home = await mkdtemp("/tmp/yap-original-speaker-");
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const models = new Models(home, offline);
+  expect(speakerModel).toMatchObject({
+    autoPrepare: true,
+    runtimeArtifact: {
+      acquisition: {
+        recipe: "python-wheels-v1",
+        interpreterArchive: "cpython-3.12.14+20260825-aarch64-apple-darwin-install_only.tar.gz",
+        files: expect.arrayContaining([
+          expect.objectContaining({
+            path: "nemo_toolkit-2.7.3-py3-none-any.whl",
+            url: expect.stringContaining("files.pythonhosted.org"),
+          }),
+        ]),
+      },
+    },
+  });
   expect(models.list().find((entry) => entry.modelId === "speaker-runtime-control")).toMatchObject({
     purpose: "speaker",
     descriptorDigest: "53b62eb7953ce8f126cf7ed70f4604237063f5104e244448e1c65e047d968442",
     runtimeDigest: "6d21b755cf6ef36ef0146688d6c7ca35863ed9a4dbb5fb14d5affd62812fdb02",
     modelDigest: "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
-    preparation: { runtimeSourceRequired: true, modelSourceRequired: true },
+    preparation: { runtimeSourceRequired: false, modelSourceRequired: false },
   });
-  await expect(
-    models.prepare("speaker-runtime-control", new AbortController().signal),
-  ).rejects.toMatchObject({ code: "MODEL_SOURCE_REQUIRED" });
 });

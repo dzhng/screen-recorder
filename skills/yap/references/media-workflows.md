@@ -69,9 +69,10 @@ membership. Never turn an instant into playable duration or treat overlapping
 estimates as clean cuts. A source phrase cannot cross an inference segment.
 
 When anonymous speaker observations are requested, inspect `speaker.prepare` and
-`speaker.get` help first. Discover the optional model through `model.list`; its
-preparation requires the advertised verified local model/runtime sources. No
-speaker runtime is bundled or downloaded implicitly. Select one explicit source
+`speaker.get` help first. Discover the registered model through `model.list`; first-party
+preparation downloads its pinned model/runtime inputs by default through the
+advertised acquisition descriptor. A verified local runtime/model source may still
+be supplied when available. Select one explicit source
 channel and exactly 30 seconds of complete support, with the start on the 16k
 sample grid. A read selects the original `observationRange`; its `sourceRange`
 only filters display and never requests inference. Keep generation, source pins

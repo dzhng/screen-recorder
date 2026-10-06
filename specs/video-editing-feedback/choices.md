@@ -1699,29 +1699,26 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high; the slice explicitly separates replay identity from the
   stronger media gates.
 
-## Keep speaker acquisition blocked until the recipe is real — slice31
+## Auto-prepare the measured first-party speaker recipe, while keeping quality provisional — slice31
 
 - **When:** speaker provider handoff pass.
-- **The choice:** Leave the registered Sortformer speaker provider marked as
-  requiring explicit local model input while its NeMo runtime has no complete
-  acquisition descriptor. For example, a first-party service may automatically
-  prepare Parakeet because its pinned files and runtime have a verified download
-  recipe, but it must refuse or report unavailable for speaker preparation rather
-  than inventing a URL, silently installing dependencies or implying that a
-  30-second observation proves long-form identity continuity.
-- **The gap:** The product policy says first-party speech features prepare their
-  pinned models by default, while the current speaker evidence only proves a
-  provisional exact-window comparator and fails the unchanged long-form quality
-  gate. The repository does not yet contain an honest end-to-end acquisition
-  recipe for this provider.
-- **The reach:** Future provider work must add a pinned model/runtime acquisition
-  owned by the model lifecycle and separately pass continuity and labeling gates
-  before changing the default. Existing anonymous observations remain useful
-  evidence and are not relabeled as named people.
-- **Verdict:** sound for the current evidence; the implementation remains open
-  until a real acquisition recipe and quality proof exist.
-- **Confidence:** high; auto-downloading an unverified or guessed runtime would
-  violate the accepted first-party model policy and make the quality claim worse.
+- **The choice:** Register the measured Sortformer model/runtime acquisition with
+  immutable URLs, hashes, install groups, native relocation policy and owned
+  preparation resources. First-party speaker preparation therefore downloads its
+  pinned inputs by default, while callers may still supply a verified local source.
+  Keep the exact-30-second anonymous observation envelope and the long-form quality
+  gate unchanged.
+- **The gap:** Acquisition readiness and diarization quality are separate claims.
+  The retained provider still fails the ten-minute four-speaker continuity gate and
+  does not infer named people, even though its runtime can now be reproduced by the
+  model lifecycle.
+- **The reach:** The generator owns the acquisition descriptor and checks it against
+  the measured runtime inventory/native policy. Future work must pass continuity,
+  overlap/unknown and labeling gates before widening the supported envelope.
+- **Verdict:** sound; first-party model inputs auto-prepare from the measured pinned
+  recipe, while the quality limitations remain explicit.
+- **Confidence:** high for acquisition identity and lifecycle behavior; low for any
+  claim beyond the retained exact-window evidence.
 
 
 ## Use the authored rectangle for whip coverage — slice28

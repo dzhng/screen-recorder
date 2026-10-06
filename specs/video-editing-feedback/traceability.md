@@ -146,7 +146,8 @@ E05 and S02 remain open. [The retained trials](assets/31-speaker-replication/REA
 reproduce original short-window parity. The fixed onset/offset candidate passes
 short three-/four-speaker fixtures, returns/silence and the336s interview, but
 required ten-minute four-speaker overlap is57.49% against the unchanged80% gate.
-No provider or long-form envelope is promoted. Model byte/load
+No provider or long-form envelope is promoted. The registered first-party provider
+now auto-prepares a measured pinned NeMo model/runtime acquisition; model byte/load
 readiness is separate from quality. Slice31 is resliced into short-quality admission,
 global continuity, prepared execution closure and word attribution; slice32 cannot
 claim labeling ready from those partial results.

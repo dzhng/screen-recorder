@@ -1,8 +1,9 @@
 import { voiceProfile } from "./voice-profile.js";
 import runtimeEntries from "./model-data/voice-runtime.json" with { type: "json" };
 import { originalSpeakerManifest } from "./model-data/speaker-manifest.generated.js";
+import speakerRuntimeAcquisition from "./model-data/speaker-acquisition.generated.json" with { type: "json" };
 import { alignmentManifest } from "./model-data/alignment-manifest.generated.js";
-import type { ModelManifest, RuntimeEntry } from "./model-types.js";
+import type { ModelManifest, RuntimeAcquisition, RuntimeEntry } from "./model-types.js";
 /**
  * Everything FluidAudio 0.15.7 AsrModels.load reads for Parakeet TDT v2 from a local directory,
  * plus the model card that carries the CC-BY-4.0 notice (the repository has no LICENSE file).
@@ -232,10 +233,14 @@ export const qwenVoiceModel: ModelManifest = {
     entry: "voice/worker.py",
   },
 };
-/** This exact30s runtime is provisional and requires explicit verified local inputs. */
+/** The exact30s provider is first-party and uses the measured pinned NeMo acquisition. */
 export const speakerModel: ModelManifest = {
   ...originalSpeakerManifest,
-  modelSourceRequired: true,
+  autoPrepare: true,
+  runtimeArtifact: {
+    ...originalSpeakerManifest.runtimeArtifact!,
+    acquisition: speakerRuntimeAcquisition as RuntimeAcquisition,
+  },
 };
 export const registeredModels = [
   parakeetModel,

@@ -17,13 +17,12 @@ change the installed app until the user requests release. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: slice 31/32 speaker continuity and labeling feasibility. The latest trajectory checkpoint also binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. The current
-registered speaker provider is still provisional: `speakerModel` sets
-`modelSourceRequired: true`, and its NeMo runtime has no acquisition descriptor, so
-first-party speaker preparation cannot yet auto-download a truthful pinned model/runtime.
-Parakeet transcription remains an auto-prepared first-party model. Do not paper over
-this blocker with a guessed recipe or promote the 30-second provider to long-form
-continuity. The slice32
+Current pickup: slice 31/32 speaker continuity and labeling feasibility. The latest trajectory checkpoint also binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. The registered
+speaker provider now has a measured pinned NeMo runtime acquisition descriptor and
+auto-prepares its first-party inputs by default. That closes acquisition readiness
+only; the exact-30-second provider remains provisional and the unchanged long-form
+four-speaker continuity gate is still red. Do not promote the provider to long-form
+continuity or named-person inference. The slice32
 binding checkpoint now replays caller-authored labels through source, project and
 immutable package reads, and source transcript pages can attach generation-pinned
 word attribution with explicit unknown/overlap states. Slice 12D now passes: a fresh receipt-driven consumer
@@ -50,8 +49,9 @@ ledger retains four local mixed-reference bridges but refuses a global clock;
 composition preserves that refusal. The composition compiler and native public
 journey now replay an explicit three-angle sequential switch; the sync estimator
 still remains open. Speaker replication remains below the unchanged
-80% long-form gate, and the first-party speaker acquisition contract remains open as
-described above. Public split-tone delivery now has an independent CLI/MCP/native
+80% long-form gate; the pinned first-party speaker acquisition is now reproducible
+and auto-prepared, while continuity and labeling remain open as described above.
+Public split-tone delivery now has an independent CLI/MCP/native
 receipt with neutral and color masks. Native transition picture delivery now has
 crossfade/dip/flash receipts plus a two-source audio oracle, with a moving
 alpha/mirror no-black-gap receipt. Motion-blur parity and broader
