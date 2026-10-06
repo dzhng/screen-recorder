@@ -1587,6 +1587,27 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** medium; the need for a no-gap refusal is in the slice, while
   the numeric threshold and fixture scope were implementation choices.
 
+## Preserve a failed moving reference oracle — slices27–29
+
+- **When:** strict moving transition/trajectory parity investigation.
+- **The choice:** decode the retained alpha and mirror ProRes sources with the
+  pinned FFmpeg, compose the declared opposing-opacity crossfade in a small
+  independent linear-light RGBA oracle, and retain three native PNG comparisons
+  as a machine-readable failed audit. Keep the standard zero-difference rule;
+  do not tune it to the current implementation.
+- **The gap:** the existing moving receipt proved only non-black coverage and a
+  midpoint change. It had no frozen visual reference and could not distinguish
+  a real delivery defect from a missing comparison operand.
+- **The reach:** the new audit proves that the native samples follow the
+  window-bounded identity behavior and differ only by one-code-value rounding
+  (maximum MAE 0.0723, 21.68% differing pixels), while the midpoint is near
+  parity. It closes no strict visual gate and makes no claim that this oracle's
+  color tolerance is the eventual accepted transition contract.
+- **Verdict:** sound failure evidence. It is independent of the production
+  compositor, source-hash bound and replayable without rerendering.
+- **Confidence:** high for the measured mismatch and fixture identity; low for
+  choosing this standard crossfade oracle as the eventual accepted aesthetic.
+
 ## Measure blur at public delivery — slice29
 
 - **When:** motion-blur delivery receipt pass.

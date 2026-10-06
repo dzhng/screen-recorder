@@ -29,7 +29,7 @@ Frame-indexed trajectory/perimeter report and short real-camera motion clip.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
-The current public moved/split zoom replay is retained in [motion-delivery-replay](../assets/27-29-transitions/motion-delivery-replay.json): 39 pictures, no whole-curve refusal, and exact preview/export bytes. [`motion-delivery-replay.mjs`](../../../packages/test-harness/editing/motion-delivery-replay.mjs) replays those immutable identities and rejects mutated counts or hashes. It does not close the separate frozen color/perimeter visual gate.
+The current public moved/split zoom replay is retained in [motion-delivery-replay](../assets/27-29-transitions/motion-delivery-replay.json): 39 pictures, no whole-curve refusal, and exact preview/export bytes. [`motion-delivery-replay.mjs`](../../../packages/test-harness/editing/motion-delivery-replay.mjs) replays those immutable identities and rejects mutated counts or hashes. The independent [moving reference-parity audit](../assets/27-29-transitions/reference-parity/report.json) is red for the retained crossfade control, so it does not close the separate frozen color/perimeter visual gate.
 
 ## Verification and verdict
 
@@ -41,7 +41,7 @@ Variable: trajectory/coverage. Mask: full perimeter and moving subject; blur/col
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
+A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. The retained moving oracle is a failed verdict; no strict trajectory color/perimeter parity is claimed. An unavailable stub or undocumented fallback is not implementation completion.
 
 ## Delegated choices
 

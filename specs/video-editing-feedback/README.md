@@ -51,8 +51,9 @@ automatic camera selection.
 
 The moving trajectory receipt now has an immutable replay checker covering its
 39-picture membership, refusal controls and exact preview/export identities;
-strict reference-conditioned moving color/perimeter parity still lacks frozen
-reference frames.
+the independent [moving reference-parity audit](assets/27-29-transitions/reference-parity/report.json)
+retains a red standard crossfade oracle over the alpha/mirror sources, so strict
+reference-conditioned moving color/perimeter parity remains open.
 
 Priority order: 01 whole multicamera behavioral certification remains open; 20/21 global
 synchronization remains refused on the frozen unlike-mic evidence; 15/16
@@ -75,9 +76,11 @@ and auto-prepared, while continuity and labeling remain open as described above.
 Public split-tone delivery now has an independent CLI/MCP/native
 receipt with neutral and color masks. Native transition picture delivery now has
 crossfade/dip/flash receipts plus a two-source audio oracle, with a moving
-alpha/mirror no-black-gap receipt. Motion-blur parity and broader
-reference-conditioned transition comparison remain open. A deterministic nine-pair
-solid-color transition parity replay is now retained; moving/trajectory parity remains open.
+alpha/mirror no-black-gap receipt. The separate reference-parity audit uses an
+independent linear-light RGBA oracle and is intentionally red; motion-blur parity
+and broader reference-conditioned transition comparison remain open. A deterministic
+nine-pair solid-color transition parity replay is now retained; moving/trajectory
+parity remains open.
 A public/native motion-blur receipt
 now proves four-sample delivery, opacity, measured local cost and a repaired one-pixel
 appearance envelope against an unblurred authored trajectory; strict reference-conditioned

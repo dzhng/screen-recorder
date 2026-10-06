@@ -232,6 +232,11 @@ gain/opacity curves. Crossfade requires two distinct targets; dip and flash requ
 a representable midpoint. No source overlap, retime, implicit media or color asset is invented.
 The retained native transition receipt drives public import, authoring, frame reads and preview
 export with solid-color controls for crossfade, dip and flash; the same receipt now includes a two-source native audio crossfade PCM oracle. Its frozen nine-pair comparator, inference-free replay and unprimed critique pass the deterministic controls, and a retained alpha/mirror moving receipt checks non-black coverage and midpoint change. Reference-conditioned moving/trajectory parity and the remaining motion/scene gates stay open.
+The separate `assets/27-29-transitions/reference-parity/report.json` audit
+uses an independent linear-light RGBA oracle over the same alpha/mirror sources
+and three native deliveries. It fails the strict zero-difference rule through
+one-code-value rounding (maximum MAE 0.0723, 21.68% differing pixels), so the
+failure is retained rather than used to relax the gate.
 
 Slice25 evidence: the existing source-neutral SDR correction now carries bounded `shadows` and
 `highlights` controls through composition schema/defaults, compiled visual operations and the

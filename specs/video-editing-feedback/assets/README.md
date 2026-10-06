@@ -102,7 +102,10 @@ observations isolate those contracts from speech-model accuracy.
 [Native transition delivery](27-29-transitions/crossfade/README.md) retains public
 crossfade/dip/flash picture and audio receipts plus a frozen nine-pair comparator
 run against deterministic solid-color controls, plus a moving alpha/mirror
-no-black-gap receipt. Reference-conditioned acceptance remains open.
+no-black-gap receipt. The separate [moving reference-parity audit](27-29-transitions/reference-parity/report.json)
+uses an independent linear-light RGBA oracle over the retained alpha/mirror
+sources; it is intentionally red, so no reference-conditioned visual claim is
+promoted. Reference-conditioned acceptance remains open.
 
 [Motion blur delivery](27-29-transitions/motion-blur/README.md) retains a public
 CLI/native four-sample receipt, matched before/after frames, bounded cost and

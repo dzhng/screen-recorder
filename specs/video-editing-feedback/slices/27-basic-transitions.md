@@ -1,6 +1,6 @@
 # 27 — Author reusable crossfade/dip/flash recipes
 
-Status: partial — public composition lowering and native delivered crossfade/dip/flash picture, preview and two-source audio receipts are green; deterministic comparator, inference-free replay and unprimed critique are green for the nine solid-color reference controls, and a moving alpha/mirror no-black-gap receipt is retained. Reference-conditioned moving/trajectory visual acceptance remains open. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
+Status: partial — public composition lowering and native delivered crossfade/dip/flash picture, preview and two-source audio receipts are green; deterministic comparator, inference-free replay and unprimed critique are green for the nine solid-color reference controls, and a moving alpha/mirror no-black-gap receipt is retained. The independent moving reference-parity audit is durably red at the standard opposing-opacity oracle, so no reference-conditioned visual claim is promoted. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
 
 ## Contract
 
@@ -58,6 +58,16 @@ Variable: each transition's continuity. Mask: its window/perimeter; grade/captio
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. The retained deterministic run is under the crossfade evidence comparator directory. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
 A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
+
+The retained [reference-parity audit](../assets/27-29-transitions/reference-parity/report.json)
+is the failed verdict for the moving alpha/mirror control. It decodes the
+hash-pinned ProRes sources with FFmpeg, composes the declared opposing-opacity
+crossfade in an independent linear-light RGBA oracle, and compares three native
+PNG deliveries. The maximum MAE is 0.0723 with 21.68% differing pixels (all
+one-code-value differences); the midpoint is close (MAE 0.0114). This is an
+open strict-parity result, not a recalibrated tolerance: the implementation's
+window-bounded identity behavior agrees structurally, but no exact moving
+reference match has been accepted.
 
 ## Delegated choices
 
