@@ -186,6 +186,10 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
                 label(status, frame: NSRect(x: width - 119, y: y + 17, width: 63, height: 42), size: 9, color: .secondaryLabelColor, in: document, wrap: true)
             }
             var detailY = y + 39
+            if let status = row.status, row.kind == .recording {
+                label(status, frame: NSRect(x: 122, y: detailY, width: titleWidth, height: 16), size: 11, color: .secondaryLabelColor, in: document)
+                detailY += 19
+            }
             for detail in details {
                 let font = NSFont.systemFont(ofSize: 11)
                 let rect = (detail as NSString).boundingRect(with: NSSize(width: titleWidth, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin], attributes: [.font: font])

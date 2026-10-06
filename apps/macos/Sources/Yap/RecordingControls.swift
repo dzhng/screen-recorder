@@ -685,16 +685,24 @@ final class RecordingControls: NSObject {
     func closeCapture() { capturePopover.close() }
 
     private func playRecording(_ recordingId: String) {
-        let file = URL(fileURLWithPath: home)
+        let source = URL(fileURLWithPath: home)
             .appendingPathComponent("library/recordings")
             .appendingPathComponent(recordingId)
-            .appendingPathComponent("source/video.mov")
-        guard FileManager.default.fileExists(atPath: file.path) else {
+            .appendingPathComponent("source")
+        let video = source.appendingPathComponent("video.mov")
+        let narration = source.appendingPathComponent("narration.mov")
+        guard FileManager.default.fileExists(atPath: video.path) else {
             state.failure = "Recording media is unavailable."
             render()
             return
         }
-        recordingPreview.playLocalFile(title: "Recording — \(recordingId)", file: file.path, mediaType: "video/quicktime")
+        if FileManager.default.fileExists(atPath: narration.path) {
+            recordingPreview.playLocalRecording(title: "Recording — \(recordingId)",
+                video: video.path, narration: narration.path)
+        } else {
+            recordingPreview.playLocalFile(title: "Recording — \(recordingId)", file: video.path,
+                mediaType: "video/quicktime")
+        }
     }
 
     private func copyRecordingPrompt(_ recordingId: String) {

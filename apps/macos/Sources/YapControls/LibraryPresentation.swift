@@ -25,6 +25,9 @@ public enum LibraryPresentation {
             let request = state.library.deletions[.recording(take.recordingId)]
             let pending = request?.isPending == true
             var details: [String] = []
+            if take.sourceAdmissions?.contains(where: { $0.kind == "primary" && $0.publication?.state == .published }) == true {
+                details.append("Microphone audio")
+            }
             if let failure = take.finalizationError { details.append("Finalization failed — \(failure.code): \(failure.message)") }
             if let failure = request?.failure { details.append("Delete not confirmed — \(failure)") }
             let suffix = pending ? " — deleting…" : request == nil ? "" : " — delete not confirmed"
