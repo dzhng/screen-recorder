@@ -127,6 +127,9 @@ rendering facts and emits supplied intents. It holds no capture selection, servi
 state or recording clock. The controls owner admits those intents; the transient popover owns native dismissal
 and leaves capture selection with the shared controls state. Camera Only requires
 an explicitly selected device and never substitutes a missing camera.
+The native popover frame owns the backdrop and arrow together; content adds no
+outer panel or stroke. Library has one entry point in the capture header, and its
+canonical controls action stays the same regardless of that placement.
 
 Run `node apps/macos/tests/capture-view-shots.mjs` from the repository root for
 focused native interaction, applicability and scroll checks plus offscreen images.
