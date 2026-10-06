@@ -11,7 +11,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { basename, join, relative } from "node:path";
+import { basename, join, relative, resolve } from "node:path";
 
 const required = [
   "YAP_RELEASE_IDENTITY_P12",
@@ -21,7 +21,40 @@ const required = [
   "YAP_SPARKLE_PRIVATE_KEY",
   "YAP_SPARKLE_PUBLIC_KEY",
 ];
+
+const repositoryRoot = resolve(new URL("..", import.meta.url).pathname);
+const localCredentialDirectory = join(repositoryRoot, ".release-signing");
+
+/** Fill only unset inputs from the ignored local release-signing directory. CI continues to
+ * provide every value through its environment, while local packaging needs no shell export. */
+function localSigningEnvironment(env) {
+  const read = (name) => readFileSync(join(localCredentialDirectory, name), "utf8").trim();
+  const values = { ...env };
+  try {
+    const publicFacts = JSON.parse(read("public.json"));
+    const files = {
+      YAP_RELEASE_IDENTITY_P12: "release-identity.p12",
+      YAP_RELEASE_IDENTITY_PASSWORD: "release-identity-password.txt",
+      YAP_SPARKLE_PRIVATE_KEY: "sparkle-private-key.txt",
+    };
+    for (const [name, file] of Object.entries(files))
+      if (!values[name]) values[name] = read(file);
+    if (!values.YAP_RELEASE_IDENTITY_P12)
+      values.YAP_RELEASE_IDENTITY_P12 = Buffer.from(
+        read("release-identity.p12"),
+        "base64",
+      ).toString("base64");
+    if (!values.YAP_RELEASE_IDENTITY_SHA1) values.YAP_RELEASE_IDENTITY_SHA1 = publicFacts.sha1;
+    if (!values.YAP_RELEASE_CERTIFICATE_SHA256)
+      values.YAP_RELEASE_CERTIFICATE_SHA256 = publicFacts.certificateSha256;
+    if (!values.YAP_SPARKLE_PUBLIC_KEY) values.YAP_SPARKLE_PUBLIC_KEY = publicFacts.sparklePublicKey;
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+  return values;
+}
 export function releaseSigningInputs(env = process.env) {
+  env = localSigningEnvironment(env);
   const missing = required.filter((name) => !env[name]);
   if (missing.length) throw new Error(`Missing release signing inputs: ${missing.join(", ")}`);
   const sha1 = env.YAP_RELEASE_IDENTITY_SHA1.toLowerCase();

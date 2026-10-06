@@ -36,6 +36,20 @@ owns probing and failure behavior.
 
 ## Versioned GitHub releases
 
+Local release packaging reads signing inputs from the ignored `.release-signing/` directory when
+the corresponding environment variables are unset. Put these mode-0600 files there:
+
+| File | Contents |
+| --- | --- |
+| `release-identity.p12` | Base64-encoded PKCS#12 signing identity |
+| `release-identity-password.txt` | Password for that identity |
+| `sparkle-private-key.txt` | Base64-encoded 32-byte Sparkle private seed |
+| `public.json` | JSON with `sha1`, `certificateSha256` and `sparklePublicKey` |
+
+The optional `release-identity.crt` is retained as a local backup but is not read by packaging.
+CI remains environment-only. Never commit this directory or copy its contents into release
+artifacts.
+
 The [app manifest](../apps/macos/package.json) owns the product release version.
 Native app metadata, CLI/MCP reporting, service runtime metadata and the release
 receipt all derive from it. Bundling embeds the version into the CLI and service,
