@@ -246,7 +246,11 @@ export function portableProjectSpeakers(
   const limit = input.limit ?? 250;
   if (!Number.isSafeInteger(limit) || limit < 1 || limit > 1000)
     throw new CatalogError("INVALID_PARAMS", "Limit must be 1 to 1000");
-  const rows = mergeSpeakers(manifest, plan, state, limit, records);
+  const rows = mergeSpeakers(manifest, plan, state, limit, records).map((row) => {
+    const resource = resources.find((value) => value.metadata.generation === row.generation);
+    const label = resource?.bindings.find((binding) => binding.slot === row.slot)?.displayName;
+    return label === undefined ? row : { ...row, label };
+  });
   const more =
     state.initialized < state.tracks.length || state.pendingTrack !== null || state.heap.length > 0;
   return {

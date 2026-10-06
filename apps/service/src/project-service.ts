@@ -837,6 +837,7 @@ export async function startProjectService(options: {
       sceneRecords,
       scenes,
       speakerRecords,
+      speakerLabels,
       speakers,
       alignmentRecords,
       alignments,

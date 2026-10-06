@@ -34,6 +34,7 @@ import {
   speakerOperandRows,
   assetSpeakerOwner,
 } from "./speaker-evidence.js";
+import { speakerLabelBindingsSchema } from "./speaker-labels.js";
 import {
   alignmentEvidenceMetadataSchema,
   alignmentGenerationResource,
@@ -81,6 +82,7 @@ const resourceSchema = z.discriminatedUnion("kind", [
     metadata: speakerEvidenceMetadataSchema,
     sequence: z.int().positive(),
     publication: retainedPublicationSchema.nullable(),
+    bindings: speakerLabelBindingsSchema,
     nativeReceipt: z.string().max(1024 * 1024),
     report: z.string().max(1024 * 1024),
   }),

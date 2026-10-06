@@ -473,6 +473,13 @@ test.runIf(process.platform === "darwin")(
     await publishControlledObservation(f.home, input);
     const { sourceRange, ...selection } = input;
     const query = { ...selection, observationRange: sourceRange, view: "scores", limit: 1000 };
+    const unlabeled = await f.call("speaker.get", query);
+    await f.call("speaker.bind", {
+      ...selection,
+      observationRange: sourceRange,
+      generation: (unlabeled.data as { generation: string }).generation,
+      bindings: [{ slot: 0, displayName: "Ada" }],
+    });
     const original = await f.call("speaker.get", query);
     const created = await f.call("project.create", {
       requestId: "portable-speaker-project",
@@ -568,6 +575,11 @@ test.runIf(process.platform === "darwin")(
       { ...projectQuery, packageHandle },
       "ready",
     );
+    expect(
+      (portableProjection.page as { rows: { slot: number; label?: string }[] }).rows.find(
+        (row) => row.slot === 0,
+      ),
+    ).toMatchObject({ slot: 0, label: "Ada" });
     expect((portableProjection.page as { rows: unknown }).rows).toEqual(
       (projected.page as { rows: unknown }).rows,
     );
@@ -581,6 +593,16 @@ test.runIf(process.platform === "darwin")(
     });
     const packaged = await target.call("speaker.get", { ...query, packageHandle });
     expect(packaged).toMatchObject(original);
+    const packagedIntervals = await target.call("speaker.get", {
+      ...query,
+      view: "intervals",
+      packageHandle,
+    });
+    expect(
+      (
+        packagedIntervals.data as { page: { rows: { slot: number; label?: string }[] } }
+      ).page.rows.find((row) => row.slot === 0),
+    ).toMatchObject({ slot: 0, label: "Ada" });
     const adopted = await ready(
       "package.adopt",
       { packageHandle, requestId: "speaker-adopt" },

@@ -1,13 +1,27 @@
 import { z } from "zod";
 import type { Catalog } from "./catalog.js";
 import type { SpeakerEvidenceIdentity } from "./speaker-evidence.js";
-import { CatalogError } from "./catalog.js";
 
-const bindingSchema = z.strictObject({
+export const speakerLabelBindingSchema = z.strictObject({
   slot: z.int().min(0).max(3),
   displayName: z.string().trim().min(1).max(128),
 });
-export type SpeakerLabelBinding = z.infer<typeof bindingSchema>;
+export const speakerLabelBindingsSchema = z
+  .array(speakerLabelBindingSchema)
+  .max(4)
+  .superRefine((bindings, context) => {
+    const seen = new Set<number>();
+    for (const [index, binding] of bindings.entries()) {
+      if (seen.has(binding.slot))
+        context.addIssue({
+          code: "custom",
+          path: [index, "slot"],
+          message: "Speaker label slots must be unique",
+        });
+      seen.add(binding.slot);
+    }
+  });
+export type SpeakerLabelBinding = z.infer<typeof speakerLabelBindingSchema>;
 
 /** Durable caller-authored names are keyed by one retained acoustic generation. */
 export class SpeakerLabelStore {
@@ -19,9 +33,7 @@ export class SpeakerLabelStore {
   }
 
   bind(identity: SpeakerEvidenceIdentity, input: readonly SpeakerLabelBinding[]) {
-    const bindings = input.map((value) => bindingSchema.parse(value));
-    if (new Set(bindings.map((value) => value.slot)).size !== bindings.length)
-      throw new CatalogError("INVALID_PARAMS", "Speaker label slots must be unique");
+    const bindings = speakerLabelBindingsSchema.parse(input);
     const key = this.key(identity);
     this.store.transaction(() => {
       this.store.catalog
@@ -43,7 +55,7 @@ export class SpeakerLabelStore {
         "SELECT slot,displayName FROM speaker_label_bindings WHERE ownerId=? AND sourceId=? AND generation=? AND policy=? ORDER BY slot",
       )
       .all(...this.key(identity)) as { slot: number; displayName: string }[];
-    return rows.map((row) => bindingSchema.parse(row));
+    return rows.map((row) => speakerLabelBindingSchema.parse(row));
   }
 
   remove(identity: SpeakerEvidenceIdentity): void {

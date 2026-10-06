@@ -13,10 +13,14 @@ Focused evidence:
   and exact stored values.
 - `packages/protocol/src/index.test.ts` proves the strict public request shape.
 - `apps/service/src/speaker-service.test.ts` proves a retained public read returns
-  the bound label, a projected project read decorates the matching generation, and
-  a different generation is rejected.
+  the bound label, a projected project read decorates the matching generation, a
+  different generation is rejected, and an exported package replays the same
+  project rows with the caller label without model execution.
+- Immutable `speaker-generation` package resources now carry the bounded binding
+  list, so source and project package readers use the archived binding rather than
+  the live managed label store.
 
-Selected-range preparation, project transcript word attribution, package label
-replay, overlap/unknown presentation and long-form continuity remain open. Slice
+Selected-range preparation, project transcript word attribution, overlap/unknown
+presentation and long-form continuity remain open. Slice
 31's ten-minute four-speaker quality gate is still red, so this is a partial
 public binding checkpoint rather than completion of slice 32.

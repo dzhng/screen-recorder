@@ -2,6 +2,25 @@
 
 User decisions remain binding; this ledger records implementation discretion outside the approved plan.
 
+## Archive caller speaker bindings with package evidence — sound, medium confidence
+
+- **When:** slice32 immutable package replay checkpoint.
+- **The choice:** store the generation-scoped `{slot, displayName}` bindings beside
+  each exported `speaker-generation` resource, then decorate source and project
+  interval rows from that archived list. Managed reads continue to use the live
+  `SpeakerLabelStore`; package reads never consult it.
+- **The gap:** a package preserved acoustic operands and project mapping but read
+  anonymous slots after a caller renamed one. Re-reading the managed store would
+  make a read-only package depend on mutable state and could change old evidence.
+- **The reach:** package source/project replay now matches the managed labeled
+  result while retaining anonymous slots when no binding exists. Scores remain
+  unlabelled, and no voice identity or automatic name is inferred. The required
+  binding field is a hard-cutover package contract; old package data may be reset.
+- **Verdict:** sound for the package replay seam. Selected-range preparation,
+  transcript word attribution and long-form continuity still gate slice32.
+- **Confidence:** medium; the focused public replay test and core/service builds
+  pass, while the ten-minute continuity quality gate remains open.
+
 ## Split-tone public receipt — sound, high confidence
 
 - **When:** slice25B public delivery checkpoint.

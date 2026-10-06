@@ -151,6 +151,13 @@ readiness is separate from quality. Slice31 is resliced into short-quality admis
 global continuity, prepared execution closure and word attribution; slice32 cannot
 claim labeling ready from those partial results.
 
+Slice32's generation-pinned binding checkpoint is integrated: source and managed
+project interval reads decorate only explicitly bound slots, and package export
+archives the bounded binding list so read-only source/project replay returns the
+same caller-authored labels without model execution. Selected-range preparation,
+word-level attribution, overlap/unknown presentation and long-form continuity
+remain open.
+
 Slice19 acceptance is complete for E19/E22/U23; S05 retains its separate33 workflow
 scope. [The dialogue evidence](assets/19-dialogue-matching/README.md) binds the
 actual public receipts, explicit edits, unchanged inputs and independent master.

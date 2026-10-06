@@ -77,6 +77,7 @@ import {
 import type { AlignmentProcessing } from "@yap/core/alignment-processing";
 import { SourceAlignmentRead, type AlignmentReadInput } from "@yap/core/alignment-read";
 import { SourceSpeakerRead } from "@yap/core/speaker-read";
+import type { SpeakerLabelStore } from "@yap/core/speaker-labels";
 import { selectSpeakerSource } from "@yap/core/source-speakers";
 import type { TranscriptStore } from "@yap/core/transcript";
 import type { TranscriptProcessing } from "@yap/core/transcript-processing";
@@ -104,6 +105,7 @@ type Owners = {
   sceneRecords: SceneEvidenceStore;
   scenes: SceneProcessing;
   speakerRecords: SpeakerEvidenceStore;
+  speakerLabels: SpeakerLabelStore;
   speakers: SpeakerProcessing;
   alignmentRecords: AlignmentEvidenceStore;
   alignments: AlignmentProcessing;
@@ -363,8 +365,25 @@ export class ProjectPackages {
       resource.metadata,
       packageHandle,
     ).page(query);
+    const labels = new Map(resource.bindings.map((binding) => [binding.slot, binding.displayName]));
+    const labeledPage =
+      query.view === "scores"
+        ? page
+        : {
+            ...page,
+            rows: page.rows.map((row) =>
+              "slot" in row && labels.has(row.slot)
+                ? { ...row, label: labels.get(row.slot)! }
+                : row,
+            ),
+          };
     const { sourceRange, ...selection } = input;
-    return { ...selection, state: "ready", generation: resource.metadata.generation, page };
+    return {
+      ...selection,
+      state: "ready",
+      generation: resource.metadata.generation,
+      page: labeledPage,
+    };
   }
   sourceAlignment(
     packageHandle: string,
@@ -507,6 +526,7 @@ export class ProjectPackages {
           metadata,
           sequence,
           publication: this.owners.speakers.portablePublication(metadata),
+          bindings: this.owners.speakerLabels.read(metadata),
           ...this.owners.speakerRecords.operands(metadata),
         };
         const identity = resourceIdentity(resource);

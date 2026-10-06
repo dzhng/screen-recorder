@@ -11,12 +11,15 @@ contract using the real trailer project's [complete feedback](FEEDBACK.md) and
 ## Next Agent Prompt
 
 Implement this spec on branch `spec/video-editing-feedback` in
-`/Users/server/dev/yap-video-editing`. Keep tests in isolated managed state; no
-merge, push or installed-app change has been requested. Hard cutover remains
+`/Users/server/dev/yap-video-editing`. Keep tests in isolated managed state; fetch
+and merge the latest `origin/main` before committing each pass. Do not push or
+change the installed app until the user requests release. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: slice 31/32 speaker continuity and labeling feasibility. Slice 12D now passes: a fresh receipt-driven consumer
+Current pickup: slice 31/32 speaker continuity and labeling feasibility. The slice32
+binding checkpoint now replays caller-authored labels through source, project and
+immutable package reads. Slice 12D now passes: a fresh receipt-driven consumer
 discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never
 chooses repairs or retries blindly.
@@ -44,8 +47,8 @@ now proves four-sample delivery, opacity and measured local cost; its appearance
 verdict remains open. The delivered-scene export/import
 checkpoint covers planted flash/hold observations and a physical empty-edit-list
 gap through native project/export delivery.
-Caption, blend, immutable-LUT, delivered-scene-helper, focused-use-case-routing and source
-acoustic/package-replay receipts are accepted for their declared scopes; their
+Caption, blend, immutable-LUT, delivered-scene-helper, focused-use-case-routing,
+source acoustic/package-replay and speaker-binding receipts are accepted for their
 remaining native parity gates stay explicit in the slice files.
 
 Prepare/download pinned first-class Yap models/runtime as needed by default;

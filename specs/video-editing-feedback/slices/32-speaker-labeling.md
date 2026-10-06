@@ -1,6 +1,6 @@
 # 32 — Publish speaker-labeled transcript views
 
-Status: partial — generation-pinned caller label binding and source-row decoration are integrated and reviewed; selected-range preparation, project word attribution, package replay and continuity gates remain open. Depends on: [31](31-speaker-continuity-replication.md), [21](21-synced-angles.md), [03](03-published-work-contract.md), [07](07-speech-timing-admission.md).
+Status: partial — generation-pinned caller label binding, source/project-row decoration and immutable package replay are integrated and reviewed; selected-range preparation, project word attribution and continuity gates remain open. Depends on: [31](31-speaker-continuity-replication.md), [21](21-synced-angles.md), [03](03-published-work-contract.md), [07](07-speech-timing-admission.md).
 
 ## Contract
 
@@ -70,7 +70,8 @@ CLI/service source/project/portable journeys, using complete frozen 31 outputs f
 cheap seam checks and only the minimal new native confirmation needed for integration.
 Check slot permutations, changed generation/binding cursors, rename without inference,
 unknown/simultaneous speakers, absent runtime after retained publication, source gaps,
-camera/mic bleed, word-crossing turns, retiming/repeats and new-format package replay.
+camera/mic bleed, word-crossing turns, retiming/repeats and package replay with its
+caller-authored binding resources.
 
 Consume real public receipts through the compact helper. A transcript-looking table
 that assigns the wrong voice must fail automatic controls even if all words match.
