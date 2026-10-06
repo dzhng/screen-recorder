@@ -1,0 +1,90 @@
+{
+  "cases": [
+    {
+      "id": "overlap-region",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "B01"
+      ],
+      "purpose": "Historical25second overlap refusal",
+      "source": {
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 825000000,
+          "endUs": 850000000
+        }
+      }
+    },
+    {
+      "id": "overlap-neighbor",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "B01"
+      ],
+      "purpose": "Neighboring successful timing control",
+      "source": {
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 800000000,
+          "endUs": 825000000
+        }
+      }
+    },
+    {
+      "id": "phrase-final-trend",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E12"
+      ],
+      "purpose": "Contextual phrase ending; recognizer timing is not lexical truth",
+      "source": {
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 1550000000,
+          "endUs": 1576500000
+        }
+      }
+    },
+    {
+      "id": "false-start",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E07"
+      ],
+      "purpose": "Context around omitted fragment; no independent lexical label",
+      "source": {
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 559200000,
+          "endUs": 561000000
+        }
+      }
+    },
+    {
+      "id": "madison-context",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "B04",
+        "E12"
+      ],
+      "purpose": "Context around exact retained tiny failure",
+      "source": {
+        "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+        "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 1876300000,
+          "endUs": 1880700000
+        }
+      }
+    }
+  ]
+}

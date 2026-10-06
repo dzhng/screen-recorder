@@ -1,0 +1,9 @@
+# First corpus audio checkpoint
+
+The [real corpus](../../../../fixtures/video-editing-feedback/README.md) retains selected overlap/context/false-start audio from two hash-verified originals. Derivation uses the current native decoder and preserves its source-rate Float32 output. Re-decoding every retained excerpt produced exactly the same samples. The [manifest](../../../../fixtures/video-editing-feedback/manifest.json) owns identities, clock mappings, source stream metadata, native executable hash and scoped preservation results.
+
+The [corpus tests](../../../../packages/test-harness/editing/video-corpus.test.mjs) exercise the executable verification contract and selected derivation. Red/green controls show that fractional clock changes and nonzero declared padding refuse; hash corruption, missing LFS data, changed physical dimensions and uncertified reductions also refuse. External source bytes remain intact.
+
+This is a partial slice01 checkpoint. Current original-versus-derivative recognizer dispositions, exact tiny historical PCM16 retention, full-frame picture/multicam/speaker inputs and remaining independent controls are pending. No ASR quality, visual quality or whole-corpus acceptance is claimed. The native generator is an input tool, not a second product executor.
+
+Independent read-only review found two defects: fractional source origins were coerced to numbers, and staged WAVs were ordinary Git blobs because this checkout had no LFS filters. Both are resolved. The derivation control now presents a fractional probe origin and rejects the original coercion; exact signed composition time earns green. Repository-local LFS filters use case-selected acquisition (smudge skipped), and every indexed media pointer matches the physical manifest hash/size. The original review is retained in [review-findings.md](review-findings.md). Shape, diff and docs review are clean after those fixes.

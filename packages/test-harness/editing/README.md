@@ -88,6 +88,11 @@ source identity and clock. Reuse original narration rather than making another
 copy or requesting another capture. A missing independent label leaves that
 perceptual claim unverified; it does not stop unrelated primitive verification.
 
+The [real-video corpus tool](video-corpus.mjs) derives selected source-decoder
+operands and verifies retained bytes, sample support and exact clock mappings.
+Its [authorized inputs](../../../fixtures/video-editing-feedback/README.md) keep
+reduction fidelity distinct from current recognition/picture behavior.
+
 ## Platform reproductions
 
 [Native rendering](RENDER-REPRODUCTION.md) explains temporal sample support;

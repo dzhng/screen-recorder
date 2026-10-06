@@ -4,6 +4,9 @@ Fixtures preserve real inputs that generated media cannot replace. The
 [narrated workbench](narrated-workbench/README.md) supports speech and source-evidence
 checks; the [screen/camera take](screen-camera-timing/README.md) supports ordinary
 media import and cross-source timing measurements.
+The [real editing corpus](video-editing-feedback/README.md) retains compact
+authorized excerpts with exact original clocks. Byte/sample certification and
+recognizer defect reproduction remain separate verdicts.
 
 Original bytes, capture context and clocks belong to each fixture's metadata and
 journals. Derived transcripts, frames and exports belong to their producing

@@ -1,6 +1,8 @@
 # 01 — Certify the real-video corpus
 
-Status: planned. Depends on: None.
+Status: in progress; first audio byte/sample checkpoint passed, behavioral and picture/multicam certification pending. Depends on: None.
+
+The [audio checkpoint](../assets/01-corpus-audio/README.md) retains five native-decoder excerpts and refusal controls. This partial checkpoint does not certify current ASR failure dispositions or the whole corpus.
 
 ## Contract
 
