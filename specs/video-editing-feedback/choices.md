@@ -1373,3 +1373,11 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** medium; this is the simplest contract consistent with the
   existing exact-offset and source-preservation rules, but the original slice
   delegated relationship semantics.
+## Keep delivered scene changes as evidence — slice30
+
+- **When:** slice30 portable report pass.
+- **The choice:** Inspect the committed export file as an immutable external artifact, import that same path through the public asset lifecycle, and read scene observations from the imported video separately from authored project cuts. For example, a measured scene boundary near a project video join is reported as a match, while an audio cut or an unobserved authored join stays distinct. The report declares no editorial decision.
+- **The gap:** The slice required delivered-pixel observations and authored-join association but did not prescribe a new detector or a combined timeline shape. Existing source-scene observations are the current owner, while the real native planted-change fixture is still pending.
+- **The reach:** Future repair and review work can use one report to compare physical delivered changes with the revision that produced them without relabeling cuts or silently editing a project. Native acceptance must still prove flash/gap/hold coverage through actual export/import/scene reads.
+- **Verdict:** sound. It preserves source bytes, exact clocks, coverage state and the product boundary that detection supplies evidence rather than permission.
+- **Confidence:** high.

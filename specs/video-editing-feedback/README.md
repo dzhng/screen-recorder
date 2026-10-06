@@ -30,7 +30,7 @@ while an actual correction must supply them.
 
 Priority:20 global/raw-to-raw synchronization after retained local bridges →
 21 switched-angle delivery;12 contextual joins;15/16 face/framing delivery;25 reference-conditioned tone;27–29 delivered transitions/trajectory/blur;
-30 delivered scenes;31/32 speaker continuity/attribution;33 runnable workflows →34
+30 delivered scenes (portable report landed; native fixture remains open);31/32 speaker continuity/attribution;33 runnable workflows →34
 fresh-agent delivery/replay. Follow slice dependencies rather than this list when
 independent work is available.
 
