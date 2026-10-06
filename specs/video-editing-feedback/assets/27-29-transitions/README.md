@@ -21,7 +21,9 @@ is claimed here.
 The [current native delivery replay](motion-delivery-replay.json) exercises the public
 `frame.get`, preview and export paths against the rebuilt worker. The moved/split zoom
 case produced 39 pictures, zero whole-curve refusals, exact preview/export bytes, and
-bounded encoded-frame membership/range checks. This is structural delivery evidence;
+bounded encoded-frame membership/range checks. The retained receipt is replayed by
+[`motion-delivery-replay.mjs`](../../../packages/test-harness/editing/motion-delivery-replay.mjs),
+which also rejects changed counts, identities or output hashes. This is structural delivery evidence;
 strict frozen color-hash parity remains open. The motion-blur appearance repair is
 recorded in [`motion-blur/appearance-repair-report.json`](motion-blur/appearance-repair-report.json):
 the candidate is compared with an unblurred authored-trajectory control, keeps the

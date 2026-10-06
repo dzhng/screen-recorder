@@ -1873,3 +1873,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   decision owner.
 - **Confidence:** high; the retained native report and export pass exact replay,
   and the mutation control refuses a changed gap.
+
+## Replay moving trajectory delivery evidence without rerendering — slice28
+
+- **When:** the native moved/split zoom receipt already contained public frame, preview and export results, but no cheap guard prevented its structural claims from drifting.
+- **The choice:** Add a small immutable receipt checker that asserts the case, native/runner/decoder identities, 39-picture count, accepted membership controls and exact preview/export hashes. A mutation test changes one retained count and must be refused.
+- **The gap:** Re-running native rendering for every focused test is expensive and would mix a new worker result into the historical claim; the checker verifies the retained delivery contract without claiming visual parity.
+- **The reach:** The trajectory delivery checkpoint is independently replayable in the ordinary test suite. Frozen color/perimeter parity, blur appearance parity and source-edge refusal remain explicit open gates.
+- **Verdict:** sound scoped replay; no second renderer or trajectory policy owner.
+- **Confidence:** high for receipt identity and structural delivery; low for unresolved reference-conditioned visual parity.

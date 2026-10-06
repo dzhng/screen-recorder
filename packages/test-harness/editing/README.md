@@ -231,3 +231,9 @@ and preview export with solid-color controls. Its midpoint proves both explicit
 sources reach a crossfade, while dip and flash prove the source reaches the black
 canvas and returns; [the feature evidence](../../../specs/video-editing-feedback/assets/27-29-transitions/crossfade/README.md)
 keeps audio and visual-reference gates separate.
+
+[Motion delivery replay](motion-delivery-replay.mjs) replays the retained moved/split
+zoom receipt without rerendering. It checks the frozen worker identities, picture
+membership counts and preview/export hashes; its focused test also proves a mutated
+receipt is refused. This is structural evidence only, so it does not stand in for
+reference-conditioned trajectory or blur appearance parity.

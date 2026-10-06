@@ -259,7 +259,9 @@ against the existing intermediate-pixel budget. Focused composition tests and Ty
 pass. A public/native four-sample delivery receipt now retains matched frames, measured local
 cost and a fresh visual critique. The appearance repair compares the blur with an unblurred
 authored-trajectory control and keeps its visible envelope within one pixel on each edge;
-strict reference-conditioned blur parity and source-edge refusal receipts remain open.
+the moved/split zoom receipt has a deterministic replay checker for its 39-picture
+delivery, identities and preview/export hashes. Strict reference-conditioned blur parity,
+trajectory color/perimeter parity and source-edge refusal receipts remain open.
 
 Slice34 media-aware replay evidence: `packages/test-harness/editing/autonomous-media-replay.mjs`
 records the focused launch/podcast/teaser routes, then runs two fresh production-native

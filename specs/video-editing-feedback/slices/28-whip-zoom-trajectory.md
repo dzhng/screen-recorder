@@ -29,7 +29,7 @@ Frame-indexed trajectory/perimeter report and short real-camera motion clip.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
-The current public moved/split zoom replay is retained in [motion-delivery-replay](../assets/27-29-transitions/motion-delivery-replay.json): 39 pictures, no whole-curve refusal, and exact preview/export bytes. It does not close the separate frozen color/perimeter visual gate.
+The current public moved/split zoom replay is retained in [motion-delivery-replay](../assets/27-29-transitions/motion-delivery-replay.json): 39 pictures, no whole-curve refusal, and exact preview/export bytes. [`motion-delivery-replay.mjs`](../../../packages/test-harness/editing/motion-delivery-replay.mjs) replays those immutable identities and rejects mutated counts or hashes. It does not close the separate frozen color/perimeter visual gate.
 
 ## Verification and verdict
 
