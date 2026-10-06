@@ -207,3 +207,8 @@ Slice25 evidence: the existing source-neutral SDR correction now carries bounded
 native Core Image executor. They remain caller-authored and ordered after temperature/exposure/
 color controls; no automatic face grade or universal look is introduced. Reference-conditioned
 picture measurements and visual acceptance remain open.
+
+Slice15 evidence: `@yap/core/face-tracking` associates adjacent retained Vision rows by bounded
+box overlap, preserves explicit no-face gaps, and marks close competing candidates ambiguous.
+It never assigns person identity or interpolates across an error/reset. Native multi-frame
+acquisition, occlusion/reset coverage and visual overlay evidence remain open.

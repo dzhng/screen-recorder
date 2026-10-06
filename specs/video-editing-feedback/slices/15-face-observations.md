@@ -1,6 +1,6 @@
 # 15 — Detect and track subjects explicitly
 
-Status: partial — single-frame localization is integrated and reviewed; temporal association remains open. Depends on: [14](14-picture-statistics.md).
+Status: partial — single-frame localization and a bounded retained-observation tracker are integrated; native multi-frame delivery/coverage evidence remains open. Depends on: [14](14-picture-statistics.md).
 
 ## Contract
 
@@ -21,7 +21,7 @@ These are current discovery pointers, not a claim every listed module must chang
 
 ## Scope and frozen decisions
 
-Return all faces and detector/OS recipe, top-left oriented coordinates, native scores and no-face/error state. Tracking retains sample times, association/occlusion gaps and scene resets. First freeze single-frame localization, then temporal association as separate acceptance artifacts. Never silently select largest face or interpolate across unknown intervals.
+Return all faces and detector/OS recipe, top-left oriented coordinates, native scores and no-face/error state. Tracking retains sample times, association/occlusion gaps and scene resets. `trackFaceObservations` owns bounded adjacent-frame association from retained Vision rows; it preserves no-face gaps, marks close competing matches ambiguous, and never assigns a name or interpolates a box across an error/reset. First freeze single-frame localization, then temporal association as separate acceptance artifacts. Never silently select largest face or interpolate across unknown intervals.
 
 Retain the accepted observation generation used to author a reframe. Replay renders
 the saved explicit geometry; it never reruns Vision and substitutes new boxes as
@@ -43,7 +43,7 @@ Variable A: face localization, box masks. Variable B (after A passes): track con
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
+The pure retained-observation checkpoint is green for movement, explicit no-face gaps and ambiguity. Native multi-frame acquisition, occlusion/reset coverage and visual overlay evidence remain open. A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
 
 ## Delegated choices
 

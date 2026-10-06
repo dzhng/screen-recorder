@@ -993,3 +993,12 @@ unlisted architecture or user-only choice was found in this research pass.
 - **The reach:** Callers can make explicit wall/face corrections without an automatic face grade. Curve, split-tone, reference-conditioned picture evidence and native visual acceptance remain open.
 - **Verdict:** sound, medium confidence. The shared owner is clear and focused checks are green, but the native grade still needs frozen reference receipts.
 - **Confidence:** medium.
+
+## Retained face association — slice15
+
+- **When:** slice15 temporal association checkpoint.
+- **The choice:** Add one pure Core owner that associates adjacent retained Vision face rows by a bounded box-overlap score. Preserve no-face rows as gaps, mark close competing matches ambiguous, and reset on detector errors; never infer a name or silently bridge an error.
+- **The gap:** Single-frame Vision receipts already existed, but reframe planning needed a stable observation track without rerunning Vision during replay.
+- **The reach:** Movement/gap/ambiguity behavior is deterministic and testable from retained receipts. Native multi-frame acquisition and visual overlay coverage remain open.
+- **Verdict:** sound, medium confidence. It preserves uncertainty and keeps replay independent of detector reruns.
+- **Confidence:** medium.

@@ -156,6 +156,10 @@
       "types": "./dist/frame-inspection.d.ts",
       "default": "./dist/frame-inspection.js"
     },
+    "./face-tracking": {
+      "types": "./dist/face-tracking.d.ts",
+      "default": "./dist/face-tracking.js"
+    },
     "./audio-measurement": {
       "types": "./dist/audio-measurement.d.ts",
       "default": "./dist/audio-measurement.js"
