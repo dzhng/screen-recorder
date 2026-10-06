@@ -1,0 +1,85 @@
+{
+  "status": "passed",
+  "case": "moved-split-zoom",
+  "nativeSha256": "dbb3e7aa7674f8cb4d4c416ac3ef082f482993874d7ebb06ddc2054fb41b38f4",
+  "runnerSha256": "97e7a8b93e42ba9c500e3ddf20bcca9e380ffba050cd84ee17c7119a60ea0d0b",
+  "decoderSha256": "c8173e9755795978bce8e104f8d7044fabe7d6d84044aba37d3648c6f4e4e1a8",
+  "pictures": 39,
+  "checks": {
+    "wholeCurveRefusals": 0,
+    "analyticStaticControls": 8,
+    "movedPictures": 8,
+    "splitPictures": 8,
+    "trimmedPictures": 4,
+    "activationPictures": 3,
+    "previewExportExact": true,
+    "movieErrors": [
+      {
+        "mean": 0.47734375,
+        "max": 14
+      },
+      {
+        "mean": 2.585546875,
+        "max": 219
+      },
+      {
+        "mean": 3.998177083333333,
+        "max": 236
+      },
+      {
+        "mean": 4.913020833333333,
+        "max": 198
+      },
+      {
+        "mean": 1.5895833333333333,
+        "max": 12
+      },
+      {
+        "mean": 3.855338541666667,
+        "max": 165
+      },
+      {
+        "mean": 3.9330729166666667,
+        "max": 206
+      },
+      {
+        "mean": 3.779557291666667,
+        "max": 122
+      }
+    ],
+    "rangeErrors": [
+      {
+        "mean": 0.5328125,
+        "max": 29
+      },
+      {
+        "mean": 0.862109375,
+        "max": 28
+      },
+      {
+        "mean": 0.04375,
+        "max": 3
+      },
+      {
+        "mean": 0.25247395833333336,
+        "max": 15
+      },
+      {
+        "mean": 0.20208333333333334,
+        "max": 8
+      }
+    ],
+    "encodedGate": "existing meanRGB<=12 still-image membership/layout tolerance; not strict color conformance"
+  },
+  "outputs": {
+    "full": {
+      "path": "full.mp4",
+      "sha256": "c6833a0eb0d711bc0a6a635c0ef22671aba6c28d6b4b75ca19eeb94fa66b4456"
+    },
+    "range": {
+      "path": "range.mp4",
+      "sha256": "25e351b8b0ef4e4d80956db9e9b95431b8fcad54b8e01e95c82a57524fd850f3"
+    }
+  },
+  "scope": "current native public frame/preview/export delivery for authored zoom geometry; frozen color-hash parity remains a separate acceptance gate"
+}

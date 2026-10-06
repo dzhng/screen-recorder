@@ -13,3 +13,9 @@ Focused proof:
 - `bun run --cwd packages/composition check-types`
 
 Both pass on the implementation worktree. Native package compilation and delivered moving-shot trajectory/blur receipts are separate residual gates; no delivery acceptance or visual verdict is claimed here.
+
+The [current native delivery replay](motion-delivery-replay.json) exercises the public
+`frame.get`, preview and export paths against the rebuilt worker. The moved/split zoom
+case produced 39 pictures, zero whole-curve refusals, exact preview/export bytes, and
+bounded encoded-frame membership/range checks. This is structural delivery evidence;
+strict frozen color-hash parity and matched motion-blur/perimeter critique remain open.
