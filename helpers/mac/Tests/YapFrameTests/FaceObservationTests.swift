@@ -31,3 +31,31 @@ func verifyFaceObservations(in parent: URL) throws {
     precondition(faces["coordinateSpace"] as! String == "delivered-top-left-pixels")
     print("PASS no-face control returns explicit empty Vision observation")
 }
+
+@preconcurrency import AVFoundation
+
+func verifyFaceFixture() async throws {
+    guard let path = ProcessInfo.processInfo.environment["YAP_FACE_VIDEO"] else { return }
+    let source = URL(fileURLWithPath: path)
+    let tracks = try await AVURLAsset(url: source).loadTracks(withMediaType: .video)
+    precondition(tracks.count == 1)
+    let times = (ProcessInfo.processInfo.environment["YAP_FACE_TIMES"] ?? "0,100000,200000")
+        .split(separator: ",").map { Int64($0.trimmingCharacters(in: .whitespaces))! }
+    var available = [[String: Any]]()
+    for atUs in times {
+        let body: [String: Any] = [
+            "asset": ["assetId": "fixture", "streamId": "track:\(tracks[0].trackID)", "path": source.path, "originUs": 0],
+            "available": [["startUs": 0, "endUs": 3_000_000]], "atUs": atUs,
+            "output": source.deletingLastPathComponent().appendingPathComponent("face-\(atUs).png").path,
+            "maxLongEdge": 640, "faceObservations": ["recipe": "vision-face-rectangles-v1"],
+        ]
+        let request = try JSONDecoder().decode(SourceFrameRenderer.Request.self, from: JSONSerialization.data(withJSONObject: body))
+        let result = try await SourceFrameRenderer.write(request)
+        let object = try JSONSerialization.jsonObject(with: JSONEncoder().encode(result)) as! [String: Any]
+        let observations = object["faceObservations"] as? [String: Any]
+        precondition(observations != nil, "fixture frame \(atUs) did not return face observations")
+        precondition(observations?["status"] as? String == "available", "fixture frame \(atUs) must expose a face")
+        available.append(["atUs": atUs, "faces": (observations?["faces"] as? [[String: Any]])?.count ?? 0])
+    }
+    print("PASS real face fixture: \(available)")
+}
