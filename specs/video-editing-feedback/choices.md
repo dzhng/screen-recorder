@@ -2425,3 +2425,31 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound, high confidence for the acquisition and packaging boundary.
 - **Confidence:** high for the clean materialization and manifest identity; medium
   for the overall speaker slice until the unchanged long-form controls pass.
+
+## Retain the complete long-input transport refusal — slice31
+
+- **When:** the four-speaker continuity control remained below the unchanged
+  long-form gate and could have been explained by an early transport stop.
+- **The choice:** retain request, response and network-denied transport receipts,
+  then require the reported 600-second duration and full frame count to match the
+  request before treating the failure as provider quality evidence.
+- **The reach:** the complete input was processed successfully, so truncation is
+  ruled out without promoting the four-speaker quality result. The refusal replay
+  is wired into the focused harness.
+- **Verdict:** sound bounded refusal; the remaining blocker is speaker quality and
+  continuity, not transport completeness.
+- **Confidence:** high for the retained transport boundary.
+
+## Keep global synchronization piecewise-local — slices20/21
+
+- **When:** local mixed-reference bridges were available, but repeated windows from
+  one raw source disagreed beyond the frozen 32-frame tolerance.
+- **The choice:** retain each source-bound local bridge as evidence and refuse a
+  single global source offset. Angle composition may consume only admitted local
+  receipts until a new hypothesis proves one global clock.
+- **The reach:** the replay binds the retained local evidence and the explicit
+  `piecewise-local-only` next action; no global angle relationship is inferred from
+  timestamp coincidence.
+- **Verdict:** sound contract-preserving refusal; the global clock gate remains
+  open without weakening its tolerance.
+- **Confidence:** high for the frozen bridge measurements and refusal rule.
