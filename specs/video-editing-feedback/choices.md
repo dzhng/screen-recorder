@@ -2052,3 +2052,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** later work can rely on the retained media and its independent controls without treating fixture certification as proof of global sync, speaker continuity or editorial quality.
 - **Verdict:** sound; the status follows the slice's explicit bounded scope and the focused 41-test replay.
 - **Confidence:** high for the declared corpus contract; high that the separate capability gates must remain open.
+
+## Keep the native half-float compositor after the precision probe — slices27–29
+
+- **When:** moving transition frames differed from an independent linear-light oracle by only one code value across a bounded set of pixels, so the compositor's working precision was a plausible cause.
+- **The choice:** build a temporary worker with full-float (`RGBAf`) working surfaces, compare the same moving frames, and keep the shipped half-float (`RGBAh`) format because the PNGs and mismatch metrics were identical. The probe is retained as evidence, not as a production toggle.
+- **The gap:** the slice assigned the cause of the one-code-value drift to measured investigation but did not prescribe which internal precision to retain when the experiment was inconclusive.
+- **The reach:** future parity work must address the actual color/compositing path rather than silently changing precision or widening the tolerance. The strict moving reference gate remains open.
+- **Verdict:** sound; the experiment ruled out this specific cause without changing shipped behavior.
+- **Confidence:** high for the bounded probe result; low for any broader claim about all compositor formats.
