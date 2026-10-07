@@ -17,95 +17,9 @@ change the installed app until the user requests release. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: audit the remaining independent acceptance gates rather than widening bounded claims. The retained multicam picture bank now crosses public CLI/MCP and native sequential delivery for all nine caller-authored source/sample selections; its replay binds the worker sidecar, complete preview extent and canonical source-choice schedule. Global synchronized multicamera behavior remains open. The latest trajectory checkpoint binds directional whip coverage to a caller-supplied fixed geometry rectangle, refuses animated rectangle dimensions, and replays eight decoded occupied bounds/perimeter facts from the committed movie; strict moving parity and blur parity remain open. Face landmark quality now travels from native Vision observations into framing violations without widening uncertain boxes, and the frozen full-face failure has an executable replay gate that keeps its 27 failures open. The refused Vision revision-1 probe is now retained beside revision 2: it reaches the same nine late IoU failures and also fails the frozen crop-center raster identity check, so neither older revision changes production revision 3 or the 0.5 gate. The synchronization pass has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. Angle declarations can preserve caller-authored piecewise-local segment offsets without promoting them to a global clock or applying automatic retime. A production-native fresh replay now records the focused launch, podcast and teaser routes before running the public CLI/MCP journey twice, replays the real Parakeet repair, and retains normalized delivery plus decoded picture/audio evidence on the current native build. Its saved report has an inference-free replay gate for the two-state identity and routing facts. The retained native audio crossfade now has a separate artifact hash/PCM replay under `assets/27-29-transitions/crossfade`; a combined A/V export is now retained under `assets/30-delivered-scenes/native/av` with separate scene and PCM replay, while cross-plane association remains refused. The registered
-speaker provider now has a measured pinned NeMo runtime acquisition descriptor and
-auto-prepares its first-party inputs by default. Clean offline materialization now passes
-all 181 pinned inputs across seven install groups, 54 native relocation entries, and
-the relocated import/version smoke check. Bounded selected-range preparation now accepts complete 80ms-grid windows
-from 80ms through at most 30 seconds, while each window remains generation-local.
-The selected full-domain lexical scout now replays 381 Parakeet windows across all
-four authorized source domains and finds no cross-participant five-word anchor;
-its refusal is retained, while the real unlike-microphone global clock remains
-refused.
-The native streaming envelope is replayed as research evidence: one fresh state per
-selected input persists across internal chunks, and the three-speaker 600-second
-control passes. The unchanged long-form four-speaker continuity gate is still red;
-do not promote the provider to long-form
-continuity or named-person inference. The slice32
-binding checkpoint now replays caller-authored labels through source, project and
-immutable package reads, project transcript words can join selected speaker
-generations through retimes and cursor continuation, and source transcript pages
-can attach generation-pinned word attribution with explicit unknown/overlap states.
-A word with one covering turn plus a partial competing turn is retained as overlap
-evidence rather than being confidently misassigned; protocol, Core and service
-regressions cover that rule.
-The temporal tracker and decoder-threshold probes now have executable refusal replays: the tracker clears frozen IoU but predicts through occlusion, and no global speaker threshold reaches both DER and overlap gates. The next distinct speaker-provider hypothesis, NVIDIA's eight-slot
-`Nemotron-3-Diarization`, was downloaded and hash-pinned but refused before
-inference because its NeMo 3.0 checkpoint cannot restore in the sealed NeMo 2.7.3
-runtime; a source probe also exposes a matching `lhotse` incompatibility. Its
-short-first quality gate and promotion remain blocked pending a separately sealed
-NeMo 3-compatible runtime.
-The subsequent exact source/lhotse overlay restores that checkpoint and runs the
-three unchanged short controls offline: two pass, while `aiqwk30` misses overlap
-recall at `0.6054` against the unchanged `0.8` gate. The complete refusal and
-replay are retained under
-`assets/31-speaker-replication/nemotron3-admission-short-gate/`; long-form
-inference and production promotion remain blocked.
-The follow-up closure admission passes only a donor-denied relocation smoke test;
-clean first-party materialization is refused because available scratch storage
-was about 152 MiB against a 1.62 GB base runtime before staging. Its exact
-boundary is retained under `assets/31-speaker-replication/nemotron3-closure/`;
-short controls were not rerun.
-The distinct NVIDIA `diar_streaming_sortformer_4spk-v2` checkpoint then restored
-in the sealed NeMo 2.7.3 runtime and passed both calibration controls, but its
-held-out `aiqwk30` control failed DER 34.38%, identity confusion 13.99% and
-overlap recall 10.76%; the preregistered short gate therefore stopped before
-long-form inference. Its replay is retained under
-`assets/31-speaker-replication/alternative-evidence/nemotron-v2/`, and the
-production v2.1 provider remains unchanged.
-The retained Community-1 AHC threshold probe reuses one prepared embedding pass at
-four declared cuts and produces identical calibration assignments; its two-ID BSP30
-count failure and 100-second physical-support refusal remain unchanged, so no cut or
-provider is promoted and the held-out case is not opened.
-The retained face landmark-envelope probe maps independent Vision contour points
-through detector rectangles and fails the unchanged full-face gate on all 72
-Graham frames; it remains refused rather than turning visible landmarks into a
-complete-head localization claim.
-The body-pose head-joint probe is also refused: pose is unavailable on 50 frames
-and the 22 available envelopes remain below 0.5 IoU.
-The person-segmentation probe is refused as well: its whole-person mask envelope
-scores only 0.169–0.181 IoU on all 72 frames and cannot isolate a head.
-Slice 12D now passes: a fresh receipt-driven consumer
-discovered the clipped Parakeet edge, authored one bounded replacement and
-rechecked the changed revision with fresh rendered recognition. The helper never
-chooses repairs or retries blindly.
+Current pickup: final verification and review are complete for every reproducible offline surface. The focused editing harness passes 151/151, the package build and type checks pass, Core passes 794 tests with one skip, Composition 335/335, Protocol 37/37, CLI 112/112, Client 22/22, Workbench 1/1, and the focused service speaker/project lane passes 18/18. The pinned speaker runtime materializes and relocates cleanly. The full repository command was also exercised; its remaining failures are environment-bound macOS permission/device checks, missing Sparkle/native test variables when not supplied, and Bun 1.4.2 invoking Node-only release fixtures. No implementation is waiting on a user action.
 
-Slice 01's independent-control checkpoint and scoped eight-case behavior ledger
-now pass over the canonical compact media owner; its nine negative and boundary
-controls are retained under `assets/01-corpus-controls/`, with the aggregate
-receipt under `assets/01-corpus-behavior/`. The multicam physical checkpoint
-has a caller-authored source-choice receipt binding all nine retained audio
-windows to same-source picture samples, plus a native delivery receipt that
-replays all nine retained picture selections through CLI/MCP and the native
-renderer. Synchronization, speaker identity and automatic camera choice remain
-separate gates.
-
-The moving trajectory receipt now has an immutable replay checker covering its
-39-picture membership, eight frame-indexed occupied bounds/perimeter facts,
-refusal controls, exact preview/export identities and retained preview artifact bytes;
-the independent [moving reference-parity audit](assets/27-29-transitions/reference-parity/report.json)
-retains a red standard crossfade oracle over the alpha/mirror sources, so strict
-reference-conditioned moving color/perimeter parity remains open. The retained
-working-format, working-color, output-space, source-over, source-rasterization
-and source-alpha conversion probes all refuse promotion and leave the
-production compositor unchanged. A native AVAssetReader 32BGRA receipt now
-shows the source bytes differ from the FFmpeg oracle by one code value on the
-semi-transparent edge, and a native-source-conditioned oracle reduces the
-candidate residual to a handful of pixels without reaching zero. This explains
-the open gate without weakening it. A retained `kCVPixelFormatType_64RGBAHalf`
-probe reproduces the same one-code source residual on all eight frames, so
-higher-precision source delivery is also refused as a parity fix.
-
+The remaining red contracts are evidence-backed scope limits: full-face localization through occlusion, global unlike-microphone synchronization, strict moving transition/reference parity, and ten-minute four-speaker continuity. Their refusal receipts and inference-free replay tests remain authoritative. The production-native fresh-agent delivery identity and focused launch/podcast/teaser routing are green, while slice 34 still cannot claim perceptual/native/audio acceptance beyond the retained non-live evidence. Future work should pursue a new independently justified hypothesis for one red contract; do not widen a bounded claim or turn an unverified live check into a pass.
 Priority order: 20/21 global synchronization remains refused on the frozen
 unlike-mic evidence; 15/16 face/framing remain partial; 27–30 have public
 transition, moving-coverage and bounded-blur delivery receipts, while the

@@ -1,4 +1,11 @@
-# Planning and implementation review
+# Verification refresh — 2026-10-07
+
+The current clean branch was rebuilt from the checked-in sources. `bun run build` and `bun run check-types` pass; the focused editing harness passes 151/151; Core passes 794 tests with one skip, Composition 335/335, Protocol 37/37, CLI 112/112, Client 22/22, Workbench 1/1, the focused service speaker/project lane 18/18, and the focused `test:tools` cases pass; the unparameterized 155-test tools run had 152 passes and three setup failures, while the two signing-lab tests and the 12-case update guard pass when the required Sparkle framework is supplied. The consumer-facing replay receipts for face, synchronization, transition, scene, speaker, and fresh-delivery limits all replay successfully and preserve their refused verdicts.
+
+The broad `bun test` command was exercised once. It reaches the expected macOS capture boundary and reports `PERMISSION_REQUIRED`; this environment has no live capture verification. Other failures are setup-specific: Bun 1.4.2 is not the required Node 24 runner for Node-only release fixtures, and installed-library checks require the already-built native variable. Those are recorded as unverified environment checks, not product failures or reasons to wait for user action. `oxlint` passes with pre-existing warnings; `oxfmt --check` reports repository-wide formatting drift in historical/generated/evidence files and was not used as a reason to rewrite them.
+
+The implementation review remains **not closed** because the non-permission quality gates are still explicitly red: full-face localization, global unlike-microphone synchronization, strict moving reference parity, and long-form four-speaker continuity. The code does not promote any of those claims.
+
 
 Reviewed 2026-10-05, before implementation began. Verdict at that time: ready to
 begin corpus certification. The implementation and media acceptance statements
