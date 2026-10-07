@@ -62,7 +62,7 @@ their owning slices.
 
 The implementation branches are clean at the verified head; both
 `spec/speaker-next` and `spec/video-editing-feedback` point at it. The focused
-editing harness is 142/142, composition is 335/335,
+editing harness is 143/143, composition is 335/335,
 protocol is 37/37, core is 794 with one skip, CLI is 112/112, client is 22/22,
 and the workbench check passes. The two service cases that timed out during the
 first parallel run pass individually; the serialized service lane is 302 passing
@@ -72,7 +72,7 @@ the current ready-page contract and passes its focused seven-test file.
 
 The non-live completion lane was rerun with the built Sparkle framework selected
 explicitly: all 17 filtered package tasks passed, the focused editing harness
-remained 142/142, and `test:tools` passed all 164 tests.
+remained 143/143, and `test:tools` passed all 164 tests.
 
 The serialized repository run reaches the permission-gated macOS integration
 tests on this machine's existing Screen & System Audio Recording boundary. Those
