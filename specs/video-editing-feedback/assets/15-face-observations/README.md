@@ -48,6 +48,14 @@ the hidden head area or change the frozen verdict. Confidence thresholding,
 association, box widening and a relaxed IoU gate are therefore rejected as
 corrections.
 
+The retained result is also checked by
+[`face-localization-replay.mjs`](../../../../packages/test-harness/editing/face-localization-replay.mjs).
+That checker binds the exact evidence, gate, audit and native-worker identities,
+recomputes every frame's IoU and center containment, and requires the 27 failed
+ordinals to remain open. It is a receipt replay, not a second detector; changing
+the boxes, thresholds, source set or failure audit is refused before a report can
+be promoted.
+
 A previous scratch metadata control was counter-rotated in the wrong direction;
 its upside-down raster is retained in [failed-controls.json](failed-controls.json).
 The corrected control is byte-identical to its upright input. Initial integer-us

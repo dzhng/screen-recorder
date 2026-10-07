@@ -1865,6 +1865,24 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high for the retained arithmetic and replay identity; low for any
   future detector that might recover hidden head area.
 
+## Make the red full-face failure replayable without changing its gate — slice15/16
+
+- **When:** the retained Vision receipt showed 27 Graham box/zone IoU failures, but
+  the failure audit was documentation rather than an executable guard.
+- **The choice:** add a small inference-free replay that binds the retained native
+  evidence, gates, audit and worker identities, recomputes each box's IoU and center
+  containment, and requires the exact failed ordinal set. Keep the status open.
+- **The gap:** a changed box, source binding or threshold could otherwise make the
+  red result appear green by editing report metadata; rerunning Vision would mix a
+  new detector result into frozen evidence.
+- **The reach:** the acceptance suite now proves the known limitation remains honest
+  and gives a future detector recipe a precise oracle to replace. It adds no second
+  detector, box widening, crop policy or human QA step.
+- **Verdict:** sound bounded failure/replay gate; full-face localization remains
+  open until an independently measured recipe recovers the complete requested region.
+- **Confidence:** high for receipt identity and arithmetic; low for any future
+  detector's ability to recover the occluded head area.
+
 
 ## Use the authored rectangle for whip coverage — slice28
 
