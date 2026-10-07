@@ -177,6 +177,8 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
         context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle declaration must declare mapping" });
       if (operation.mapping === "piecewise-local" && !hasSegments)
         context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle declaration requires segments" });
+      if (operation.mapping === "piecewise-local" && operation.members.some((member) => member.segments === undefined))
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle declaration requires segments for every member" });
     }),
   z.object({ operation: z.literal("angle.remove"), angleGroupId: reference }).strict(),
   z

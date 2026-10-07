@@ -657,6 +657,8 @@ export const angleGroupSchema = z
       context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle group requires segments" });
     if (group.mapping === undefined && hasSegments)
       context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle group must declare mapping" });
+    if (group.mapping === "piecewise-local" && group.members.some((member) => member.segments === undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle group requires segments for every member" });
   });
 export const compositionSchema = z
   .object({

@@ -925,3 +925,29 @@ test("piecewise angle declarations refuse overlapping segments and a shifted ori
   expect(() => applyBatch(setup.document, [declare(0, [{ offsetUs: 0, validRange: { startUs: 2000000, endUs: 3000000 } }, { offsetUs: 0, validRange: { startUs: 2000000, endUs: 3000000 } }])], { assets, namespace: "overlap" })).toThrow(/overlap|out of order/i);
   expect(() => applyBatch(setup.document, [declare(1, [{ offsetUs: 0, validRange: { startUs: 2000000, endUs: 3000000 } }, { offsetUs: 0, validRange: { startUs: 2000000, endUs: 3000000 } }])], { assets, namespace: "origin" })).toThrow(/origin.*zero/i);
 });
+
+test("piecewise angle declarations require segments for every member", () => {
+  const assets = ["a", "b"].map((id) => ({
+    id: `camera-${id}`,
+    streams: [{ id: "video" as const, kind: "video" as const, width: 64, height: 48,
+      bounds: { startUs: 0, endUs: 1000000 }, available: [{ startUs: 0, endUs: 1000000 }] }],
+  }));
+  const setup = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "video", order: 0 }, label: "a-track" },
+    { operation: "track.add", track: { kind: "video", order: 1 }, label: "b-track" },
+    ...assets.map((asset) => ({ operation: "place" as const, label: asset.id, clip: {
+      assetId: asset.id, streamId: "video", trackId: { label: `${asset.id === "camera-a" ? "a" : "b"}-track` },
+      source: { kind: "range" as const, range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project" as const, range: { startUs: 0, endUs: 1000000 } },
+    } })),
+  ] as const, { assets, namespace: "piecewise-mixed" });
+  expect(() => applyBatch(setup.document, [{
+    operation: "angle.declare", label: "angles", sessionId: "mixed", mapping: "piecewise-local",
+    originClipId: { label: "camera-a" },
+    evidence: { id: "evidence", generation: "g1", status: "accepted", method: "mixed-reference", fingerprint: "sha256:evidence", sources: assets.map((asset) => ({ assetId: asset.id, streamId: "video" })) },
+    members: [
+      { clipId: { label: "camera-a" }, segments: [{ offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } }] },
+      { clipId: { label: "camera-b" }, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+    ],
+  }], { assets, namespace: "piecewise-mixed-declare" })).toThrow(/segments for every member/);
+});
