@@ -69,6 +69,12 @@ open strict-parity result, not a recalibrated tolerance: the implementation's
 window-bounded identity behavior agrees structurally, but no exact moving
 reference match has been accepted.
 
+The retained [source-alpha conversion probe](../assets/27-29-transitions/reference-parity/source-alpha-probe.json)
+tests whether the one-code-value edge mismatch comes from Core Video's
+non-opaque 8-bit alpha normalization. It reduces, but does not eliminate, the
+differences at all three samples; the production decoder and zero-difference
+gate remain unchanged.
+
 ## Delegated choices
 
 Reversible default parameter examples and lowering organization. Media selection and handle policy explicit.

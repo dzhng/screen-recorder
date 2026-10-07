@@ -56,3 +56,13 @@ node packages/test-harness/editing/transition-reference-parity.mjs replay \
 
 The focused test also verifies source, reference and candidate hashes and
 refuses a report edited from `open` to `passed`.
+
+A sixth probe tests a bounded source-conversion hypothesis: Core Video's 8-bit
+BGRA path may normalize non-opaque alpha with 256 steps while keeping the opaque
+sentinel at one. This sharply reduces the mismatch (from 21.68% to 0.65% at
+100ms, from 2.93% to 0.16% at 500ms, and from 17.77% to 0.94% at 900ms), but
+does not reach zero differing RGB pixels. It is therefore retained as evidence
+that source alpha conversion is involved, while the production decoder and the
+zero-difference gate remain unchanged. The [source-alpha probe](source-alpha-probe.json)
+replays source and candidate hashes and recomputes both measurements; editing its
+open status or metrics is refused.

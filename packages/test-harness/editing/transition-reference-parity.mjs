@@ -13,11 +13,19 @@ const height = 48;
 const frameDurationUs = 250000;
 const transitionStartUs = 250000;
 const transitionEndUs = 750000;
-const expectedSamples = [
+export const expectedSamples = [
   { id: "moving-100000", atUs: 100000, frame: 0 },
   { id: "moving-500000", atUs: 500000, frame: 2 },
   { id: "moving-900000", atUs: 900000, frame: 3 },
 ];
+
+export function movingCandidatePath(sample) {
+  return join(
+    root,
+    "specs/video-editing-feedback/assets/27-29-transitions/crossfade/moving",
+    `${sample.id.replace("moving-", "moving-frame-")}.png`,
+  );
+}
 
 const sources = {
   alpha: join(root, "specs/done/ffmpeg-parity/evidence/motion-alpha/alpha.mov"),
@@ -26,7 +34,7 @@ const sources = {
 
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
-async function decodeRgba(path) {
+export async function decodeRgba(path) {
   const { stdout } = await exec(
     ffmpeg,
     ["-v", "error", "-i", path, "-f", "rawvideo", "-pix_fmt", "rgba", "pipe:1"],
@@ -56,7 +64,7 @@ function opacityAt(atUs) {
   return [1 - phase, phase];
 }
 
-function composeFrame(alpha, mirror, atUs) {
+export function composeFrameWithAlpha(alpha, mirror, atUs, alphaValue = (value) => value / 255) {
   const frame = Math.min(3, Math.floor(atUs / frameDurationUs));
   const [alphaOpacity, mirrorOpacity] = opacityAt(atUs);
   const output = Buffer.alloc(width * height * 4);
@@ -70,7 +78,7 @@ function composeFrame(alpha, mirror, atUs) {
       blue = 0;
     for (const [source, opacity] of sourcesAtFrame) {
       const sourceOffset = (frame * width * height * 4) + offset;
-      const sourceAlpha = (source[sourceOffset + 3] / 255) * opacity;
+      const sourceAlpha = alphaValue(source[sourceOffset + 3]) * opacity;
       const remaining = 1 - sourceAlpha;
       red = srgbToLinear(source[sourceOffset]) * sourceAlpha + red * remaining;
       green = srgbToLinear(source[sourceOffset + 1]) * sourceAlpha + green * remaining;
@@ -82,6 +90,10 @@ function composeFrame(alpha, mirror, atUs) {
     output[offset + 3] = 255;
   }
   return output;
+}
+
+export function composeFrame(alpha, mirror, atUs) {
+  return composeFrameWithAlpha(alpha, mirror, atUs);
 }
 
 async function writePng(rgba, path) {
@@ -117,7 +129,7 @@ async function writePng(rgba, path) {
   });
 }
 
-function compareRgb(expected, candidate) {
+export function compareRgb(expected, candidate) {
   assert.equal(expected.length, candidate.length, "reference/candidate byte length");
   let sum = 0;
   let max = 0;
@@ -172,11 +184,7 @@ export async function generateReferenceParity(outDirectory) {
     const reference = composeFrame(alphaBytes, mirrorBytes, sample.atUs);
     const referencePath = join(referenceDirectory, `${sample.id}.png`);
     await writePng(reference, referencePath);
-    const candidatePath = join(
-      root,
-      "specs/video-editing-feedback/assets/27-29-transitions/crossfade/moving",
-      `${sample.id.replace("moving-", "moving-frame-")}.png`,
-    );
+    const candidatePath = movingCandidatePath(sample);
     const candidate = await decodeRgba(candidatePath);
     report.samples.push({
       ...sample,

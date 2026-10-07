@@ -67,8 +67,10 @@ retained preview artifact bytes;
 the independent [moving reference-parity audit](assets/27-29-transitions/reference-parity/report.json)
 retains a red standard crossfade oracle over the alpha/mirror sources, so strict
 reference-conditioned moving color/perimeter parity remains open. The retained
-working-format, working-color, output-space, source-over and source-rasterization
-probes all refuse promotion and leave the production compositor unchanged.
+working-format, working-color, output-space, source-over, source-rasterization
+and source-alpha conversion probes all refuse promotion and leave the
+production compositor unchanged. The source-alpha probe sharply reduces the
+edge mismatch but still misses zero differing RGB pixels.
 
 Priority order: 20/21 global synchronization remains refused on the frozen
 unlike-mic evidence; 15/16 face/framing remain partial; 27–30 have public
