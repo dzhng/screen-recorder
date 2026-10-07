@@ -1,0 +1,87 @@
+{
+  "kind": "full-domain-lexical-scout-v1",
+  "sourceSelection": {
+    "windowUs": 20000000,
+    "gapUs": 1000000,
+    "context": {
+      "beforeUs": 0,
+      "afterUs": 0
+    },
+    "recipe": "source-windows-20s-context4s-guard1s-v2"
+  },
+  "normalization": "lowercase ASCII alphanumeric apostrophe tokens; exact contiguous n-grams",
+  "anchorRule": {
+    "minimumWords": 5,
+    "requiresDistinctSourceFiles": true,
+    "requiresThreeSeparatedMatches": true,
+    "maximumOffsetSpreadUs": 2000000
+  },
+  "runtime": {
+    "nativeSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+    "modelReceiptSha256": "c1a8da70420cb3303d6c22bf9fbae0ec7907bca6c42067f5f5da76fc1c7bcc0d"
+  },
+  "sources": [
+    {
+      "name": "graham",
+      "path": "/Users/server/Downloads/fullvideo_graham_p1.mp4",
+      "durationSeconds": 2359.970998,
+      "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+      "participant": "graham"
+    },
+    {
+      "name": "lilyp1",
+      "path": "/Users/server/Downloads/fullvideo_lily_p1.mp4",
+      "durationSeconds": 2360.013991,
+      "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+      "participant": "lily"
+    },
+    {
+      "name": "lilyp2",
+      "path": "/Users/server/Downloads/fullvideo_lily_p2.mp4",
+      "durationSeconds": 952.458333,
+      "sha256": "7b03b1ca053c4be00534937c2294bdaa86877af4b9f42f8db4d5817b23b675c0",
+      "participant": "lily"
+    },
+    {
+      "name": "madison",
+      "path": "/Users/server/Downloads/riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+      "durationSeconds": 2360.041667,
+      "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+      "participant": "madison"
+    }
+  ],
+  "files": [
+    {
+      "name": "graham",
+      "compressedPath": "graham.jsonl.gz",
+      "compressedSha256": "1f09ed2e3f0525111ff1ce25176be2aeaa598412cf9fb3d494683df434d6e0d8",
+      "compressedBytes": 192521,
+      "rawSha256": "51ed7bd6ace70696b4a544a48e86137dc2af17ed7cdd0016a9878be13e2cb748",
+      "rawBytes": 1902945
+    },
+    {
+      "name": "lilyp1",
+      "compressedPath": "lilyp1.jsonl.gz",
+      "compressedSha256": "2c09a9638fc3d7407e8faf18dec41f6ecae6437466a4508f6a1ded644ca0a930",
+      "compressedBytes": 94788,
+      "rawSha256": "34eb4665ef511a4ce82224b675151549736e17e92292e3811ed8cc6bd898b6a7",
+      "rawBytes": 899063
+    },
+    {
+      "name": "lilyp2",
+      "compressedPath": "lilyp2.jsonl.gz",
+      "compressedSha256": "c7ed791572623f1a29d65e8ef1d94675e3eae5f62ede7c47b602092b111a114f",
+      "compressedBytes": 38060,
+      "rawSha256": "5ebea88cedbea130bb31e81e022a54b5d7d65a471c3726c896c6a1330e4daa69",
+      "rawBytes": 349980
+    },
+    {
+      "name": "madison",
+      "compressedPath": "madison.jsonl.gz",
+      "compressedSha256": "1457aadf4b06f7bddcce019f90647115868d9dc3f96e2c2fbc0fd034f3178d4e",
+      "compressedBytes": 48068,
+      "rawSha256": "ea09ddd4ff22cd432aaaab4abeffabadc441affa0e1a5aa32ef7bae17f161bc6",
+      "rawBytes": 457081
+    }
+  ]
+}

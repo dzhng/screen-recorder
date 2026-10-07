@@ -55,6 +55,19 @@ Acquisition and optional native replay refuse invalid envelopes before native wo
 on the same retained windows: independently recognized sources share no candidate
 utterance across any selected windows. No timing inference or synchronization
 promotion follows that failure. This bounded scout does not rule out shared content elsewhere in the originals.
+
+The [full-domain lexical scout](full-domain-lexical/report.json) extends that
+question to 381 non-overlapping 20-second windows (with one-second gaps) across
+the four authorized source domains: Graham, Lily part one, Lily part two and
+Madison. Its pinned Parakeet transcript fixtures contain 6,536 normalized words.
+There are no cross-participant exact five-word anchors; the longest such n-gram is
+four words. The only repeated five-word phrase is between Lily's two split files,
+with incompatible offsets, so it cannot establish a shared session clock. The
+[inference-free replay](../../../../packages/test-harness/editing/synchronization/full-domain-lexical-replay.mjs)
+checks the protocol, source identities, compressed and raw transcript hashes and
+the refusal fields. This closes the selected full-domain lexical search as a
+refused hypothesis; it does not rule out a different shared-content or physical
+clock hypothesis elsewhere, and it does not admit synchronization.
 [Mixed-reference bridge research](bridge/README.md) now retains separately frozen
 local observations while preserving all original acoustic, lexical and global-clock
 refusals. Slice20 remains open; local sampled bridges do not declare a session clock.

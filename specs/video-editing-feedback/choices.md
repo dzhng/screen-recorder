@@ -2193,3 +2193,27 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** every threshold produces identical segment assignments on BSP30 and the 100-second returns/overlap calibration control. BSP30 still has two observed IDs for three reference speakers, while the 100-second control still exceeds physical support. The cut cannot explain the collapse, so the probe stops before held-out inference; no threshold or provider is promoted.
 - **Verdict:** sound refusal. The executable replay checks complete retained embeddings, output hashes, frozen parameters, identical assignment digests and the unchanged support/count failures without acquisition or inference.
 - **Confidence:** high.
+
+## Refuse the selected full-domain lexical synchronization hypothesis — slice20
+
+- **When:** the bounded lexical scout had found no shared utterance in the nine
+  retained windows, while the external originals were large enough that the same
+  question remained open over their selected domains.
+- **The choice:** scan 381 non-overlapping 20-second windows across the four
+  authorized source domains with the pinned first-party Parakeet runtime, retain
+  compressed transcript fixtures and a protocol/report pair, and admit an anchor
+  only when an exact five-word phrase appears across distinct participants under
+  the frozen separated-match and offset-spread rules.
+- **The gap:** a sampled refusal could be mistaken for a whole-domain result, or
+  a repeated phrase between Lily's split files could be misread as evidence of a
+  common session clock.
+- **The reach:** the replay finds no cross-participant exact five-word anchor;
+  the longest is four words. The only repeated five-word phrase is within Lily's
+  split files and has incompatible offsets. The selected lexical hypothesis is
+  therefore refused without alignment, retiming, angle promotion or provider
+  changes. The evidence does not rule out a different shared-content or physical
+  clock hypothesis elsewhere.
+- **Verdict:** sound bounded refusal and replay checkpoint; global/raw-to-raw
+  synchronization remains open.
+- **Confidence:** high for the selected four-source, 381-window lexical search;
+  low for any synchronization claim outside that frozen selection.

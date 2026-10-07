@@ -66,8 +66,13 @@ nine retained windows also provides no shared five-word candidate, so alignment
 timing work did not run. [Mixed-reference bridge research](../assets/20-synchronization/bridge/README.md)
 retains the frozen source inventory, full-domain acquisition receipts, all strict
 20-second refusals and separately admitted local sampled bridges. Inference-free
-replay checks retained numerical/lexical operands; full-domain selection and coarse
-search need external acquisition. Global/raw-to-raw synchronization remains open;
+replay checks retained numerical/lexical operands. The [full-domain lexical
+replay](../assets/20-synchronization/full-domain-lexical/report.json) now covers
+381 selected windows across all four authorized source domains with pinned
+Parakeet transcripts; it finds no cross-participant exact five-word anchor, and
+the only repeated five-word phrase is between Lily's split files at incompatible
+offsets. The selected full-domain lexical hypothesis is therefore refused and
+does not admit a clock. Global/raw-to-raw synchronization remains open;
 the next hypothesis must target that missing contract rather than repeating the
 completed local recognition. Keep edited master clocks piecewise, retain
 the original known125ms/maximum2ms precision control and long-span/drift refusals,

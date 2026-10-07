@@ -22,6 +22,10 @@ speaker provider now has a measured pinned NeMo runtime acquisition descriptor a
 auto-prepares its first-party inputs by default. That closes acquisition readiness
 only; bounded selected-range preparation now accepts complete 80ms-grid windows
 from 80ms through at most 30 seconds, while each window remains generation-local.
+The selected full-domain lexical scout now replays 381 Parakeet windows across all
+four authorized source domains and finds no cross-participant five-word anchor;
+its refusal is retained, while the real unlike-microphone global clock remains
+refused.
 The native streaming envelope is replayed as research evidence: one fresh state per
 selected input persists across internal chunks, and the three-speaker 600-second
 control passes. The unchanged long-form four-speaker continuity gate is still red;

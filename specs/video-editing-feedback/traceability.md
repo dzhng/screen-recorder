@@ -42,7 +42,7 @@ specific claim needed for this item.
 | E14 | Raw arithmetic, public admission and full-raster declared-codec movie proof pass; scoped reviews clean | [24](slices/24-blend-modes.md) | Multiply/screen/soft-light arithmetic, color/alpha/order and transparent/identity controls through existing compositor. |
 | E15 | No music source; deliberate external capability | [02](slices/02-capability-first-skill.md), [33](slices/33-editing-references.md) | Discover usable music tools/assets, study requested reference and retain source/recipe; recommend only a materially needed missing capability. |
 | E16 | Fit/push-in, imported fonts and labeled batches work well; positive evidence | [16](slices/16-subject-reframe.md), [22](slices/22-styled-text.md), [34](slices/34-autonomous-trailer-acceptance.md) | Preserve exact geometry/phase, admitted font rendering and one labeled batch through real consumer checks. No replacement without parity. |
-| E17 | Cross-mic synchronization absent; current gap; measured controls now have a source-bound receipt adapter and all nine retained real refusals have an executable replay gate | [20](slices/20-sync-replication.md), [21](slices/21-synced-angles.md) | Known offsets, weak single-mic signals, unrelated audio and drift controls; estimates expose alternatives and unsuitable constant offsets, and only a fingerprinted constant-offset result can become accepted source-bound evidence. Angle declarations additionally reject audio-only members and repeated sources. The real retained comparisons remain refused. |
+| E17 | Cross-mic synchronization absent; measured controls now have a source-bound receipt adapter, all nine retained acoustic refusals replay, and the selected full-domain lexical search also refuses | [20](slices/20-sync-replication.md), [21](slices/21-synced-angles.md) | Known offsets, weak single-mic signals, unrelated audio and drift controls; estimates expose alternatives and unsuitable constant offsets, and only a fingerprinted constant-offset result can become accepted source-bound evidence. The 381-window full-domain Parakeet search finds no cross-participant exact five-word anchor; Lily's split-file repeat has incompatible offsets. Angle declarations additionally reject audio-only members and repeated sources. The real retained comparisons remain refused. |
 | E18 | Vertical text alignment missing; current gap | [22](slices/22-styled-text.md) | Rendered glyph bounds match explicit top/middle/bottom alignment, including multi-line/oversize text. |
 | E19 | Compressor makeup fixed at unity; current gap | [19](slices/19-dialogue-matching.md) | Explicit makeup changes prepared output through the existing compressor recipe and meter, with bypass identity. |
 | E20 | Labels batch-local; intended behavior, useful error | [02](slices/02-capability-first-skill.md), [33](slices/33-editing-references.md) | Examples consume returned real IDs in later revisions. Keep label scope/error clear; no persistent label alias system. |
@@ -187,8 +187,10 @@ Slice20 waveform checkpoint retains physical inputs and controls, but the real
 unlike-microphone comparisons all refuse. [The frozen result](assets/20-synchronization/README.md)
 keeps the synchronization feedback open. [Mixed-reference local bridges](assets/20-synchronization/bridge/README.md)
 now combine sampled acoustic support with independently recognized shared phrases,
-but every global clock still refuses. Exact retained replay does not reproduce
-full-domain selection; equal duration/session provenance does not close the gap.
+but every global clock still refuses. The selected full-domain lexical search is
+also replayable across 381 windows and finds no cross-participant five-word anchor;
+the Lily split-file repeat has incompatible offsets. Equal duration/session
+provenance does not close the gap.
 
 Slice22A/22B evidence: composition authoring retains optional `verticalAlignment` plus
 bounded stroke/shadow/background fields; native TextRaster reports glyph-path `inkBounds`,
