@@ -17,4 +17,6 @@ made.
 source-overlay short gate remains the quality result: two controls pass and
 `aiqwk30` misses overlap recall. The next attempt needs scratch storage large
 enough for an independent `python-wheels-v1` materialization, then the same
-three short controls in the preregistered order.
+three short controls in the preregistered order. `replay.mjs` verifies the
+relocation receipt and refuses any report that turns this storage refusal into a
+clean acquisition or quality claim.
