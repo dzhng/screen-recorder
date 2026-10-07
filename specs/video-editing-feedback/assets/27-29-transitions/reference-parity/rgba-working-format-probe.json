@@ -1,0 +1,31 @@
+{
+  "kind": "transition-working-format-probe",
+  "status": "open",
+  "question": "Does changing the native Core Image working format from RGBAh to RGBAf remove the moving reference-parity mismatch?",
+  "productionWorkingFormat": "RGBAh",
+  "probeWorkingFormat": "RGBAf",
+  "probeWorkerSha256": "a28b6d6a427687fba80f455421ad89054257a8db187467197f2cfd24b73d70e8",
+  "focusedCommand": "swift build --build-system native --package-path helpers/mac --configuration debug --product yap-native && YAP_NATIVE=helpers/mac/.build/debug/yap-native node packages/test-harness/editing/transition-delivery.mjs --out <empty-directory>",
+  "samples": [
+    {
+      "id": "moving-100000",
+      "candidateSha256": "9224290ee6db687c02add53fe46d8d25bf673d40e39d6d4fa703600a89023fd3",
+      "comparison": { "mae": 0.072265625, "maxChannelDelta": 1, "differingRatio": 0.216796875 }
+    },
+    {
+      "id": "moving-500000",
+      "candidateSha256": "1ff8801b97be4b4337b525aba94c665af9c018fa5c6a93e37469c9cb73cf1e83",
+      "comparison": { "mae": 0.011393229166666666, "maxChannelDelta": 1, "differingRatio": 0.029296875 }
+    },
+    {
+      "id": "moving-900000",
+      "candidateSha256": "0c061571e87ab2a23c6b8e8c8599e3b72aa132f947d62839f2e0e8304c4ab9e7",
+      "comparison": { "mae": 0.059244791666666664, "maxChannelDelta": 1, "differingRatio": 0.177734375 }
+    }
+  ],
+  "result": {
+    "candidateArtifactsUnchanged": true,
+    "parityGatePassed": false,
+    "conclusion": "RGBAf produced byte-identical moving PNGs and the same one-code-value mismatch as the retained RGBAh candidate. Keep RGBAh; strict reference-conditioned parity remains open."
+  }
+}

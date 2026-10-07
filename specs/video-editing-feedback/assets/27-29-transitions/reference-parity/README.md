@@ -15,6 +15,13 @@ to 21.68% of pixels (maximum MAE 0.0723). The 500ms midpoint is close (MAE
 0.0114). This is a durable failure record, not a visual acceptance or a
 tolerance calibration.
 
+A focused native probe also rebuilt the worker with Core Image `RGBAf` working
+surfaces. It produced byte-identical moving PNGs and the same mismatch metrics
+as the retained `RGBAh` candidate, so the production working format remains
+unchanged. The probe receipt is [rgba-working-format-probe.json](rgba-working-format-probe.json);
+it records the worker and candidate hashes and keeps this gate open rather than
+recalibrating its tolerance.
+
 Replay the immutable receipt with:
 
 ```sh

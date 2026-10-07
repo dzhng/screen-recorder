@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts, retained-source native multicam delivery and production-native fresh-agent replay are integrated and rechecked on the current branch. The retained corpus, scoped eight-case behavior ledger, caller-authored multicam source-choice receipt, native switched-angle, physical empty-edit and transition receipts remain intact. Broader synchronized multicamera behavior, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
+Status: implementation active; the retained real-video corpus and its independent controls are now certified and replayed on the current branch. Bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts, retained-source native multicam delivery and production-native fresh-agent replay are integrated and rechecked. Broader synchronized multicamera behavior, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -113,7 +113,7 @@ Each checkbox is an independently verifiable contract, not a required separate P
 Consecutive small steps can land together when their verdicts remain independent.
 Numbering is a review order; actual prerequisites live in the slice headers.
 
-- [ ] [01 — Certify real fixtures and independent controls](slices/01-certified-corpus.md)
+- [x] [01 — Certify real fixtures and independent controls](slices/01-certified-corpus.md)
 - [x] [02 — Discover capabilities and make helper examples usable](slices/02-capability-first-skill.md)
 - [x] [03 — Unify asynchronous public replies](slices/03-published-work-contract.md)
 - [x] [04 — Bounded wait and ordinary JSON/artifact delivery](slices/04-wait-and-json-delivery.md)

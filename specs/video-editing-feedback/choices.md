@@ -148,6 +148,23 @@ User decisions remain binding; this ledger records implementation discretion out
   inventing a color or an editorial effect.
 - **Confidence:** high.
 
+## Keep the half-float Core Image working format after the moving parity probe — sound, high confidence
+
+- **When:** slices27–29 moving reference-parity investigation.
+- **The choice:** retain `CIFormat.RGBAh` in the production picture executor after
+  rebuilding the worker with `CIFormat.RGBAf` and replaying the public moving
+  transition delivery. The three probe PNGs were byte-identical to the retained
+  candidate and kept the same one-code-value mismatch against the independent
+  linear-light oracle.
+- **The gap:** the strict parity failure could have come from the native working
+  precision, but changing the format alone did not change the delivered pixels.
+- **The reach:** no renderer behavior or gate tolerance changes. The frozen
+  reference-parity report remains the owner of the unresolved result, and the
+  probe receipt records the exact worker/artifact identities for later diagnosis.
+- **Verdict:** sound. The experiment rules out this single precision setting as
+  the fix without weakening the zero-difference acceptance rule.
+- **Confidence:** high.
+
 ## Lexical prerequisite checkpoint — sound, high confidence
 
 - When: slice20 isolated-microphone lexical scout.
@@ -2026,3 +2043,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** the real synchronization refusal is now independently replayable and source-bound without declaring a clock, retiming media or adding a second estimator. The accepted synthetic constant-offset receipt controls remain separate.
 - **Verdict:** sound as a bounded refusal/replay gate; global/raw-to-raw synchronization and lexical anchors remain open.
 - **Confidence:** high for retained numerical identity and refusal scope; low for any synchronization claim beyond the retained windows.
+
+## Close the declared corpus scope after replaying every owner — slice01
+
+- **When:** the corpus, behavior ledger, independent controls, multicam samples and native delivery receipt all replayed green in one focused run.
+- **The choice:** mark slice01 complete only for the declared fixture scope. Physical bytes, clocks, sampled pictures and native source choices are certified; synchronization, speaker identity and automatic camera selection remain separate contracts with their own open gates.
+- **The gap:** the plan did not state whether a green set of bounded corpus owners was enough to close the fixture slice while dependent behavioral capabilities were still incomplete.
+- **The reach:** later work can rely on the retained media and its independent controls without treating fixture certification as proof of global sync, speaker continuity or editorial quality.
+- **Verdict:** sound; the status follows the slice's explicit bounded scope and the focused 41-test replay.
+- **Confidence:** high for the declared corpus contract; high that the separate capability gates must remain open.
