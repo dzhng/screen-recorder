@@ -80,6 +80,15 @@ expansion. It fails the unchanged 0.5 IoU gate on all 72 Graham frames (0.191–
 head region and is refused. Its exact report and Swift recipe replay through
 [`face-landmark-envelope-replay.mjs`](../../../../packages/test-harness/editing/face-landmark-envelope-replay.mjs).
 
+A second independent hypothesis is retained in
+[`body-pose-head-probe.json`](body-pose-head-probe.json). Vision's human-body
+pose head-adjacent joints (nose, eyes, ears and neck) are enclosed directly in
+the delivered raster. Body pose is unavailable on 50 of 72 frames; on the 22
+available frames its envelope reaches only 0.373–0.484 IoU, below the unchanged
+0.5 gate. This is therefore a bounded refusal, not a head-box expansion or a
+complete-head quality claim. Replay is owned by
+[`face-body-pose-head-replay.mjs`](../../../../packages/test-harness/editing/face-body-pose-head-replay.mjs).
+
 A previous scratch metadata control was counter-rotated in the wrong direction;
 its upside-down raster is retained in [failed-controls.json](failed-controls.json).
 The corrected control is byte-identical to its upright input. Initial integer-us
