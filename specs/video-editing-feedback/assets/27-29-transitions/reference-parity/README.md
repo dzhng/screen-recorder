@@ -83,3 +83,19 @@ YAP_FFMPEG=/opt/homebrew/bin/ffmpeg node packages/test-harness/editing/transitio
 node packages/test-harness/editing/transition-native-source-probe.mjs replay \
   specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source-probe.json
 ```
+
+A seventh bounded probe requested `kCVPixelFormatType_64RGBAHalf` from
+`AVAssetReader` and retained all eight half-float frames in
+[`rgba-half-source-probe.json`](rgba-half-source-probe.json). After the frozen
+display transform and 8-bit comparison, every frame has the same 340 differing
+pixels, 342 differing channel bytes and one-code maximum delta as the existing
+32BGRA conversion. Higher-precision source delivery therefore does not close
+the strict moving gate. Replay the retained probe with:
+
+```sh
+YAP_FFMPEG=/opt/homebrew/bin/ffmpeg node packages/test-harness/editing/transition-rgba-half-source-probe.mjs \
+  specs/video-editing-feedback/assets/27-29-transitions/reference-parity/rgba-half-source-probe.json
+```
+
+This is refusal evidence only; production remains on its existing 32BGRA
+decoder and the zero-difference gate is unchanged.
