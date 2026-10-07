@@ -1654,6 +1654,24 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high for the footprint regression and public delivery behavior;
   medium for reference-conditioned visual parity.
 
+## Replay bounded blur appearance evidence without rerendering — slice29
+
+- **When:** motion-blur appearance repair closeout.
+- **The choice:** add a small immutable checker over the retained public/native
+  receipt and its three PNG artifacts. It binds the source and native identities,
+  exact four-sample recipe, measured changed pixels, opacity and one-pixel
+  trajectory envelope; it does not rerun native rendering or accept a visual
+  tolerance.
+- **The gap:** the receipt proved the behavior once, but later edits could alter
+  its JSON or images while leaving the focused suite green.
+- **The reach:** a cheap replay now refuses changed bounds, measurements,
+  dimensions, hashes or recipe fields. Strict reference-conditioned appearance
+  parity remains open and the checker makes no universal aesthetic claim.
+- **Verdict:** sound scoped evidence replay; it has one artifact owner and no
+  second blur implementation.
+- **Confidence:** high for the retained fixture and envelope; medium for any
+  broader footage appearance outside this control.
+
 ## Keep intentional-jump recognition refusal explicit — slice12C
 
 - **When:** real-media contextual-join fixture pass.

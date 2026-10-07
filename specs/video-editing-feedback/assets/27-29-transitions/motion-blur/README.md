@@ -32,3 +32,9 @@ It did flag a broad upper-left smear, an inflated footprint, and loss of a crisp
 anchor around the moving red/blue control. Those are retained as the remaining
 appearance question for slice 29: this receipt proves public/native delivery,
 bounded work, and opacity, but does not silently bless the final blur look.
+
+The immutable [appearance replay](../../../../../packages/test-harness/editing/motion-blur-appearance-replay.mjs)
+now checks the source/native identities, exact four-sample recipe, PNG
+dimensions, changed-pixel measurements and one-pixel envelope against the
+authored trajectory control. It replays evidence only; strict reference
+conditioned appearance parity remains open.

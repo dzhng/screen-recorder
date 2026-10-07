@@ -87,8 +87,8 @@ nine-pair solid-color transition parity replay is now retained; moving/trajector
 parity remains open.
 A public/native motion-blur receipt
 now proves four-sample delivery, opacity, measured local cost and a repaired one-pixel
-appearance envelope against an unblurred authored trajectory; strict reference-conditioned
-parity remains open. The delivered-scene export/import
+appearance envelope against an unblurred authored trajectory; its artifact and measurement
+replay checker is now retained; strict reference-conditioned parity remains open. The delivered-scene export/import
 checkpoint covers planted flash/hold observations and a physical empty-edit-list
 gap through native project/export delivery.
 Caption, blend, immutable-LUT, delivered-scene-helper, delivered-scene replay,
