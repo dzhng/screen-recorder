@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; the retained real-video corpus and its independent controls are now certified and replayed on the current branch. Bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts, retained-source native multicam delivery and production-native fresh-agent replay are integrated and rechecked. Broader synchronized multicamera behavior, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
+Status: implementation active; the retained real-video corpus and its independent controls are now certified and replayed on the current branch. Bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts, retained-source native multicam delivery and production-native fresh-agent replay are integrated and rechecked. Broader synchronized multicamera behavior, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-07.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -38,7 +38,7 @@ can attach generation-pinned word attribution with explicit unknown/overlap stat
 A word with one covering turn plus a partial competing turn is retained as overlap
 evidence rather than being confidently misassigned; protocol, Core and service
 regressions cover that rule.
-The next distinct speaker-provider hypothesis, NVIDIA's eight-slot
+The temporal tracker and decoder-threshold probes now have executable refusal replays: the tracker clears frozen IoU but predicts through occlusion, and no global speaker threshold reaches both DER and overlap gates. The next distinct speaker-provider hypothesis, NVIDIA's eight-slot
 `Nemotron-3-Diarization`, was downloaded and hash-pinned but refused before
 inference because its NeMo 3.0 checkpoint cannot restore in the sealed NeMo 2.7.3
 runtime; a source probe also exposes a matching `lhotse` incompatibility. Its
@@ -112,7 +112,7 @@ independent moving parity oracle remains red; 31/32
 bounded attribution is integrated while long-form continuity remains red; 33/34
 have focused references, route provenance and a green concrete replay, with final
 workflow review still open.
-The retained editing harness now passes 145/145 focused tests across these
+The retained editing harness now passes 149/149 focused tests across these
 receipts; that green replay suite does not promote any explicitly refused gate.
 The Core suite passes 794 tests with one skip, Protocol passes 37 tests, and the
 service suite passes 302 tests with 22 skips.
