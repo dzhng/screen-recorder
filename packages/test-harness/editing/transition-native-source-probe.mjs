@@ -14,8 +14,6 @@ import {
 } from "./transition-reference-parity.mjs";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
-const ffmpeg =
-  process.env.YAP_FFMPEG ?? join(root, "helpers/ffmpeg/.build/distribution/bin/ffmpeg");
 const swift = join(root, "packages/test-harness/editing/transition-native-source-probe.swift");
 const sourcePaths = {
   alpha: join(root, "specs/done/ffmpeg-parity/evidence/motion-alpha/alpha.mov"),
