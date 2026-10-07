@@ -2102,3 +2102,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** future parity work keeps the production color space stable and must investigate another mechanism or revise the independently declared oracle; it cannot hide the mismatch with a tolerance.
 - **Verdict:** sound bounded investigation; no shipped renderer change.
 - **Confidence:** high for this probe's measured result; low for broader Core Image behavior outside the retained moving case.
+
+## Keep implicit native PNG output after the output-space probe — slices27–29
+
+- **When:** the moving parity drift could also have come from Core Image converting the final image to PNG without an explicit output color space.
+- **The choice:** temporarily request explicit RGBA8 sRGB output from `createCGImage`; because the decoded RGB matched the retained production candidate byte-for-byte, keep the existing output path and retain the probe as evidence.
+- **The gap:** the plan did not distinguish compositor working color space from final PNG output conversion when assigning the parity investigation.
+- **The reach:** future work can focus on blend/source arithmetic or sampling rather than changing PNG output metadata; the strict oracle remains open.
+- **Verdict:** sound bounded investigation; no shipped output change.
+- **Confidence:** high for the retained three-sample result; low beyond this transition case.

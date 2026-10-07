@@ -29,6 +29,12 @@ also unchanged. The result is retained in
 [srgb-working-space-probe.json](srgb-working-space-probe.json); the strict gate
 remains open.
 
+A third probe asked `createCGImage` for explicit RGBA8 sRGB output before PNG
+encoding. Its decoded RGB was byte-identical to the retained production
+candidate, so PNG output color-space selection is not the cause either. The
+[output probe](png-output-colorspace-probe.json) keeps that result with the
+other bounded refusals.
+
 Replay the immutable receipt with:
 
 ```sh
