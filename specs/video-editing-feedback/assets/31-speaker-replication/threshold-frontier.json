@@ -1,0 +1,600 @@
+{
+  "status": "no-global-threshold-closes-four-speaker-gate",
+  "input": {
+    "protocolSha256": "8f6ca56aefe8ce002679ae0c5d184b044d1c15d80639d51bbda06e530ecffb53",
+    "rawSha256": "a4e19b51a185bea9244802d4e4aca384ad229006f99f8dc44378af08eaba840f",
+    "nativeSha256": "d25e722d03386cc719cb526af65ca880fb0db61a8ba78fa3f5019f702a7860e3",
+    "caseId": "four-speaker600"
+  },
+  "sweep": {
+    "kind": "independent-slot-global-threshold",
+    "frames": 7500,
+    "frameSeconds": 0.08,
+    "thresholds": [
+      0.01,
+      0.02,
+      0.03,
+      0.04,
+      0.05,
+      0.06,
+      0.07,
+      0.08,
+      0.09,
+      0.1,
+      0.11,
+      0.12,
+      0.13,
+      0.14,
+      0.15,
+      0.16,
+      0.17,
+      0.18,
+      0.19,
+      0.2,
+      0.21,
+      0.22,
+      0.23,
+      0.24,
+      0.25,
+      0.26,
+      0.27,
+      0.28,
+      0.29,
+      0.3,
+      0.31,
+      0.32,
+      0.33,
+      0.34,
+      0.35,
+      0.36,
+      0.37,
+      0.38,
+      0.39,
+      0.4,
+      0.41,
+      0.42,
+      0.43,
+      0.44,
+      0.45,
+      0.46,
+      0.47,
+      0.48,
+      0.49,
+      0.5
+    ],
+    "gates": {
+      "derMaximum": 0.2,
+      "overlapRecallMinimum": 0.8
+    },
+    "rows": [
+      {
+        "threshold": 0.01,
+        "segmentCount": 298,
+        "der": 0.6522680055401687,
+        "missedSpeakerSeconds": 1.6400000000000858,
+        "falseSpeakerSeconds": 373.96000000000066,
+        "confusedSpeakerSeconds": 1.1500000000000057,
+        "overlapRecall": 0.9632286995515679,
+        "retainedOverlapSeconds": 42.96000000000025
+      },
+      {
+        "threshold": 0.02,
+        "segmentCount": 223,
+        "der": 0.4947368421052666,
+        "missedSpeakerSeconds": 4.520000000000309,
+        "falseSpeakerSeconds": 280.9200000000011,
+        "confusedSpeakerSeconds": 0.32000000000005,
+        "overlapRecall": 0.8986547085201732,
+        "retainedOverlapSeconds": 40.08
+      },
+      {
+        "threshold": 0.03,
+        "segmentCount": 216,
+        "der": 0.4340720221606673,
+        "missedSpeakerSeconds": 5.640000000000455,
+        "falseSpeakerSeconds": 244.92000000000056,
+        "confusedSpeakerSeconds": 0.15999999999996817,
+        "overlapRecall": 0.8735426008968518,
+        "retainedOverlapSeconds": 38.95999999999988
+      },
+      {
+        "threshold": 0.04,
+        "segmentCount": 194,
+        "der": 0.4015235457063737,
+        "missedSpeakerSeconds": 6.3600000000004115,
+        "falseSpeakerSeconds": 225.56000000000066,
+        "confusedSpeakerSeconds": 0,
+        "overlapRecall": 0.8573991031390052,
+        "retainedOverlapSeconds": 38.239999999999924
+      },
+      {
+        "threshold": 0.05,
+        "segmentCount": 199,
+        "der": 0.38130193905817455,
+        "missedSpeakerSeconds": 6.920000000000375,
+        "falseSpeakerSeconds": 212.68000000000077,
+        "confusedSpeakerSeconds": 0.6400000000000752,
+        "overlapRecall": 0.8448430493273471,
+        "retainedOverlapSeconds": 37.679999999999964
+      },
+      {
+        "threshold": 0.06,
+        "segmentCount": 203,
+        "der": 0.36063019390581985,
+        "missedSpeakerSeconds": 7.4700000000004,
+        "falseSpeakerSeconds": 199.31000000000077,
+        "confusedSpeakerSeconds": 1.520000000000021,
+        "overlapRecall": 0.8325112107623241,
+        "retainedOverlapSeconds": 37.12999999999994
+      },
+      {
+        "threshold": 0.07,
+        "segmentCount": 200,
+        "der": 0.34207063711911595,
+        "missedSpeakerSeconds": 8.090000000000476,
+        "falseSpeakerSeconds": 187.2900000000006,
+        "confusedSpeakerSeconds": 2.199999999999971,
+        "overlapRecall": 0.8186098654708428,
+        "retainedOverlapSeconds": 36.50999999999986
+      },
+      {
+        "threshold": 0.08,
+        "segmentCount": 208,
+        "der": 0.3269563711911385,
+        "missedSpeakerSeconds": 8.620000000000335,
+        "falseSpeakerSeconds": 177.82000000000104,
+        "confusedSpeakerSeconds": 2.4099999999998936,
+        "overlapRecall": 0.8067264573990972,
+        "retainedOverlapSeconds": 35.980000000000004
+      },
+      {
+        "threshold": 0.09,
+        "segmentCount": 213,
+        "der": 0.3151315789473709,
+        "missedSpeakerSeconds": 9.310000000000375,
+        "falseSpeakerSeconds": 170.430000000001,
+        "confusedSpeakerSeconds": 2.2799999999997596,
+        "overlapRecall": 0.7912556053811591,
+        "retainedOverlapSeconds": 35.289999999999964
+      },
+      {
+        "threshold": 0.1,
+        "segmentCount": 227,
+        "der": 0.3061980609418314,
+        "missedSpeakerSeconds": 10.330000000000549,
+        "falseSpeakerSeconds": 163.61000000000104,
+        "confusedSpeakerSeconds": 2.9199999999998987,
+        "overlapRecall": 0.7699551569506631,
+        "retainedOverlapSeconds": 34.33999999999983
+      },
+      {
+        "threshold": 0.11,
+        "segmentCount": 229,
+        "der": 0.2967451523545739,
+        "missedSpeakerSeconds": 10.860000000000564,
+        "falseSpeakerSeconds": 157.18000000000126,
+        "confusedSpeakerSeconds": 3.3599999999997436,
+        "overlapRecall": 0.7596412556053712,
+        "retainedOverlapSeconds": 33.87999999999981
+      },
+      {
+        "threshold": 0.12,
+        "segmentCount": 235,
+        "der": 0.28916204986149957,
+        "missedSpeakerSeconds": 11.830000000000702,
+        "falseSpeakerSeconds": 151.67000000000144,
+        "confusedSpeakerSeconds": 3.519999999999712,
+        "overlapRecall": 0.7441704035874348,
+        "retainedOverlapSeconds": 33.18999999999984
+      },
+      {
+        "threshold": 0.13,
+        "segmentCount": 241,
+        "der": 0.2802285318559589,
+        "missedSpeakerSeconds": 13.020000000000394,
+        "falseSpeakerSeconds": 144.78000000000145,
+        "confusedSpeakerSeconds": 4.059999999999775,
+        "overlapRecall": 0.7242152466367686,
+        "retainedOverlapSeconds": 32.300000000000125
+      },
+      {
+        "threshold": 0.14,
+        "segmentCount": 255,
+        "der": 0.2728185595567903,
+        "missedSpeakerSeconds": 14.460000000000392,
+        "falseSpeakerSeconds": 138.06000000000145,
+        "confusedSpeakerSeconds": 5.059999999999945,
+        "overlapRecall": 0.7033632286995521,
+        "retainedOverlapSeconds": 31.37000000000026
+      },
+      {
+        "threshold": 0.15,
+        "segmentCount": 261,
+        "der": 0.2656855955678703,
+        "missedSpeakerSeconds": 15.940000000000357,
+        "falseSpeakerSeconds": 130.98000000000147,
+        "confusedSpeakerSeconds": 6.539999999999786,
+        "overlapRecall": 0.6800448430493308,
+        "retainedOverlapSeconds": 30.33000000000038
+      },
+      {
+        "threshold": 0.16,
+        "segmentCount": 276,
+        "der": 0.2576869806094211,
+        "missedSpeakerSeconds": 17.340000000000423,
+        "falseSpeakerSeconds": 123.58000000000126,
+        "confusedSpeakerSeconds": 7.919999999999671,
+        "overlapRecall": 0.6553811659192843,
+        "retainedOverlapSeconds": 29.2300000000003
+      },
+      {
+        "threshold": 0.17,
+        "segmentCount": 281,
+        "der": 0.2505193905817195,
+        "missedSpeakerSeconds": 18.650000000000354,
+        "falseSpeakerSeconds": 116.17000000000112,
+        "confusedSpeakerSeconds": 9.87999999999948,
+        "overlapRecall": 0.632959641255608,
+        "retainedOverlapSeconds": 28.230000000000327
+      },
+      {
+        "threshold": 0.18,
+        "segmentCount": 279,
+        "der": 0.243040166204988,
+        "missedSpeakerSeconds": 19.940000000000374,
+        "falseSpeakerSeconds": 109.70000000000115,
+        "confusedSpeakerSeconds": 10.73999999999931,
+        "overlapRecall": 0.6094170403587457,
+        "retainedOverlapSeconds": 27.18000000000026
+      },
+      {
+        "threshold": 0.19,
+        "segmentCount": 293,
+        "der": 0.23466066481994613,
+        "missedSpeakerSeconds": 20.98000000000031,
+        "falseSpeakerSeconds": 101.86000000000112,
+        "confusedSpeakerSeconds": 12.69999999999921,
+        "overlapRecall": 0.5914798206278054,
+        "retainedOverlapSeconds": 26.38000000000032
+      },
+      {
+        "threshold": 0.2,
+        "segmentCount": 291,
+        "der": 0.22614265927977986,
+        "missedSpeakerSeconds": 22.390000000000345,
+        "falseSpeakerSeconds": 93.9900000000009,
+        "confusedSpeakerSeconds": 14.239999999999387,
+        "overlapRecall": 0.5663677130044867,
+        "retainedOverlapSeconds": 25.2600000000003
+      },
+      {
+        "threshold": 0.21,
+        "segmentCount": 283,
+        "der": 0.2202908587257634,
+        "missedSpeakerSeconds": 23.90000000000052,
+        "falseSpeakerSeconds": 87.74000000000063,
+        "confusedSpeakerSeconds": 15.599999999999572,
+        "overlapRecall": 0.5343049327354257,
+        "retainedOverlapSeconds": 23.830000000000165
+      },
+      {
+        "threshold": 0.22,
+        "segmentCount": 297,
+        "der": 0.21353878116343675,
+        "missedSpeakerSeconds": 25.240000000000318,
+        "falseSpeakerSeconds": 81.64000000000095,
+        "confusedSpeakerSeconds": 16.459999999999575,
+        "overlapRecall": 0.509641255605382,
+        "retainedOverlapSeconds": 22.730000000000206
+      },
+      {
+        "threshold": 0.23,
+        "segmentCount": 291,
+        "der": 0.21011080332410134,
+        "missedSpeakerSeconds": 26.640000000000477,
+        "falseSpeakerSeconds": 77.04000000000066,
+        "confusedSpeakerSeconds": 17.679999999999588,
+        "overlapRecall": 0.48542600896860993,
+        "retainedOverlapSeconds": 21.650000000000166
+      },
+      {
+        "threshold": 0.24,
+        "segmentCount": 296,
+        "der": 0.20799861495844998,
+        "missedSpeakerSeconds": 28.16000000000031,
+        "falseSpeakerSeconds": 73.28000000000067,
+        "confusedSpeakerSeconds": 18.699999999999513,
+        "overlapRecall": 0.45493273542601237,
+        "retainedOverlapSeconds": 20.290000000000305
+      },
+      {
+        "threshold": 0.25,
+        "segmentCount": 288,
+        "der": 0.20491689750692726,
+        "missedSpeakerSeconds": 29.810000000000613,
+        "falseSpeakerSeconds": 68.770000000001,
+        "confusedSpeakerSeconds": 19.77999999999937,
+        "overlapRecall": 0.4304932735426028,
+        "retainedOverlapSeconds": 19.20000000000023
+      },
+      {
+        "threshold": 0.26,
+        "segmentCount": 282,
+        "der": 0.2032894736842141,
+        "missedSpeakerSeconds": 32.17000000000097,
+        "falseSpeakerSeconds": 64.8900000000014,
+        "confusedSpeakerSeconds": 20.359999999999495,
+        "overlapRecall": 0.39282511210762433,
+        "retainedOverlapSeconds": 17.520000000000177
+      },
+      {
+        "threshold": 0.27,
+        "segmentCount": 281,
+        "der": 0.20093490304709527,
+        "missedSpeakerSeconds": 34.63000000000102,
+        "falseSpeakerSeconds": 60.7100000000015,
+        "confusedSpeakerSeconds": 20.719999999999494,
+        "overlapRecall": 0.36188340807175035,
+        "retainedOverlapSeconds": 16.14000000000018
+      },
+      {
+        "threshold": 0.28,
+        "segmentCount": 282,
+        "der": 0.19851108033241474,
+        "missedSpeakerSeconds": 36.75000000000133,
+        "falseSpeakerSeconds": 56.830000000001775,
+        "confusedSpeakerSeconds": 21.07999999999945,
+        "overlapRecall": 0.3242152466367678,
+        "retainedOverlapSeconds": 14.459999999999944
+      },
+      {
+        "threshold": 0.29,
+        "segmentCount": 271,
+        "der": 0.19601800554017124,
+        "missedSpeakerSeconds": 38.350000000001245,
+        "falseSpeakerSeconds": 52.830000000001995,
+        "confusedSpeakerSeconds": 22.039999999999466,
+        "overlapRecall": 0.30134529147981504,
+        "retainedOverlapSeconds": 13.439999999999849
+      },
+      {
+        "threshold": 0.3,
+        "segmentCount": 277,
+        "der": 0.1953601108033296,
+        "missedSpeakerSeconds": 40.30000000000137,
+        "falseSpeakerSeconds": 50.060000000002134,
+        "confusedSpeakerSeconds": 22.47999999999948,
+        "overlapRecall": 0.26950672645739293,
+        "retainedOverlapSeconds": 12.019999999999811
+      },
+      {
+        "threshold": 0.31,
+        "segmentCount": 279,
+        "der": 0.19560249307479757,
+        "missedSpeakerSeconds": 43.49000000000138,
+        "falseSpeakerSeconds": 47.330000000002144,
+        "confusedSpeakerSeconds": 22.15999999999936,
+        "overlapRecall": 0.23363228699551014,
+        "retainedOverlapSeconds": 10.419999999999831
+      },
+      {
+        "threshold": 0.32,
+        "segmentCount": 278,
+        "der": 0.1943559556786758,
+        "missedSpeakerSeconds": 45.780000000001394,
+        "falseSpeakerSeconds": 44.74000000000224,
+        "confusedSpeakerSeconds": 21.739999999999316,
+        "overlapRecall": 0.2038116591928216,
+        "retainedOverlapSeconds": 9.089999999999911
+      },
+      {
+        "threshold": 0.33,
+        "segmentCount": 276,
+        "der": 0.19338642659280358,
+        "missedSpeakerSeconds": 48.30000000000156,
+        "falseSpeakerSeconds": 41.66000000000221,
+        "confusedSpeakerSeconds": 21.739999999999387,
+        "overlapRecall": 0.16838565022421043,
+        "retainedOverlapSeconds": 7.509999999999842
+      },
+      {
+        "threshold": 0.34,
+        "segmentCount": 279,
+        "der": 0.19376731301939673,
+        "missedSpeakerSeconds": 51.23000000000181,
+        "falseSpeakerSeconds": 39.1500000000022,
+        "confusedSpeakerSeconds": 21.539999999999356,
+        "overlapRecall": 0.14282511210761614,
+        "retainedOverlapSeconds": 6.369999999999727
+      },
+      {
+        "threshold": 0.35,
+        "segmentCount": 273,
+        "der": 0.1938019390581775,
+        "missedSpeakerSeconds": 53.94000000000166,
+        "falseSpeakerSeconds": 37.14000000000201,
+        "confusedSpeakerSeconds": 20.859999999999445,
+        "overlapRecall": 0.1257847533632241,
+        "retainedOverlapSeconds": 5.609999999999836
+      },
+      {
+        "threshold": 0.36,
+        "segmentCount": 269,
+        "der": 0.19484072022161195,
+        "missedSpeakerSeconds": 56.63000000000115,
+        "falseSpeakerSeconds": 35.35000000000205,
+        "confusedSpeakerSeconds": 20.55999999999966,
+        "overlapRecall": 0.1181614349775767,
+        "retainedOverlapSeconds": 5.2699999999999605
+      },
+      {
+        "threshold": 0.37,
+        "segmentCount": 267,
+        "der": 0.1950831024930797,
+        "missedSpeakerSeconds": 59.73000000000087,
+        "falseSpeakerSeconds": 33.170000000001885,
+        "confusedSpeakerSeconds": 19.77999999999987,
+        "overlapRecall": 0.10426008968609832,
+        "retainedOverlapSeconds": 4.65000000000002
+      },
+      {
+        "threshold": 0.38,
+        "segmentCount": 265,
+        "der": 0.19567174515235924,
+        "missedSpeakerSeconds": 62.4800000000007,
+        "falseSpeakerSeconds": 31.280000000001724,
+        "confusedSpeakerSeconds": 19.260000000000087,
+        "overlapRecall": 0.09461883408071571,
+        "retainedOverlapSeconds": 4.219999999999953
+      },
+      {
+        "threshold": 0.39,
+        "segmentCount": 260,
+        "der": 0.1952216066482037,
+        "missedSpeakerSeconds": 64.25000000000043,
+        "falseSpeakerSeconds": 29.610000000001495,
+        "confusedSpeakerSeconds": 18.900000000000343,
+        "overlapRecall": 0.08744394618833892,
+        "retainedOverlapSeconds": 3.8999999999999453
+      },
+      {
+        "threshold": 0.4,
+        "segmentCount": 255,
+        "der": 0.1948060941828296,
+        "missedSpeakerSeconds": 65.96000000000055,
+        "falseSpeakerSeconds": 27.720000000001303,
+        "confusedSpeakerSeconds": 18.840000000000327,
+        "overlapRecall": 0.08071748878923399,
+        "retainedOverlapSeconds": 3.599999999999863
+      },
+      {
+        "threshold": 0.41,
+        "segmentCount": 254,
+        "der": 0.19567174515235816,
+        "missedSpeakerSeconds": 68.14000000000036,
+        "falseSpeakerSeconds": 25.900000000001253,
+        "confusedSpeakerSeconds": 18.980000000000256,
+        "overlapRecall": 0.06950672645739599,
+        "retainedOverlapSeconds": 3.099999999999884
+      },
+      {
+        "threshold": 0.42,
+        "segmentCount": 247,
+        "der": 0.19362880886426886,
+        "missedSpeakerSeconds": 69.76000000000022,
+        "falseSpeakerSeconds": 23.680000000001005,
+        "confusedSpeakerSeconds": 18.400000000000286,
+        "overlapRecall": 0.06457399103138899,
+        "retainedOverlapSeconds": 2.8799999999999706
+      },
+      {
+        "threshold": 0.43,
+        "segmentCount": 243,
+        "der": 0.19196675900277363,
+        "missedSpeakerSeconds": 71.68000000000038,
+        "falseSpeakerSeconds": 21.600000000001206,
+        "confusedSpeakerSeconds": 17.600000000000275,
+        "overlapRecall": 0.05919282511210504,
+        "retainedOverlapSeconds": 2.6399999999999046
+      },
+      {
+        "threshold": 0.44,
+        "segmentCount": 241,
+        "der": 0.1916897506925245,
+        "missedSpeakerSeconds": 73.12000000000043,
+        "falseSpeakerSeconds": 20.240000000001306,
+        "confusedSpeakerSeconds": 17.36000000000023,
+        "overlapRecall": 0.05022421524663383,
+        "retainedOverlapSeconds": 2.2399999999998847
+      },
+      {
+        "threshold": 0.45,
+        "segmentCount": 234,
+        "der": 0.1914127423822753,
+        "missedSpeakerSeconds": 75.28000000000056,
+        "falseSpeakerSeconds": 18.240000000001416,
+        "confusedSpeakerSeconds": 17.040000000000052,
+        "overlapRecall": 0.041255605381162595,
+        "retainedOverlapSeconds": 1.8399999999998649
+      },
+      {
+        "threshold": 0.46,
+        "segmentCount": 228,
+        "der": 0.1920360110803362,
+        "missedSpeakerSeconds": 77.40000000000056,
+        "falseSpeakerSeconds": 16.760000000001405,
+        "confusedSpeakerSeconds": 16.760000000000037,
+        "overlapRecall": 0.030493273542597878,
+        "retainedOverlapSeconds": 1.359999999999875
+      },
+      {
+        "threshold": 0.47,
+        "segmentCount": 218,
+        "der": 0.1954986149584526,
+        "missedSpeakerSeconds": 81.16000000000074,
+        "falseSpeakerSeconds": 15.720000000001273,
+        "confusedSpeakerSeconds": 16.040000000000024,
+        "overlapRecall": 0.014349775784752083,
+        "retainedOverlapSeconds": 0.6399999999999473
+      },
+      {
+        "threshold": 0.48,
+        "segmentCount": 219,
+        "der": 0.1970221606648234,
+        "missedSpeakerSeconds": 83.48000000000047,
+        "falseSpeakerSeconds": 14.920000000001275,
+        "confusedSpeakerSeconds": 15.400000000000052,
+        "overlapRecall": 0.01076233183856448,
+        "retainedOverlapSeconds": 0.4799999999999791
+      },
+      {
+        "threshold": 0.49,
+        "segmentCount": 221,
+        "der": 0.19882271468144408,
+        "missedSpeakerSeconds": 86.2000000000005,
+        "falseSpeakerSeconds": 13.880000000001353,
+        "confusedSpeakerSeconds": 14.760000000000034,
+        "overlapRecall": 0.005381165919282438,
+        "retainedOverlapSeconds": 0.23999999999999844
+      },
+      {
+        "threshold": 0.5,
+        "segmentCount": 220,
+        "der": 0.20000000000000373,
+        "missedSpeakerSeconds": 88.02000000000055,
+        "falseSpeakerSeconds": 13.220000000001399,
+        "confusedSpeakerSeconds": 14.280000000000015,
+        "overlapRecall": 0.005381165919282438,
+        "retainedOverlapSeconds": 0.23999999999999844
+      }
+    ]
+  },
+  "summary": {
+    "bestOverlapAtDerGate": {
+      "threshold": 0.28,
+      "segmentCount": 282,
+      "der": 0.19851108033241474,
+      "missedSpeakerSeconds": 36.75000000000133,
+      "falseSpeakerSeconds": 56.830000000001775,
+      "confusedSpeakerSeconds": 21.07999999999945,
+      "overlapRecall": 0.3242152466367678,
+      "retainedOverlapSeconds": 14.459999999999944
+    },
+    "bestDerAtOverlapGate": {
+      "threshold": 0.08,
+      "segmentCount": 208,
+      "der": 0.3269563711911385,
+      "missedSpeakerSeconds": 8.620000000000335,
+      "falseSpeakerSeconds": 177.82000000000104,
+      "confusedSpeakerSeconds": 2.4099999999998936,
+      "overlapRecall": 0.8067264573990972,
+      "retainedOverlapSeconds": 35.980000000000004
+    },
+    "promotion": false
+  },
+  "limitations": [
+    "This is a frozen decoder-only probe over the retained native Float32 outputs; it performs no inference or threshold tuning in production.",
+    "It tests one global threshold applied independently to all four slots. Hysteresis, temporal priors and alternate providers remain separate hypotheses.",
+    "The sweep cannot establish long-form continuity or speaker identity; it only rejects this single postprocessing remedy."
+  ]
+}

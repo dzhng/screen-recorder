@@ -82,6 +82,14 @@ control still has the known endpoint beyond physical support. The AHC cut theref
 does not explain the collapse; the probe stops before held-out inference and
 promotes no threshold or provider.
 
+The [global threshold frontier](../assets/31-speaker-replication/threshold-frontier.md)
+checks the other narrow postprocessing hypothesis directly against the retained
+four-speaker native probabilities. Across thresholds 0.01 through 0.50, the best
+DER-admissible result retains only 32.42% overlap recall, while the best
+overlap-admissible result has 32.70% DER. No global threshold closes both fixed
+gates, so this decoder-only probe is retained as an explicit refusal and does not
+change the production recipe.
+
 Keep the required gate unchanged; proceed through these separately verifiable passes:
 
 1. **Provider and short-case admission.** Freeze licensing, complete raw-observation

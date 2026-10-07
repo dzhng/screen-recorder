@@ -35,6 +35,15 @@ state per selected input, persistence across internal chunks, and reset between
 selections. It retains the passing three-speaker 600-second receipt and the
 failed four-speaker overlap receipt as research evidence only.
 
+The [global threshold frontier](threshold-frontier.json) is a bounded decoder-only
+probe over the retained four-speaker native probabilities. It applies each of 50
+fixed thresholds independently to all four slots and recomputes the unchanged
+DER and overlap gates. The best threshold that stays under the 20% DER gate keeps
+only 32.42% overlap recall; the best threshold that reaches the 80% overlap gate
+has 32.70% DER. Since no single global threshold closes both gates, this is an
+explicit refusal of that postprocessing remedy, not a production retune or a
+provider promotion.
+
 [Independent eight-slot activity](ultra8-evidence/README.md) strictly restores and
 preserves complete native80ms scores. It passes its first short control but fails
 the second on false activity despite retained overlap and identities. A later
