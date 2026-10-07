@@ -14,14 +14,13 @@ const positiveFinite = z.number().finite().positive();
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 
 /** Identity that makes a continuity receipt replayable and mutation-safe. */
-export const speakerContinuityIdentitySchema = z
-  .strictObject({
-    generation: z.string().min(1).max(256),
-    sourceDigest: digest,
-    modelId: z.string().min(1),
-    modelDigest: digest,
-    runtimeDigest: digest,
-  });
+export const speakerContinuityIdentitySchema = z.strictObject({
+  generation: z.string().min(1).max(256),
+  sourceDigest: digest,
+  modelId: z.string().min(1),
+  modelDigest: digest,
+  runtimeDigest: digest,
+});
 export type SpeakerContinuityIdentity = z.infer<typeof speakerContinuityIdentitySchema>;
 
 /**
@@ -29,28 +28,42 @@ export type SpeakerContinuityIdentity = z.infer<typeof speakerContinuityIdentity
  * complete invocation and never identify a known person.
  */
 const speakerContinuityMetricShape = z.strictObject({
-    inputFrames: z.int().positive(),
-    scoredFrames: z.int().nonnegative(),
-    durationSeconds: positiveFinite,
-    inferenceSeconds: z.number().finite().nonnegative(),
-    peakRssBytes: z.int().nonnegative(),
-    expectedSpeakerCount: z.int().positive().max(8),
-    observedSpeakerCount: z.int().nonnegative().max(8),
-    der: ratio,
-    identityConfusion: ratio,
-    overlapRequired: z.boolean(),
-    overlapRecall: ratio.nullable(),
-    stateContinuity: z.boolean(),
-  });
-export const speakerContinuityMetricsSchema = speakerContinuityMetricShape.superRefine((metrics, context) => {
+  inputFrames: z.int().positive(),
+  scoredFrames: z.int().nonnegative(),
+  durationSeconds: positiveFinite,
+  inferenceSeconds: z.number().finite().nonnegative(),
+  peakRssBytes: z.int().nonnegative(),
+  expectedSpeakerCount: z.int().positive().max(8),
+  observedSpeakerCount: z.int().nonnegative().max(8),
+  der: ratio,
+  identityConfusion: ratio,
+  overlapRequired: z.boolean(),
+  overlapRecall: ratio.nullable(),
+  stateContinuity: z.boolean(),
+});
+export const speakerContinuityMetricsSchema = speakerContinuityMetricShape.superRefine(
+  (metrics, context) => {
     if (metrics.scoredFrames !== metrics.inputFrames)
-      context.addIssue({ code: "custom", path: ["scoredFrames"], message: "score extent is incomplete" });
+      context.addIssue({
+        code: "custom",
+        path: ["scoredFrames"],
+        message: "score extent is incomplete",
+      });
     if (metrics.overlapRequired && metrics.overlapRecall === null)
-      context.addIssue({ code: "custom", path: ["overlapRecall"], message: "overlap recall is required" });
+      context.addIssue({
+        code: "custom",
+        path: ["overlapRecall"],
+        message: "overlap recall is required",
+      });
     const expectedDuration = metrics.inputFrames / 16000;
     if (Math.abs(metrics.durationSeconds - expectedDuration) > 1e-9)
-      context.addIssue({ code: "custom", path: ["durationSeconds"], message: "duration differs from the admitted PCM extent" });
-  });
+      context.addIssue({
+        code: "custom",
+        path: ["durationSeconds"],
+        message: "duration differs from the admitted PCM extent",
+      });
+  },
+);
 export type SpeakerContinuityMetrics = z.infer<typeof speakerContinuityMetricsSchema>;
 
 /** Measured control runs required before a long-form envelope can be promoted. */
@@ -100,7 +113,9 @@ export type SpeakerContinuityReceipt = z.infer<typeof speakerContinuityReceiptSc
  */
 export function evaluateSpeakerContinuity(input: unknown): SpeakerContinuityReceipt {
   const candidate = speakerContinuityCandidateSchema.safeParse(input);
-  const metrics = speakerContinuityMetricShape.parse(candidate.success ? candidate.data.metrics : input);
+  const metrics = speakerContinuityMetricShape.parse(
+    candidate.success ? candidate.data.metrics : input,
+  );
   const identity = candidate.success ? { identity: candidate.data.identity } : {};
   const controls = candidate.success ? { controls: candidate.data.controls } : {};
   const failedGates: string[] = [];
@@ -110,16 +125,21 @@ export function evaluateSpeakerContinuity(input: unknown): SpeakerContinuityRece
   if (metrics.overlapRequired && metrics.overlapRecall === null)
     failedGates.push("overlap_measurement");
   if (!metrics.stateContinuity) failedGates.push("state_continuity");
-  if (metrics.observedSpeakerCount !== metrics.expectedSpeakerCount) failedGates.push("speaker_count");
+  if (metrics.observedSpeakerCount !== metrics.expectedSpeakerCount)
+    failedGates.push("speaker_count");
   if (metrics.der > speakerContinuityThresholds.maxDer) failedGates.push("der");
   if (metrics.identityConfusion > speakerContinuityThresholds.maxIdentityConfusion)
     failedGates.push("identity_confusion");
   if (
     metrics.overlapRequired &&
-    (metrics.overlapRecall === null || metrics.overlapRecall < speakerContinuityThresholds.minOverlapRecall)
+    (metrics.overlapRecall === null ||
+      metrics.overlapRecall < speakerContinuityThresholds.minOverlapRecall)
   )
     failedGates.push("overlap_recall");
-  if (metrics.inferenceSeconds > metrics.durationSeconds * speakerContinuityThresholds.maxInferenceFactor)
+  if (
+    metrics.inferenceSeconds >
+    metrics.durationSeconds * speakerContinuityThresholds.maxInferenceFactor
+  )
     failedGates.push("inference_factor");
   if (metrics.peakRssBytes > speakerContinuityThresholds.maxPeakRssBytes)
     failedGates.push("peak_rss");
@@ -127,9 +147,17 @@ export function evaluateSpeakerContinuity(input: unknown): SpeakerContinuityRece
     if (!candidate.data.controls.shortWindow) failedGates.push("short_window_control");
     if (!candidate.data.controls.transport) failedGates.push("transport_control");
     if (!candidate.data.controls.threeSpeaker) failedGates.push("three_speaker_control");
-    if (!candidate.data.controls.fourSpeakerOverlap) failedGates.push("four_speaker_overlap_control");
+    if (!candidate.data.controls.fourSpeakerOverlap)
+      failedGates.push("four_speaker_overlap_control");
   }
   return failedGates.length
-    ? { status: "refused", profile: "speaker-continuity-v1", failedGates, metrics, ...identity, ...controls }
+    ? {
+        status: "refused",
+        profile: "speaker-continuity-v1",
+        failedGates,
+        metrics,
+        ...identity,
+        ...controls,
+      }
     : { status: "accepted", profile: "speaker-continuity-v1", metrics, ...identity, ...controls };
 }

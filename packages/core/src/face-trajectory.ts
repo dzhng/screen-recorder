@@ -8,14 +8,13 @@ import {
 import { faceObservationsSchema } from "@yap/protocol";
 
 /** Immutable source identity that owns every observation in a trajectory. */
-export const faceTrajectorySourceSchema = z
-  .strictObject({
-    assetId: z.string().min(1),
-    streamId: z.string().min(1),
-    acquisitionId: z.string().min(1).optional(),
-    generation: z.string().min(1),
-    supportDigest: z.string().min(1),
-  });
+export const faceTrajectorySourceSchema = z.strictObject({
+  assetId: z.string().min(1),
+  streamId: z.string().min(1),
+  acquisitionId: z.string().min(1).optional(),
+  generation: z.string().min(1),
+  supportDigest: z.string().min(1),
+});
 export type FaceTrajectorySource = z.infer<typeof faceTrajectorySourceSchema>;
 
 const trajectorySampleSchema = z
@@ -50,7 +49,14 @@ export type FaceTrajectorySample =
       width: number;
       height: number;
     })
-  | { atUs: number; status: "gap"; reason: string; implementationId: string; width: number; height: number }
+  | {
+      atUs: number;
+      status: "gap";
+      reason: string;
+      implementationId: string;
+      width: number;
+      height: number;
+    }
   | {
       atUs: number;
       status: "predicted";
@@ -88,7 +94,9 @@ export function buildFaceTrajectory(input: FaceTrajectoryInput): FaceTrajectory 
   for (const [index, sample] of parsed.samples.entries()) {
     const firstOrdinal = parsed.samples[0]?.ordinal ?? 0;
     if (sample.ordinal !== firstOrdinal + index)
-      throw new Error(`Face trajectory sample ordinal must be contiguous at ${firstOrdinal + index}`);
+      throw new Error(
+        `Face trajectory sample ordinal must be contiguous at ${firstOrdinal + index}`,
+      );
     if (index > 0 && sample.atUs <= parsed.samples[index - 1]!.atUs)
       throw new Error("Face trajectory sample clocks must be strictly increasing");
   }
@@ -101,7 +109,9 @@ export function buildFaceTrajectory(input: FaceTrajectoryInput): FaceTrajectory 
     })),
     { maxGapUs: parsed.maxGapUs },
   );
-  const byAt = new Map<number, FaceTrajectoryInputSample>(samples.map((sample) => [sample.atUs, sample]));
+  const byAt = new Map<number, FaceTrajectoryInputSample>(
+    samples.map((sample) => [sample.atUs, sample]),
+  );
   const trajectoryTracks: FaceTrajectoryTrack[] = tracks.map((track) => ({
     ...track,
     samples: track.samples.map((sample): FaceTrajectorySample => {

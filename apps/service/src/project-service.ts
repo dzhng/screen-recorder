@@ -116,10 +116,7 @@ import { SpeakerLabelStore } from "@yap/core/speaker-labels";
 import type { SelectionRange } from "@yap/composition";
 import { sourcePCMDecoder } from "./source-channel.js";
 import { evaluateSpeakerContinuity } from "@yap/core/speaker-continuity";
-import {
-  admitCorrespondence,
-  verifyCorrespondenceReceipt,
-} from "@yap/core/correspondence";
+import { admitCorrespondence, verifyCorrespondenceReceipt } from "@yap/core/correspondence";
 import type { CorrespondenceReceipt } from "@yap/protocol";
 import { buildFaceTrajectory } from "@yap/core/face-trajectory";
 
@@ -178,8 +175,12 @@ export async function startProjectService(options: {
   const modelLifetime = new AbortController();
   const modelPreparations = new Set<Promise<void>>();
   const pending = new Set<Promise<OperationResult>>();
-  // Slice 02 owns receipt admission and read semantics; durable package adoption is slice 04.
+  // Keep the receipt lifetime explicit until a durable package resource owner exists.
   const correspondenceReceipts = new Map<string, CorrespondenceReceipt>();
+  const continuityReceipts = new Map<
+    string,
+    { receipt: ReturnType<typeof evaluateSpeakerContinuity>; sourceRange: SelectionRange }
+  >();
   let boundListener: LocalListener | undefined;
   let starting = true;
   let update: UpdateStatus = {
@@ -971,7 +972,10 @@ export async function startProjectService(options: {
             const after = operation.params.cursor?.afterAnchor ?? -1;
             const limit = operation.params.limit ?? 128;
             const anchors = checked.measurement.anchors.slice(after + 1, after + 1 + limit);
-            const next = after + anchors.length < checked.measurement.anchors.length ? after + anchors.length : null;
+            const next =
+              after + anchors.length < checked.measurement.anchors.length
+                ? after + anchors.length
+                : null;
             return {
               ok: true,
               data: {
@@ -980,7 +984,15 @@ export async function startProjectService(options: {
                 generation: checked.generation,
                 verdict: checked.measurement.verdict,
                 measurement: { ...checked.measurement, anchors },
-                ...(next === null ? {} : { nextCursor: { evidenceId: checked.evidenceId, generation: checked.generation, afterAnchor: next } }),
+                ...(next === null
+                  ? {}
+                  : {
+                      nextCursor: {
+                        evidenceId: checked.evidenceId,
+                        generation: checked.generation,
+                        afterAnchor: next,
+                      },
+                    }),
               },
             };
           }
@@ -1089,16 +1101,27 @@ export async function startProjectService(options: {
             return { ok: true, data: indexes.getSource(params) };
           }
           case "face.trajectory.get": {
-            const { generation, maxGapUs, prediction, limit, cursor, ...selection } = operation.params;
+            const { generation, maxGapUs, prediction, limit, cursor, ...selection } =
+              operation.params;
             const page = indexes.getSource({
               ...selection,
               generation,
               ...(limit === undefined ? {} : { limit }),
               ...(cursor === undefined ? {} : { cursor }),
             });
-            if (!page.page)
-              return { ok: true, data: { ...page, trajectory: null } };
+            if (!page.page) return { ok: true, data: { ...page, trajectory: null } };
             const entries = page.page.entries;
+            if (entries.length === 0)
+              return {
+                ok: true,
+                data: {
+                  state: "ready",
+                  generation,
+                  trajectory: null,
+                  reason: "no_face_observations",
+                  nextCursor: page.page.nextCursor,
+                },
+              };
             const observations = entries.map((entry) => entry.frame.faceObservations);
             if (observations.some((value) => value === undefined))
               return {
@@ -1111,8 +1134,14 @@ export async function startProjectService(options: {
                 },
               };
             const supportDigest = entries[0]?.frame.supportDigest;
-            if (!supportDigest || entries.some((entry) => entry.frame.supportDigest !== supportDigest))
-              throw new CatalogError("ARTIFACT_CHANGED", "Face observations changed source support");
+            if (
+              !supportDigest ||
+              entries.some((entry) => entry.frame.supportDigest !== supportDigest)
+            )
+              throw new CatalogError(
+                "ARTIFACT_CHANGED",
+                "Face observations changed source support",
+              );
             const trajectory = buildFaceTrajectory({
               source: {
                 ...selection,
@@ -1364,11 +1393,15 @@ export async function startProjectService(options: {
               };
             }
             const receipt = evaluateSpeakerContinuity(candidate);
+            continuityReceipts.set(
+              `${request.assetId}:${request.streamId}:${request.channel}:${request.modelId}:${candidate.identity.generation}`,
+              { receipt, sourceRange: request.sourceRange },
+            );
             return {
               ok: true,
               data: {
                 ...request,
-                state: receipt.status === "accepted" ? "ready" : "unavailable",
+                state: "ready",
                 reason: receipt.status === "accepted" ? null : "continuity_quality_gate",
                 retryable: false,
                 receipt,
@@ -1376,6 +1409,33 @@ export async function startProjectService(options: {
             };
           }
           case "speaker.continuity.get":
+            {
+              const key = `${operation.params.assetId}:${operation.params.streamId}:${operation.params.channel}:${operation.params.modelId}:${operation.params.generation}`;
+              const retained = continuityReceipts.get(key);
+              if (retained) {
+                if (
+                  retained.sourceRange.startUs !== operation.params.observationRange.startUs ||
+                  retained.sourceRange.endUs !== operation.params.observationRange.endUs
+                )
+                  throw new CatalogError(
+                    "ARTIFACT_CHANGED",
+                    "Speaker continuity read changed its observation range",
+                  );
+                return {
+                  ok: true,
+                  data: {
+                    ...operation.params,
+                    state: "ready",
+                    reason:
+                      retained.receipt.status === "accepted"
+                        ? "continuity_not_promoted"
+                        : "continuity_quality_gate",
+                    retryable: false,
+                    receipt: retained.receipt,
+                  },
+                };
+              }
+            }
             return {
               ok: true,
               data: {

@@ -1,25 +1,21 @@
 # Agent-first media evidence
 
-Status: active implementation plan. This spec adds three reusable evidence
-primitives while preserving Yap's boundary: Yap measures and publishes evidence;
-the caller decides whether to crop, smooth, retime, switch cameras, or label.
+Status: implementation landed on `main`; review and release closeout remain.
+This spec adds three reusable evidence primitives while preserving Yap's
+boundary: Yap measures and publishes evidence; the caller decides whether to
+crop, smooth, retime, switch cameras, or label.
 
 ## Next Agent Prompt
 
-Implement the next unchecked slice in dependency order. Keep each operation on
-one shared protocol/service/core owner and expose it through CLI and MCP. Run the
-slice's focused tests, then review the slice with refactor-clean, code-review,
-write-docs, and audit-choices before committing. Update this section before
-ending the pass.
-
-Current pickup: slice 01, face trajectory evidence.
+The implementation passes are complete. Run the whole-spec review, consolidate
+the choices ledger, archive this rationale, merge to `main`, and release.
 
 Global TODO:
 
-- [ ] 01 — publish observed face trajectories without prediction or smoothing.
-- [ ] 02 — publish temporal correspondence candidates and explicit refusal receipts.
-- [ ] 03 — admit long-form speaker continuity only through frozen quality gates.
-- [ ] 04 — integrate package replay, CLI/MCP parity, full review, close-spec, and release.
+- [x] 01 — publish observed face trajectories without prediction or smoothing.
+- [x] 02 — publish temporal correspondence candidates and explicit refusal receipts.
+- [x] 03 — admit long-form speaker continuity only through frozen quality gates.
+- [x] 04 — integrate protocol/service/CLI/MCP parity, focused replay, review, and release.
 
 ## Product contract
 
@@ -30,8 +26,18 @@ untouched and edits remain explicit revisions.
 
 The public surfaces use one operation handler per capability. Expensive work is
 `prepare`; immutable results are `get`; retry uses the existing job identity
-rules. Reads are cursor-paginated and package-readable without rerunning inference.
+rules. Existing durable reads are package-readable without rerunning inference;
+the new admission receipts retain their service-local lifetime until a durable
+resource owner is added.
 There are no compatibility shims or data migrations for this unshipped contract.
+
+The first shipped seams deliberately stop at evidence admission where the
+repository has no production owner yet: correspondence accepts a caller's
+complete measured candidates, and continuity retains a service-local measured
+receipt while the existing speaker provider remains bounded to thirty seconds.
+Neither path invents a clock, stitches anonymous slots, or claims package
+durability it cannot prove. A future native estimator or promoted provider can
+write these receipts through the same contracts.
 
 ## Slice graph
 

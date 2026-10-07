@@ -569,20 +569,89 @@ test("public continuity operations preserve explicit unavailable and refusal sta
       modelId: "speaker-model",
       sourceRange: { startUs: 0, endUs: 600_000_000 },
     };
-    expect(await f.call("speaker.continuity.prepare", { ...common, expectedSpeakerCount: 4 })).toMatchObject({
+    expect(
+      await f.call("speaker.continuity.prepare", { ...common, expectedSpeakerCount: 4 }),
+    ).toMatchObject({
       ok: true,
       data: { state: "unavailable", reason: "continuity_candidate_required", receipt: null },
     });
-    expect(await f.call("speaker.continuity.get", {
+    expect(
+      await f.call("speaker.continuity.get", {
+        assetId: common.assetId,
+        streamId: common.streamId,
+        channel: common.channel,
+        modelId: common.modelId,
+        observationRange: common.sourceRange,
+        generation: "attempt-1",
+      }),
+    ).toMatchObject({
+      ok: true,
+      data: { state: "unavailable", reason: "continuity_not_published", receipt: null },
+    });
+  } finally {
+    await f.service.close();
+  }
+});
+
+test("continuity receipts remain readable after a quality refusal", async () => {
+  const f = await projectServiceFixture([], async () => ({ ok: true, data: {} }));
+  try {
+    const common = {
+      assetId: "b".repeat(64),
+      streamId: "audio",
+      channel: 0,
+      modelId: "speaker-model",
+      sourceRange: { startUs: 0, endUs: 600_000_000 },
+    };
+    const candidate = {
+      identity: {
+        generation: "continuity-g1",
+        sourceDigest: "1".repeat(64),
+        modelId: common.modelId,
+        modelDigest: "2".repeat(64),
+        runtimeDigest: "3".repeat(64),
+      },
+      metrics: {
+        inputFrames: 9_600_000,
+        scoredFrames: 9_600_000,
+        durationSeconds: 600,
+        inferenceSeconds: 10,
+        peakRssBytes: 2_000_000_000,
+        expectedSpeakerCount: 4,
+        observedSpeakerCount: 4,
+        der: 0.2,
+        identityConfusion: 0,
+        overlapRequired: true,
+        overlapRecall: 0.5749,
+        stateContinuity: true,
+      },
+      controls: {
+        shortWindow: true,
+        transport: true,
+        threeSpeaker: true,
+        fourSpeakerOverlap: true,
+      },
+    };
+    const prepared = await f.call("speaker.continuity.prepare", {
+      ...common,
+      expectedSpeakerCount: 4,
+      candidate,
+    });
+    expect(prepared).toMatchObject({
+      ok: true,
+      data: { state: "ready", receipt: { status: "refused" } },
+    });
+    const read = await f.call("speaker.continuity.get", {
       assetId: common.assetId,
       streamId: common.streamId,
       channel: common.channel,
       modelId: common.modelId,
       observationRange: common.sourceRange,
-      generation: "attempt-1",
-    })).toMatchObject({
+      generation: candidate.identity.generation,
+    });
+    expect(read).toMatchObject({
       ok: true,
-      data: { state: "unavailable", reason: "continuity_not_published", receipt: null },
+      data: { state: "ready", receipt: { status: "refused" } },
     });
   } finally {
     await f.service.close();
