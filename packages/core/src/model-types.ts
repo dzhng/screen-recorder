@@ -62,7 +62,11 @@ export type RuntimeAcquisition = Readonly<{
     paths: readonly string[];
     sourceBuild?: true;
     forceReinstall?: true;
+    /** Optional bundle-relative target for dependencies kept outside primary startup. */
+    target?: string;
   }>[];
+  /** Additional dependency trees appended by the bundle launcher in declaration order. */
+  supplemental?: readonly string[];
   resources: readonly Readonly<{ path: string; content: string; sha256: string }>[];
   nativePolicy: Readonly<{
     files: readonly Readonly<{

@@ -2,6 +2,7 @@ import { voiceProfile } from "./voice-profile.js";
 import runtimeEntries from "./model-data/voice-runtime.json" with { type: "json" };
 import { originalSpeakerManifest } from "./model-data/speaker-manifest.generated.js";
 import speakerRuntimeAcquisition from "./model-data/speaker-acquisition.generated.json" with { type: "json" };
+import speakerRuntimeEntries from "./model-data/speaker-runtime.generated.json" with { type: "json" };
 import { alignmentManifest } from "./model-data/alignment-manifest.generated.js";
 import type { ModelManifest, RuntimeAcquisition, RuntimeEntry } from "./model-types.js";
 /**
@@ -239,7 +240,9 @@ export const speakerModel: ModelManifest = {
   autoPrepare: true,
   runtimeArtifact: {
     ...originalSpeakerManifest.runtimeArtifact!,
+    digest: "8f55df1092cca3527e5f892de2c3277f6588630f72ba60c197a84c3db026750e",
     acquisition: speakerRuntimeAcquisition as RuntimeAcquisition,
+    entries: speakerRuntimeEntries as RuntimeEntry[],
   },
 };
 export const registeredModels = [

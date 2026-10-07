@@ -1,18 +1,13 @@
 import { createHash } from "node:crypto";
 import { gunzipSync } from "node:zlib";
 import { readFile, writeFile } from "node:fs/promises";
-import { basename, join } from "node:path";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
-const planPath = join(
-  root,
-  "specs/done/ffmpeg-parity/evidence/speaker-original/runtime-acquisition-plan.json",
-);
 const inputs = JSON.parse(
   await readFile(new URL("alignment-inputs.json", import.meta.url), "utf8"),
 );
-const plan = JSON.parse(await readFile(planPath, "utf8"));
 const inventory = JSON.parse(
   gunzipSync(
     await readFile(
@@ -27,20 +22,40 @@ const nativePolicy = JSON.parse(
   ),
 );
 const hash = (content) => createHash("sha256").update(content).digest("hex");
-const packageNames = new Set(
-  plan.install.map((entry) => basename(new URL(entry.download_info.url).pathname)),
-);
-const files = [
-  inputs.files.find((file) => file.path === inputs.interpreterArchive),
-  ...inputs.files.filter((file) => packageNames.has(file.path)),
-];
-if (files.some((file) => !file) || files.length !== packageNames.size + 1)
-  throw new Error("Speaker acquisition inputs do not cover the measured package plan");
-const installs = inputs.installs
-  .map((group) => ({ ...group, paths: group.paths.filter((path) => packageNames.has(path)) }))
-  .filter((group) => group.paths.length > 0);
-if (new Set(installs.flatMap((group) => group.paths)).size !== packageNames.size)
-  throw new Error("Speaker acquisition package groups do not cover the measured plan");
+const files = inputs.files;
+const canonical = (value) => value.toLowerCase().replace(/[._]+/g, "-");
+const project = (value) => {
+  const stem = value.replace(/\.tar\.gz$|\.whl$|\.zip$/, "");
+  const match = stem.match(/^(.+?)-\d/);
+  if (!match) throw new Error(`Cannot identify pinned package: ${value}`);
+  return canonical(match[1]);
+};
+const layers = new Map();
+for (const entry of inventory) {
+  const match = entry.path.match(/^python\/lib\/python3\.12\/model-layers\/(\d+)\/([^/]+)-[^/]+\.dist-info\/METADATA$/);
+  if (match) layers.set(canonical(match[2]), `supplemental/${match[1]}`);
+}
+const installs = [];
+for (const group of inputs.installs) {
+  const byTarget = new Map();
+  for (const path of group.paths) {
+    // Source builds need their build backend in ordinary startup; keep the
+    // pinned build tools and their source outputs in primary. Supplemental
+    // trees are only for the pre-measured binary dependency layers.
+    const target = group.sourceBuild || ["setuptools", "wheel"].includes(project(path))
+      ? undefined
+      : layers.get(project(path));
+    const key = target ?? "primary";
+    if (!byTarget.has(key)) byTarget.set(key, []);
+    byTarget.get(key).push(path);
+  }
+  for (const [target, paths] of byTarget) {
+    installs.push({ ...group, paths, ...(target === "primary" ? {} : { target }) });
+  }
+}
+const supplemental = [...new Set(layers.values())].sort();
+if (new Set(installs.flatMap((group) => group.paths)).size !== files.length - 1)
+  throw new Error("Speaker acquisition package groups do not cover every pinned input");
 const resources = [];
 for (const [path, source] of [
   ["prepare.py", "helpers/model-runtime/prepare.py"],
@@ -65,6 +80,7 @@ await writeFile(
     ...inputs,
     files,
     installs,
+    supplemental,
     resources,
     nativePolicy,
   }) + "\n",

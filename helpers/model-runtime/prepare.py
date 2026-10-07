@@ -63,20 +63,34 @@ def prepare(request):
     run([str(python), "-I", "-B", "-m", "venv", "--without-pip", str(env)], "environment")
     install = [str(python), "-I", "-B", "-m", "pip", "--isolated", "--python", str(env),
         "install", "--no-index", "--no-deps", "--no-compile", "--no-cache-dir"]
+    primary = env / "lib/python3.12/site-packages"
+    supplemental = [inputs / relative for relative in acquisition.get("supplemental", [])]
+    for path in supplemental:
+        path.mkdir(parents=True)
     for index, group in enumerate(acquisition["installs"]):
         options = (["--no-build-isolation"] if group.get("sourceBuild") else []) + (
             ["--force-reinstall"] if group.get("forceReinstall") else [])
-        run(install + options + [str(inputs / name) for name in group["paths"]], "install-" + str(index))
-    primary = env / "lib/python3.12/site-packages"
+        target = inputs / group["target"] if group.get("target") else primary
+        target.mkdir(parents=True, exist_ok=True)
+        run(install + options + ["--target", str(target)] +
+            [str(inputs / name) for name in group["paths"]], "install-" + str(index))
+        # Pip's target mode places console wrappers beside the package tree;
+        # they are build artifacts with private shebangs, never runtime inputs.
+        shutil.rmtree(target / "bin", ignore_errors=True)
     normalize_installed(primary, acquisition["files"])
+    for target in supplemental:
+        normalize_installed(target, acquisition["files"])
     policy = inputs / "native-policy.json"
     policy.write_text(json.dumps(acquisition["nativePolicy"]))
     assembly = inputs / "assembly"
     scripts = inputs / "scripts"
-    run([str(python), "-I", "-B", str(scripts / "assemble.py"),
+    command = [str(python), "-I", "-B", str(scripts / "assemble.py"),
         "--base", str(base), "--primary", str(primary),
         "--worker", str(scripts / "worker.py"), "--launcher", str(scripts / "launch.py"),
-        "--native-policy", str(policy), "--out", str(assembly)], "assembly")
+        "--native-policy", str(policy), "--out", str(assembly)]
+    for target in supplemental:
+        command += ["--supplemental", str(target)]
+    run(command, "assembly")
     directory.rmdir()
     shutil.move(str(assembly / "bundle"), directory)
     return {"ready": True}
