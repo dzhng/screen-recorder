@@ -22,7 +22,10 @@ speaker provider now has a measured pinned NeMo runtime acquisition descriptor a
 auto-prepares its first-party inputs by default. That closes acquisition readiness
 only; bounded selected-range preparation now accepts complete 80ms-grid windows
 from 80ms through at most 30 seconds, while each window remains generation-local.
-The unchanged long-form four-speaker continuity gate is still red. Do not promote the provider to long-form
+The native streaming envelope is replayed as research evidence: one fresh state per
+selected input persists across internal chunks, and the three-speaker 600-second
+control passes. The unchanged long-form four-speaker continuity gate is still red;
+do not promote the provider to long-form
 continuity or named-person inference. The slice32
 binding checkpoint now replays caller-authored labels through source, project and
 immutable package reads, project transcript words can join selected speaker
@@ -74,7 +77,9 @@ composition preserves that refusal. The composition compiler and native public
 journey now replay an explicit three-angle sequential switch; the sync estimator
 still remains open. Speaker replication remains below the unchanged
 80% long-form gate; the pinned first-party speaker acquisition is now reproducible
-and auto-prepared. The Ultra-8 exploratory long audit is replayable but was not
+and auto-prepared. The native streaming-envelope replay binds state scope and
+retains the passing three-speaker/failed four-speaker controls without promotion.
+The Ultra-8 exploratory long audit is replayable but was not
 frozen before inference and still fails the required four-speaker control, so
 continuity and labeling remain open as described above.
 Public split-tone delivery now has an independent CLI/MCP/native

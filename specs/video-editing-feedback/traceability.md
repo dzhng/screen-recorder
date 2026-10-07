@@ -152,6 +152,13 @@ readiness is separate from quality. Slice31 is resliced into short-quality admis
 global continuity, prepared execution closure and word attribution; slice32 cannot
 claim labeling ready from those partial results.
 
+The native streaming envelope is now a focused replay contract: one fresh state is
+created per selected input, persists across internal 27.2-second chunks, and resets
+between selections. Its retained three-speaker 600-second control passes while the
+required four-speaker overlap control fails the unchanged 80% recall gate. The
+public provider remains bounded to independent 80ms-grid windows through 30 seconds;
+the replay adds no long-form or named-person promotion.
+
 Slice32's generation-pinned binding checkpoint is integrated: source and managed
 project interval reads decorate only explicitly bound slots, project transcript
 reads join selected speaker generations through retimed occurrences, and package

@@ -1781,6 +1781,26 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high for acquisition identity and lifecycle behavior; low for any
   claim beyond the retained exact-window evidence.
 
+## Retain native streaming as a bounded research envelope — slice31
+
+- **When:** the pinned NeMo runtime preserved state across internal chunks on a
+  retained three-speaker 600-second control, while the required four-speaker
+  overlap control remained below the fixed recall gate.
+- **The choice:** Add a read-only envelope replay that binds one fresh native
+  state to each selected input, requires persistence across internal 27.2-second
+  chunks, and requires reset between selections. Keep public preparation at
+  independent 80ms-grid windows through 30 seconds and mark promotion false.
+- **The gap:** The long receipt showed useful stateful execution evidence, but a
+  future edit could mistake that run for general long-form labeling support or
+  accidentally reuse state across selections.
+- **The reach:** The focused test verifies the state boundary and retains both
+  the passing three-speaker control and failed four-speaker overlap control
+  without rerunning inference or widening quality claims.
+- **Verdict:** sound as a bounded replay contract; long-form continuity, stable
+  identity and named-person inference remain open.
+- **Confidence:** high for the retained state-scope and gate values; low for any
+  envelope beyond the measured controls.
+
 ## Join selected speaker generations in project transcript rows — sound, medium confidence
 
 - **When:** slice32 managed project-transcript checkpoint.

@@ -1,6 +1,6 @@
 # 31 — Prove speaker continuity and word attribution
 
-Status: partial; asymmetric hysteresis passes short quality, but required ten-minute four-speaker overlap remains red. Research depends on selected certified [01](01-certified-corpus.md) inputs; word-attribution integration additionally requires [08](08-bounded-speech-preparation.md).
+Status: partial; asymmetric hysteresis passes short quality, and the pinned native call has a replayed stateful three-speaker 600-second envelope, but required ten-minute four-speaker overlap remains red. Research depends on selected certified [01](01-certified-corpus.md) inputs; word-attribution integration additionally requires [08](08-bounded-speech-preparation.md).
 
 ## Contract
 
@@ -54,6 +54,16 @@ passes both required short cases and longer three-speaker returns, then fails th
 ten-minute four-speaker control. Its complete raw operands replay without new
 inference. No provider is promoted.
 The historical DER-only pass never established simultaneous-speaker recall.
+
+The bounded native streaming envelope is now checked without inference by
+`packages/test-harness/editing/speaker-streaming-envelope.mjs` and its focused
+test. It binds one fresh Sortformer state to each selected input, preserves that
+state across the runtime's internal 27.2-second chunks, and resets it between
+selections. The retained three-speaker 600-second control passes, while the
+required four-speaker overlap control remains below the unchanged 80% recall
+gate. Public preparation therefore stays on independent 80ms-grid windows of at
+most 30 seconds; this receipt does not promote long-form continuity or named
+speaker inference.
 
 The independently trained eight-slot direct-activity model has a replayable
 exploratory long audit in [ultra8 evidence](../assets/31-speaker-replication/ultra8-evidence/README.md):
