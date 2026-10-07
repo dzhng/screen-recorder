@@ -1,6 +1,6 @@
 # 30 — Inspect scene changes in exported pixels
 
-Status: partial — the portable delivered-scene report helper and focused public-operation tests are implemented; the retained native planted flash/hold and physical empty-edit-list delivered-export checkpoints now have inference-free replay checks. A separate retained native audio crossfade receipt now has an inference-free PCM replay, but no combined scene/audio detector or association is claimed. Broader transition/audio and visual review gates remain open. Depends on: [13](13-decode-replication.md), [04](04-wait-and-json-delivery.md).
+Status: partial — the portable delivered-scene report helper and focused public-operation tests are implemented; the retained native planted flash/hold and physical empty-edit-list delivered-export checkpoints now have inference-free replay checks. A combined native A/V export now runs through the existing delivered-scene and audio owners, with separate scene rows and decoded PCM landmarks replayed without promoting a cross-plane association. Broader transition/audio and visual review gates remain open. Depends on: [13](13-decode-replication.md), [04](04-wait-and-json-delivery.md).
 
 ## Contract
 
@@ -50,12 +50,12 @@ Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) 
 
 A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
 
-The next experiment for a combined claim is one small committed A/V export
-whose video stream is inspected by `deliveredScenes` and whose audio stream is
-read through the existing public `audio.get`/export path. It must retain one
-source-bound clock, decoded PCM landmarks and the unchanged scene detector
-rows before any cross-plane association is proposed. A failure must remain a
-refusal; do not infer an audio transition from a picture scene boundary.
+The retained [combined A/V checkpoint](../assets/30-delivered-scenes/native/av/README.md)
+uses one public/native export containing both streams. Its video stream is
+inspected by the existing scene reader and its audio stream is decoded through
+public `audio.get`; the replay retains the three scene rows and three PCM
+landmarks separately. Equal timestamps remain observations only: the report
+explicitly refuses a cross-plane association or shared-clock promotion.
 
 ## Delegated choices
 
