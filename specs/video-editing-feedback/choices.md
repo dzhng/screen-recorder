@@ -2249,3 +2249,11 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound evidence-boundary hardening; no product or synchronization
   behavior changed.
 - **Confidence:** high.
+
+## Refuse the landmark-envelope full-face hypothesis — slice15
+
+- **When:** the frozen Vision revision-3 detector remained below the 0.5 full-face IoU gate on 27 Graham hand/pose frames, and revisions 1 and 2 were independently refused.
+- **The choice:** run a separate native Vision landmark probe. Map the returned `faceContour` points through each detector rectangle, clip the candidate to the delivered raster, and compare it with the same independently authored face zone. This measures a different visible-face signal; it does not lower a threshold or enlarge a detector box by policy.
+- **The reach:** the contour envelope fails the unchanged 0.5 gate on all 72 Graham frames (IoU 0.191–0.450). It is therefore evidence of visible landmarks, not a complete-head region suitable for the frozen quality claim or automatic crop. The exact report, recipe digest and inference-free replay are retained under `assets/15-face-observations/landmark-envelope-probe.json`.
+- **Verdict:** sound bounded refusal; production Vision revision 3, the 0.5 gate and framing behavior remain unchanged.
+- **Confidence:** high for this source, recipe and 72-frame probe; the result does not rule out a future independent complete-head detector.

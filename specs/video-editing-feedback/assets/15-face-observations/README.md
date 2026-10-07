@@ -70,6 +70,16 @@ crop-center raster identity check. Both older revisions are refused; production
 revision 3 remains unchanged and no box widening or threshold relaxation is
 allowed.
 
+An independently authored landmark-envelope hypothesis is also retained in
+[`landmark-envelope-probe.json`](landmark-envelope-probe.json). It maps the
+`VNDetectFaceLandmarksRequest` face-contour points back through each detector
+rectangle and clips the resulting candidate to the delivered raster. This is a
+separate visible-face measurement, not a detector threshold or a post-hoc box
+expansion. It fails the unchanged 0.5 IoU gate on all 72 Graham frames (0.191–
+0.450), so the contour is evidence of visible landmarks rather than a complete
+head region and is refused. Its exact report and Swift recipe replay through
+[`face-landmark-envelope-replay.mjs`](../../../../packages/test-harness/editing/face-landmark-envelope-replay.mjs).
+
 A previous scratch metadata control was counter-rotated in the wrong direction;
 its upside-down raster is retained in [failed-controls.json](failed-controls.json).
 The corrected control is byte-identical to its upright input. Initial integer-us

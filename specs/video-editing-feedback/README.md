@@ -42,6 +42,10 @@ The retained Community-1 AHC threshold probe reuses one prepared embedding pass 
 four declared cuts and produces identical calibration assignments; its two-ID BSP30
 count failure and 100-second physical-support refusal remain unchanged, so no cut or
 provider is promoted and the held-out case is not opened.
+The retained face landmark-envelope probe maps independent Vision contour points
+through detector rectangles and fails the unchanged full-face gate on all 72
+Graham frames; it remains refused rather than turning visible landmarks into a
+complete-head localization claim.
 Slice 12D now passes: a fresh receipt-driven consumer
 discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never
