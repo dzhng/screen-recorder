@@ -844,8 +844,8 @@ test("the registered original speaker advertises first-party auto-preparation", 
   });
   expect(models.list().find((entry) => entry.modelId === "speaker-runtime-control")).toMatchObject({
     purpose: "speaker",
-    descriptorDigest: "53b62eb7953ce8f126cf7ed70f4604237063f5104e244448e1c65e047d968442",
-    runtimeDigest: "6d21b755cf6ef36ef0146688d6c7ca35863ed9a4dbb5fb14d5affd62812fdb02",
+    descriptorDigest: "f9fba304e5f821bad2ec406013616a9a36a78faa5bea7bcd76cabbc3cfd06f01",
+    runtimeDigest: "8f55df1092cca3527e5f892de2c3277f6588630f72ba60c197a84c3db026750e",
     modelDigest: "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
     preparation: { runtimeSourceRequired: false, modelSourceRequired: false },
   });
