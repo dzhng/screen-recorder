@@ -50,7 +50,8 @@ native report and direct frame inspection are retained instead.
 
 The retained native report is replayed by
 [`scene-delivery-replay.mjs`](../../../../packages/test-harness/editing/scene-delivery-replay.mjs).
-That checker binds the planted flash, gap and hold times, source preservation,
+That checker binds the planted flash, gap and hold times, the detailed delivered
+scene rows, authored video joins and their association, source preservation,
 committed immutable export and its hash without rerunning a detector. It protects
 the evidence receipt; broader delivered-scene parity and visual review remain
 separate gates.
