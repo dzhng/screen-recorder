@@ -142,6 +142,9 @@ sidecar operands are captured before attempt cleanup, including model refusals.
 native or model execution; `speaker.prepare` alone requests new acoustic work.
 `speaker.bind` replaces caller-authored display labels for one retained generation;
 it never changes acoustic evidence or infers identity.
+`speaker.continuity.prepare/get` own the long-form quality envelope separately: they
+accept only complete measured candidates, retain frozen gate outcomes on refusal, and
+never promote anonymous slots or labels.
 Portable packages preserve complete original operands and observation ordering.
 Immutable alignment pages name the original generation and open package context;
 their continuations cannot be reused in another context. Reading or adopting them

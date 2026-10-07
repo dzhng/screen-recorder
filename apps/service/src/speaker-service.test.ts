@@ -558,3 +558,33 @@ test.runIf(process.platform === "darwin")(
   },
   30000,
 );
+
+test("public continuity operations preserve explicit unavailable and refusal states", async () => {
+  const f = await projectServiceFixture([], async () => ({ ok: true, data: {} }));
+  try {
+    const common = {
+      assetId: "a".repeat(64),
+      streamId: "audio",
+      channel: 0,
+      modelId: "speaker-model",
+      sourceRange: { startUs: 0, endUs: 600_000_000 },
+    };
+    expect(await f.call("speaker.continuity.prepare", { ...common, expectedSpeakerCount: 4 })).toMatchObject({
+      ok: true,
+      data: { state: "unavailable", reason: "continuity_candidate_required", receipt: null },
+    });
+    expect(await f.call("speaker.continuity.get", {
+      assetId: common.assetId,
+      streamId: common.streamId,
+      channel: common.channel,
+      modelId: common.modelId,
+      observationRange: common.sourceRange,
+      generation: "attempt-1",
+    })).toMatchObject({
+      ok: true,
+      data: { state: "unavailable", reason: "continuity_not_published", receipt: null },
+    });
+  } finally {
+    await f.service.close();
+  }
+});

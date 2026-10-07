@@ -115,6 +115,7 @@ import { speakerObserver } from "./speaker.js";
 import { SpeakerLabelStore } from "@yap/core/speaker-labels";
 import type { SelectionRange } from "@yap/composition";
 import { sourcePCMDecoder } from "./source-channel.js";
+import { evaluateSpeakerContinuity } from "@yap/core/speaker-continuity";
 
 type TranscriptSpeakerRequest = {
   streamId: string;
@@ -1256,6 +1257,43 @@ export async function startProjectService(options: {
               },
             };
           }
+          case "speaker.continuity.prepare": {
+            const { candidate, ...request } = operation.params;
+            if (!candidate) {
+              return {
+                ok: true,
+                data: {
+                  ...request,
+                  state: "unavailable",
+                  reason: "continuity_candidate_required",
+                  retryable: false,
+                  receipt: null,
+                },
+              };
+            }
+            const receipt = evaluateSpeakerContinuity(candidate);
+            return {
+              ok: true,
+              data: {
+                ...request,
+                state: receipt.status === "accepted" ? "ready" : "unavailable",
+                reason: receipt.status === "accepted" ? null : "continuity_quality_gate",
+                retryable: false,
+                receipt,
+              },
+            };
+          }
+          case "speaker.continuity.get":
+            return {
+              ok: true,
+              data: {
+                ...operation.params,
+                state: "unavailable",
+                reason: "continuity_not_published",
+                retryable: false,
+                receipt: null,
+              },
+            };
           case "speaker.prepare": {
             const status = speakers.prepareSource(operation.params);
             return {

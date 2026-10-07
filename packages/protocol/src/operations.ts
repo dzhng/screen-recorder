@@ -68,6 +68,37 @@ const transcriptSpeakerCursor = transcriptSpeaker.extend({
   bindingDigest: z.string().regex(/^[a-f0-9]{64}$/),
 });
 const projectTranscriptSpeaker = transcriptSpeaker.extend({ assetId: id });
+const continuityDigest = z.string().regex(/^[a-f0-9]{64}$/);
+const continuityMetrics = z.strictObject({
+  inputFrames: z.int().positive(),
+  scoredFrames: z.int().nonnegative(),
+  durationSeconds: z.number().finite().positive(),
+  inferenceSeconds: z.number().finite().nonnegative(),
+  peakRssBytes: z.int().nonnegative(),
+  expectedSpeakerCount: z.int().positive().max(8),
+  observedSpeakerCount: z.int().nonnegative().max(8),
+  der: z.number().finite().min(0).max(1),
+  identityConfusion: z.number().finite().min(0).max(1),
+  overlapRequired: z.boolean(),
+  overlapRecall: z.number().finite().min(0).max(1).nullable(),
+  stateContinuity: z.boolean(),
+});
+const continuityCandidate = z.strictObject({
+  identity: z.strictObject({
+    generation: id,
+    sourceDigest: continuityDigest,
+    modelId: id,
+    modelDigest: continuityDigest,
+    runtimeDigest: continuityDigest,
+  }),
+  metrics: continuityMetrics,
+  controls: z.strictObject({
+    shortWindow: z.boolean(),
+    transport: z.boolean(),
+    threeSpeaker: z.boolean(),
+    fourSpeakerOverlap: z.boolean(),
+  }),
+});
 const project = z.object({ projectId: id }).strict();
 const projectEvidenceParams = project
   .extend({
@@ -793,6 +824,39 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .describe(
       "Read an explicit immutable alignment generation without model or native execution. An asset selector reads retained source evidence. A project selector with a source asset projects those rows through the exact revision map; a selector whose assetId is the prepared tap returned by alignment.prepare reads observations measured on that rendered tap and maps its source clock directly to project time without inventing a clip. preparedResourceId pins the project revision and tap. packageHandle selects published evidence in an open read-only package; its continuation binds that context. Supplied words retain conditional path estimates separately from greedy observed words; repeated correspondence stays unknown and unmatched text stays unmatched. Complete native ceil bounds outside physical support retain null sourceRange/refused_unowned_support, never clamped timing. Scores are complete uncalibrated native cells. Acoustic view requires caller thresholdRMS, labels measured RMS >=threshold active, and never assigns a word or authorizes an edit. Raw view returns original UTF8 operands in bounded base64 chunks, including unpublished managed-library refusals as state:captured with verified:false; those never expose ready rows. Continue while nextCursor exists, including empty pages. Continuations bind the generation, display range, view, operand and threshold.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("speaker.continuity.prepare"),
+      params: sourceSelection
+        .extend({
+          channel: z.int().nonnegative(),
+          sourceRange: selectionRangeSchema,
+          modelId: id,
+          expectedSpeakerCount: z.int().positive().max(8),
+          candidate: continuityCandidate.optional(),
+        })
+        .strict(),
+    })
+    .describe(
+      "Evaluate or prepare one bounded long-form speaker continuity candidate. A candidate retains complete source/model/runtime identity, score extent, frozen control outcomes and quality metrics. Without a measured candidate this operation reports unavailable; it never stretches the bounded 30-second speaker provider, invents identity, or publishes an unverified envelope.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("speaker.continuity.get"),
+      params: sourceSelection
+        .extend({
+          channel: z.int().nonnegative(),
+          modelId: id,
+          observationRange: selectionRangeSchema,
+          generation: id,
+          view: z.literal("receipt").optional(),
+          packageHandle: id.optional(),
+        })
+        .strict(),
+    })
+    .describe(
+      "Read a published long-form speaker continuity receipt by exact source, model and generation identity. Unpublished or refused candidates remain readable as evidence only; no native execution, naming or transcript attribution occurs during a read.",
     ),
   z
     .strictObject({

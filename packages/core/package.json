@@ -276,6 +276,10 @@
       "types": "./dist/speaker-evidence.d.ts",
       "default": "./dist/speaker-evidence.js"
     },
+    "./speaker-continuity": {
+      "types": "./dist/speaker-continuity.d.ts",
+      "default": "./dist/speaker-continuity.js"
+    },
     "./speaker-processing": {
       "types": "./dist/speaker-processing.d.ts",
       "default": "./dist/speaker-processing.js"

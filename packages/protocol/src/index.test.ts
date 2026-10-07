@@ -570,6 +570,24 @@ it("rejects unknown fields on speaker label bindings", () => {
   ).toBe(false);
 });
 
+it("admits long-form continuity preparation and exact receipt reads", () => {
+  const common = {
+    assetId: "a".repeat(64),
+    streamId: "audio",
+    channel: 0,
+    modelId: "speaker-model",
+    sourceRange: { startUs: 0, endUs: 600_000_000 },
+  };
+  expect(operationSchema.safeParse({
+    operation: "speaker.continuity.prepare",
+    params: { ...common, expectedSpeakerCount: 4 },
+  }).success).toBe(true);
+  expect(operationSchema.safeParse({
+    operation: "speaker.continuity.get",
+    params: { assetId: common.assetId, streamId: common.streamId, channel: common.channel, modelId: common.modelId, observationRange: common.sourceRange, generation: "attempt-1" },
+  }).success).toBe(true);
+});
+
 it("ordinary project index references remain usable without face observations", () => {
   const reference = {
     projectId: "p",
