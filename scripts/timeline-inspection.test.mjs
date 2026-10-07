@@ -118,8 +118,16 @@ test("a pinned project sheet retains repeated occurrences, exact fragments, chan
         published: { generation: 1, output: { mediaType: "application/json", ...waveform } },
       };
     if (operation === "transcript.get") {
-      assert.equal(params.prepare, false);
-      return { projectId: "p", revisionId: "r", state: "ready", page: { rows, nextCursor: null } };
+      return {
+        projectId: "p",
+        revisionId: "r",
+        state: "ready",
+        page: {
+          rows,
+          nextCursor: null,
+          transcript: { source: { durationUs: range.endUs } },
+        },
+      };
     }
     assert.equal(operation, "timeline.events");
     return {
