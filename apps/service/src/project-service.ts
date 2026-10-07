@@ -121,6 +121,7 @@ import {
   verifyCorrespondenceReceipt,
 } from "@yap/core/correspondence";
 import type { CorrespondenceReceipt } from "@yap/protocol";
+import { buildFaceTrajectory } from "@yap/core/face-trajectory";
 
 type TranscriptSpeakerRequest = {
   streamId: string;
@@ -1086,6 +1087,55 @@ export async function startProjectService(options: {
             const params = operation.params;
             if ("projectId" in params) return { ok: true, data: indexes.getProject(params) };
             return { ok: true, data: indexes.getSource(params) };
+          }
+          case "face.trajectory.get": {
+            const { generation, maxGapUs, prediction, limit, cursor, ...selection } = operation.params;
+            const page = indexes.getSource({
+              ...selection,
+              generation,
+              ...(limit === undefined ? {} : { limit }),
+              ...(cursor === undefined ? {} : { cursor }),
+            });
+            if (!page.page)
+              return { ok: true, data: { ...page, trajectory: null } };
+            const entries = page.page.entries;
+            const observations = entries.map((entry) => entry.frame.faceObservations);
+            if (observations.some((value) => value === undefined))
+              return {
+                ok: true,
+                data: {
+                  state: "refused",
+                  reason: "face_observations_unavailable",
+                  generation,
+                  nextCursor: page.page.nextCursor,
+                },
+              };
+            const supportDigest = entries[0]?.frame.supportDigest;
+            if (!supportDigest || entries.some((entry) => entry.frame.supportDigest !== supportDigest))
+              throw new CatalogError("ARTIFACT_CHANGED", "Face observations changed source support");
+            const trajectory = buildFaceTrajectory({
+              source: {
+                ...selection,
+                generation,
+                supportDigest,
+              },
+              maxGapUs,
+              prediction,
+              samples: entries.map((entry) => ({
+                ordinal: entry.candidate.ordinal,
+                atUs: entry.candidate.requestedSourceUs,
+                observations: entry.frame.faceObservations!,
+              })),
+            });
+            return {
+              ok: true,
+              data: {
+                state: "ready",
+                generation,
+                trajectory,
+                nextCursor: page.page.nextCursor,
+              },
+            };
           }
           case "index.retry": {
             const params = operation.params;

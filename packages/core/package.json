@@ -160,6 +160,10 @@
       "types": "./dist/face-tracking.d.ts",
       "default": "./dist/face-tracking.js"
     },
+    "./face-trajectory": {
+      "types": "./dist/face-trajectory.d.ts",
+      "default": "./dist/face-trajectory.js"
+    },
     "./audio-measurement": {
       "types": "./dist/audio-measurement.d.ts",
       "default": "./dist/audio-measurement.js"

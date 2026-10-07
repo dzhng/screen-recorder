@@ -20,7 +20,13 @@ export type FaceTrackSample =
       landmarkGroups?: FaceObservations["faces"][number]["landmarkGroups"];
     }
   | { atUs: number; status: "gap"; reason: string };
-export type FaceTrack = { id: string; samples: FaceTrackSample[]; ambiguous: boolean };
+export type FaceTrack = {
+  id: string;
+  samples: FaceTrackSample[];
+  ambiguous: boolean;
+  /** Source clock instants where the best match was too close to its runner-up. */
+  ambiguousAtUs?: number[];
+};
 
 type Box = FaceObservations["faces"][number]["boundingBox"];
 function landmarkEvidence(face: FaceObservations["faces"][number]) {
@@ -83,8 +89,10 @@ export function trackFaceObservations(
         .filter(({ index, score }) => !used.has(index) && score >= 0.2)
         .sort((a, b) => b.score - a.score);
       if (!candidates.length) continue;
-      if (candidates[1] && candidates[0]!.score - candidates[1].score < 0.05)
+      if (candidates[1] && candidates[0]!.score - candidates[1]!.score < 0.05) {
         active.track.ambiguous = true;
+        (active.track.ambiguousAtUs ??= []).push(sample.atUs);
+      }
       const chosen = candidates[0]!;
       used.add(chosen.index);
       active.track.samples[active.track.samples.length - 1] = {

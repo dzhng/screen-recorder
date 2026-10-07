@@ -668,6 +668,26 @@ export const operationSchema = z.discriminatedUnion("operation", [
     ),
   z
     .object({
+      operation: z.literal("face.trajectory.get"),
+      params: sourceSelection
+        .extend({
+          generation: id,
+          maxGapUs: z.int().positive().max(1_000_000).optional(),
+          prediction: z.enum(["none", "linear"]).optional(),
+          limit: z.int().min(1).max(200).optional(),
+          cursor: sourceSelection
+            .extend({ generation: id, afterOrdinal: z.int().nonnegative() })
+            .strict()
+            .optional(),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Read source-bound face trajectory evidence from a retained face-observation index generation. Rows preserve source clock, detector implementation, exact observed boxes, gaps, reset reasons and ambiguity; they never authorize a crop or edit. prediction:linear is an explicit refusal until a prediction method is implemented, so inferred boxes are never mislabeled as observations. Continuations pin source identity and index generation.",
+    ),
+  z
+    .object({
       operation: z.literal("index.retry"),
       params: z.union([
         projectIndexParams,

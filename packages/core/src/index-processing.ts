@@ -589,6 +589,7 @@ export class IndexProcessing {
     input: SourceSelection & {
       observations?: PictureObservationRequest | undefined;
       faceObservations?: FaceObservationRequest | undefined;
+      generation?: string | undefined;
       cursor?: IndexReadCursor<SourceIndexReference> | undefined;
       limit?: number;
     },
@@ -603,11 +604,13 @@ export class IndexProcessing {
         "ARTIFACT_CHANGED",
         "Source index continuation belongs to another selection",
       );
-    const status = input.cursor ? null : this.requestSource(input);
+    const status = input.cursor || input.generation ? null : this.requestSource(input);
     if (status && !status.published) return { ...status, page: null };
     const metadata = input.cursor
       ? this.publishedSource(input.cursor)
-      : status!.published!.evidence;
+      : input.generation
+        ? this.publishedSource({ ...input, generation: input.generation })
+        : status!.published!.evidence;
     if (
       input.observations !== undefined &&
       !isDeepStrictEqual(
