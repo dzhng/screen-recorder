@@ -97,6 +97,19 @@ authored face zone. It cannot distinguish a complete head from the torso, so it
 remains refused under the unchanged 0.5 gate. The machine-readable replay is
 [`face-person-segmentation-replay.mjs`](../../../../packages/test-harness/editing/face-person-segmentation-replay.mjs).
 
+The [`tracking-probe.json`](tracking-probe.json) receipt records a fourth
+hypothesis. Apple's accurate `VNTrackObjectRequest`, seeded by frame 0 and
+applied recursively to the retained host windows, clears the unchanged 0.5 IoU
+gate on all 216 frames (Graham 0.624–0.703, Madison 0.658–0.862, Lily
+0.709–0.794). It remains refused: the tracker is a temporal prediction that can
+carry a box through Graham's hand/pose occlusion. Promoting that predicted box
+as an observed face would hide the required no-face/error distinction and could
+authorize a crop around an unobserved head. The executable
+[`face-tracking-refusal-replay.mjs`](../../../../packages/test-harness/editing/face-tracking-refusal-replay.mjs)
+binds the exact probe and keeps `promotion: false`; this is evidence for a
+future explicitly modeled tracked-subject mode, not a change to detector
+observations.
+
 A previous scratch metadata control was counter-rotated in the wrong direction;
 its upside-down raster is retained in [failed-controls.json](failed-controls.json).
 The corrected control is byte-identical to its upright input. Initial integer-us

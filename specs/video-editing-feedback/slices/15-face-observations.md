@@ -55,6 +55,19 @@ The whole-person segmentation envelope is a third independent refusal: all 72
 foreground masks are available, but their candidates score only 0.169–0.181 IoU
 because the mask includes the torso. No complete-head claim is promoted.
 
+A fourth bounded probe tested Apple's `VNTrackObjectRequest` over each retained
+72-frame host window. Starting with the frame-0 face rectangle and recursively
+tracking the prior observation yields IoU 0.624–0.703 for Graham, 0.658–0.862
+for Madison and 0.709–0.794 for Lily (216/216 frames over the unchanged 0.5
+gate). The result is retained as [`tracking-probe.json`](../assets/15-face-observations/tracking-probe.json)
+with an executable replay. It is refused for production promotion: a tracker
+prediction can carry a box through the hand/pose occlusion, erasing the required
+no-face/error distinction and allowing framing to rely on an unobserved head.
+The existing observation contract therefore remains detector-local. A future
+sequence-level tracked-subject mode would need an explicit prediction status and
+crop policy before it can affect framing; this probe does not change the
+revision-3 detector or the 27-frame full-face verdict.
+
 ## Delegated choices
 
 Tracker sampling/association thresholds after replication, frozen with cost and gap limits; no named-person inference.

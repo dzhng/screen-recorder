@@ -2331,6 +2331,14 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound bounded refusal, replayed from `assets/15-face-observations/person-segmentation-probe.json`.
 - **Confidence:** high for the retained source and Vision recipe; this result closes the built-in person-mask hypothesis, not future dedicated head models.
 
+## Refuse temporal face tracking as an observation replacement — slice15
+
+- **When:** the detector, landmark, body-pose and person-mask hypotheses had all remained below the unchanged full-face gate, so a bounded `VNTrackObjectRequest` sequence probe was run against the three retained 72-frame host windows.
+- **The choice:** seed accurate Vision tracking from frame 0 and recursively track the prior rectangle, retaining the unchanged authored zones and 0.5 IoU threshold. The probe is separate from production `vision-face-rectangles-v1` observations and never edits detector boxes or the gate.
+- **The reach:** tracker rectangles clear the gate on all 216 frames (Graham 0.624–0.703, Madison 0.658–0.862, Lily 0.709–0.794). The high scores demonstrate a viable temporal prediction, but the tracker can carry a box through Graham's hand/pose occlusion and therefore cannot be published as an observed face or authorize a crop around an unobserved head under the current contract.
+- **Verdict:** sound bounded refusal, replayed from `assets/15-face-observations/tracking-probe.json` by `face-tracking-refusal-replay.mjs`; `promotion: false` remains pinned. A future tracked-subject mode needs an explicit prediction status and crop policy.
+- **Confidence:** high for the retained fixtures and native Vision recipe; this does not establish complete-head localization for arbitrary footage.
+
 ## Refuse Nemotron-3 after the unchanged short gate — slice31
 
 - **When:** the pre-inference refusal established that the sealed NeMo 2.7.3
