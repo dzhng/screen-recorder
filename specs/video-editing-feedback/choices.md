@@ -2217,3 +2217,21 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   synchronization remains open.
 - **Confidence:** high for the selected four-source, 381-window lexical search;
   low for any synchronization claim outside that frozen selection.
+
+## Bind lexical replay to the frozen search protocol — slice20
+
+- **When:** hardening the selected full-domain lexical refusal replay.
+- **The choice:** make the replay assert the exact window recipe, normalization,
+  five-word minimum, distinct-participant requirement, separated-match rule and
+  offset-spread bound before it reads the retained transcript fixtures. A report
+  whose protocol is changed must refuse even when its transcript bytes and refusal
+  metrics still match.
+- **The gap:** checking only hashes and observed counts would allow a later run to
+  quietly redefine what an anchor means, then retain the old refusal as if it were
+  comparable evidence.
+- **The reach:** synchronization research can add a new hypothesis only as a new
+  protocol/evidence pair; this replay cannot silently broaden or weaken the current
+  lexical claim. It does not promote a clock.
+- **Verdict:** sound evidence-boundary hardening; no product or synchronization
+  behavior changed.
+- **Confidence:** high.
