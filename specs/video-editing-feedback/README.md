@@ -17,7 +17,7 @@ change the installed app until the user requests release. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: audit the remaining independent acceptance gates rather than widening bounded claims. The retained multicam picture bank now crosses public CLI/MCP and native sequential delivery for all nine caller-authored source/sample selections; global synchronized multicamera behavior remains open. The latest trajectory checkpoint binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. Face landmark quality now travels from native Vision observations into framing violations without widening uncertain boxes, and the frozen full-face failure has an executable replay gate that keeps its 27 failures open. The synchronization pass has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. A production-native fresh replay now records the focused launch, podcast and teaser routes before running the public CLI/MCP journey twice, replays the real Parakeet repair, and retains normalized delivery plus decoded picture/audio evidence on the current native build. The registered
+Current pickup: audit the remaining independent acceptance gates rather than widening bounded claims. The retained multicam picture bank now crosses public CLI/MCP and native sequential delivery for all nine caller-authored source/sample selections; its replay binds the worker sidecar, complete preview extent and canonical source-choice schedule. Global synchronized multicamera behavior remains open. The latest trajectory checkpoint binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. Face landmark quality now travels from native Vision observations into framing violations without widening uncertain boxes, and the frozen full-face failure has an executable replay gate that keeps its 27 failures open. The synchronization pass has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. A production-native fresh replay now records the focused launch, podcast and teaser routes before running the public CLI/MCP journey twice, replays the real Parakeet repair, and retains normalized delivery plus decoded picture/audio evidence on the current native build. The registered
 speaker provider now has a measured pinned NeMo runtime acquisition descriptor and
 auto-prepares its first-party inputs by default. That closes acquisition readiness
 only; bounded selected-range preparation now accepts complete 80ms-grid windows
@@ -46,24 +46,16 @@ replays all nine retained picture selections through CLI/MCP and the native
 renderer. Synchronization, speaker identity and automatic camera choice remain
 separate gates.
 
-The multicam physical checkpoint now also binds three decoded 320×180 RGB
-samples from each retained source through compact derivative movies. Its
-caller-authored source-choice receipt binds each of the nine retained audio
-windows to the matching source picture sample. This is source selection and
-fixture preservation; it does not promote a shared clock, speaker identity or
-automatic camera selection.
-
 The moving trajectory receipt now has an immutable replay checker covering its
 39-picture membership, refusal controls and exact preview/export identities;
 the independent [moving reference-parity audit](assets/27-29-transitions/reference-parity/report.json)
 retains a red standard crossfade oracle over the alpha/mirror sources, so strict
 reference-conditioned moving color/perimeter parity remains open.
 
-Priority order: 01 retained-source delivery is integrated but broader multicamera
-behavior remains open; 20/21 global
-synchronization remains refused on the frozen unlike-mic evidence; 15/16
-face/framing remain partial; 27–30 have public transition, moving-coverage and
-bounded-blur delivery receipts but broader visual parity remains open; 31/32
+Priority order: 20/21 global synchronization remains refused on the frozen
+unlike-mic evidence; 15/16 face/framing remain partial; 27–30 have public
+transition, moving-coverage and bounded-blur delivery receipts, while the
+independent moving parity oracle remains red; 31/32
 bounded attribution is integrated while long-form continuity remains red; 33/34
 have focused references, route provenance and a green concrete replay, with final
 workflow review still open.
