@@ -2292,6 +2292,15 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high for artifact identity and the observed import mismatch;
   zero for speaker quality until a compatible runtime runs the controls.
 
+## Refuse Nemotron v2 after the held-out short gate — slice31
+
+- **When:** the sealed NeMo 2.7.3 runtime could load NVIDIA’s distinct `diar_streaming_sortformer_4spk-v2` checkpoint after the Nemotron-3 pre-inference refusal.
+- **The choice:** run the unchanged short-first protocol with the model card’s very-high-latency recipe, retain the complete raw score tensors and segments for two calibration controls and one held-out control, and stop before long-form inference when the held-out case fails. Use one generalized worker for every case so the 30-second and 100-second observations have the same physical-support and native-tensor contract.
+- **The gap:** a loaded checkpoint can still fail on unseen speech, and the earlier 30-second worker could not honestly own a 100-second output. Promoting from the two passing controls, or keeping mixed worker implementations, would turn incomparable observations into a quality claim.
+- **The reach:** the retained refusal is replayable without downloading or running the model; production stays on the registered v2.1 provider, and future speaker research must pass the same short gate before opening long-form work.
+- **Verdict:** sound. The calibration controls pass, while held-out `aiqwk30` fails DER 34.38%, identity confusion 13.99% and overlap recall 10.76%; the exact generalized worker, protocol hash and native tensors are now bound together.
+- **Confidence:** high.
+
 ## Refuse the body-pose head-joint hypothesis — slice15
 
 - **When:** the independent landmark-envelope probe remained below the frozen full-face gate, so a second native Vision geometry source was tested without changing the detector contract.

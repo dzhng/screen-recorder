@@ -116,6 +116,13 @@ Keep the required gate unchanged; proceed through these separately verifiable pa
    Prepare a separately hashed NeMo 3-compatible runtime before rerunning the
    unchanged short-first controls; do not alter production defaults or claim
    quality from this pre-inference refusal.
+   The distinct `nvidia/diar_streaming_sortformer_4spk-v2` checkpoint was then
+   admitted through the sealed NeMo 2.7.3 runtime using its official
+   very-high-latency recipe. Both calibration controls passed, but held-out
+   `aiqwk30` failed DER 34.38%, identity confusion 13.99% and overlap recall
+   10.76%. The retained [v2 short-quality refusal](../assets/31-speaker-replication/alternative-evidence/nemotron-v2/README.md)
+   stops before long-form inference; no provider or production default is
+   promoted.
 3. **Prepared execution closure.** Seal and relocate the winning model/runtime;
    offline inference must use only the prepared closure and reproduce its operands.
    The original private reconstruction and alternate byte/load readiness are

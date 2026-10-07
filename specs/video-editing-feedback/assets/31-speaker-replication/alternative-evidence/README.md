@@ -18,6 +18,7 @@ source archive is retained here.
 | Original raw-score interpretation, BSP-calibrated 0.4 | aiqwk600 | 19.4823% | 8.0717% | fail |
 | Same interpretation | original aiqwk30 | 14.7853% | 13.4529% | fail |
 | Official original low-latency recipe, native 0.5 | aiqwk30 | 19.9100% | 0% | fail |
+| NVIDIA streaming Sortformer v2, official very-high-latency recipe | aiqwk30 | 34.3837% | 10.7623% | fail; identity confusion 13.99% |
 | Nemotron 3 high-context recipe, native 0.5 | aiqwk30 | 12.9848% | 60.5381% | fail |
 | Nemotron BSP lowest-DER interpretation, 0.5 | aiqwk30 | 12.9848% | 60.5381% | fail |
 | Nemotron BSP overlap-priority interpretation, 0.05 | aiqwk30 | 48.3726% | 95.0673% | fail; extra speaker |
@@ -56,6 +57,12 @@ Nemotron interpretation prose says four columns while exact code and operands
 preserve eight. Neither typo changes a reported measurement or a selection.
 `nemotron-threshold` retains the refused pre-parity protocol; corrected `r2`
 first proves exact native final-frame semantics before alternative analysis.
+
+The distinct NVIDIA `diar_streaming_sortformer_4spk-v2` checkpoint is retained in
+the [v2 short-quality refusal](nemotron-v2/README.md). It restores in the sealed
+NeMo 2.7.3 runtime and passes both calibration controls, but its held-out control
+fails DER, identity-confusion and overlap-recall gates. The short failure stops
+before long-form inference and does not alter the v2.1 production provider.
 
 ## Remaining work
 

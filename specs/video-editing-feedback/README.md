@@ -44,6 +44,13 @@ inference because its NeMo 3.0 checkpoint cannot restore in the sealed NeMo 2.7.
 runtime; a source probe also exposes a matching `lhotse` incompatibility. Its
 short-first quality gate and promotion remain blocked pending a separately sealed
 NeMo 3-compatible runtime.
+The distinct NVIDIA `diar_streaming_sortformer_4spk-v2` checkpoint then restored
+in the sealed NeMo 2.7.3 runtime and passed both calibration controls, but its
+held-out `aiqwk30` control failed DER 34.38%, identity confusion 13.99% and
+overlap recall 10.76%; the preregistered short gate therefore stopped before
+long-form inference. Its replay is retained under
+`assets/31-speaker-replication/alternative-evidence/nemotron-v2/`, and the
+production v2.1 provider remains unchanged.
 The retained Community-1 AHC threshold probe reuses one prepared embedding pass at
 four declared cuts and produces identical calibration assignments; its two-ID BSP30
 count failure and 100-second physical-support refusal remain unchanged, so no cut or
@@ -87,7 +94,7 @@ independent moving parity oracle remains red; 31/32
 bounded attribution is integrated while long-form continuity remains red; 33/34
 have focused references, route provenance and a green concrete replay, with final
 workflow review still open.
-The retained editing harness now passes 135/135 focused tests across these
+The retained editing harness now passes 136/136 focused tests across these
 receipts; that green replay suite does not promote any explicitly refused gate.
 The Core suite passes 794 tests with one skip, Protocol passes 37 tests, and the
 service suite passes 302 tests with 22 skips.
