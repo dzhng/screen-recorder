@@ -69,7 +69,97 @@
         "max": 8
       }
     ],
-    "encodedGate": "existing meanRGB<=12 still-image membership/layout tolerance; not strict color conformance"
+    "encodedGate": "existing meanRGB<=12 still-image membership/layout tolerance; not strict color conformance",
+    "coverage": [
+      {
+        "frame": 16,
+        "occupiedPixelRatio": 0.1094,
+        "bounds": [
+          10,
+          16,
+          29,
+          47
+        ],
+        "touchesPerimeter": false
+      },
+      {
+        "frame": 17,
+        "occupiedPixelRatio": 0.1688,
+        "bounds": [
+          9,
+          14,
+          31,
+          51
+        ],
+        "touchesPerimeter": false
+      },
+      {
+        "frame": 18,
+        "occupiedPixelRatio": 0.2371,
+        "bounds": [
+          6,
+          10,
+          35,
+          53
+        ],
+        "touchesPerimeter": false
+      },
+      {
+        "frame": 19,
+        "occupiedPixelRatio": 0.3969,
+        "bounds": [
+          2,
+          5,
+          38,
+          60
+        ],
+        "touchesPerimeter": false
+      },
+      {
+        "frame": 20,
+        "occupiedPixelRatio": 0.4375,
+        "bounds": [
+          0,
+          0,
+          39,
+          63
+        ],
+        "touchesPerimeter": true
+      },
+      {
+        "frame": 21,
+        "occupiedPixelRatio": 0.4234,
+        "bounds": [
+          0,
+          0,
+          39,
+          63
+        ],
+        "touchesPerimeter": true
+      },
+      {
+        "frame": 22,
+        "occupiedPixelRatio": 0.3879,
+        "bounds": [
+          0,
+          0,
+          39,
+          63
+        ],
+        "touchesPerimeter": true
+      },
+      {
+        "frame": 23,
+        "occupiedPixelRatio": 0.3984,
+        "bounds": [
+          0,
+          0,
+          39,
+          63
+        ],
+        "touchesPerimeter": true
+      }
+    ]
   },
   "outputs": {
     "full": {

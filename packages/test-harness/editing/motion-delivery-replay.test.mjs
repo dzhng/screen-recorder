@@ -34,6 +34,19 @@ test("refuses a changed moving trajectory receipt", async () => {
   }
 });
 
+test("refuses changed delivered trajectory coverage", async () => {
+  const directory = await mkdtemp("/tmp/yap-motion-coverage-replay-");
+  const report = JSON.parse(await readFile(reportPath, "utf8"));
+  report.checks.coverage[0].bounds[0] += 1;
+  const path = join(directory, "report.json");
+  try {
+    await writeFile(path, JSON.stringify(report));
+    await assert.rejects(() => replayMotionDelivery(path), /coverage changed/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
 test("refuses retained trajectory output bytes that no longer match the receipt", async () => {
   const directory = await mkdtemp("/tmp/yap-motion-artifact-replay-");
   try {

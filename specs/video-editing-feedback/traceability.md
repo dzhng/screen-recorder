@@ -310,4 +310,4 @@ or speaker identity.
 
 ### Slice 28 authored-rectangle coverage
 
-The directional whip guard now derives its travel budget from a caller-authored fixed geometry rectangle when present and refuses animated or non-positive dimensions. The focused public regression covers the previously admitted uncovered-edge case. This closes the composition admission gap only; native delivered trajectory/perimeter parity remains open.
+The directional whip guard now derives its travel budget from a caller-authored fixed geometry rectangle when present and refuses animated or non-positive dimensions. The focused public regression covers the previously admitted uncovered-edge case. The retained native moved/split receipt now also replays eight decoded frame bounds, occupied-pixel ratios and perimeter-contact facts from the committed movie. This closes the composition admission and sampled delivered-coverage evidence gaps; strict reference-conditioned color/perimeter parity remains open.

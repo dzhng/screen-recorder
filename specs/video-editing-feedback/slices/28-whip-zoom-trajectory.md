@@ -1,6 +1,6 @@
 # 28 — Make whip/zoom motion preserve coverage
 
-Status: composition checkpoint implemented, including authored-rectangle coverage refusal; delivered trajectory/perimeter evidence remains open. Depends on: [27](27-basic-transitions.md).
+Status: composition checkpoint implemented, including authored-rectangle coverage refusal; the retained native delivery now replays frame-indexed occupied bounds and perimeter contact, while strict reference-conditioned parity remains open. Depends on: [27](27-basic-transitions.md).
 
 ## Contract
 
@@ -29,7 +29,7 @@ Frame-indexed trajectory/perimeter report and short real-camera motion clip.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
-The current public moved/split zoom replay is retained in [motion-delivery-replay](../assets/27-29-transitions/motion-delivery-replay.json): 39 pictures, no whole-curve refusal, and exact preview/export bytes. The retained `full.mp4` and `range.mp4` artifacts are hashed and checked as regular files by [`motion-delivery-replay.mjs`](../../../packages/test-harness/editing/motion-delivery-replay.mjs), which also rejects mutated counts, hashes or output bytes. The independent [moving reference-parity audit](../assets/27-29-transitions/reference-parity/report.json) is red for the retained crossfade control, so it does not close the separate frozen color/perimeter visual gate.
+The current public moved/split zoom replay is retained in [motion-delivery-replay](../assets/27-29-transitions/motion-delivery-replay.json): 39 pictures, no whole-curve refusal, exact preview/export bytes, and eight decoded delivery samples with occupied bounds and perimeter-contact facts. The retained `full.mp4` and `range.mp4` artifacts are hashed and checked as regular files by [`motion-delivery-replay.mjs`](../../../packages/test-harness/editing/motion-delivery-replay.mjs), which also rejects mutated counts, coverage, hashes or output bytes. The independent [moving reference-parity audit](../assets/27-29-transitions/reference-parity/report.json) is red for the retained crossfade control, so it does not close the separate frozen color/perimeter visual gate.
 
 ## Verification and verdict
 

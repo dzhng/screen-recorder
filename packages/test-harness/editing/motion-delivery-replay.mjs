@@ -20,6 +20,16 @@ const expected = {
     trimmedPictures: 4,
     activationPictures: 3,
     previewExportExact: true,
+    coverage: [
+      { frame: 16, occupiedPixelRatio: 0.1094, bounds: [10, 16, 29, 47], touchesPerimeter: false },
+      { frame: 17, occupiedPixelRatio: 0.1688, bounds: [9, 14, 31, 51], touchesPerimeter: false },
+      { frame: 18, occupiedPixelRatio: 0.2371, bounds: [6, 10, 35, 53], touchesPerimeter: false },
+      { frame: 19, occupiedPixelRatio: 0.3969, bounds: [2, 5, 38, 60], touchesPerimeter: false },
+      { frame: 20, occupiedPixelRatio: 0.4375, bounds: [0, 0, 39, 63], touchesPerimeter: true },
+      { frame: 21, occupiedPixelRatio: 0.4234, bounds: [0, 0, 39, 63], touchesPerimeter: true },
+      { frame: 22, occupiedPixelRatio: 0.3879, bounds: [0, 0, 39, 63], touchesPerimeter: true },
+      { frame: 23, occupiedPixelRatio: 0.3984, bounds: [0, 0, 39, 63], touchesPerimeter: true },
+    ],
   },
   outputSha256: {
     full: "cf60ee1d9019c0fbc9bf4182e8f92e5d96c24472d39066d35b10a08347ca66a0",
@@ -38,7 +48,8 @@ export async function replayMotionDelivery(reportPath) {
   }
   assert.equal(report.pictures, expected.pictures, "picture count changed");
   for (const [key, value] of Object.entries(expected.checks)) {
-    assert.equal(report.checks?.[key], value, `${key} changed`);
+    if (Array.isArray(value)) assert.deepEqual(report.checks?.[key], value, `${key} changed`);
+    else assert.equal(report.checks?.[key], value, `${key} changed`);
   }
   assert.equal(
     report.outputs?.full?.sha256,
