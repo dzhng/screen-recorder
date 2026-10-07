@@ -66,3 +66,20 @@ that source alpha conversion is involved, while the production decoder and the
 zero-difference gate remain unchanged. The [source-alpha probe](source-alpha-probe.json)
 replays source and candidate hashes and recomputes both measurements; editing its
 open status or metrics is refused.
+
+The [native source probe](native-source-probe.json) captures the production
+AVAssetReader 32BGRA bytes for all four frames of both ProRes sources, retains
+the small raw frame fixtures, and applies only the frozen display transforms.
+Every native frame differs from the FFmpeg-decoded source by 0.11% of pixels at
+maximum one code value, chiefly the semi-transparent alpha edge. Composing the
+native source bytes lowers the candidate residual to 0.26%, 0.13% and 0.16%
+of pixels at 100ms, 500ms and 900ms, respectively, but does not reach the
+zero-difference gate. The native compositor and production decoder remain
+unchanged. Generate on macOS with `swiftc` and replay the immutable receipt:
+
+```sh
+YAP_FFMPEG=/opt/homebrew/bin/ffmpeg node packages/test-harness/editing/transition-native-source-probe.mjs generate \
+  specs/video-editing-feedback/assets/27-29-transitions/reference-parity
+node packages/test-harness/editing/transition-native-source-probe.mjs replay \
+  specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source-probe.json
+```

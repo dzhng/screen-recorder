@@ -75,6 +75,15 @@ non-opaque 8-bit alpha normalization. It reduces, but does not eliminate, the
 differences at all three samples; the production decoder and zero-difference
 gate remain unchanged.
 
+The retained [native source receipt](../assets/27-29-transitions/reference-parity/native-source-probe.json)
+captures all four frames from the production AVAssetReader 32BGRA path for
+both sources, applies their frozen display transforms, and replays the byte
+comparison. Native source bytes differ from FFmpeg on 0.11% of pixels with a
+maximum one-code delta; composing those native bytes reduces the moving
+candidate residual to 0.26%, 0.13% and 0.16% of pixels at the three samples,
+but remains nonzero. This is source-conversion evidence, not a replacement
+reference or a relaxed gate.
+
 ## Delegated choices
 
 Reversible default parameter examples and lowering organization. Media selection and handle policy explicit.

@@ -1,0 +1,247 @@
+{
+  "kind": "transition-native-source-conversion-probe",
+  "status": "open",
+  "hypothesis": "native-avassetreader-bgra-source-conversion",
+  "reason": "The production path decodes ProRes through AVAssetReader 32BGRA before Core Image. This probe records those native bytes, applies only the retained source display transform, and compares them with the independent FFmpeg source bytes and the moving candidate. It tests source conversion evidence without changing the compositor or the strict gate.",
+  "sources": {
+    "alpha": {
+      "path": "specs/done/ffmpeg-parity/evidence/motion-alpha/alpha.mov",
+      "sha256": "d0b26f1c3d9cb975566b9a454338c9132255543350874039230636e3213c9c1c",
+      "transform": {
+        "tx": 0,
+        "ty": 0,
+        "d": 1,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      },
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "width": 64,
+          "height": 48,
+          "ptsValue": 0,
+          "ptsTimescale": 16384,
+          "path": "specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source/alpha/frame-0.bgra",
+          "bgraSHA256": "22680acac900543d9cf611abc084d7eaef66f1dc481aa665acc22f338e13dc01"
+        },
+        {
+          "index": 1,
+          "width": 64,
+          "height": 48,
+          "ptsValue": 4096,
+          "ptsTimescale": 16384,
+          "path": "specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source/alpha/frame-1.bgra",
+          "bgraSHA256": "5ee2f5bcfbb4f848e0831f5c9e073facacbdfeae19cafb8e8a973c1085288f32"
+        },
+        {
+          "index": 2,
+          "width": 64,
+          "height": 48,
+          "ptsValue": 8192,
+          "ptsTimescale": 16384,
+          "path": "specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source/alpha/frame-2.bgra",
+          "bgraSHA256": "7c80e4435f166f3805e913957e7e1c461b05cbd1da509dcea353115ecc3094f1"
+        },
+        {
+          "index": 3,
+          "width": 64,
+          "height": 48,
+          "ptsValue": 12288,
+          "ptsTimescale": 16384,
+          "path": "specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source/alpha/frame-3.bgra",
+          "bgraSHA256": "aeeedb48388bdcbf25d3552f2452bd5022675cdafb9bb35aaa4e52bd9a3547a6"
+        }
+      ]
+    },
+    "mirror": {
+      "path": "specs/done/ffmpeg-parity/evidence/motion-alpha/mirror.mov",
+      "sha256": "c269397c597e511dbd7be71d906763fa802863c95da15e88d2c190130653114d",
+      "transform": {
+        "tx": 0,
+        "c": 0,
+        "d": 1,
+        "b": 0,
+        "a": -1,
+        "ty": 0
+      },
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "width": 64,
+          "height": 48,
+          "ptsValue": 0,
+          "ptsTimescale": 16384,
+          "path": "specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source/mirror/frame-0.bgra",
+          "bgraSHA256": "22680acac900543d9cf611abc084d7eaef66f1dc481aa665acc22f338e13dc01"
+        },
+        {
+          "index": 1,
+          "width": 64,
+          "height": 48,
+          "ptsValue": 4096,
+          "ptsTimescale": 16384,
+          "path": "specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source/mirror/frame-1.bgra",
+          "bgraSHA256": "5ee2f5bcfbb4f848e0831f5c9e073facacbdfeae19cafb8e8a973c1085288f32"
+        },
+        {
+          "index": 2,
+          "width": 64,
+          "height": 48,
+          "ptsValue": 8192,
+          "ptsTimescale": 16384,
+          "path": "specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source/mirror/frame-2.bgra",
+          "bgraSHA256": "7c80e4435f166f3805e913957e7e1c461b05cbd1da509dcea353115ecc3094f1"
+        },
+        {
+          "index": 3,
+          "width": 64,
+          "height": 48,
+          "ptsValue": 12288,
+          "ptsTimescale": 16384,
+          "path": "specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source/mirror/frame-3.bgra",
+          "bgraSHA256": "aeeedb48388bdcbf25d3552f2452bd5022675cdafb9bb35aaa4e52bd9a3547a6"
+        }
+      ]
+    }
+  },
+  "candidates": {
+    "moving-100000": {
+      "path": "specs/video-editing-feedback/assets/27-29-transitions/crossfade/moving/moving-frame-100000.png",
+      "sha256": "9224290ee6db687c02add53fe46d8d25bf673d40e39d6d4fa703600a89023fd3"
+    },
+    "moving-500000": {
+      "path": "specs/video-editing-feedback/assets/27-29-transitions/crossfade/moving/moving-frame-500000.png",
+      "sha256": "1ff8801b97be4b4337b525aba94c665af9c018fa5c6a93e37469c9cb73cf1e83"
+    },
+    "moving-900000": {
+      "path": "specs/video-editing-feedback/assets/27-29-transitions/crossfade/moving/moving-frame-900000.png",
+      "sha256": "0c061571e87ab2a23c6b8e8c8599e3b72aa132f947d62839f2e0e8304c4ab9e7"
+    }
+  },
+  "sourceComparisons": [
+    {
+      "source": "alpha",
+      "frame": 0,
+      "comparison": {
+        "differingBytes": 342,
+        "differingPixels": 339,
+        "differingRatio": 0.1103515625,
+        "maxChannelDelta": 1,
+        "mae": 0.02783203125
+      }
+    },
+    {
+      "source": "alpha",
+      "frame": 1,
+      "comparison": {
+        "differingBytes": 342,
+        "differingPixels": 339,
+        "differingRatio": 0.1103515625,
+        "maxChannelDelta": 1,
+        "mae": 0.02783203125
+      }
+    },
+    {
+      "source": "alpha",
+      "frame": 2,
+      "comparison": {
+        "differingBytes": 342,
+        "differingPixels": 339,
+        "differingRatio": 0.1103515625,
+        "maxChannelDelta": 1,
+        "mae": 0.02783203125
+      }
+    },
+    {
+      "source": "alpha",
+      "frame": 3,
+      "comparison": {
+        "differingBytes": 342,
+        "differingPixels": 339,
+        "differingRatio": 0.1103515625,
+        "maxChannelDelta": 1,
+        "mae": 0.02783203125
+      }
+    },
+    {
+      "source": "mirror",
+      "frame": 0,
+      "comparison": {
+        "differingBytes": 342,
+        "differingPixels": 339,
+        "differingRatio": 0.1103515625,
+        "maxChannelDelta": 1,
+        "mae": 0.02783203125
+      }
+    },
+    {
+      "source": "mirror",
+      "frame": 1,
+      "comparison": {
+        "differingBytes": 342,
+        "differingPixels": 339,
+        "differingRatio": 0.1103515625,
+        "maxChannelDelta": 1,
+        "mae": 0.02783203125
+      }
+    },
+    {
+      "source": "mirror",
+      "frame": 2,
+      "comparison": {
+        "differingBytes": 342,
+        "differingPixels": 339,
+        "differingRatio": 0.1103515625,
+        "maxChannelDelta": 1,
+        "mae": 0.02783203125
+      }
+    },
+    {
+      "source": "mirror",
+      "frame": 3,
+      "comparison": {
+        "differingBytes": 342,
+        "differingPixels": 339,
+        "differingRatio": 0.1103515625,
+        "maxChannelDelta": 1,
+        "mae": 0.02783203125
+      }
+    }
+  ],
+  "candidateComparisons": [
+    {
+      "id": "moving-100000",
+      "atUs": 100000,
+      "comparison": {
+        "mae": 0.0008680555555555555,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.0026041666666666665
+      }
+    },
+    {
+      "id": "moving-500000",
+      "atUs": 500000,
+      "comparison": {
+        "mae": 0.00043402777777777775,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.0013020833333333333
+      }
+    },
+    {
+      "id": "moving-900000",
+      "atUs": 900000,
+      "comparison": {
+        "mae": 0.0005425347222222222,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.0016276041666666667
+      }
+    }
+  ],
+  "gate": {
+    "passed": false,
+    "rule": "native-source-conditioned moving parity requires zero differing RGB pixels"
+  }
+}
