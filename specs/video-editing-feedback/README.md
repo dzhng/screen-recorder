@@ -123,7 +123,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [x] [13 — Decoded-picture replication](slices/13-decode-replication.md)
 - [x] [14 — Objective picture observations](slices/14-picture-statistics.md)
 - [ ] [15 — Face localization and explicit tracks](slices/15-face-observations.md)
-- [ ] [16 — Constrained subject framing](slices/16-subject-reframe.md)
+- [x] [16 — Constrained subject framing](slices/16-subject-reframe.md) (geometric delivery complete; full-face detector quality remains open in 15)
 - [x] [17 — Audio-only normalization preflight](slices/17-normalization-preflight.md)
 - [x] [18 — Strict, reliable dynamic mastering](slices/18-reliable-mastering.md)
 - [x] [19 — Dialogue matching and compressor makeup](slices/19-dialogue-matching.md)
