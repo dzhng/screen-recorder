@@ -2,6 +2,25 @@
 
 User decisions remain binding; this ledger records implementation discretion outside the approved plan.
 
+## Retain the rejected Vision revision-2 probe as executable evidence — sound, high confidence
+
+- **When:** slice15 full-face localization follow-up.
+- **The choice:** keep the temporary revision-2 native report and its compressed
+  candidate payload under the face-observation evidence directory, and add an
+  inference-free replay that verifies both identities, the nine failed frame
+  ordinals and the unchanged 0.5 IoU gate.
+- **The gap:** the experiment materially reduced the frozen revision-3 failure
+  count but still failed the contract and also changed the frozen crop-center
+  raster. Keeping only a prose note would allow the result to be mistaken for a
+  promoted detector or rerun against a different binary.
+- **The reach:** future detector work can compare against the exact refused
+  candidate without changing production evidence. The replay requires explicit
+  refusal and promotion=false; it does not widen boxes, lower thresholds or
+  replace the production worker.
+- **Verdict:** sound. The experiment remains useful evidence while the full-face
+  gate stays open.
+- **Confidence:** high.
+
 ## Keep multicam source choice separate from synchronization — sound, high confidence
 
 - **When:** slice01 retained multicam source-choice replay.

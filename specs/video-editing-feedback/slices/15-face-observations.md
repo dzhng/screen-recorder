@@ -1,6 +1,6 @@
 # 15 — Detect and track subjects explicitly
 
-Status: partial — complete native sampled-window delivery, planted controls, retained association and landmark-coverage evidence are verified; the frozen full-face localization gate fails 27 Graham occlusion/pose frames and remains open. Its retained failure is now an executable replay gate that recomputes the frozen IoU/center evidence without widening boxes. Depends on: [14](14-picture-statistics.md).
+Status: partial — complete native sampled-window delivery, planted controls, retained association and landmark-coverage evidence are verified; the frozen full-face localization gate fails 27 Graham occlusion/pose frames and remains open. Its retained failure is now an executable replay gate that recomputes the frozen IoU/center evidence without widening boxes. A separate revision-2 detector experiment is also replayable and refused after nine remaining IoU failures plus static raster drift. Depends on: [14](14-picture-statistics.md).
 
 ## Contract
 
