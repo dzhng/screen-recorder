@@ -2340,3 +2340,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   compatibility, not production readiness or long-form quality.
 - **Confidence:** high for the retained three-case measurements and unchanged
   gate; low for any claim outside these controls.
+
+## Retain native transition source parity as a refusal — slices27–29
+
+- **When:** the independent moving alpha/mirror reference still failed the strict zero-difference gate after the working-format, color-space, output, source-over, rasterization and alpha-conversion probes.
+- **The choice:** capture the production AVAssetReader 32BGRA bytes for every frozen source frame, apply only the declared display transforms, and condition the same independent transition oracle on those native bytes. Keep the production decoder/compositor unchanged until the candidate is exact.
+- **The gap:** native source bytes differ from the FFmpeg comparator on 0.11% of pixels by at most one code value, and the native-conditioned candidate still differs at all three samples. Lower error is evidence about source conversion, not parity.
+- **The reach:** the native receipt, raw BGRA fixtures and replay are retained under `assets/27-29-transitions/reference-parity/`; the zero-difference gate and production path remain open and unchanged.
+- **Verdict:** sound bounded refusal; another hypothesis must explain the residual without overfitting or relaxing the gate.
+- **Confidence:** high for the frozen source frames, transforms and measured residuals; no broader movie parity is claimed.
