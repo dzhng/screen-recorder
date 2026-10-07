@@ -82,7 +82,11 @@ comparison. Native source bytes differ from FFmpeg on 0.11% of pixels with a
 maximum one-code delta; composing those native bytes reduces the moving
 candidate residual to 0.26%, 0.13% and 0.16% of pixels at the three samples,
 but remains nonzero. This is source-conversion evidence, not a replacement
-reference or a relaxed gate.
+reference or a relaxed gate. The retained
+[RGBAHalf source probe](../assets/27-29-transitions/reference-parity/rgba-half-source-probe.json)
+replays all eight half-float frames and finds the same 340 differing pixels,
+342 differing bytes and one-code maximum delta after conversion, so changing
+the decoder pixel format does not close the strict gate either.
 
 ## Delegated choices
 

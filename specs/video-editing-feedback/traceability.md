@@ -249,7 +249,10 @@ one-code-value rounding (maximum MAE 0.0723, 21.68% differing pixels), so the
 failure is retained rather than used to relax the gate. A native AVAssetReader
 32BGRA probe binds all frozen source frames and reduces the candidate residual to
 0.26%, 0.13% and 0.16% at the three samples, but remains nonzero; source fixtures
-and replay are retained without changing the production path.
+and replay are retained without changing the production path. A retained
+AVAssetReader `kCVPixelFormatType_64RGBAHalf` probe replays all eight converted
+frames and reproduces the same 340-pixel/342-byte one-code residual, so the
+higher-precision decoder hypothesis is explicitly refused as well.
 
 Slice25 evidence: the existing source-neutral SDR correction now carries bounded `shadows` and
 `highlights` controls through composition schema/defaults, compiled visual operations and the

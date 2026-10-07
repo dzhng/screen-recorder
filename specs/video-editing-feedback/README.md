@@ -101,7 +101,9 @@ production compositor unchanged. A native AVAssetReader 32BGRA receipt now
 shows the source bytes differ from the FFmpeg oracle by one code value on the
 semi-transparent edge, and a native-source-conditioned oracle reduces the
 candidate residual to a handful of pixels without reaching zero. This explains
-the open gate without weakening it.
+the open gate without weakening it. A retained `kCVPixelFormatType_64RGBAHalf`
+probe reproduces the same one-code source residual on all eight frames, so
+higher-precision source delivery is also refused as a parity fix.
 
 Priority order: 20/21 global synchronization remains refused on the frozen
 unlike-mic evidence; 15/16 face/framing remain partial; 27–30 have public
