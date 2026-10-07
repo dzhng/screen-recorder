@@ -191,7 +191,10 @@ now combine sampled acoustic support with independently recognized shared phrase
 but every global clock still refuses. The selected full-domain lexical search is
 also replayable across 381 windows and finds no cross-participant five-word anchor;
 the Lily split-file repeat has incompatible offsets. Equal duration/session
-provenance does not close the gap.
+provenance does not close the gap. The retained [global bridge refusal](assets/20-synchronization/bridge/global-refusal.json)
+also replays two incompatible `grahamRaw` local deltas against the frozen 2 ms
+precision gate, so the next action remains `piecewise-local-only` and no global
+clock reaches the composition boundary.
 
 Slice22A/22B evidence: composition authoring retains optional `verticalAlignment` plus
 bounded stroke/shadow/background fields; native TextRaster reports glyph-path `inkBounds`,

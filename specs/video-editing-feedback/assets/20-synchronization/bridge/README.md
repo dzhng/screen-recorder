@@ -50,3 +50,10 @@ precision bound; missing anchors, repeated peaks, continuous drift and
 piecewise edits still refuse. [Independent review](review.md) is scoped to this
 research checkpoint. Slice20 remains open; no production estimator or relationship
 owner changed.
+
+[Global bridge refusal](global-refusal.json) is an additional replayable gate over
+the retained local results. The two admitted `grahamRaw` windows differ by
+3,998,912 samples at 16 kHz, far beyond the frozen 32-frame (2 ms) tolerance, so
+one constant raw-source offset is refused. The replay test is included in the
+test-harness package suite and records `piecewise-local-only` as the next action;
+it does not promote a session clock or change the production relationship owner.

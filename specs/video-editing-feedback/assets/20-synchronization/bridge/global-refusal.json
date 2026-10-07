@@ -1,0 +1,57 @@
+{
+  "kind": "global-bridge-synchronization-refusal",
+  "status": "refused",
+  "hypothesis": "constant-global-offset-over-edited-reference",
+  "reason": "Multiple locally admitted bridge windows from one raw source carry incompatible exact source-clock deltas. A single global clock would require these deltas to agree within the frozen 2 ms (32-frame at 16 kHz) precision policy; the retained evidence does not.",
+  "localPath": "specs/video-editing-feedback/assets/20-synchronization/bridge/local.json",
+  "localSha256": "6a6fbab95e6702a82aec79b17d486a5fb849c8b236efae4114ad24b3c219b165",
+  "sourceGroups": [
+    {
+      "source": "grahamRaw",
+      "windows": [
+        {
+          "name": "grahamRaw-2171",
+          "referenceMinusSourceSamples16k": -5107632,
+          "offsetFrames": 0,
+          "spreadFrames": 0
+        },
+        {
+          "name": "grahamRaw-253",
+          "referenceMinusSourceSamples16k": -1108720,
+          "offsetFrames": 0,
+          "spreadFrames": 1
+        }
+      ],
+      "minimumDifferenceFrames": 3998912
+    },
+    {
+      "source": "lilyRawP1",
+      "windows": [
+        {
+          "name": "lilyRawP1-1106",
+          "referenceMinusSourceSamples16k": -3952751,
+          "offsetFrames": 1,
+          "spreadFrames": 0
+        }
+      ],
+      "minimumDifferenceFrames": 0
+    },
+    {
+      "source": "madisonRaw",
+      "windows": [
+        {
+          "name": "madisonRaw-296",
+          "referenceMinusSourceSamples16k": -1164880,
+          "offsetFrames": 0,
+          "spreadFrames": 0
+        }
+      ],
+      "minimumDifferenceFrames": 0
+    }
+  ],
+  "gate": {
+    "passed": false,
+    "rule": "one global offset per raw source requires every admitted bridge delta to differ by at most 32 frames"
+  },
+  "nextAction": "piecewise-local-only"
+}

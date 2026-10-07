@@ -88,6 +88,13 @@ rechecks all nine retained source/window results against the original numerical
 operands and refuses any newly accepted real offset before the composition
 boundary. It does not rerun inference or promote a shared clock.
 
+The retained [global bridge refusal](../assets/20-synchronization/bridge/global-refusal.json)
+replays the remaining global hypothesis directly from `local.json`. Its two
+admitted `grahamRaw` windows disagree by 3,998,912 samples at 16 kHz, exceeding
+the frozen 32-frame (2 ms) precision policy, so a single constant offset per raw
+source is refused. The next synchronization experiment is explicitly
+`piecewise-local-only`; no global clock is admitted.
+
 The composition boundary does not manufacture a verdict from these refusals. It
 accepts only a caller-supplied synchronization receipt whose status is accepted,
 whose fingerprint and generation are retained, and whose source set is checked

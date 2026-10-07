@@ -58,6 +58,12 @@ valid range. This preserves sampled local relationships without claiming a globa
 clock, retiming media, or selecting a camera. Constant-offset declarations retain
 their single-range member form.
 
+The [global bridge refusal](../assets/20-synchronization/bridge/global-refusal.json)
+is the replayable boundary for this representation: incompatible retained local
+windows force the `piecewise-local-only` next action. Angle declarations must
+therefore keep those segment mappings caller-authored until Slice20 produces a
+separately accepted global receipt.
+
 ## Delegated choices
 
 Relationship representation and angle names. Angles/offsets remain explicit inputs; speaker naming is deferred to its single owner in 32.
