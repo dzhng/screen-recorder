@@ -46,9 +46,11 @@ Otherwise use anonymous labels such as Speaker A. Renaming changes the binding,
 not acoustic inference or source transcription.
 
 Transcript views carry binding/evidence generations, occurrence and original word
-identity. A word wholly covered by one supported turn can have one speaker. Crossing
-turns, overlapping speakers or uncertain observation produces candidate IDs or
-unknown; never use nearest-speaker/majority-time guessing as an undisclosed default.
+identity. A word wholly covered by one supported turn can have one speaker only
+when no other speaker intersects any part of that word. A competing partial turn is
+overlap evidence just like a second full covering turn. Crossing turns or uncertain
+observation produces unknown; never use nearest-speaker/majority-time guessing as
+an undisclosed default.
 Keep raw-source owner identity distinct from audible-speaker identity when a person's
 camera includes another person's voice or mic bleed. Authored silence/gaps remain
 separate from unobserved activity.
@@ -75,9 +77,9 @@ Invoke [write-tests](../../../.agents/skills/write-tests/SKILL.md) first. Extend
 CLI/service source/project/portable journeys, using complete frozen 31 outputs for
 cheap seam checks and only the minimal new native confirmation needed for integration.
 Check slot permutations, changed generation/binding cursors, rename without inference,
-unknown/simultaneous speakers, absent runtime after retained publication, source gaps,
-camera/mic bleed, word-crossing turns, retiming/repeats and package replay with its
-caller-authored binding resources.
+unknown/simultaneous speakers, partial competing turns, absent runtime after retained
+publication, source gaps, camera/mic bleed, word-crossing turns, retiming/repeats and
+package replay with its caller-authored binding resources.
 
 Consume real public receipts through the compact helper. A transcript-looking table
 that assigns the wrong voice must fail automatic controls even if all words match.

@@ -78,7 +78,7 @@ User decisions remain binding; this ledger records implementation discretion out
 - **Confidence:** medium; the focused public replay test and core/service builds
   pass, while the ten-minute continuity quality gate remains open.
 
-## Attribute source words only from complete retained turns — sound, medium confidence
+## Attribute source words only from complete, uncontested retained turns — sound, high confidence
 
 - **When:** slice32 source-transcript attribution checkpoint.
 - **The choice:** add an optional generation-pinned speaker selector, including
@@ -86,21 +86,26 @@ User decisions remain binding; this ledger records implementation discretion out
   recording can therefore use a speaker-bearing stream without assuming it is
   the transcript stream. For each word, the reader compares its exact source interval
   with retained anonymous speaker turns. One turn that contains the entire word
-  yields one slot and its caller binding; no containing turn yields `unknown`, and
-  more than one yields `overlap`. A word that merely touches a turn is never
-  assigned by nearest time or majority overlap. The continuation carries a digest
-  of the caller's bindings so renaming between pages refuses instead of changing
-  an already-started view.
+  yields one slot and its caller binding only when no other speaker intersects the
+  word; a competing partial turn is overlap evidence. No containing turn yields
+  `unknown`, and more than one intersecting turn yields `overlap`. A word that
+  merely touches a turn is never assigned by nearest time or majority overlap. The
+  continuation carries a digest of the caller's bindings so renaming between pages
+  refuses instead of changing an already-started view.
 - **The gap:** the plan required honest word attribution but did not prescribe the
-  join algorithm or how label edits should interact with a paginated read.
+  join algorithm, partial competing-turn behavior, or how label edits should
+  interact with a paginated read.
 - **The reach:** source transcript consumers can render named, anonymous,
   unknown and simultaneous speech without treating camera ownership, energy or a
-  diarizer score as identity. Project transcript joins still need the same rule,
-  and long-form continuity must still pass before the full labeling slice closes.
-- **Verdict:** sound for the source-read seam. It preserves explicit uncertainty
-  and gives cursors a stable evidence boundary; it does not overclaim project or
+  diarizer score as identity. Project transcript joins use the same pure owner;
+  long-form continuity must still pass before the full labeling slice closes.
+- **Verdict:** sound for the source and project read seam. Partial competing turns
+  cannot be hidden by a confident whole-word attribution, while half-open touching
+  endpoints remain non-overlapping. The rule preserves explicit uncertainty and
+  gives cursors a stable evidence boundary; it does not overclaim project or
   cross-session identity.
-- **Confidence:** medium.
+- **Confidence:** high for the pure attribution and selected public journey; medium
+  for the overall slice while long-form continuity remains open.
 
 ## Compare speaker cursor selectors by meaning — sound, high confidence
 

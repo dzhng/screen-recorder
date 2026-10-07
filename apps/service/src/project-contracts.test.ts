@@ -450,7 +450,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
         rows: [
           { id: "w0", speaker: { state: "attributed", slot: 0, displayName: "Ada" } },
           { id: "w1", speaker: { state: "overlap", slots: [0, 1] } },
-          { id: "w2", speaker: { state: "attributed", slot: 1, displayName: "Grace" } },
+          { id: "w2", speaker: { state: "overlap", slots: [0, 1] } },
           { id: "w3", speaker: { state: "attributed", slot: 1, displayName: "Grace" } },
         ],
         nextCursor: expect.any(Object),

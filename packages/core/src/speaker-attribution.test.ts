@@ -45,3 +45,23 @@ test("display names decorate only uniquely attributed words", () => {
     },
   ]);
 });
+
+test("a partial competing turn prevents confident attribution for the whole word", () => {
+  const words = [
+    { id: "overlapping", sourceRange: { startUs: 100, endUs: 300 } },
+    { id: "after", sourceRange: { startUs: 300, endUs: 400 } },
+  ];
+  expect(
+    attributeTranscriptWords(
+      words,
+      [
+        { slot: 0, sourceRange: { startUs: 0, endUs: 400 } },
+        { slot: 1, sourceRange: { startUs: 200, endUs: 300 } },
+      ],
+      { labels: new Map([[0, "Ada"], [1, "Grace"]]) },
+    ),
+  ).toEqual([
+    { ...words[0], speaker: { state: "overlap", slots: [0, 1] } },
+    { ...words[1], speaker: { state: "attributed", slot: 0, displayName: "Ada" } },
+  ]);
+});

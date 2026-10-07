@@ -21,8 +21,9 @@ Focused evidence:
   the live managed label store.
 
 Source transcript reads now accept a generation-pinned speaker selector with its
-explicit speaker-bearing stream and channel. Words are
-decorated only when one retained turn wholly covers the word; boundary crossings
+explicit speaker-bearing stream and channel. Words are decorated only when one
+retained turn wholly covers the word and no other speaker intersects it; a partial
+competing turn is `overlap` evidence. Boundary crossings without a complete cover
 remain `unknown`, simultaneous full coverage remains `overlap`, and caller names
 come from the immutable binding digest pinned into the continuation. The pure
 attribution rule is covered by `packages/core/src/speaker-attribution.test.ts` and
