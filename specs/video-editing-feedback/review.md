@@ -1,6 +1,6 @@
 # Verification refresh — 2026-10-07
 
-The current clean branch was rebuilt from the checked-in sources. `bun run build` and `bun run check-types` pass; the focused editing harness passes 151/151; Core passes 794 tests with one skip, Composition 335/335, Protocol 37/37, CLI 112/112, Client 22/22, Workbench 1/1, the focused service speaker/project lane 18/18, and the focused `test:tools` cases pass; the unparameterized 155-test tools run had 152 passes and three setup failures, while the two signing-lab tests and the 12-case update guard pass when the required Sparkle framework is supplied. The consumer-facing replay receipts for face, synchronization, transition, scene, speaker, and fresh-delivery limits all replay successfully and preserve their refused verdicts.
+The current clean branch was rebuilt from the checked-in sources. `bun run build` and `bun run check-types` pass; the focused editing harness passes 153/153; Core passes 794 tests with one skip, Composition 335/335, Protocol 37/37, CLI 112/112, Client 22/22, Workbench 1/1, the focused service speaker/project lane 18/18, and the focused `test:tools` cases pass; the unparameterized 155-test tools run had 152 passes and three setup failures, while the two signing-lab tests and the 12-case update guard pass when the required Sparkle framework is supplied. The consumer-facing replay receipts for face, synchronization (including the global-clock refusal), transition, scene, speaker (including complete long-input transport), and fresh-delivery limits all replay successfully and preserve their refused verdicts.
 
 The broad `bun test` command was exercised once. It reaches the expected macOS capture boundary and reports `PERMISSION_REQUIRED`; this environment has no live capture verification. Other failures are setup-specific: Bun 1.4.2 is not the required Node 24 runner for Node-only release fixtures, and installed-library checks require the already-built native variable. Those are recorded as unverified environment checks, not product failures or reasons to wait for user action. `oxlint` passes with pre-existing warnings; `oxfmt --check` reports repository-wide formatting drift in historical/generated/evidence files and was not used as a reason to rewrite them.
 
@@ -69,7 +69,7 @@ their owning slices.
 
 The implementation branches are clean at the verified head; both
 `spec/speaker-next` and `spec/video-editing-feedback` point at it. The focused
-editing harness is 151/151, composition is 335/335,
+editing harness is 153/153, composition is 335/335,
 protocol is 37/37, core is 794 with one skip, CLI is 112/112, client is 22/22,
 and the workbench check passes. The two service cases that timed out during the
 first parallel run pass individually; the serialized service lane is 302 passing
@@ -79,7 +79,7 @@ the current ready-page contract and passes its focused seven-test file.
 
 The non-live completion lane was rerun with the built Sparkle framework selected
 explicitly: all 17 filtered package tasks passed, the focused editing harness
-passed 151/151, and `test:tools` passed all 164 tests. The speaker runtime also
+passed 153/153, and `test:tools` passed all 164 tests. The speaker runtime also
 passed clean offline materialization with 181 pinned inputs, seven install groups,
 54 native relocations and a relocated import/version smoke check. The new combined A/V
 checkpoint is covered by a committed native export and an inference-free replay:

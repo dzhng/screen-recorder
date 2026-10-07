@@ -17,7 +17,7 @@ change the installed app until the user requests release. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: final verification and review are complete for every reproducible offline surface. The focused editing harness passes 151/151, the package build and type checks pass, Core passes 794 tests with one skip, Composition 335/335, Protocol 37/37, CLI 112/112, Client 22/22, Workbench 1/1, and the focused service speaker/project lane passes 18/18. The pinned speaker runtime materializes and relocates cleanly. The full repository command was also exercised; its remaining failures are environment-bound macOS permission/device checks, missing Sparkle/native test variables when not supplied, and Bun 1.4.2 invoking Node-only release fixtures. No implementation is waiting on a user action.
+Current pickup: final verification and review are complete for every reproducible offline surface. The focused editing harness passes 153/153, the package build and type checks pass, Core passes 794 tests with one skip, Composition 335/335, Protocol 37/37, CLI 112/112, Client 22/22, Workbench 1/1, and the focused service speaker/project lane passes 18/18. The pinned speaker runtime materializes and relocates cleanly. The full repository command was also exercised; its remaining failures are environment-bound macOS permission/device checks, missing Sparkle/native test variables when not supplied, and Bun 1.4.2 invoking Node-only release fixtures. No implementation is waiting on a user action.
 
 The remaining red contracts are evidence-backed scope limits: full-face localization through occlusion, global unlike-microphone synchronization, strict moving transition/reference parity, and ten-minute four-speaker continuity. Their refusal receipts and inference-free replay tests remain authoritative. The production-native fresh-agent delivery identity and focused launch/podcast/teaser routing are green, while slice 34 still cannot claim perceptual/native/audio acceptance beyond the retained non-live evidence. Future work should pursue a new independently justified hypothesis for one red contract; do not widen a bounded claim or turn an unverified live check into a pass.
 Priority order: 20/21 global synchronization remains refused on the frozen
@@ -27,7 +27,7 @@ independent moving parity oracle remains red; 31/32
 bounded attribution is integrated while long-form continuity remains red; 33/34
 have focused references, route provenance and a green concrete replay, with final
 workflow review still open.
-The retained editing harness now passes 151/151 focused tests across these
+The retained editing harness now passes 153/153 focused tests across these
 receipts; that green replay suite does not promote any explicitly refused gate.
 The Core suite passes 794 tests with one skip, Protocol passes 37 tests, and the
 service suite passes 302 tests with 22 skips.
