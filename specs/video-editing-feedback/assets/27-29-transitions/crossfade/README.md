@@ -13,6 +13,20 @@ the midpoint (`[0, 0, 0]`); every preview contains all four declared project
 frames. These are bounded picture receipts for public lowering and delivery.
 The retained `crossfade.wav` and report also prove public native audio delivery: two full-range caller-authored sources are summed outside the window and follow opposing gain ramps through the 250–750ms window, with an independent PCM oracle at 100ms, 500ms and 900ms. Reference-conditioned visual acceptance and motion delivery remain separate gates.
 
+The retained audio artifact is protected by the inference-free
+[`transition-audio-replay.mjs`](../../../../../packages/test-harness/editing/transition-audio-replay.mjs)
+check. It re-hashes the committed WAV, verifies the native audio receipt and
+recomputes the two-source PCM oracle at all three landmarks. Its focused test
+also mutates the retained oracle and must refuse it:
+
+```text
+node --test packages/test-harness/editing/transition-audio-replay.test.mjs
+```
+
+This is delivered audio-transition evidence, not a claim that video scene
+observations and audio transitions share one detector or one automatic edit
+decision.
+
 The matched deterministic reference controls and native candidate frames were
 also run through the repository screenshot comparator. The frozen receipt is in
 [`comparator/transition/report/visual-parity-diff.json`](comparator/transition/report/visual-parity-diff.json),

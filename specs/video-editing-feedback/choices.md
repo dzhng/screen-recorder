@@ -2384,3 +2384,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** the native receipt, raw BGRA fixtures and replay are retained under `assets/27-29-transitions/reference-parity/`; the zero-difference gate and production path remain open and unchanged.
 - **Verdict:** sound bounded refusal; another hypothesis must explain the residual without overfitting or relaxing the gate.
 - **Confidence:** high for the frozen source frames, transforms and measured residuals; no broader movie parity is claimed.
+
+## Keep delivered audio transitions separate from scene observations — slices27/30
+
+- **When:** the retained native crossfade run already delivered two caller-authored audio sources through public `edit.apply` and `audio.get`, while the delivered-scene report owned only video scene rows.
+- **The choice:** add an inference-free replay over the committed `crossfade.wav` and its report. Re-hash the artifact, verify the native audio receipt and recompute the independent two-source PCM oracle at 100ms, 500ms and 900ms. Keep this evidence separate from picture scene association.
+- **The gap:** no public operation currently detects audio transitions as scene rows or establishes a shared picture/audio clock. Inventing a detector or associating rows by matching timestamps would overclaim the contract.
+- **The reach:** `transition-audio-replay.mjs` and its focused test protect delivered audio evidence without rerunning native work. The smallest next experiment is one committed A/V export inspected through the existing scene and audio owners, with decoded clocks retained before proposing any cross-plane association.
+- **Verdict:** sound bounded acceptance for delivered audio transition arithmetic; combined scene/audio acceptance remains open and explicitly refused.
+- **Confidence:** high for the retained native WAV/report and replay; zero for any general scene/audio detector until the next experiment runs.
