@@ -1,0 +1,42 @@
+{
+  "state": "passed",
+  "tests": 5,
+  "signedOffsetCases": 18,
+  "knownShiftSeeds": [
+    61009,
+    61010,
+    61011
+  ],
+  "sampleRates": [
+    1000,
+    16000
+  ],
+  "mutations": [
+    {
+      "kind": "mapping-sign",
+      "redExitCode": 1,
+      "logSha256": "3695b95f659af3d9936fa8e0bcebec67ef0436eaea9020dd228e2ff98dfd075e"
+    },
+    {
+      "kind": "missing-anchor-as-zero",
+      "redExitCode": 1,
+      "logSha256": "0db1e6bcb4e74e8f27b3951ef5803bdb1e8ae291ddd0b75a8ea2693291306588"
+    }
+  ],
+  "maximumObservedRealAbsoluteCorrelation": 0.19654627126340568,
+  "realComparisons": 9,
+  "realPassed": 0,
+  "wrappedSamplesChanged": false,
+  "nativeWrappedRedecodeChanged": false,
+  "noProviderPromoted": true,
+  "runnerRegressions": {
+    "count": 3,
+    "redThenGreen": [
+      "acquisition-bound-before-native",
+      "replay-bound-before-native",
+      "frozen-rms-disagreement-refused"
+    ],
+    "fixtureHashRefusal": "tampered SHA refused before comparison",
+    "frozenComparisonParity": true
+  }
+}

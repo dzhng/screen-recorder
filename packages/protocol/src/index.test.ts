@@ -313,11 +313,28 @@ it("transcript pages and searches are bounded and their cursors name the pinned 
     generation: "attempt",
     supportDigest: "digest",
   };
+  const speaker = {
+    streamId: "speaker-audio",
+    channel: 0,
+    modelId: "parakeet-speaker",
+    observationRange: { startUs: 0, endUs: 30_000_000 },
+    generation: "speaker-generation",
+  };
   const accepted: [string, Record<string, unknown>][] = [
     ["transcript.get", { limit: 1000 }],
+    ["transcript.get", { speaker }],
     [
       "transcript.get",
-      { cursor: { ...position, afterSourceUs: 0, afterOrdinal: null, range: null } },
+      {
+        speaker,
+        cursor: {
+          ...position,
+          afterSourceUs: 0,
+          afterOrdinal: null,
+          range: null,
+          speaker: { ...speaker, bindingDigest: "a".repeat(64) },
+        },
+      },
     ],
     ["transcript.search", { text: "x".repeat(200), limit: 500 }],
     [
@@ -337,6 +354,29 @@ it("transcript pages and searches are bounded and their cursors name the pinned 
   ];
   for (const [operation, params] of refused)
     expect(parse(operation, params).success, JSON.stringify(params)).toBe(false);
+});
+
+it("project transcript reads admit explicit speaker-generation joins", () => {
+  const params = {
+    projectId: "project",
+    speakerGenerations: [
+      {
+        assetId: "asset",
+        streamId: "speaker-audio",
+        channel: 0,
+        modelId: "sortformer",
+        observationRange: { startUs: 0, endUs: 30_000_000 },
+        generation: "speaker-generation",
+      },
+    ],
+  };
+  expect(operationSchema.safeParse({ operation: "transcript.get", params }).success).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "transcript.get",
+      params: { ...params, speakerGenerations: [{ ...params.speakerGenerations[0], extra: true }] },
+    }).success,
+  ).toBe(false);
 });
 
 it("project exports preserve their target and refuse ambiguous owners", () => {
@@ -452,4 +492,98 @@ it("loudness admission keeps source/project selectors exclusive and channel inte
       operationSchema.safeParse({ operation: "audio.measure", params: { ...source, ...extra } })
         .success,
     ).toBe(false);
+});
+
+it("admits project alignment reads only with an explicit prepared tap identity", () => {
+  const request = {
+    operation: "alignment.get",
+    params: {
+      projectId: "project",
+      revisionId: "revision",
+      preparedResourceId: "prepared",
+      tap: { target: { kind: "output" }, point: { kind: "processed" } },
+      assetId: "a".repeat(64),
+      generation: "generation",
+      view: "words",
+    },
+  };
+  expect(operationSchema.safeParse(request).success).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "alignment.get",
+      params: { ...request.params, projectId: undefined },
+    }).success,
+  ).toBe(false);
+});
+
+it("admits alignment preparation over a pinned project tap", () => {
+  expect(
+    operationSchema.safeParse({
+      operation: "alignment.prepare",
+      params: {
+        projectId: "project",
+        revisionId: "revision",
+        preparedResourceId: "prepared",
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+        range: { startUs: 0, endUs: 1_000_000 },
+        channel: 0,
+        text: "hello world",
+        modelId: "nemo-ctc110",
+      },
+    }),
+  ).toMatchObject({
+    success: true,
+  });
+});
+
+it("admits generation-pinned caller speaker label bindings", () => {
+  expect(
+    operationSchema.safeParse({
+      operation: "speaker.bind",
+      params: {
+        assetId: "a".repeat(64),
+        streamId: "audio",
+        channel: 0,
+        modelId: "speaker-model",
+        observationRange: { startUs: 0, endUs: 30000000 },
+        generation: "speaker-generation",
+        bindings: [{ slot: 0, displayName: "Ada" }],
+      },
+    }).success,
+  ).toBe(true);
+});
+
+it("rejects unknown fields on speaker label bindings", () => {
+  expect(
+    operationSchema.safeParse({
+      operation: "speaker.bind",
+      params: {
+        assetId: "a".repeat(64),
+        streamId: "audio",
+        channel: 0,
+        modelId: "speaker-model",
+        observationRange: { startUs: 0, endUs: 30000000 },
+        generation: "speaker-generation",
+        bindings: [{ slot: 0, displayName: "Ada", inferred: true }],
+      },
+    }).success,
+  ).toBe(false);
+});
+
+it("ordinary project index references remain usable without face observations", () => {
+  const reference = {
+    projectId: "p",
+    revisionId: "r",
+    generation: "g",
+    maxLongEdge: 1600,
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  };
+  for (const request of [
+    { operation: "index.frame", params: { ...reference, ordinal: 0 } },
+    {
+      operation: "index.get",
+      params: { projectId: "p", cursor: { ...reference, afterOrdinal: 0 } },
+    },
+  ])
+    expect(operationSchema.parse(request).params).toMatchObject(request.params);
 });

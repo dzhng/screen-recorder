@@ -46,7 +46,7 @@ async function picture(selection, name) {
       await readFile(file),
     ),
   );
-  const frame = delivered.published.frame;
+  const frame = delivered.published.output;
   for (const layer of frame.frame.layers) {
     assert.equal(Object.hasOwn(layer, "sourceUs"), layer.kind === "video");
   }
@@ -302,7 +302,7 @@ try {
   };
   const evicted = await direct("frame.get", { ...selection, atUs: 0 });
   await call("artifact.close", { token: evicted.delivery.token });
-  await rm(evicted.published.frame.file);
+  await rm(evicted.published.output.file);
   const regenerated = await picture({ ...selection, atUs: 0 }, "regenerated");
   assert.notEqual(regenerated.ready.published.generation, evicted.published.generation);
   assert.equal(regenerated.sha256, report.pictures[0].sha256);

@@ -1,0 +1,657 @@
+@section loudnorm
+
+EBU R128 loudness normalization. Includes both dynamic and linear normalization modes.
+Support for both single pass (livestreams, files) and double pass (files) modes.
+This algorithm can target IL, LRA, and maximum true peak. In dynamic mode, to accurately
+detect true peaks, the audio stream will be upsampled to 192 kHz.
+Use the @code{-ar} option or @code{aresample} filter to explicitly set an output sample rate.
+
+The filter accepts the following options:
+
+@table @option
+@item I, i
+Set integrated loudness target.
+Range is -70.0 - -5.0. Default value is -24.0.
+
+@item LRA, lra
+Set loudness range target.
+Range is 1.0 - 50.0. Default value is 7.0.
+
+@item TP, tp
+Set maximum true peak.
+Range is -9.0 - +0.0. Default value is -2.0.
+
+@item measured_I, measured_i
+Measured IL of input file.
+Range is -99.0 - +0.0.
+
+@item measured_LRA, measured_lra
+Measured LRA of input file.
+Range is  0.0 - 99.0.
+
+@item measured_TP, measured_tp
+Measured true peak of input file.
+Range is  -99.0 - +99.0.
+
+@item measured_thresh
+Measured threshold of input file.
+Range is -99.0 - +0.0.
+
+@item offset
+Set offset gain. Gain is applied before the true-peak limiter.
+Range is  -99.0 - +99.0. Default is +0.0.
+
+@item linear
+Normalize by linearly scaling the source audio.
+@code{measured_I}, @code{measured_LRA}, @code{measured_TP},
+and @code{measured_thresh} must all be specified. Target LRA shouldn't
+be lower than source LRA and the change in integrated loudness shouldn't
+result in a true peak which exceeds the target TP. If any of these
+conditions aren't met, normalization mode will revert to @var{dynamic}.
+Options are @code{true} or @code{false}. Default is @code{true}.
+
+@item dual_mono
+Treat mono input files as "dual-mono". If a mono file is intended for playback
+on a stereo system, its EBU R128 measurement will be perceptually incorrect.
+If set to @code{true}, this option will compensate for this effect.
+Multi-channel input files are not affected by this option.
+Options are true or false. Default is false.
+
+@item print_format
+Set print format for stats. Options are summary, json, or none.
+Default value is none.
+
+@item stats_file
+Write stats to specified file. Format is controlled by @option{print_format},
+which must be set. Specify @code{-} to write to standard output.
+Default is unset.
+@end table
+
+
+
+@section acompressor
+
+A compressor is mainly used to reduce the dynamic range of a signal.
+Especially modern music is mostly compressed at a high ratio to
+improve the overall loudness. It's done to get the highest attention
+of a listener, "fatten" the sound and bring more "power" to the track.
+If a signal is compressed too much it may sound dull or "dead"
+afterwards or it may start to "pump" (which could be a powerful effect
+but can also destroy a track completely).
+The right compression is the key to reach a professional sound and is
+the high art of mixing and mastering. Because of its complex settings
+it may take a long time to get the right feeling for this kind of effect.
+
+Compression is done by detecting the volume above a chosen level
+@code{threshold} and dividing it by the factor set with @code{ratio}.
+So if you set the threshold to -12dB and your signal reaches -6dB a ratio
+of 2:1 will result in a signal at -9dB. Because an exact manipulation of
+the signal would cause distortion of the waveform the reduction can be
+levelled over the time. This is done by setting "Attack" and "Release".
+@code{attack} determines how long the signal has to rise above the threshold
+before any reduction will occur and @code{release} sets the time the signal
+has to fall below the threshold to reduce the reduction again. Shorter signals
+than the chosen attack time will be left untouched.
+The overall reduction of the signal can be made up afterwards with the
+@code{makeup} setting. So compressing the peaks of a signal about 6dB and
+raising the makeup to this level results in a signal twice as loud than the
+source. To gain a softer entry in the compression the @code{knee} flattens the
+hard edge at the threshold in the range of the chosen decibels.
+
+The filter accepts the following options:
+
+@table @option
+@item level_in
+Set input gain. Default is 1. Range is between 0.015625 and 64.
+
+@item mode
+Set mode of compressor operation. Can be @code{upward} or @code{downward}.
+Default is @code{downward}.
+
+@item threshold
+If a signal of stream rises above this level it will affect the gain
+reduction.
+By default it is 0.125. Range is between 0.00097563 and 1.
+
+@item ratio
+Set a ratio by which the signal is reduced. 1:2 means that if the level
+rose 4dB above the threshold, it will be only 2dB above after the reduction.
+Default is 2. Range is between 1 and 20.
+
+@item attack
+Amount of milliseconds the signal has to rise above the threshold before gain
+reduction starts. Default is 20. Range is between 0.01 and 2000.
+
+@item release
+Amount of milliseconds the signal has to fall below the threshold before
+reduction is decreased again. Default is 250. Range is between 0.01 and 9000.
+
+@item makeup
+Set the amount by how much signal will be amplified after processing.
+Default is 1. Range is from 1 to 64.
+
+@item knee
+Curve the sharp knee around the threshold to enter gain reduction more softly.
+Default is 2.82843. Range is between 1 and 8.
+
+@item link
+Choose if the @code{average} level between all channels of input stream
+or the louder(@code{maximum}) channel of input stream affects the
+reduction. Default is @code{average}.
+
+@item detection
+Should the exact signal be taken in case of @code{peak} or an RMS one in case
+of @code{rms}. Default is @code{rms} which is mostly smoother.
+
+@item mix
+How much to use compressed signal in output. Default is 1.
+Range is between 0 and 1.
+@end table
+
+@subsection Commands
+
+This filter supports the all above options as @ref{commands}.
+
+
+
+@section blend
+
+Blend two video frames into each other.
+
+The @code{blend} filter takes two input streams and outputs one
+stream, the first input is the "top" layer and second input is
+"bottom" layer.  By default, the output terminates when the longest input terminates.
+
+The @code{tblend} (time blend) filter takes two consecutive frames
+from one single stream, and outputs the result obtained by blending
+the new frame on top of the old frame.
+
+A description of the accepted options follows.
+
+@table @option
+@item c0_mode
+@item c1_mode
+@item c2_mode
+@item c3_mode
+@item all_mode
+Set blend mode for specific pixel component or all pixel components in case
+of @var{all_mode}. Default value is @code{normal}.
+
+Available values for component modes are:
+@table @samp
+@item addition
+@item and
+@item average
+@item bleach
+@item burn
+@item darken
+@item difference
+@item divide
+@item dodge
+@item exclusion
+@item extremity
+@item freeze
+@item geometric
+@item glow
+@item grainextract
+@item grainmerge
+@item hardlight
+@item hardmix
+@item hardoverlay
+@item harmonic
+@item heat
+@item interpolate
+@item lighten
+@item linearlight
+@item multiply
+@item multiply128
+@item negation
+@item normal
+@item or
+@item overlay
+@item phoenix
+@item pinlight
+@item reflect
+@item screen
+@item softdifference
+@item softlight
+@item stain
+@item subtract
+@item vividlight
+@item xor
+@end table
+
+@item c0_opacity
+@item c1_opacity
+@item c2_opacity
+@item c3_opacity
+@item all_opacity
+Set blend opacity for specific pixel component or all pixel components in case
+of @var{all_opacity}. Only used in combination with pixel component blend modes.
+
+@item c0_expr
+@item c1_expr
+@item c2_expr
+@item c3_expr
+@item all_expr
+Set blend expression for specific pixel component or all pixel components in case
+of @var{all_expr}. Note that related mode options will be ignored if those are set.
+
+The expressions can use the following variables:
+
+@table @option
+@item N
+The sequential number of the filtered frame, starting from @code{0}.
+
+@item X
+@item Y
+the coordinates of the current sample
+
+@item W
+@item H
+the width and height of currently filtered plane
+
+@item SW
+@item SH
+Width and height scale for the plane being filtered. It is the
+ratio between the dimensions of the current plane to the luma plane,
+e.g. for a @code{yuv420p} frame, the values are @code{1,1} for
+the luma plane and @code{0.5,0.5} for the chroma planes.
+
+@item T
+Time of the current frame, expressed in seconds.
+
+@item TOP, A
+Value of pixel component at current location for first video frame (top layer).
+
+@item BOTTOM, B
+Value of pixel component at current location for second video frame (bottom layer).
+@end table
+@end table
+
+The @code{blend} filter also supports the @ref{framesync} options.
+
+@subsection Examples
+
+@itemize
+@item
+Apply transition from bottom layer to top layer in first 10 seconds:
+@example
+blend=all_expr='A*(if(gte(T,10),1,T/10))+B*(1-(if(gte(T,10),1,T/10)))'
+@end example
+
+@item
+Apply linear horizontal transition from top layer to bottom layer:
+@example
+blend=all_expr='A*(X/W)+B*(1-X/W)'
+@end example
+
+@item
+Apply 1x1 checkerboard effect:
+@example
+blend=all_expr='if(eq(mod(X,2),mod(Y,2)),A,B)'
+@end example
+
+@item
+Apply uncover left effect:
+@example
+blend=all_expr='if(gte(N*SW+X,W),A,B)'
+@end example
+
+@item
+Apply uncover down effect:
+@example
+blend=all_expr='if(gte(Y-N*SH,0),A,B)'
+@end example
+
+@item
+Apply uncover up-left effect:
+@example
+blend=all_expr='if(gte(T*SH*40+Y,H)*gte((T*40*SW+X)*W/H,W),A,B)'
+@end example
+
+@item
+Split diagonally video and shows top and bottom layer on each side:
+@example
+blend=all_expr='if(gt(X,Y*(W/H)),A,B)'
+@end example
+
+@item
+Display differences between the current and the previous frame:
+@example
+tblend=all_mode=grainextract
+@end example
+@end itemize
+
+@subsection Commands
+This filter supports same @ref{commands} as options.
+
+@anchor{blockdetect}
+
+
+@section curves
+
+Apply color adjustments using curves.
+
+This filter is similar to the Adobe Photoshop and GIMP curves tools. Each
+component (red, green and blue) has its values defined by @var{N} key points
+tied from each other using a smooth curve. The x-axis represents the pixel
+values from the input frame, and the y-axis the new pixel values to be set for
+the output frame.
+
+By default, a component curve is defined by the two points @var{(0;0)} and
+@var{(1;1)}. This creates a straight line where each original pixel value is
+"adjusted" to its own value, which means no change to the image.
+
+The filter allows you to redefine these two points and add some more. A new
+curve will be defined to pass smoothly through all these new coordinates. The
+new defined points need to be strictly increasing over the x-axis, and their
+@var{x} and @var{y} values must be in the @var{[0;1]} interval. The curve is
+formed by using a natural or monotonic cubic spline interpolation, depending
+on the @var{interp} option (default: @code{natural}). The @code{natural}
+spline produces a smoother curve in general while the monotonic (@code{pchip})
+spline guarantees the transitions between the specified points to be
+monotonic. If the computed curves happened to go outside the vector spaces,
+the values will be clipped accordingly.
+
+The filter accepts the following options:
+
+@table @option
+@item preset
+Select one of the available color presets. This option can be used in addition
+to the @option{r}, @option{g}, @option{b} parameters; in this case, the later
+options takes priority on the preset values.
+Available presets are:
+@table @samp
+@item none
+@item color_negative
+@item cross_process
+@item darker
+@item increase_contrast
+@item lighter
+@item linear_contrast
+@item medium_contrast
+@item negative
+@item strong_contrast
+@item vintage
+@end table
+Default is @code{none}.
+@item master, m
+Set the master key points. These points will define a second pass mapping. It
+is sometimes called a "luminance" or "value" mapping. It can be used with
+@option{r}, @option{g}, @option{b} or @option{all} since it acts like a
+post-processing LUT.
+@item red, r
+Set the key points for the red component.
+@item green, g
+Set the key points for the green component.
+@item blue, b
+Set the key points for the blue component.
+@item all
+Set the key points for all components (not including master).
+Can be used in addition to the other key points component
+options. In this case, the unset component(s) will fallback on this
+@option{all} setting.
+@item psfile
+Specify a Photoshop curves file (@code{.acv}) to import the settings from.
+@item plot
+Save Gnuplot script of the curves in specified file.
+@item interp
+Specify the kind of interpolation. Available algorithms are:
+@table @samp
+@item natural
+Natural cubic spline using a piece-wise cubic polynomial that is twice continuously differentiable.
+@item pchip
+Monotonic cubic spline using a piecewise cubic Hermite interpolating polynomial (PCHIP).
+@end table
+
+@end table
+
+To avoid some filtergraph syntax conflicts, each key points list need to be
+defined using the following syntax: @code{x0/y0 x1/y1 x2/y2 ...}.
+
+@subsection Commands
+
+This filter supports same @ref{commands} as options.
+
+@subsection Examples
+
+@itemize
+@item
+Increase slightly the middle level of blue:
+@example
+curves=blue='0/0 0.5/0.58 1/1'
+@end example
+
+@item
+Vintage effect:
+@example
+curves=r='0/0.11 .42/.51 1/0.95':g='0/0 0.50/0.48 1/1':b='0/0.22 .49/.44 1/0.8'
+@end example
+Here we obtain the following coordinates for each components:
+@table @var
+@item red
+@code{(0;0.11) (0.42;0.51) (1;0.95)}
+@item green
+@code{(0;0) (0.50;0.48) (1;1)}
+@item blue
+@code{(0;0.22) (0.49;0.44) (1;0.80)}
+@end table
+
+@item
+The previous example can also be achieved with the associated built-in preset:
+@example
+curves=preset=vintage
+@end example
+
+@item
+Or simply:
+@example
+curves=vintage
+@end example
+
+@item
+Use a Photoshop preset and redefine the points of the green component:
+@example
+curves=psfile='MyCurvesPresets/purple.acv':green='0/0 0.45/0.53 1/1'
+@end example
+
+@item
+Check out the curves of the @code{cross_process} profile using @command{ffmpeg}
+and @command{gnuplot}:
+@example
+ffmpeg -f lavfi -i color -vf curves=cross_process:plot=/tmp/curves.plt -frames:v 1 -f null -
+gnuplot -p /tmp/curves.plt
+@end example
+@end itemize
+
+
+
+@section lut3d
+
+Apply a 3D LUT to an input video.
+
+The filter accepts the following options:
+
+@table @option
+@item file
+Set the 3D LUT file name.
+
+Currently supported formats:
+@table @samp
+@item 3dl
+AfterEffects
+@item cube
+Iridas
+@item dat
+DaVinci
+@item m3d
+Pandora
+@item csp
+cineSpace
+@end table
+@item interp
+Select interpolation mode.
+
+Available values are:
+
+@table @samp
+@item nearest
+Use values from the nearest defined point.
+@item trilinear
+Interpolate values using the 8 points defining a cube.
+@item tetrahedral
+Interpolate values using a tetrahedron.
+@item pyramid
+Interpolate values using a pyramid.
+@item prism
+Interpolate values using a prism.
+@end table
+@end table
+
+@subsection Commands
+
+This filter supports the @code{interp} option as @ref{commands}.
+
+
+
+@section xfade
+
+Apply cross fade from one input video stream to another input video stream.
+The cross fade is applied for specified duration.
+
+Both inputs must be constant frame-rate and have the same resolution, pixel format,
+frame rate and timebase.
+
+The filter accepts the following options:
+
+@table @option
+@item transition
+Set one of available transition effects:
+
+@table @samp
+@item custom
+@item fade
+@item wipeleft
+@item wiperight
+@item wipeup
+@item wipedown
+@item slideleft
+@item slideright
+@item slideup
+@item slidedown
+@item circlecrop
+@item rectcrop
+@item distance
+@item fadeblack
+@item fadewhite
+@item radial
+@item smoothleft
+@item smoothright
+@item smoothup
+@item smoothdown
+@item circleopen
+@item circleclose
+@item vertopen
+@item vertclose
+@item horzopen
+@item horzclose
+@item dissolve
+@item pixelize
+@item diagtl
+@item diagtr
+@item diagbl
+@item diagbr
+@item hlslice
+@item hrslice
+@item vuslice
+@item vdslice
+@item hblur
+@item fadegrays
+@item wipetl
+@item wipetr
+@item wipebl
+@item wipebr
+@item squeezeh
+@item squeezev
+@item zoomin
+@item fadefast
+@item fadeslow
+@item hlwind
+@item hrwind
+@item vuwind
+@item vdwind
+@item coverleft
+@item coverright
+@item coverup
+@item coverdown
+@item revealleft
+@item revealright
+@item revealup
+@item revealdown
+@end table
+Default transition effect is fade.
+
+@item duration
+Set cross fade duration in seconds.
+Range is 0 to 60 seconds.
+Default duration is 1 second.
+
+@item offset
+Set cross fade start relative to first input stream in seconds.
+Default offset is 0.
+
+@item expr
+Set expression for custom transition effect.
+
+The expressions can use the following variables and functions:
+
+@table @option
+@item X
+@item Y
+The coordinates of the current sample.
+
+@item W
+@item H
+The width and height of the image.
+
+@item P
+Progress of transition effect.
+
+@item PLANE
+Currently processed plane.
+
+@item A
+Return value of first input at current location and plane.
+
+@item B
+Return value of second input at current location and plane.
+
+@item a0(x, y)
+@item a1(x, y)
+@item a2(x, y)
+@item a3(x, y)
+Return the value of the pixel at location (@var{x},@var{y}) of the
+first/second/third/fourth component of first input.
+
+@item b0(x, y)
+@item b1(x, y)
+@item b2(x, y)
+@item b3(x, y)
+Return the value of the pixel at location (@var{x},@var{y}) of the
+first/second/third/fourth component of second input.
+@end table
+@end table
+
+@subsection Examples
+
+@itemize
+@item
+Cross fade from one input video to another input video, with fade transition and duration of transition
+of 2 seconds starting at offset of 5 seconds:
+@example
+ffmpeg -i first.mp4 -i second.mp4 -filter_complex xfade=transition=fade:duration=2:offset=5 output.mp4
+@end example
+@end itemize
+
+

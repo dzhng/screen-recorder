@@ -1,0 +1,34 @@
+✔ partial-alpha multiply includes uncovered source and backdrop in premultiplied linear light (0.386875ms)
+✔ soft-light keeps source/backdrop order and both branches of its light response (0.295583ms)
+✔ transparent source is identity and screen/multiply neutral patches stay neutral (0.094667ms)
+✔ raster verification refuses a delivered channel outside the declared arithmetic limit (0.764958ms)
+✔ raster verification cannot certify only the matching prefix of an oversized image (0.227333ms)
+✖ movie verification refuses wrong terminal support even when both requested pictures exist (0.176667ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 36.5175
+
+✖ failing tests:
+
+test at packages/test-harness/editing/blend-reference.test.mjs:47:1
+✖ movie verification refuses wrong terminal support even when both requested pictures exist (0.176667ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-reference.test.mjs:60:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /duration|end/,
+    operator: 'throws',
+    diff: 'simple'
+  }

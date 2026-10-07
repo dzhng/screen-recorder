@@ -9,8 +9,11 @@ import {
   captionSidecarRequestSchema,
   processingTargetSchema,
   processingTapSchema,
+  timeValueSchema,
 } from "@yap/composition";
 import { z } from "zod";
+import { pictureObservationRequestSchema } from "./picture.js";
+import { faceObservationRequestSchema } from "./faces.js";
 import { captureSelectionSchema } from "./capture.js";
 import { DEFAULT_CALL_TIMEOUT_MS, MEDIA_WORKER_TIMEOUT_MS } from "./framing.js";
 
@@ -33,6 +36,16 @@ const sourceSelection = mediaClipSchema.pick({
   streamId: true,
   acquisitionId: true,
 });
+const transcriptExecutionSelection = {
+  executionRange: selectionRangeSchema.optional(),
+  context: z
+    .strictObject({
+      beforeUs: z.int().min(0).max(4_000_000),
+      afterUs: z.int().min(0).max(4_000_000),
+    })
+    .optional(),
+};
+const sourceTranscriptPreparation = sourceSelection.extend(transcriptExecutionSelection).strict();
 const sourceTranscriptReference = {
   assetId: id,
   streamId: id,
@@ -41,6 +54,20 @@ const sourceTranscriptReference = {
   supportDigest: id,
   afterSourceUs: time,
 };
+const transcriptSpeaker = z
+  .strictObject({
+    streamId: id,
+    acquisitionId: id.optional(),
+    channel: z.int().nonnegative(),
+    modelId: id,
+    observationRange: selectionRangeSchema,
+    generation: id,
+  })
+  .describe("A generation-pinned speaker observation used only for transcript attribution");
+const transcriptSpeakerCursor = transcriptSpeaker.extend({
+  bindingDigest: z.string().regex(/^[a-f0-9]{64}$/),
+});
+const projectTranscriptSpeaker = transcriptSpeaker.extend({ assetId: id });
 const project = z.object({ projectId: id }).strict();
 const projectEvidenceParams = project
   .extend({
@@ -57,6 +84,16 @@ const projectEvidenceParams = project
         queryDigest: z.string().regex(/^[a-f0-9]{64}$/),
       })
       .optional(),
+  })
+  .strict();
+const projectTranscriptParams = projectEvidenceParams
+  .extend({
+    sourceGenerations: z
+      .array(sourceSelection.extend({ generation: z.uuid() }).strict())
+      .min(1)
+      .max(10000)
+      .optional(),
+    speakerGenerations: z.array(projectTranscriptSpeaker).min(1).max(10000).optional(),
   })
   .strict();
 const capturePosition = z.strictObject({
@@ -104,6 +141,7 @@ const exportDestination = {
   revisionId: id.optional(),
   directory: z.string().min(1),
   leaf: z.string().min(1),
+  overwrite: z.boolean().optional(),
 };
 const previewParams = project
   .extend({
@@ -134,6 +172,8 @@ const projectFrameParams = project
     revisionId: id.optional(),
     atUs: time,
     maxLongEdge: maxLongEdge,
+    observations: pictureObservationRequestSchema.optional(),
+    faceObservations: faceObservationRequestSchema.optional(),
     tap: processingTapSchema.optional(),
   })
   .strict();
@@ -141,12 +181,21 @@ const sourceFrameParams = sourceSelection
   .extend({
     atUs: time,
     maxLongEdge: maxLongEdge,
+    observations: pictureObservationRequestSchema.optional(),
+    faceObservations: faceObservationRequestSchema.optional(),
   })
   .strict();
 const frameParams = z.union([
   projectFrameParams,
   sourceFrameParams,
-  sourceSelection.omit({ acquisitionId: true }).extend({ maxLongEdge: maxLongEdge }).strict(),
+  sourceSelection
+    .omit({ acquisitionId: true })
+    .extend({
+      maxLongEdge: maxLongEdge,
+      observations: pictureObservationRequestSchema.optional(),
+      faceObservations: faceObservationRequestSchema.optional(),
+    })
+    .strict(),
 ]);
 
 const audioRange = range.refine(({ startUs, endUs }) => endUs > startUs, {
@@ -166,6 +215,14 @@ const extractedAudioRendition = z.strictObject({
   sampleRate: z.int().min(1).max(192000),
   channels: z.union([z.literal(1), z.literal(2)]),
 });
+const renderedSpeechPreparation = projectAudioParams
+  .extend({
+    revisionId: id,
+    range: audioRange,
+    tap: processingTapSchema,
+    rendition: extractedAudioRendition,
+  })
+  .strict();
 const audioParams = z.union([projectAudioParams, sourceAudioParams]);
 const loudnessFields = {
   channelInterpretation: z.enum(["native", "dual-mono"]).optional(),
@@ -194,7 +251,10 @@ const spectrogramParams = z.union([
 ]);
 
 const projectIndexParams = projectFrameParams.omit({ atUs: true });
-const projectIndexReference = projectIndexParams.required().extend({ generation: id });
+const projectIndexReference = projectIndexParams
+  .required()
+  .partial({ observations: true, faceObservations: true })
+  .extend({ generation: id });
 const paged = <T extends z.ZodRawShape, S extends z.ZodRawShape, C extends z.ZodRawShape>(
   target: z.ZodObject<T>,
   fields: S,
@@ -255,7 +315,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Seed explicitly grouped text clips from pinned transcript generations and occurrence word rows. Supply each cue's source, original occurrence clip ID, exact word ordinals/source ranges, separator, style and project/content/clip anchor domain. Expands one atomic ordinary placement batch; returns revision.document as the sole document, plus edit receipts with normalized edits and labels. Display text remains editable independently of retained transcript origin. Reuse requestId only for the same pinned request. At most 1000 cues and 10000 total word pins.",
+      "Seed explicitly grouped text clips from pinned transcript generations and occurrence word rows. Supply each cue's source, original occurrence clip ID, exact word ordinals/source ranges, separator, style and project/content/clip anchor domain. Expands one atomic ordinary placement batch; returns revision.document as the sole document, plus edit receipts with normalized edits and labels. Display text remains editable independently of retained transcript origin. Pins retain overlapping estimates and instant points; cues containing only instant observations require caller-authored literal text with an explicit extent instead of inferred dwell. Reuse requestId only for the same pinned request. At most 1000 cues and 10000 total word pins.",
     ),
   z
     .object({
@@ -308,7 +368,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Admit local media or a font file as an immutable asset through a durable job. Fonts retain all explicitly named faces without installation or playable streams. Replay requestId to recover the same import; inspect job.get, retry failed work with job.retry and cancel with job.cancel.",
+      "Admit local media, a font file or a bounded 3D .cube LUT as an immutable asset through a durable job. Fonts retain all explicitly named faces without installation or playable streams. LUTs retain byte identity and typed non-playable grid metadata; use processing.set with an explicit LUT asset, colorSpace and interpolation. Replay requestId to recover the same import; inspect job.get, retry failed work with job.retry and cancel with job.cancel.",
     ),
   z
     .object({
@@ -329,7 +389,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("asset.get"), params: z.object({ assetId: id }).strict() })
     .strict()
     .describe(
-      "Read immutable stream headers with segmentCount; use asset.segments for complete physical timing rows, including empty gaps. Non-timed fontFaces remain available. Select a font face by assetId and its exact postScriptName; names are scoped to those immutable bytes, not the installed system fonts.",
+      "Read immutable stream headers with segmentCount; use asset.segments for complete physical timing rows, including empty gaps. Non-timed fontFaces and lut grid metadata remain available. Select a font face by assetId and its exact postScriptName; names are scoped to those immutable bytes, not the installed system fonts.",
     ),
   z
     .object({
@@ -424,7 +484,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video, standalone audio (Float32 WAV or AAC/M4A), an editable processed-package ZIP, or plain SRT/VTT sidecars; sidecars require revisionId and explicit unique text placementIds, use displayed corrected text and exact surviving support, round outward to milliseconds and report introduced overlaps/omissions/discarded styling. They require no video/audio encoder or ASR. Unsupported cue payloads and limits refuse rather than rewrite text; audio defaults to lossless 48kHz stereo WAV, pins the full processed mix, and requires no video preparation. Export never removes video or changes the project. Project packaging selects the requested revision and retained history through it; later donor edits are excluded. Project package JSON uses inventory members with a 128 MiB aggregate working-memory admission. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until an explicit source job retry succeeds.",
+      "Export a pinned revision to an existing absolute directory. A new intent atomically replaces an unchanged file matching a trusted Yap publication receipt; replacing another regular file requires overwrite:true. Symlink and original-source destinations are refused at admission and the commit check. Replacement pins destination identity and bytes; concurrent Yap publishers serialize. A noncooperating external writer racing the atomic swap can leave a conflict with displaced bytes retained in private staging; no rollback over a successor is attempted. Reuse exportId only for the same request to recover a lost response; poll export.status. Managed projects export video, standalone audio (Float32 WAV or AAC/M4A), an editable processed-package ZIP, or plain SRT/VTT sidecars; sidecars require revisionId and explicit unique text placementIds, use displayed corrected text and exact surviving support, round outward to milliseconds and report introduced overlaps/omissions/discarded styling. They require no video/audio encoder or ASR. Unsupported cue payloads and limits refuse rather than rewrite text; audio defaults to lossless 48kHz stereo WAV, pins the full processed mix, and requires no video preparation. Export never removes video or changes the project. Project packaging selects the requested revision and retained history through it; later donor edits are excluded. Project package JSON uses inventory members with a 128 MiB aggregate working-memory admission. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until an explicit source job retry succeeds.",
     ),
   z
     .object({
@@ -555,7 +615,11 @@ export const operationSchema = z.discriminatedUnion("operation", [
         }),
         paged(
           sourceSelection,
-          { limit: z.int().min(1).max(200).default(50) },
+          {
+            limit: z.int().min(1).max(200).default(50),
+            observations: pictureObservationRequestSchema.optional(),
+            faceObservations: faceObservationRequestSchema.optional(),
+          },
           {
             generation: id,
             afterOrdinal: z.int().nonnegative(),
@@ -565,12 +629,18 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a retained screenshot index for a project or selected asset video stream. Projects select the whole revision and an optional video tap, defaulting to processed output; maxLongEdge controls picture size. Source selectors use assetId/streamId and optional acquisitionId. Scene preparation precedes index preparation. Returns readiness until complete, then paged metadata with selection reasons and stable frame references. An empty index may be ready. Project coverage marks only delivered frame visibility as sampled; intervening ranges remain unproven. Continue with the returned cursor to pin identity; use index.frame or index.frames for image bytes.",
+      "Request a retained screenshot index for a project or selected asset video stream. Projects select the whole revision and an optional video tap, defaulting to processed output; maxLongEdge controls picture size. Source selectors use assetId/streamId and optional acquisitionId. Scene preparation precedes index preparation. Returns readiness until complete, then paged metadata with selection reasons and stable frame references. An empty index may be ready. Project coverage marks only delivered frame visibility as sampled; intervening ranges remain unproven. Continue with the returned cursor to pin identity; use index.frame or index.frames for image bytes. Optional observations participates in index identity and retains the sampled frame measurements; it does not prove intervening pixels.",
     ),
   z
     .object({
       operation: z.literal("index.retry"),
-      params: z.union([projectIndexParams, sourceSelection]),
+      params: z.union([
+        projectIndexParams,
+        sourceSelection.extend({
+          observations: pictureObservationRequestSchema.optional(),
+          faceObservations: faceObservationRequestSchema.optional(),
+        }),
+      ]),
     })
     .strict()
     .describe(
@@ -642,13 +712,97 @@ export const operationSchema = z.discriminatedUnion("operation", [
 
   z
     .strictObject({
+      operation: z.literal("alignment.prepare"),
+      params: z.union([
+        sourceSelection
+          .extend({
+            channel: z.int().nonnegative(),
+            sourceRange: selectionRangeSchema,
+            text: z
+              .string()
+              .min(1)
+              .max(8192)
+              .refine((value) => {
+                const words = value.match(/\S+/gu) ?? [];
+                return (
+                  words.length > 0 &&
+                  words.length <= 512 &&
+                  words.every((word) => new TextEncoder().encode(word).byteLength <= 1024)
+                );
+              }),
+            modelId: id,
+          })
+          .strict(),
+        z.strictObject({
+          projectId: id,
+          revisionId: id.optional(),
+          preparedResourceId: id,
+          tap: processingTapSchema,
+          range: selectionRangeSchema,
+          channel: z.int().nonnegative(),
+          text: z
+            .string()
+            .min(1)
+            .max(8192)
+            .refine((value) => {
+              const words = value.match(/\S+/gu) ?? [];
+              return (
+                words.length > 0 &&
+                words.length <= 512 &&
+                words.every((word) => new TextEncoder().encode(word).byteLength <= 1024)
+              );
+            }),
+          modelId: id,
+        }),
+      ]),
+    })
+    .describe(
+      "Explicitly prepare conditional supplied-text alignment over one complete selected source channel on the 16k sample grid, at most25 seconds. Source requests select immutable media directly. Project requests select a pinned, already-prepared processing tap and run alignment on its rendered PCM. Models must already be explicitly prepared. Literal text is neither corrected nor expanded. The existing job owns join, cancel, retry and publication; original media remains intact. Provider correspondence is not lexical truth, and native likelihoods are uncalibrated. Published output supplies the retained generation for alignment.get.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("alignment.get"),
+      params: z.union([
+        z.strictObject({
+          assetId: id,
+          packageHandle: id.optional(),
+          generation: id,
+          sourceRange: selectionRangeSchema.optional(),
+          view: z.enum(["words", "acoustic", "scores", "raw"]).optional(),
+          thresholdRMS: z.number().finite().nonnegative().optional(),
+          operand: z.enum(["nativeReceipt", "report", "correspondence"]).optional(),
+          limit: z.int().min(1).max(1000).optional(),
+          cursor: z.string().min(1).max(8192).optional(),
+        }),
+        z.strictObject({
+          projectId: id,
+          revisionId: id.optional(),
+          preparedResourceId: id,
+          tap: processingTapSchema,
+          assetId: id,
+          generation: id,
+          sourceRange: selectionRangeSchema.optional(),
+          range: range.optional(),
+          trackIds: z.array(id).optional(),
+          view: z.enum(["words", "acoustic", "scores"]).optional(),
+          thresholdRMS: z.number().finite().nonnegative().optional(),
+          limit: z.int().min(1).max(1000).optional(),
+          cursor: z.string().min(1).max(8192).optional(),
+        }),
+      ]),
+    })
+    .describe(
+      "Read an explicit immutable alignment generation without model or native execution. An asset selector reads retained source evidence. A project selector with a source asset projects those rows through the exact revision map; a selector whose assetId is the prepared tap returned by alignment.prepare reads observations measured on that rendered tap and maps its source clock directly to project time without inventing a clip. preparedResourceId pins the project revision and tap. packageHandle selects published evidence in an open read-only package; its continuation binds that context. Supplied words retain conditional path estimates separately from greedy observed words; repeated correspondence stays unknown and unmatched text stays unmatched. Complete native ceil bounds outside physical support retain null sourceRange/refused_unowned_support, never clamped timing. Scores are complete uncalibrated native cells. Acoustic view requires caller thresholdRMS, labels measured RMS >=threshold active, and never assigns a word or authorizes an edit. Raw view returns original UTF8 operands in bounded base64 chunks, including unpublished managed-library refusals as state:captured with verified:false; those never expose ready rows. Continue while nextCursor exists, including empty pages. Continuations bind the generation, display range, view, operand and threshold.",
+    ),
+  z
+    .strictObject({
       operation: z.literal("speaker.prepare"),
       params: sourceSelection
         .extend({ channel: z.int().nonnegative(), sourceRange: selectionRangeSchema, modelId: id })
         .strict(),
     })
     .describe(
-      "Explicitly prepare one selected source channel over exactly thirty seconds of complete available support, starting on the 16k sample grid. Joins the same observation; job.retry owns failed/canceled recovery. Requires explicitly prepared optional model/runtime and an admitted native decoder. Never fills holes, mixes channels, infers edits or modifies original media.",
+      "Explicitly prepare one selected source channel over a complete caller-selected support range of 80ms-grid mono16k cells, from 80ms through at most thirty seconds. Each preparation is one independent generation; separate windows do not share or imply speaker identity. Joins the same observation; job.retry owns failed/canceled recovery. First-party Yap speech models/runtime inputs are prepared through their pinned acquisition descriptor by default; verified local sources may be supplied. An admitted native decoder is still required. Never fills holes, mixes channels, infers edits or modifies original media.",
     ),
   z
     .strictObject({
@@ -680,13 +834,114 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Read immutable source observations or their source/project projection without preparing or invoking a model. Project selectors consume retained matching channel/model generations only; no project scores. Optional packageHandle reads the opened immutable package; package project metadata jobs and checkpoints share its bounded context lifetime. observationRange selects the generation; sourceRange only narrows display. Intervals retain complete exact source ranges, native ordinals and anonymous generation-local slots. Scores retain every original 80ms cell and are uncalibrated, never assignment confidence or silence. Continue while nextCursor exists, including empty pages. Continuations pin the original generation, decoder and display query; changed input refuses with ARTIFACT_CHANGED. Ready reads need neither the current native executable nor prepared runtime bytes.",
     ),
   z
+    .strictObject({
+      operation: z.literal("speaker.bind"),
+      params: sourceSelection
+        .extend({
+          channel: z.int().nonnegative(),
+          modelId: id,
+          observationRange: selectionRangeSchema,
+          generation: id,
+          bindings: z
+            .array(
+              z.strictObject({
+                slot: z.int().min(0).max(3),
+                displayName: z.string().trim().min(1).max(128),
+              }),
+            )
+            .max(4),
+        })
+        .strict(),
+    })
+    .describe(
+      "Bind caller-authored display labels to anonymous slots in one retained speaker generation. The generation, source selection, channel and observation range must match published evidence; rebinding replaces the prior names without changing acoustic observations or transcript words. No cross-session identity or automatic naming is performed.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("join.verify"),
+      params: project
+        .extend({
+          revisionId: id,
+          preparedResourceId: id,
+          tap: processingTapSchema,
+          boundary: z.strictObject({ trackId: id, projectAtUs: timeValueSchema }),
+          context: z
+            .strictObject({
+              beforeUs: z.int().min(0).max(4_000_000),
+              afterUs: z.int().min(0).max(4_000_000),
+            })
+            .refine((v) => v.beforeUs + v.afterUs > 0),
+          expectedText: z.string().min(1).max(8192),
+          thresholdRMS: z.number().finite().nonnegative(),
+          candidateOffsetsUs: z.array(z.int().min(-4_000_000).max(4_000_000)).max(16).optional(),
+          sourceEvidence: z
+            .strictObject({ before: id.optional(), after: id.optional() })
+            .optional(),
+          renderedAlignmentGeneration: id.optional(),
+          renderedSpeechGeneration: z.uuid().optional(),
+        })
+        .strict(),
+    })
+    .describe(
+      "Read contextual evidence for one explicit audio-track boundary in a pinned revision and prepared tap. Opening, ending and nearby candidate coordinates keep exact source/project mappings. Optional generation pins select already-retained source alignment, prepared-tap alignment and fresh rendered recognition; omitted evidence is reported missing. Source alignment must match each side's asset, stream and acquisition; rendered evidence must match the revision and tap. Return complete bounded alignment rows, acoustic threshold activity, original operand identities, recognition text and missing coverage. Rendered recognition reads at most1000 rows and retains its continuation when incomplete. The expected text is caller-supplied context, never inferred truth. Matching text, source energy and conditional alignment never certify phonetic completeness. This synchronous report performs no inference, model preparation, audio rendering or edit. Prepare padded windows and nearby candidates through ordinary public operations, then explicitly request another report.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("transcript.render.prepare"),
+      params: renderedSpeechPreparation,
+    })
+    .describe(
+      "Recognize actual rendered PCM for an explicit project revision, processing tap, range and PCM rendition. One project job chains immutable audio extraction and fresh Parakeet inference; it never depends on source transcript readiness or reuses projected source text. Missing source support refuses before recognition rather than treating unavailable samples as silence. Published output retains the PCM asset, conversion/origin, exact sample bounds, transcript and fresh generation. Repeat the same request to join/reuse work; models must be prepared through model.prepare. Reads stay offline. Use transcript.render.retry for failed/canceled extraction dependencies, or job.cancel to cancel the parent; shared extraction remains independently reusable.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("transcript.render.retry"),
+      params: renderedSpeechPreparation,
+    })
+    .describe(
+      "Explicitly retry previously requested rendered recognition and any failed/canceled extraction dependency for the same pinned project revision, tap, range and rendition. A fresh parent attempt produces fresh measured words; successful retained output is reused unchanged. This does not retry source transcription or prepare models.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("transcript.render.get"),
+      params: project
+        .extend({
+          revisionId: id,
+          generation: z.uuid(),
+          limit: z.int().min(1).max(1000).optional(),
+          cursor: z
+            .strictObject({
+              generation: z.uuid(),
+              sourceCursor: z.strictObject({
+                ...sourceTranscriptReference,
+                afterOrdinal: time.nullable(),
+                range: range.nullable(),
+              }),
+            })
+            .optional(),
+        })
+        .strict(),
+    })
+    .describe(
+      "Read one retained rendered-speech generation without rendering, inference or model readiness. Rows retain their PCM source range and a distinct exact projectRange mapped from the extraction's actual first sample, not its rounded requested start. Receipt identifies the original revision/tap/range/rendition and immutable PCM asset. Continue with nextCursor, which pins both rendered and PCM transcript generations. transcript.get remains projected source evidence and never aliases this measured output.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("transcript.prepare"),
+      params: sourceTranscriptPreparation,
+    })
+    .describe(
+      "Explicitly request source speech inference. executionRange selects primary source-clock ownership; context adds decode-only outer support, never edits or retimes words. Omission prepares full admitted support in bounded 20-second windows with 4-second internal context and unique shared-context word correspondence. Gaps remain gaps. Retained raw evidence includes all context candidates and ownership/merge diagnostics. Unmatched or ambiguous boundary observations refuse nonretryably. Models must already be prepared via model.prepare. Repeat identical requests join existing work; read bounded output with its retained generation.",
+    ),
+  z
     .object({
       operation: z.literal("transcript.get"),
       params: z.union([
-        projectEvidenceParams.extend({ prepare: z.boolean().optional() }),
+        projectTranscriptParams,
         sourceSelection
           .extend({
-            prepare: z.boolean().optional(),
+            speaker: transcriptSpeaker.optional(),
+            generation: z.uuid().optional(),
             range: range.optional(),
             limit: z.int().min(1).max(1000).default(250),
             cursor: z
@@ -694,6 +949,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
                 ...sourceTranscriptReference,
                 afterOrdinal: time.nullable(),
                 range: range.nullable(),
+                speaker: transcriptSpeakerCursor.optional(),
               })
               .strict()
               .optional(),
@@ -703,18 +959,19 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a project transcript with projectId and optional revisionId, range and trackIds, a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Use prepare:false to inspect current source readiness without enqueueing transcription; an already ready project may still prepare its read-only evidence manifest. Omission preserves preparation behavior. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Asset ranges select source windows and mark intersected rows partial while preserving their full source range. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
+      "Request a project transcript with projectId and optional revisionId, range and trackIds, or a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision, source generations and any selected speaker generations/binding digests. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Reads and search never enqueue transcription or prepare models. Use transcript.prepare to request inference. generation selects retained source evidence; bounded preparations require that pin (a continuation already pins it). Omitted generation resolves only full-support preparation identity. Project sourceGenerations explicitly select bounded retained dependencies; speakerGenerations joins caller-selected speaker evidence to projected words without inferring identity; omitted selections resolve full-support identities. A ready project may prepare its read-only evidence manifest. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Unfiltered asset enumeration returns every retained observation, including points at the source end. Explicit source/project interval selections remain half-open. Words keep verbatim text, kind and a per-generation ID. A source read may include a generation-pinned speaker selector; each word is attributed only when one retained turn wholly covers it and no other speaker intersects it. A partial competing turn therefore remains overlap evidence; crossing turns without a complete covering turn and unobserved support remain explicit unknown, while multiple intersecting turns are overlap. The returned continuation pins the speaker binding digest so a rename cannot silently change a page. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
     ),
   z
     .object({
       operation: z.literal("transcript.search"),
       params: z.union([
-        projectEvidenceParams
+        projectTranscriptParams
           .extend({ text: z.string().min(1).max(200), limit: z.int().min(1).max(500).optional() })
           .strict(),
         sourceSelection
           .extend({
             text: z.string().min(1).max(200),
+            generation: z.uuid().optional(),
             limit: z.int().min(1).max(500).default(100),
             cursor: z
               .object({ ...sourceTranscriptReference, afterOrdinal: time, text: z.string() })
@@ -726,14 +983,14 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Search a project, selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Project matches follow consecutive whole words on each selected audio track, may cross contiguous clips, and stop at gaps or partial words. Each match carries all contributing word/clip identities and exact projectRange; simultaneous speakers never form a shared phrase. Source entries carry word IDs and source range; phrases cannot cross transcript segments. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
+      "Search a project, selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Project matches follow consecutive whole words on each selected audio track, may cross contiguous clips, and stop at gaps or partial words. Each match carries all contributing word/clip identities and the widest exact projectRange across its word estimates; simultaneous speakers never form a shared phrase. Source entries carry word IDs and source range; phrases can cross accepted inference seams but stop at unavailable, unobserved or skipped support. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
     ),
   z
     .object({
       operation: z.literal("transcript.retry"),
       params: z.union([
-        sourceSelection,
-        projectEvidenceParams
+        sourceTranscriptPreparation,
+        projectTranscriptParams
           .omit({ cursor: true, limit: true })
           .extend({ text: z.string().min(1).max(200).optional() })
           .strict(),
@@ -741,7 +998,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Explicitly prepare or retry the selected asset-stream transcript without downloading models. A project selector retries only its evidence manifest (include the same text to retry phrase search); source preparation failures must be retried with their returned asset-stream selection. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
+      "Explicitly retry previously requested selected-source preparation with the same executionRange/context; initial work uses transcript.prepare. Models must already be prepared. A project selector retries only its evidence manifest (include the same text to retry phrase search); source preparation failures must be retried with their returned asset-stream selection. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
     ),
   z
     .object({ operation: z.literal("model.list"), params: z.object({}).strict() })
@@ -783,7 +1040,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request one to eight ordered frames pinned to one revision. Each item retains its own readiness/error; duplicates reuse work. Poll the returned revision and retry individual failures with frame.retry.",
+      "Request one to eight ordered frames pinned to one revision. Each item retains its own readiness/error; duplicates reuse work. Poll the returned revision and retry individual failures with frame.retry. Optional observations measures the same delivered upright raster; rectangles use delivered top-left pixels and metrics include only fully opaque pixels.",
     ),
   z
     .object({
@@ -856,11 +1113,11 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("audio.prepare"),
-      params: project.extend({ revisionId: id }).strict(),
+      params: project.extend({ revisionId: id, tap: processingTapSchema.optional() }).strict(),
     })
     .strict()
     .describe(
-      "Explicitly prepare the full processed audio output of a pinned project revision as a retained lossless 48kHz stereo asset. Does not change the document or current revision. Returns readiness/jobId and a published audio receipt with assetId; use asset.get to discover its stream and existing audio/waveform/spectrogram inspection. Repeat the exact selection to reuse work; failed/canceled work requires explicit job.retry, and job.cancel drains an attempt. Unavailable processors or retiming refuse before admission; no model is downloaded. This prepares only the full output domain, not an arbitrary clip or range.",
+      "Explicitly prepare a complete project processing tap of a pinned revision as a retained lossless 48kHz stereo asset. Omitted tap means processed output; clip/track/group/output and dry/processed/after-step use the same selection meaning as audio.get. Preparation preserves whole processing-state domains, never a cold excerpt, and does not edit the document or current revision. Normalization feasibility and strict measured targets settle before expensive picture encoding. Returns readiness/jobId and a published audio receipt with assetId; use asset.get and ordinary audio/waveform/spectrogram inspection. Repeat the exact selection to reuse work; failed/canceled work requires job.retry, and job.cancel drains an attempt. Only a matching processed-output preparation is reusable by video export; another tap cannot replace the final mix. Unavailable processors or retiming refuse before admission; no model is downloaded.",
     ),
   z
     .object({ operation: z.literal("audio.get"), params: audioParams })
@@ -885,7 +1142,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a raw PNG/JPEG image with assetId, streamId and optional maxLongEdge; omit atUs and acquisitionId for images. The delivered PNG is upright; its receipt retains source orientation and has no sample clock. Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Pin the returned revision when polling.",
+      "Request a raw PNG/JPEG image with assetId, streamId and optional maxLongEdge; omit atUs and acquisitionId for images. The delivered PNG is upright; its receipt retains source orientation and has no sample clock. Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Pin the returned revision when polling. Optional observations:{} returns full/explicit-region encoded-sRGB luma and RGB histograms, endpoint fractions, alpha/clipping coverage and measured dark-edge candidates. Rectangles address delivered upright top-left pixels; candidates and caller region labels never establish letterboxing, face detection or an automatic grade.",
     ),
   z
     .object({ operation: z.literal("frame.retry"), params: frameParams })

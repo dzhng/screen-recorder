@@ -1,0 +1,286 @@
+{
+  "status": "short-gate-refused",
+  "candidate": {
+    "provider": "nvidia",
+    "repository": "nvidia/Nemotron-3-Diarization",
+    "revision": "f667ed73aee57d40e0d07fe66fbffd205408062ad",
+    "artifact": "Nemotron-3-Diarization.nemo",
+    "artifactBytes": 198676480,
+    "artifactSha256": "867c53f552998f772e5b5e5c082962ae85ee7ca5669c2bc17d7f615133d4e96d",
+    "configSha256": "0a738c13104761be11da4a315af0a94b3c14a1cd6509a3e788a78555751e1ccb",
+    "declaredSlots": 8,
+    "declaredOutputClock": "80ms",
+    "declaredNemoVersion": "3.0.0"
+  },
+  "runtimeOverlay": {
+    "state": "restored-and-inferred-under-source-overlay",
+    "baseRuntime": {
+      "preparedRuntime": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+      "nemo": "2.7.3",
+      "torch": "2.8.0",
+      "numpy": "2.3.5",
+      "lhotse": "1.33.0",
+      "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+      "modelRevision": "cd03eee90fbec18297ac31b8c21546e596b7f71c"
+    },
+    "nemoSource": {
+      "repository": "NVIDIA-NeMo/Speech",
+      "revision": "3c0fdca291547aa4898cbf38d9f0325ec225d9d8",
+      "scope": "selected source tree; computational owner for NeMo 3 TransformerEncoder"
+    },
+    "lhotseSource": {
+      "repository": "lhotse-speech/lhotse",
+      "revision": "ed4eb7a242aeeca23077d08bd455030ce88b5175",
+      "scope": "sparse lhotse package overlay providing lhotse.indexing"
+    },
+    "nemo3Wheel": {
+      "filename": "nemo_toolkit-3.0.0-py3-none-any.whl",
+      "sha256": "f1d8238e35909464cf426e5792af3113a7060de419f194b83bedd81cbe909394",
+      "scope": "NeMo 3 metadata/code overlay; base runtime dependencies unchanged"
+    },
+    "networkDenied": true,
+    "relocatableSealed": false,
+    "note": "The existing sealed first-party runtime plus exact source/lhotse overlays restored the checkpoint and ran offline. This is an experimental admission overlay, not a production runtime closure."
+  },
+  "recipe": {
+    "chunk_len": 340,
+    "chunk_right_context": 40,
+    "fifo_len": 40,
+    "spkcache_update_period": 300,
+    "spkcache_len": 264,
+    "stateScope": "one fresh state per selected input; persistent across native internal chunks"
+  },
+  "gates": {
+    "everyCaseDERMaximum": 0.2,
+    "globalIdentityConfusionRatioMaximum": 0.05,
+    "overlapRecallMinimum": 0.8,
+    "inferenceWallAudioRatioMaximum": 2,
+    "rssBytesMaximum": 4294967296,
+    "exactSpeakerCount": true
+  },
+  "workerSha256": "6802fd55b0c03d1b214022802a1135f0a4c70a658534502ff9fbdfaea7fdab65",
+  "cases": [
+    {
+      "id": "bspxd30",
+      "role": "calibration",
+      "fixture": "bspxd30.json.gz",
+      "fixtureSha256": "c5bfa42314e08ba041b9326014d39fe51115ed298d5ca11b1c8ba171772d4540",
+      "audioSeconds": 30,
+      "inferenceSeconds": 0.5847931249882095,
+      "peakProcessRSSBytes": 1566441472,
+      "der": 0.03317694369973174,
+      "identityConfusionRatio": 0,
+      "overlapRecall": 0.8980263157894761,
+      "observedSpeakerCountMatches": true,
+      "passed": true,
+      "reference": [
+        {
+          "speaker": "spk01",
+          "start": 0,
+          "end": 4.439999999999998
+        },
+        {
+          "speaker": "spk01",
+          "start": 9.200000000000003,
+          "end": 10.439999999999998
+        },
+        {
+          "speaker": "spk01",
+          "start": 10.760000000000005,
+          "end": 11.280000000000001
+        },
+        {
+          "speaker": "spk02",
+          "start": 18.120000000000005,
+          "end": 22.760000000000005
+        },
+        {
+          "speaker": "spk00",
+          "start": 0.5600000000000023,
+          "end": 1.1600000000000037
+        },
+        {
+          "speaker": "spk02",
+          "start": 23.519999999999996,
+          "end": 26.36
+        },
+        {
+          "speaker": "spk02",
+          "start": 27.239999999999995,
+          "end": 30
+        },
+        {
+          "speaker": "spk00",
+          "start": 2.6000000000000014,
+          "end": 3.280000000000001
+        },
+        {
+          "speaker": "spk00",
+          "start": 4.439999999999998,
+          "end": 16.560000000000002
+        }
+      ]
+    },
+    {
+      "id": "returns-overlap-silence",
+      "role": "calibration",
+      "fixture": "returns-overlap-silence.json.gz",
+      "fixtureSha256": "b1f18e4ee3b6704ff4c8a4b2b617dded9718231c7acad61c462046475ad22b2e",
+      "audioSeconds": 100,
+      "inferenceSeconds": 1.6056736670143437,
+      "peakProcessRSSBytes": 1677901824,
+      "der": 0.009479166666666835,
+      "identityConfusionRatio": 0,
+      "overlapRecall": 1,
+      "observedSpeakerCountMatches": true,
+      "passed": true,
+      "reference": [
+        {
+          "speaker": "bspxd:spk00",
+          "start": 0,
+          "end": 8
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 9,
+          "end": 17
+        },
+        {
+          "speaker": "bspxd:spk02",
+          "start": 18.0,
+          "end": 22.0
+        },
+        {
+          "speaker": "bspxd:spk00",
+          "start": 23.0,
+          "end": 31.0
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 32.0,
+          "end": 40.0
+        },
+        {
+          "speaker": "bspxd:spk02",
+          "start": 41.0,
+          "end": 45.0
+        },
+        {
+          "speaker": "bspxd:spk00",
+          "start": 46.0,
+          "end": 54.0
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 55.0,
+          "end": 63.0
+        },
+        {
+          "speaker": "bspxd:spk02",
+          "start": 64.0,
+          "end": 68.0
+        },
+        {
+          "speaker": "bspxd:spk00",
+          "start": 69.0,
+          "end": 77.0
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 78.0,
+          "end": 86.0
+        },
+        {
+          "speaker": "bspxd:spk02",
+          "start": 87.0,
+          "end": 91.0
+        },
+        {
+          "speaker": "bspxd:spk00",
+          "start": 92.0,
+          "end": 100.0
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 92.0,
+          "end": 100.0
+        }
+      ]
+    },
+    {
+      "id": "aiqwk30",
+      "role": "calibration",
+      "fixture": "aiqwk30.json.gz",
+      "fixtureSha256": "fa0c26046e944ae59dc4b766c665f3e50685dfb0490c16dbd5adce64330e82cb",
+      "audioSeconds": 30,
+      "inferenceSeconds": 0.6049798750027549,
+      "peakProcessRSSBytes": 1572454400,
+      "der": 0.1298476454293632,
+      "identityConfusionRatio": 0.0048476454293629005,
+      "overlapRecall": 0.6053811659192805,
+      "observedSpeakerCountMatches": true,
+      "passed": false,
+      "failure": "overlap recall below unchanged 0.8 short gate",
+      "reference": [
+        {
+          "speaker": "spk02",
+          "start": 0,
+          "end": 1.3599999999999994
+        },
+        {
+          "speaker": "spk02",
+          "start": 1.7700000000000031,
+          "end": 5.159999999999997
+        },
+        {
+          "speaker": "spk02",
+          "start": 5.859999999999999,
+          "end": 11.900000000000006
+        },
+        {
+          "speaker": "spk03",
+          "start": 12.349999999999994,
+          "end": 13.879999999999995
+        },
+        {
+          "speaker": "spk02",
+          "start": 14.519999999999996,
+          "end": 19.319999999999993
+        },
+        {
+          "speaker": "spk04",
+          "start": 19.590000000000003,
+          "end": 23.0
+        },
+        {
+          "speaker": "spk05",
+          "start": 20.730000000000004,
+          "end": 21.430000000000007
+        },
+        {
+          "speaker": "spk05",
+          "start": 23.879999999999995,
+          "end": 27.36
+        },
+        {
+          "speaker": "spk04",
+          "start": 26.58,
+          "end": 28.61
+        },
+        {
+          "speaker": "spk05",
+          "start": 27.86,
+          "end": 30
+        }
+      ]
+    }
+  ],
+  "qualityGate": {
+    "state": "refused",
+    "shortCasesPassed": 2,
+    "shortCasesRequired": 3,
+    "longExpansion": "blocked",
+    "promotion": false
+  },
+  "nextAction": "Seal the exact NeMo source, lhotse source and base dependency closure as a relocatable runtime, then rerun these unchanged short controls. If aiqwk30 remains below 0.8 overlap recall, retain the refusal and do not open long-form inference. Do not tune thresholds or alter speaker defaults."
+}

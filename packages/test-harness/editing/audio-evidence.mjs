@@ -64,10 +64,9 @@ async function delivered(operation, params, expectedRate = rate) {
     assert.equal(contents.length, 2);
     assert.equal(contents[1].text, bytes.toString());
   }
-  const key = operation.startsWith("spectrogram") ? "spectrogram" : "waveform";
-  const metadata = receipt.published[key];
+  const metadata = receipt.published.output;
   assert.equal(metadata.bytes, bytes.length);
-  assert.deepEqual(metadata.sampleRange, ready.published[key].sampleRange);
+  assert.deepEqual(metadata.sampleRange, ready.published.output.sampleRange);
   assert.equal(metadata.channels, 2);
   assert.equal(metadata.sampleRate, expectedRate);
   report.artifacts.push({ name, sha256: hash(bytes), metadata, jobId: receipt.jobId });

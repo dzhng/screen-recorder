@@ -13,9 +13,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
-const assemble = fileURLToPath(
-  new URL("../../packages/test-harness/editing/optional-runtime-assemble.py", import.meta.url),
-);
+const assemble = fileURLToPath(new URL("./assemble.py", import.meta.url));
 const launcher = fileURLToPath(new URL("./launch.py", import.meta.url));
 test("one clone-only artifact preserves primary precedence and supplemental namespaces after relocation", () => {
   const scratch = mkdtempSync(join(tmpdir(), "optional-runtime-"));

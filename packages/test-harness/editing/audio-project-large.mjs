@@ -225,7 +225,7 @@ try {
   const started = performance.now(),
     large = await ready(selection);
   report.extractionMs = performance.now() - started;
-  const audio = large.published.audio,
+  const audio = large.published.output,
     { token, bytes } = large.delivery;
   assert.ok(bytes > 1024 ** 3);
   assert.equal(audio.frames, 144000000);
@@ -254,7 +254,7 @@ try {
     ranged = await ready({ ...selection, range });
   const start = Math.floor((range.startUs * 48000) / 1000000),
     end = Math.floor((range.endUs * 48000) / 1000000);
-  assert.deepEqual(ranged.published.audio.sampleRange, { start, end });
+  assert.deepEqual(ranged.published.output.sampleRange, { start, end });
   const rangeResponse = await service.mcp.callTool({
     name: "audio.get",
     arguments: { ...selection, range },

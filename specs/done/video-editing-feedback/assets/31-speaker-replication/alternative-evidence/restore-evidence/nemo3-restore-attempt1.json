@@ -1,0 +1,15 @@
+{
+  "result": {
+    "ok": false,
+    "error": {
+      "code": "RESTORE_FAILED",
+      "message": "Error in call to target 'nemo.collections.asr.modules.transformer_encoder.TransformerEncoder':\nValueError(\"self_attention_model='rope' is not supported. Currently only 'abs_pos', 'rel_pos', and 'no_pos' (or None) are available.\")",
+      "retryable": false,
+      "details": {
+        "seconds": 9.471019417003845
+      }
+    }
+  },
+  "wallSeconds": 9.538370583,
+  "networkDenied": true
+}

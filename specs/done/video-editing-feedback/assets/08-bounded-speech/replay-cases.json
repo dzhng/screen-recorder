@@ -1,0 +1,45 @@
+{
+  "long-repeated": {
+    "raw": "long-repeated-anchored.jsonl",
+    "sha256": "fdcc52eb7a313154922d2887d37add300eeb8beeb9b7608d20afaf3a710c4d47",
+    "durationUs": 100000000,
+    "wordCount": 333,
+    "execution": {
+      "executionRange": null,
+      "context": {
+        "beforeUs": 0,
+        "afterUs": 0
+      },
+      "recipe": "source-windows-20s-context4s-guard1s-v2"
+    },
+    "available": [
+      {
+        "startUs": 0,
+        "endUs": 100000000
+      }
+    ]
+  },
+  "bounded-outer-context": {
+    "raw": "bounded-native-final.jsonl",
+    "sha256": "9ec4c9d290e3cd7c2d954e2c8e43b0d1dcacb95ac956ac6fc053e1944ab2f6d5",
+    "durationUs": 25000000,
+    "wordCount": 10,
+    "execution": {
+      "executionRange": {
+        "startUs": 18000000,
+        "endUs": 22000000
+      },
+      "context": {
+        "beforeUs": 2000000,
+        "afterUs": 2000000
+      },
+      "recipe": "source-windows-20s-context4s-guard1s-v2"
+    },
+    "available": [
+      {
+        "startUs": 0,
+        "endUs": 25000000
+      }
+    ]
+  }
+}

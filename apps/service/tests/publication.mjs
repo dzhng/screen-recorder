@@ -76,6 +76,35 @@ if (process.argv[2] === "owner") {
     assert.equal(signal, "SIGKILL");
     return message;
   }
+  test("destination ownership fences a different staging owner and admission inspection", async (t) => {
+    const f = await fixture(t);
+    const first = await f.openOwner();
+    t.after(() => first.close());
+    await mkdir(join(f.root, "other-stage"), { mode: 0o700 });
+    await assert.rejects(
+      Publication.open(join(f.root, "other-stage"), join(f.root, "output"), worker),
+      (error) => error.code === "PUBLICATION_BUSY",
+    );
+    const parent = await open(join(f.root, "output"));
+    const info = await parent.stat({ bigint: true });
+    await parent.close();
+    const identity = { dev: String(info.dev), ino: String(info.ino) };
+    await assert.rejects(
+      Publication.inspect(join(f.root, "output"), identity, "export.mp4", worker),
+      (error) => error.code === "PUBLICATION_BUSY",
+    );
+    await first.close();
+    const second = await Publication.open(
+      join(f.root, "other-stage"),
+      join(f.root, "output"),
+      worker,
+    );
+    await second.close();
+    assert.equal(
+      await Publication.inspect(join(f.root, "output"), identity, "export.mp4", worker),
+      null,
+    );
+  });
   test("private staging usage observes partial bytes while the publication owner holds its lock", async (t) => {
     const f = await fixture(t);
     const owner = await f.openOwner();
@@ -281,12 +310,8 @@ if (process.argv[2] === "owner") {
   });
   test("publication refuses a destination inside its disposable staging", async (t) => {
     const f = await fixture(t);
-    const owner = await Publication.open(join(f.root, "stage"), join(f.root, "stage"), worker);
-    t.after(() => owner.close());
-    const source = await open(join(f.root, "source"));
-    t.after(() => source.close());
     await assert.rejects(
-      owner.prepare(source, "export.mp4", 1024),
+      Publication.open(join(f.root, "stage"), join(f.root, "stage"), worker),
       (e) => e.code === "INVALID_STORAGE",
     );
     assert.deepEqual(await readdir(join(f.root, "stage")), []);

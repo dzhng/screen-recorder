@@ -7,6 +7,9 @@ contracts and [editorial checks](editorial-checks.md) for acoustic joins and rev
 These are techniques, not automatic treatments or a fixed approval sequence.
 
 Use the installed CLI's schemas and execution capabilities for every operation.
+Start with [capability discovery](capability-discovery.md) before choosing tools
+or an editing workflow. Use [helper examples](helper-examples.md) when first
+running inspection or caption-draft helpers.
 
 ## Inventory → brief → assemble → review → retain
 
@@ -131,8 +134,10 @@ Start speech-led cut candidates near phrase boundaries, then inspect audio and
 picture together. Long pauses can be useful; short gaps may conceal consonants.
 Retrieve a bounded `audio.get` excerpt and nearby `frame.batch` samples for the
 pinned selection; use `waveform.get` or `spectrogram.get` to investigate uncertainty.
-Protect phonemes using actual listening and [editorial checks](editorial-checks.md),
-not a fixed padding interval. If speech timestamps omit a sound, inspect the source
+Protect phonemes using contextual rendered-audio checks in
+[editorial checks](editorial-checks.md), combining available listening,
+re-transcription and signal evidence instead of a fixed padding interval.
+If speech timestamps omit a sound, inspect the source
 rather than cutting on the assumption that the interval is empty.
 
 Useful audition starting points:
@@ -186,6 +191,14 @@ coverage, clipping and readability. Dwell and reading speed describe the word
 support envelope; partial/discontinuous word diagnostics must remain visible.
 Instant words retain point evidence with `clip: null` and explicit unsupported
 dwell/speed diagnostics; they have no invented placeable duration.
+
+For requested word highlighting, choose explicit active/inactive colors in the
+draft style. The helper maps each corrected literal word to its retained source
+fragments, including wrapping offsets; an empty correction has no displayed run.
+Keep overlapping estimates active together rather than inventing sequential
+speech. For requested entrance motion, author ordinary geometry/opacity curves
+on the selected cue; choose its clock and bounds explicitly. Check the same
+absolute phase in stills, a preview starting inside the motion, and delivery.
 
 Place captions in the intended foreground order so overlays do not obscure them;
 verify the final composite, including later output processing. Inspect actual
@@ -285,6 +298,10 @@ with available intervals; do not splice them together to invent an integrated
 reading. Null loudness plus a reason means silence/below-gate or insufficient
 duration. Native mono measurement and explicit dual-mono playback interpretation
 are different; report the chosen one.
+
+For multiple hosts, read [dialogue finishing](dialogue-finishing.md) before
+matching clip levels. Its pure helper preserves occurrence evidence and explicit
+peak policy; per-clip matching precedes mix balance and strict mastering.
 
 Measure integrated loudness and true peak before and after requested treatment,
 plus section levels for dialogue, music-only passages and end cards. A quiet outro

@@ -1,0 +1,27 @@
+{
+  "kind": "transition-working-color-space-probe",
+  "status": "open",
+  "question": "Does changing the native Core Image working color space from extendedLinearSRGB to sRGB remove the moving reference-parity mismatch?",
+  "productionWorkingColorSpace": "extendedLinearSRGB",
+  "probeWorkingColorSpace": "sRGB",
+  "probeWorkerSha256": "345e3776d532e24ace9b7e164d1c2aec2b33b0e6c20d4b2dcfba0bc23974a39b",
+  "focusedCommand": "temporarily build the native worker with sRGB workingColorSpace, run transition-delivery.mjs against an empty output directory, then compare its moving PNGs with the retained reference-parity oracle",
+  "samples": [
+    {
+      "id": "moving-100000",
+      "comparison": { "mae": 4.877387152777778, "maxChannelDelta": 73, "differingRatio": 0.07899305555555555 }
+    },
+    {
+      "id": "moving-500000",
+      "comparison": { "mae": 3.585177951388889, "maxChannelDelta": 74, "differingRatio": 0.054036458333333336 }
+    },
+    {
+      "id": "moving-900000",
+      "comparison": { "mae": 4.018446180555556, "maxChannelDelta": 73, "differingRatio": 0.06911892361111111 }
+    }
+  ],
+  "result": {
+    "parityGatePassed": false,
+    "conclusion": "sRGB working surfaces materially worsen the mismatch; restore extendedLinearSRGB and keep the strict reference-conditioned gate open"
+  }
+}

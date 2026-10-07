@@ -3,6 +3,8 @@ import { createHash } from "node:crypto";
 import { readFile, realpath, writeFile } from "node:fs/promises";
 import { appendFileSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
+import { historicalWholeSupportRecords } from "./speech-parity-records.mjs";
+import { portHistoricalSpeechRaw } from "../speech/reference-raw.mjs";
 import { TranscriptStore } from "../../../packages/core/dist/transcript.js";
 import { dirname, join } from "node:path";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
@@ -166,7 +168,17 @@ const worker = async (operation, params, options) => {
         assert.equal(attempt.result.data.output.bytes, raw.length);
         assert.equal(attempt.result.data.output.sha256, attempt.rawSha256);
         assert.deepEqual(attempt.result.data.engine, baseline.engine);
-        assert.deepEqual(attempt.result.data.segments, baseline.segments);
+        assert.deepEqual(
+          attempt.result.data.segments.map(({ owned, ...segment }) => {
+            assert.deepEqual(owned, segment.source);
+            return segment;
+          }),
+          baseline.segments,
+        );
+        assert.deepEqual(
+          historicalWholeSupportRecords(raw),
+          historicalWholeSupportRecords(await readFile(expected.rawFile)),
+        );
         assert.equal(attempt.result.data.wordCount, baseline.wordCount);
       }
       attempt.state = attempt.result.ok ? "ready" : "refused";
@@ -194,11 +206,19 @@ const worker = async (operation, params, options) => {
     retained.segments.map((segment) => segment.source),
     expected.available,
   );
-  await writeFile(params.output, raw);
+  const admitted = portHistoricalSpeechRaw(raw, {
+    execution: params.execution,
+    available: retained.segments.map((segment) => segment.source),
+  });
+  await writeFile(params.output, admitted.body);
   options.signal.throwIfAborted();
   const data = {
     ...retained,
-    output: { file: params.output, bytes: raw.length, sha256: hash(raw) },
+    execution: params.execution,
+    available: retained.segments.map((segment) => segment.source),
+    segments: retained.segments.map((segment) => ({ ...segment, owned: segment.source })),
+    referenceReplay: admitted.referenceReplay,
+    output: { file: params.output, bytes: admitted.body.length, sha256: admitted.sha256 },
   };
   observations.push({
     request: params,

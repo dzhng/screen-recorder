@@ -22,7 +22,7 @@ export async function verifyMixedMedia({ service, report, out, audio }) {
       (v) => v.state === "ready",
       "mixed import",
     );
-    return call("asset.get", { assetId: job.result.assetId }, { transport: "mcp" });
+    return call("asset.get", { assetId: job.published.output.assetId }, { transport: "mcp" });
   }
   const asset = await imported(path);
   assert.equal(asset.id, oracle.fixtureSha256);
@@ -72,7 +72,7 @@ export async function verifyMixedMedia({ service, report, out, audio }) {
     ["mixed-raw-full", source, expected],
   ]) {
     await audio(params, name, pcm, { sampleRate: 48000, channels: 1 });
-    assert.deepEqual(report.checks[name].ready.published.audio.unavailable, oracle.unavailable);
+    assert.deepEqual(report.checks[name].ready.published.output.unavailable, oracle.unavailable);
   }
   const donorPath = join(root, "specs/done/agent-editing/assets/00-corpus/video-only.mov");
   assert.equal(hash(await readFile(donorPath)), oracle.videoDonorSha256);
@@ -110,7 +110,7 @@ export async function verifyMixedMedia({ service, report, out, audio }) {
       );
       const output = join(out, `mixed-frame-${atUs}-${index}.png`);
       const ready = await call("frame.get", params, { output });
-      const frame = ready.published.frame;
+      const frame = ready.published.output;
       assert.equal(frame.actualSourceUs, Math.floor(atUs / 250000) * 250000);
       assert.equal(
         frame.actualSourceUs,

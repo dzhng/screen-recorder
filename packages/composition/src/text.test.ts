@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 import {
   applyBatch,
+  compiledFrameSchema,
   createCompiler,
   documentAssetIds,
   projectToSource,
@@ -246,4 +247,131 @@ test("text edits preserve placement and reject a font name outside its asset", (
       context,
     ),
   ).toThrow(/font face/);
+});
+
+test("explicit vertical text placement survives authoring and compiled frame delivery", () => {
+  const authored = { ...source, verticalAlignment: "bottom" };
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+      {
+        operation: "place",
+        clip: {
+          trackId: ref("v"),
+          source: authored,
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    context,
+  );
+  const frames = [
+    ...createCompiler(validateComposition(result.document, assets), "r").frames({
+      startUs: 0,
+      endUs: 1000000,
+    }),
+  ];
+  expect(frames[0]!.layers).toMatchObject([{ kind: "text", text: authored }]);
+  expect(result.document.clips[0]!.source).toEqual(authored);
+});
+
+test("text decorations are explicit, bounded, and retained in compiled layers", () => {
+  const authored = {
+    ...source,
+    stroke: { color: "#000000cc", width: 3 },
+    shadow: { color: "#00000080", offsetX: 4, offsetY: -2, blur: 6 },
+    background: { color: "#112233dd", padding: 8, cornerRadius: 5 },
+  };
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+      {
+        operation: "place",
+        clip: {
+          trackId: ref("v"),
+          source: authored,
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    context,
+  );
+  const frame = [
+    ...createCompiler(validateComposition(result.document, assets), "r").frames({
+      startUs: 0,
+      endUs: 1000000,
+    }),
+  ][0]!;
+  expect(frame.layers[0]!.kind).toBe("text");
+  if (frame.layers[0]!.kind === "text") expect(frame.layers[0]!.text).toEqual(authored);
+  expect(() =>
+    validateComposition(
+      {
+        ...result.document,
+        clips: [
+          {
+            ...result.document.clips[0]!,
+            source: { ...authored, stroke: { ...authored.stroke, width: 65 } },
+          },
+        ],
+      },
+      assets,
+    ),
+  ).toThrow();
+});
+
+test("timed text highlights follow exact UTF-16 ranges and overlap without sequencing", () => {
+  const authored = {
+    ...source,
+    text: "café 🧪",
+    highlight: { activeColor: "#ffcc00ff", inactiveColor: "#ffffffff" },
+    timedWords: [
+      { range: [0, 4], sourceRange: { startUs: 0, endUs: 300000 } },
+      { range: [5, 7], sourceRange: { startUs: 200000, endUs: 500000 } },
+    ],
+  };
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+      {
+        operation: "place",
+        clip: {
+          trackId: ref("v"),
+          source: authored,
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    context,
+  );
+  const frames = [
+    ...createCompiler(validateComposition(result.document, assets), "r").frames({
+      startUs: 0,
+      endUs: 1000000,
+    }),
+  ];
+  const activeAt = (atUs: number) => {
+    const layer = frames.find((frame) => frame.sampleAtUs === atUs)?.layers[0];
+    if (!layer || layer.kind !== "text") throw new Error(`Missing text frame at ${atUs}`);
+    return layer.text;
+  };
+  expect(activeAt(0).activeRanges).toEqual([[0, 4]]);
+  expect(activeAt(250000).activeRanges).toEqual([
+    [0, 4],
+    [5, 7],
+  ]);
+  expect(activeAt(375000).activeRanges).toEqual([[5, 7]]);
+  expect(activeAt(500000).activeRanges).toEqual([]);
+  expect(() => frames.forEach((frame) => compiledFrameSchema.parse(frame))).not.toThrow();
+  expect(() =>
+    compiledFrameSchema.parse({
+      ...frames[0],
+      layers: [
+        { ...frames[0]!.layers[0], text: { ...activeAt(0), timedWords: authored.timedWords } },
+      ],
+    }),
+  ).toThrow();
 });

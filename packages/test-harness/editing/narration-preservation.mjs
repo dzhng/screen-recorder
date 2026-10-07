@@ -66,7 +66,7 @@ async function audio(selection, name, requested = full) {
   );
   const path = join(out, name + ".wav");
   const delivered = await call("audio.get", params, { output: path });
-  const receipt = delivered.published.audio,
+  const receipt = delivered.published.output,
     sampleRange = bounds(requested);
   assert.deepEqual(receipt.sampleRange, sampleRange);
   assert.equal(receipt.sampleRate, 48000);
@@ -99,7 +99,7 @@ async function preview(selection, name, requested = full) {
     name,
   );
   assert.deepEqual(result.range, requested);
-  report.receipts[name] = result.published.preview;
+  report.receipts[name] = result.published.output;
   return path;
 }
 async function encoded(file, requested, referencePCM) {
@@ -149,7 +149,9 @@ try {
       (v) => v.state === "ready",
       "source import",
     );
-    assets.push(await call("asset.get", { assetId: job.result.assetId }, { transport: "mcp" }));
+    assets.push(
+      await call("asset.get", { assetId: job.published.output.assetId }, { transport: "mcp" }),
+    );
   }
   const [narration, footage, alternate] = assets;
   const media = (asset, kind, selected) => ({

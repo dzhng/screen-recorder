@@ -1,0 +1,62 @@
+[
+  {
+    "name": "graham",
+    "frame": 0,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "graham",
+    "frame": 12,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "graham",
+    "frame": 36,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "graham",
+    "frame": 71,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "madison",
+    "frame": 0,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "madison",
+    "frame": 12,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "madison",
+    "frame": 36,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "madison",
+    "frame": 71,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "lily",
+    "frame": 0,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "lily",
+    "frame": 12,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "lily",
+    "frame": 36,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  },
+  {
+    "name": "lily",
+    "frame": 71,
+    "sourceAndDerivativeSupport": "exactly equal after original source rebase"
+  }
+]

@@ -92,7 +92,7 @@ export async function verifyNarrationMusic({
       (v) => v.state === "ready",
       "music import",
     );
-    const asset = await request("asset.get", { assetId: job.result.assetId });
+    const asset = await request("asset.get", { assetId: job.published.output.assetId });
     const stream = asset.streams.find((s) => s.kind === "audio");
     const pictureBefore = await frame(selection, "music-picture-before");
     const added = await request("edit.apply", {

@@ -11,6 +11,8 @@ import {
   projectPictureOptionsSchema,
   retainedProjectFrameSchema,
   validateRetainedProjectFrameReceipt,
+  validatePictureObservations,
+  validateFaceObservations,
   type ProjectFrameArtifact,
   type ProjectFrameInput,
 } from "./frame-inspection.js";
@@ -27,7 +29,13 @@ import type { TimeRange } from "./presentation-time.js";
 
 export type ProjectIndexIdentity = Pick<
   ProjectFrameArtifact,
-  "projectId" | "revisionId" | "tap" | "implementationId" | "maxLongEdge"
+  | "projectId"
+  | "revisionId"
+  | "tap"
+  | "implementationId"
+  | "maxLongEdge"
+  | "observationRequest"
+  | "faceObservationRequest"
 > & { generation: string; selectionPolicy: string; scenes: SceneEvidenceMetadata[] };
 export type ProjectIndexCoverage = { project: TimeRange } & (
   | { ordinal: number; equality: "sampled" }
@@ -120,13 +128,17 @@ export const portableProjectIndexRecordSchema = z.discriminatedUnion("kind", [
 /** Empty targets validate their real processing scope without a synthetic render window. */
 export function projectIndexPlan(
   composition: ReturnType<typeof projectComposition>,
-  input: Pick<ProjectFrameInput, "tap" | "maxLongEdge">,
+  input: Pick<ProjectFrameInput, "tap" | "maxLongEdge" | "observations" | "faceObservations">,
   support: ProjectRenderSupport,
   admission: "produced" | "retained" = "produced",
 ) {
   const parsed = projectPictureOptionsSchema.safeParse({
     tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
     maxLongEdge: input.maxLongEdge ?? 1600,
+    ...(input.observations === undefined ? {} : { observationRequest: input.observations }),
+    ...(input.faceObservations === undefined
+      ? {}
+      : { faceObservationRequest: input.faceObservations }),
     implementationId: support.implementationId,
   });
   if (!parsed.success) throw new CatalogError("INVALID_PARAMS", "Invalid project picture options");
@@ -207,6 +219,8 @@ export function projectIndexDomain(
       identity.revisionId,
       identity.tap,
       identity.maxLongEdge,
+      identity.observationRequest,
+      identity.faceObservationRequest,
       identity.implementationId,
     ]);
     if (active?.key !== key || active.admission !== admission) {
@@ -217,7 +231,11 @@ export function projectIndexDomain(
         admission,
         plan: projectIndexPlan(
           composition,
-          identity,
+          {
+            ...identity,
+            observations: identity.observationRequest,
+            faceObservations: identity.faceObservationRequest,
+          },
           {
             ...support,
             implementationId: identity.implementationId,
@@ -237,6 +255,12 @@ export function projectIndexDomain(
       tap: identity.tap,
       implementationId: identity.implementationId,
       maxLongEdge: identity.maxLongEdge,
+      ...(identity.observationRequest === undefined
+        ? {}
+        : { observationRequest: identity.observationRequest }),
+      ...(identity.faceObservationRequest === undefined
+        ? {}
+        : { faceObservationRequest: identity.faceObservationRequest }),
       selectionPolicy: identity.selectionPolicy,
       scenes: identity.scenes,
     }),
@@ -286,11 +310,15 @@ export function projectIndexDomain(
         (previous && previous.index >= candidate.index)
       )
         invalid("Project index candidates must be distinct globally phased pictures in order");
+      validatePictureObservations(frame, identity.observationRequest);
+      validateFaceObservations(frame, identity.faceObservationRequest);
       if (
         frame.projectId !== identity.projectId ||
         frame.revisionId !== identity.revisionId ||
         frame.implementationId !== identity.implementationId ||
         frame.maxLongEdge !== identity.maxLongEdge ||
+        !isDeepStrictEqual(frame.observationRequest, identity.observationRequest) ||
+        !isDeepStrictEqual(frame.faceObservationRequest, identity.faceObservationRequest) ||
         !isDeepStrictEqual(frame.tap, identity.tap) ||
         frame.atUs !== candidate.sampleAtUs
       )

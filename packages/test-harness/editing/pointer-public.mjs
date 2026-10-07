@@ -197,7 +197,7 @@ try {
       Buffer.from(mcp.content.find((v) => v.type === "image").data, "base64"),
     ),
   );
-  report.checks.frame = { hash: hash(await readFile(file)), receipt: ready.published.frame };
+  report.checks.frame = { hash: hash(await readFile(file)), receipt: ready.published.output };
   const movie = join(out, "preview.mp4");
   const preview = await poll(
     () => call("preview.get", selection, { output: movie }),
@@ -297,7 +297,7 @@ try {
       (v) => v.state === "ready",
       name,
     );
-    return { receipt: receipt.published.frame, sha256: hash(await readFile(file)), file };
+    return { receipt: receipt.published.output, sha256: hash(await readFile(file)), file };
   }
   let revisionId = selection.revisionId;
   const clipId = edited.edit.labels.clip;

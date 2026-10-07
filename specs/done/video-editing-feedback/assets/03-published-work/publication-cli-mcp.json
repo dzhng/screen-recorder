@@ -1,0 +1,78 @@
+{
+  "params": {
+    "requestId": "import",
+    "path": "/tmp/yap-published-cli-EmYLsa/source.png"
+  },
+  "accepted": {
+    "jobId": "e9f7561b-4ecc-46f4-8217-2f03f402b0c0",
+    "attemptId": "d5e4679a-0559-45c2-ab98-cbe0d23b56d2",
+    "artifact": "asset.import",
+    "lane": "heavy",
+    "state": "running",
+    "reason": null,
+    "generation": 1,
+    "errorCode": null,
+    "inputSha256": "e8ac42c1a20167ebbb51066839f7251424eaa470882ba67cd3a998c88eb722c5",
+    "target": {
+      "kind": "import",
+      "importId": "b68c191a-fa5c-441a-9d82-0bd2c9ef48be"
+    },
+    "retryable": false,
+    "errorDetails": null,
+    "published": null
+  },
+  "running": {
+    "jobId": "e9f7561b-4ecc-46f4-8217-2f03f402b0c0",
+    "attemptId": "d5e4679a-0559-45c2-ab98-cbe0d23b56d2",
+    "artifact": "asset.import",
+    "lane": "heavy",
+    "state": "running",
+    "reason": null,
+    "generation": 1,
+    "errorCode": null,
+    "inputSha256": "e8ac42c1a20167ebbb51066839f7251424eaa470882ba67cd3a998c88eb722c5",
+    "target": {
+      "kind": "import",
+      "importId": "b68c191a-fa5c-441a-9d82-0bd2c9ef48be"
+    },
+    "retryable": false,
+    "errorDetails": null,
+    "published": null
+  },
+  "failed": {
+    "jobId": "e9f7561b-4ecc-46f4-8217-2f03f402b0c0",
+    "attemptId": "d5e4679a-0559-45c2-ab98-cbe0d23b56d2",
+    "artifact": "asset.import",
+    "lane": "heavy",
+    "state": "failed",
+    "reason": "expected 'storage.clearRenderWorkspace' to be 'media.probe' // Object.is equality",
+    "generation": 1,
+    "errorCode": "JOB_FAILED",
+    "inputSha256": "e8ac42c1a20167ebbb51066839f7251424eaa470882ba67cd3a998c88eb722c5",
+    "target": {
+      "kind": "import",
+      "importId": "b68c191a-fa5c-441a-9d82-0bd2c9ef48be"
+    },
+    "retryable": true,
+    "errorDetails": null,
+    "published": null
+  },
+  "canceled": {
+    "jobId": "e9f7561b-4ecc-46f4-8217-2f03f402b0c0",
+    "attemptId": "3a626ddb-5a7f-4005-9023-b9da5e8f9d75",
+    "artifact": "asset.import",
+    "lane": "heavy",
+    "state": "canceled",
+    "reason": "canceled",
+    "generation": 2,
+    "errorCode": null,
+    "inputSha256": "e8ac42c1a20167ebbb51066839f7251424eaa470882ba67cd3a998c88eb722c5",
+    "target": {
+      "kind": "import",
+      "importId": "b68c191a-fa5c-441a-9d82-0bd2c9ef48be"
+    },
+    "retryable": true,
+    "errorDetails": null,
+    "published": null
+  }
+}

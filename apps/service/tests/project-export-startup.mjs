@@ -24,7 +24,7 @@ test(
       .get(f.projectId);
     const ready = f.jobs.inspect(preview.jobId);
     assert.equal(ready.state, "ready", JSON.stringify(ready));
-    const read = f.cache.acquire(ready.result.cacheId);
+    const read = f.cache.acquire(ready.published.output.cacheId);
     assert.ok(read);
     const cached = Buffer.alloc(read.bytes);
     try {

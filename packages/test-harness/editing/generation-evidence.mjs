@@ -155,6 +155,7 @@ export async function changedTranscriptGeneration({
   const replacements = [],
     previousGeneration = new Map();
   for (const dependency of dependencies) {
+    await call("transcript.prepare", dependency.selection);
     const replacement = await poll(
       () => call("transcript.get", { ...dependency.selection, limit: 1 }),
       (v) => v.state === "ready",

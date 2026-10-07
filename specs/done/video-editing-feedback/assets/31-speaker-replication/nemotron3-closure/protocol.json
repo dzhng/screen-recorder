@@ -1,0 +1,38 @@
+{
+  "status": "acquisition-reproducibility-refused",
+  "candidate": {
+    "repository": "nvidia/Nemotron-3-Diarization",
+    "revision": "f667ed73aee57d40e0d07fe66fbffd205408062ad",
+    "artifactSha256": "867c53f552998f772e5b5e5c082962ae85ee7ca5669c2bc17d7f615133d4e96d"
+  },
+  "runtimeInputs": {
+    "baseRuntimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "baseVersions": {"nemo": "2.7.3", "torch": "2.8.0", "numpy": "2.3.5", "lhotse": "1.33.0"},
+    "nemoSourceRevision": "3c0fdca291547aa4898cbf38d9f0325ec225d9d8",
+    "nemoSourceArchiveSha256": "3a88a92d2bd65833a1298b4f10905a93c17a199a299d0e9fdaec5ac271090a7b",
+    "lhotseSourceRevision": "ed4eb7a242aeeca23077d08bd455030ce88b5175",
+    "nemo3WheelSha256": "f1d8238e35909464cf426e5792af3113a7060de419f194b83bedd81cbe909394"
+  },
+  "relocationSmoke": {
+    "state": "passed-with-donor-clone",
+    "networkDenied": true,
+    "donorRootsDenied": ["/private/tmp/yap-editing-speaker-replication", "/Users/server/dev/yap-video-editing"],
+    "receipt": "relocation-receipt.json",
+    "receiptSha256": "7404acfde47436e8c7b5af4937aa4f93222218efd051acb846b001ae8b34ffd3",
+    "meaning": "The cloned closure restored the checkpoint while its donor runtime and source roots were denied."
+  },
+  "independentMaterialization": {
+    "state": "not-run",
+    "reason": "Insufficient scratch storage",
+    "runtimeLowerBoundBytes": 1620484096,
+    "observedFreeBytes": 152000000,
+    "meaning": "A fresh acquisition needs the interpreter, wheel/source inputs, install environment, assembly staging and output simultaneously. A donor clone is not a clean acquisition proof."
+  },
+  "quality": {
+    "shortGate": "not-rerun",
+    "longForm": "blocked",
+    "promotion": false,
+    "priorShortRefusal": "../nemotron3-admission-short-gate/protocol.json"
+  },
+  "nextAction": "On scratch storage with enough capacity, acquire the pinned upstream source archives and wheel through a python-wheels-v1 descriptor, materialize a clean closure, verify its complete inventory after donor roots are denied, then rerun the unchanged three short controls. Stop on any short failure."
+}

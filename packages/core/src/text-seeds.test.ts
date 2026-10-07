@@ -9,14 +9,19 @@ import { validateComposition, createCompiler, type TextSeedCue } from "@yap/comp
 import { Catalog } from "./catalog.js";
 import { AssetStore, compositionAsset } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
-import { TranscriptStore, transcriptGenerationResource } from "./transcript.js";
+import { speechExecution, TranscriptStore, transcriptGenerationResource } from "./transcript.js";
 import { selectSource } from "./source-selection.js";
 import { ProjectStore } from "./projects.js";
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
-async function fixture() {
+async function fixture(
+  words = [
+    { text: "Hello,", source: { startUs: 250000, endUs: 500000 } },
+    { text: "world!", source: { startUs: 750000, endUs: 1000000 } },
+  ],
+) {
   const home = await mkdtemp("/tmp/text-seeds-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   cleanup.push(async () => {
@@ -59,12 +64,9 @@ async function fixture() {
     generation: "words",
   };
   const output = await records.reserve(identity);
-  const words = [
-    { text: "Hello,", source: { startUs: 250000, endUs: 500000 } },
-    { text: "world!", source: { startUs: 750000, endUs: 1000000 } },
-  ];
   const range = { startUs: 0, endUs: 2000000 };
-  const raw = JSON.stringify({ ordinal: 0, source: range, state: "transcribed", words }) + "\n";
+  const raw =
+    JSON.stringify({ ordinal: 0, source: range, owned: range, state: "transcribed", words }) + "\n";
   await writeFile(output, raw);
   const pins = {
     runtime: "FluidAudio",
@@ -83,7 +85,12 @@ async function fixture() {
       durationUs: selected.durationUs,
       supportDigest: selected.supportDigest,
     },
-    request: { models: { directory: home, files: [] }, track: selected.track, output },
+    request: {
+      execution: speechExecution(),
+      models: { directory: home, files: [] },
+      track: selected.track,
+      output,
+    },
     receipt: {
       output: {
         file: output,
@@ -91,8 +98,12 @@ async function fixture() {
         sha256: createHash("sha256").update(raw).digest("hex"),
       },
       engine: { ...pins, encoderPrecision: "int8", computeUnits: "cpu" },
-      segments: [{ ordinal: 0, source: range, state: "transcribed", wordCount: 2 }],
-      wordCount: 2,
+      segments: [
+        { ordinal: 0, source: range, owned: range, state: "transcribed", wordCount: words.length },
+      ],
+      execution: speechExecution(),
+      wordCount: words.length,
+      available: selected.track.available,
     },
     pins,
     signal: new AbortController().signal,
@@ -475,5 +486,61 @@ test("trimming keeps immutable cue origin even when a selected word is no longer
     kind: "content",
     clipId: f.authored.edit.labels.speech0,
     sourceRange: { startUs: 500000, endUs: 1000000 },
+  });
+});
+
+test("text seeds retain instant pins at the occurrence start and overlapping word envelopes", async () => {
+  const sourceWords = [
+    { text: "point", source: { startUs: 0, endUs: 0 } },
+    { text: "long", source: { startUs: 0, endUs: 1000000 } },
+    { text: "short", source: { startUs: 100000, endUs: 200000 } },
+    { text: "another point", source: { startUs: 100000, endUs: 100000 } },
+  ];
+  const f = await fixture(sourceWords);
+  const seeded = f.store.seedText(f.projectId, {
+    requestId: "overlap-seed",
+    expectedRevisionId: f.authored.revision.id,
+    cues: [f.cue(0)],
+  });
+  const caption = seeded.revision.document.clips.at(-1)!;
+  expect(caption).toMatchObject({
+    seed: { words: f.cue(0).words },
+    placement: { kind: "content", sourceRange: { startUs: 0, endUs: 1000000 } },
+    source: { text: "point long short another point" },
+  });
+  const revision = seeded.revision.id;
+  expect(() =>
+    f.store.seedText(f.projectId, {
+      requestId: "point-only",
+      expectedRevisionId: revision,
+      cues: [{ ...f.cue(0), words: [f.cue(0).words[0]!, f.cue(0).words[3]!] }],
+    }),
+  ).toThrow(/instant.*authored.*duration/i);
+  expect(f.store.get(f.projectId).currentRevisionId).toBe(revision);
+  const cue = f.cue(0);
+  const literal = f.store.apply(f.projectId, {
+    requestId: "authored-point-text",
+    expectedRevisionId: revision,
+    operations: [
+      {
+        operation: "place",
+        clip: {
+          trackId: cue.trackId,
+          source: { kind: "text", text: "point", ...cue.style },
+          seed: {
+            kind: "transcript",
+            source: cue.source,
+            generation: cue.generation,
+            occurrenceClipId: cue.occurrenceClipId,
+            words: [cue.words[0]!],
+          },
+          placement: { kind: "project", range: { startUs: 1500000, endUs: 2000000 } },
+        },
+      },
+    ],
+  });
+  expect(literal.revision.document.clips.at(-1)).toMatchObject({
+    seed: { words: [cue.words[0]] },
+    placement: { kind: "project", range: { startUs: 1500000, endUs: 2000000 } },
   });
 });

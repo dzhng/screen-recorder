@@ -1,0 +1,12 @@
+grabbed 248 frames
+01-lily-which-agent          n= 20 luma 208.6 clipHi≤ 0.4% crush≤ 0.7% bars≤ 0.0% | face 20/20 cx 0.216 cy 0.180 minTop 0.115 faceLuma 103.7
+02-openclaw-downward         n= 19 luma 208.6 clipHi≤ 2.5% crush≤ 0.4% bars≤ 0.0% | face 19/19 cx 0.220 cy 0.162 minTop 0.086 faceLuma 100.6
+03-graham-privacy            n= 15 luma 192.5 clipHi≤ 0.9% crush≤ 0.0% bars≤ 0.0% | face 15/15 cx 0.501 cy 0.454 minTop 0.243 faceLuma 130.3
+04a-madison-accepted         n= 18 luma 162.8 clipHi≤ 0.7% crush≤ 0.0% bars≤ 0.0% | face 18/18 cx 0.492 cy 0.476 minTop 0.192 faceLuma 125.0
+04b-madison-gave-up          n=  8 luma 160.5 clipHi≤ 0.4% crush≤ 0.0% bars≤ 0.0% | face 8/8 cx 0.495 cy 0.469 minTop 0.140 faceLuma 127.8
+05-lily-open-weights         n= 12 luma 131.1 clipHi≤ 0.7% crush≤ 0.3% bars≤ 0.0% | face 12/12 cx 0.500 cy 0.639 minTop 0.364 faceLuma 135.8
+06-graham-18-months          n= 42 luma 187.8 clipHi≤12.2% crush≤ 0.0% bars≤ 0.0% | face 42/42 cx 0.498 cy 0.411 minTop 0.206 faceLuma 123.7
+07-graham-160-papers         n= 31 luma 190.6 clipHi≤ 5.6% crush≤ 0.0% bars≤ 0.0% | face 31/31 cx 0.500 cy 0.433 minTop 0.219 faceLuma 129.2
+08-graham-human-ai           n= 34 luma 182.6 clipHi≤ 1.0% crush≤ 0.0% bars≤ 0.0% | face 34/34 cx 0.499 cy 0.453 minTop 0.258 faceLuma 134.2
+09-graham-san-francisco      n= 17 luma 192.4 clipHi≤ 0.3% crush≤ 0.0% bars≤ 0.0% | face 17/17 cx 0.484 cy 0.454 minTop 0.265 faceLuma 132.4
+card                         n= 19 luma  16.2 clipHi≤ 7.0% crush≤94.0% bars≤40.7%

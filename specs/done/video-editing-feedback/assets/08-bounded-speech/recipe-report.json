@@ -1,0 +1,176 @@
+{
+  "recipe": "source-windows-20s-context4s-guard1s-v2",
+  "claim": "bounded decode and original observation ownership; no ASR accuracy or isolated-transcript parity claim",
+  "longSource": {
+    "sourceSha256": "4736a08bad302d65731f24f2dba2af6a84a03d4a75a311374fd714b76ea58731",
+    "construction": "Float32 RIFF data from overlap-region.wav repeated four times; original fmt/other chunks unchanged, RIFF/data sizes updated",
+    "seconds": 100,
+    "maximumDecodedSamples": 448000,
+    "peakResidentBytes": 541851648,
+    "wordCount": 333,
+    "allSelectedWordsEqualTheirOriginalObservation": true,
+    "isolated25sPeakResidentBytes": 544145408,
+    "lexicalComparisons": [
+      {
+        "repeat": 0,
+        "wordCount": 84,
+        "differences": [
+          {
+            "kind": "insert",
+            "isolatedBaseline": [],
+            "repeatedObservation": [
+              "enough"
+            ]
+          }
+        ]
+      },
+      {
+        "repeat": 1,
+        "wordCount": 83,
+        "differences": [
+          {
+            "kind": "replace",
+            "isolatedBaseline": [
+              "to",
+              "try"
+            ],
+            "repeatedObservation": [
+              "that",
+              "tries"
+            ]
+          },
+          {
+            "kind": "delete",
+            "isolatedBaseline": [
+              "ai"
+            ],
+            "repeatedObservation": []
+          },
+          {
+            "kind": "insert",
+            "isolatedBaseline": [],
+            "repeatedObservation": [
+              "enough"
+            ]
+          }
+        ]
+      },
+      {
+        "repeat": 2,
+        "wordCount": 84,
+        "differences": [
+          {
+            "kind": "insert",
+            "isolatedBaseline": [],
+            "repeatedObservation": [
+              "enough"
+            ]
+          }
+        ]
+      },
+      {
+        "repeat": 3,
+        "wordCount": 82,
+        "differences": [
+          {
+            "kind": "replace",
+            "isolatedBaseline": [
+              "to",
+              "try"
+            ],
+            "repeatedObservation": [
+              "that",
+              "tries"
+            ]
+          },
+          {
+            "kind": "delete",
+            "isolatedBaseline": [
+              "ai"
+            ],
+            "repeatedObservation": []
+          }
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "overlap-region-context2-0.jsonl": {
+      "bytes": 25678,
+      "sha256": "4869325932554a59745b2febe949f2a9fc4baac87dcd3f1c839f86d185bfd6fc"
+    },
+    "overlap-region-context2-1.jsonl": {
+      "bytes": 7857,
+      "sha256": "ae834da6569c39b64818adbbad4f1cbaeef182fa910b42eb8be2a7bd3c2c6066"
+    },
+    "overlap-neighbor-context2-0.jsonl": {
+      "bytes": 22710,
+      "sha256": "dafac4375ddcba1e29169efaf49722d200a9c1521255670d0c215cfe295cf4a9"
+    },
+    "overlap-neighbor-context2-1.jsonl": {
+      "bytes": 9543,
+      "sha256": "e3b742c23ebbe6bf7906eef92b454b926d729a9ae412fa96a0b9c230e4b98310"
+    },
+    "boundary60-context4-0.jsonl": {
+      "bytes": 44498,
+      "sha256": "27dbc62bcce0153565738c3b3264f4ecd4937ae9133a0773bff02014a1435a2a"
+    },
+    "boundary60-context4-1.jsonl": {
+      "bytes": 46057,
+      "sha256": "aca4627c8f25756ad35aee95e445a1ec5003247975e719874791b5db2280e11b"
+    },
+    "long-repeated-anchored.jsonl": {
+      "bytes": 217989,
+      "sha256": "fdcc52eb7a313154922d2887d37add300eeb8beeb9b7608d20afaf3a710c4d47"
+    },
+    "long-anchored-request.jsonl": {
+      "bytes": 3551,
+      "sha256": "f556608ea27517606ffef123ad63aac97526645a3126f7310f4fa873a5e6d835"
+    },
+    "long-anchored-response.jsonl": {
+      "bytes": 1283,
+      "sha256": "d3265969c802644c7ce25c3900a846472534116188b8874e7e574044dc6aa20b"
+    },
+    "bounded-native-final.jsonl": {
+      "bytes": 11333,
+      "sha256": "9ec4c9d290e3cd7c2d954e2c8e43b0d1dcacb95ac956ac6fc053e1944ab2f6d5"
+    },
+    "bounded-native-final-request.jsonl": {
+      "bytes": 3773,
+      "sha256": "5bc6a4c23982aa2472485c780f114df040d69ac18903ae9f620732ae4aac7a40"
+    },
+    "bounded-native-final-response.jsonl": {
+      "bytes": 825,
+      "sha256": "9219d0763af8ae56c6015b2625899a431a5aa0608d0c05b5b5855e4fab88da6d"
+    },
+    "context4-requests.jsonl": {
+      "bytes": 10791,
+      "sha256": "eebb10dc4ac40f0a16c529e3533d5da4a3503ca2f25639d08fc8175bbd4887ce"
+    },
+    "context4-responses.jsonl": {
+      "bytes": 1990,
+      "sha256": "38b5b11b0e2cf8ff26659f3f914d2ed328d5123857b1335436862fe54aef7458"
+    },
+    "overlap-region-bounded-context4.jsonl": {
+      "bytes": 53805,
+      "sha256": "daa5ac46e82fba9d0c3079938406220447755ec92fc85967421d11c48811acc0"
+    },
+    "overlap-neighbor-bounded-context4.jsonl": {
+      "bytes": 52187,
+      "sha256": "4536aaef071c530b18c879bc161b9f9e5a9c2142ae6093ba5195766b759ac575"
+    },
+    "full-source-wire-final.jsonl": {
+      "bytes": 214,
+      "sha256": "d3bdf5932b0892bdcad70e38d94dcaa83bb31d57a9b55c8b44fb05372de715dc"
+    },
+    "full-source-wire-final-request.jsonl": {
+      "bytes": 3724,
+      "sha256": "3acf06238640503aa488d64c58cf31816fe5d5dc85e0338dd8fa8aa620598346"
+    },
+    "full-source-wire-final-response.jsonl": {
+      "bytes": 762,
+      "sha256": "abe555a3db74fbfffcceafba9f6824f8736d1ef2ba2e0ac22ce7629830aee60e"
+    }
+  },
+  "finalWorkerSha256": "eb4cd02bf8dcffa1ad4d9387ebe75189386613446c3917bb3f1acff8451b5b31"
+}

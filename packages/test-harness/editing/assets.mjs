@@ -48,14 +48,14 @@ try {
   }
   const submitted = await call("asset.import", { requestId: "original", path });
   const result = await settled(submitted.jobId);
-  const asset = await call("asset.get", { assetId: result.result.assetId });
+  const asset = await call("asset.get", { assetId: result.published.output.assetId });
   assert.equal(asset.streams.find((s) => s.kind === "video").orientedWidth, 96);
   await rm(path);
   const replay = await call("asset.import", { requestId: "original", path });
   assert.equal(replay.jobId, submitted.jobId);
-  assert.equal(replay.result.assetId, asset.id);
+  assert.equal(replay.published.output.assetId, asset.id);
   const another = await call("asset.import", { requestId: "same-bytes", path: duplicate });
-  assert.equal((await settled(another.jobId)).result.assetId, asset.id);
+  assert.equal((await settled(another.jobId)).published.output.assetId, asset.id);
   const unsupported = join(home, "unsupported.avi");
   await run(
     process.env.FFMPEG ?? "ffmpeg",
@@ -118,7 +118,7 @@ try {
   service = await startProjectService({ home });
   const reopened = await call("asset.import", { requestId: "original", path });
   assert.equal(reopened.jobId, submitted.jobId);
-  assert.equal(reopened.result.assetId, asset.id);
+  assert.equal(reopened.published.output.assetId, asset.id);
   assert.deepEqual(await call("asset.get", { assetId: asset.id }), finalAsset);
   observations.push({
     assetId: asset.id,

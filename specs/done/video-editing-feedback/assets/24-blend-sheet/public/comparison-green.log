@@ -1,0 +1,12 @@
+✔ partial-alpha multiply includes uncovered source and backdrop in premultiplied linear light (0.389416ms)
+✔ soft-light keeps source/backdrop order and both branches of its light response (0.302375ms)
+✔ transparent source is identity and screen/multiply neutral patches stay neutral (0.093417ms)
+✔ raster verification refuses a delivered channel outside the declared arithmetic limit (0.65475ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 34.689709

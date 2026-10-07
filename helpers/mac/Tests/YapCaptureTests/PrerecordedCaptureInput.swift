@@ -13,6 +13,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     var videoDeliveryInterval: Duration?
     var offeredVideoFrames = 0
     let requestedSourceRect: CGRect? = nil
+    var previewFrame: (@Sendable (NativeCapture.CameraPreviewFrame) -> Void)?
     let source: URL
     let refusesAfterDelivery: Bool
     var stops = 0

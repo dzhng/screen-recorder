@@ -23,6 +23,7 @@ import type {
   ModelManifest,
   ModelSources,
   PreparedRuntime,
+  RuntimeMaterializer,
 } from "./model-types.js";
 import { registeredModels } from "./model-registry.js";
 import { adoptFile, adoptRuntime, verifyRuntime } from "./model-files.js";
@@ -95,6 +96,7 @@ class Preparation {
     private readonly models: string,
     private readonly fetch: typeof globalThis.fetch = globalThis.fetch,
     readonly manifest: ModelManifest,
+    private readonly materializeRuntime: RuntimeMaterializer | undefined,
   ) {
     this.modelDigest = createHash("sha256")
       .update(
@@ -133,10 +135,15 @@ class Preparation {
       return (() => {
         const totalBytes =
           this.manifest.files.reduce((total, file) => total + file.bytes, 0) +
-          (this.manifest.runtimeArtifact?.entries.reduce(
-            (total, entry) => total + (entry.kind === "file" ? entry.bytes : 0),
-            0,
-          ) ?? 0);
+          (!this.flight.sources.runtimeSource && this.manifest.runtimeArtifact?.acquisition
+            ? this.manifest.runtimeArtifact.acquisition.files.reduce(
+                (total, file) => total + file.bytes,
+                0,
+              )
+            : (this.manifest.runtimeArtifact?.entries.reduce(
+                (total, entry) => total + (entry.kind === "file" ? entry.bytes : 0),
+                0,
+              ) ?? 0));
         const elapsedMs = Math.max(0, Date.now() - this.flight!.startedAtMs);
         const rate = elapsedMs > 0 ? this.flight!.receivedBytes / elapsedMs : 0;
         return {
@@ -187,7 +194,7 @@ class Preparation {
     await Promise.allSettled([this.flight?.done, this.verification]);
   }
 
-  async runtime(purpose: "voice" | "speaker"): Promise<PreparedRuntime> {
+  async runtime(purpose: "voice" | "speaker" | "alignment"): Promise<PreparedRuntime> {
     const unsupported = this.platformFailure();
     if (unsupported) throw unsupported;
     if (this.manifest.purpose !== purpose)
@@ -202,7 +209,9 @@ class Preparation {
         "MODEL_NOT_PREPARED",
         purpose === "voice"
           ? "Voice model and runtime are not prepared"
-          : "Speaker model and runtime are not prepared",
+          : purpose === "speaker"
+            ? "Speaker model and runtime are not prepared"
+            : "Alignment model and runtime are not prepared",
         {},
         true,
       );
@@ -372,7 +381,11 @@ class Preparation {
     if ((await this.verifyInstalled()).state === "ready") return;
     const signal = flight.controller.signal;
     signal.throwIfAborted();
-    if (this.manifest.runtimeArtifact && !flight.sources.runtimeSource)
+    if (
+      this.manifest.runtimeArtifact &&
+      !flight.sources.runtimeSource &&
+      !this.manifest.runtimeArtifact.acquisition
+    )
       throw new CatalogError(
         "MODEL_SOURCE_REQUIRED",
         "This model requires an explicit local runtime artifact source",
@@ -381,6 +394,15 @@ class Preparation {
       throw new CatalogError(
         "MODEL_SOURCE_REQUIRED",
         "This model requires an explicit local model source",
+      );
+    if (
+      this.manifest.runtimeArtifact?.acquisition &&
+      !flight.sources.runtimeSource &&
+      !this.materializeRuntime
+    )
+      throw new CatalogError(
+        "MODEL_RUNTIME_UNAVAILABLE",
+        "Runtime preparation requires its owned execution adapter",
       );
     const staging = join(this.models, ".staging", randomUUID());
     try {
@@ -391,15 +413,40 @@ class Preparation {
         ? await realpath(flight.sources.modelSource)
         : undefined;
       if (this.manifest.runtimeArtifact) {
-        await adoptRuntime(
-          flight.sources.runtimeSource!,
-          join(staging, "runtime"),
-          this.manifest.runtimeArtifact,
-          signal,
-          (bytes) => {
-            flight.receivedBytes += bytes;
-          },
-        );
+        const runtime = this.manifest.runtimeArtifact;
+        if (flight.sources.runtimeSource)
+          await adoptRuntime(
+            flight.sources.runtimeSource!,
+            join(staging, "runtime"),
+            this.manifest.runtimeArtifact,
+            signal,
+            (bytes) => {
+              flight.receivedBytes += bytes;
+            },
+          );
+        else {
+          const acquisition = runtime.acquisition!;
+          const input = join(staging, ".runtime-input"),
+            content = join(input, "content");
+          for (const file of acquisition.files) {
+            if (new URL(file.url).protocol !== "https:")
+              throw new CatalogError(
+                "INVALID_MODEL",
+                "Registered runtime inputs must name immutable HTTPS artifacts",
+              );
+            await this.download(file, input, flight, file.url);
+          }
+          await mkdir(content, { mode: 0o700 });
+          await this.materializeRuntime!({
+            inputs: input,
+            directory: content,
+            acquisition,
+            signal,
+          });
+          await verifyRuntime(content, runtime, signal);
+          await rename(content, join(staging, "runtime"));
+          await rm(input, { recursive: true });
+        }
         receipt.runtimeDigest = this.manifest.runtimeArtifact.digest;
       }
       for (const file of this.manifest.files)
@@ -447,6 +494,7 @@ class Preparation {
     file: SpeechModelFile,
     folder: string,
     flight: Flight,
+    url?: string,
   ): Promise<Receipt["files"][string]> {
     const target = join(folder, file.path);
     await stored(() => mkdir(dirname(target), { recursive: true, mode: 0o700 }));
@@ -468,7 +516,8 @@ class Preparation {
     let response: Response;
     try {
       response = await this.fetch(
-        `https://huggingface.co/${this.manifest.repo}/resolve/${this.manifest.revision}/${path}`,
+        url ??
+          `https://huggingface.co/${this.manifest.repo}/resolve/${this.manifest.revision}/${path}`,
         { signal: flight.controller.signal },
       );
     } catch (error) {
@@ -527,6 +576,7 @@ export class Models {
     home: string,
     fetch: typeof globalThis.fetch = globalThis.fetch,
     manifests: readonly ModelManifest[] = registeredModels,
+    materializeRuntime?: RuntimeMaterializer,
   ) {
     const directory = join(realpathSync(home), "models");
     privateDirectory(directory);
@@ -534,7 +584,10 @@ export class Models {
     privateDirectory(join(directory, ".staging"));
     for (const manifest of manifests) {
       if (this.preparations.has(manifest.name)) throw new Error("Duplicate registered model ID");
-      this.preparations.set(manifest.name, new Preparation(directory, fetch, manifest));
+      this.preparations.set(
+        manifest.name,
+        new Preparation(directory, fetch, manifest, materializeRuntime),
+      );
     }
   }
   private selected(modelId: string): Preparation {
@@ -557,7 +610,8 @@ export class Models {
         ? { runtimeDigest: model.manifest.runtimeArtifact.digest }
         : {}),
       preparation: {
-        runtimeSourceRequired: !!model.manifest.runtimeArtifact,
+        runtimeSourceRequired:
+          !!model.manifest.runtimeArtifact && !model.manifest.runtimeArtifact.acquisition,
         modelSourceRequired: !!model.manifest.modelSourceRequired,
         modelBytes: model.manifest.files.reduce((n, f) => n + f.bytes, 0),
         runtimeBytes:
@@ -594,7 +648,7 @@ export class Models {
   prepare(modelId: string, signal: AbortSignal, sources: ModelSources = {}) {
     return this.selected(modelId).prepare(signal, sources);
   }
-  runtime(modelId: string, purpose: "voice" | "speaker") {
+  runtime(modelId: string, purpose: "voice" | "speaker" | "alignment") {
     return this.selected(modelId).runtime(purpose);
   }
   /** The pinned original speaker contract, without exposing its full runtime inventory. */
@@ -628,6 +682,39 @@ export class Models {
       checkpoint: checkpoint.path,
       status: () => selected.snapshot(),
       runtime: () => selected.runtime("speaker"),
+    };
+  }
+  /** Pinned auxiliary CTC observations; this does not reinterpret the TDT transcript engine. */
+  alignment(modelId: string) {
+    const selected = this.selected(modelId),
+      runtime = selected.manifest.runtimeArtifact;
+    const checkpoint = selected.manifest.files[0];
+    const worker = runtime?.entries.find((entry) => entry.path === "execution/worker.py");
+    if (
+      selected.manifest.purpose !== "alignment" ||
+      selected.manifest.engine.decoder !== "nemo-auxiliary-ctc110-v1" ||
+      worker?.kind !== "file" ||
+      !runtime ||
+      selected.manifest.files.length !== 1 ||
+      !checkpoint
+    )
+      throw new CatalogError(
+        "INVALID_REQUEST",
+        "Selected model does not provide auxiliary CTC alignment",
+      );
+    return {
+      engine: {
+        modelId,
+        descriptorDigest: selected.descriptorDigest,
+        modelDigest: selected.modelDigest,
+        modelSha256: checkpoint.sha256,
+        runtimeDigest: runtime.digest,
+        workerSha256: worker.sha256,
+        recipe: "nemo-auxiliary-ctc110-v1" as const,
+      },
+      checkpoint: checkpoint.path,
+      status: () => selected.snapshot(),
+      runtime: () => selected.runtime("alignment"),
     };
   }
   transcription(modelId: string) {

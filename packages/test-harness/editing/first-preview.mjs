@@ -93,7 +93,7 @@ async function admit(name) {
     (value) => value.state === "ready",
     "import",
   );
-  return call("asset.get", { assetId: job.result.assetId }, { transport: "mcp" });
+  return call("asset.get", { assetId: job.published.output.assetId }, { transport: "mcp" });
 }
 async function edit(requestId, operations) {
   const result = await call("edit.apply", {
@@ -116,10 +116,10 @@ async function preview(name, revisionId = head, range) {
   assert.equal(status.revisionId, revisionId);
   const expectedRange = range ?? { startUs: 0, endUs: 3000000 };
   assert.deepEqual(status.range, expectedRange);
-  assert.deepEqual(status.published.preview.range, expectedRange);
-  assert.equal(status.published.preview.projectId, projectId);
-  assert.equal(status.published.preview.revisionId, revisionId);
-  assert.equal(status.published.preview.mediaType, "video/mp4");
+  assert.deepEqual(status.published.output.range, expectedRange);
+  assert.equal(status.published.output.projectId, projectId);
+  assert.equal(status.published.output.revisionId, revisionId);
+  assert.equal(status.published.output.mediaType, "video/mp4");
   assert.equal(status.output, file);
   assert.ok((await readFile(file)).length > 0);
   rendered.set(name, { file, range: expectedRange });
@@ -138,7 +138,7 @@ async function mcpPreview(revisionId = head, range) {
   );
 }
 async function delivered(status) {
-  assert.equal(status.published.preview.mediaType, "video/mp4");
+  assert.equal(status.published.output.mediaType, "video/mp4");
   const { token, bytes } = status.delivery;
   assert.ok(bytes > 0);
   const chunks = [];
@@ -391,7 +391,7 @@ async function lifecycle(refs, fullAudio) {
       (value) => value.state === "canceled",
       "cancel drain",
     );
-    assert.equal(canceled.result, null);
+    assert.equal(canceled.published, null);
     const unpublished = await call("preview.get", params, { transport: "mcp" });
     assert.equal(unpublished.published, null);
     assert.equal(unpublished.delivery, null);
@@ -418,7 +418,7 @@ async function lifecycle(refs, fullAudio) {
   const interrupted = await call("job.get", { jobId: crashing.jobId });
   assert.equal(interrupted.state, "failed");
   assert.equal(interrupted.errorCode, "JOB_INTERRUPTED");
-  assert.equal(interrupted.result, null);
+  assert.equal(interrupted.published, null);
   const absent = await call("preview.get", crashParams, { transport: "mcp" });
   assert.equal(absent.published, null);
   assert.equal(absent.delivery, null);

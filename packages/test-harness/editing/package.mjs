@@ -102,7 +102,7 @@ async function asset(name, source = join(corpus, name)) {
     () => call("job.get", { jobId: pending.jobId }),
     (value) => value.state === "ready",
   );
-  return call("asset.get", { assetId: done.result.assetId }, { transport: "mcp" });
+  return call("asset.get", { assetId: done.published.output.assetId }, { transport: "mcp" });
 }
 async function render(projectId, revisionId, name) {
   const movie = join(out, `${name}.mp4`),
@@ -159,8 +159,7 @@ try {
     "narration.mov",
     new URL("../../../fixtures/narrated-workbench/narration.mov", import.meta.url).pathname,
   );
-  const prepared = JSON.parse(await readFile(process.env.YAP_ASR_REQUEST, "utf8")).params
-    .models;
+  const prepared = JSON.parse(await readFile(process.env.YAP_ASR_REQUEST, "utf8")).params.models;
   const modelPins = await copyModels(donor, prepared);
   assert.equal((await call("model.status", { modelId: "parakeet" })).state, "ready");
   const transcriptParams = {
@@ -168,6 +167,7 @@ try {
     streamId: speech.streams.find((stream) => stream.kind === "audio").id,
     limit: 1000,
   };
+  await call("transcript.prepare", { assetId: speech.id, streamId: transcriptParams.streamId });
   const donorTranscript = await poll(
     () => call("transcript.get", transcriptParams, { transport: "mcp" }),
     (value) => value.state === "ready",
@@ -377,7 +377,7 @@ try {
       }),
     (value) => value.state === "ready",
   );
-  assert.notEqual(localAdoption.result.projectId, projectId);
+  assert.notEqual(localAdoption.published.output.projectId, projectId);
   await call("package.close", { admissionId: localAdmission.id });
   // Export an older moment after the donor has undone, restored and edited again.
   const donorUndo = await call("edit.undo", {
@@ -505,8 +505,8 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     (value) => value.state === "ready",
   );
   const adopted = {
-    project: await call("project.get", { projectId: adoptedJob.result.projectId }),
-    revision: { id: adoptedJob.result.revisionId },
+    project: await call("project.get", { projectId: adoptedJob.published.output.projectId }),
+    revision: { id: adoptedJob.published.output.revisionId },
   };
   const reopened = await call("package.open", { path: packagePath });
   const replayReady = await poll(
@@ -517,7 +517,7 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     () => call("package.adopt", { packageHandle: replayReady.packageHandle, requestId: "adopt" }),
     (value) => value.state === "ready",
   );
-  assert.deepEqual(replay.result, adoptedJob.result);
+  assert.deepEqual(replay.published.output, adoptedJob.published.output);
   await call("package.close", { admissionId: reopened.id });
   await call("package.close", { admissionId: admission.id });
   assert.equal(
@@ -698,7 +698,7 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   await rm(historicalPath);
   await close();
   await start(receiver);
-  const historicalProjectId = historicalAdoption.result.projectId;
+  const historicalProjectId = historicalAdoption.published.output.projectId;
   assert.deepEqual(
     (await call("revision.history", { projectId: historicalProjectId })).revisions.map(
       (r) => r.document,
@@ -708,7 +708,7 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   assert.deepEqual(
     await render(
       historicalProjectId,
-      historicalAdoption.result.revisionId,
+      historicalAdoption.published.output.revisionId,
       "selected-history-head",
     ),
     current,
@@ -716,7 +716,7 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   const historicalUndo = await call("edit.undo", {
     projectId: historicalProjectId,
     requestId: "historical-undo",
-    expectedRevisionId: historicalAdoption.result.revisionId,
+    expectedRevisionId: historicalAdoption.published.output.revisionId,
   });
   assert.deepEqual(
     await render(historicalProjectId, historicalUndo.id, "selected-history-undo"),

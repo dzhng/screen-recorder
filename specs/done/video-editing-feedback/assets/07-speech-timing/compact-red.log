@@ -1,0 +1,66 @@
+✖ reading phrases retain overlap envelopes and isolate exact instant observations (1.602792ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31.940917
+
+✖ failing tests:
+
+test at scripts/compact-transcripts.test.mjs:383:1
+✖ reading phrases retain overlap envelopes and isolate exact instant observations (1.602792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+
+    [
+      {
+        displayRangeSeconds: [
+          0,
+          1
+  ...
+          1,
+  -       2
+        ],
+  +     text: 'long short'
+  -     text: 'long short next'
+      },
+      {
+        displayRangeSeconds: [
+  +       0.8,
+  +       1
+  -       0.9,
+  -       0.9
+        ],
+        rowIndexes: [
+  +       2,
+          3,
+  -     ],
+  -     text: 'point'
+  -   },
+  -   {
+  -     displayRangeSeconds: [
+  -       0.95,
+  -       1
+  -     ],
+  -     rowIndexes: [
+          4
+        ],
+  +     text: 'next point after'
+  -     text: 'after'
+      }
+    ]
+
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-capability-skill/scripts/compact-transcripts.test.mjs:389:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { text: 'long short', rowIndexes: [Array], displayRangeSeconds: [Array] }, { text: 'next point after', rowIndexes: [Array], displayRangeSeconds: [Array] } ],
+    expected: [ { text: 'long short next', rowIndexes: [Array], displayRangeSeconds: [Array] }, { text: 'point', rowIndexes: [Array], displayRangeSeconds: [Array] }, { text: 'after', rowIndexes: [Array], displayRangeSeconds: [Array] } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

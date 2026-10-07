@@ -1,0 +1,12 @@
+{
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "scipy": "1.18.1",
+  "manifestSha256": "81d788dfcb0951b7bc352d70bdcb2715a37f520ba41c6109bfdabb4037e00cf5",
+  "referenceSha256": "a7ba8a6d6869ba723f96a57c639d58b8c6d9fe8af60115b3fda4574870ae4c8b",
+  "exactComparisonParity": true,
+  "estimatorSha256": "47ed36fba85f35e1994917d6ac52b5b23f1e68b25a336f26a167b424185d0d2e",
+  "nativeSha256": null,
+  "nativeChecks": [],
+  "clockDeclared": false
+}

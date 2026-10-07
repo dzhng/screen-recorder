@@ -174,6 +174,33 @@ test("ready source index requests resolve complete frame plans with bounded read
     expect(work[key as keyof typeof work]).toBeLessThanOrEqual(maximum);
   }
 });
+
+test("face observation requests reach source index frame materialization", async () => {
+  const f = await fixture();
+  const selection = acquiredSelection(f);
+  const faceObservations = { recipe: "vision-face-rectangles-v1" as const };
+  f.index.requestSource({ ...selection, faceObservations });
+  await f.jobs.idle();
+  f.index.requestSource({ ...selection, faceObservations });
+  await f.jobs.idle();
+  const result = f.index.requestSource({ ...selection, faceObservations });
+  expect(result.state).toBe("ready");
+  expect(result.published!.evidence.faceObservationRequest).toEqual(faceObservations);
+  expect(result.published!.evidence.candidateCount).toBeGreaterThan(0);
+  expect(
+    f.retained.page({ identity: result.published!.evidence }).entries[0]!.frame.faceObservations,
+  ).toMatchObject({ status: "available", faces: [{ id: "face-0" }] });
+  const first = f.index.getSource({ ...selection, faceObservations, limit: 1 });
+  expect(first.page?.nextCursor).toBeDefined();
+  expect(
+    f.index.getSource({
+      ...selection,
+      faceObservations,
+      cursor: first.page!.nextCursor!,
+      limit: 1,
+    }).page?.entries,
+  ).toHaveLength(1);
+});
 test("source index execution rechecks current authority before cancellation", async () => {
   const barrier = gate();
   const f = await fixture({ barrier });
@@ -636,4 +663,21 @@ test("complete source index files require a published matching generation", asyn
     result.result.page!.entries.map(({ reference: _reference, ...entry }) => entry),
   );
   expect(() => f.index.publishedSource(reference)).toThrow("not published");
+});
+
+test("a plain source-index cursor cannot be relabeled as face evidence", async () => {
+  const f = await fixture();
+  const selection = acquiredSelection(f);
+  f.index.requestSource(selection);
+  await f.jobs.idle();
+  f.index.requestSource(selection);
+  await f.jobs.idle();
+  const first = f.index.getSource({ ...selection, limit: 1 });
+  expect(() =>
+    f.index.getSource({
+      ...selection,
+      faceObservations: { recipe: "vision-face-rectangles-v1" },
+      cursor: first.page!.nextCursor!,
+    }),
+  ).toThrow(expect.objectContaining({ code: "ARTIFACT_CHANGED" }));
 });

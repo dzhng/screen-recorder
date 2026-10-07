@@ -53,11 +53,13 @@ async function fixture({
   originUs = 500,
   scenes = false,
   speakers = false,
+  wordExtents = [100, 100, 100],
 }: {
   durationUs?: TimeValue;
   originUs?: SignedTimeValue;
   scenes?: boolean;
   speakers?: boolean;
+  wordExtents?: number[];
 } = {}) {
   const home = await mkdtemp("/tmp/project-evidence-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
@@ -237,9 +239,38 @@ async function fixture({
               endUs: toTime(subtract(fromTime(source.endUs), fromTime(100))),
             }))
           : request.track.available;
-      const transcribed = available.map((source, ordinal) => ({
+      const spans = available.flatMap((source) => {
+        const scope = request.execution?.executionRange;
+        if (!scope) return [{ source, owned: source }];
+        const owned = {
+          startUs:
+            compare(fromTime(source.startUs), fromTime(scope.startUs)) > 0
+              ? source.startUs
+              : scope.startUs,
+          endUs:
+            compare(fromTime(source.endUs), fromTime(scope.endUs)) < 0 ? source.endUs : scope.endUs,
+        };
+        if (compare(fromTime(owned.startUs), fromTime(owned.endUs)) >= 0) return [];
+        const lower = subtract(
+            fromTime(owned.startUs),
+            fromTime(request.execution!.context.beforeUs),
+          ),
+          upper = add(fromTime(owned.endUs), fromTime(request.execution!.context.afterUs));
+        return [
+          {
+            owned,
+            source: {
+              startUs:
+                compare(fromTime(source.startUs), lower) > 0 ? source.startUs : toTime(lower),
+              endUs: compare(fromTime(source.endUs), upper) < 0 ? source.endUs : toTime(upper),
+            },
+          },
+        ];
+      });
+      const transcribed = spans.map(({ source, owned }, ordinal) => ({
         ordinal,
         source,
+        owned,
         state: "transcribed" as const,
         words:
           request.track.streamId === "empty"
@@ -252,7 +283,7 @@ async function fixture({
                 )
                 .map((start, i) => ({
                   text: ["one", "two", "three"][i]!,
-                  source: { startUs: start, endUs: start + 100 },
+                  source: { startUs: start, endUs: start + wordExtents[i]! },
                   confidence: 0.9,
                 })),
       }));
@@ -282,6 +313,8 @@ async function fixture({
         },
         segments: lines.map(({ words, ...line }) => ({ ...line, wordCount: words.length })),
         wordCount: lines.reduce((sum, line) => sum + line.words.length, 0),
+        execution: request.execution,
+        available,
       };
     },
   });
@@ -418,6 +451,31 @@ async function fixture({
                   jobId: null,
                 };
               }),
+            sourceStatus: (request: {
+              assetId: string;
+              streamId: string;
+              acquisitionId?: string;
+              channel: number;
+              modelId: string;
+              sourceRange: import("@yap/composition").SelectionRange;
+            }) => {
+              const found = speakerMetadata.find(
+                (value) =>
+                  value.owner.assetId === request.assetId &&
+                  value.source.streamId === request.streamId &&
+                  value.source.channel === request.channel &&
+                  value.source.engine.modelId === request.modelId &&
+                  JSON.stringify(value.source.observationRange) ===
+                    JSON.stringify(request.sourceRange),
+              );
+              return {
+                state: found ? ("ready" as const) : ("not_requested" as const),
+                reason: found ? null : "speaker_evidence_unobserved",
+                retryable: false,
+                jobId: null,
+                published: found ? { generation: 1, evidence: found } : null,
+              };
+            },
           },
         }
       : {}),
@@ -448,6 +506,14 @@ async function fixture({
     for (let n = 0; n < 8; n++) {
       const status = evidence.request(input);
       if (status.published) return status;
+      if (
+        input.domain === undefined ||
+        input.domain === "transcript" ||
+        input.domain === "transcript.search"
+      )
+        for (const dependency of status.dependencies)
+          if (!dependency.transcript && dependency.reason !== "no_audio")
+            transcripts.prepareSource(dependency.selection);
       await jobs.idle();
     }
     throw new Error("Evidence did not prepare");
@@ -527,6 +593,96 @@ async function pages(f: Awaited<ReturnType<typeof fixture>>, input: ProjectEvide
   }
   throw new Error("Pagination failed to advance");
 }
+
+test("project transcript reads never infer and explicitly select retained bounded source generations", async () => {
+  const f = await fixture();
+  const input = f.create([track("speech"), clip(f.asset.id, "take", "speech", 0, 1000)]);
+  expect(await f.evidence.get(input)).toMatchObject({
+    state: "not_ready",
+    reason: "source_evidence_not_ready",
+  });
+  await f.jobs.idle();
+  expect(
+    f.catalog.catalog.prepare("SELECT artifact FROM jobs WHERE artifact='transcript'").all(),
+  ).toEqual([]);
+  const source = { assetId: f.asset.id, streamId: "speech" };
+  const preparation = { ...source, executionRange: { startUs: 300, endUs: 700 } };
+  f.transcripts.prepareSource(preparation);
+  await f.jobs.idle();
+  const metadata = f.transcripts.sourceStatus(preparation).published!.transcript;
+  expect(await f.evidence.get(input)).toMatchObject({ state: "not_ready" });
+  const pinned = {
+    ...input,
+    sourceGenerations: [{ ...source, generation: metadata.generation }],
+    limit: 1,
+  };
+  f.evidence.request(pinned);
+  await f.jobs.idle();
+  f.modelState.ready = false;
+  const rows: ProjectTranscriptRow[] = [];
+  let page = await f.evidence.get(pinned);
+  const dependencies = dependencyRows(page.dependencies);
+  while (page.page) {
+    rows.push(...page.page.rows);
+    const cursor = page.page.nextCursor;
+    if (!cursor) break;
+    await expect(
+      f.evidence.get({ projectId: input.projectId, cursor, sourceGenerations: [], limit: 1 }),
+    ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+    page = await f.evidence.get({ projectId: input.projectId, cursor, limit: 1 });
+    expect(page.dependencies).toEqual({ manifestId: cursor.manifestId });
+  }
+  expect(dependencies).toEqual(dependencyRows((await f.evidence.get(pinned)).dependencies));
+  expect(
+    rows
+      .filter((row) => row.type === "word")
+      .map(({ generation, text, fragments }) => ({ generation, text, fragments })),
+  ).toEqual([
+    {
+      generation: metadata.generation,
+      text: "one",
+      fragments: [{ source: { startUs: 400, endUs: 500 }, project: { startUs: 400, endUs: 500 } }],
+    },
+  ]);
+});
+
+test("project transcript rows preserve explicit speaker attribution through retiming", async () => {
+  const f = await fixture({ speakers: true, durationUs: 40_000_000 });
+  const input = f.create([track("speech"), clip(f.asset.id, "take", "speech", 0, 1000)]);
+  const speaker = f.observeSpeaker("speaker-project-transcript");
+  const transcriptSource = { assetId: f.asset.id, streamId: "speech" };
+  f.transcripts.prepareSource(transcriptSource);
+  await f.jobs.idle();
+  const transcript = f.transcripts.sourceStatus(transcriptSource).published!.transcript;
+  const query = {
+    ...input,
+    sourceGenerations: [{ ...transcriptSource, generation: transcript.generation }],
+    speakerGenerations: [
+      {
+        ...transcriptSource,
+        channel: speaker.source.channel,
+        modelId: speaker.source.engine.modelId,
+        observationRange: speaker.source.observationRange,
+        generation: speaker.generation,
+      },
+    ],
+  };
+  await f.ready(query);
+  const page = await f.evidence.get({ ...query, limit: 1 });
+  expect(page).toMatchObject({ state: "ready" });
+  const word = page.page!.rows.find((row) => row.type === "word");
+  expect(word).toMatchObject({
+    text: "one",
+    speaker: { state: "attributed", slot: 0 },
+  });
+  const cursor = page.page!.nextCursor;
+  expect(cursor).not.toBeNull();
+  const continued = await f.evidence.get({ projectId: input.projectId, cursor, limit: 1 });
+  expect(continued.page!.rows[0]).toMatchObject({
+    type: "word",
+    speaker: { state: "attributed", slot: 0 },
+  });
+});
 
 test("project pages merge repeated, retimed and tied track words exactly at limit one", async () => {
   const f = await fixture();
@@ -2255,7 +2411,7 @@ test("missing speaker evidence is reported without preparing sources or suppress
     channel: 1,
     modelId: speakerSource.engine.modelId,
   };
-  const prepare = vi.spyOn(f.transcripts, "publishedSource");
+  const prepare = vi.spyOn(f.transcripts, "sourceStatus");
   await f.ready({ ...input, domain: "speakers", prepare: false });
   const result = await f.evidence.speakers(input);
   expect(result.page!.rows.map((row) => row.generation)).toEqual(["known"]);
@@ -2268,4 +2424,32 @@ test("missing speaker evidence is reported without preparing sources or suppress
       .unobserved,
   ).toEqual([{ startUs: 30000000, endUs: 60000000 }]);
   expect(prepare).not.toHaveBeenCalled();
+});
+
+test("overlapping phrase search keeps its widest retimed envelope across repeated occurrences", async () => {
+  const f = await fixture({ wordExtents: [600, 100, 100] });
+  const input = f.create([
+    track("speech"),
+    clip(f.asset.id, "first", "speech", 0, 3333),
+    clip(f.asset.id, "repeat", "speech", 3333, 6666),
+  ]);
+  const query = { ...input, text: "one two" };
+  await f.ready(query);
+  const first = await f.evidence.search({ ...query, limit: 1 });
+  expect(first.page?.entries.map((entry) => entry.projectRange)).toEqual([
+    { startUs: { numerator: 3333, denominator: 10 }, endUs: { numerator: 23331, denominator: 10 } },
+  ]);
+  const second = await f.evidence.search({ ...query, limit: 1, cursor: first.page!.nextCursor });
+  expect(second.page?.entries.map((entry) => entry.projectRange)).toEqual([
+    {
+      startUs: { numerator: 36663, denominator: 10 },
+      endUs: { numerator: 56661, denominator: 10 },
+    },
+  ]);
+  expect(first.page!.entries[0]!.words.map((word) => word.sourceRange)).toEqual([
+    { startUs: 100, endUs: 700 },
+    { startUs: 400, endUs: 500 },
+  ]);
+  const repeated = f.projects.revision(input.projectId, input.revisionId).document.clips[1]!.id;
+  expect(second.page!.entries[0]!.words.map((word) => word.clipId)).toEqual([repeated, repeated]);
 });

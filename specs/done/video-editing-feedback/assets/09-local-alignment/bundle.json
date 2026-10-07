@@ -1,0 +1,1256 @@
+{
+  "status": "measured-conditional-evidence-no-production-provider-promotion",
+  "files": [
+    {
+      "path": "fluid-ctc110/acquisition.log.gz",
+      "source": "fluid-ctc110/acquisition.log",
+      "compression": "gzip",
+      "bytes": 228,
+      "sha256": "534618b4728485b6da5849174b407ddc865280e9fd9fa31917c8381d2455afb1",
+      "storedBytes": 145,
+      "storedSha256": "537c1ff707d4cbe64c3485c2ac99a31112a831e2d3d236754892038c39677772"
+    },
+    {
+      "path": "fluid-ctc110/align-invoke.log.gz",
+      "source": "fluid-ctc110/align-invoke.log",
+      "compression": "gzip",
+      "bytes": 1167,
+      "sha256": "50d95749e00ad184c56728fa8becb7cf3876e02acada1114cc7ea2a78f6f2623",
+      "storedBytes": 319,
+      "storedSha256": "34bf789f10993a7b16cce2feebef6d4bbaf89814b2057d697143d4c7f2996b05"
+    },
+    {
+      "path": "fluid-ctc110/build-r2.log.gz",
+      "source": "fluid-ctc110/build-r2.log",
+      "compression": "gzip",
+      "bytes": 206,
+      "sha256": "3566ccc6e2939b435a3f546d057ef0d0e54b51b894537845034b2139613a09b3",
+      "storedBytes": 116,
+      "storedSha256": "97b7e92ca7922b3174354f5f2ea44879b84dac2cf33fb1f0fb52a035a08c4393"
+    },
+    {
+      "path": "fluid-ctc110/build.log.gz",
+      "source": "fluid-ctc110/build.log",
+      "compression": "gzip",
+      "bytes": 28284,
+      "sha256": "169c5b671e7aa58663bd4af8830699c862b0e46897756487e470c647d3388bf8",
+      "storedBytes": 4376,
+      "storedSha256": "894e72a33612617578a9792c3a3d606d981b82bd160eacbc4933a1784de2cf25"
+    },
+    {
+      "path": "fluid-ctc110/closure-after-offline.json",
+      "source": "fluid-ctc110/closure-after-offline.json",
+      "compression": null,
+      "bytes": 2978,
+      "sha256": "2608bf8224a1a595566250ae3d151b5bd28a6cfa53bfcc4f6fe87d3e48c08a7e",
+      "storedBytes": 2978,
+      "storedSha256": "2608bf8224a1a595566250ae3d151b5bd28a6cfa53bfcc4f6fe87d3e48c08a7e"
+    },
+    {
+      "path": "fluid-ctc110/constructed-repeats.json.gz",
+      "source": "fluid-ctc110/constructed-repeats.json",
+      "compression": "gzip",
+      "bytes": 3750964,
+      "sha256": "5c4ca7139e48b076459463782d21b2f48897dde896ae82368439fe53336a4c7c",
+      "storedBytes": 1017707,
+      "storedSha256": "a7c5d3719dd1253b0e91e69d17b5c690a9d8912da286431c1da2745aa841e55d"
+    },
+    {
+      "path": "fluid-ctc110/constructed-repeats.json.native.json.gz",
+      "source": "fluid-ctc110/constructed-repeats.json.native.json",
+      "compression": "gzip",
+      "bytes": 831653,
+      "sha256": "e7e579018c2a7e4ba05a91ff32fbe7d180a107e207250393c3310c629121f61a",
+      "storedBytes": 439313,
+      "storedSha256": "6f07db79be4066d6adcd49081ffb8973ee4f5d989ec8b71cf00e37630313c608"
+    },
+    {
+      "path": "fluid-ctc110/execution.json",
+      "source": "fluid-ctc110/execution.json",
+      "compression": null,
+      "bytes": 174,
+      "sha256": "6ef1365bd81bde1f214d04b995800e37421f65c548fa6cb60418ae61305924bd",
+      "storedBytes": 174,
+      "storedSha256": "6ef1365bd81bde1f214d04b995800e37421f65c548fa6cb60418ae61305924bd"
+    },
+    {
+      "path": "fluid-ctc110/false-start.json.gz",
+      "source": "fluid-ctc110/false-start.json",
+      "compression": "gzip",
+      "bytes": 608600,
+      "sha256": "078c804df3e164d363c94611af966a8c643cc3cdad81974388b2ad1fe81378fa",
+      "storedBytes": 171183,
+      "storedSha256": "f3adacf03323a1f360f0fc66c3b50e46682ce0ddc9733a7ecee7840978626183"
+    },
+    {
+      "path": "fluid-ctc110/false-start.json.native.json.gz",
+      "source": "fluid-ctc110/false-start.json.native.json",
+      "compression": "gzip",
+      "bytes": 126988,
+      "sha256": "7eddd12c7d7bc50a06d79f56a9dc8dc3f4f5d9f6834d8de57b6bbaaf391c954f",
+      "storedBytes": 69949,
+      "storedSha256": "3d014d589e4f3e3507229ae927d4665bc384120631797f8d5647fb05dc7b6c39"
+    },
+    {
+      "path": "fluid-ctc110/fortunate-contextual.json.gz",
+      "source": "fluid-ctc110/fortunate-contextual.json",
+      "compression": "gzip",
+      "bytes": 951791,
+      "sha256": "d1303b816dd71dbd6d42acd73df0988e1f817a51e8da69e482145d3c29ddeb1b",
+      "storedBytes": 263404,
+      "storedSha256": "3191d90ebd9d40837e1e02ea2fef9fb101f87386b50006c1dab58d8e638b0558"
+    },
+    {
+      "path": "fluid-ctc110/fortunate-contextual.json.native.json.gz",
+      "source": "fluid-ctc110/fortunate-contextual.json.native.json",
+      "compression": "gzip",
+      "bytes": 204453,
+      "sha256": "2b6dc65d8a94c4ba495b2575485c42f02aea7b8a68c798048e719b03bab483bb",
+      "storedBytes": 110548,
+      "storedSha256": "b9a9b14b63f9f2c0d6c117d9765ee9e5922892ea6759f9c12e89e3ccef667f06"
+    },
+    {
+      "path": "fluid-ctc110/fortunate-intact.json.gz",
+      "source": "fluid-ctc110/fortunate-intact.json",
+      "compression": "gzip",
+      "bytes": 326794,
+      "sha256": "a81aac6d391c814668b808197a142c109e0d0f7dd48ee8c7cb937199d181cfd8",
+      "storedBytes": 92881,
+      "storedSha256": "85f94e7aff655d3bc3bcfd374ad2fead3e91777086c06e8f84c529e3c924c109"
+    },
+    {
+      "path": "fluid-ctc110/fortunate-intact.json.native.json.gz",
+      "source": "fluid-ctc110/fortunate-intact.json.native.json",
+      "compression": "gzip",
+      "bytes": 65999,
+      "sha256": "2b470d0854460a6f66bf908805eefd64e3f4aef240eb0d72d583bbf12229d92c",
+      "storedBytes": 36647,
+      "storedSha256": "626c1c733b84c4be956e23df323dc0546d0acfabd75d314cf2a5d3033424e96b"
+    },
+    {
+      "path": "fluid-ctc110/fortunate-truncated.json.gz",
+      "source": "fluid-ctc110/fortunate-truncated.json",
+      "compression": "gzip",
+      "bytes": 143787,
+      "sha256": "38f47a0341719fe542c6dea3c336c44cae299f67cade3b171f31e764e8831279",
+      "storedBytes": 42960,
+      "storedSha256": "01598b54719e6e18b88841b801e5099c2ec5c4cfe288ba31a06f92d211779e17"
+    },
+    {
+      "path": "fluid-ctc110/fortunate-truncated.json.native.json.gz",
+      "source": "fluid-ctc110/fortunate-truncated.json.native.json",
+      "compression": "gzip",
+      "bytes": 27536,
+      "sha256": "393ac585aab5a437cebaa4a9d91f461d2b37f798f903b5ae8a5c5cba316c3f1d",
+      "storedBytes": 15147,
+      "storedSha256": "cab22af8202b9d17b04dc66a788554f2eaff2c025baf9435cef1f29a9cf24871"
+    },
+    {
+      "path": "fluid-ctc110/invoke.log.gz",
+      "source": "fluid-ctc110/invoke.log",
+      "compression": "gzip",
+      "bytes": 748,
+      "sha256": "0e6ca04a45d68a6a0012df3c80f92f0eb228a4755b072a12efa30986cbe8ddef",
+      "storedBytes": 326,
+      "storedSha256": "abd78f0a0f1ce2c7656d7158d141addeaa92ed8c05daf8c6c58020bf04769add"
+    },
+    {
+      "path": "fluid-ctc110/madison-tiny.json.gz",
+      "source": "fluid-ctc110/madison-tiny.json",
+      "compression": "gzip",
+      "bytes": 884529,
+      "sha256": "656c40543281b517de1f647edcaf73320701a5ff3ed74437d3c665178a46fe40",
+      "storedBytes": 260490,
+      "storedSha256": "31135c4f00bb82c637c9288fc07818b0e41e58e4a72083eeaec8ea8f5b50c859"
+    },
+    {
+      "path": "fluid-ctc110/madison-tiny.json.native.json.gz",
+      "source": "fluid-ctc110/madison-tiny.json.native.json",
+      "compression": "gzip",
+      "bytes": 187469,
+      "sha256": "15f952f71b41fdd9aae434e47042356fd14c33b454d10ab74287867301cd11a0",
+      "storedBytes": 105231,
+      "storedSha256": "e23c7707c219f11c4e9accabf4f157cb444b3c397e9316502e169705846f1b84"
+    },
+    {
+      "path": "fluid-ctc110/manifest.json",
+      "source": "fluid-ctc110/manifest.json",
+      "compression": null,
+      "bytes": 3146,
+      "sha256": "500d139048250866d7128cbc634ef6fc32b9345471b6a3ae8bfa760ae6ea3be1",
+      "storedBytes": 3146,
+      "storedSha256": "500d139048250866d7128cbc634ef6fc32b9345471b6a3ae8bfa760ae6ea3be1"
+    },
+    {
+      "path": "fluid-ctc110/overlap25.json.gz",
+      "source": "fluid-ctc110/overlap25.json",
+      "compression": "gzip",
+      "bytes": 8156292,
+      "sha256": "f9d9356143de7e898310b5e42ff8f132d7f4742d12b7982bb05847627022bc01",
+      "storedBytes": 2491677,
+      "storedSha256": "38efe4c285122b4ba012f8aa4c5fbc0ffdeb4bb5fa9892709ae5b4d646ecd154"
+    },
+    {
+      "path": "fluid-ctc110/overlap25.json.native.json.gz",
+      "source": "fluid-ctc110/overlap25.json.native.json",
+      "compression": "gzip",
+      "bytes": 1735939,
+      "sha256": "8dff6ac2d7769fce6e5749ec452ac5beb1950f4cc7742b8f180de66f7806b467",
+      "storedBytes": 997757,
+      "storedSha256": "7dabf731e4cd2064e1dbbd3cd82ac837e34d6a4b5d0f8d35d7b58d79399c6afe"
+    },
+    {
+      "path": "fluid-ctc110/preparation.json",
+      "source": "fluid-ctc110/preparation.json",
+      "compression": null,
+      "bytes": 329,
+      "sha256": "33c73690dde44fc7a078e3bd5384558b6243f1b2659ed7c7a01bd18b7e5daf40",
+      "storedBytes": 329,
+      "storedSha256": "33c73690dde44fc7a078e3bd5384558b6243f1b2659ed7c7a01bd18b7e5daf40"
+    },
+    {
+      "path": "fluid-ctc110/protocol.json",
+      "source": "fluid-ctc110/protocol.json",
+      "compression": null,
+      "bytes": 10637,
+      "sha256": "ff1273e3d552f9ff0cecc74f5ce5096982980caf3126ad1ade82faefc68e260a",
+      "storedBytes": 10637,
+      "storedSha256": "ff1273e3d552f9ff0cecc74f5ce5096982980caf3126ad1ade82faefc68e260a"
+    },
+    {
+      "path": "fluid-ctc110/transport.json",
+      "source": "fluid-ctc110/transport.json",
+      "compression": null,
+      "bytes": 1591,
+      "sha256": "e00ddc4758ee55e474fcf57d4d0073e825a92c96165a01bea70e03a5d45174ae",
+      "storedBytes": 1591,
+      "storedSha256": "e00ddc4758ee55e474fcf57d4d0073e825a92c96165a01bea70e03a5d45174ae"
+    },
+    {
+      "path": "fluid-ctc110-alignment/constructed-repeats.json.gz",
+      "source": "fluid-ctc110-alignment/constructed-repeats.json",
+      "compression": "gzip",
+      "bytes": 45525,
+      "sha256": "caaf3a31a3fe254b8646d2907ddea496b9afa72f49a8f4715810c5b64b87c545",
+      "storedBytes": 3790,
+      "storedSha256": "e344d7583b0f75a049c9b1e57c166916a11426490778e2437844961f42526fff"
+    },
+    {
+      "path": "fluid-ctc110-alignment/false-start.json",
+      "source": "fluid-ctc110-alignment/false-start.json",
+      "compression": null,
+      "bytes": 9036,
+      "sha256": "1993ff9c4cc55fc12ddf4b24f4c4d5ff80bcd5124fe0bf2c2edeab1c5e565829",
+      "storedBytes": 9036,
+      "storedSha256": "1993ff9c4cc55fc12ddf4b24f4c4d5ff80bcd5124fe0bf2c2edeab1c5e565829"
+    },
+    {
+      "path": "fluid-ctc110-alignment/fortunate-contextual.json",
+      "source": "fluid-ctc110-alignment/fortunate-contextual.json",
+      "compression": null,
+      "bytes": 9488,
+      "sha256": "a7d1ff36dc49402f8414061d731ef87b0dbb469be184e184a5c63c618599f177",
+      "storedBytes": 9488,
+      "storedSha256": "a7d1ff36dc49402f8414061d731ef87b0dbb469be184e184a5c63c618599f177"
+    },
+    {
+      "path": "fluid-ctc110-alignment/fortunate-intact.json",
+      "source": "fluid-ctc110-alignment/fortunate-intact.json",
+      "compression": null,
+      "bytes": 5851,
+      "sha256": "63ed4fdf583b42f5d76fe0685b3745c2e8047136d1498080163bff7c64a05cb5",
+      "storedBytes": 5851,
+      "storedSha256": "63ed4fdf583b42f5d76fe0685b3745c2e8047136d1498080163bff7c64a05cb5"
+    },
+    {
+      "path": "fluid-ctc110-alignment/fortunate-truncated.json",
+      "source": "fluid-ctc110-alignment/fortunate-truncated.json",
+      "compression": null,
+      "bytes": 5078,
+      "sha256": "fae5313a398343e5184fa645791de54d221674375cc7b8a1430f813a204a9f0d",
+      "storedBytes": 5078,
+      "storedSha256": "fae5313a398343e5184fa645791de54d221674375cc7b8a1430f813a204a9f0d"
+    },
+    {
+      "path": "fluid-ctc110-alignment/madison-tiny.json",
+      "source": "fluid-ctc110-alignment/madison-tiny.json",
+      "compression": null,
+      "bytes": 22465,
+      "sha256": "523a5baa4af88cef7b1d664008235e16dd938ff2db41ba234461d1ba638c1691",
+      "storedBytes": 22465,
+      "storedSha256": "523a5baa4af88cef7b1d664008235e16dd938ff2db41ba234461d1ba638c1691"
+    },
+    {
+      "path": "fluid-ctc110-alignment/overlap25.json.gz",
+      "source": "fluid-ctc110-alignment/overlap25.json",
+      "compression": "gzip",
+      "bytes": 71306,
+      "sha256": "7bf4891eb0372a1cd4c7b43f58d3ffcc3cf5da45b52e7736827416128dca3479",
+      "storedBytes": 13983,
+      "storedSha256": "13520a0f966b4c9edfcfeca98d8da71fa72c58ee73fd0f1f9af96c2eedd65bfb"
+    },
+    {
+      "path": "fluid-ctc110-alignment/protocol.json",
+      "source": "fluid-ctc110-alignment/protocol.json",
+      "compression": null,
+      "bytes": 3195,
+      "sha256": "a3a226f53306ffdb8cbaad1945ff9ce09c8a6002417dd1d7e8986ac1942b5961",
+      "storedBytes": 3195,
+      "storedSha256": "a3a226f53306ffdb8cbaad1945ff9ce09c8a6002417dd1d7e8986ac1942b5961"
+    },
+    {
+      "path": "fluid-ctc110-alignment/transport.json",
+      "source": "fluid-ctc110-alignment/transport.json",
+      "compression": null,
+      "bytes": 2012,
+      "sha256": "84b1aa62f098ceb68bb913b6d6d9f8d3c9346bd57c0e97f81f4e897224e556e8",
+      "storedBytes": 2012,
+      "storedSha256": "84b1aa62f098ceb68bb913b6d6d9f8d3c9346bd57c0e97f81f4e897224e556e8"
+    },
+    {
+      "path": "nemo-ctc110/acquisition.log.gz",
+      "source": "nemo-ctc110/acquisition.log",
+      "compression": "gzip",
+      "bytes": 535,
+      "sha256": "a26c2691352dac07d150bdfedd349775f9a8c189746004a0a94fe27573491419",
+      "storedBytes": 186,
+      "storedSha256": "ac6ab7b473e2811523fdbba851cb4785ed988421464a9b669fbb1cecb38bb414"
+    },
+    {
+      "path": "nemo-ctc110/closure-r2.json",
+      "source": "nemo-ctc110/closure-r2.json",
+      "compression": null,
+      "bytes": 465,
+      "sha256": "1f3b24caff4e5a2e3a291546f116bf64e5473f47b208ea189ca20631f48aaa34",
+      "storedBytes": 465,
+      "storedSha256": "1f3b24caff4e5a2e3a291546f116bf64e5473f47b208ea189ca20631f48aaa34"
+    },
+    {
+      "path": "nemo-ctc110/constructed-repeats.json.gz",
+      "source": "nemo-ctc110/constructed-repeats.json",
+      "compression": "gzip",
+      "bytes": 4044722,
+      "sha256": "f78efefb1bf89c7f22f50a7294798e761b61554cd6ea70bb63f8556d3815a9cd",
+      "storedBytes": 1771855,
+      "storedSha256": "a51bdaf636a435e3bc280584ccd755fd2491917851eb8118edf01b18069ced0a"
+    },
+    {
+      "path": "nemo-ctc110/constructed-repeats.json.native.json.gz",
+      "source": "nemo-ctc110/constructed-repeats.json.native.json",
+      "compression": "gzip",
+      "bytes": 820143,
+      "sha256": "ccc424392fde337af73fbcdcc23cf99bc2fa55527836c42f8be7b0e794e9888e",
+      "storedBytes": 592778,
+      "storedSha256": "9a77f4c08b4da0888d9d2c53fb739f7998f69a1a74f0edf259158dacec27255d"
+    },
+    {
+      "path": "nemo-ctc110/false-start.json.gz",
+      "source": "nemo-ctc110/false-start.json",
+      "compression": "gzip",
+      "bytes": 667581,
+      "sha256": "9a2aaf848c85d60b50d6924a84523cebfdd2297c9ae1dc6a2ccf0ab174726871",
+      "storedBytes": 292657,
+      "storedSha256": "30f541d08ec1aca33cdaf92189ed99bc350ffff30d23482e755b8ddbcbd2245a"
+    },
+    {
+      "path": "nemo-ctc110/false-start.json.native.json.gz",
+      "source": "nemo-ctc110/false-start.json.native.json",
+      "compression": "gzip",
+      "bytes": 125868,
+      "sha256": "62607c1c6809964039798627df90722cb233c9c6fae4beb88aaa6065ffeb9b25",
+      "storedBytes": 91783,
+      "storedSha256": "7133f98588ee42478ca01818031cc3b06549ab7c48d26f82ca7be6b5ea3d6b54"
+    },
+    {
+      "path": "nemo-ctc110/fortunate-contextual.json.gz",
+      "source": "nemo-ctc110/fortunate-contextual.json",
+      "compression": "gzip",
+      "bytes": 1038918,
+      "sha256": "875840791adac604eea504b20df4539a4f88032851706e1e03919d946c8bd2ff",
+      "storedBytes": 449902,
+      "storedSha256": "87ecb47ebd4c0a7aad0a9dc0b6e098d990b8f289f53476e16b601974e7f06738"
+    },
+    {
+      "path": "nemo-ctc110/fortunate-contextual.json.native.json.gz",
+      "source": "nemo-ctc110/fortunate-contextual.json.native.json",
+      "compression": "gzip",
+      "bytes": 202409,
+      "sha256": "066a50f260a470ad42298faed0528b56c58a3aeb46cd3856b23bf176d8fabeb2",
+      "storedBytes": 146932,
+      "storedSha256": "33e3f85fc1beb68aa83d95c98f063f52b53605535a8b8251f99e89acfe30e3ce"
+    },
+    {
+      "path": "nemo-ctc110/fortunate-intact.json.gz",
+      "source": "nemo-ctc110/fortunate-intact.json",
+      "compression": "gzip",
+      "bytes": 374804,
+      "sha256": "2252f683cdbd8967adb699f28b3568db0cd852ae44429a808d4592bd4d777eba",
+      "storedBytes": 158438,
+      "storedSha256": "cb22e95e138dc294978773c7d152168c1ba2743dcf28ccf78c897e914a69e0bb"
+    },
+    {
+      "path": "nemo-ctc110/fortunate-intact.json.native.json.gz",
+      "source": "nemo-ctc110/fortunate-intact.json.native.json",
+      "compression": "gzip",
+      "bytes": 65737,
+      "sha256": "8140614bf1a24947b39049c20784490bb954f555ac69788b0da5a30e7b428f6f",
+      "storedBytes": 47858,
+      "storedSha256": "977d356de644e301387df9b7d50805c18c04bae5eac48391af3881eddcb10512"
+    },
+    {
+      "path": "nemo-ctc110/fortunate-truncated.json.gz",
+      "source": "nemo-ctc110/fortunate-truncated.json",
+      "compression": "gzip",
+      "bytes": 188376,
+      "sha256": "ef12d4945896fc35eb0c7db38e915a3a5e6147ef793caf90c4f6df2239340fb6",
+      "storedBytes": 75338,
+      "storedSha256": "8153065910a8763aa8db11635aba479285ad0799b8a59cb4c0793aeac695aacf"
+    },
+    {
+      "path": "nemo-ctc110/fortunate-truncated.json.native.json.gz",
+      "source": "nemo-ctc110/fortunate-truncated.json.native.json",
+      "compression": "gzip",
+      "bytes": 27473,
+      "sha256": "4b32781c22408a2c614805e585563ea28802a5b3cdc8c187797fa0b8ab7c7ae1",
+      "storedBytes": 20106,
+      "storedSha256": "1aaec6757fd1cfe4ac5d57123c9857b461d237f446eef850507e84f5454e2c04"
+    },
+    {
+      "path": "nemo-ctc110/invoke-r2.log.gz",
+      "source": "nemo-ctc110/invoke-r2.log",
+      "compression": "gzip",
+      "bytes": 804,
+      "sha256": "e5a676bf3cac505b29c7ee64775b33c8feace4dfd3f352344b346d7c46c7cb1b",
+      "storedBytes": 360,
+      "storedSha256": "b584e1ab56a69492a33dfa73c5baa23d0fc25cc918f89214f21007b09dba66b5"
+    },
+    {
+      "path": "nemo-ctc110/invoke.log.gz",
+      "source": "nemo-ctc110/invoke.log",
+      "compression": "gzip",
+      "bytes": 3720,
+      "sha256": "ba23b54bda3e70579e6a853385ca02a54d89a8f994d6d1a2315acfcecde4b10d",
+      "storedBytes": 1708,
+      "storedSha256": "7e1a1b5403a2907ded894587405b4c868ac59adeb7c29b7027fb7aa54abdf38f"
+    },
+    {
+      "path": "nemo-ctc110/madison-tiny.json.gz",
+      "source": "nemo-ctc110/madison-tiny.json",
+      "compression": "gzip",
+      "bytes": 962148,
+      "sha256": "7d91d86f4779cacd0ae4c01aa52a36387efb6b575abd461622d50be105f061da",
+      "storedBytes": 420963,
+      "storedSha256": "50816ea5653daa7e5892f9a5274a98b31ee1a8e759ee2fa19aa3ee89fb2428ea"
+    },
+    {
+      "path": "nemo-ctc110/madison-tiny.json.native.json.gz",
+      "source": "nemo-ctc110/madison-tiny.json.native.json",
+      "compression": "gzip",
+      "bytes": 186001,
+      "sha256": "1934ed77b50e3b8e61577c2a7ae7e1b1063d0de074bd5b82eaa9c4210b545279",
+      "storedBytes": 135328,
+      "storedSha256": "e56cfb5ca4da90723858eceed4a1244941276295d67d05883207dd24bd4aebc7"
+    },
+    {
+      "path": "nemo-ctc110/manifest.json",
+      "source": "nemo-ctc110/manifest.json",
+      "compression": null,
+      "bytes": 670,
+      "sha256": "5c6c22d2ccab4352d7014d776976962874ea2984e7725ef6d325ca8a132e5d2c",
+      "storedBytes": 670,
+      "storedSha256": "5c6c22d2ccab4352d7014d776976962874ea2984e7725ef6d325ca8a132e5d2c"
+    },
+    {
+      "path": "nemo-ctc110/overlap25.json.gz",
+      "source": "nemo-ctc110/overlap25.json",
+      "compression": "gzip",
+      "bytes": 8400159,
+      "sha256": "ec45dd28a05b57e4f1cfb8f71c50bb6df4c5722a0e4c2f81538f6afb626f2ec2",
+      "storedBytes": 3748087,
+      "storedSha256": "2201b6b1dd10b8401bec8b0446eb997ffb525e94f36ecf0b3235898961620924"
+    },
+    {
+      "path": "nemo-ctc110/overlap25.json.native.json.gz",
+      "source": "nemo-ctc110/overlap25.json.native.json",
+      "compression": "gzip",
+      "bytes": 1711201,
+      "sha256": "077a2208148d3872b9b95621d0f0e0e39508428f4d3da0b19e6d2dc7908e3c89",
+      "storedBytes": 1241554,
+      "storedSha256": "09b4468dc3f0acf24ce844a1505b6ba5cc09b06db0efe4048247439b30345106"
+    },
+    {
+      "path": "nemo-ctc110/preparation.json",
+      "source": "nemo-ctc110/preparation.json",
+      "compression": null,
+      "bytes": 342,
+      "sha256": "822e7e44b019320c19dcf69820f8f088069b13399da8b5e93b6af883e1dbaed4",
+      "storedBytes": 342,
+      "storedSha256": "822e7e44b019320c19dcf69820f8f088069b13399da8b5e93b6af883e1dbaed4"
+    },
+    {
+      "path": "nemo-ctc110/protocol-r2.json",
+      "source": "nemo-ctc110/protocol-r2.json",
+      "compression": null,
+      "bytes": 12351,
+      "sha256": "e1ef2f6fa9ffa35567fef3d8c88750d38967e8844613d7aa404611d197746510",
+      "storedBytes": 12351,
+      "storedSha256": "e1ef2f6fa9ffa35567fef3d8c88750d38967e8844613d7aa404611d197746510"
+    },
+    {
+      "path": "nemo-ctc110/protocol.json",
+      "source": "nemo-ctc110/protocol.json",
+      "compression": null,
+      "bytes": 12080,
+      "sha256": "e6999e19e1d08e140cd2807e14167a659e9b777c67a37f077d80fc7f3f21821d",
+      "storedBytes": 12080,
+      "storedSha256": "e6999e19e1d08e140cd2807e14167a659e9b777c67a37f077d80fc7f3f21821d"
+    },
+    {
+      "path": "nemo-ctc110/stdout-refused/invoke.log.gz",
+      "source": "nemo-ctc110/stdout-refused/invoke.log",
+      "compression": "gzip",
+      "bytes": 3720,
+      "sha256": "ba23b54bda3e70579e6a853385ca02a54d89a8f994d6d1a2315acfcecde4b10d",
+      "storedBytes": 1708,
+      "storedSha256": "7e1a1b5403a2907ded894587405b4c868ac59adeb7c29b7027fb7aa54abdf38f"
+    },
+    {
+      "path": "nemo-ctc110/stdout-refused/nemo-ctc-worker.py",
+      "source": "nemo-ctc110/stdout-refused/nemo-ctc-worker.py",
+      "compression": null,
+      "bytes": 3428,
+      "sha256": "98d34e81d2d4a0efb0a8e00c510430d80c549ba092b16a1b9cd10232197da7ed",
+      "storedBytes": 3428,
+      "storedSha256": "98d34e81d2d4a0efb0a8e00c510430d80c549ba092b16a1b9cd10232197da7ed"
+    },
+    {
+      "path": "nemo-ctc110/stdout-refused/protocol.json",
+      "source": "nemo-ctc110/stdout-refused/protocol.json",
+      "compression": null,
+      "bytes": 12080,
+      "sha256": "e6999e19e1d08e140cd2807e14167a659e9b777c67a37f077d80fc7f3f21821d",
+      "storedBytes": 12080,
+      "storedSha256": "e6999e19e1d08e140cd2807e14167a659e9b777c67a37f077d80fc7f3f21821d"
+    },
+    {
+      "path": "nemo-ctc110/stdout-refused/transport.json",
+      "source": "nemo-ctc110/stdout-refused/transport.json",
+      "compression": null,
+      "bytes": 209,
+      "sha256": "60bb381eadbd970db64cccaaafc89a31f3a62c2ed07b54cf601cb21c39193a0a",
+      "storedBytes": 209,
+      "storedSha256": "60bb381eadbd970db64cccaaafc89a31f3a62c2ed07b54cf601cb21c39193a0a"
+    },
+    {
+      "path": "nemo-ctc110/transport-r2.json",
+      "source": "nemo-ctc110/transport-r2.json",
+      "compression": null,
+      "bytes": 1632,
+      "sha256": "76e2e51ead04f9c348edf1959362be647790a734267c889a3b3a8e80a02ccc56",
+      "storedBytes": 1632,
+      "storedSha256": "76e2e51ead04f9c348edf1959362be647790a734267c889a3b3a8e80a02ccc56"
+    },
+    {
+      "path": "nemo-ctc110/transport.json",
+      "source": "nemo-ctc110/transport.json",
+      "compression": null,
+      "bytes": 209,
+      "sha256": "60bb381eadbd970db64cccaaafc89a31f3a62c2ed07b54cf601cb21c39193a0a",
+      "storedBytes": 209,
+      "storedSha256": "60bb381eadbd970db64cccaaafc89a31f3a62c2ed07b54cf601cb21c39193a0a"
+    },
+    {
+      "path": "nemo-ctc110-alignment/constructed-repeats.json.gz",
+      "source": "nemo-ctc110-alignment/constructed-repeats.json",
+      "compression": "gzip",
+      "bytes": 44364,
+      "sha256": "77c3fdd3dc4abc9b667acbf15b0b896ead3f02f342f31cafd9026a0c50ea35e8",
+      "storedBytes": 3470,
+      "storedSha256": "c635996245e902b9960a03679fd9e28c0a1a39b32c68bc6a0e82485cb722aa8a"
+    },
+    {
+      "path": "nemo-ctc110-alignment/false-start.json",
+      "source": "nemo-ctc110-alignment/false-start.json",
+      "compression": null,
+      "bytes": 8556,
+      "sha256": "91ef355b3cf24c60ae8180794e4fd47433ddcf332b78e07d62b773a56a9722f6",
+      "storedBytes": 8556,
+      "storedSha256": "91ef355b3cf24c60ae8180794e4fd47433ddcf332b78e07d62b773a56a9722f6"
+    },
+    {
+      "path": "nemo-ctc110-alignment/fortunate-contextual.json",
+      "source": "nemo-ctc110-alignment/fortunate-contextual.json",
+      "compression": null,
+      "bytes": 9245,
+      "sha256": "144d3f023774188e13e9c5514aeb87c23324c5f8e3f6a3a53fa3c8b6cc9efe51",
+      "storedBytes": 9245,
+      "storedSha256": "144d3f023774188e13e9c5514aeb87c23324c5f8e3f6a3a53fa3c8b6cc9efe51"
+    },
+    {
+      "path": "nemo-ctc110-alignment/fortunate-intact.json",
+      "source": "nemo-ctc110-alignment/fortunate-intact.json",
+      "compression": null,
+      "bytes": 5726,
+      "sha256": "b6689cc8e6184df3de3b3aa8d14a0d1598b62e2e74ee725b975f32ad003f1fc8",
+      "storedBytes": 5726,
+      "storedSha256": "b6689cc8e6184df3de3b3aa8d14a0d1598b62e2e74ee725b975f32ad003f1fc8"
+    },
+    {
+      "path": "nemo-ctc110-alignment/fortunate-truncated.json",
+      "source": "nemo-ctc110-alignment/fortunate-truncated.json",
+      "compression": null,
+      "bytes": 4781,
+      "sha256": "12477bd311f5569bfe73c1943d204509a1e1804a0487586cf7238debd1983166",
+      "storedBytes": 4781,
+      "storedSha256": "12477bd311f5569bfe73c1943d204509a1e1804a0487586cf7238debd1983166"
+    },
+    {
+      "path": "nemo-ctc110-alignment/madison-tiny.json",
+      "source": "nemo-ctc110-alignment/madison-tiny.json",
+      "compression": null,
+      "bytes": 20168,
+      "sha256": "3bebe27a3c58701711c5d7e6c870dba08c6f747b601eb26494ce503accc3b9b9",
+      "storedBytes": 20168,
+      "storedSha256": "3bebe27a3c58701711c5d7e6c870dba08c6f747b601eb26494ce503accc3b9b9"
+    },
+    {
+      "path": "nemo-ctc110-alignment/overlap25.json.gz",
+      "source": "nemo-ctc110-alignment/overlap25.json",
+      "compression": "gzip",
+      "bytes": 67376,
+      "sha256": "ac83ae3b6fa10a76a07e8ecbeabca27e28f772995f67afdf785ee7f59b7486c2",
+      "storedBytes": 13228,
+      "storedSha256": "26751699cea5efd559ecebd7420e81b7aabba0698f3bb39a57c08b9432a42e2a"
+    },
+    {
+      "path": "nemo-ctc110-alignment/protocol.json",
+      "source": "nemo-ctc110-alignment/protocol.json",
+      "compression": null,
+      "bytes": 3183,
+      "sha256": "e828087cbc74aa92a2591ae94d747e98f3ed9ff61970a37b56afb58e07e9e10d",
+      "storedBytes": 3183,
+      "storedSha256": "e828087cbc74aa92a2591ae94d747e98f3ed9ff61970a37b56afb58e07e9e10d"
+    },
+    {
+      "path": "nemo-ctc110-alignment/transport.json",
+      "source": "nemo-ctc110-alignment/transport.json",
+      "compression": null,
+      "bytes": 2467,
+      "sha256": "b0abfc5a2b2b9ed77056bc42b09da33780ec4e00e931e29ab5810a9a31d9dbe0",
+      "storedBytes": 2467,
+      "storedSha256": "b0abfc5a2b2b9ed77056bc42b09da33780ec4e00e931e29ab5810a9a31d9dbe0"
+    },
+    {
+      "path": "metadata/FluidInference--parakeet-ctc-0.6b-coreml/README.md.gz",
+      "source": "metadata/FluidInference--parakeet-ctc-0.6b-coreml/README.md",
+      "compression": "gzip",
+      "bytes": 5041,
+      "sha256": "50d48e89f0d0ff3bfba54f7b8247341d3789f508611327064502eefb09e7b4da",
+      "storedBytes": 1723,
+      "storedSha256": "598d143b967e40cda5fd98b5d82332b971f4b92019d677c81c95306074cd3311"
+    },
+    {
+      "path": "metadata/FluidInference--parakeet-ctc-0.6b-coreml/model.json",
+      "source": "metadata/FluidInference--parakeet-ctc-0.6b-coreml/model.json",
+      "compression": null,
+      "bytes": 1882,
+      "sha256": "53bef8fb380a50a6b2904c525182b7b54a00f868f20c5c3d12080651b40901cf",
+      "storedBytes": 1882,
+      "storedSha256": "53bef8fb380a50a6b2904c525182b7b54a00f868f20c5c3d12080651b40901cf"
+    },
+    {
+      "path": "metadata/FluidInference--parakeet-ctc-0.6b-coreml/receipts.json",
+      "source": "metadata/FluidInference--parakeet-ctc-0.6b-coreml/receipts.json",
+      "compression": null,
+      "bytes": 711,
+      "sha256": "b339d2682a04a7e84c3e1397290ea22cf43609e68ace260636a56c6c667a41db",
+      "storedBytes": 711,
+      "storedSha256": "b339d2682a04a7e84c3e1397290ea22cf43609e68ace260636a56c6c667a41db"
+    },
+    {
+      "path": "metadata/FluidInference--parakeet-ctc-0.6b-coreml/tree.json",
+      "source": "metadata/FluidInference--parakeet-ctc-0.6b-coreml/tree.json",
+      "compression": null,
+      "bytes": 6597,
+      "sha256": "e639c8bcdef324689533a9b5e9038c50cfe12601c143de0425818c9aa0b38e92",
+      "storedBytes": 6597,
+      "storedSha256": "e639c8bcdef324689533a9b5e9038c50cfe12601c143de0425818c9aa0b38e92"
+    },
+    {
+      "path": "metadata/FluidInference--parakeet-ctc-110m-coreml/README.md.gz",
+      "source": "metadata/FluidInference--parakeet-ctc-110m-coreml/README.md",
+      "compression": "gzip",
+      "bytes": 7419,
+      "sha256": "1aa99e33e37d4d36f01f15b7d81f878a43a85210c184aebebf1f27d5a4c3b189",
+      "storedBytes": 2561,
+      "storedSha256": "178c43106ac7525f34204b5d544e4a767078e58eb225876ef8ad43a2da08d5d1"
+    },
+    {
+      "path": "metadata/FluidInference--parakeet-ctc-110m-coreml/model.json",
+      "source": "metadata/FluidInference--parakeet-ctc-110m-coreml/model.json",
+      "compression": null,
+      "bytes": 8116,
+      "sha256": "215872118649789f7ad53e01bc4a05c5fd3c6ad2ed81416f9ce717ec4d1a21b4",
+      "storedBytes": 8116,
+      "storedSha256": "215872118649789f7ad53e01bc4a05c5fd3c6ad2ed81416f9ce717ec4d1a21b4"
+    },
+    {
+      "path": "metadata/FluidInference--parakeet-ctc-110m-coreml/receipts.json",
+      "source": "metadata/FluidInference--parakeet-ctc-110m-coreml/receipts.json",
+      "compression": null,
+      "bytes": 711,
+      "sha256": "f7b55e2a1822c2609c799132b97b15d4e5f692c8c8b38f3b199103de481356f8",
+      "storedBytes": 711,
+      "storedSha256": "f7b55e2a1822c2609c799132b97b15d4e5f692c8c8b38f3b199103de481356f8"
+    },
+    {
+      "path": "metadata/FluidInference--parakeet-ctc-110m-coreml/tree.json",
+      "source": "metadata/FluidInference--parakeet-ctc-110m-coreml/tree.json",
+      "compression": null,
+      "bytes": 7507,
+      "sha256": "03a35d0dbbd07d5ac24c8dabc1217d3ec5754a8876f00a78a44496e348c1eab8",
+      "storedBytes": 7507,
+      "storedSha256": "03a35d0dbbd07d5ac24c8dabc1217d3ec5754a8876f00a78a44496e348c1eab8"
+    },
+    {
+      "path": "metadata/alexwengg--Qwen3-ForcedAligner-0.6B-Coreml/model.json",
+      "source": "metadata/alexwengg--Qwen3-ForcedAligner-0.6B-Coreml/model.json",
+      "compression": null,
+      "bytes": 8471,
+      "sha256": "102d8a34259b8a191b8b711a80e49f12393efed956536f45ab0fd23a1765f640",
+      "storedBytes": 8471,
+      "storedSha256": "102d8a34259b8a191b8b711a80e49f12393efed956536f45ab0fd23a1765f640"
+    },
+    {
+      "path": "metadata/alexwengg--Qwen3-ForcedAligner-0.6B-Coreml/receipts.json",
+      "source": "metadata/alexwengg--Qwen3-ForcedAligner-0.6B-Coreml/receipts.json",
+      "compression": null,
+      "bytes": 659,
+      "sha256": "66769454445f7c2738184909f8b640aca7e36f884a48dafca4322312b4e9e833",
+      "storedBytes": 659,
+      "storedSha256": "66769454445f7c2738184909f8b640aca7e36f884a48dafca4322312b4e9e833"
+    },
+    {
+      "path": "metadata/alexwengg--Qwen3-ForcedAligner-0.6B-Coreml/tree.json.gz",
+      "source": "metadata/alexwengg--Qwen3-ForcedAligner-0.6B-Coreml/tree.json",
+      "compression": "gzip",
+      "bytes": 32932,
+      "sha256": "616e62bead3a29acf5e221f6572afc82393d94f9281e460517e8a1715e57c056",
+      "storedBytes": 7022,
+      "storedSha256": "17a934ef134018a4bfe0d8ebde0ece0cd06d4a9a546825acc3ef4ccb64ed15b3"
+    },
+    {
+      "path": "metadata/nvidia--parakeet-ctc-0.6b/README.md.gz",
+      "source": "metadata/nvidia--parakeet-ctc-0.6b/README.md",
+      "compression": "gzip",
+      "bytes": 12370,
+      "sha256": "d60eece6df19bd71cebdb36ff0f02f3df07983e08452e90208856717f5c8ce6f",
+      "storedBytes": 4066,
+      "storedSha256": "b3d0216019732cb487e713c223430b108d70d20f6f09bcfd1ec557e6eb3f061a"
+    },
+    {
+      "path": "metadata/nvidia--parakeet-ctc-0.6b/model.json",
+      "source": "metadata/nvidia--parakeet-ctc-0.6b/model.json",
+      "compression": null,
+      "bytes": 8059,
+      "sha256": "1820cf576768f6cb3aa71e56b22372136cd94e24366f76e91d106850256f5f3f",
+      "storedBytes": 8059,
+      "storedSha256": "1820cf576768f6cb3aa71e56b22372136cd94e24366f76e91d106850256f5f3f"
+    },
+    {
+      "path": "metadata/nvidia--parakeet-ctc-0.6b/receipts.json",
+      "source": "metadata/nvidia--parakeet-ctc-0.6b/receipts.json",
+      "compression": null,
+      "bytes": 667,
+      "sha256": "9135edf5b8c3de28e44d539e762607c831cb99f4a5f7d64b470b6880f4d4422f",
+      "storedBytes": 667,
+      "storedSha256": "9135edf5b8c3de28e44d539e762607c831cb99f4a5f7d64b470b6880f4d4422f"
+    },
+    {
+      "path": "metadata/nvidia--parakeet-ctc-0.6b/tree.json",
+      "source": "metadata/nvidia--parakeet-ctc-0.6b/tree.json",
+      "compression": null,
+      "bytes": 1338,
+      "sha256": "ade945d708bb2b5c68236470725072183a4f8bee0b999d232d8ab6d0f8bfa2a8",
+      "storedBytes": 1338,
+      "storedSha256": "ade945d708bb2b5c68236470725072183a4f8bee0b999d232d8ab6d0f8bfa2a8"
+    },
+    {
+      "path": "metadata/nvidia--parakeet-tdt_ctc-110m/README.md.gz",
+      "source": "metadata/nvidia--parakeet-tdt_ctc-110m/README.md",
+      "compression": "gzip",
+      "bytes": 10120,
+      "sha256": "b3b64ddb87cc162ebba6f1cbdc5770d036615c845703622a12a2eb1c6792114a",
+      "storedBytes": 3641,
+      "storedSha256": "308d54896b9b2ad6dcf7564460744999f4b80da59047a6f3ec50fa200cbe617a"
+    },
+    {
+      "path": "metadata/nvidia--parakeet-tdt_ctc-110m/model.json",
+      "source": "metadata/nvidia--parakeet-tdt_ctc-110m/model.json",
+      "compression": null,
+      "bytes": 6680,
+      "sha256": "5de9a710b29f542f72438a1373dcaf217fa6b2d8344425dd83fea5e74a2fde16",
+      "storedBytes": 6680,
+      "storedSha256": "5de9a710b29f542f72438a1373dcaf217fa6b2d8344425dd83fea5e74a2fde16"
+    },
+    {
+      "path": "metadata/nvidia--parakeet-tdt_ctc-110m/receipts.json",
+      "source": "metadata/nvidia--parakeet-tdt_ctc-110m/receipts.json",
+      "compression": null,
+      "bytes": 380,
+      "sha256": "917e391461134eb98440a101c38378b7a4d1d9c1bc1733b05da4cfc20107d633",
+      "storedBytes": 380,
+      "storedSha256": "917e391461134eb98440a101c38378b7a4d1d9c1bc1733b05da4cfc20107d633"
+    },
+    {
+      "path": "metadata/nvidia--parakeet-tdt_ctc-110m/tree.json",
+      "source": "metadata/nvidia--parakeet-tdt_ctc-110m/tree.json",
+      "compression": null,
+      "bytes": 510,
+      "sha256": "d4b6efcac119e2b5c9118ae16c0fe5f451167be041680c5dd5dc0980a3339a4b",
+      "storedBytes": 510,
+      "storedSha256": "d4b6efcac119e2b5c9118ae16c0fe5f451167be041680c5dd5dc0980a3339a4b"
+    },
+    {
+      "path": "inputs/blue.f32.gz",
+      "source": "inputs/blue.f32",
+      "compression": "gzip",
+      "bytes": 37636,
+      "sha256": "cd0838a205e6f3e8c3246e92498a218dbc9c48f0b62300940ad7512fc9b4afd2",
+      "storedBytes": 34886,
+      "storedSha256": "a7ed6f10ede790513df6d26d2b494e98e7bb7f811e423a6255b7af2af586a88d"
+    },
+    {
+      "path": "inputs/constructed-repeats.f32.gz",
+      "source": "inputs/constructed-repeats.f32",
+      "compression": "gzip",
+      "bytes": 768000,
+      "sha256": "4499639cbe3db64e0f55da025c4aa22d7310635e2ef4e21f0006ce90344543f5",
+      "storedBytes": 115588,
+      "storedSha256": "6e33f1fd38f024ca5f3afa94f80fb45af369ce2293a9fc5dc4e91194f1b1c881"
+    },
+    {
+      "path": "inputs/false-start.f32.gz",
+      "source": "inputs/false-start.f32",
+      "compression": "gzip",
+      "bytes": 115200,
+      "sha256": "a55e465465deaf30d1654bff6c994625cddea2cddcc24e205423dbad18654843",
+      "storedBytes": 108383,
+      "storedSha256": "3ad54969a9362ff14765df82df94b5d69ef98a613e59ba4970f7df73e1dede61"
+    },
+    {
+      "path": "inputs/fortunate-contextual.f32.gz",
+      "source": "inputs/fortunate-contextual.f32",
+      "compression": "gzip",
+      "bytes": 188864,
+      "sha256": "448f0fd865058a922e8c2d20477682e93792d76d6609e7b3db20dbebce6d9ad0",
+      "storedBytes": 57375,
+      "storedSha256": "3089b2c0af82a8a14128a1307f7f9d418130660e46acdb4d978352f492f27789"
+    },
+    {
+      "path": "inputs/fortunate-intact.f32.gz",
+      "source": "inputs/fortunate-intact.f32",
+      "compression": "gzip",
+      "bytes": 60864,
+      "sha256": "44d21ae68cdbb384a65f133c20ef0cb83ce56406e1ef58de5358f567f4905512",
+      "storedBytes": 56849,
+      "storedSha256": "ee3e944b1bfa45ef1943f352ad3cbf0f7ef4725557da051a986b4b286a54e456"
+    },
+    {
+      "path": "inputs/fortunate-truncated.f32.gz",
+      "source": "inputs/fortunate-truncated.f32",
+      "compression": "gzip",
+      "bytes": 25048,
+      "sha256": "2ba41e2db8e6e3964e3e0db271f121126f463e796c4415b0c0b2f0644ef4f349",
+      "storedBytes": 23731,
+      "storedSha256": "91a5f89846caa7ad9bf1866d76d20c5387634ee2c21bfabacffcf7f4f648eab1"
+    },
+    {
+      "path": "inputs/fortunate.f32.gz",
+      "source": "inputs/fortunate.f32",
+      "compression": "gzip",
+      "bytes": 60864,
+      "sha256": "44d21ae68cdbb384a65f133c20ef0cb83ce56406e1ef58de5358f567f4905512",
+      "storedBytes": 56849,
+      "storedSha256": "ee3e944b1bfa45ef1943f352ad3cbf0f7ef4725557da051a986b4b286a54e456"
+    },
+    {
+      "path": "inputs/madison-tiny.f32.gz",
+      "source": "inputs/madison-tiny.f32",
+      "compression": "gzip",
+      "bytes": 169600,
+      "sha256": "a6b981d21aeb2cbcc8aca45b603af10b0be17ea0f8805980cd510b29de63029e",
+      "storedBytes": 64510,
+      "storedSha256": "35d08815d84c85ab2eae19444ecba48a155da47f0cbba32300d2db589e768da6"
+    },
+    {
+      "path": "inputs/manifest.json",
+      "source": "inputs/manifest.json",
+      "compression": null,
+      "bytes": 6575,
+      "sha256": "7718b52711cb84380781f457f5dc52149deeebe9a65d3ad1e42fadb31a24ae11",
+      "storedBytes": 6575,
+      "storedSha256": "7718b52711cb84380781f457f5dc52149deeebe9a65d3ad1e42fadb31a24ae11"
+    },
+    {
+      "path": "inputs/overlap25.f32.gz",
+      "source": "inputs/overlap25.f32",
+      "compression": "gzip",
+      "bytes": 1600000,
+      "sha256": "6c18515f8d8acbf89f2a3d6c1820889739b205722985381577510614f5557f31",
+      "storedBytes": 1501502,
+      "storedSha256": "7f1fbd5286f6a29a3460ac0132b6fd8884fe55b987964e47424b47d12f0b5140"
+    },
+    {
+      "path": "inputs/seven.f32.gz",
+      "source": "inputs/seven.f32",
+      "compression": "gzip",
+      "bytes": 46844,
+      "sha256": "24a3d9446a526725d70a998a97eead2e41cc399dfb0b3b806ca4a27e92029473",
+      "storedBytes": 43334,
+      "storedSha256": "57fa2e25a65db8a7587cb19cbf69be9ad24f502a558d0dc8812d354d5a12ee43"
+    },
+    {
+      "path": "nemo-ctc110-admission/protocol.json",
+      "source": "nemo-ctc110-admission/protocol.json",
+      "compression": null,
+      "bytes": 1209,
+      "sha256": "ab7d64538ef454b3e17e6bb6b19cc61e3e178e9fa54ac9b638a4747d386fe6b1",
+      "storedBytes": 1209,
+      "storedSha256": "ab7d64538ef454b3e17e6bb6b19cc61e3e178e9fa54ac9b638a4747d386fe6b1"
+    },
+    {
+      "path": "nemo-ctc110-admission/report.json",
+      "source": "nemo-ctc110-admission/report.json",
+      "compression": null,
+      "bytes": 10950,
+      "sha256": "896ae6e273d474f6c324be8db0a00ed87a4d6ac9e651795017821fc96547953a",
+      "storedBytes": 10950,
+      "storedSha256": "896ae6e273d474f6c324be8db0a00ed87a4d6ac9e651795017821fc96547953a"
+    },
+    {
+      "path": "reference-receipts/FluidAudio-source-closure.json.gz",
+      "source": "reference-receipts/FluidAudio-source-closure.json",
+      "compression": "gzip",
+      "bytes": 70551,
+      "sha256": "7278b67d9e24481a765a8e640f3cc3e559e41c2fd8c4be78919c623cf456db4b",
+      "storedBytes": 19802,
+      "storedSha256": "bc35fcadecb18cad3178b24dcba55be768711df8ecdd85f617a87f265910007c"
+    },
+    {
+      "path": "reference-receipts/alignment-ctc110-reference-receipt.json",
+      "source": "reference-receipts/alignment-ctc110-reference-receipt.json",
+      "compression": null,
+      "bytes": 1494,
+      "sha256": "6c383de79b0025142c1c428c28a5fa1036adbd581377a7135c42d75c4ca1f208",
+      "storedBytes": 1494,
+      "storedSha256": "6c383de79b0025142c1c428c28a5fa1036adbd581377a7135c42d75c4ca1f208"
+    },
+    {
+      "path": "reference-receipts/alignment-nemo-ctc110-reference-receipt.json",
+      "source": "reference-receipts/alignment-nemo-ctc110-reference-receipt.json",
+      "compression": null,
+      "bytes": 176,
+      "sha256": "7b7a53deb8770e9ebfa163bd23ac615acc69b947f8af4cbf0f7af4d6c6c0a266",
+      "storedBytes": 176,
+      "storedSha256": "7b7a53deb8770e9ebfa163bd23ac615acc69b947f8af4cbf0f7af4d6c6c0a266"
+    },
+    {
+      "path": "reference-receipts/correspondence-reference.mjs",
+      "source": "reference-receipts/correspondence-reference.mjs",
+      "compression": null,
+      "bytes": 1836,
+      "sha256": "6f8e9c761faccb5a6611606cb3588df3e816986ba3e98673869c371f41b9d429",
+      "storedBytes": 1836,
+      "storedSha256": "6f8e9c761faccb5a6611606cb3588df3e816986ba3e98673869c371f41b9d429"
+    },
+    {
+      "path": "reference-receipts/prepared-runtime.json",
+      "source": "reference-receipts/prepared-runtime.json",
+      "compression": null,
+      "bytes": 1040,
+      "sha256": "1d77401bc87777c24808192318f3c5ca532568b430b290beacdc3bb5aab183d9",
+      "storedBytes": 1040,
+      "storedSha256": "1d77401bc87777c24808192318f3c5ca532568b430b290beacdc3bb5aab183d9"
+    },
+    {
+      "path": "reference-receipts/replay-transform.json",
+      "source": "reference-receipts/replay-transform.json",
+      "compression": null,
+      "bytes": 402,
+      "sha256": "9fb5fc58d254834a645e1af58d8a475f4b531647d0102587393812559f8fe0ee",
+      "storedBytes": 402,
+      "storedSha256": "9fb5fc58d254834a645e1af58d8a475f4b531647d0102587393812559f8fe0ee"
+    },
+    {
+      "path": "reference-receipts/word-kind.mjs",
+      "source": "reference-receipts/word-kind.mjs",
+      "compression": null,
+      "bytes": 468,
+      "sha256": "263d22da72e9550be0d205757b7a48161de139432e30ae0e51cc086e7bb56492",
+      "storedBytes": 468,
+      "storedSha256": "263d22da72e9550be0d205757b7a48161de139432e30ae0e51cc086e7bb56492"
+    },
+    {
+      "path": "reference-receipts/word-kind.ts",
+      "source": "reference-receipts/word-kind.ts",
+      "compression": null,
+      "bytes": 762,
+      "sha256": "02d61654027a0910fef4b919ca10ed1ad3fbc6662fa40b0670db1dc4ee731bd8",
+      "storedBytes": 762,
+      "storedSha256": "02d61654027a0910fef4b919ca10ed1ad3fbc6662fa40b0670db1dc4ee731bd8"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/constructed-repeats.json",
+      "source": "nemo-ctc110-correspondence/constructed-repeats.json",
+      "compression": null,
+      "bytes": 26627,
+      "sha256": "e04e846f78e123082df53b21d472de5e267fbdca2b6abd09cb1413c680e5055d",
+      "storedBytes": 26627,
+      "storedSha256": "e04e846f78e123082df53b21d472de5e267fbdca2b6abd09cb1413c680e5055d"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/false-start.json",
+      "source": "nemo-ctc110-correspondence/false-start.json",
+      "compression": null,
+      "bytes": 12104,
+      "sha256": "e6ca39235f24e4e3cb89a70738936c10198f1c8a269a22ee51cab1123b470507",
+      "storedBytes": 12104,
+      "storedSha256": "e6ca39235f24e4e3cb89a70738936c10198f1c8a269a22ee51cab1123b470507"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/fortunate-contextual.json",
+      "source": "nemo-ctc110-correspondence/fortunate-contextual.json",
+      "compression": null,
+      "bytes": 6860,
+      "sha256": "206aebfe06e5eff30546e2d891a04c20cda01081a70ce53601b712c0e10cbd68",
+      "storedBytes": 6860,
+      "storedSha256": "206aebfe06e5eff30546e2d891a04c20cda01081a70ce53601b712c0e10cbd68"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/fortunate-intact.json",
+      "source": "nemo-ctc110-correspondence/fortunate-intact.json",
+      "compression": null,
+      "bytes": 6827,
+      "sha256": "094b84f46ca426869d46349c82d3c41259b9c21b24a41dd5d8b8ce8f558bc6ef",
+      "storedBytes": 6827,
+      "storedSha256": "094b84f46ca426869d46349c82d3c41259b9c21b24a41dd5d8b8ce8f558bc6ef"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/fortunate-truncated.json",
+      "source": "nemo-ctc110-correspondence/fortunate-truncated.json",
+      "compression": null,
+      "bytes": 6649,
+      "sha256": "93227d4292e67b94169372ca5759d068105a5f7bc84d473f016e50e16a118ea9",
+      "storedBytes": 6649,
+      "storedSha256": "93227d4292e67b94169372ca5759d068105a5f7bc84d473f016e50e16a118ea9"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/invoke.log.gz",
+      "source": "nemo-ctc110-correspondence/invoke.log",
+      "compression": "gzip",
+      "bytes": 10205,
+      "sha256": "2150a308d931b3c536a67ea1fa8f81fd1e0b352ef43929a657debe84db958fde",
+      "storedBytes": 1323,
+      "storedSha256": "1d819cc378efade7c54e98d906678ce3ede21ee0eac4da5726cb11afe5409e91"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/madison-tiny.json.gz",
+      "source": "nemo-ctc110-correspondence/madison-tiny.json",
+      "compression": "gzip",
+      "bytes": 49570,
+      "sha256": "4d47b403fa658fd02026fb10338fcb95386c97784addb75f62e4f23909160a40",
+      "storedBytes": 1966,
+      "storedSha256": "669767f69cb00be0b4a4a5d7c4f0d268c0d754ca440fb3c35ae38d5168996fae"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/overlap25.json.gz",
+      "source": "nemo-ctc110-correspondence/overlap25.json",
+      "compression": "gzip",
+      "bytes": 180814,
+      "sha256": "0d0278d69cf345ba4f99d3dfadc9c40ff6dbf352d2f63123b48ea1f9452f824a",
+      "storedBytes": 9853,
+      "storedSha256": "c6a667c2353dce971fc89254f3410d4c5ec2e6d98aaf38698d683e3797fd3368"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/protocol.json",
+      "source": "nemo-ctc110-correspondence/protocol.json",
+      "compression": null,
+      "bytes": 1452,
+      "sha256": "a8df5cdb4a9e04e0acf19b25daee93b3cc9fd92a5b9a95bce779c2d7f0f18cfc",
+      "storedBytes": 1452,
+      "storedSha256": "a8df5cdb4a9e04e0acf19b25daee93b3cc9fd92a5b9a95bce779c2d7f0f18cfc"
+    },
+    {
+      "path": "nemo-ctc110-correspondence/summary.json",
+      "source": "nemo-ctc110-correspondence/summary.json",
+      "compression": null,
+      "bytes": 23474,
+      "sha256": "da6a957e4af469075a28631f21be6895ed333b0d4dd8e53645876bb16c98ec9e",
+      "storedBytes": 23474,
+      "storedSha256": "da6a957e4af469075a28631f21be6895ed333b0d4dd8e53645876bb16c98ec9e"
+    },
+    {
+      "path": "correspondence-reference.ts",
+      "source": "correspondence-reference.ts",
+      "compression": null,
+      "bytes": 1577,
+      "sha256": "989995b52e00ca2d8770c93d958c9587c0482ef2bd43839a7d6da3bde75f4ed7",
+      "storedBytes": 1577,
+      "storedSha256": "989995b52e00ca2d8770c93d958c9587c0482ef2bd43839a7d6da3bde75f4ed7"
+    },
+    {
+      "path": "correspondence-reference.test.ts",
+      "source": "correspondence-reference.test.ts",
+      "compression": null,
+      "bytes": 1352,
+      "sha256": "b34941e87b797eccfebacdee886c326a2a0296efbbc45048ff515695c96349d0",
+      "storedBytes": 1352,
+      "storedSha256": "b34941e87b797eccfebacdee886c326a2a0296efbbc45048ff515695c96349d0"
+    },
+    {
+      "path": "invoke-correspondence.ts",
+      "source": "invoke-correspondence.ts",
+      "compression": null,
+      "bytes": 5415,
+      "sha256": "585055db1282cebb29811da06bfe7bee772d140952b8390e008e1497c2262bec",
+      "storedBytes": 5415,
+      "storedSha256": "585055db1282cebb29811da06bfe7bee772d140952b8390e008e1497c2262bec"
+    },
+    {
+      "path": "transpile-replay.ts",
+      "source": "transpile-replay.ts",
+      "compression": null,
+      "bytes": 1056,
+      "sha256": "3318409a861405029f6dcba9fbded00122c97ee6451bdc6ac559a16186f88d05",
+      "storedBytes": 1056,
+      "storedSha256": "3318409a861405029f6dcba9fbded00122c97ee6451bdc6ac559a16186f88d05"
+    },
+    {
+      "path": "admit-nemo-reference.py",
+      "source": "admit-nemo-reference.py",
+      "compression": null,
+      "bytes": 2463,
+      "sha256": "740aa5ba484dd9cf01bff6eb2c1c2127863a9ac007e0078b7602797bdd694938",
+      "storedBytes": 2463,
+      "storedSha256": "740aa5ba484dd9cf01bff6eb2c1c2127863a9ac007e0078b7602797bdd694938"
+    },
+    {
+      "path": "align-ctc.py",
+      "source": "align-ctc.py",
+      "compression": null,
+      "bytes": 3474,
+      "sha256": "674d84455fca29bcb5c0b81701b870af8dcf973319f38283e7f3a5c3b383218b",
+      "storedBytes": 3474,
+      "storedSha256": "674d84455fca29bcb5c0b81701b870af8dcf973319f38283e7f3a5c3b383218b"
+    },
+    {
+      "path": "nemo-ctc-worker.py",
+      "source": "nemo-ctc-worker.py",
+      "compression": null,
+      "bytes": 3510,
+      "sha256": "7a645353c2a2582135ad961f2cd81961dfeaddbb23fbc57fe5798d5fd3a51948",
+      "storedBytes": 3510,
+      "storedSha256": "7a645353c2a2582135ad961f2cd81961dfeaddbb23fbc57fe5798d5fd3a51948"
+    },
+    {
+      "path": "invoke-align.ts",
+      "source": "invoke-align.ts",
+      "compression": null,
+      "bytes": 2114,
+      "sha256": "18fc4da86f28ad258e20af869299652a39508b19f3005b3a655ce278276b201d",
+      "storedBytes": 2114,
+      "storedSha256": "18fc4da86f28ad258e20af869299652a39508b19f3005b3a655ce278276b201d"
+    },
+    {
+      "path": "invoke-align-nemo.ts",
+      "source": "invoke-align-nemo.ts",
+      "compression": null,
+      "bytes": 2119,
+      "sha256": "45b00b5d20bbc25a8493dee240e4bb94d4027a8d0dc8ed9015885e9da586e813",
+      "storedBytes": 2119,
+      "storedSha256": "45b00b5d20bbc25a8493dee240e4bb94d4027a8d0dc8ed9015885e9da586e813"
+    },
+    {
+      "path": "invoke-nemo-ctc.ts",
+      "source": "invoke-nemo-ctc.ts",
+      "compression": null,
+      "bytes": 3283,
+      "sha256": "02a56753efe01dee36f8e41698f9c9825464170456fce50de54a654e17832a3b",
+      "storedBytes": 3283,
+      "storedSha256": "02a56753efe01dee36f8e41698f9c9825464170456fce50de54a654e17832a3b"
+    },
+    {
+      "path": "invoke-nemo-ctc-r2.ts",
+      "source": "invoke-nemo-ctc-r2.ts",
+      "compression": null,
+      "bytes": 3487,
+      "sha256": "4763f20adf0c7fcf79c23b2bf1f4ccda9e71a0b37d67857e1eb86322e9dde930",
+      "storedBytes": 3487,
+      "storedSha256": "4763f20adf0c7fcf79c23b2bf1f4ccda9e71a0b37d67857e1eb86322e9dde930"
+    },
+    {
+      "path": "prepare-nemo-ctc.ts",
+      "source": "prepare-nemo-ctc.ts",
+      "compression": null,
+      "bytes": 956,
+      "sha256": "707e820901e054f0785633e3930cd844902d99b76ef664e95742d3e695816d16",
+      "storedBytes": 956,
+      "storedSha256": "707e820901e054f0785633e3930cd844902d99b76ef664e95742d3e695816d16"
+    },
+    {
+      "path": "prepare-fluid-ctc.ts",
+      "source": "prepare-fluid-ctc.ts",
+      "compression": null,
+      "bytes": 1067,
+      "sha256": "800b798df29833bd46b4baf553873e99287334efc25266f155e97d182bbc3017",
+      "storedBytes": 1067,
+      "storedSha256": "800b798df29833bd46b4baf553873e99287334efc25266f155e97d182bbc3017"
+    },
+    {
+      "path": "invoke-fluid-ctc.ts",
+      "source": "invoke-fluid-ctc.ts",
+      "compression": null,
+      "bytes": 2166,
+      "sha256": "4fefe09ae47e85dacfb67bbb48d8252dddc799ce043e7cc8e6f7f55a0a285251",
+      "storedBytes": 2166,
+      "storedSha256": "4fefe09ae47e85dacfb67bbb48d8252dddc799ce043e7cc8e6f7f55a0a285251"
+    },
+    {
+      "path": "fluid-reference/Package.swift",
+      "source": "fluid-reference/Package.swift",
+      "compression": null,
+      "bytes": 354,
+      "sha256": "4cf70a2db63f201ae55cf1e1ee3c2ec3eeec07bcec866cca9fc68870db5a0a87",
+      "storedBytes": 354,
+      "storedSha256": "4cf70a2db63f201ae55cf1e1ee3c2ec3eeec07bcec866cca9fc68870db5a0a87"
+    },
+    {
+      "path": "fluid-reference/Sources/EmissionReference/main.swift",
+      "source": "fluid-reference/Sources/EmissionReference/main.swift",
+      "compression": null,
+      "bytes": 3831,
+      "sha256": "0e67446ef17fbfc3f97c6f983fbe19923d1d86a611865d61cd7fd621ffa11a35",
+      "storedBytes": 3831,
+      "storedSha256": "0e67446ef17fbfc3f97c6f983fbe19923d1d86a611865d61cd7fd621ffa11a35"
+    },
+    {
+      "path": "reference-receipts/ctc-model-metadata/AudioEncoder.mlmodelc.json",
+      "source": "reference-receipts/ctc-model-metadata/AudioEncoder.mlmodelc.json",
+      "compression": null,
+      "bytes": 3456,
+      "sha256": "4f288bfe5cbe867ef1e592cdae33578b2fe59ada69182fc12209879558f985c2",
+      "storedBytes": 3456,
+      "storedSha256": "4f288bfe5cbe867ef1e592cdae33578b2fe59ada69182fc12209879558f985c2"
+    },
+    {
+      "path": "reference-receipts/ctc-model-metadata/MelSpectrogram.mlmodelc.json",
+      "source": "reference-receipts/ctc-model-metadata/MelSpectrogram.mlmodelc.json",
+      "compression": null,
+      "bytes": 1962,
+      "sha256": "5e11d21a65c02bcfc37db43e941978e5d60d59e0efeadfda08e41f33b4f835d3",
+      "storedBytes": 1962,
+      "storedSha256": "5e11d21a65c02bcfc37db43e941978e5d60d59e0efeadfda08e41f33b4f835d3"
+    }
+  ]
+}

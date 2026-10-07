@@ -642,10 +642,7 @@ it("settles a stranded take with no recoverable video without authoring a projec
   await abandoned.kill();
 
   const service = await startService(home, capturingPeer(), {
-    YAP_NATIVE: await recovers(
-      { durationUs: 0, journal: { header: { sessionID: "s" } } },
-      1.2,
-    ),
+    YAP_NATIVE: await recovers({ durationUs: 0, journal: { header: { sessionID: "s" } } }, 1.2),
   });
   await expect
     .poll(() => service.call("recording.get", { recordingId }), { timeout: 5_000 })
@@ -1183,7 +1180,10 @@ it("resumes persisted queued cleanup only after the recording service owners and
   });
   await expect
     .poll(() => service.call("job.get", { jobId: job.jobId }))
-    .toMatchObject({ ok: true, data: { state: "ready", result: { recordingId, sourceId } } });
+    .toMatchObject({
+      ok: true,
+      data: { state: "ready", published: { output: { recordingId, sourceId } } },
+    });
 });
 
 it("pages source capture facts across default service restart without creating a project", async () => {

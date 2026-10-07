@@ -1,0 +1,10 @@
+Building for debugging...
+[0/3] Write swift-version--58304C5D6DBC2206.txt
+[1/4] Write sources
+[3/6] Compiling YapSpeechTests main.swift
+[4/6] Emitting module YapSpeechTests
+[4/7] Write Objects.LinkFileList
+[5/7] Linking YapSpeechTests
+[6/7] Applying YapSpeechTests
+Build of product 'YapSpeechTests' complete! (1.37s)
+YapSpeechTests/main.swift:115: Fatal error: Invalid timing -1.0–0.1 must refuse rather than clamp

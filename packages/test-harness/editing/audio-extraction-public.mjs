@@ -93,7 +93,7 @@ async function imported(path, requestId) {
     (v) => v.state === "ready",
     "import",
   );
-  return call("asset.get", { assetId: job.result.assetId });
+  return call("asset.get", { assetId: job.published.output.assetId });
 }
 async function extract(input) {
   const result = await poll(
@@ -103,7 +103,7 @@ async function extract(input) {
   );
   assert.deepEqual(await call("audio.extract", input, { transport: "mcp" }), result);
   report.receipts.push(result);
-  return result.published.excerpt;
+  return result.published.output;
 }
 try {
   await service.start();
@@ -323,7 +323,7 @@ try {
   await canceledHit();
   const cancellation = await call("job.cancel", { jobId: canceled.jobId });
   assert.equal(cancellation.state, "canceled");
-  assert.equal(cancellation.result, null);
+  assert.equal(cancellation.published, null);
   assert.deepEqual(await call("asset.list", {}), beforeCancel);
   await call("job.retry", { jobId: canceled.jobId });
   const retried = await extract(cancelInput);
@@ -339,7 +339,7 @@ try {
   await service.start();
   const recovered = await call("job.get", { jobId: crashed.jobId });
   assert.equal(recovered.state, "failed");
-  assert.equal(recovered.result, null);
+  assert.equal(recovered.published, null);
   assert.deepEqual(await call("asset.list", {}), beforeCrash);
   await call("job.retry", { jobId: crashed.jobId });
   const recoveredExcerpt = await extract(crashInput);

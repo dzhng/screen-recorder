@@ -1,0 +1,62 @@
+[
+  {
+    "case": "m1877.30",
+    "sourceRangeUs": {
+      "startUs": 1877300000,
+      "endUs": 1879700000
+    },
+    "trailingSyntheticSilenceUs": 500000,
+    "historicalPath": "/tmp/madcut/m1877.30.wav",
+    "wavSha256": "5e4747029381641872447d8d4a168df07413feec57c20bd14d95214805322a57",
+    "pcmSha256": "6f8d06d3e4c9711c0a36bff7801b753675de5424e5b6addd89c477987ada901d",
+    "frames": 46400,
+    "sampleRate": 16000,
+    "channels": 1,
+    "sampleWidthBytes": 2
+  },
+  {
+    "case": "m1877.45",
+    "sourceRangeUs": {
+      "startUs": 1877450000,
+      "endUs": 1879700000
+    },
+    "trailingSyntheticSilenceUs": 500000,
+    "historicalPath": "/tmp/madcut/m1877.45.wav",
+    "wavSha256": "e2da0ca5acc0c8873506996211ce3677750b9829d9032bb3278c2cd43c6d4f8e",
+    "pcmSha256": "bd6abecdebd78b9c366949ce0bf26aa32fca04d6d73bfd3ae2e5f648ceaaf281",
+    "frames": 44000,
+    "sampleRate": 16000,
+    "channels": 1,
+    "sampleWidthBytes": 2
+  },
+  {
+    "case": "m1877.55",
+    "sourceRangeUs": {
+      "startUs": 1877550000,
+      "endUs": 1879700000
+    },
+    "trailingSyntheticSilenceUs": 500000,
+    "historicalPath": "/tmp/madcut/m1877.55.wav",
+    "wavSha256": "0b8b94f0781c7ed5c5be8e070fca3dd6d260cb2505693629e027d96e9c264fbb",
+    "pcmSha256": "55832c2163f3d3c32f384af5e58520ca1c1ac9c4efca0076abd6d0e0dc1bc282",
+    "frames": 42400,
+    "sampleRate": 16000,
+    "channels": 1,
+    "sampleWidthBytes": 2
+  },
+  {
+    "case": "m1877.68",
+    "sourceRangeUs": {
+      "startUs": 1877680000,
+      "endUs": 1879700000
+    },
+    "trailingSyntheticSilenceUs": 500000,
+    "historicalPath": "/tmp/madcut/m1877.68.wav",
+    "wavSha256": "85ffe75fbbf52aaafc97d571acbc0f1a0a65295d98430ba97693253d44efe9ed",
+    "pcmSha256": "416ef29be42629e26ba5daf354e4d5a63c5aa5a5ad5453ea941ae562aae15185",
+    "frames": 40320,
+    "sampleRate": 16000,
+    "channels": 1,
+    "sampleWidthBytes": 2
+  }
+]

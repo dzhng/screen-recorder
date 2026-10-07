@@ -1,0 +1,197 @@
+{
+  "version": 1,
+  "scope": "fresh production-native media workflow and relocated replay",
+  "coverage": {
+    "capabilityRouting": "verified",
+    "sourceIdentity": "verified",
+    "deliveryIdentity": "verified",
+    "native": "verified",
+    "visual": "verified",
+    "audio": "verified",
+    "humanQaRequired": false
+  },
+  "routing": [
+    {
+      "useCase": "launch",
+      "route": {
+        "index": "references/video-use-cases.md",
+        "reference": "references/launch-videos.md",
+        "purpose": "one product promise with visible proof and a truthful next action",
+        "ending": "benefit and next action",
+        "checks": [
+          "capability discovery",
+          "reference-conditioned picture and audio",
+          "delivered opening, proof and ending"
+        ]
+      },
+      "provenance": {
+        "referenceRoot": "references",
+        "index": {
+          "bytes": 4215,
+          "sha256": "a549911e1545263c57d8c04c32f7998baf66f62f12b31e72fbd72966184e1ba6"
+        },
+        "focusedReference": {
+          "bytes": 3430,
+          "sha256": "2e4ee83e5f626c579fba7a0a98e5d57079a5c1da03e9977ed02c4eed9c58da97"
+        }
+      },
+      "policy": {
+        "capabilityQuestionFirst": true,
+        "firstPartyYapModelsPreparedWhenNeeded": true,
+        "externalCapabilitiesRecommendedOnlyWhenMateriallyRequired": true,
+        "humanQaRequired": false,
+        "sourceMediaPreserved": true
+      }
+    },
+    {
+      "useCase": "podcast",
+      "route": {
+        "index": "references/video-use-cases.md",
+        "reference": "references/podcast-videos.md",
+        "purpose": "a complete interview exchange or episode introduction",
+        "ending": "answer and consequence, or a transition into the episode",
+        "checks": [
+          "complete exchange",
+          "declared source clocks and speaker evidence",
+          "delivered joins, captions and encoded audio"
+        ]
+      },
+      "provenance": {
+        "referenceRoot": "references",
+        "index": {
+          "bytes": 4215,
+          "sha256": "a549911e1545263c57d8c04c32f7998baf66f62f12b31e72fbd72966184e1ba6"
+        },
+        "focusedReference": {
+          "bytes": 3211,
+          "sha256": "7b64a0b4d75d7b8027f2a61f04789ba00bf626d2df50a9f7a36ffa0264a82c46"
+        }
+      },
+      "policy": {
+        "capabilityQuestionFirst": true,
+        "firstPartyYapModelsPreparedWhenNeeded": true,
+        "externalCapabilitiesRecommendedOnlyWhenMateriallyRequired": true,
+        "humanQaRequired": false,
+        "sourceMediaPreserved": true
+      }
+    },
+    {
+      "useCase": "teaser",
+      "route": {
+        "index": "references/video-use-cases.md",
+        "reference": "references/teaser-videos.md",
+        "purpose": "one honest curiosity loop for a teaser or episode cold open",
+        "ending": "an open question or the truthful destination supplied by the brief",
+        "checks": [
+          "complete question in context",
+          "answer withheld only when the brief permits it",
+          "no answer leak through captions, graphics or reactions"
+        ]
+      },
+      "provenance": {
+        "referenceRoot": "references",
+        "index": {
+          "bytes": 4215,
+          "sha256": "a549911e1545263c57d8c04c32f7998baf66f62f12b31e72fbd72966184e1ba6"
+        },
+        "focusedReference": {
+          "bytes": 3227,
+          "sha256": "544f6110b8fcf0ef456a3102f9f637dae3d853f04bb772923eaceab5844cd647"
+        }
+      },
+      "policy": {
+        "capabilityQuestionFirst": true,
+        "firstPartyYapModelsPreparedWhenNeeded": true,
+        "externalCapabilitiesRecommendedOnlyWhenMateriallyRequired": true,
+        "humanQaRequired": false,
+        "sourceMediaPreserved": true
+      }
+    }
+  ],
+  "speechRepair": {
+    "expectedText": "fortunate",
+    "observedText": "Fortunately,",
+    "beforeRevisionId": "391e11cc-b87a-4bfe-bdf4-75871a9990ec",
+    "afterRevisionId": "137406e4-d430-473a-bd02-f91adb984458"
+  },
+  "runs": [
+    {
+      "state": "clean",
+      "delivery": {
+        "bytes": 89867,
+        "sha256": "e05d8617f3c00d2f8f89368d718514cdadca13d366b15d6d10332ec800f63440"
+      },
+      "normalized": {
+        "bytes": 56056,
+        "sha256": "6ade8a3c6457b0b23feaa6f95c7d65ffabaab2ccfbba79950feb5b4aa6f5361f"
+      },
+      "sources": {
+        "a.mov": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+        "b.mov": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+        "a-audio.wav": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+        "b-audio.wav": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0"
+      },
+      "preview": {
+        "passed": true,
+        "rendering": "production native worker",
+        "checks": [
+          "baseline",
+          "videoReplacement",
+          "audioReplacement",
+          "music",
+          "undoAndHistorical",
+          "projectTimeRange",
+          "allGainScopes",
+          "processedTrackInsertion",
+          "cancellation",
+          "crashRecovery",
+          "exports",
+          "externalAfterDeletion",
+          "deletionAndOriginals"
+        ]
+      }
+    },
+    {
+      "state": "relocated",
+      "delivery": {
+        "bytes": 89867,
+        "sha256": "16edef2e9685b956e62118793f349b0c688c29c2f85b046065a4cb257116409c"
+      },
+      "normalized": {
+        "bytes": 56056,
+        "sha256": "6ade8a3c6457b0b23feaa6f95c7d65ffabaab2ccfbba79950feb5b4aa6f5361f"
+      },
+      "sources": {
+        "a.mov": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+        "b.mov": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+        "a-audio.wav": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+        "b-audio.wav": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0"
+      },
+      "preview": {
+        "passed": true,
+        "rendering": "production native worker",
+        "checks": [
+          "baseline",
+          "videoReplacement",
+          "audioReplacement",
+          "music",
+          "undoAndHistorical",
+          "projectTimeRange",
+          "allGainScopes",
+          "processedTrackInsertion",
+          "cancellation",
+          "crashRecovery",
+          "exports",
+          "externalAfterDeletion",
+          "deletionAndOriginals"
+        ]
+      }
+    }
+  ],
+  "replay": {
+    "normalizedDeliveryIdentity": true,
+    "sourceIdentity": true,
+    "sourceMediaPreserved": true
+  },
+  "nativeSha256": "a28b6d6a427687fba80f455421ad89054257a8db187467197f2cfd24b73d70e8"
+}

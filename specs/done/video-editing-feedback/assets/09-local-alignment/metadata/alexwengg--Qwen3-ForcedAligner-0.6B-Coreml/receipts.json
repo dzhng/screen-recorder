@@ -1,0 +1,16 @@
+[
+  {
+    "url": "https://huggingface.co/api/models/alexwengg/Qwen3-ForcedAligner-0.6B-Coreml",
+    "bytes": 8471,
+    "sha256": "102d8a34259b8a191b8b711a80e49f12393efed956536f45ab0fd23a1765f640"
+  },
+  {
+    "url": "https://huggingface.co/alexwengg/Qwen3-ForcedAligner-0.6B-Coreml/raw/89657e3c610889eb4a14c1fe0333b5b53b40c21f/README.md",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://huggingface.co/api/models/alexwengg/Qwen3-ForcedAligner-0.6B-Coreml/tree/89657e3c610889eb4a14c1fe0333b5b53b40c21f?recursive=true&expand=false",
+    "bytes": 32932,
+    "sha256": "616e62bead3a29acf5e221f6572afc82393d94f9281e460517e8a1715e57c056"
+  }
+]

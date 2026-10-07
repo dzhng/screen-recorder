@@ -1,0 +1,44 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-video-editing
+
+ ❯ packages/composition/src/project-cuts.test.ts (7 tests | 1 failed | 6 skipped) 6ms
+   × explicit opening and ending boundaries retain the exact retimed source sides 6ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  06:42:43
+   Duration  163ms (transform 67%, import 27%, tests 5%, worker 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/project-cuts.test.ts > explicit opening and ending boundaries retain the exact retimed source sides
+AssertionError: expected { projectAtUs: 4, …(4) } to deeply equal { projectAtUs: 4, …(4) }
+
+- Expected
++ Received
+
+@@ -3,11 +3,11 @@
+    "before": {
+      "assetId": "source",
+      "clipId": "take",
+      "kind": "range",
+      "rate": 2,
+-     "sourceAtUs": 18,
++     "sourceAtUs": 10,
+      "streamId": "audio",
+    },
+    "mediaKind": "audio",
+    "projectAtUs": 4,
+    "trackId": "audio",
+
+ ❯ packages/composition/src/project-cuts.test.ts:78:64
+     76|     after: { ...mapping, sourceAtUs: 10 },
+     77|   });
+     78|   expect(index.boundary({ trackId: "audio", projectAtUs: 4 })).toEqual…
+       |                                                                ^
+     79|     projectAtUs: 4,
+     80|     trackId: "audio",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

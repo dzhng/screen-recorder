@@ -1,0 +1,58 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-picture-statistics/packages/core
+
+ ❯ src/source-index.test.ts (9 tests | 1 failed | 8 skipped) 33ms
+   × an index cannot retain a plain frame when its recipe requested picture measurements 33ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-index.test.ts > an index cannot retain a plain frame when its recipe requested picture measurements
+AssertionError: promise resolved "{ …(18) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "actualSourceUs": 200000,
++   "assetId": "1beb6dbff81f8e9fd943092c8be12611c6dc42cca13eb1d61edbc37cfc0540a3",
++   "atUs": 200000,
++   "bytes": 68,
++   "decodedSamples": 1,
++   "file": "/private/tmp/source-index-iRXLXL/evidence/index/asset/1beb6dbff81f8e9fd943092c8be12611c6dc42cca13eb1d61edbc37cfc0540a3/1bc04b5291c26a46d918139138b992d2de976d6851d0893b0476b85bfbdfc6e6/0.png",
++   "height": 1,
++   "implementationId": "source-frame",
++   "maxLongEdge": 1600,
++   "mediaType": "image/png",
++   "readerOpens": 1,
++   "requestedSourceUs": 200000,
++   "sample": {
++     "endTimescale": 1000000,
++     "endValue": "2250000",
++     "originUs": 1250000,
++     "timescale": 1000000,
++     "value": "1450000",
++   },
++   "sourceHeight": 1,
++   "sourceWidth": 1,
++   "streamId": "v",
++   "supportDigest": "9bb0df8d5504ba179d07eedb25432c325a49bf9d44d6022ecfdaa29d57c44250",
++   "width": 1,
+  }
+
+ ❯ src/source-index.test.ts:719:27
+    717|     edgeDarkFraction: 0.98, edgeOpaqueFraction: 1, regions: [] } });
+    718|   f.index.begin(f.identity);
+    719|   await expect(f.append()).rejects.toMatchObject({ code: "INVALID_RESP…
+       |                           ^
+    720| });
+    721|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  23:49:12
+   Duration  472ms (transform 68%, import 24%, tests 8%)

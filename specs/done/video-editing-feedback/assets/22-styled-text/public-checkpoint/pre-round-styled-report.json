@@ -1,0 +1,1643 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "a0e409d3-8444-4936-97ef-6e89a78ae032"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "a0e409d3-8444-4936-97ef-6e89a78ae032"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "a0e409d3-8444-4936-97ef-6e89a78ae032"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "6ef758c0-bc6a-41a0-a6e9-c981c333161c"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "6ef758c0-bc6a-41a0-a6e9-c981c333161c"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "6ef758c0-bc6a-41a0-a6e9-c981c333161c"
+    }
+  ],
+  "pictures": [
+    {
+      "name": "plain-caption-sheet",
+      "selection": {
+        "projectId": "299753a4-441f-4231-b3be-bb74aff8f33c",
+        "revisionId": "a0e409d3-8444-4936-97ef-6e89a78ae032",
+        "atUs": 500000
+      },
+      "sha256": "5a10af1aaa0312ff32b6a2564e057537fb9cd2babe1ad0d87caf2d90bb45109b",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-cVAMlq/library/cache/derived/0461d6a5-b14c-41a3-a065-d5a4582339d9.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 420,
+        "sourceWidth": 640,
+        "sourceHeight": 420,
+        "bytes": 26595,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 500000,
+          "visibleRange": {
+            "startUs": 500000,
+            "endUs": 625000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Top aligned",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:4",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:0",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Center stroke",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:5",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:1",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Bottom shadow",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "bottom",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:6",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:2",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Background",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:7",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:3",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:4",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Top aligned",
+              "visibleRange": [
+                0,
+                11
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    11
+                  ],
+                  "text": "Top aligned",
+                  "origin": [
+                    58.15625,
+                    29
+                  ],
+                  "width": 163.6875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "visibleBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "decorationBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "verticalOffset": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:5",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Center stroke",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "Center stroke",
+                  "origin": [
+                    43.9609375,
+                    86.453125
+                  ],
+                  "width": 192.078125,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "visibleBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "decorationBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "verticalOffset": -57.453125
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:6",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Bottom shadow",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "Bottom shadow",
+                  "origin": [
+                    29.71875,
+                    149.625
+                  ],
+                  "width": 220.5625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "visibleBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "decorationBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "verticalOffset": -120.625
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Background",
+              "visibleRange": [
+                0,
+                10
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    10
+                  ],
+                  "text": "Background",
+                  "origin": [
+                    54.609375,
+                    83.0859375
+                  ],
+                  "width": 170.78125,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "visibleBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "decorationBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "verticalOffset": -54.0859375
+            }
+          }
+        ],
+        "atUs": 500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "299753a4-441f-4231-b3be-bb74aff8f33c",
+        "revisionId": "a0e409d3-8444-4936-97ef-6e89a78ae032",
+        "cacheId": "0461d6a5-b14c-41a3-a065-d5a4582339d9"
+      }
+    },
+    {
+      "name": "styled-caption-sheet",
+      "selection": {
+        "projectId": "299753a4-441f-4231-b3be-bb74aff8f33c",
+        "revisionId": "6ef758c0-bc6a-41a0-a6e9-c981c333161c",
+        "atUs": 500000
+      },
+      "sha256": "e56d95903b92ccdbd0c8e0806329ea29c25ed63b8b868fd23af96ebc783dda9e",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-cVAMlq/library/cache/derived/0eb40a10-e448-4b4e-945c-f762d0abb0fa.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 420,
+        "sourceWidth": 640,
+        "sourceHeight": 420,
+        "bytes": 38317,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 500000,
+          "visibleRange": {
+            "startUs": 500000,
+            "endUs": 625000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Top aligned",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:4",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:0",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Center stroke",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "stroke": {
+                  "color": "#ff5c35ff",
+                  "width": 4
+                },
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:5",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:1",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Bottom shadow",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "bottom",
+                "shadow": {
+                  "color": "#8abcf0cc",
+                  "offsetX": 6,
+                  "offsetY": -8,
+                  "blur": 3
+                },
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:6",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:2",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Background",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "background": {
+                  "color": "#36506ddd",
+                  "padding": 12,
+                  "cornerRadius": 8
+                },
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:7",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:3",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:4",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Top aligned",
+              "visibleRange": [
+                0,
+                11
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    11
+                  ],
+                  "text": "Top aligned",
+                  "origin": [
+                    58.15625,
+                    29
+                  ],
+                  "width": 163.6875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "visibleBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "decorationBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "verticalOffset": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:5",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Center stroke",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "Center stroke",
+                  "origin": [
+                    43.9609375,
+                    86.453125
+                  ],
+                  "width": 192.078125,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "visibleBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "decorationBounds": [
+                43.5546875,
+                61.15625,
+                193.15625,
+                27.6875
+              ],
+              "verticalOffset": -57.453125,
+              "stroke": {
+                "color": "#ff5c35ff",
+                "width": 4
+              }
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:6",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Bottom shadow",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "Bottom shadow",
+                  "origin": [
+                    29.71875,
+                    149.625
+                  ],
+                  "width": 220.5625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "visibleBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "decorationBounds": [
+                32.0625,
+                112.71875,
+                229.96875,
+                37.28125
+              ],
+              "verticalOffset": -120.625,
+              "shadow": {
+                "color": "#8abcf0cc",
+                "offsetX": 6,
+                "offsetY": -8,
+                "blur": 3
+              }
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Background",
+              "visibleRange": [
+                0,
+                10
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    10
+                  ],
+                  "text": "Background",
+                  "origin": [
+                    54.609375,
+                    83.0859375
+                  ],
+                  "width": 170.78125,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "visibleBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "decorationBounds": [
+                44.953125,
+                48.1796875,
+                190.125,
+                53.640625
+              ],
+              "verticalOffset": -54.0859375,
+              "background": {
+                "color": "#36506ddd",
+                "padding": 12,
+                "cornerRadius": 8
+              }
+            }
+          }
+        ],
+        "atUs": 500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "299753a4-441f-4231-b3be-bb74aff8f33c",
+        "revisionId": "6ef758c0-bc6a-41a0-a6e9-c981c333161c",
+        "cacheId": "0eb40a10-e448-4b4e-945c-f762d0abb0fa"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "public-styled-caption-static-sheet",
+      "frame": {
+        "file": "/private/tmp/sr-captions-cVAMlq/library/cache/derived/0eb40a10-e448-4b4e-945c-f762d0abb0fa.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 420,
+        "sourceWidth": 640,
+        "sourceHeight": 420,
+        "bytes": 38317,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 500000,
+          "visibleRange": {
+            "startUs": 500000,
+            "endUs": 625000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Top aligned",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:4",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:0",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Center stroke",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "stroke": {
+                  "color": "#ff5c35ff",
+                  "width": 4
+                },
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:5",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:1",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Bottom shadow",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "bottom",
+                "shadow": {
+                  "color": "#8abcf0cc",
+                  "offsetX": 6,
+                  "offsetY": -8,
+                  "blur": 3
+                },
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:6",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:2",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Background",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "background": {
+                  "color": "#36506ddd",
+                  "padding": 12,
+                  "cornerRadius": 8
+                },
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:7",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:3",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:4",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Top aligned",
+              "visibleRange": [
+                0,
+                11
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    11
+                  ],
+                  "text": "Top aligned",
+                  "origin": [
+                    58.15625,
+                    29
+                  ],
+                  "width": 163.6875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "visibleBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "decorationBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "verticalOffset": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:5",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Center stroke",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "Center stroke",
+                  "origin": [
+                    43.9609375,
+                    86.453125
+                  ],
+                  "width": 192.078125,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "visibleBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "decorationBounds": [
+                43.5546875,
+                61.15625,
+                193.15625,
+                27.6875
+              ],
+              "verticalOffset": -57.453125,
+              "stroke": {
+                "color": "#ff5c35ff",
+                "width": 4
+              }
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:6",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Bottom shadow",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "Bottom shadow",
+                  "origin": [
+                    29.71875,
+                    149.625
+                  ],
+                  "width": 220.5625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "visibleBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "decorationBounds": [
+                32.0625,
+                112.71875,
+                229.96875,
+                37.28125
+              ],
+              "verticalOffset": -120.625,
+              "shadow": {
+                "color": "#8abcf0cc",
+                "offsetX": 6,
+                "offsetY": -8,
+                "blur": 3
+              }
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Background",
+              "visibleRange": [
+                0,
+                10
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    10
+                  ],
+                  "text": "Background",
+                  "origin": [
+                    54.609375,
+                    83.0859375
+                  ],
+                  "width": 170.78125,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "visibleBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "decorationBounds": [
+                44.953125,
+                48.1796875,
+                190.125,
+                53.640625
+              ],
+              "verticalOffset": -54.0859375,
+              "background": {
+                "color": "#36506ddd",
+                "padding": 12,
+                "cornerRadius": 8
+              }
+            }
+          }
+        ],
+        "atUs": 500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "299753a4-441f-4231-b3be-bb74aff8f33c",
+        "revisionId": "6ef758c0-bc6a-41a0-a6e9-c981c333161c",
+        "cacheId": "0eb40a10-e448-4b4e-945c-f762d0abb0fa"
+      },
+      "rows": [
+        {
+          "label": "top-plain",
+          "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:4",
+          "verticalOffset": 0,
+          "inkBounds": [
+            58.90625,
+            6.09375,
+            160.625,
+            29.640625
+          ],
+          "decorationBounds": [
+            58.90625,
+            6.09375,
+            160.625,
+            29.640625
+          ],
+          "decorationClipped": false,
+          "style": {}
+        },
+        {
+          "label": "center-stroke",
+          "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:5",
+          "verticalAlignment": "center",
+          "verticalOffset": -57.453125,
+          "inkBounds": [
+            45.5546875,
+            63.15625,
+            189.15625,
+            23.6875
+          ],
+          "decorationBounds": [
+            43.5546875,
+            61.15625,
+            193.15625,
+            27.6875
+          ],
+          "decorationClipped": false,
+          "style": {
+            "stroke": {
+              "color": "#ff5c35ff",
+              "width": 4
+            }
+          }
+        },
+        {
+          "label": "bottom-shadow",
+          "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:6",
+          "verticalAlignment": "bottom",
+          "verticalOffset": -120.625,
+          "inkBounds": [
+            32.0625,
+            126.71875,
+            217.96875,
+            23.28125
+          ],
+          "decorationBounds": [
+            32.0625,
+            112.71875,
+            229.96875,
+            37.28125
+          ],
+          "decorationClipped": false,
+          "style": {
+            "shadow": {
+              "color": "#8abcf0cc",
+              "offsetX": 6,
+              "offsetY": -8,
+              "blur": 3
+            }
+          }
+        },
+        {
+          "label": "center-background",
+          "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:7",
+          "verticalAlignment": "center",
+          "verticalOffset": -54.0859375,
+          "inkBounds": [
+            56.953125,
+            60.1796875,
+            166.125,
+            29.640625
+          ],
+          "decorationBounds": [
+            44.953125,
+            48.1796875,
+            190.125,
+            53.640625
+          ],
+          "decorationClipped": false,
+          "style": {
+            "background": {
+              "color": "#36506ddd",
+              "padding": 12,
+              "cornerRadius": 8
+            }
+          }
+        }
+      ],
+      "exactStyleReceipts": true,
+      "decorationBoundsContainInk": true,
+      "verticalPlacementOrdered": true,
+      "plainReference": {
+        "file": "/private/tmp/sr-captions-cVAMlq/library/cache/derived/0461d6a5-b14c-41a3-a065-d5a4582339d9.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 420,
+        "sourceWidth": 640,
+        "sourceHeight": 420,
+        "bytes": 26595,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 500000,
+          "visibleRange": {
+            "startUs": 500000,
+            "endUs": 625000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Top aligned",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:4",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:0",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Center stroke",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:5",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:1",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Bottom shadow",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "bottom",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:6",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:2",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Background",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 280,
+                "height": 150,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:7",
+              "trackId": "track:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:3",
+              "availability": "available",
+              "width": 280,
+              "height": 150
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:4",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Top aligned",
+              "visibleRange": [
+                0,
+                11
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    11
+                  ],
+                  "text": "Top aligned",
+                  "origin": [
+                    58.15625,
+                    29
+                  ],
+                  "width": 163.6875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "visibleBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "decorationBounds": [
+                58.90625,
+                6.09375,
+                160.625,
+                29.640625
+              ],
+              "verticalOffset": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:5",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Center stroke",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "Center stroke",
+                  "origin": [
+                    43.9609375,
+                    86.453125
+                  ],
+                  "width": 192.078125,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "visibleBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "decorationBounds": [
+                45.5546875,
+                63.15625,
+                189.15625,
+                23.6875
+              ],
+              "verticalOffset": -57.453125
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:6",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Bottom shadow",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "Bottom shadow",
+                  "origin": [
+                    29.71875,
+                    149.625
+                  ],
+                  "width": 220.5625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "visibleBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "decorationBounds": [
+                32.0625,
+                126.71875,
+                217.96875,
+                23.28125
+              ],
+              "verticalOffset": -120.625
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:c0036e5e871fe81a9af21d4b9ca1ef2a92120fb44455494853c58f38d92d1efb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Background",
+              "visibleRange": [
+                0,
+                10
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    10
+                  ],
+                  "text": "Background",
+                  "origin": [
+                    54.609375,
+                    83.0859375
+                  ],
+                  "width": 170.78125,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "visibleBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "decorationBounds": [
+                56.953125,
+                60.1796875,
+                166.125,
+                29.640625
+              ],
+              "verticalOffset": -54.0859375
+            }
+          }
+        ],
+        "atUs": 500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "299753a4-441f-4231-b3be-bb74aff8f33c",
+        "revisionId": "a0e409d3-8444-4936-97ef-6e89a78ae032",
+        "cacheId": "0461d6a5-b14c-41a3-a065-d5a4582339d9"
+      },
+      "glyphPlacementUnchangedByDecorations": true,
+      "pixelChanges": [
+        {
+          "label": "top-plain",
+          "changedPixels": 0
+        },
+        {
+          "label": "center-stroke",
+          "changedPixels": 2710
+        },
+        {
+          "label": "bottom-shadow",
+          "changedPixels": 4844
+        },
+        {
+          "label": "center-background",
+          "changedPixels": 9172
+        }
+      ]
+    }
+  ],
+  "workerSha256": "b6719ae0dbc9493e24bd2992b4addf23bba98c4a3c42ca071f71f517dff187af"
+}

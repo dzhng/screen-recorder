@@ -1,0 +1,102 @@
+{
+ "main": {
+  "id": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+  "kind": "raw",
+  "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+  "note": "final edited interview (all speakers), 32:56"
+ },
+ "grahamRaw": {
+  "id": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+  "kind": "raw",
+  "file": "fullvideo_graham_p1.mp4",
+  "note": "Graham raw camera+mic, session 1 (shared clock with madisonRaw/lilyRawP1)"
+ },
+ "madisonRaw": {
+  "id": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+  "kind": "raw",
+  "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+  "note": "Madison raw camera+mic, session 1"
+ },
+ "lilyRawP1": {
+  "id": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+  "kind": "raw",
+  "file": "fullvideo_lily_p1.mp4",
+  "note": "Lily raw, session 1 (imported, not used in current cuts)"
+ },
+ "lilyRawP2": {
+  "id": "7b03b1ca053c4be00534937c2294bdaa86877af4b9f42f8db4d5817b23b675c0",
+  "kind": "raw",
+  "file": "fullvideo_lily_p2.mp4",
+  "note": "Lily raw, session 2 (open-weights question)"
+ },
+ "fontAvenirNext": {
+  "id": "e03834eefdb4164c2af2c35b985285eb4fd67ff8db54aaed3bdc6d9c8b7f3c3c",
+  "kind": "font",
+  "file": "/System/Library/Fonts/Avenir Next.ttc"
+ },
+ "fontNewYork": {
+  "id": "2f2a5b0e743cd2d954dd407a7281dc0e974d93144c0cdbbc82fee43c32caa926",
+  "kind": "font",
+  "file": "/System/Library/Fonts/NewYork.ttf"
+ },
+ "vignette": {
+  "id": "37a523f8c2c6a06fa1bcbcd34916d08722e640e61a280df1d1d49a9f032ec720",
+  "kind": "repo",
+  "file": "assets/vignette.png"
+ },
+ "letterbox": {
+  "id": "822abdca9fac13452b1c9901b9b270551a438b02fc98d3fb031cd5014b6d5154",
+  "kind": "repo",
+  "file": "assets/letterbox-239.png"
+ },
+ "lowerthirdShade": {
+  "id": "54cab4430689924d08a35371846ed2527a06dd1b10711b6facfb9436440d6b9b",
+  "kind": "repo",
+  "file": "assets/lowerthird-shade.png"
+ },
+ "bottomShade": {
+  "id": "404723049be3ff0bf3977060e08c27bd43fdbcb08b0447e69f3c6717d78b7241",
+  "kind": "repo",
+  "file": "assets/bottom-shade.png"
+ },
+ "a16z-paper-flood": {
+  "id": "087e05d5e78dff726e17f7eb5436bcd66ecdb26b6d05484521bf7f8dc88ebba3",
+  "kind": "repo",
+  "file": "versions/03-a16z/assets/images/paper-flood.png"
+ },
+ "a16z-robot-writing": {
+  "id": "480cb1078461708d4ebbee5e899edd3fa033fa5aac7d7f980925ef5d527d17a9",
+  "kind": "repo",
+  "file": "versions/03-a16z/assets/images/robot-writing.png"
+ },
+ "a16z-ai-review": {
+  "id": "b3f5dbe8b7ed893eaacef0e2c8015fdea0ebcd0b9e10005d600c4212c1e6794f",
+  "kind": "repo",
+  "file": "versions/03-a16z/assets/images/ai-review.png"
+ },
+ "a16z-taste-sketch": {
+  "id": "16c00ffa4a8b36359f43796ef048fa463b7573464f14de504834725844be865d",
+  "kind": "repo",
+  "file": "versions/03-a16z/assets/images/taste-sketch.png"
+ },
+ "a16z-hands": {
+  "id": "8681df5d4dd530ae492678e4c0cfe29c0aa1c095b89104f0dcae2320cc0c403a",
+  "kind": "repo",
+  "file": "versions/03-a16z/assets/images/hands.png"
+ },
+ "a16z-earth-dawn": {
+  "id": "b9bd8070b6e0a6ebcaca77065659c50a544fd47297beb9d94b830f8d2cc406b2",
+  "kind": "repo",
+  "file": "versions/03-a16z/assets/images/earth-dawn.png"
+ },
+ "a16z-launch": {
+  "id": "17a9fb12155801b42a95bfdce1f4100ff3f211ae9b809d3cacd3947efd079651",
+  "kind": "repo",
+  "file": "versions/03-a16z/assets/images/launch.png"
+ },
+ "a16z-sota-logo": {
+  "id": "7e4e61220c0919cae3f1fee71d4f6bcc9232ad7d9d1edfb884af57335d833075",
+  "kind": "repo",
+  "file": "versions/03-a16z/assets/images/sota-logo.png"
+ }
+}

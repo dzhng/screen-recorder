@@ -45,9 +45,9 @@ async function preview(projectId, settings, name, extra = {}) {
   assert.equal(video.codec_name, "h264");
   assert.equal(video.color_primaries, "bt709");
   assert.equal(audio.codec_name, "aac");
-  const effective = ready.published.preview.settings;
-  assert.equal(ready.published.preview.encodedVideo.profile, effective.video.profile);
-  assert.equal(Number(ready.published.preview.encodedVideo.level) * 10, video.level);
+  const effective = ready.published.output.settings;
+  assert.equal(ready.published.output.encodedVideo.profile, effective.video.profile);
+  assert.equal(Number(ready.published.output.encodedVideo.level) * 10, video.level);
   const profiles = {
     baseline: ["Baseline", "Constrained Baseline"],
     main: ["Main"],
@@ -70,7 +70,7 @@ async function preview(projectId, settings, name, extra = {}) {
     "A/V track drift",
   );
   const frames = info.frames.filter((v) => v.media_type === "video");
-  assert.equal(frames.length, ready.published.preview.frameCount);
+  assert.equal(frames.length, ready.published.output.frameCount);
   const times = frames.map((v) => Number(v.best_effort_timestamp_time));
   assert.ok(times.every((v, i) => i === 0 || v > times[i - 1]));
   const entry = {
@@ -87,7 +87,7 @@ async function preview(projectId, settings, name, extra = {}) {
     },
     audio: { rate: audio.sample_rate, channels: audio.channels, duration: audio.duration },
     generation: ready.published.generation,
-    cacheId: ready.published.preview.cacheId,
+    cacheId: ready.published.output.cacheId,
   };
   report.variants.push(entry);
   return { ready, path, entry };
@@ -172,7 +172,7 @@ try {
     { projectId, settings: balanced.entry.settings },
     { transport: "mcp" },
   );
-  assert.equal(equivalent.published.preview.cacheId, balanced.entry.cacheId);
+  assert.equal(equivalent.published.output.cacheId, balanced.entry.cacheId);
   const override = await preview(
     projectId,
     {
@@ -288,7 +288,7 @@ try {
     revisionId: edited.revision.id,
     settings: balanced.entry.settings,
   });
-  assert.equal(historical.published.preview.cacheId, balanced.entry.cacheId);
+  assert.equal(historical.published.output.cacheId, balanced.entry.cacheId);
   const invalid = await call(
     "preview.get",
     { projectId, settings: { video: { profile: "baseline" } } },

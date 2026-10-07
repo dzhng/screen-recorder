@@ -400,6 +400,9 @@ export class ProjectStore {
     const assetIds = new Set(documentAssetIds(current.document));
     const contextIds = new Set(documentAcquisitionIds(current.document));
     for (const operation of operations) {
+      if (operation.operation === "processing.set")
+        for (const { processor } of operation.steps)
+          if (processor.type === "lut") assetIds.add(processor.assetId);
       if (operation.operation === "place")
         clipAssetIds(operation.clip).forEach((id) => assetIds.add(id));
       if (operation.operation === "text.set")

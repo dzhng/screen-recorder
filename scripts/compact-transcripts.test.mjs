@@ -41,7 +41,7 @@ test("reading two takes retains verbatim rows, generations and admitted duration
     { selections: [selection, { ...selection, assetId: "take-b", label: "Take B" }] },
     async (operation, params) => {
       assert.equal(operation, "transcript.get");
-      assert.equal(params.prepare, false);
+      assert.equal("prepare" in params, false);
       return {
         ...sourcePage(rows),
         assetId: params.assetId,
@@ -377,4 +377,30 @@ test("project occurrence coverage remains available after manifest-only continua
     }),
   );
   assert.deepEqual(result.selections[0].coverage, coverage);
+});
+
+test("reading phrases retain overlap envelopes and isolate exact instant observations", async () => {
+  const rows = [
+    word(0, "long", 0, 1000000),
+    word(1, "short", 200000, 300000),
+    word(2, "next", 800000, 900000),
+    word(3, "point", 900000, 900000, { instant: true }),
+    word(4, "after", 950000, 1000000),
+  ];
+  const result = await compactTranscripts({ selections: [selection], pauseUs: 400000 }, async () =>
+    sourcePage(rows),
+  );
+  assert.deepEqual(result.selections[0].rows, rows);
+  assert.deepEqual(
+    result.selections[0].phrases.map(({ text, rowIndexes, displayRangeSeconds }) => ({
+      text,
+      rowIndexes,
+      displayRangeSeconds,
+    })),
+    [
+      { text: "long short next", rowIndexes: [0, 1, 2], displayRangeSeconds: [0, 1] },
+      { text: "point", rowIndexes: [3], displayRangeSeconds: [0.9, 0.9] },
+      { text: "after", rowIndexes: [4], displayRangeSeconds: [0.95, 1] },
+    ],
+  );
 });

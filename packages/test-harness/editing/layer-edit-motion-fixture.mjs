@@ -75,6 +75,7 @@ export async function prepareMotionFixture(home, out) {
   const references = JSON.parse((await run(fixture.referenceTool, [request])).stdout);
   const frames = [];
   for (const reference of references) {
+    assert.equal(reference.status, "available", reference.error);
     const rgbaPath = reference.file + ".rgba";
     const normalized = JSON.parse(
       (await run(fixture.pixelTool, [reference.file, rgbaPath])).stdout,

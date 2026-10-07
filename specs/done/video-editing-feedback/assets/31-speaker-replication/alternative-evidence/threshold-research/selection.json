@@ -1,0 +1,626 @@
+{
+  "selected": 0.4,
+  "candidates": [
+    {
+      "threshold": 0.5,
+      "passed": true,
+      "pooledDER": 0.03251121076233199,
+      "cases": [
+        {
+          "id": "short-return",
+          "threshold": 0.5,
+          "metrics": {
+            "referenceSpeakerSeconds": 24,
+            "overlapSeconds": 0,
+            "silenceSeconds": 0,
+            "missedSpeakerSeconds": 0.010000000000001563,
+            "falseSpeakerSeconds": 0.08000000000000007,
+            "confusedSpeakerSeconds": 0.15999999999999837,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01"
+            },
+            "der": 0.010416666666666666
+          },
+          "overlapRecall": null,
+          "confusionRatio": 0.006666666666666599,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.5,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.4200000000000159,
+            "falseSpeakerSeconds": 1.5199999999999942,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.02020833333333344
+          },
+          "overlapRecall": 0.9887499999999996,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "bspxd-unedited336",
+          "threshold": 0.5,
+          "metrics": {
+            "referenceSpeakerSeconds": 379.5199999999999,
+            "overlapSeconds": 53.96000000000008,
+            "silenceSeconds": 10.760000000000016,
+            "missedSpeakerSeconds": 9.410000000000073,
+            "falseSpeakerSeconds": 4.599999999999984,
+            "confusedSpeakerSeconds": 0.04000000000000625,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.03702044688026999
+          },
+          "overlapRecall": 0.8821349147516667,
+          "confusionRatio": 0.00010539629005060672,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.4,
+      "passed": true,
+      "pooledDER": 0.03251121076233178,
+      "cases": [
+        {
+          "id": "short-return",
+          "threshold": 0.4,
+          "metrics": {
+            "referenceSpeakerSeconds": 24,
+            "overlapSeconds": 0,
+            "silenceSeconds": 0,
+            "missedSpeakerSeconds": 0.010000000000001563,
+            "falseSpeakerSeconds": 0.240000000000002,
+            "confusedSpeakerSeconds": 0.0799999999999983,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01"
+            },
+            "der": 0.013750000000000076
+          },
+          "overlapRecall": null,
+          "confusionRatio": 0.0033333333333332624,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.4,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.3400000000000176,
+            "falseSpeakerSeconds": 1.8399999999999892,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.022708333333333403
+          },
+          "overlapRecall": 0.9887499999999996,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "bspxd-unedited336",
+          "threshold": 0.4,
+          "metrics": {
+            "referenceSpeakerSeconds": 379.5199999999999,
+            "overlapSeconds": 53.96000000000008,
+            "silenceSeconds": 10.760000000000016,
+            "missedSpeakerSeconds": 7.7700000000000085,
+            "falseSpeakerSeconds": 5.919999999999941,
+            "confusedSpeakerSeconds": 0.04000000000000625,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.03617727655986498
+          },
+          "overlapRecall": 0.9036323202372123,
+          "confusionRatio": 0.00010539629005060672,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.3,
+      "passed": true,
+      "pooledDER": 0.03299167200512509,
+      "cases": [
+        {
+          "id": "short-return",
+          "threshold": 0.3,
+          "metrics": {
+            "referenceSpeakerSeconds": 24,
+            "overlapSeconds": 0,
+            "silenceSeconds": 0,
+            "missedSpeakerSeconds": 0.010000000000001563,
+            "falseSpeakerSeconds": 0.3200000000000003,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01"
+            },
+            "der": 0.013750000000000076
+          },
+          "overlapRecall": null,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.3,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.22000000000002018,
+            "falseSpeakerSeconds": 2.119999999999994,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.024375000000000147
+          },
+          "overlapRecall": 0.9987499999999994,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "bspxd-unedited336",
+          "threshold": 0.3,
+          "metrics": {
+            "referenceSpeakerSeconds": 379.52000000000004,
+            "overlapSeconds": 53.96000000000008,
+            "silenceSeconds": 10.760000000000016,
+            "missedSpeakerSeconds": 5.289999999999989,
+            "falseSpeakerSeconds": 8.480000000000073,
+            "confusedSpeakerSeconds": 0.04000000000000625,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.03638806913996645
+          },
+          "overlapRecall": 0.9332839140103777,
+          "confusionRatio": 0.00010539629005060668,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.2,
+      "passed": true,
+      "pooledDER": 0.034753363228699825,
+      "cases": [
+        {
+          "id": "short-return",
+          "threshold": 0.2,
+          "metrics": {
+            "referenceSpeakerSeconds": 24,
+            "overlapSeconds": 0,
+            "silenceSeconds": 0,
+            "missedSpeakerSeconds": 0.010000000000001563,
+            "falseSpeakerSeconds": 0.40000000000000036,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01"
+            },
+            "der": 0.017083333333333412
+          },
+          "overlapRecall": null,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.2,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.14000000000000767,
+            "falseSpeakerSeconds": 2.440000000000005,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.02687500000000013
+          },
+          "overlapRecall": 0.9987499999999994,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "bspxd-unedited336",
+          "threshold": 0.2,
+          "metrics": {
+            "referenceSpeakerSeconds": 379.52000000000004,
+            "overlapSeconds": 53.96000000000008,
+            "silenceSeconds": 10.760000000000016,
+            "missedSpeakerSeconds": 3.129999999999982,
+            "falseSpeakerSeconds": 11.200000000000134,
+            "confusedSpeakerSeconds": 0.04000000000000625,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.037863617200674854
+          },
+          "overlapRecall": 0.9673832468495177,
+          "confusionRatio": 0.00010539629005060668,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.1,
+      "passed": true,
+      "pooledDER": 0.044122357463164216,
+      "cases": [
+        {
+          "id": "short-return",
+          "threshold": 0.1,
+          "metrics": {
+            "referenceSpeakerSeconds": 24,
+            "overlapSeconds": 0,
+            "silenceSeconds": 0,
+            "missedSpeakerSeconds": 0.010000000000001563,
+            "falseSpeakerSeconds": 0.40000000000000036,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01"
+            },
+            "der": 0.017083333333333412
+          },
+          "overlapRecall": null,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.1,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.020000000000010232,
+            "falseSpeakerSeconds": 3.6800000000000104,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.038541666666666884
+          },
+          "overlapRecall": 0.9987499999999994,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "bspxd-unedited336",
+          "threshold": 0.1,
+          "metrics": {
+            "referenceSpeakerSeconds": 379.52000000000004,
+            "overlapSeconds": 53.96000000000008,
+            "silenceSeconds": 10.760000000000016,
+            "missedSpeakerSeconds": 1.3299999999999708,
+            "falseSpeakerSeconds": 16.599999999999795,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.04724388701517644
+          },
+          "overlapRecall": 0.9881393624907339,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.05,
+      "passed": true,
+      "pooledDER": 0.05629404228058874,
+      "cases": [
+        {
+          "id": "short-return",
+          "threshold": 0.05,
+          "metrics": {
+            "referenceSpeakerSeconds": 24,
+            "overlapSeconds": 0,
+            "silenceSeconds": 0,
+            "missedSpeakerSeconds": 0.010000000000001563,
+            "falseSpeakerSeconds": 0.7199999999999989,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01"
+            },
+            "der": 0.030416666666666686
+          },
+          "overlapRecall": null,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.05,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.020000000000010232,
+            "falseSpeakerSeconds": 4.9599999999999955,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.05187500000000006
+          },
+          "overlapRecall": 0.9987499999999994,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "bspxd-unedited336",
+          "threshold": 0.05,
+          "metrics": {
+            "referenceSpeakerSeconds": 379.52000000000004,
+            "overlapSeconds": 53.96000000000008,
+            "silenceSeconds": 10.760000000000016,
+            "missedSpeakerSeconds": 0.7300000000000191,
+            "falseSpeakerSeconds": 21.679999999999666,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.05904827150084233
+          },
+          "overlapRecall": 0.9948109710896955,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.02,
+      "passed": true,
+      "pooledDER": 0.07198910954516319,
+      "cases": [
+        {
+          "id": "short-return",
+          "threshold": 0.02,
+          "metrics": {
+            "referenceSpeakerSeconds": 24,
+            "overlapSeconds": 0,
+            "silenceSeconds": 0,
+            "missedSpeakerSeconds": 0.010000000000001563,
+            "falseSpeakerSeconds": 1.120000000000001,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01"
+            },
+            "der": 0.04708333333333344
+          },
+          "overlapRecall": null,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.02,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.020000000000010232,
+            "falseSpeakerSeconds": 6.319999999999979,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.06604166666666655
+          },
+          "overlapRecall": 0.9987499999999994,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "bspxd-unedited336",
+          "threshold": 0.02,
+          "metrics": {
+            "referenceSpeakerSeconds": 379.52000000000004,
+            "overlapSeconds": 53.96000000000008,
+            "silenceSeconds": 10.760000000000016,
+            "missedSpeakerSeconds": 0.25,
+            "falseSpeakerSeconds": 28.239999999999924,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.07506850758853267
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.01,
+      "passed": true,
+      "pooledDER": 0.09857463164638014,
+      "cases": [
+        {
+          "id": "short-return",
+          "threshold": 0.01,
+          "metrics": {
+            "referenceSpeakerSeconds": 24,
+            "overlapSeconds": 0,
+            "silenceSeconds": 0,
+            "missedSpeakerSeconds": 0.010000000000001563,
+            "falseSpeakerSeconds": 2.32,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01"
+            },
+            "der": 0.0970833333333334
+          },
+          "overlapRecall": null,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.01,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.020000000000010232,
+            "falseSpeakerSeconds": 14.639999999999974,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.15270833333333317
+          },
+          "overlapRecall": 0.9987499999999994,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "bspxd-unedited336",
+          "threshold": 0.01,
+          "metrics": {
+            "referenceSpeakerSeconds": 379.52000000000004,
+            "overlapSeconds": 53.96000000000008,
+            "silenceSeconds": 10.760000000000016,
+            "missedSpeakerSeconds": 0.25,
+            "falseSpeakerSeconds": 31.999999999999826,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.08497575885328791
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.005,
+      "passed": false,
+      "pooledDER": 0.15749119154388178,
+      "cases": [
+        {
+          "id": "short-return",
+          "threshold": 0.005,
+          "metrics": {
+            "referenceSpeakerSeconds": 24,
+            "overlapSeconds": 0,
+            "silenceSeconds": 0,
+            "missedSpeakerSeconds": 0.010000000000001563,
+            "falseSpeakerSeconds": 23.99,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01"
+            },
+            "der": 1
+          },
+          "overlapRecall": null,
+          "confusionRatio": 0,
+          "passed": false
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.005,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.020000000000010232,
+            "falseSpeakerSeconds": 17.99999999999997,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.18770833333333314
+          },
+          "overlapRecall": 0.9987499999999994,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "bspxd-unedited336",
+          "threshold": 0.005,
+          "metrics": {
+            "referenceSpeakerSeconds": 379.5200000000001,
+            "overlapSeconds": 53.96000000000008,
+            "silenceSeconds": 10.760000000000016,
+            "missedSpeakerSeconds": 0.1699999999999875,
+            "falseSpeakerSeconds": 36.479999999999876,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.09656935075885291
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

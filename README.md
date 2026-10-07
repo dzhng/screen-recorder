@@ -199,7 +199,9 @@ The skill's [installation procedure](skills/yap/references/installation.md)
 contains executable download/install commands and upgrade, app-location and
 macOS launch guidance. Check the receipt's signing status; releases are not notarized.
 If blocked, the user must approve **Open Anyway** in System Settings → Privacy &
-Security. Installation does not grant capture permissions or download speech models.
+Security. Installation does not grant capture permissions. When a first-class Yap
+speech feature is used, its registered pinned model/runtime is prepared automatically;
+external models remain recommendation-only.
 
 ### 3. Verify before operating
 
@@ -257,6 +259,8 @@ for personal keep/remove judgments.
   dependency layers; the [speaker primitive](helpers/speaker/README.md) supplies anonymous source
   observations through explicit optional model/runtime preparation and shared
   retained-evidence owners.
+  The [conditional alignment worker](helpers/alignment/README.md) preserves the
+  supplied-text interpretation and full native operands of its pinned provider.
 
 The consumer [yap skill](skills/yap/SKILL.md) teaches external agents
 how to edit for the user with the toolkit. Repository development skills live

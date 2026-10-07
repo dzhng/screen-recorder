@@ -1,0 +1,97 @@
+{
+  "status": "frozen-before-candidate-inference",
+  "frozenAt": "2026-10-06T09:04:20.126659+00:00",
+  "hypothesis": "Independent trained direct eight-slot activity weights/architecture with model-card high-context recipe improve overlap and global identity without external clustering. Bundled model/runtime recipe; no isolated causal claim.",
+  "candidate": {
+    "asyncStreaming": false,
+    "asyncPadToMax": false,
+    "asyncDesyncUpdates": false,
+    "recipe": {
+      "chunk_len": 340,
+      "chunk_right_context": 40,
+      "fifo_len": 40,
+      "spkcache_update_period": 300,
+      "spkcache_len": 376
+    },
+    "onset": 0.5,
+    "offset": 0.1,
+    "modelSha256": "dcaaff77f4469fe35ce1eb4560349832058175c57613d509058a7624739e2ae9",
+    "repository": "mago-ai/ultra_diar_streaming_sortformer_8spk_v1",
+    "revision": "08c94f3d289e426288b15a580f7ce47b93b99bf2",
+    "strictRestore": true
+  },
+  "comparison": "Retained Nemotron fixed .5/.1 short controls; no repeated inference.",
+  "sourceContract": {
+    "repository": "NVIDIA-NeMo/Speech",
+    "revision": "3c0fdca291547aa4898cbf38d9f0325ec225d9d8",
+    "modelPath": "nemo/collections/asr/models/sortformer_diar_models.py",
+    "modulePath": "nemo/collections/asr/modules/sortformer_modules.py",
+    "observed": "Released model config has standard eight-slot head, no split n_base_spks. Chosen pinned NeMo3 runtime versus checkpoint2.7rc is an experimental bundle; strict native restore mandatory. Cache376 retained from checkpoint; card overrides chunk340/right40/FIFO40/update300. Complete native scores80ms and native decoder lines preserved before support validation.",
+    "authorRepository": "LilDevsy0117/Ultra-Sortformer",
+    "authorRevision": "ac21c901eb7127b99d4bf15a590a0e45cbb5c529"
+  },
+  "references": {
+    "path": "specs/done/video-editing-feedback/assets/31-speaker-replication/alternative-evidence/nemotron-feasibility/protocol.json",
+    "sha256": "6782b4d8846fceca1ad44012d6a8f203f87f856ed4bf72fe9d761755739bc20f"
+  },
+  "caseOrder": [
+    "bspxd30",
+    "aiqwk30",
+    "returns-overlap-silence"
+  ],
+  "gates": {
+    "everyCaseDERMaximum": 0.2,
+    "inferenceWallAudioRatioMaximum": 2,
+    "RSSBytesMaximum": 4294967296,
+    "globalIdentityConfusionRatioMaximum": 0.05,
+    "overlapRecallMinimum": 0.8,
+    "everyCaseObservedSpeakerCountMatchesReference": true
+  },
+  "advance": "Next case only after every preceding gate passes. If all short/control cases pass, preregister long expansion before inference. Any failure stops this profile; no threshold tuning.",
+  "prediction": "Both short cases and retained returns stay inside fixed gates; larger recent context can preserve weak voices for overlap. If short gate fails, reject profile before any long inference. Full long quality remains separately required.",
+  "falsifier": "Any DER, global confusion, overlap, count or resource gate fails. No selected-case average may hide one failed gate.",
+  "scorer": {
+    "path": "packages/test-harness/speech/feasibility/score.mjs",
+    "sha256": "794b3bc4275df13c77b36a3e7cab7b9cdec49c0cb6edc45003c7b1b22ed1f350"
+  },
+  "interpreter": {
+    "path": "../hysteresis-evidence/interpret.mjs",
+    "sha256": "0276877f5004cd4f71471d2136f1cd0606972ae857cb59a62b8836478fb569d8"
+  },
+  "execution": {
+    "timeoutSecondsPerCall": 180,
+    "nativeCallsMaximum": 3,
+    "analysisWallBudgetSeconds": 300,
+    "threads": 2,
+    "acquisitionBytes": 471433216,
+    "networkDenied": true,
+    "repairAllowance": "One infrastructure repair with new identity; no configuration tuning.",
+    "acquisitionBoundary": "Full Models checkpoint plus bounded header probe; source metadata counted in source-acquisition receipt separately."
+  },
+  "runtime": {
+    "python": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+    "entry": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/execution/launch.py",
+    "model": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/original-model",
+    "cache": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/.cache/speaker-replication-r1",
+    "descriptorDigest": "d6378d03528660f4cc350d0fb6b1bcdfa873624f71a91c5e2e0d7f2bf668eb70",
+    "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "modelDigest": "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
+    "runtimeRevision": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "modelRevision": "cd03eee90fbec18297ac31b8c21546e596b7f71c"
+  },
+  "modelPath": "/tmp/yap-speaker-hysteresis-20261006/ultra8-admission/model-library/models/ultra8-checkpoint-research/08c94f3d289e426288b15a580f7ce47b93b99bf2/checkpoint/ultra_diar_streaming_sortformer_8spk_v1.nemo",
+  "limitations": [
+    "Experimental unsealed runtime; no production packaging or readiness.",
+    "Short cases reused from prior research, not training-held-out claims.",
+    "Native eight slots are capacity, never count hints.",
+    "Apache2 derivative plus upstream NVIDIA Open Model license/NOTICE must both be packaged before redistribution readiness."
+  ],
+  "workerSha256": "30d66aa8f06e31de8384cb2a0785a9ddef7717dc36709138376605e3f8553a70",
+  "modelCardSha256": "41ddee5037050247333d27058a47dfd7c672b0b372a3e080fecd2da73f30eba4",
+  "nativeClock": {
+    "frameSamples": 1280,
+    "sampleRate": 16000,
+    "projection": "Integer native row indices to physical source samples; no upsampling or endpoint clipping.",
+    "projectionSha256": "74b246d3b336d2d36c629ab2f48c901f4a81d7e6ae9096dd681404f6c74655d2"
+  }
+}

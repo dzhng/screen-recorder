@@ -15,6 +15,8 @@ import { projectIndexDomain } from "@yap/core/project-index";
 import { projectComposition } from "@yap/core/project-window";
 import { selectSource } from "@yap/core/source-selection";
 import { SceneEvidenceStore, assetSceneOwner } from "@yap/core/scene-evidence";
+import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
+import { SpeakerProcessing } from "@yap/core/speaker-processing";
 import { PreparedAudioStore } from "@yap/core/prepared-audio";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
@@ -94,6 +96,7 @@ export async function fixture(
   let frames,
     indexes,
     transcripts,
+    speakers,
     sceneProcessing,
     preview,
     exports,
@@ -132,9 +135,11 @@ export async function fixture(
             ? transcripts.execute(execution)
             : execution.job.artifact === "source-scenes"
               ? sceneProcessing.execute(execution)
-              : execution.job.artifact === "preview"
-                ? preview.execute(execution)
-                : exports.execute(execution),
+              : execution.job.artifact === "source-speakers"
+                ? speakers.execute(execution)
+                : execution.job.artifact === "preview"
+                  ? preview.execute(execution)
+                  : exports.execute(execution),
   });
   const ordinary = async ({ window, output, settings }, signal) => {
     signal.throwIfAborted();
@@ -232,6 +237,18 @@ export async function fixture(
     },
   });
   const models = new Models(home);
+  const speakerRecords = new SpeakerEvidenceStore(catalog, assetSpeakerOwner(assets, acquisitions));
+  speakers = new SpeakerProcessing({
+    assets,
+    acquisitions,
+    models,
+    jobs,
+    evidence: speakerRecords,
+    decoder: null,
+    observe: async () => {
+      throw new Error("Speaker observation was not requested");
+    },
+  });
   transcripts = new TranscriptProcessing({
     jobs,
     transcripts: transcriptRecords,
@@ -297,6 +314,8 @@ export async function fixture(
     scenes: sceneProcessing,
     transcriptRecords,
     transcripts,
+    speakerRecords,
+    speakers,
     indexRecords: sourceIndex,
     indexes,
     projectIndexRecords: index,
@@ -411,6 +430,8 @@ export async function fixture(
     sceneProcessing,
     transcripts,
     transcriptRecords,
+    speakerRecords,
+    speakers,
     sourceIndex,
     frames,
     projectIndex: index,

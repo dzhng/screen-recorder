@@ -64,6 +64,10 @@ private and owned; startup does not repair arbitrary directories in place.
 
 ## Coordinating work without another domain model
 
+Public asynchronous replies use the [protocol publication contract](../../packages/protocol/README.md#published-work).
+The operation boundary exposes validated domain output; execution recipes and
+serialized worker results stay with their internal owners.
+
 The service turns admitted requests into work for existing owners. Pure
 [composition](../../packages/composition/README.md) defines edits and compiled
 plans; [native workers](../../helpers/mac/README.md) execute physical media work.
@@ -88,6 +92,13 @@ media encoder nor speech inference; an edit during delivery cannot replace them.
 Audio-only export does not require picture preparation. Output format meaning
 belongs to the composition settings owner, not another service allowlist.
 
+Replacement trusts the recorded file identity and complete bytes, never just a
+pathname or a formerly owned name. Imported-original identity belongs to the
+asset owner and remains protected through aliases. The [publication owner](src/publication.ts)
+retains its destination lock across native workers; the [native publication boundary](../../helpers/mac/README.md#external-publication)
+explains what cooperative ownership can guarantee and why unknown displaced
+entries survive a conflict.
+
 Package extraction proves containment and retained resource identity. Adoption
 also validates dependency meaning and owns managed copies. Inspecting a handle
 alone does not create a project; adopted projects survive handle closure and donor
@@ -98,6 +109,10 @@ The [worker lifetime](src/worker.ts) is shared by native JSON requests and argv-
 CLI execution. CLI progress cannot certify completion: zero exit, bounded output
 and retirement of the owned process group are required before its caller resumes.
 The existing native executable watches parent death for CLI descendants as well.
+The [runtime materializer](src/runtime-materialization.ts) lends that same lifetime
+to explicit model preparation. Core owns acquisition and inventory admission;
+offline assembly needs the public pinned interpreter and system tools, without
+borrowing developer-installed packages or creating a second downloader.
 A rare kernel retirement overrun retains the owned task, logs after five seconds,
 and observes slowly until the group is absent; it cannot safely release capacity
 or staging merely because the standard streams closed.
@@ -115,13 +130,23 @@ Service shutdown drains jobs, readers, publication and storage observations befo
 closing the catalog. The [release disposition](../../specs/done/agent-editing/release-closeout.md)
 records installed evidence separately from an isolated service check.
 
-[Speaker observations](src/speaker.ts) select one complete source channel/window
-through the existing native PCM owner and invoke an explicitly prepared local
-runtime through the shared JSON process owner. Execution is offline. Original
+[Selected-channel observations](src/source-channel.ts) share complete support,
+channel and native PCM receipt admission. [Speaker observations](src/speaker.ts)
+and [conditional alignment](src/alignment.ts) each retain their provider's narrower
+window policy and invoke an explicitly prepared runtime through the shared process
+owner. Alignment preserves the literal supplied text and computes correspondence
+through the shared native ordered arithmetic. Raw operands survive failed attempts;
+retained source pages never invoke inference. Execution is offline. Original
 sidecar operands are captured before attempt cleanup, including model refusals.
 `speaker.get` reads retained source generations or their revision projection without
 native or model execution; `speaker.prepare` alone requests new acoustic work.
+`speaker.bind` replaces caller-authored display labels for one retained generation;
+it never changes acoustic evidence or infers identity.
 Portable packages preserve complete original operands and observation ordering.
+Immutable alignment pages name the original generation and open package context;
+their continuations cannot be reused in another context. Reading or adopting them
+needs no model execution or native decoder. Evidence admission and publication
+remain with the shared core owners.
 Read-only package projections share the source projection, coverage and merge owners;
 immutable checkpoints use the existing package context jobs and disappear on closure.
 The context's metadata and job budgets apply to these inspections as to adoption.
@@ -166,7 +191,9 @@ and publication owners remain responsible for durable delivery.
 other acoustic inspection. It executes the selected bundled scanner through the
 existing CLI lifetime owner and records meter identity. Empty scanner gates are
 reported as unmeasurable; peak evidence remains separate from integrated loudness.
-A requested sample ceiling or a scoped meter comparison is not a universal encoded
+Measurement JSON is delivered through the same cache-backed lease owner as other
+acoustic evidence; callers do not reopen private cache paths. A requested sample
+ceiling or a scoped meter comparison is not a universal encoded
 true-peak guarantee.
 
 [Typed audio processing](src/audio-processing.ts) borrows the native domain
@@ -185,4 +212,22 @@ requested postconditions before publication. Gain-only feasibility is explicit;
 a dynamic request also refuses a missed target. Prepared reads retain those full
 measurements even when a consumer requests a short excerpt. Native and bundled
 implementation identities bind the prepared recipe; neither discovery nor an
-empty measurement authorizes another treatment.
+empty measurement authorizes another treatment. Audio preparation settles the
+complete selected processing tap without picture work. Movie rendering resolves
+matching retained final audio, or executes its full audio processing and strict
+postconditions, before starting expensive picture encoding. A prepared dry signal
+or intermediate step never substitutes for that final mix.
+
+Dynamic normalization rerenders the original complete prefix with fixed first-pass
+statistics and unchanged requested targets. The shared correction policy bounds
+candidate count, offset and measurable progress. Every candidate's measured result
+is retained; an admitted candidate stays held through correction, and the delivered
+selection is explicit. Final strict admission still owns publication. Scheduling budgets
+account for these bounded traversals; retained final audio skips recomputation.
+AAC delivery is measured separately after decoding, because a compliant PCM master
+does not establish an encoded true-peak ceiling.
+
+The compressor recipe carries explicit post-compression `makeupGainDb`; omission
+is unity. Preview, prepared audio and export consume the same native-admitted
+recipe. Bypass leaves dry PCM unchanged; makeup never becomes an implicit
+loudness-matching or mastering request.

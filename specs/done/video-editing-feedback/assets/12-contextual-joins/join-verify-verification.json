@@ -1,0 +1,33 @@
+{
+  "scope": "slice 12B public join.verify report",
+  "tests": {
+    "command": "bunx vitest run apps/service/src/join-service.test.ts --maxWorkers=1",
+    "files": 1,
+    "passed": 2
+  },
+  "checks": [
+    "bun run --cwd packages/protocol build",
+    "bun run --cwd apps/service check-types",
+    "bunx oxfmt --write changed files",
+    "git diff --check"
+  ],
+  "contracts": [
+    "foreign prepared resources refuse without authoring a revision",
+    "opening and ending contexts preserve exact project bounds",
+    "missing recognition and unknown lexical identity remain explicit",
+    "source alignment coverage reports missing tails",
+    "review performs no model, native media or edit work",
+    "prepared-file identity and request cancellation are retained through audio reads",
+    "unavailable PCM spans and sub-sample windows refuse explicitly"
+  ],
+  "independentReview": {
+    "command": "codex exec --sandbox read-only review --uncommitted --json",
+    "status": "clean",
+    "exitCode": 0,
+    "turn": "turn.completed",
+    "verdict": "No actionable correctness issues were identified in the staged, unstaged, or untracked changes. Type checking, linting, and formatting checks passed.",
+    "eventsSha256": "22f6124da4392b14e16d6172a04de252ed187afb6f933a2db2ce1cc7dd82f079"
+  },
+  "liveDeviceChecks": "unverified; no camera or microphone hardware is available",
+  "phoneticCompleteness": "unknown"
+}

@@ -89,7 +89,9 @@ function origin(seed: Seed, clips: readonly AnyClip[]) {
       seed.words.every(
         (word) =>
           compare(fromTime(word.sourceRange.startUs), fromTime(source.range.endUs)) < 0 &&
-          compare(fromTime(word.sourceRange.endUs), fromTime(source.range.startUs)) > 0,
+          (word.sourceRange.startUs === word.sourceRange.endUs
+            ? compare(fromTime(word.sourceRange.startUs), fromTime(source.range.startUs)) >= 0
+            : compare(fromTime(word.sourceRange.endUs), fromTime(source.range.startUs)) > 0),
       )
     )
       return { ...clip, source };
@@ -131,6 +133,10 @@ export function seedTextOperations(
     const selected = words(seed, records).selected;
     const start = fromTime(selected[0]!.startUs),
       end = fromTime(Math.max(...selected.map((word) => word.endUs)));
+    if (selected.every((word) => word.instant))
+      invalid(
+        "Instant observations require caller-authored text duration; transcript timing supplies no dwell",
+      );
     const parentStart = fromTime(clip.source.range.startUs),
       parentEnd = fromTime(clip.source.range.endUs);
     const sourceRange = {
@@ -139,9 +145,20 @@ export function seedTextOperations(
     };
     const placement = { kind: "content" as const, clipId: clip.id, sourceRange };
     const resolved = resolvePlacement(model, placement);
+    let utf16Offset = 0;
+    const timedWords = cue.style.highlight
+      ? selected.map((word, index) => {
+          const start = utf16Offset;
+          utf16Offset += word.text.length;
+          const range = [start, utf16Offset] as [number, number];
+          if (index < selected.length - 1) utf16Offset += cue.separator.length;
+          return { range, sourceRange: { startUs: word.startUs, endUs: word.endUs } };
+        })
+      : undefined;
     const source = {
       kind: "text" as const,
       text: selected.map((word) => word.text).join(cue.separator),
+      ...(timedWords === undefined ? {} : { timedWords }),
       ...cue.style,
     };
     const anchor =

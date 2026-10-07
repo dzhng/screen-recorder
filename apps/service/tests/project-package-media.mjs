@@ -116,7 +116,7 @@ async function adoptedMedia(t, kind) {
   }
   const admitted = await call("asset.import", { path: input, requestId: randomUUID() });
   const imported = await ready(() => call("job.get", { jobId: admitted.jobId }));
-  const asset = await call("asset.get", { assetId: imported.result.assetId });
+  const asset = await call("asset.get", { assetId: imported.published.output.assetId });
   const managedSource = service.assets.path(asset.id);
   const video = asset.streams.find((s) => s.kind === "video");
   const project = await call("project.create", {
@@ -194,8 +194,10 @@ async function adoptedMedia(t, kind) {
   const adopted = await ready(() =>
     call("package.adopt", { packageHandle: opened.packageHandle, requestId }),
   );
-  assert.notEqual(adopted.result.projectId, projectId);
-  const adoptedRevision = await call("revision.get", { projectId: adopted.result.projectId });
+  assert.notEqual(adopted.published.output.projectId, projectId);
+  const adoptedRevision = await call("revision.get", {
+    projectId: adopted.published.output.projectId,
+  });
   const adoptedAssetId = adoptedRevision.revision.document.clips[0].assetId;
   const adoptedAsset = await call("asset.get", { assetId: adoptedAssetId });
   const recipientSource = service.assets.path(adoptedAssetId);
@@ -238,7 +240,7 @@ async function adoptedMedia(t, kind) {
     content,
   );
   const cached = await stat(
-    join(home, "library", "cache", "derived", `${retried.published[kind].cacheId}.cache`),
+    join(home, "library", "cache", "derived", `${retried.published.output.cacheId}.cache`),
   );
   const retained = () =>
     readdirSync("/dev/fd")

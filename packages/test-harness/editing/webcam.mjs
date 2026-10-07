@@ -141,7 +141,7 @@ async function image(params, name) {
   const profile = JSON.parse(stdout);
   assert.equal(profile.opaque, true);
   const pixels = await readFile(pixelFile);
-  const receipt = delivered.published.frame;
+  const receipt = delivered.published.output;
   assert.equal(pixels.length, receipt.width * receipt.height * 4);
   const record = { name, sha256: hash(bytes), pixelsSha256: hash(pixels), profile, receipt };
   (report.pictures ??= []).push(record);
@@ -606,7 +606,7 @@ try {
     path: join(root, "specs/done/agent-editing/assets/00-corpus/b-audio.wav"),
   });
   const audioReady = await ready(importedAudio.jobId);
-  const alternateAudio = await call("asset.get", { assetId: audioReady.result.assetId });
+  const alternateAudio = await call("asset.get", { assetId: audioReady.published.output.assetId });
   const { stdout: replacementMono } = await run(
     "ffmpeg",
     [
@@ -756,7 +756,7 @@ try {
   await call("package.close", { admissionId: opened.id });
   const packageSHA256 = hash(await readFile(packagePath));
   await rm(packagePath);
-  const relocatedProject = adoption.result.projectId;
+  const relocatedProject = adoption.published.output.projectId;
   const relocatedHistory = await call("revision.history", { projectId: relocatedProject });
   assert.equal(relocatedHistory.nextCursor, null);
   assert.deepEqual(

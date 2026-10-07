@@ -210,7 +210,7 @@ try {
       const pcm = wave(fullBytes);
       assert.equal(pcm.rate, rate);
       assert.equal(pcm.channels, stream.channels);
-      assert.deepEqual(full.published.audio.unavailable, [{ startUs: 400000, endUs: 600000 }]);
+      assert.deepEqual(full.published.output.unavailable, [{ startUs: 400000, endUs: 600000 }]);
       assert.equal(pcm.data.length, rate * stream.channels * 4);
       for (let frame = 0; frame < rate; frame++)
         for (let channel = 0; channel < stream.channels; channel++) {
@@ -233,7 +233,7 @@ try {
         const part = await ready({ ...selection, range });
         const first = Math.floor((range.startUs * rate) / 1e6),
           last = Math.floor((range.endUs * rate) / 1e6);
-        assert.deepEqual(part.published.audio.sampleRange, { start: first, end: last });
+        assert.deepEqual(part.published.output.sampleRange, { start: first, end: last });
         sameBytes(
           wave(await delivered(part)).data,
           pcm.data.subarray(first * stream.channels * 4, last * stream.channels * 4),
@@ -247,7 +247,7 @@ try {
     const full = await ready({ ...masked, range: { startUs: 0, endUs: 1000000 } });
     const bytes = await delivered(full);
     sameBytes(wave(bytes).data, wave(await readFile(join(media, `full-${rate}.wav`))).data);
-    assert.deepEqual(full.published.audio.unavailable, [
+    assert.deepEqual(full.published.output.unavailable, [
       { startUs: 0, endUs: 13 },
       { startUs: 200000, endUs: 300000 },
       { startUs: 400000, endUs: 600000 },
@@ -348,7 +348,7 @@ try {
   assert.ok(!duplicate.content.some((item) => item.type === "audio"));
   assert.equal(duplicate.structuredContent.data.published.generation, large.published.generation);
   await call("artifact.close", { token: duplicate.structuredContent.data.delivery.token });
-  const audio = large.published.audio;
+  const audio = large.published.output;
   assert.ok(large.delivery.bytes > 1024 ** 3);
   assert.equal(audio.sampleRate, 48000);
   assert.equal(audio.channels, 2);
@@ -381,10 +381,10 @@ try {
   assert.equal(nativeTail.length, referenceTail.length);
   const referenceComparison = comparePcm(nativeTail, referenceTail, values.codec);
   const late = await ready({ ...selection, range: { startUs: 2998000000, endUs: 3000000000 } });
-  assert.equal(late.published.audio.frames, 96000);
-  assert.deepEqual(late.published.audio.sampleRange, { start: 143904000, end: 144000000 });
-  assert.equal(late.published.audio.sampleRate, 48000);
-  assert.equal(late.published.audio.channels, 2);
+  assert.equal(late.published.output.frames, 96000);
+  assert.deepEqual(late.published.output.sampleRange, { start: 143904000, end: 144000000 });
+  assert.equal(late.published.output.sampleRate, 48000);
+  assert.equal(late.published.output.channels, 2);
   const lateWave = wave(await delivered(late));
   assert.equal(lateWave.channels, 2);
   assert.equal(lateWave.rate, 48000);
@@ -402,8 +402,8 @@ try {
   for (const frames of [1, 2, 1024, 2048, 2049]) {
     const startUs = Number((BigInt(144000000 - frames) * 1000000n + 47999n) / 48000n);
     const terminal = await ready({ ...selection, range: { startUs, endUs: 3000000000 } });
-    assert.equal(terminal.published.audio.frames, frames);
-    assert.ok(terminal.published.audio.decodedFrames <= 8192);
+    assert.equal(terminal.published.output.frames, frames);
+    assert.ok(terminal.published.output.decodedFrames <= 8192);
     comparePcm(
       wave(await delivered(terminal)).data,
       nativeTail.subarray(nativeTail.length - frames * 8),

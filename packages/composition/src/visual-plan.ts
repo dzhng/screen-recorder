@@ -6,6 +6,7 @@ import type { CompiledFrame } from "./compiled-records.js";
 import type { VisualOperation } from "./pointer.js";
 import type { TimeValue } from "./schema.js";
 import { CompositionError } from "./errors.js";
+import { processingScalars } from "./processing.js";
 
 /** Flattening domains are fixed by target ownership, never inferred from child bounds. */
 export function visualPlanner(
@@ -38,6 +39,12 @@ export function visualPlanner(
         }
         const operations: VisualOperation[] = [];
         const geometryPrefix: number[] = [];
+        const motionBlurOperations: VisualOperation[] = [];
+        const hasAnimatedGeometry = node.steps.some(
+          (step) =>
+            step.processor.type === "geometry" &&
+            Object.values(processingScalars(step.processor)).some((value) => typeof value !== "number"),
+        );
         for (const step of node.steps) {
           if (!step.enabled) continue;
           if (step.processor.type === "geometry") {
@@ -58,16 +65,33 @@ export function visualPlanner(
               trailUs: step.processor.trailUs,
               geometryPrefix: [...geometryPrefix],
             });
-          else if (step.processor.type === "sdr-correction") {
+          else if (step.processor.type === "lut") {
+            const { type: _, ...parameters } = step.processor;
+            operations.push({ kind: "lut", ...parameters });
+          } else if (step.processor.type === "sdr-correction") {
             const { type: _, ...parameters } = step.processor;
             operations.push({ kind: "sdr-correction", ...parameters });
           } else if (step.processor.type === "opacity") {
             const opacity = temporal.opacity(step, node.target, atUs);
             if (opacity !== null) operations.push({ kind: "opacity", opacity });
+          } else if (step.processor.type === "blend") {
+            operations.push({ kind: "blend", mode: step.processor.mode });
+          } else if (
+            step.processor.type === "motion-blur" &&
+            hasAnimatedGeometry &&
+            step.processor.samples > 1 &&
+            step.processor.shutter > 0
+          ) {
+            motionBlurOperations.push({
+              kind: "motion-blur",
+              samples: step.processor.samples,
+              shutter: step.processor.shutter,
+            });
           }
         }
         if (sourceSpace)
           operations.push(...compileGeometry(domain, canvas, { type: "geometry" }, pixelBounds));
+        operations.push(...motionBlurOperations);
         return { target: node.target, inputs: node.inputs, operations };
       });
 }

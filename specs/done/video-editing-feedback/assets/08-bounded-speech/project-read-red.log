@@ -1,0 +1,36 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill
+
+ ❯ packages/core/src/project-evidence.test.ts (49 tests | 1 failed | 48 skipped) 44ms
+   × project transcript reads never infer and explicitly select retained bounded source generations 44ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/project-evidence.test.ts > project transcript reads never infer and explicitly select retained bounded source generations
+AssertionError: expected [ { artifact: 'transcript' } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "artifact": "transcript",
++   },
++ ]
+
+ ❯ packages/core/src/project-evidence.test.ts:552:100
+    550|   expect(await f.evidence.get(input)).toMatchObject({ state: "not_read…
+    551|   await f.jobs.idle();
+    552|   expect(f.catalog.catalog.prepare("SELECT artifact FROM jobs WHERE ar…
+       |                                                                                                    ^
+    553|   const source = { assetId: f.asset.id, streamId: "speech" };
+    554|   const preparation = { ...source, executionRange: { startUs: 300, end…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 48 skipped (49)
+   Start at  22:27:27
+   Duration  426ms (transform 66%, import 22%, tests 12%)

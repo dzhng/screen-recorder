@@ -1,0 +1,96 @@
+{
+  "hypothesis": "A mixed edited reference containing an original microphone signal can support exact local waveform matches where unrelated isolated microphones refuse. Independently recognized shared phrases are required alongside acoustic evidence.",
+  "status": "frozen-before-processing",
+  "sourceInventory": "Native media.probe receipts in acquisition inventory; exactly one selected audio track:2 per original, channel0; master stereo44.1k, raw microphones mono44.1k. Container segments do not establish a raw-to-reference or raw-to-raw clock.",
+  "sources": {
+    "main": {
+      "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+      "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+      "rangeSeconds": [
+        0,
+        1960
+      ]
+    },
+    "grahamRaw": {
+      "file": "fullvideo_graham_p1.mp4",
+      "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+      "rangeSeconds": [
+        0,
+        2340
+      ]
+    },
+    "madisonRaw": {
+      "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+      "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+      "rangeSeconds": [
+        0,
+        2340
+      ]
+    },
+    "lilyRawP1": {
+      "file": "fullvideo_lily_p1.mp4",
+      "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+      "rangeSeconds": [
+        0,
+        2340
+      ]
+    }
+  },
+  "acquisition": "Existing media.sourceAudio complete source-rate44.1kFloat32 streaming WAV; select channel0 and SciPy resample_poly160to441 over each complete bounded domain, no trim/pad/amplitude transformation. Native WAV is temporary and deleted after conversion. Retain selected20s16k operands and exact source sample clocks.",
+  "selection": {
+    "method": "One20s raw window per source-clock third [0,780),[780,1560),[1560,2340). Enumerate integer-second starts wholly inside each third. Maximize minimum mean-square energy across existing three4s anchors centered3/10/17; tie chooses earliest start. Energy supplies no lexical or editorial meaning.",
+    "maximumRawWindows": 9,
+    "coarseSampleRate": 1000,
+    "coarseResampling": "existing SciPy resample_poly16to1; zero external padding is not reference support",
+    "template": "Center10s four-second raw anchor against all complete four-second placements in bounded1960s reference; retain8 competing peaks separated50ms",
+    "coarseAdmission": "Original absolute correlation>=0.35 and alternative ratio<=0.8; no threshold tuning or dropping a competitor"
+  },
+  "localAdmission": {
+    "recipe": "Existing offset.estimate on exact selected20s16k raw/reference PCM; centers3/10/17, four-second anchors,\u00b11s residual search",
+    "maximumSpreadMs": 2,
+    "minimumCorrelation": 0.35,
+    "maximumAlternativeRatio": 0.8,
+    "lexical": "Independently recognize each acoustically admitted raw/reference20s pair with first-class Parakeet; require an unambiguous contiguous5-word phrase with>=3 distinct folded words. Retain all alternatives using existing core foldWord; supplied text/alignment paths not evidence.",
+    "precisionControl": "Independently authored125ms waveform delay must pass within2ms, with unequal exact source/reference origins; sign/origin mutations fail",
+    "negativeControls": [
+      "silence",
+      "unrelated-waveform",
+      "repeated-peak",
+      "missing-anchor",
+      "continuous-clock-drift",
+      "discontinuous-edited-clock",
+      "unrelated-recognized-words",
+      "repeated-recognized-phrase",
+      "words-crossing-window-gap"
+    ],
+    "clock": "Exact original origins plus integer16k sample offset rational; complete source/reference support retained. Candidates never imply every unsampled instant matches.",
+    "global": "All three independently admitted separated raw-source windows must agree within2ms to report a constant offset over sampled checkpoints. Otherwise explicitly refuse global clock and retain local segment observations. No interpolation, outlier trim, retime or automatic segment edit."
+  },
+  "budget": {
+    "maximumNativeDecodes": 4,
+    "secondsPerDecode": 180,
+    "maximumSelectedPCMFrames": 143680000,
+    "maximumTemporaryPCMBytes": 574720000,
+    "maximumCoarseSearches": 9,
+    "maximumReferenceSeconds": 1960,
+    "maximumRefinements": 9,
+    "secondsPerNumericalCase": 30,
+    "maximumRecognitionCalls": 18,
+    "secondsPerRecognition": 180,
+    "maximumRetainedWAVBytes": 30000000,
+    "maximumRepairs": 2,
+    "maximumTemporaryNativeWAVBytes": 700000000,
+    "maximumTemporaryCombinedBytes": 1100000000,
+    "acquisitionRepairsUsed": 1
+  },
+  "scope": "Research/reference only; no source relationship declaration, public estimator, angle choice, edit, speaker identity or automatic retime. Edited-reference local evidence is not a raw-to-raw session clock. Preserve failed waveform and isolated lexical protocols unchanged.",
+  "previousAttempt": {
+    "protocolSha256": "317bd644e27e698765b05c2895ea1b780515de1dfcf912ba1ce20f781fa6bf90",
+    "result": "SourceChannelPCM refused >30s before producing PCM; preserve recipe/gates, choose existing sourceAudio owner for a separately frozen acquisition recipe"
+  },
+  "runtime": {
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd"
+  }
+}

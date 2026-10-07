@@ -75,8 +75,8 @@ try {
         "Public bytes changed already-reviewed native pixels",
       );
       noClock(delivered);
-      noClock(delivered.published.frame);
-      assert.equal(delivered.published.frame.kind, "image");
+      noClock(delivered.published.output);
+      assert.equal(delivered.published.output.kind, "image");
       assert.equal(delivered.published.generation, first.published.generation);
       assert.equal(mcp.structuredContent.data.published.generation, first.published.generation);
       const raw = file + ".rgba",
@@ -91,12 +91,12 @@ try {
         maximumError <= 2,
         "Public image diverged from independent oriented RGBA reference",
       );
-      assert.equal(delivered.published.frame.orientation, orientation);
-      assert.equal(delivered.published.frame.hasAlpha, kind === "png");
+      assert.equal(delivered.published.output.orientation, orientation);
+      assert.equal(delivered.published.output.hasAlpha, kind === "png");
       report.pictures.push({
         name,
         selection,
-        receipt: delivered.published.frame,
+        receipt: delivered.published.output,
         generation: first.published.generation,
         file,
         sha256: hash(await readFile(file)),
@@ -107,7 +107,7 @@ try {
   const selected = report.pictures.find((item) => item.name === "png-6"),
     selection = selected.selection;
   const bounded = await ready({ ...selection, maxLongEdge: 17 });
-  assert.deepEqual([bounded.published.frame.width, bounded.published.frame.height], [11, 17]);
+  assert.deepEqual([bounded.published.output.width, bounded.published.output.height], [11, 17]);
   const boundedFile = join(out, "bounded-cli.png");
   await call("frame.get", { ...selection, maxLongEdge: 17 }, { output: boundedFile });
   assert.ok((await readFile(boundedFile)).equals(await readFile(join(fixture, "bounded.png"))));
@@ -136,7 +136,7 @@ try {
   // Remove only an owned scratch cache file to exercise disposable-image regeneration.
   const evicted = await direct("frame.get", selection);
   await call("artifact.close", { token: evicted.delivery.token });
-  await rm(evicted.published.frame.file);
+  await rm(evicted.published.output.file);
   const regenerated = await ready(selection);
   assert.notEqual(regenerated.published.generation, selected.generation);
   assert.equal(regenerated.jobId, opened.jobId);
@@ -195,7 +195,7 @@ try {
     const retry = await call("frame.retry", params, { transport: "mcp" });
     assert.equal(retry.jobId, pending.jobId);
     const recovered = await ready(params);
-    noClock(recovered.published.frame);
+    noClock(recovered.published.output);
     await call("frame.get", params, { output: join(out, `${name}-retry-cli.png`) });
     report.checks[name] = { nativeReplyHeld: true, retrySameJob: true, ready: true };
   }
@@ -251,8 +251,8 @@ try {
   assert.equal(batch.items[0].ok, false);
   assert.equal(batch.items[0].error.code, "UNSUPPORTED_MEDIA");
   const videoReady = await ready({ ...videoSelection, atUs: 0 });
-  assert.equal(videoReady.published.frame.requestedSourceUs, 0);
-  assert.ok(videoReady.published.frame.sample);
+  assert.equal(videoReady.published.output.requestedSourceUs, 0);
+  assert.ok(videoReady.published.output.sample);
   assert.ok(videoReady.supportDigest);
   const videoFile = join(out, "preserved-video-cli.png");
   await call("frame.get", { ...videoSelection, atUs: 0 }, { output: videoFile });

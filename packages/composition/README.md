@@ -23,14 +23,21 @@ has duration but no media source. A schema owns the allowed anchor and hold form
 
 Retain rational coordinates until a sampling boundary. Retimed selections and
 attachments can end between integer microseconds; rounding the stored document
-would change later splits and source mappings. Structural command coordinates
-retain their own integer constraints, defined by the input schema.
+would change later splits and source mappings. Removal uses the same exact
+selections as placement so a fractional frame can be deleted without changing
+its surviving neighbors. Other structural command coordinates retain their own
+integer constraints, defined by the [edit input schema](src/edits.ts).
 
 Source and project time are different clocks. A rounded forward query can map many
 project instants to one source bin; the reverse is therefore an interval, not a
 single invented inverse timestamp. Stream offsets share the asset presentation
 origin. Missing support and a known source with no occurrence remain different
 from invalid identity.
+
+[Editorial boundaries](src/project-cuts.ts) use the same source mapping for
+authored cuts and explicit two-sided review points. Opening/ending and nearby
+candidate coordinates stay exact; asking about a point never authors a cut or
+proves that its source media is available.
 
 [Source projection](src/source-projection.ts) preserves retained fragments and
 completeness in an immutable revision. Completeness describes the original source
@@ -58,12 +65,21 @@ inspection. Consumers must not restart animation or duplicate anchor math.
 state continuity and retained preparation dependencies.
 
 Static SDR correction uses source-neutral white correction, exposure, then
-contrast/saturation in that order. It preserves alpha and extended working values
+contrast/saturation and then shadow/highlight recovery in that order. Recovery
+amounts start at identity zero; enabling one does not request the other. It preserves alpha and extended working values
 until the existing output conversion. Source-neutral temperature describes the
 white being corrected toward the recipe's target, not a camera-calibrated warmth
 slider. Temporal windows and curves are not admitted for this static processor.
 The [reproduction](../../specs/done/ffmpeg-parity/evidence/sdr-correction) owns the
 measured provider semantics and limits; operation discovery owns parameter bounds.
+
+An explicitly imported LUT is an immutable processing dependency, even when its
+step is bypassed or retained only in history. It has no invented stream or
+clock. [The LUT contract](src/lut.ts) requires the caller to declare the color
+interpretation; raw .cube text does not identify a camera profile. Ordered LUT
+steps share the same compilation and tap boundaries as other picture processors.
+[The native parser and recipe](../../helpers/mac/Sources/YapFrames/README.md)
+own supported file semantics and measured output.
 
 ## Compilation is distinct from readiness
 
@@ -93,5 +109,8 @@ Authoring and execution availability remain distinct;
 
 [Compiled record schemas](src/compiled-records.ts) are the shared native boundary.
 They prevent the worker from adopting a second timing or processing policy.
+Text records carry resolved active glyph ranges; authored word windows stay in
+the composition clock. Caption entrance motion uses the same anchored geometry
+and opacity curves as other pictures, so clipping an output window cannot restart it.
 [Preservation evidence](../../specs/done/agent-editing/assets/23-owner-fixture-ports/README.md)
 records scoped downstream proof separately from pure authoring validity.

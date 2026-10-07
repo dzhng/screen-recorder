@@ -1,0 +1,77 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "strictRestore": true,
+      "loadSeconds": 1.0485354580014246,
+      "frameSeconds": 0.08,
+      "cases": [
+        {
+          "id": "madison-tiny",
+          "shape": [
+            34,
+            1025
+          ],
+          "seconds": 0.07598708399746101,
+          "RSSBytes": 1636433920
+        },
+        {
+          "id": "overlap25",
+          "shape": [
+            313,
+            1025
+          ],
+          "seconds": 0.18561354199482594,
+          "RSSBytes": 1823113216
+        },
+        {
+          "id": "false-start",
+          "shape": [
+            23,
+            1025
+          ],
+          "seconds": 0.07896608399460092,
+          "RSSBytes": 1823293440
+        },
+        {
+          "id": "constructed-repeats",
+          "shape": [
+            150,
+            1025
+          ],
+          "seconds": 0.14872837500297464,
+          "RSSBytes": 1823293440
+        },
+        {
+          "id": "fortunate-intact",
+          "shape": [
+            12,
+            1025
+          ],
+          "seconds": 0.07615749999240506,
+          "RSSBytes": 1823293440
+        },
+        {
+          "id": "fortunate-truncated",
+          "shape": [
+            5,
+            1025
+          ],
+          "seconds": 0.0570932080008788,
+          "RSSBytes": 1823293440
+        },
+        {
+          "id": "fortunate-contextual",
+          "shape": [
+            37,
+            1025
+          ],
+          "seconds": 0.07089208399702329,
+          "RSSBytes": 1823293440
+        }
+      ],
+      "wallSeconds": 10.165714292001212
+    }
+  },
+  "networkDenied": true
+}

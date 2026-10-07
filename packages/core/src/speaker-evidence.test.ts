@@ -112,6 +112,24 @@ test("publishes all below-threshold score cells without inventing intervals, and
   expect(empty.nextFrame).toBe(0);
 });
 
+test("publishes a bounded selected range with its matching score extent", async () => {
+  const f = await fixture();
+  const source = {
+    ...speakerSource,
+    observationRange: { startUs: 0, endUs: 10_000_000 },
+    pcm: { ...speakerSource.pcm, frames: 160_000 },
+  };
+  const raw = nativeOutput(["0.000 1.000 speaker_0"], speakerSource.engine.modelSha256, 160_000);
+  const staged = f.store.stage(f.identity, source, raw);
+  f.catalog.transaction(() => staged.publish());
+  expect(f.store.metadata(f.identity)).toMatchObject({
+    source: { observationRange: source.observationRange, pcm: { frames: 160_000 } },
+    scoreCount: 125,
+    axes: [1, 125, 4],
+  });
+  expect(f.store.scorePage({ identity: f.identity, afterFrame: 123 }).scores).toHaveLength(1);
+});
+
 test("closing an unpublished stage fences its late publication", async () => {
   const f = await fixture(),
     staged = f.store.stage(f.identity, speakerSource, nativeOutput());

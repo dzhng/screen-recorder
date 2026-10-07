@@ -1,0 +1,321 @@
+{
+  "status": "frozen-before-inference",
+  "workerSha256": "36e8a443cfec83431146f3d49e7ae26448a7f2cbda9633bfb76fb15742d24b01",
+  "nativeSha256": "df4ca7a23928132a2d0dbe8d8ebac7e6fb186a56eef9d092ef45dfad7e1af5bd",
+  "cases": [
+    {
+      "id": "main",
+      "role": "real-project-observation",
+      "pcm": "/tmp/yap-editing-speaker-replication/real/main.f32",
+      "frames": 1600000,
+      "pcmSha256": "d5e277d284224321eac0a03ce158d60b7c000afe8bc7fc0214eebaf4e941c410",
+      "output": "/tmp/yap-editing-speaker-replication/real/main.json",
+      "sourceIdentity": {
+        "key": "main",
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "bytes": 2350709141,
+        "modifiedNs": "1791226820000000000",
+        "inode": 5000318
+      },
+      "sourceStatStillMatches": true,
+      "request": {
+        "source": {
+          "source": "/Users/server/Downloads/20261005_graham-neubig_full-interview_final_1080p.mp4",
+          "streamId": "track:2",
+          "sourceOffsetUs": 0,
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 1976196000
+            }
+          ]
+        },
+        "range": {
+          "startUs": 800000000,
+          "endUs": 900000000
+        },
+        "output": "/tmp/yap-editing-speaker-replication/real/main.wav"
+      },
+      "result": {
+        "bytes": 35284096,
+        "channels": 2,
+        "decodedFrames": 4412049,
+        "file": "/tmp/yap-editing-speaker-replication/real/main.wav",
+        "frames": 4410000,
+        "layout": "stereo",
+        "mediaType": "audio/wav",
+        "range": {
+          "endUs": 900000000,
+          "startUs": 800000000
+        },
+        "sampleRange": {
+          "end": 39690000,
+          "start": 35280000
+        },
+        "sampleRate": 44100,
+        "unavailable": []
+      },
+      "conversion": {
+        "ffmpegSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/tmp/yap-editing-speaker-replication/real/main.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "-n",
+          "/tmp/yap-editing-speaker-replication/real/main.f32"
+        ],
+        "method": "pinned FFmpeg default resampler to16k; mono arithmetic average for stereo, native Float32 source decoder unchanged"
+      },
+      "truth": "No independent speaker/word labels; descriptive observations only"
+    },
+    {
+      "id": "grahamRaw",
+      "role": "real-project-observation",
+      "pcm": "/tmp/yap-editing-speaker-replication/real/grahamRaw.f32",
+      "frames": 960000,
+      "pcmSha256": "de5b3724d427ea61e59a72bad967822f551924c6a782812c461742c2af2cddde",
+      "output": "/tmp/yap-editing-speaker-replication/real/grahamRaw.json",
+      "sourceIdentity": {
+        "key": "grahamRaw",
+        "file": "fullvideo_graham_p1.mp4",
+        "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+        "bytes": 1995375829,
+        "modifiedNs": "1791234718000000000",
+        "inode": 5079660
+      },
+      "sourceStatStillMatches": true,
+      "request": {
+        "source": {
+          "source": "/Users/server/Downloads/fullvideo_graham_p1.mp4",
+          "streamId": "track:2",
+          "sourceOffsetUs": 0,
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 2359971000
+            }
+          ]
+        },
+        "range": {
+          "startUs": 800000000,
+          "endUs": 860000000
+        },
+        "output": "/tmp/yap-editing-speaker-replication/real/grahamRaw.wav"
+      },
+      "result": {
+        "bytes": 10588096,
+        "channels": 1,
+        "decodedFrames": 2648049,
+        "file": "/tmp/yap-editing-speaker-replication/real/grahamRaw.wav",
+        "frames": 2646000,
+        "layout": "mono",
+        "mediaType": "audio/wav",
+        "range": {
+          "endUs": 860000000,
+          "startUs": 800000000
+        },
+        "sampleRange": {
+          "end": 37926000,
+          "start": 35280000
+        },
+        "sampleRate": 44100,
+        "unavailable": []
+      },
+      "conversion": {
+        "ffmpegSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/tmp/yap-editing-speaker-replication/real/grahamRaw.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "-n",
+          "/tmp/yap-editing-speaker-replication/real/grahamRaw.f32"
+        ],
+        "method": "pinned FFmpeg default resampler to16k; mono arithmetic average for stereo, native Float32 source decoder unchanged"
+      },
+      "truth": "No independent speaker/word labels; descriptive observations only"
+    },
+    {
+      "id": "madisonRaw",
+      "role": "real-project-observation",
+      "pcm": "/tmp/yap-editing-speaker-replication/real/madisonRaw.f32",
+      "frames": 960000,
+      "pcmSha256": "e690b8415050e87c2e19ee530301db3e39a12e17408fe84c92de9bb4b08380db",
+      "output": "/tmp/yap-editing-speaker-replication/real/madisonRaw.json",
+      "sourceIdentity": {
+        "key": "madisonRaw",
+        "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+        "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "bytes": 1236120729,
+        "modifiedNs": "1791223497000000000",
+        "inode": 5016984
+      },
+      "sourceStatStillMatches": true,
+      "request": {
+        "source": {
+          "source": "/Users/server/Downloads/riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+          "streamId": "track:2",
+          "sourceOffsetUs": 0,
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 2360011000
+            }
+          ]
+        },
+        "range": {
+          "startUs": 1840000000,
+          "endUs": 1900000000
+        },
+        "output": "/tmp/yap-editing-speaker-replication/real/madisonRaw.wav"
+      },
+      "result": {
+        "bytes": 10588096,
+        "channels": 1,
+        "decodedFrames": 2648049,
+        "file": "/tmp/yap-editing-speaker-replication/real/madisonRaw.wav",
+        "frames": 2646000,
+        "layout": "mono",
+        "mediaType": "audio/wav",
+        "range": {
+          "endUs": 1900000000,
+          "startUs": 1840000000
+        },
+        "sampleRange": {
+          "end": 83790000,
+          "start": 81144000
+        },
+        "sampleRate": 44100,
+        "unavailable": []
+      },
+      "conversion": {
+        "ffmpegSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/tmp/yap-editing-speaker-replication/real/madisonRaw.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "-n",
+          "/tmp/yap-editing-speaker-replication/real/madisonRaw.f32"
+        ],
+        "method": "pinned FFmpeg default resampler to16k; mono arithmetic average for stereo, native Float32 source decoder unchanged"
+      },
+      "truth": "No independent speaker/word labels; descriptive observations only"
+    },
+    {
+      "id": "lilyRawP1",
+      "role": "real-project-observation",
+      "pcm": "/tmp/yap-editing-speaker-replication/real/lilyRawP1.f32",
+      "frames": 960000,
+      "pcmSha256": "1e928c6dea5ded70348258f0a85530abcd5940c0c5c910c0d7233d644c6d060c",
+      "output": "/tmp/yap-editing-speaker-replication/real/lilyRawP1.json",
+      "sourceIdentity": {
+        "key": "lilyRawP1",
+        "file": "fullvideo_lily_p1.mp4",
+        "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+        "bytes": 1235076678,
+        "modifiedNs": "1791234407000000000",
+        "inode": 5077213
+      },
+      "sourceStatStillMatches": true,
+      "request": {
+        "source": {
+          "source": "/Users/server/Downloads/fullvideo_lily_p1.mp4",
+          "streamId": "track:2",
+          "sourceOffsetUs": 0,
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 2360014000
+            }
+          ]
+        },
+        "range": {
+          "startUs": 800000000,
+          "endUs": 860000000
+        },
+        "output": "/tmp/yap-editing-speaker-replication/real/lilyRawP1.wav"
+      },
+      "result": {
+        "bytes": 10588096,
+        "channels": 1,
+        "decodedFrames": 2648049,
+        "file": "/tmp/yap-editing-speaker-replication/real/lilyRawP1.wav",
+        "frames": 2646000,
+        "layout": "mono",
+        "mediaType": "audio/wav",
+        "range": {
+          "endUs": 860000000,
+          "startUs": 800000000
+        },
+        "sampleRange": {
+          "end": 37926000,
+          "start": 35280000
+        },
+        "sampleRate": 44100,
+        "unavailable": []
+      },
+      "conversion": {
+        "ffmpegSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/tmp/yap-editing-speaker-replication/real/lilyRawP1.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "-n",
+          "/tmp/yap-editing-speaker-replication/real/lilyRawP1.f32"
+        ],
+        "method": "pinned FFmpeg default resampler to16k; mono arithmetic average for stereo, native Float32 source decoder unchanged"
+      },
+      "truth": "No independent speaker/word labels; descriptive observations only"
+    }
+  ],
+  "gate": {
+    "inferenceWallAudioRatioMaximum": 2,
+    "RSSBytesMaximum": 4294967296
+  },
+  "limitations": [
+    "No raw-to-mixed alignment proof",
+    "source-track ownership does not establish isolated speaker truth",
+    "native scores uncalibrated",
+    "word attribution remains separate contract"
+  ]
+}

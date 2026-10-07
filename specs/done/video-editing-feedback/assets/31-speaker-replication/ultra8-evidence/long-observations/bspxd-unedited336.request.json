@@ -1,0 +1,15 @@
+{
+  "operation": "speaker.continuityLab",
+  "params": {
+    "model": "/tmp/yap-speaker-hysteresis-20261006/ultra8-admission/model-library/models/ultra8-checkpoint-research/08c94f3d289e426288b15a580f7ce47b93b99bf2/checkpoint/ultra_diar_streaming_sortformer_8spk_v1.nemo",
+    "cases": [
+      {
+        "id": "bspxd-unedited336",
+        "pcm": "/tmp/yap-editing-speaker-replication/continuity/bspxd-unedited336.f32",
+        "pcmSha256": "fbb76b234aa5a30606b78369880f90361b14ab1f55249fd4dacf0cb1ad902226",
+        "frames": 5381120,
+        "output": "/tmp/yap-ultra8-long-20261006-1791330168/bspxd-unedited336.json"
+      }
+    ]
+  }
+}

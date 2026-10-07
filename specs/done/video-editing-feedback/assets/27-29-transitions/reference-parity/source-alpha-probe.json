@@ -1,0 +1,81 @@
+{
+  "kind": "transition-source-alpha-conversion-probe",
+  "status": "open",
+  "hypothesis": "non-opaque-alpha-uses-256-normalization",
+  "reason": "The moving mismatch is concentrated on semi-transparent source edges. A bounded replay tests the Core Video 8-bit BGRA hypothesis that non-opaque alpha uses a 256-step normalization while opaque alpha remains one. The strict zero-difference gate stays unchanged.",
+  "sources": {
+    "alpha": {
+      "path": "specs/done/ffmpeg-parity/evidence/motion-alpha/alpha.mov",
+      "sha256": "d0b26f1c3d9cb975566b9a454338c9132255543350874039230636e3213c9c1c"
+    },
+    "mirror": {
+      "path": "specs/done/ffmpeg-parity/evidence/motion-alpha/mirror.mov",
+      "sha256": "c269397c597e511dbd7be71d906763fa802863c95da15e88d2c190130653114d"
+    }
+  },
+  "candidates": {
+    "moving-100000": {
+      "path": "specs/done/video-editing-feedback/assets/27-29-transitions/crossfade/moving/moving-frame-100000.png",
+      "sha256": "9224290ee6db687c02add53fe46d8d25bf673d40e39d6d4fa703600a89023fd3"
+    },
+    "moving-500000": {
+      "path": "specs/done/video-editing-feedback/assets/27-29-transitions/crossfade/moving/moving-frame-500000.png",
+      "sha256": "1ff8801b97be4b4337b525aba94c665af9c018fa5c6a93e37469c9cb73cf1e83"
+    },
+    "moving-900000": {
+      "path": "specs/done/video-editing-feedback/assets/27-29-transitions/crossfade/moving/moving-frame-900000.png",
+      "sha256": "0c061571e87ab2a23c6b8e8c8599e3b72aa132f947d62839f2e0e8304c4ab9e7"
+    }
+  },
+  "samples": [
+    {
+      "id": "moving-100000",
+      "atUs": 100000,
+      "frame": 0,
+      "baseline": {
+        "mae": 0.072265625,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.216796875
+      },
+      "probe": {
+        "mae": 0.002170138888888889,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.006510416666666667
+      }
+    },
+    {
+      "id": "moving-500000",
+      "atUs": 500000,
+      "frame": 2,
+      "baseline": {
+        "mae": 0.011393229166666666,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.029296875
+      },
+      "probe": {
+        "mae": 0.0005425347222222222,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.0016276041666666667
+      }
+    },
+    {
+      "id": "moving-900000",
+      "atUs": 900000,
+      "frame": 3,
+      "baseline": {
+        "mae": 0.059244791666666664,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.177734375
+      },
+      "probe": {
+        "mae": 0.003146701388888889,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.009440104166666666
+      }
+    }
+  ],
+  "probeGate": {
+    "passed": false,
+    "rule": "source-conversion probe still requires zero differing RGB pixels"
+  }
+}

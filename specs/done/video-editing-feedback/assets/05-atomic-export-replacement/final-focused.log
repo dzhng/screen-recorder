@@ -1,0 +1,45 @@
+✔ public new export replaces unchanged Yap-owned bytes and old intent never replaces its successor (1406.313375ms)
+✔ foreign overwrite never authorizes replacing an original imported source (711.404625ms)
+✔ foreign and modified formerly-owned regular files require explicit overwrite bound to replay identity (1905.338958ms)
+✔ cancellation before replacement commit preserves previous output and explicit retry reuses its pin (1693.836417ms)
+✔ lost replacement acknowledgement recovers exact native bytes after service restart (1544.677042ms)
+✔ two admitted publishers pinned to one victim cannot both replace it (1541.816959ms)
+✔ public external swap foreign conflict reports uncertain visibility and retains unknown displacement (2262.189334ms)
+✔ public external swap symlink conflict reports uncertain visibility and retains unknown displacement (2337.623167ms)
+✔ destination ownership fences a different staging owner and admission inspection (154.057292ms)
+✔ private staging usage observes partial bytes while the publication owner holds its lock (40.10625ms)
+✔ private staging usage rejects replacement and linked payloads without reading external data (21.697542ms)
+✔ private staging usage counts prepared files and clears after acknowledgement without counting the movie (79.450542ms)
+✔ killed owner after commit reconciles exact bytes and inode before acknowledgement (141.881875ms)
+✔ killed owner before commit leaves a resumable prepared file (129.966333ms)
+✔ stopped surviving publisher fences recovery until actual descriptor release (128.8575ms)
+✔ reopened owner refuses a replacement output parent and preserves both trees (136.83525ms)
+✔ abort before commit prevents publication; abort after native commit preserves observed truth (37.509166ms)
+✔ kernel write-limit failure never publishes and explicit discard removes only owned leaves (110.483166ms)
+✔ publication refuses a destination inside its disposable staging (9.848625ms)
+✔ one publication deadline covers preparation, commit, reconciliation and acknowledgement (50.845709ms)
+✔ all close callers wait for the active native operation before descriptors release (24.829792ms)
+✔ complete prepared bytes publish exclusively and reconcile before acknowledgement (215.417875ms)
+ℹ {"prepared":{"sha256":"fdae36b1a720103b48a48c3a4024e78961866bb7cd9981cfce0b7a08f06d8d30","destination":{"ino":"7332267","dev":"16777232"},"file":{"ino":"7332314","dev":"16777232"},"bytes":21,"replacement":null,"stage":{"ino":"7332266","dev":"16777232"},"leaf":"export.mp4"}}
+✔ reconciliation distinguishes same bytes in another inode from changes in the committed inode (32.661083ms)
+✔ existing destination and symlink leaves are never replaced or followed (18.780625ms)
+✔ retained output and source descriptors survive controlled path replacement (13.461458ms)
+✔ preparation budget failure leaves destination absent (18.583542ms)
+✔ private cleanup stays on its inherited directory after staging path replacement (22.817ms)
+✔ pinned unchanged victim is atomically exchanged and retained until acknowledgement (31.152625ms)
+✔ noncooperating replacement race retains unexpected displaced bytes and refuses cleanup (251.90775ms)
+✔ same-inode same-length race still requires the pinned victim digest (148.229708ms)
+✔ actual native death before atomic swap recovers the same prepared publication (160.044917ms)
+✔ actual native death after atomic swap recovers the same prepared publication (218.595333ms)
+✔ recovery and repeated commit never overwrite a foreign successor after swap (157.922709ms)
+✔ symlink raced at the kernel swap boundary is retained in conflict without following it (165.368875ms)
+✔ changed victim and symlink present before commit are strictly refused (75.440583ms)
+✔ confirmed replacement survives interrupted cleanup without republishing (80.0525ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13596.374209

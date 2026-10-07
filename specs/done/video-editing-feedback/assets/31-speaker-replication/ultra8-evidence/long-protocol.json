@@ -1,0 +1,42 @@
+{
+  "kind": "ultra8-long-continuity-audit",
+  "status": "exploratory",
+  "frozenBeforeInference": false,
+  "hypothesis": "The independently trained eight-slot direct-activity model preserves speaker identity and overlap through the required long controls without a post-hoc clustering layer.",
+  "candidate": {
+    "modelSha256": "dcaaff77f4469fe35ce1eb4560349832058175c57613d509058a7624739e2ae9",
+    "recipe": {
+      "chunk_len": 340,
+      "chunk_right_context": 40,
+      "fifo_len": 40,
+      "spkcache_update_period": 300,
+      "spkcache_len": 376
+    },
+    "onset": 0.5,
+    "offset": 0.1,
+    "frameSamples": 1280,
+    "sampleRate": 16000,
+    "workerSha256": "30d66aa8f06e31de8384cb2a0785a9ddef7717dc36709138376605e3f8553a70",
+    "nativeClockSha256": "74b246d3b336d2d36c629ab2f48c901f4a81d7e6ae9096dd681404f6c74655d2"
+  },
+  "reference": {
+    "path": "../handoff-evidence/continuity/protocol.json",
+    "sha256": "8f6ca56aefe8ce002679ae0c5d184b044d1c15d80639d51bbda06e530ecffb53"
+  },
+  "gates": {
+    "everyCaseDERMaximum": 0.2,
+    "inferenceWallAudioRatioMaximum": 2,
+    "rssBytesMaximum": 4294967296,
+    "globalIdentityConfusionRatioMaximum": 0.05,
+    "overlapRecallMinimum": 0.8,
+    "everyCaseObservedSpeakerCountMatchesReference": true
+  },
+  "caseOrder": ["bspxd-unedited336", "four-speaker600"],
+  "observations": {
+    "directory": "long-observations",
+    "manifest": "long-operands.json"
+  },
+  "results": "long-results.json",
+  "promotion": false,
+  "reason": "The 336.32-second three-speaker control passes, but the required 600-second four-speaker control fails DER, overlap recall and identity confusion. No production provider or public default is promoted."
+}

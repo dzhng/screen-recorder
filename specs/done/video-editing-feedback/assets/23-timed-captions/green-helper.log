@@ -1,0 +1,23 @@
+✔ explicit corrected caption drafts retain word truth, exact pins and separate punctuation/pause groups (2.359125ms)
+✔ fractional retiming limits are exact and repeated/partial occurrences keep separate pins (0.451666ms)
+✔ multilingual graphemes and unbreakable words retain literal text while constraint failures remain visible (0.296292ms)
+✔ unavailable or source-only evidence never invents project time and every response obeys the UTF8 budget (0.441459ms)
+✔ explicit gaps, skipped words and fragmented support split proposals without dropping selected rows (1.074583ms)
+✔ consumer command returns pure proposals even when no CLI is available (26.728459ms)
+✔ large explicit selections respect the existing per-cue seed pin limit without losing words (64.903625ms)
+✔ a literal display string beyond text admission limits is retained with a violation (0.494208ms)
+✔ empty display corrections preserve the explicitly chosen inter-word separator (0.098ms)
+✔ reading-speed admission compares exact project duration at the boundary (0.125625ms)
+✔ wrapping retains meaningful caller separators rather than silently deleting them (0.062625ms)
+✔ instant word evidence remains visible without invented dwell or aborting neighboring proposals (0.128083ms)
+✔ overlapping estimates use the widest exact envelope for dwell, speed and placement (0.087375ms)
+✔ explicit highlighting maps corrected wrapped UTF-16 words to retained overlapping source windows (0.109583ms)
+✔ highlight runs preserve fragmented support and repeated occurrence identity without widening estimates (0.073666ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 131.134458

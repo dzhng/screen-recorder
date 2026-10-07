@@ -1,0 +1,42 @@
+{
+  "valid": false,
+  "reason": "detected unintended overlapping placements in replacement PCM assembly; labels disagree with overwritten PCM, disqualified before scoring",
+  "overlaps": [
+    {
+      "left": {
+        "source": "bspxd",
+        "sourceStartSeconds": 33,
+        "sourceEndSeconds": 41,
+        "atSeconds": 307,
+        "speaker": "spk01"
+      },
+      "right": {
+        "source": "bspxd",
+        "sourceStartSeconds": 78.4,
+        "sourceEndSeconds": 82.4,
+        "atSeconds": 306,
+        "speaker": "spk02"
+      },
+      "start": 307,
+      "end": 310.0
+    },
+    {
+      "left": {
+        "source": "bspxd",
+        "sourceStartSeconds": 33,
+        "sourceEndSeconds": 41,
+        "atSeconds": 307,
+        "speaker": "spk01"
+      },
+      "right": {
+        "source": "bspxd",
+        "sourceStartSeconds": 78.4,
+        "sourceEndSeconds": 82.4,
+        "atSeconds": 310,
+        "speaker": "spk02"
+      },
+      "start": 310,
+      "end": 314.0
+    }
+  ]
+}

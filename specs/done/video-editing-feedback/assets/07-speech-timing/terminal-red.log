@@ -1,0 +1,30 @@
+$ vitest run --maxWorkers=4 src/source-transcript-read.test.ts -t "terminal instant"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+ ❯ src/source-transcript-read.test.ts (8 tests | 1 failed | 7 skipped) 12ms
+   × whole-source listing retains terminal instant observations while selected ranges stay half-open 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-transcript-read.test.ts > whole-source listing retains terminal instant observations while selected ranges stay half-open
+Error: Invalid transcript continuation
+ ❯ parse src/transcript-read.ts:28:30
+     26| function parse<T>(schema: z.ZodType<T>, value: unknown): T {
+     27|   const parsed = schema.safeParse(value);
+     28|   if (!parsed.success) throw new CatalogError("INVALID_PARAMS", "Inval…
+       |                              ^
+     29|   return parsed.data;
+     30| }
+ ❯ SourceTranscriptRead.page src/transcript-read.ts:236:48
+ ❯ src/source-transcript-read.test.ts:365:23
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  21:38:16
+   Duration  271ms (transform 66%, import 27%, tests 5%, worker 1%)
+
+error: script "test" exited with code 1

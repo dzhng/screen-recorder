@@ -1,0 +1,8 @@
+{
+  "status": {
+    "state": "ready"
+  },
+  "modelDirectory": "/tmp/yap-editing-alignment-replication/model-library/models/alignment-ctc110-reference/accdafd8cf8a2ff1cabe3c11e54416b405d409aa/parakeet-ctc-110m-coreml",
+  "seconds": 10.543457416999999,
+  "scope": "Model byte closure ready; offline load/emission quality pending"
+}

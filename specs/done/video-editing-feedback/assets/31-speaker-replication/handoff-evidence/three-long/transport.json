@@ -1,0 +1,27 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "cases": [
+        {
+          "id": "three-speaker600",
+          "audioSeconds": 600,
+          "inferenceSeconds": 9.028562124993186,
+          "peakProcessRSSBytes": 2925346816,
+          "pcmSha256": "e24fdc580718d49c7d95917e86576ff9ce2dc0d57f53629c3397e044c8c52f6a"
+        }
+      ],
+      "coldLoadSeconds": 9.788434249989223,
+      "recipe": {
+        "chunk_len": 340,
+        "chunk_right_context": 40,
+        "fifo_len": 40,
+        "spkcache_update_period": 300,
+        "spkcache_len": 188
+      },
+      "stateScope": "one fresh state per selected input; persistent across all native internal chunks"
+    }
+  },
+  "wallSeconds": 19.402429791000003,
+  "networkDenied": true
+}

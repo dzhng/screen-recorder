@@ -1,0 +1,4 @@
+import {Models} from '/Users/server/dev/yap-video-editing/packages/core/src/models.ts';
+import {readFile,writeFile} from 'node:fs/promises';
+const b='/tmp/yap-editing-alignment-replication';const m=JSON.parse(await readFile(b+'/nemo-ctc110/manifest.json','utf8'));const models=new Models(b+'/model-library',globalThis.fetch,[m]);const start=performance.now();const timer=setInterval(async()=>console.log(JSON.stringify({seconds:(performance.now()-start)/1000,status:await models.status(m.name)})),5000);
+try{await models.prepare(m.name,AbortSignal.timeout(180000));await writeFile(b+'/nemo-ctc110/preparation.json',JSON.stringify({status:await models.status(m.name),checkpoint:b+'/model-library/models/'+m.name+'/'+m.revision+'/'+m.folderName+'/'+m.files[0].path,seconds:(performance.now()-start)/1000,scope:'Checkpoint byte closure only; strict local restore/emissions pending'},null,2),{flag:'wx'});}finally{clearInterval(timer);await models.settled();}

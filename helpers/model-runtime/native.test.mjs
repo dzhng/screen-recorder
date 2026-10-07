@@ -6,9 +6,42 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
-const nativeHelper = fileURLToPath(
-  new URL("../../packages/test-harness/editing/runtime-native.py", import.meta.url),
-);
+const nativeHelper = fileURLToPath(new URL("./native.py", import.meta.url));
+test("runtime relocation removes only the selected search command without developer tools or section movement", () => {
+  const code = `import runpy,struct,tempfile
+from pathlib import Path
+module=runpy.run_path(${JSON.stringify(nativeHelper)})
+def command(kind,name):
+    encoded=name.encode()+b'\\0';size=(12+len(encoded)+7)//8*8
+    return struct.pack('<III',kind,size,12)+encoded+bytes(size-12-len(encoded))
+selected=command(0x8000001c,'/foreign/build')
+retained=command(0x8000001c,'@loader_path/lib')
+original=struct.pack('<8I',0xfeedfacf,0x100000c,0,6,2,len(selected)+len(retained),0,0)+selected+retained+b'unchanged occupied trailing bytes'
+with tempfile.TemporaryDirectory() as folder:
+    path=Path(folder)/'native';path.write_bytes(original)
+    before=module['inspect'](path)
+    module['remove_rpaths'](path,['/foreign/build'])
+    after=module['inspect'](path)
+    assert after['rpaths']==['@loader_path/lib']
+    assert before['sections']==after['sections'] and before['loads']==after['loads'] and before['installIds']==after['installIds']
+    updated=path.read_bytes()
+    assert len(updated)==len(original) and updated[32:32+len(retained)]==retained
+    assert updated[32+len(retained):32+len(selected)+len(retained)]==bytes(len(selected))
+    assert updated[32+len(selected)+len(retained):]==b'unchanged occupied trailing bytes'
+    assert struct.unpack_from('<II',updated,16)==(1,len(retained))
+    try:module['remove_rpaths'](path,['/missing'])
+    except AssertionError:pass
+    else:raise AssertionError('missing policy path admitted')
+    assert path.read_bytes()==updated
+print('preserved')
+`;
+  const result = spawnSync("/usr/bin/python3", ["-I", "-B", "-c", code], {
+    encoding: "utf8",
+    timeout: 3000,
+  });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim(), "preserved");
+});
 test("native command timeout retains partial diagnostics and both operands", () => {
   const code = `import runpy,struct,tempfile,json,shutil,hashlib,subprocess
 from pathlib import Path
@@ -203,9 +236,7 @@ print('distinct')
   assert.equal(result.stdout.trim(), "distinct");
 });
 
-const assemble = fileURLToPath(
-  new URL("../../packages/test-harness/editing/optional-runtime-assemble.py", import.meta.url),
-);
+const assemble = fileURLToPath(new URL("./assemble.py", import.meta.url));
 const launcher = fileURLToPath(new URL("./launch.py", import.meta.url));
 test("explicit native relocation removes a foreign search path while retaining sections, signatures and complete operands", () => {
   const scratch = mkdtempSync(join(tmpdir(), "runtime-native-"));

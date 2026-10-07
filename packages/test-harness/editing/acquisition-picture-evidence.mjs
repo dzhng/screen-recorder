@@ -205,14 +205,14 @@ try {
     ]) {
       const atUs = offset + local;
       const result = await image("frame.get", { ...selection, atUs }, `direct-${atUs}`);
-      const excluded = picture(result.data.published.frame, atUs, clipAt(atUs));
+      const excluded = picture(result.data.published.output, atUs, clipAt(atUs));
       const verdict = visual(result.rgba, excluded);
       direct.set(atUs, result);
       report.checks.pictures.push({
         atUs,
         excluded,
         sha256: result.sha256,
-        receipt: result.data.published.frame,
+        receipt: result.data.published.output,
         verdict,
       });
     }
@@ -310,6 +310,7 @@ try {
   );
   report.checks.preview = { receipt: preview, sha256: hash(await readFile(movie)), pictures: [] };
   for (const item of decoded) {
+    assert.equal(item.status, "available", item.error);
     const excluded = item.requestedUs >= 400000 && item.requestedUs <= 600000;
     report.checks.preview.pictures.push({
       ...item,
@@ -331,7 +332,7 @@ try {
     },
     "range preview",
   );
-  assert.deepEqual(partial.published.preview.range, partialRange);
+  assert.deepEqual(partial.published.output.range, partialRange);
   const partialDirectory = join(out, "range-frames");
   await mkdir(partialDirectory);
   const partialTimes = [0, 49999, 149999, 249999, 349999];
@@ -348,6 +349,7 @@ try {
     pictures: [],
   };
   for (const [index, item] of partialDecoded.entries()) {
+    assert.equal(item.status, "available", item.error);
     const rgba = await pixels(item.file);
     const fullPicture = await pixels(decoded[index + 3].file);
     const fullComparison = compareGeometry(rgba, fullPicture, 64, 48);
@@ -377,7 +379,7 @@ try {
   // A fresh request key proves retained media/context resolution after donor deletion and restart.
   const fresh = await image("frame.get", { ...selection, atUs: 400001 }, "historical-uncached");
   assert.equal(fresh.sha256, historical.sha256);
-  picture(fresh.data.published.frame, 400001, clipAt(400001));
+  picture(fresh.data.published.output, 400001, clipAt(400001));
   const head = await image(
     "frame.get",
     { projectId, atUs: 400000, maxLongEdge: 64 },

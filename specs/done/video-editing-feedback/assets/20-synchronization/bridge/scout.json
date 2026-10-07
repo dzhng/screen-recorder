@@ -1,0 +1,1826 @@
+{
+  "protocolSha256": "2ed10fbb7a3da2bbc796a2621e570a42d043fe678687398efece92dea3f2ddde",
+  "acquisitionSha256": "507cd49ea4827ac6d1af2fd408926b7a9bbaaa25342f6d89569f8cf5ac955eb0",
+  "nativeSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+  "windows": [
+    {
+      "name": "grahamRaw-253",
+      "source": "grahamRaw",
+      "sourceOriginUs": 253000000,
+      "raw": {
+        "path": "grahamRaw-253.wav",
+        "sha256": "c11de7d0da4148374cd72b019937a24aee9db4019ceba0b63ae602017008ee8c",
+        "pcmSha256": "fe241af7b99baa23db5c62f6cd661bd8942933ad62d31c647b2925db6d3f63fa"
+      },
+      "selection": {
+        "third": 0,
+        "minimumAnchorMeanSquare": 0.0018253866666797052
+      },
+      "candidates": [
+        {
+          "offsetFrames": 183705,
+          "correlation": 0.9938687365105311,
+          "absoluteCorrelation": 0.9938687365105311
+        },
+        {
+          "offsetFrames": 1050261,
+          "correlation": -0.3910999759337425,
+          "absoluteCorrelation": 0.3910999759337425
+        },
+        {
+          "offsetFrames": 204330,
+          "correlation": -0.3578500246758784,
+          "absoluteCorrelation": 0.3578500246758784
+        },
+        {
+          "offsetFrames": 177212,
+          "correlation": 0.33097966410427854,
+          "absoluteCorrelation": 0.33097966410427854
+        },
+        {
+          "offsetFrames": 844389,
+          "correlation": -0.3175416159157246,
+          "absoluteCorrelation": 0.3175416159157246
+        },
+        {
+          "offsetFrames": 913035,
+          "correlation": 0.310458631080667,
+          "absoluteCorrelation": 0.310458631080667
+        },
+        {
+          "offsetFrames": 1559077,
+          "correlation": 0.31041781636065835,
+          "absoluteCorrelation": 0.31041781636065835
+        },
+        {
+          "offsetFrames": 1241039,
+          "correlation": 0.305187737119251,
+          "absoluteCorrelation": 0.305187737119251
+        }
+      ],
+      "state": "refused",
+      "reason": "nonconstant-offset",
+      "alternativeRatio": 0.39351270602081,
+      "referenceOriginUs": 183705000,
+      "reference": {
+        "path": "grahamRaw-253-reference.wav",
+        "sha256": "970911eecc2148b3882901ca3a9184eb0757b65a58aabe8b7e4167653cab8d39",
+        "pcmSha256": "b49458cc23b2000d7a2bab5a5b059ac6431326dd9394e8227e62b148e27cda98"
+      },
+      "refined": {
+        "state": "unsuitable",
+        "reason": "nonconstant-offset",
+        "offsetFrames": null,
+        "sampleRate": 16000,
+        "spreadFrames": 20640,
+        "anchors": [
+          {
+            "centerFrames": 48000,
+            "rangeFrames": [
+              16000,
+              80000
+            ],
+            "selectedFrames": 12480,
+            "alternatives": [
+              {
+                "offsetFrames": 12480,
+                "correlation": 0.520371286526558,
+                "absoluteCorrelation": 0.520371286526558
+              },
+              {
+                "offsetFrames": 10080,
+                "correlation": 0.11691592416502504,
+                "absoluteCorrelation": 0.11691592416502504
+              },
+              {
+                "offsetFrames": 7859,
+                "correlation": -0.11354803302696924,
+                "absoluteCorrelation": 0.11354803302696924
+              },
+              {
+                "offsetFrames": 6265,
+                "correlation": 0.1075521868593472,
+                "absoluteCorrelation": 0.1075521868593472
+              },
+              {
+                "offsetFrames": -4746,
+                "correlation": -0.08473739210306012,
+                "absoluteCorrelation": 0.08473739210306012
+              },
+              {
+                "offsetFrames": -384,
+                "correlation": -0.08214812726549484,
+                "absoluteCorrelation": 0.08214812726549484
+              },
+              {
+                "offsetFrames": 15955,
+                "correlation": 0.06959222550301043,
+                "absoluteCorrelation": 0.06959222550301043
+              },
+              {
+                "offsetFrames": 10950,
+                "correlation": 0.06605336770728414,
+                "absoluteCorrelation": 0.06605336770728414
+              }
+            ],
+            "alternativeRatio": 0.2246778928665159
+          },
+          {
+            "centerFrames": 160000,
+            "rangeFrames": [
+              128000,
+              192000
+            ],
+            "selectedFrames": -1,
+            "alternatives": [
+              {
+                "offsetFrames": -1,
+                "correlation": 0.9918595518077786,
+                "absoluteCorrelation": 0.9918595518077786
+              },
+              {
+                "offsetFrames": -5330,
+                "correlation": 0.13192462851629355,
+                "absoluteCorrelation": 0.13192462851629355
+              },
+              {
+                "offsetFrames": 5328,
+                "correlation": 0.12991834686359838,
+                "absoluteCorrelation": 0.12991834686359838
+              },
+              {
+                "offsetFrames": -1357,
+                "correlation": 0.06820707563995976,
+                "absoluteCorrelation": 0.06820707563995976
+              },
+              {
+                "offsetFrames": 1356,
+                "correlation": 0.06564710410434073,
+                "absoluteCorrelation": 0.06564710410434073
+              },
+              {
+                "offsetFrames": 4425,
+                "correlation": 0.059167421494388604,
+                "absoluteCorrelation": 0.059167421494388604
+              },
+              {
+                "offsetFrames": -4427,
+                "correlation": 0.058786968420991376,
+                "absoluteCorrelation": 0.058786968420991376
+              },
+              {
+                "offsetFrames": -6154,
+                "correlation": -0.051915079064638305,
+                "absoluteCorrelation": 0.051915079064638305
+              }
+            ],
+            "alternativeRatio": 0.13300736810554042
+          },
+          {
+            "centerFrames": 272000,
+            "rangeFrames": [
+              240000,
+              304000
+            ],
+            "selectedFrames": -8160,
+            "alternatives": [
+              {
+                "offsetFrames": -8160,
+                "correlation": 0.7081502241498906,
+                "absoluteCorrelation": 0.7081502241498906
+              },
+              {
+                "offsetFrames": -3502,
+                "correlation": 0.13399987426054924,
+                "absoluteCorrelation": 0.13399987426054924
+              },
+              {
+                "offsetFrames": -4340,
+                "correlation": -0.1184929896612803,
+                "absoluteCorrelation": 0.1184929896612803
+              },
+              {
+                "offsetFrames": -9117,
+                "correlation": 0.1058138399722134,
+                "absoluteCorrelation": 0.1058138399722134
+              },
+              {
+                "offsetFrames": -7184,
+                "correlation": -0.10178818812169015,
+                "absoluteCorrelation": 0.10178818812169015
+              },
+              {
+                "offsetFrames": 304,
+                "correlation": 0.07743719067239534,
+                "absoluteCorrelation": 0.07743719067239534
+              },
+              {
+                "offsetFrames": -5170,
+                "correlation": 0.07494434152907418,
+                "absoluteCorrelation": 0.07494434152907418
+              },
+              {
+                "offsetFrames": -13948,
+                "correlation": -0.05677433689928408,
+                "absoluteCorrelation": 0.05677433689928408
+              }
+            ],
+            "alternativeRatio": 0.18922520913046575
+          }
+        ],
+        "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+        "policy": {
+          "centersSeconds": [
+            3,
+            10,
+            17
+          ],
+          "seconds": 4,
+          "minimumCorrelation": 0.35,
+          "maximumAlternativeRatio": 0.8,
+          "alternativeSeparationMs": 50,
+          "maximumSpreadMs": 2
+        }
+      }
+    },
+    {
+      "name": "grahamRaw-937",
+      "source": "grahamRaw",
+      "sourceOriginUs": 937000000,
+      "raw": {
+        "path": "grahamRaw-937.wav",
+        "sha256": "f8f628c15d17b88b78327903695decaa4a00bf3d861167f820c169f099928952",
+        "pcmSha256": "f4b72fe096586fc74a648629451a683fcc3bb9cd7240eb6a1d3d5585f6ddb961"
+      },
+      "selection": {
+        "third": 1,
+        "minimumAnchorMeanSquare": 0.0011692304938330977
+      },
+      "candidates": [
+        {
+          "offsetFrames": 708743,
+          "correlation": 0.9524491498073286,
+          "absoluteCorrelation": 0.9524491498073286
+        },
+        {
+          "offsetFrames": 843783,
+          "correlation": 0.35473839587946987,
+          "absoluteCorrelation": 0.35473839587946987
+        },
+        {
+          "offsetFrames": 194196,
+          "correlation": 0.28400291983670256,
+          "absoluteCorrelation": 0.28400291983670256
+        },
+        {
+          "offsetFrames": 191781,
+          "correlation": -0.2520836623867199,
+          "absoluteCorrelation": 0.2520836623867199
+        },
+        {
+          "offsetFrames": 1110738,
+          "correlation": -0.24957606239777794,
+          "absoluteCorrelation": 0.24957606239777794
+        },
+        {
+          "offsetFrames": 1244858,
+          "correlation": -0.2409617426512926,
+          "absoluteCorrelation": 0.2409617426512926
+        },
+        {
+          "offsetFrames": 156553,
+          "correlation": 0.23347153578359936,
+          "absoluteCorrelation": 0.23347153578359936
+        },
+        {
+          "offsetFrames": 808726,
+          "correlation": 0.23339115760727625,
+          "absoluteCorrelation": 0.23339115760727625
+        }
+      ],
+      "state": "refused",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "alternativeRatio": 0.37244864563239943,
+      "referenceOriginUs": 708743000,
+      "reference": {
+        "path": "grahamRaw-937-reference.wav",
+        "sha256": "87b038a4793bf5279fdd18317afc125506f4c6de094d60035a97614f7e60cc4a",
+        "pcmSha256": "78ff7e31cb3c67843b21bdead20e3e1b8429b7b5468d2308f949699e7347cec6"
+      },
+      "refined": {
+        "state": "unsuitable",
+        "reason": "insufficient-or-ambiguous-shared-waveform",
+        "offsetFrames": null,
+        "sampleRate": 16000,
+        "spreadFrames": null,
+        "anchors": [
+          {
+            "centerFrames": 48000,
+            "rangeFrames": [
+              16000,
+              80000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": 2254,
+                "correlation": 0.08675807107751099,
+                "absoluteCorrelation": 0.08675807107751099
+              },
+              {
+                "offsetFrames": 279,
+                "correlation": -0.07721443457476967,
+                "absoluteCorrelation": 0.07721443457476967
+              },
+              {
+                "offsetFrames": 11776,
+                "correlation": -0.07647436437990686,
+                "absoluteCorrelation": 0.07647436437990686
+              },
+              {
+                "offsetFrames": 15587,
+                "correlation": -0.07517493231150399,
+                "absoluteCorrelation": 0.07517493231150399
+              },
+              {
+                "offsetFrames": 7164,
+                "correlation": 0.07171109430323966,
+                "absoluteCorrelation": 0.07171109430323966
+              },
+              {
+                "offsetFrames": 8942,
+                "correlation": 0.06441975209177844,
+                "absoluteCorrelation": 0.06441975209177844
+              },
+              {
+                "offsetFrames": 5024,
+                "correlation": 0.06270459636836553,
+                "absoluteCorrelation": 0.06270459636836553
+              },
+              {
+                "offsetFrames": 14605,
+                "correlation": 0.06218597947107508,
+                "absoluteCorrelation": 0.06218597947107508
+              }
+            ],
+            "alternativeRatio": 0.8899971335898549
+          },
+          {
+            "centerFrames": 160000,
+            "rangeFrames": [
+              128000,
+              192000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9380114137372356,
+                "absoluteCorrelation": 0.9380114137372356
+              },
+              {
+                "offsetFrames": -2695,
+                "correlation": 0.13504701920183818,
+                "absoluteCorrelation": 0.13504701920183818
+              },
+              {
+                "offsetFrames": -1191,
+                "correlation": 0.1305462164286695,
+                "absoluteCorrelation": 0.1305462164286695
+              },
+              {
+                "offsetFrames": 1192,
+                "correlation": 0.12814884368180823,
+                "absoluteCorrelation": 0.12814884368180823
+              },
+              {
+                "offsetFrames": 2696,
+                "correlation": 0.12739567385746609,
+                "absoluteCorrelation": 0.12739567385746609
+              },
+              {
+                "offsetFrames": 6286,
+                "correlation": -0.07849212418659335,
+                "absoluteCorrelation": 0.07849212418659335
+              },
+              {
+                "offsetFrames": -4423,
+                "correlation": -0.07694285776716459,
+                "absoluteCorrelation": 0.07694285776716459
+              },
+              {
+                "offsetFrames": -15110,
+                "correlation": -0.07573565906959558,
+                "absoluteCorrelation": 0.07573565906959558
+              }
+            ],
+            "alternativeRatio": 0.14397161614887213
+          },
+          {
+            "centerFrames": 272000,
+            "rangeFrames": [
+              240000,
+              304000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": 15965,
+                "correlation": 0.09078743339626073,
+                "absoluteCorrelation": 0.09078743339626073
+              },
+              {
+                "offsetFrames": 3254,
+                "correlation": -0.09030264760583141,
+                "absoluteCorrelation": 0.09030264760583141
+              },
+              {
+                "offsetFrames": 2096,
+                "correlation": -0.0743469283020256,
+                "absoluteCorrelation": 0.0743469283020256
+              },
+              {
+                "offsetFrames": 13864,
+                "correlation": -0.07139435769135064,
+                "absoluteCorrelation": 0.07139435769135064
+              },
+              {
+                "offsetFrames": 452,
+                "correlation": -0.05799941266557412,
+                "absoluteCorrelation": 0.05799941266557412
+              },
+              {
+                "offsetFrames": -14808,
+                "correlation": -0.05692472863373741,
+                "absoluteCorrelation": 0.05692472863373741
+              },
+              {
+                "offsetFrames": 10141,
+                "correlation": 0.05652623841933886,
+                "absoluteCorrelation": 0.05652623841933886
+              },
+              {
+                "offsetFrames": -10588,
+                "correlation": 0.05594525671790304,
+                "absoluteCorrelation": 0.05594525671790304
+              }
+            ],
+            "alternativeRatio": 0.9946602104245709
+          }
+        ],
+        "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+        "policy": {
+          "centersSeconds": [
+            3,
+            10,
+            17
+          ],
+          "seconds": 4,
+          "minimumCorrelation": 0.35,
+          "maximumAlternativeRatio": 0.8,
+          "alternativeSeparationMs": 50,
+          "maximumSpreadMs": 2
+        }
+      }
+    },
+    {
+      "name": "grahamRaw-2171",
+      "source": "grahamRaw",
+      "sourceOriginUs": 2171000000,
+      "raw": {
+        "path": "grahamRaw-2171.wav",
+        "sha256": "3f0278b2683266bdd2431bd035e875c81af63d0b1a01c48e3b7d650205507e41",
+        "pcmSha256": "227807c1bd2c91fd8a52fce740d668140def4b64883de2e0804d717b58c5be04"
+      },
+      "selection": {
+        "third": 2,
+        "minimumAnchorMeanSquare": 0.0011242962557758175
+      },
+      "candidates": [
+        {
+          "offsetFrames": 1851773,
+          "correlation": 0.9516257228696439,
+          "absoluteCorrelation": 0.9516257228696439
+        },
+        {
+          "offsetFrames": 176097,
+          "correlation": -0.32121366244196753,
+          "absoluteCorrelation": 0.32121366244196753
+        },
+        {
+          "offsetFrames": 1191346,
+          "correlation": 0.3082202863947795,
+          "absoluteCorrelation": 0.3082202863947795
+        },
+        {
+          "offsetFrames": 203219,
+          "correlation": -0.2888780042819988,
+          "absoluteCorrelation": 0.2888780042819988
+        },
+        {
+          "offsetFrames": 713884,
+          "correlation": 0.2548006786756447,
+          "absoluteCorrelation": 0.2548006786756447
+        },
+        {
+          "offsetFrames": 785682,
+          "correlation": 0.25080741180398225,
+          "absoluteCorrelation": 0.25080741180398225
+        },
+        {
+          "offsetFrames": 42798,
+          "correlation": 0.24089211433839935,
+          "absoluteCorrelation": 0.24089211433839935
+        },
+        {
+          "offsetFrames": 653507,
+          "correlation": 0.24043960139261283,
+          "absoluteCorrelation": 0.24043960139261283
+        }
+      ],
+      "state": "refused",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "alternativeRatio": 0.3375420133383345,
+      "referenceOriginUs": 1851773000,
+      "reference": {
+        "path": "grahamRaw-2171-reference.wav",
+        "sha256": "818a72899072ac47fc177d6e538ba1565985ef2884d8e16bcb1f452493027c61",
+        "pcmSha256": "88b153a1be4c9be92384ebf3e36fcf7dff158a03c9ebf561921103826a0ac43e"
+      },
+      "refined": {
+        "state": "unsuitable",
+        "reason": "insufficient-or-ambiguous-shared-waveform",
+        "offsetFrames": null,
+        "sampleRate": 16000,
+        "spreadFrames": null,
+        "anchors": [
+          {
+            "centerFrames": 48000,
+            "rangeFrames": [
+              16000,
+              80000
+            ],
+            "selectedFrames": 6080,
+            "alternatives": [
+              {
+                "offsetFrames": 6080,
+                "correlation": 0.986338069154655,
+                "absoluteCorrelation": 0.986338069154655
+              },
+              {
+                "offsetFrames": 4742,
+                "correlation": -0.0986068325848953,
+                "absoluteCorrelation": 0.0986068325848953
+              },
+              {
+                "offsetFrames": 7417,
+                "correlation": -0.09676997684040044,
+                "absoluteCorrelation": 0.09676997684040044
+              },
+              {
+                "offsetFrames": -4036,
+                "correlation": -0.09455057528603171,
+                "absoluteCorrelation": 0.09455057528603171
+              },
+              {
+                "offsetFrames": -6944,
+                "correlation": -0.08430617223287397,
+                "absoluteCorrelation": 0.08430617223287397
+              },
+              {
+                "offsetFrames": 15951,
+                "correlation": -0.07834346624906699,
+                "absoluteCorrelation": 0.07834346624906699
+              },
+              {
+                "offsetFrames": -5729,
+                "correlation": 0.07764655978671961,
+                "absoluteCorrelation": 0.07764655978671961
+              },
+              {
+                "offsetFrames": -3196,
+                "correlation": -0.0755479234519398,
+                "absoluteCorrelation": 0.0755479234519398
+              }
+            ],
+            "alternativeRatio": 0.09997265204353988
+          },
+          {
+            "centerFrames": 160000,
+            "rangeFrames": [
+              128000,
+              192000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9344195034585723,
+                "absoluteCorrelation": 0.9344195034585723
+              },
+              {
+                "offsetFrames": 1317,
+                "correlation": 0.08773679692835061,
+                "absoluteCorrelation": 0.08773679692835061
+              },
+              {
+                "offsetFrames": -1317,
+                "correlation": 0.07942400840435962,
+                "absoluteCorrelation": 0.07942400840435962
+              },
+              {
+                "offsetFrames": -4501,
+                "correlation": 0.07744212361498892,
+                "absoluteCorrelation": 0.07744212361498892
+              },
+              {
+                "offsetFrames": 4500,
+                "correlation": 0.0773238070860245,
+                "absoluteCorrelation": 0.0773238070860245
+              },
+              {
+                "offsetFrames": -7116,
+                "correlation": -0.07609691235769295,
+                "absoluteCorrelation": 0.07609691235769295
+              },
+              {
+                "offsetFrames": -12083,
+                "correlation": -0.07424637247597049,
+                "absoluteCorrelation": 0.07424637247597049
+              },
+              {
+                "offsetFrames": 11592,
+                "correlation": 0.07376466549210452,
+                "absoluteCorrelation": 0.07376466549210452
+              }
+            ],
+            "alternativeRatio": 0.0938944409910216
+          },
+          {
+            "centerFrames": 272000,
+            "rangeFrames": [
+              240000,
+              304000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": -15680,
+                "correlation": 0.19838121306327294,
+                "absoluteCorrelation": 0.19838121306327294
+              },
+              {
+                "offsetFrames": 11003,
+                "correlation": 0.07953839737309275,
+                "absoluteCorrelation": 0.07953839737309275
+              },
+              {
+                "offsetFrames": 12373,
+                "correlation": 0.0787480758787866,
+                "absoluteCorrelation": 0.0787480758787866
+              },
+              {
+                "offsetFrames": 7809,
+                "correlation": -0.07458611847033902,
+                "absoluteCorrelation": 0.07458611847033902
+              },
+              {
+                "offsetFrames": -11456,
+                "correlation": -0.0649478356855962,
+                "absoluteCorrelation": 0.0649478356855962
+              },
+              {
+                "offsetFrames": 6953,
+                "correlation": -0.061478679311922114,
+                "absoluteCorrelation": 0.061478679311922114
+              },
+              {
+                "offsetFrames": -10386,
+                "correlation": -0.05494840879266207,
+                "absoluteCorrelation": 0.05494840879266207
+              },
+              {
+                "offsetFrames": -13825,
+                "correlation": -0.048742668423044345,
+                "absoluteCorrelation": 0.048742668423044345
+              }
+            ],
+            "alternativeRatio": 0.4009371459369203
+          }
+        ],
+        "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+        "policy": {
+          "centersSeconds": [
+            3,
+            10,
+            17
+          ],
+          "seconds": 4,
+          "minimumCorrelation": 0.35,
+          "maximumAlternativeRatio": 0.8,
+          "alternativeSeparationMs": 50,
+          "maximumSpreadMs": 2
+        }
+      }
+    },
+    {
+      "name": "madisonRaw-296",
+      "source": "madisonRaw",
+      "sourceOriginUs": 296000000,
+      "raw": {
+        "path": "madisonRaw-296.wav",
+        "sha256": "325c2b68488fdaf13240958c175c944a7cadf7ebb33ae6d48451a025bec84a1d",
+        "pcmSha256": "1799354a428769d4c15226a294596ee0ab095d4c85bd1af5976a6f94164c9327"
+      },
+      "selection": {
+        "third": 0,
+        "minimumAnchorMeanSquare": 9.249109720508675e-05
+      },
+      "candidates": [
+        {
+          "offsetFrames": 223195,
+          "correlation": 0.996114276490158,
+          "absoluteCorrelation": 0.996114276490158
+        },
+        {
+          "offsetFrames": 895253,
+          "correlation": 0.2139490059483651,
+          "absoluteCorrelation": 0.2139490059483651
+        },
+        {
+          "offsetFrames": 1072970,
+          "correlation": -0.15655413880385222,
+          "absoluteCorrelation": 0.15655413880385222
+        },
+        {
+          "offsetFrames": 254487,
+          "correlation": 0.1497718328451676,
+          "absoluteCorrelation": 0.1497718328451676
+        },
+        {
+          "offsetFrames": 1174145,
+          "correlation": 0.14815081122414997,
+          "absoluteCorrelation": 0.14815081122414997
+        },
+        {
+          "offsetFrames": 89413,
+          "correlation": 0.1453763993674844,
+          "absoluteCorrelation": 0.1453763993674844
+        },
+        {
+          "offsetFrames": 884063,
+          "correlation": 0.14432209124372988,
+          "absoluteCorrelation": 0.14432209124372988
+        },
+        {
+          "offsetFrames": 254680,
+          "correlation": 0.1379921235092208,
+          "absoluteCorrelation": 0.1379921235092208
+        }
+      ],
+      "state": "refused",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "alternativeRatio": 0.21478359561537616,
+      "referenceOriginUs": 223195000,
+      "reference": {
+        "path": "madisonRaw-296-reference.wav",
+        "sha256": "d8637f9ce9fbf69d15680dcb3e1b77365c4245f23fe6acab6f5732b2af1b308a",
+        "pcmSha256": "b2bca73f6699f21fafccc87f189df293b79b6cc1883491fc314cbeb36ae50fcf"
+      },
+      "refined": {
+        "state": "unsuitable",
+        "reason": "insufficient-or-ambiguous-shared-waveform",
+        "offsetFrames": null,
+        "sampleRate": 16000,
+        "spreadFrames": null,
+        "anchors": [
+          {
+            "centerFrames": 48000,
+            "rangeFrames": [
+              16000,
+              80000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": 2435,
+                "correlation": 0.11703979666416395,
+                "absoluteCorrelation": 0.11703979666416395
+              },
+              {
+                "offsetFrames": 15989,
+                "correlation": -0.10058066257604455,
+                "absoluteCorrelation": 0.10058066257604455
+              },
+              {
+                "offsetFrames": 14849,
+                "correlation": 0.08591712702959897,
+                "absoluteCorrelation": 0.08591712702959897
+              },
+              {
+                "offsetFrames": 12330,
+                "correlation": 0.08241153721436456,
+                "absoluteCorrelation": 0.08241153721436456
+              },
+              {
+                "offsetFrames": 6667,
+                "correlation": 0.07233713058994659,
+                "absoluteCorrelation": 0.07233713058994659
+              },
+              {
+                "offsetFrames": 1000,
+                "correlation": -0.05853066559196583,
+                "absoluteCorrelation": 0.05853066559196583
+              },
+              {
+                "offsetFrames": 11288,
+                "correlation": -0.053896539411714246,
+                "absoluteCorrelation": 0.053896539411714246
+              },
+              {
+                "offsetFrames": -2793,
+                "correlation": 0.053384342041821235,
+                "absoluteCorrelation": 0.053384342041821235
+              }
+            ],
+            "alternativeRatio": 0.8593714740008689
+          },
+          {
+            "centerFrames": 160000,
+            "rangeFrames": [
+              128000,
+              192000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.9836040233749155,
+                "absoluteCorrelation": 0.9836040233749155
+              },
+              {
+                "offsetFrames": -9565,
+                "correlation": 0.0778004930269658,
+                "absoluteCorrelation": 0.0778004930269658
+              },
+              {
+                "offsetFrames": 9489,
+                "correlation": 0.07769326290852181,
+                "absoluteCorrelation": 0.07769326290852181
+              },
+              {
+                "offsetFrames": -15943,
+                "correlation": 0.07028694119899793,
+                "absoluteCorrelation": 0.07028694119899793
+              },
+              {
+                "offsetFrames": 12848,
+                "correlation": 0.0671359653569736,
+                "absoluteCorrelation": 0.0671359653569736
+              },
+              {
+                "offsetFrames": 3999,
+                "correlation": -0.06611875195231866,
+                "absoluteCorrelation": 0.06611875195231866
+              },
+              {
+                "offsetFrames": -12795,
+                "correlation": -0.06211573434203866,
+                "absoluteCorrelation": 0.06211573434203866
+              },
+              {
+                "offsetFrames": 1038,
+                "correlation": -0.061980248305876756,
+                "absoluteCorrelation": 0.061980248305876756
+              }
+            ],
+            "alternativeRatio": 0.07909737168420566
+          },
+          {
+            "centerFrames": 272000,
+            "rangeFrames": [
+              240000,
+              304000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": 11118,
+                "correlation": 0.051103356801467055,
+                "absoluteCorrelation": 0.051103356801467055
+              },
+              {
+                "offsetFrames": 13366,
+                "correlation": 0.04836835044827402,
+                "absoluteCorrelation": 0.04836835044827402
+              },
+              {
+                "offsetFrames": -8551,
+                "correlation": -0.03911791767837493,
+                "absoluteCorrelation": 0.03911791767837493
+              },
+              {
+                "offsetFrames": -10703,
+                "correlation": -0.038933053218285295,
+                "absoluteCorrelation": 0.038933053218285295
+              },
+              {
+                "offsetFrames": -12411,
+                "correlation": -0.03811539960379625,
+                "absoluteCorrelation": 0.03811539960379625
+              },
+              {
+                "offsetFrames": 4811,
+                "correlation": 0.03738088211018632,
+                "absoluteCorrelation": 0.03738088211018632
+              },
+              {
+                "offsetFrames": -7657,
+                "correlation": 0.035979221222438636,
+                "absoluteCorrelation": 0.035979221222438636
+              },
+              {
+                "offsetFrames": -4554,
+                "correlation": 0.03439295106476573,
+                "absoluteCorrelation": 0.03439295106476573
+              }
+            ],
+            "alternativeRatio": 0.9464808864940449
+          }
+        ],
+        "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+        "policy": {
+          "centersSeconds": [
+            3,
+            10,
+            17
+          ],
+          "seconds": 4,
+          "minimumCorrelation": 0.35,
+          "maximumAlternativeRatio": 0.8,
+          "alternativeSeparationMs": 50,
+          "maximumSpreadMs": 2
+        }
+      }
+    },
+    {
+      "name": "madisonRaw-1139",
+      "source": "madisonRaw",
+      "sourceOriginUs": 1139000000,
+      "raw": {
+        "path": "madisonRaw-1139.wav",
+        "sha256": "f1edd9d9b3b25b5762d81e6f9d71da5d629b15586ed9dae7bad7ec496eb5bc9c",
+        "pcmSha256": "818917dde618a959081b166d0c9c27f516ca6ae056d585ee33db996285a3d692"
+      },
+      "selection": {
+        "third": 1,
+        "minimumAnchorMeanSquare": 8.112865994634966e-05
+      },
+      "candidates": [
+        {
+          "offsetFrames": 889353,
+          "correlation": 0.6859672479742009,
+          "absoluteCorrelation": 0.6859672479742009
+        },
+        {
+          "offsetFrames": 889933,
+          "correlation": 0.24153173642919326,
+          "absoluteCorrelation": 0.24153173642919326
+        },
+        {
+          "offsetFrames": 1241301,
+          "correlation": -0.20793101026180782,
+          "absoluteCorrelation": 0.20793101026180782
+        },
+        {
+          "offsetFrames": 1104676,
+          "correlation": 0.20026514476754106,
+          "absoluteCorrelation": 0.20026514476754106
+        },
+        {
+          "offsetFrames": 842035,
+          "correlation": -0.19277016034456185,
+          "absoluteCorrelation": 0.19277016034456185
+        },
+        {
+          "offsetFrames": 1741756,
+          "correlation": -0.188060012352969,
+          "absoluteCorrelation": 0.188060012352969
+        },
+        {
+          "offsetFrames": 1702718,
+          "correlation": 0.18636193478708835,
+          "absoluteCorrelation": 0.18636193478708835
+        },
+        {
+          "offsetFrames": 1288937,
+          "correlation": 0.17856089753709206,
+          "absoluteCorrelation": 0.17856089753709206
+        }
+      ],
+      "state": "refused",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "alternativeRatio": 0.35210389000711767,
+      "referenceOriginUs": 889353000,
+      "reference": {
+        "path": "madisonRaw-1139-reference.wav",
+        "sha256": "b1fca6029fcd59a2120b3740091e76a232348b8fafe5e5c92ac7aeb122bd5410",
+        "pcmSha256": "096f93a8996210bf863220a8fe8e76912ff6a1ef7bb21202353c9923bd942797"
+      },
+      "refined": {
+        "state": "unsuitable",
+        "reason": "insufficient-or-ambiguous-shared-waveform",
+        "offsetFrames": null,
+        "sampleRate": 16000,
+        "spreadFrames": null,
+        "anchors": [
+          {
+            "centerFrames": 48000,
+            "rangeFrames": [
+              16000,
+              80000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": 9280,
+                "correlation": 0.2689346245041109,
+                "absoluteCorrelation": 0.2689346245041109
+              },
+              {
+                "offsetFrames": 10142,
+                "correlation": 0.07554002702436578,
+                "absoluteCorrelation": 0.07554002702436578
+              },
+              {
+                "offsetFrames": 8337,
+                "correlation": 0.07285932959361843,
+                "absoluteCorrelation": 0.07285932959361843
+              },
+              {
+                "offsetFrames": -15438,
+                "correlation": -0.06145399481566742,
+                "absoluteCorrelation": 0.06145399481566742
+              },
+              {
+                "offsetFrames": -7593,
+                "correlation": 0.05140542279346087,
+                "absoluteCorrelation": 0.05140542279346087
+              },
+              {
+                "offsetFrames": 6427,
+                "correlation": 0.05025120869680217,
+                "absoluteCorrelation": 0.05025120869680217
+              },
+              {
+                "offsetFrames": 2389,
+                "correlation": 0.049041224944770735,
+                "absoluteCorrelation": 0.049041224944770735
+              },
+              {
+                "offsetFrames": 12318,
+                "correlation": -0.04766154348835108,
+                "absoluteCorrelation": 0.04766154348835108
+              }
+            ],
+            "alternativeRatio": 0.28088620854846863
+          },
+          {
+            "centerFrames": 160000,
+            "rangeFrames": [
+              128000,
+              192000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.5640489587262565,
+                "absoluteCorrelation": 0.5640489587262565
+              },
+              {
+                "offsetFrames": 9280,
+                "correlation": 0.21871562374580755,
+                "absoluteCorrelation": 0.21871562374580755
+              },
+              {
+                "offsetFrames": 6560,
+                "correlation": 0.08923221747049984,
+                "absoluteCorrelation": 0.08923221747049984
+              },
+              {
+                "offsetFrames": 14340,
+                "correlation": -0.0842831719172036,
+                "absoluteCorrelation": 0.0842831719172036
+              },
+              {
+                "offsetFrames": 5456,
+                "correlation": 0.07862396722490354,
+                "absoluteCorrelation": 0.07862396722490354
+              },
+              {
+                "offsetFrames": -14450,
+                "correlation": 0.07218763983610041,
+                "absoluteCorrelation": 0.07218763983610041
+              },
+              {
+                "offsetFrames": -15323,
+                "correlation": 0.07146253530989206,
+                "absoluteCorrelation": 0.07146253530989206
+              },
+              {
+                "offsetFrames": -802,
+                "correlation": -0.06344059100472153,
+                "absoluteCorrelation": 0.06344059100472153
+              }
+            ],
+            "alternativeRatio": 0.3877599991314838
+          },
+          {
+            "centerFrames": 272000,
+            "rangeFrames": [
+              240000,
+              304000
+            ],
+            "selectedFrames": -6239,
+            "alternatives": [
+              {
+                "offsetFrames": -6239,
+                "correlation": 0.9901329221483703,
+                "absoluteCorrelation": 0.9901329221483703
+              },
+              {
+                "offsetFrames": -10718,
+                "correlation": 0.09337023454636588,
+                "absoluteCorrelation": 0.09337023454636588
+              },
+              {
+                "offsetFrames": -7326,
+                "correlation": 0.0911545345026646,
+                "absoluteCorrelation": 0.0911545345026646
+              },
+              {
+                "offsetFrames": -5153,
+                "correlation": 0.08272530946998059,
+                "absoluteCorrelation": 0.08272530946998059
+              },
+              {
+                "offsetFrames": 10449,
+                "correlation": -0.08113512707929067,
+                "absoluteCorrelation": 0.08113512707929067
+              },
+              {
+                "offsetFrames": -1760,
+                "correlation": 0.07876571833949451,
+                "absoluteCorrelation": 0.07876571833949451
+              },
+              {
+                "offsetFrames": 1719,
+                "correlation": -0.07018638076659292,
+                "absoluteCorrelation": 0.07018638076659292
+              },
+              {
+                "offsetFrames": 12067,
+                "correlation": 0.06931392056881809,
+                "absoluteCorrelation": 0.06931392056881809
+              }
+            ],
+            "alternativeRatio": 0.09430070696343784
+          }
+        ],
+        "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+        "policy": {
+          "centersSeconds": [
+            3,
+            10,
+            17
+          ],
+          "seconds": 4,
+          "minimumCorrelation": 0.35,
+          "maximumAlternativeRatio": 0.8,
+          "alternativeSeparationMs": 50,
+          "maximumSpreadMs": 2
+        }
+      }
+    },
+    {
+      "name": "madisonRaw-1905",
+      "source": "madisonRaw",
+      "sourceOriginUs": 1905000000,
+      "raw": {
+        "path": "madisonRaw-1905.wav",
+        "sha256": "76ee5f6bb7c8ae8440cb2b397128980a123dbb0bf270fc171d42b05d33b0e2de",
+        "pcmSha256": "ecd14d2ad69b4957c4a4dfa09c2ce40029edd0726e6f291971296f5f20460d75"
+      },
+      "selection": {
+        "third": 2,
+        "minimumAnchorMeanSquare": 7.008472186038528e-05
+      },
+      "candidates": [
+        {
+          "offsetFrames": 959041,
+          "correlation": 0.18317151787799857,
+          "absoluteCorrelation": 0.18317151787799857
+        },
+        {
+          "offsetFrames": 111670,
+          "correlation": -0.16434930446734475,
+          "absoluteCorrelation": 0.16434930446734475
+        },
+        {
+          "offsetFrames": 1782202,
+          "correlation": 0.1497033640288392,
+          "absoluteCorrelation": 0.1497033640288392
+        },
+        {
+          "offsetFrames": 886332,
+          "correlation": 0.13929157193533395,
+          "absoluteCorrelation": 0.13929157193533395
+        },
+        {
+          "offsetFrames": 249015,
+          "correlation": 0.13883137617716973,
+          "absoluteCorrelation": 0.13883137617716973
+        },
+        {
+          "offsetFrames": 866465,
+          "correlation": 0.13840127981009434,
+          "absoluteCorrelation": 0.13840127981009434
+        },
+        {
+          "offsetFrames": 104328,
+          "correlation": 0.1383176044085088,
+          "absoluteCorrelation": 0.1383176044085088
+        },
+        {
+          "offsetFrames": 93725,
+          "correlation": -0.13627509733848478,
+          "absoluteCorrelation": 0.13627509733848478
+        }
+      ],
+      "state": "refused",
+      "reason": "insufficient-or-ambiguous-coarse-waveform",
+      "alternativeRatio": 0.8972426847322936
+    },
+    {
+      "name": "lilyRawP1-15",
+      "source": "lilyRawP1",
+      "sourceOriginUs": 15000000,
+      "raw": {
+        "path": "lilyRawP1-15.wav",
+        "sha256": "6946fe0610bcd8b684d70c2d7fb9543852d5c3dc2f8be18849c329a94d81d9c1",
+        "pcmSha256": "3ef37229d6b9ef4ce4a2ac26f33e2de711187b122a6809063f7fafcc161573c8"
+      },
+      "selection": {
+        "third": 0,
+        "minimumAnchorMeanSquare": 0.0001023665527226757
+      },
+      "candidates": [
+        {
+          "offsetFrames": 1137109,
+          "correlation": -0.2130580194111141,
+          "absoluteCorrelation": 0.2130580194111141
+        },
+        {
+          "offsetFrames": 367050,
+          "correlation": 0.20760662331225116,
+          "absoluteCorrelation": 0.20760662331225116
+        },
+        {
+          "offsetFrames": 847239,
+          "correlation": 0.2004516936145747,
+          "absoluteCorrelation": 0.2004516936145747
+        },
+        {
+          "offsetFrames": 1528041,
+          "correlation": -0.18518172292820878,
+          "absoluteCorrelation": 0.18518172292820878
+        },
+        {
+          "offsetFrames": 1137198,
+          "correlation": -0.1765937166127085,
+          "absoluteCorrelation": 0.1765937166127085
+        },
+        {
+          "offsetFrames": 350765,
+          "correlation": -0.17417569283488202,
+          "absoluteCorrelation": 0.17417569283488202
+        },
+        {
+          "offsetFrames": 1137051,
+          "correlation": 0.17341891807678625,
+          "absoluteCorrelation": 0.17341891807678625
+        },
+        {
+          "offsetFrames": 363556,
+          "correlation": -0.1717666085023888,
+          "absoluteCorrelation": 0.1717666085023888
+        }
+      ],
+      "state": "refused",
+      "reason": "insufficient-or-ambiguous-coarse-waveform",
+      "alternativeRatio": 0.9744135606163502
+    },
+    {
+      "name": "lilyRawP1-1106",
+      "source": "lilyRawP1",
+      "sourceOriginUs": 1106000000,
+      "raw": {
+        "path": "lilyRawP1-1106.wav",
+        "sha256": "05393d6bd549c8729d4f5f628b771e49217991fad10fa12ef6dbef84e5bc9972",
+        "pcmSha256": "3506285158c5e59912f6d2290c6f0aa8bd3e90e02583b9d6859bb8f6862c1da4"
+      },
+      "selection": {
+        "third": 1,
+        "minimumAnchorMeanSquare": 6.186308572612509e-05
+      },
+      "candidates": [
+        {
+          "offsetFrames": 858953,
+          "correlation": 0.9948144611476015,
+          "absoluteCorrelation": 0.9948144611476015
+        },
+        {
+          "offsetFrames": 1147179,
+          "correlation": -0.297208547350958,
+          "absoluteCorrelation": 0.297208547350958
+        },
+        {
+          "offsetFrames": 1541464,
+          "correlation": -0.23514441623868323,
+          "absoluteCorrelation": 0.23514441623868323
+        },
+        {
+          "offsetFrames": 1124748,
+          "correlation": -0.23056241361053714,
+          "absoluteCorrelation": 0.23056241361053714
+        },
+        {
+          "offsetFrames": 1783815,
+          "correlation": 0.21425140590672395,
+          "absoluteCorrelation": 0.21425140590672395
+        },
+        {
+          "offsetFrames": 126781,
+          "correlation": -0.20849646391057186,
+          "absoluteCorrelation": 0.20849646391057186
+        },
+        {
+          "offsetFrames": 1789438,
+          "correlation": -0.19482330791917762,
+          "absoluteCorrelation": 0.19482330791917762
+        },
+        {
+          "offsetFrames": 1215529,
+          "correlation": -0.1906937271289467,
+          "absoluteCorrelation": 0.1906937271289467
+        }
+      ],
+      "state": "refused",
+      "reason": "nonconstant-offset",
+      "alternativeRatio": 0.2987577673610646,
+      "referenceOriginUs": 858953000,
+      "reference": {
+        "path": "lilyRawP1-1106-reference.wav",
+        "sha256": "5921e04a6a38aaa74a94d028ff74ca490c1ae7685431ebbf7ff7f6fab3dd7828",
+        "pcmSha256": "671e3f7808f7da8f4f9c9be059519b49fb4c9e69bdd5544b3952d350f9737807"
+      },
+      "refined": {
+        "state": "unsuitable",
+        "reason": "nonconstant-offset",
+        "offsetFrames": null,
+        "sampleRate": 16000,
+        "spreadFrames": 4640,
+        "anchors": [
+          {
+            "centerFrames": 48000,
+            "rangeFrames": [
+              16000,
+              80000
+            ],
+            "selectedFrames": 1,
+            "alternatives": [
+              {
+                "offsetFrames": 1,
+                "correlation": 0.991469375795075,
+                "absoluteCorrelation": 0.991469375795075
+              },
+              {
+                "offsetFrames": 1138,
+                "correlation": -0.08673212663968317,
+                "absoluteCorrelation": 0.08673212663968317
+              },
+              {
+                "offsetFrames": -1137,
+                "correlation": -0.0848110820131718,
+                "absoluteCorrelation": 0.0848110820131718
+              },
+              {
+                "offsetFrames": 13974,
+                "correlation": 0.06591062004274957,
+                "absoluteCorrelation": 0.06591062004274957
+              },
+              {
+                "offsetFrames": 4869,
+                "correlation": -0.06251275876639015,
+                "absoluteCorrelation": 0.06251275876639015
+              },
+              {
+                "offsetFrames": -2771,
+                "correlation": 0.06244269755303511,
+                "absoluteCorrelation": 0.06244269755303511
+              },
+              {
+                "offsetFrames": -4867,
+                "correlation": -0.06216635222230509,
+                "absoluteCorrelation": 0.06216635222230509
+              },
+              {
+                "offsetFrames": 2750,
+                "correlation": -0.06156254596259196,
+                "absoluteCorrelation": 0.06156254596259196
+              }
+            ],
+            "alternativeRatio": 0.08747837175518539
+          },
+          {
+            "centerFrames": 160000,
+            "rangeFrames": [
+              128000,
+              192000
+            ],
+            "selectedFrames": 1,
+            "alternatives": [
+              {
+                "offsetFrames": 1,
+                "correlation": 0.9894042697307895,
+                "absoluteCorrelation": 0.9894042697307895
+              },
+              {
+                "offsetFrames": 1112,
+                "correlation": -0.06578638033233555,
+                "absoluteCorrelation": 0.06578638033233555
+              },
+              {
+                "offsetFrames": -1111,
+                "correlation": -0.06332947312609238,
+                "absoluteCorrelation": 0.06332947312609238
+              },
+              {
+                "offsetFrames": 5908,
+                "correlation": 0.058463756228263004,
+                "absoluteCorrelation": 0.058463756228263004
+              },
+              {
+                "offsetFrames": -5905,
+                "correlation": 0.05757159782398756,
+                "absoluteCorrelation": 0.05757159782398756
+              },
+              {
+                "offsetFrames": 11306,
+                "correlation": -0.05392265574138122,
+                "absoluteCorrelation": 0.05392265574138122
+              },
+              {
+                "offsetFrames": -14829,
+                "correlation": 0.05076540023054261,
+                "absoluteCorrelation": 0.05076540023054261
+              },
+              {
+                "offsetFrames": 15597,
+                "correlation": -0.04754445326073452,
+                "absoluteCorrelation": 0.04754445326073452
+              }
+            ],
+            "alternativeRatio": 0.06649089997381515
+          },
+          {
+            "centerFrames": 272000,
+            "rangeFrames": [
+              240000,
+              304000
+            ],
+            "selectedFrames": -4639,
+            "alternatives": [
+              {
+                "offsetFrames": -4639,
+                "correlation": 0.984673011377714,
+                "absoluteCorrelation": 0.984673011377714
+              },
+              {
+                "offsetFrames": 9155,
+                "correlation": -0.0700953702582459,
+                "absoluteCorrelation": 0.0700953702582459
+              },
+              {
+                "offsetFrames": -5774,
+                "correlation": -0.06514351351056341,
+                "absoluteCorrelation": 0.06514351351056341
+              },
+              {
+                "offsetFrames": -3504,
+                "correlation": -0.0649138705100996,
+                "absoluteCorrelation": 0.0649138705100996
+              },
+              {
+                "offsetFrames": -8384,
+                "correlation": 0.04815946475149513,
+                "absoluteCorrelation": 0.04815946475149513
+              },
+              {
+                "offsetFrames": -895,
+                "correlation": 0.046384449507768086,
+                "absoluteCorrelation": 0.046384449507768086
+              },
+              {
+                "offsetFrames": -7190,
+                "correlation": -0.04594686086970101,
+                "absoluteCorrelation": 0.04594686086970101
+              },
+              {
+                "offsetFrames": -2088,
+                "correlation": -0.04559681481041387,
+                "absoluteCorrelation": 0.04559681481041387
+              }
+            ],
+            "alternativeRatio": 0.07118644407667002
+          }
+        ],
+        "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+        "policy": {
+          "centersSeconds": [
+            3,
+            10,
+            17
+          ],
+          "seconds": 4,
+          "minimumCorrelation": 0.35,
+          "maximumAlternativeRatio": 0.8,
+          "alternativeSeparationMs": 50,
+          "maximumSpreadMs": 2
+        }
+      }
+    },
+    {
+      "name": "lilyRawP1-1693",
+      "source": "lilyRawP1",
+      "sourceOriginUs": 1693000000,
+      "raw": {
+        "path": "lilyRawP1-1693.wav",
+        "sha256": "f78146767a65e584f2cae8f1a1a530d73253d662f846b67b8cfbe3f37c4410d9",
+        "pcmSha256": "7a144b1146a514afa47cc8d3e760f32a8fe2f8548ff9ec58ab7df8db6190292e"
+      },
+      "selection": {
+        "third": 2,
+        "minimumAnchorMeanSquare": 8.037285631519797e-05
+      },
+      "candidates": [
+        {
+          "offsetFrames": 1543909,
+          "correlation": 0.5150688395361412,
+          "absoluteCorrelation": 0.5150688395361412
+        },
+        {
+          "offsetFrames": 843442,
+          "correlation": 0.18308233901411114,
+          "absoluteCorrelation": 0.18308233901411114
+        },
+        {
+          "offsetFrames": 103132,
+          "correlation": 0.16276340657439817,
+          "absoluteCorrelation": 0.16276340657439817
+        },
+        {
+          "offsetFrames": 1184543,
+          "correlation": 0.16076922360087353,
+          "absoluteCorrelation": 0.16076922360087353
+        },
+        {
+          "offsetFrames": 365106,
+          "correlation": 0.15484503158494256,
+          "absoluteCorrelation": 0.15484503158494256
+        },
+        {
+          "offsetFrames": 1551913,
+          "correlation": 0.15459672647562062,
+          "absoluteCorrelation": 0.15459672647562062
+        },
+        {
+          "offsetFrames": 1730820,
+          "correlation": 0.1535751728688977,
+          "absoluteCorrelation": 0.1535751728688977
+        },
+        {
+          "offsetFrames": 40690,
+          "correlation": 0.1468673016979095,
+          "absoluteCorrelation": 0.1468673016979095
+        }
+      ],
+      "state": "refused",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "alternativeRatio": 0.3554521744685443,
+      "referenceOriginUs": 1543909000,
+      "reference": {
+        "path": "lilyRawP1-1693-reference.wav",
+        "sha256": "8db794042b27dbd2f1424c146ed31ee9f9442d02da336615d514330b95860173",
+        "pcmSha256": "2264708d179246dd5662fda075a8c02a62611cf683b41bbc9cb4fc7590ebb47a"
+      },
+      "refined": {
+        "state": "unsuitable",
+        "reason": "insufficient-or-ambiguous-shared-waveform",
+        "offsetFrames": null,
+        "sampleRate": 16000,
+        "spreadFrames": null,
+        "anchors": [
+          {
+            "centerFrames": 48000,
+            "rangeFrames": [
+              16000,
+              80000
+            ],
+            "selectedFrames": null,
+            "alternatives": [
+              {
+                "offsetFrames": 7657,
+                "correlation": -0.05277024077138425,
+                "absoluteCorrelation": 0.05277024077138425
+              },
+              {
+                "offsetFrames": 4466,
+                "correlation": -0.05061055999986797,
+                "absoluteCorrelation": 0.05061055999986797
+              },
+              {
+                "offsetFrames": 3232,
+                "correlation": -0.044368402829841544,
+                "absoluteCorrelation": 0.044368402829841544
+              },
+              {
+                "offsetFrames": -15886,
+                "correlation": -0.03372600851140684,
+                "absoluteCorrelation": 0.03372600851140684
+              },
+              {
+                "offsetFrames": 5869,
+                "correlation": -0.031002245390050514,
+                "absoluteCorrelation": 0.031002245390050514
+              },
+              {
+                "offsetFrames": 15213,
+                "correlation": 0.03048918645908178,
+                "absoluteCorrelation": 0.03048918645908178
+              },
+              {
+                "offsetFrames": 9945,
+                "correlation": 0.029734477153753436,
+                "absoluteCorrelation": 0.029734477153753436
+              },
+              {
+                "offsetFrames": 12497,
+                "correlation": 0.02841857745927724,
+                "absoluteCorrelation": 0.02841857745927724
+              }
+            ],
+            "alternativeRatio": 0.9590738882380198
+          },
+          {
+            "centerFrames": 160000,
+            "rangeFrames": [
+              128000,
+              192000
+            ],
+            "selectedFrames": 0,
+            "alternatives": [
+              {
+                "offsetFrames": 0,
+                "correlation": 0.6291402556567447,
+                "absoluteCorrelation": 0.6291402556567447
+              },
+              {
+                "offsetFrames": 980,
+                "correlation": 0.11318773095047363,
+                "absoluteCorrelation": 0.11318773095047363
+              },
+              {
+                "offsetFrames": -835,
+                "correlation": 0.11004994061701061,
+                "absoluteCorrelation": 0.11004994061701061
+              },
+              {
+                "offsetFrames": 1904,
+                "correlation": -0.05311646481289442,
+                "absoluteCorrelation": 0.05311646481289442
+              },
+              {
+                "offsetFrames": 5922,
+                "correlation": -0.04875723736991331,
+                "absoluteCorrelation": 0.04875723736991331
+              },
+              {
+                "offsetFrames": -4567,
+                "correlation": 0.04839774960430361,
+                "absoluteCorrelation": 0.04839774960430361
+              },
+              {
+                "offsetFrames": -6746,
+                "correlation": 0.04375688644694696,
+                "absoluteCorrelation": 0.04375688644694696
+              },
+              {
+                "offsetFrames": -2403,
+                "correlation": -0.043672822302965875,
+                "absoluteCorrelation": 0.043672822302965875
+              }
+            ],
+            "alternativeRatio": 0.17990858148525185
+          },
+          {
+            "centerFrames": 272000,
+            "rangeFrames": [
+              240000,
+              304000
+            ],
+            "selectedFrames": -9920,
+            "alternatives": [
+              {
+                "offsetFrames": -9920,
+                "correlation": 0.5364217545831905,
+                "absoluteCorrelation": 0.5364217545831905
+              },
+              {
+                "offsetFrames": 0,
+                "correlation": 0.32223286778083565,
+                "absoluteCorrelation": 0.32223286778083565
+              },
+              {
+                "offsetFrames": 2033,
+                "correlation": 0.08681319384168536,
+                "absoluteCorrelation": 0.08681319384168536
+              },
+              {
+                "offsetFrames": 2862,
+                "correlation": -0.0829019170821793,
+                "absoluteCorrelation": 0.0829019170821793
+              },
+              {
+                "offsetFrames": -2861,
+                "correlation": -0.078146267489056,
+                "absoluteCorrelation": 0.078146267489056
+              },
+              {
+                "offsetFrames": -1702,
+                "correlation": -0.06408588477648204,
+                "absoluteCorrelation": 0.06408588477648204
+              },
+              {
+                "offsetFrames": -14946,
+                "correlation": 0.05882656772991466,
+                "absoluteCorrelation": 0.05882656772991466
+              },
+              {
+                "offsetFrames": -8996,
+                "correlation": -0.055255824440227724,
+                "absoluteCorrelation": 0.055255824440227724
+              }
+            ],
+            "alternativeRatio": 0.6007080529968746
+          }
+        ],
+        "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+        "policy": {
+          "centersSeconds": [
+            3,
+            10,
+            17
+          ],
+          "seconds": 4,
+          "minimumCorrelation": 0.35,
+          "maximumAlternativeRatio": 0.8,
+          "alternativeSeparationMs": 50,
+          "maximumSpreadMs": 2
+        }
+      }
+    }
+  ],
+  "globals": [
+    {
+      "source": "grahamRaw",
+      "admittedCheckpoints": 0,
+      "spreadSamples16k": null,
+      "state": "refused-global-clock"
+    },
+    {
+      "source": "madisonRaw",
+      "admittedCheckpoints": 0,
+      "spreadSamples16k": null,
+      "state": "refused-global-clock"
+    },
+    {
+      "source": "lilyRawP1",
+      "admittedCheckpoints": 0,
+      "spreadSamples16k": null,
+      "state": "refused-global-clock"
+    }
+  ],
+  "scope": "local acoustic candidates only; lexical admission still required; no clock declaration"
+}

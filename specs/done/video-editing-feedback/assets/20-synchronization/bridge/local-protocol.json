@@ -1,0 +1,29 @@
+{
+  "status": "frozen-before-local-processing-and-recognition",
+  "hypothesis": "A strong four-second mixed-reference match can supply bounded utterance evidence even when surrounding20s crosses actual master edits. Require three disambiguating subanchors and independent recognition, and preserve all20s/global refusals.",
+  "inputs": "All seven coarse-admitted r2 candidates, without selecting on local success; exact middle [8s,12s) of each retained20s source/reference operand. Two coarse-refused cases remain refused. No new decoding, offset tuning or source edits.",
+  "acoustic": {
+    "seconds": 4,
+    "centersSeconds": [0.5, 2, 3.5],
+    "anchorSeconds": 0.75,
+    "maximumResidualLagSeconds": 0.125,
+    "minimumAbsoluteCorrelation": 0.35,
+    "maximumAlternativeRatio": 0.8,
+    "alternativeSeparationMs": 50,
+    "maximumAnchorSpreadMs": 2,
+    "interpretation": "Evidence for three explicit disjoint subanchor supports; not a claim every unsampled instant has one clock. No global or raw-to-raw declaration."
+  },
+  "recognition": "Independently run native Parakeet on both complete4s operands only after local acoustic admission. Require at least one unique contiguous5-word phrase with>=3 distinct core-folded words; retain all repeated competitors. No supplied text, alignment forcing, inference fallback or meaning guesses.",
+  "controls": ["independently authored125ms continuous waveform at44.1k through declared441to160 recipe within2ms", "signed-offset-and-known-origin", "silence", "unrelated", "repeated-acoustic-peak", "missing-subanchor", "continuous-drift", "discontinuous-clock", "unrelated-recognized-text", "repeated-recognized-phrase", "word-window-gap"],
+  "global": "Each raw source needs all three preselected separated source-clock checkpoints admitted and offset spread<=2ms before even a sampled global hypothesis. Otherwise preserve global-clock refusal. Local observations never override earlier20s or long-span failures.",
+  "budget": {
+    "maximumLocalCases": 7,
+    "maximumRecognitionCalls": 14,
+    "secondsPerRecognition": 180,
+    "maximumWordsPerOperand": 512,
+    "maximumAdditionalRetainedWAVBytes": 3600000,
+    "maximumTotalRetainedWAVBytes": 30000000,
+    "maximumAlignmentCalls": 0
+  },
+  "scope": "Read-only recipe/reference research. No relationship, angle selection, edit, retime or speaker identity. Coarse template search, strict20s refusal and local utterance admission remain distinct operands, not interchangeable proof."
+}

@@ -1,0 +1,140 @@
+{
+  "id": "grahamRaw-2171-raw",
+  "operation": "speech.transcribe",
+  "params": {
+    "models": {
+      "directory": "/private/tmp/yap-editing-model-preparation/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2",
+      "files": [
+        {
+          "path": "Decoder.mlmodelc/analytics/coremldata.bin",
+          "bytes": 243,
+          "sha256": "46de1a6fe2e49d19a2125bc91acf020df7f2aea84ba821532aade8427a440b05"
+        },
+        {
+          "path": "Decoder.mlmodelc/coremldata.bin",
+          "bytes": 554,
+          "sha256": "d200ca07694a347f6d02a3886a062ae839831e094e443222f2e48a14945966a8"
+        },
+        {
+          "path": "Decoder.mlmodelc/metadata.json",
+          "bytes": 3427,
+          "sha256": "90a279b822496316458febc0ce761ab05954fadd9d66aa97bea077a35fc8f2b2"
+        },
+        {
+          "path": "Decoder.mlmodelc/model.mil",
+          "bytes": 13106,
+          "sha256": "7b95a5a6b672c652000348a67b6d4d92bb8e176b978c6666fe73c28a4d7ec579"
+        },
+        {
+          "path": "Decoder.mlmodelc/weights/weight.bin",
+          "bytes": 14429952,
+          "sha256": "27d26890221d82322c1092fd99d7b40578e435d5cf4b83c887c42603caf97aba"
+        },
+        {
+          "path": "Encoder.mlmodelc/analytics/coremldata.bin",
+          "bytes": 243,
+          "sha256": "42e638870d73f26b332918a3496ce36793fbb413a81cbd3d16ba01328637a105"
+        },
+        {
+          "path": "Encoder.mlmodelc/coremldata.bin",
+          "bytes": 485,
+          "sha256": "4def7aa848599ad0e17a8b9a982edcdbf33cf92e1f4b798de32e2ca0bc74b030"
+        },
+        {
+          "path": "Encoder.mlmodelc/metadata.json",
+          "bytes": 2926,
+          "sha256": "58222fbc48c13c49d9715567803cd50cb9c23e4360462e0f8ffcea59a2c73c63"
+        },
+        {
+          "path": "Encoder.mlmodelc/model.mil",
+          "bytes": 959769,
+          "sha256": "ed7b19156ca29fa7dfd6891deb9fda4b0e8893f68597c985d135736546a43808"
+        },
+        {
+          "path": "Encoder.mlmodelc/weights/weight.bin",
+          "bytes": 445187200,
+          "sha256": "4adc7ad44f9d05e1bffeb2b06d3bb02861a5c7602dff63a6b494aed3bf8a6c3e"
+        },
+        {
+          "path": "JointDecision.mlmodelc/analytics/coremldata.bin",
+          "bytes": 243,
+          "sha256": "f1183ba213bb94a918c8d2cad19ab045320618f97f6ca662245b3936d7b090f7"
+        },
+        {
+          "path": "JointDecision.mlmodelc/coremldata.bin",
+          "bytes": 534,
+          "sha256": "e2c6752f1c8cf2d3f6f26ec93195c9bfa759ad59edf9f806696a138154f96f11"
+        },
+        {
+          "path": "JointDecision.mlmodelc/metadata.json",
+          "bytes": 2936,
+          "sha256": "ba8d309417b9acd4a175fdb15687de6a941db2f5b06666a60e7cf3cc8e2d3c3c"
+        },
+        {
+          "path": "JointDecision.mlmodelc/model.mil",
+          "bytes": 9722,
+          "sha256": "93bf82042235127cb81ab537dcae47a1c2e7e242ce4ffdaf772981b45eedc4f0"
+        },
+        {
+          "path": "JointDecision.mlmodelc/weights/weight.bin",
+          "bytes": 3453388,
+          "sha256": "ca22a65903a05e64137677da608077578a8606090a598abf4875fa6199aaa19d"
+        },
+        {
+          "path": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+          "bytes": 243,
+          "sha256": "03ab3c1327a054c54c07a40325db967ec574f2c91dcc8192bfa44aa561bcf2d8"
+        },
+        {
+          "path": "Preprocessor.mlmodelc/coremldata.bin",
+          "bytes": 494,
+          "sha256": "d88ea1fc349459c9e100d6a96688c5b29a1f0d865f544be103001724b986b6d6"
+        },
+        {
+          "path": "Preprocessor.mlmodelc/metadata.json",
+          "bytes": 2974,
+          "sha256": "fb16c581ff5e1b962e7cb2181ed892cd32f9f84c12b6e80ff3e089f28e35bcbb"
+        },
+        {
+          "path": "Preprocessor.mlmodelc/model.mil",
+          "bytes": 27166,
+          "sha256": "3e06d16fd061294c8a75be68c43a3b1ed1f593d4a9c35249e9cdbccadc59721e"
+        },
+        {
+          "path": "Preprocessor.mlmodelc/weights/weight.bin",
+          "bytes": 298880,
+          "sha256": "a5f7df6c7f47147ae9486fe18cc7792f9a44d093ec3c6a11e91ef2dc363c48dc"
+        },
+        {
+          "path": "README.md",
+          "bytes": 1665,
+          "sha256": "491eac9a160dc7b0f7ce1210dea4fff6df0222124e93ea83ae2cd72827b4ce02"
+        },
+        {
+          "path": "parakeet_vocab.json",
+          "bytes": 18762,
+          "sha256": "57019fe3c745772ca83a1b048a4bb951cd51329504ea33d4d83316b96e279a97"
+        }
+      ]
+    },
+    "track": {
+      "source": "/tmp/yap-bridge-local-20261006/grahamRaw-2171-raw.wav",
+      "sourceOffsetUs": 0,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 4000000
+        }
+      ]
+    },
+    "output": "/tmp/yap-bridge-recognition-20261006/grahamRaw-2171-raw.jsonl",
+    "execution": {
+      "executionRange": null,
+      "context": {
+        "beforeUs": 0,
+        "afterUs": 0
+      },
+      "recipe": "source-windows-20s-context4s-guard1s-v2"
+    }
+  }
+}

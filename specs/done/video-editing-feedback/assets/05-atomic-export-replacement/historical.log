@@ -1,0 +1,14 @@
+✔ publication holds its cached read lease until the native copy finishes (235.361375ms)
+✔ restart recovery observes an unacknowledged project commit without republishing (211.292042ms)
+✔ explicit export retry recovers a queued preview after its pinned renderer returns (234.453125ms)
+✔ settings-free export replay retains its original request identity (83.86475ms)
+✔ export discovery pages pinned summaries without admitting work and binds cursor filters (207.368833ms)
+✔ an acknowledged export leaves only its file and never needs the destination again (173.049458ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1451.589667

@@ -1,0 +1,1824 @@
+{
+  "passed": true,
+  "recipe": {
+    "output": "color-managed sRGB RGBA8; full oriented raster",
+    "reference": "AVAssetImageGenerator zero requested tolerance + preferred track transform; CoreGraphics explicit sRGB",
+    "tolerance": {
+      "rgbMAEMaximum": 1,
+      "maxChannelDelta": 2
+    },
+    "plainFfmpeg": "encoded RGB values without applying PNG/display profile; diagnostic only"
+  },
+  "tools": {
+    "native": {
+      "path": "/Users/server/dev/yap-video-editing/helpers/mac/.build/debug/yap-native",
+      "sha256": "88204886120b5d99d27ea1a10c2715e3823bfc4ffea19835f152d2916b7d0db1"
+    },
+    "ffmpeg": {
+      "path": "/Users/server/dev/screen-recorder/.claude/worktrees/rename-yap/helpers/ffmpeg/.build/distribution/bin/ffmpeg",
+      "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+    },
+    "ffprobe": {
+      "path": "/Users/server/dev/screen-recorder/.claude/worktrees/rename-yap/helpers/ffmpeg/.build/distribution/bin/ffprobe",
+      "sha256": "b229056ccc5bcf597816babc7957b1a52d93f4874a70f303e81a4ddefa9acc94"
+    }
+  },
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a"
+    }
+  ],
+  "cases": [
+    {
+      "id": "rotated",
+      "file": "/tmp/yap-picture-replication-aIOpN3/rotated.mov",
+      "sha256": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+      "width": 96,
+      "height": 160,
+      "frames": [
+        0,
+        2,
+        4,
+        7
+      ],
+      "fps": 4,
+      "durationUs": 2000000,
+      "controlRecipe": {
+        "sourceSHA256": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-display_rotation",
+          "90",
+          "-i",
+          "SOURCE",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "copy",
+          "OUTPUT"
+        ]
+      },
+      "metadata": {
+        "frames": [
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 1,
+            "pts": 0,
+            "pts_time": "0.000000",
+            "pkt_dts": 0,
+            "pkt_dts_time": "0.000000",
+            "best_effort_timestamp": 0,
+            "best_effort_timestamp_time": "0.000000",
+            "duration": 4096,
+            "duration_time": "0.250000",
+            "pkt_pos": "36",
+            "pkt_size": "1382",
+            "width": 160,
+            "height": 96,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "I",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "3x3 displaymatrix",
+                "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+                "rotation": 90
+              },
+              {
+                "side_data_type": "H.26[45] User Data Unregistered SEI message"
+              }
+            ]
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 4096,
+            "pts_time": "0.250000",
+            "pkt_dts": 4096,
+            "pkt_dts_time": "0.250000",
+            "best_effort_timestamp": 4096,
+            "best_effort_timestamp_time": "0.250000",
+            "duration": 4096,
+            "duration_time": "0.250000",
+            "pkt_pos": "1418",
+            "pkt_size": "350",
+            "width": 160,
+            "height": 96,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "3x3 displaymatrix",
+                "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+                "rotation": 90
+              }
+            ]
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 8192,
+            "pts_time": "0.500000",
+            "pkt_dts": 8192,
+            "pkt_dts_time": "0.500000",
+            "best_effort_timestamp": 8192,
+            "best_effort_timestamp_time": "0.500000",
+            "duration": 4096,
+            "duration_time": "0.250000",
+            "pkt_pos": "1768",
+            "pkt_size": "324",
+            "width": 160,
+            "height": 96,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "3x3 displaymatrix",
+                "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+                "rotation": 90
+              }
+            ]
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 12288,
+            "pts_time": "0.750000",
+            "pkt_dts": 12288,
+            "pkt_dts_time": "0.750000",
+            "best_effort_timestamp": 12288,
+            "best_effort_timestamp_time": "0.750000",
+            "duration": 4096,
+            "duration_time": "0.250000",
+            "pkt_pos": "2092",
+            "pkt_size": "309",
+            "width": 160,
+            "height": 96,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "3x3 displaymatrix",
+                "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+                "rotation": 90
+              }
+            ]
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 16384,
+            "pts_time": "1.000000",
+            "pkt_dts": 16384,
+            "pkt_dts_time": "1.000000",
+            "best_effort_timestamp": 16384,
+            "best_effort_timestamp_time": "1.000000",
+            "duration": 4096,
+            "duration_time": "0.250000",
+            "pkt_pos": "2401",
+            "pkt_size": "270",
+            "width": 160,
+            "height": 96,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "3x3 displaymatrix",
+                "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+                "rotation": 90
+              }
+            ]
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 20480,
+            "pts_time": "1.250000",
+            "pkt_dts": 20480,
+            "pkt_dts_time": "1.250000",
+            "best_effort_timestamp": 20480,
+            "best_effort_timestamp_time": "1.250000",
+            "duration": 4096,
+            "duration_time": "0.250000",
+            "pkt_pos": "2671",
+            "pkt_size": "402",
+            "width": 160,
+            "height": 96,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "3x3 displaymatrix",
+                "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+                "rotation": 90
+              }
+            ]
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 24576,
+            "pts_time": "1.500000",
+            "pkt_dts": 24576,
+            "pkt_dts_time": "1.500000",
+            "best_effort_timestamp": 24576,
+            "best_effort_timestamp_time": "1.500000",
+            "duration": 4096,
+            "duration_time": "0.250000",
+            "pkt_pos": "3073",
+            "pkt_size": "258",
+            "width": 160,
+            "height": 96,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "3x3 displaymatrix",
+                "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+                "rotation": 90
+              }
+            ]
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 28672,
+            "pts_time": "1.750000",
+            "pkt_dts": 28672,
+            "pkt_dts_time": "1.750000",
+            "best_effort_timestamp": 28672,
+            "best_effort_timestamp_time": "1.750000",
+            "duration": 4096,
+            "duration_time": "0.250000",
+            "pkt_pos": "3331",
+            "pkt_size": "335",
+            "width": 160,
+            "height": 96,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "3x3 displaymatrix",
+                "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+                "rotation": 90
+              }
+            ]
+          }
+        ],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "profile": "High",
+            "codec_type": "video",
+            "codec_tag_string": "avc1",
+            "codec_tag": "0x31637661",
+            "mime_codec_string": "avc1.64000c",
+            "width": 160,
+            "height": 96,
+            "coded_width": 160,
+            "coded_height": 96,
+            "has_b_frames": 0,
+            "pix_fmt": "yuv420p",
+            "level": 12,
+            "chroma_location": "left",
+            "field_order": "progressive",
+            "refs": 16,
+            "is_avc": "true",
+            "nal_length_size": "4",
+            "id": "0x1",
+            "r_frame_rate": "4/1",
+            "avg_frame_rate": "4/1",
+            "time_base": "1/16384",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 32768,
+            "duration": "2.000000",
+            "bit_rate": "14520",
+            "bits_per_raw_sample": "8",
+            "nb_frames": "8",
+            "nb_read_frames": "8",
+            "extradata_size": 46,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "handler_name": "VideoHandler",
+              "vendor_id": "FFMP",
+              "encoder": "Lavc libx264"
+            },
+            "side_data_list": [
+              {
+                "side_data_type": "Display Matrix",
+                "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+                "rotation": 90
+              }
+            ]
+          }
+        ]
+      },
+      "samples": [
+        {
+          "index": 0,
+          "reference": {
+            "index": 0,
+            "file": "/tmp/yap-picture-final-rotated/rotated/000.png",
+            "requestedUs": 0,
+            "width": 96,
+            "sourceProfileSHA256": "53c68a082acdf0d8dc84da6fbe7662b68f560fd1af2610a3c61ca2123acb67dd",
+            "sourceProfile": "unnamed ICC",
+            "actualValue": "0",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 160,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "actualTimescale": 16384,
+            "status": "available"
+          },
+          "referencePixels": {
+            "width": 96,
+            "height": 160,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "sourceProfile": "kCGColorSpaceSRGB"
+          },
+          "source": {
+            "request": {
+              "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+              "streamId": "track:1",
+              "atUs": 0,
+              "maxLongEdge": 8192
+            },
+            "receipt": {
+              "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+              "streamId": "track:1",
+              "atUs": 0,
+              "maxLongEdge": 8192,
+              "supportDigest": "5be1ed92523240ede4c71daf2d738c81f39595790cb2ce134cbd2e4f70d0d025",
+              "implementationId": "native-source-picture-v5",
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "c463280e-28e7-4ee3-8356-ec75cdb7c39c",
+              "published": {
+                "generation": 1,
+                "output": {
+                  "file": "/private/tmp/yap-picture-replication-aIOpN3/library/cache/derived/a9e59d03-f0ac-4fa4-a976-6aae89f1ea79.cache",
+                  "mediaType": "image/png",
+                  "width": 96,
+                  "height": 160,
+                  "sourceWidth": 96,
+                  "sourceHeight": 160,
+                  "bytes": 2759,
+                  "decodedSamples": 1,
+                  "readerOpens": 1,
+                  "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 0,
+                  "actualSourceUs": 0,
+                  "sample": {
+                    "value": "0",
+                    "timescale": 16384,
+                    "endValue": "4096",
+                    "endTimescale": 16384,
+                    "originUs": 0
+                  },
+                  "atUs": 0,
+                  "maxLongEdge": 8192,
+                  "supportDigest": "5be1ed92523240ede4c71daf2d738c81f39595790cb2ce134cbd2e4f70d0d025",
+                  "implementationId": "native-source-picture-v5",
+                  "cacheId": "a9e59d03-f0ac-4fa4-a976-6aae89f1ea79"
+                }
+              },
+              "delivery": {
+                "token": "b2760c06-e156-4dda-bdfa-3ba6c193bd4d",
+                "bytes": 2759,
+                "expiresAt": 1791266895091
+              },
+              "output": "/tmp/yap-picture-final-rotated/rotated/source-0.png"
+            },
+            "pixels": {
+              "height": 160,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "width": 96,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+            },
+            "pngSHA256": "43608371539111f476be0866e17c7d11caf59f392cceb26977a283bcec37b0bb",
+            "difference": {
+              "mae": 0.0012803819444444444,
+              "maxDelta": 1,
+              "psnr": 77.05740819640921
+            }
+          },
+          "project": {
+            "request": {
+              "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+              "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+              "atUs": 0,
+              "maxLongEdge": 8192
+            },
+            "receipt": {
+              "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+              "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+              "atUs": 0,
+              "maxLongEdge": 8192,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "9cd04b08-e4c3-4df2-8b08-c915dfbc0195",
+              "published": {
+                "generation": 1,
+                "output": {
+                  "file": "/private/tmp/yap-picture-replication-aIOpN3/library/cache/derived/4384b5b4-4c4d-4a1b-9c06-0acc3e1db56f.cache",
+                  "mediaType": "image/png",
+                  "width": 96,
+                  "height": 160,
+                  "sourceWidth": 96,
+                  "sourceHeight": 160,
+                  "bytes": 3175,
+                  "profile": "h264-rec709",
+                  "frame": {
+                    "index": 0,
+                    "sampleAtUs": 0,
+                    "visibleRange": {
+                      "startUs": 0,
+                      "endUs": 250000
+                    },
+                    "layers": [
+                      {
+                        "kind": "video",
+                        "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                        "streamId": "track:1",
+                        "sourceUs": 0,
+                        "clipId": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                        "trackId": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0",
+                        "availability": "available",
+                        "width": 96,
+                        "height": 160
+                      }
+                    ]
+                  },
+                  "decodedSamples": 1,
+                  "readerOpens": 1,
+                  "decodedImages": 0,
+                  "pictures": [
+                    {
+                      "kind": "video",
+                      "status": "available",
+                      "clipId": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                      "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                      "streamId": "track:1",
+                      "requestedSourceUs": 0,
+                      "actualSourceUs": 0,
+                      "sample": {
+                        "value": "0",
+                        "timescale": 16384,
+                        "originUs": 0
+                      }
+                    }
+                  ],
+                  "atUs": 0,
+                  "maxLongEdge": 8192,
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+                  "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+                  "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+                  "cacheId": "4384b5b4-4c4d-4a1b-9c06-0acc3e1db56f"
+                }
+              },
+              "delivery": {
+                "token": "5db93653-6ca5-46ff-bb15-3c931a6639a5",
+                "bytes": 3175,
+                "expiresAt": 1791266895399
+              },
+              "output": "/tmp/yap-picture-final-rotated/rotated/project-0.png"
+            },
+            "pixels": {
+              "width": 96,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "height": 160,
+              "sourceProfile": "kCGColorSpaceSRGB"
+            },
+            "pngSHA256": "b8d6d0c19a9dd7c738efd38d73828434fa72e8e679eb247f4382528b3992e6f3",
+            "difference": {
+              "mae": 0.0012803819444444444,
+              "maxDelta": 1,
+              "psnr": 77.05740819640921
+            }
+          },
+          "ffmpeg": {
+            "pngSHA256": "ca6f39f5c54550b72d8f6861c50673529fc5f821eb15e9d6441e86eeaadaf74e",
+            "pixels": {
+              "height": 160,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "width": 96,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "opaque": true
+            },
+            "rawRGB": {
+              "mae": 9.595724826388889,
+              "maxDelta": 123,
+              "psnr": 26.318531079069842
+            },
+            "displayRGB": {
+              "mae": 9.595724826388889,
+              "maxDelta": 123,
+              "psnr": 26.318531079069842
+            }
+          },
+          "status": "available"
+        },
+        {
+          "index": 2,
+          "reference": {
+            "actualTimescale": 16384,
+            "height": 160,
+            "index": 1,
+            "sourceProfileSHA256": "53c68a082acdf0d8dc84da6fbe7662b68f560fd1af2610a3c61ca2123acb67dd",
+            "requestedUs": 500000,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "actualValue": "8192",
+            "width": 96,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfile": "unnamed ICC",
+            "file": "/tmp/yap-picture-final-rotated/rotated/001.png",
+            "status": "available"
+          },
+          "referencePixels": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 96,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "height": 160
+          },
+          "source": {
+            "request": {
+              "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+              "streamId": "track:1",
+              "atUs": 500000,
+              "maxLongEdge": 8192
+            },
+            "receipt": {
+              "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+              "streamId": "track:1",
+              "atUs": 500000,
+              "maxLongEdge": 8192,
+              "supportDigest": "5be1ed92523240ede4c71daf2d738c81f39595790cb2ce134cbd2e4f70d0d025",
+              "implementationId": "native-source-picture-v5",
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "e6843a0f-274e-430b-9a6b-1c0c7d0fc426",
+              "published": {
+                "generation": 1,
+                "output": {
+                  "file": "/private/tmp/yap-picture-replication-aIOpN3/library/cache/derived/a10e1c71-bf9e-401b-9684-f6f8ad290cc6.cache",
+                  "mediaType": "image/png",
+                  "width": 96,
+                  "height": 160,
+                  "sourceWidth": 96,
+                  "sourceHeight": 160,
+                  "bytes": 2623,
+                  "decodedSamples": 1,
+                  "readerOpens": 1,
+                  "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 500000,
+                  "actualSourceUs": 500000,
+                  "sample": {
+                    "value": "8192",
+                    "timescale": 16384,
+                    "endValue": "12288",
+                    "endTimescale": 16384,
+                    "originUs": 0
+                  },
+                  "atUs": 500000,
+                  "maxLongEdge": 8192,
+                  "supportDigest": "5be1ed92523240ede4c71daf2d738c81f39595790cb2ce134cbd2e4f70d0d025",
+                  "implementationId": "native-source-picture-v5",
+                  "cacheId": "a10e1c71-bf9e-401b-9684-f6f8ad290cc6"
+                }
+              },
+              "delivery": {
+                "token": "5dc9f944-0329-4447-9a8f-b8f0e5ab1f58",
+                "bytes": 2623,
+                "expiresAt": 1791266895733
+              },
+              "output": "/tmp/yap-picture-final-rotated/rotated/source-2.png"
+            },
+            "pixels": {
+              "width": 96,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 160
+            },
+            "pngSHA256": "a44789cdeed71166da9bb76f5e91a63ac8b1e4341d849ca3e476cb655c09a2aa",
+            "difference": {
+              "mae": 0.0017144097222222222,
+              "maxDelta": 1,
+              "psnr": 75.78965739992624
+            }
+          },
+          "project": {
+            "request": {
+              "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+              "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+              "atUs": 500000,
+              "maxLongEdge": 8192
+            },
+            "receipt": {
+              "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+              "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+              "atUs": 500000,
+              "maxLongEdge": 8192,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "121ba23d-d5d1-4fe1-8ff1-39cb4fa3b8cd",
+              "published": {
+                "generation": 1,
+                "output": {
+                  "file": "/private/tmp/yap-picture-replication-aIOpN3/library/cache/derived/12ef2866-2904-41bf-baaf-d2472969553a.cache",
+                  "mediaType": "image/png",
+                  "width": 96,
+                  "height": 160,
+                  "sourceWidth": 96,
+                  "sourceHeight": 160,
+                  "bytes": 3191,
+                  "profile": "h264-rec709",
+                  "frame": {
+                    "index": 2,
+                    "sampleAtUs": 500000,
+                    "visibleRange": {
+                      "startUs": 500000,
+                      "endUs": 750000
+                    },
+                    "layers": [
+                      {
+                        "kind": "video",
+                        "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                        "streamId": "track:1",
+                        "sourceUs": 500000,
+                        "clipId": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                        "trackId": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0",
+                        "availability": "available",
+                        "width": 96,
+                        "height": 160
+                      }
+                    ]
+                  },
+                  "decodedSamples": 1,
+                  "readerOpens": 1,
+                  "decodedImages": 0,
+                  "pictures": [
+                    {
+                      "kind": "video",
+                      "status": "available",
+                      "clipId": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                      "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                      "streamId": "track:1",
+                      "requestedSourceUs": 500000,
+                      "actualSourceUs": 500000,
+                      "sample": {
+                        "value": "8192",
+                        "timescale": 16384,
+                        "originUs": 0
+                      }
+                    }
+                  ],
+                  "atUs": 500000,
+                  "maxLongEdge": 8192,
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+                  "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+                  "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+                  "cacheId": "12ef2866-2904-41bf-baaf-d2472969553a"
+                }
+              },
+              "delivery": {
+                "token": "76674c0f-aa2e-4b3f-8857-106e2903a542",
+                "bytes": 3191,
+                "expiresAt": 1791266896036
+              },
+              "output": "/tmp/yap-picture-final-rotated/rotated/project-2.png"
+            },
+            "pixels": {
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "opaque": true,
+              "height": 160,
+              "width": 96,
+              "outputProfile": "kCGColorSpaceSRGB"
+            },
+            "pngSHA256": "67b1730fda9faa232236b75e705222704d78cd933ff3b84160d3a787cb67a4a0",
+            "difference": {
+              "mae": 0.0017144097222222222,
+              "maxDelta": 1,
+              "psnr": 75.78965739992624
+            }
+          },
+          "ffmpeg": {
+            "pngSHA256": "6dc666f269120afafb2d4d5440bc0c767bf87363d55ff717e7455ef25abeb694",
+            "pixels": {
+              "height": 160,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "width": 96,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "sourceProfile": "kCGColorSpaceSRGB"
+            },
+            "rawRGB": {
+              "mae": 11.117838541666666,
+              "maxDelta": 111,
+              "psnr": 25.65046503168423
+            },
+            "displayRGB": {
+              "mae": 11.117838541666666,
+              "maxDelta": 111,
+              "psnr": 25.65046503168423
+            }
+          },
+          "status": "available"
+        },
+        {
+          "index": 4,
+          "reference": {
+            "actualTimescale": 16384,
+            "sourceProfile": "unnamed ICC",
+            "sourceProfileSHA256": "53c68a082acdf0d8dc84da6fbe7662b68f560fd1af2610a3c61ca2123acb67dd",
+            "status": "available",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "requestedUs": 1000000,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "index": 2,
+            "file": "/tmp/yap-picture-final-rotated/rotated/002.png",
+            "actualValue": "16384",
+            "height": 160,
+            "width": 96
+          },
+          "referencePixels": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 96,
+            "height": 160,
+            "sourceProfile": "kCGColorSpaceSRGB"
+          },
+          "source": {
+            "request": {
+              "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+              "streamId": "track:1",
+              "atUs": 1000000,
+              "maxLongEdge": 8192
+            },
+            "receipt": {
+              "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+              "streamId": "track:1",
+              "atUs": 1000000,
+              "maxLongEdge": 8192,
+              "supportDigest": "5be1ed92523240ede4c71daf2d738c81f39595790cb2ce134cbd2e4f70d0d025",
+              "implementationId": "native-source-picture-v5",
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "8798a18e-33f8-4f13-9aa1-06487f229211",
+              "published": {
+                "generation": 1,
+                "output": {
+                  "file": "/private/tmp/yap-picture-replication-aIOpN3/library/cache/derived/90a31d1d-c285-4a9e-b445-4be71a60fb35.cache",
+                  "mediaType": "image/png",
+                  "width": 96,
+                  "height": 160,
+                  "sourceWidth": 96,
+                  "sourceHeight": 160,
+                  "bytes": 2797,
+                  "decodedSamples": 1,
+                  "readerOpens": 1,
+                  "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 1000000,
+                  "actualSourceUs": 1000000,
+                  "sample": {
+                    "value": "16384",
+                    "timescale": 16384,
+                    "endValue": "20480",
+                    "endTimescale": 16384,
+                    "originUs": 0
+                  },
+                  "atUs": 1000000,
+                  "maxLongEdge": 8192,
+                  "supportDigest": "5be1ed92523240ede4c71daf2d738c81f39595790cb2ce134cbd2e4f70d0d025",
+                  "implementationId": "native-source-picture-v5",
+                  "cacheId": "90a31d1d-c285-4a9e-b445-4be71a60fb35"
+                }
+              },
+              "delivery": {
+                "token": "ade93f1f-9dfb-495c-b433-a7c3f08a61a7",
+                "bytes": 2797,
+                "expiresAt": 1791266896363
+              },
+              "output": "/tmp/yap-picture-final-rotated/rotated/source-4.png"
+            },
+            "pixels": {
+              "width": 96,
+              "opaque": true,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "height": 160,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfile": "kCGColorSpaceSRGB"
+            },
+            "pngSHA256": "ff3383fa15da47e52c805283be1366f122c0046fc88baee30c22dfabb9081f80",
+            "difference": {
+              "mae": 0.0014539930555555556,
+              "maxDelta": 1,
+              "psnr": 76.50518028582239
+            }
+          },
+          "project": {
+            "request": {
+              "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+              "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+              "atUs": 1000000,
+              "maxLongEdge": 8192
+            },
+            "receipt": {
+              "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+              "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+              "atUs": 1000000,
+              "maxLongEdge": 8192,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "51941888-e2c3-4bb8-8a95-0f7117c7c37a",
+              "published": {
+                "generation": 1,
+                "output": {
+                  "file": "/private/tmp/yap-picture-replication-aIOpN3/library/cache/derived/2e513d0f-3394-46bd-8db4-80211cbd4974.cache",
+                  "mediaType": "image/png",
+                  "width": 96,
+                  "height": 160,
+                  "sourceWidth": 96,
+                  "sourceHeight": 160,
+                  "bytes": 3218,
+                  "profile": "h264-rec709",
+                  "frame": {
+                    "index": 4,
+                    "sampleAtUs": 1000000,
+                    "visibleRange": {
+                      "startUs": 1000000,
+                      "endUs": 1250000
+                    },
+                    "layers": [
+                      {
+                        "kind": "video",
+                        "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                        "streamId": "track:1",
+                        "sourceUs": 1000000,
+                        "clipId": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                        "trackId": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0",
+                        "availability": "available",
+                        "width": 96,
+                        "height": 160
+                      }
+                    ]
+                  },
+                  "decodedSamples": 1,
+                  "readerOpens": 1,
+                  "decodedImages": 0,
+                  "pictures": [
+                    {
+                      "kind": "video",
+                      "status": "available",
+                      "clipId": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                      "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                      "streamId": "track:1",
+                      "requestedSourceUs": 1000000,
+                      "actualSourceUs": 1000000,
+                      "sample": {
+                        "value": "16384",
+                        "timescale": 16384,
+                        "originUs": 0
+                      }
+                    }
+                  ],
+                  "atUs": 1000000,
+                  "maxLongEdge": 8192,
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+                  "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+                  "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+                  "cacheId": "2e513d0f-3394-46bd-8db4-80211cbd4974"
+                }
+              },
+              "delivery": {
+                "token": "5e397819-05e9-4582-9455-30d2dd0d135c",
+                "bytes": 3218,
+                "expiresAt": 1791266896667
+              },
+              "output": "/tmp/yap-picture-final-rotated/rotated/project-4.png"
+            },
+            "pixels": {
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "width": 96,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "height": 160
+            },
+            "pngSHA256": "9692ac76741af2c6fb1ee4dbf841fb5941d64f47d1b9fdd4d6a9c2962938f726",
+            "difference": {
+              "mae": 0.0014539930555555556,
+              "maxDelta": 1,
+              "psnr": 76.50518028582239
+            }
+          },
+          "ffmpeg": {
+            "pngSHA256": "ca0747dc7359cd875848fa99a0f67dcb02d79ab68f102e5e53684d6b184b162d",
+            "pixels": {
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "width": 96,
+              "height": 160,
+              "sourceProfile": "kCGColorSpaceSRGB"
+            },
+            "rawRGB": {
+              "mae": 11.145811631944444,
+              "maxDelta": 100,
+              "psnr": 25.64739683019983
+            },
+            "displayRGB": {
+              "mae": 11.145811631944444,
+              "maxDelta": 100,
+              "psnr": 25.64739683019983
+            }
+          },
+          "status": "available"
+        },
+        {
+          "index": 7,
+          "reference": {
+            "actualTimescale": 16384,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 160,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "file": "/tmp/yap-picture-final-rotated/rotated/003.png",
+            "sourceProfile": "unnamed ICC",
+            "index": 3,
+            "width": 96,
+            "sourceProfileSHA256": "53c68a082acdf0d8dc84da6fbe7662b68f560fd1af2610a3c61ca2123acb67dd",
+            "actualValue": "28672",
+            "status": "available",
+            "requestedUs": 1750000
+          },
+          "referencePixels": {
+            "width": 96,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 160,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true,
+            "sourceProfile": "kCGColorSpaceSRGB"
+          },
+          "source": {
+            "request": {
+              "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+              "streamId": "track:1",
+              "atUs": 1750000,
+              "maxLongEdge": 8192
+            },
+            "receipt": {
+              "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+              "streamId": "track:1",
+              "atUs": 1750000,
+              "maxLongEdge": 8192,
+              "supportDigest": "5be1ed92523240ede4c71daf2d738c81f39595790cb2ce134cbd2e4f70d0d025",
+              "implementationId": "native-source-picture-v5",
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "a4b60342-0e76-4728-ab27-93e6853cd025",
+              "published": {
+                "generation": 1,
+                "output": {
+                  "file": "/private/tmp/yap-picture-replication-aIOpN3/library/cache/derived/cc1fdf19-897b-444c-9cf8-d46c43dc8a92.cache",
+                  "mediaType": "image/png",
+                  "width": 96,
+                  "height": 160,
+                  "sourceWidth": 96,
+                  "sourceHeight": 160,
+                  "bytes": 2785,
+                  "decodedSamples": 1,
+                  "readerOpens": 1,
+                  "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 1750000,
+                  "actualSourceUs": 1750000,
+                  "sample": {
+                    "value": "28672",
+                    "timescale": 16384,
+                    "endValue": "32768",
+                    "endTimescale": 16384,
+                    "originUs": 0
+                  },
+                  "atUs": 1750000,
+                  "maxLongEdge": 8192,
+                  "supportDigest": "5be1ed92523240ede4c71daf2d738c81f39595790cb2ce134cbd2e4f70d0d025",
+                  "implementationId": "native-source-picture-v5",
+                  "cacheId": "cc1fdf19-897b-444c-9cf8-d46c43dc8a92"
+                }
+              },
+              "delivery": {
+                "token": "9317fe7e-645f-4440-b940-2c0efa9082f6",
+                "bytes": 2785,
+                "expiresAt": 1791266896997
+              },
+              "output": "/tmp/yap-picture-final-rotated/rotated/source-7.png"
+            },
+            "pixels": {
+              "width": 96,
+              "height": 160,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "opaque": true
+            },
+            "pngSHA256": "28463fc173b0398cdaa86f459f2de6183b2203a5f71b2eb8db6206e127ef55cc",
+            "difference": {
+              "mae": 0.2939670138888889,
+              "maxDelta": 1,
+              "psnr": 53.44781760012723
+            }
+          },
+          "project": {
+            "request": {
+              "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+              "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+              "atUs": 1750000,
+              "maxLongEdge": 8192
+            },
+            "receipt": {
+              "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+              "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+              "atUs": 1750000,
+              "maxLongEdge": 8192,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": "abecdfdf-4a48-4959-b34a-ba91caf721be",
+              "published": {
+                "generation": 1,
+                "output": {
+                  "file": "/private/tmp/yap-picture-replication-aIOpN3/library/cache/derived/58a56e22-f953-4832-8534-8bcb476dd868.cache",
+                  "mediaType": "image/png",
+                  "width": 96,
+                  "height": 160,
+                  "sourceWidth": 96,
+                  "sourceHeight": 160,
+                  "bytes": 3210,
+                  "profile": "h264-rec709",
+                  "frame": {
+                    "index": 7,
+                    "sampleAtUs": 1750000,
+                    "visibleRange": {
+                      "startUs": 1750000,
+                      "endUs": 2000000
+                    },
+                    "layers": [
+                      {
+                        "kind": "video",
+                        "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                        "streamId": "track:1",
+                        "sourceUs": 1750000,
+                        "clipId": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                        "trackId": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0",
+                        "availability": "available",
+                        "width": 96,
+                        "height": 160
+                      }
+                    ]
+                  },
+                  "decodedSamples": 1,
+                  "readerOpens": 1,
+                  "decodedImages": 0,
+                  "pictures": [
+                    {
+                      "kind": "video",
+                      "status": "available",
+                      "clipId": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                      "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                      "streamId": "track:1",
+                      "requestedSourceUs": 1750000,
+                      "actualSourceUs": 1750000,
+                      "sample": {
+                        "value": "28672",
+                        "timescale": 16384,
+                        "originUs": 0
+                      }
+                    }
+                  ],
+                  "atUs": 1750000,
+                  "maxLongEdge": 8192,
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+                  "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+                  "revisionId": "3d45c798-4921-4978-becb-e7ec86e4684a",
+                  "cacheId": "58a56e22-f953-4832-8534-8bcb476dd868"
+                }
+              },
+              "delivery": {
+                "token": "4f13c9dd-01ed-48a7-8c4a-de6e420176de",
+                "bytes": 3210,
+                "expiresAt": 1791266897302
+              },
+              "output": "/tmp/yap-picture-final-rotated/rotated/project-7.png"
+            },
+            "pixels": {
+              "width": 96,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "height": 160,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "outputProfile": "kCGColorSpaceSRGB"
+            },
+            "pngSHA256": "bef0dcb21936ef7cb5e623d690b3898462496a74de7397d1e5e56cfc285d7e6f",
+            "difference": {
+              "mae": 0.2939670138888889,
+              "maxDelta": 1,
+              "psnr": 53.44781760012723
+            }
+          },
+          "ffmpeg": {
+            "pngSHA256": "6f63807f19d651ca2fcfcb3ea447999a3d84f7f48907bf1955bbda9030cc89ae",
+            "pixels": {
+              "width": 96,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "opaque": true,
+              "height": 160,
+              "outputProfile": "kCGColorSpaceSRGB"
+            },
+            "rawRGB": {
+              "mae": 10.89763454861111,
+              "maxDelta": 103,
+              "psnr": 25.606256178467103
+            },
+            "displayRGB": {
+              "mae": 10.89763454861111,
+              "maxDelta": 103,
+              "psnr": 25.606256178467103
+            }
+          },
+          "status": "available"
+        }
+      ],
+      "coverage": {
+        "requested": 4,
+        "available": 4,
+        "failed": 0
+      },
+      "import": {
+        "ack": {
+          "jobId": "3bbeab32-fe1f-45f0-94f5-1c1ef89ff73a",
+          "attemptId": "b1a24100-5bd9-4491-9973-e5dcd043a897",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "980349a59a1877b19988f21a307f191aecbd239c4eaecd6c6f55f7e54e25bdf3",
+          "target": {
+            "kind": "import",
+            "importId": "82dd3088-d588-4361-9cfb-f67d0eb40602"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": null
+        },
+        "job": {
+          "jobId": "3bbeab32-fe1f-45f0-94f5-1c1ef89ff73a",
+          "attemptId": "b1a24100-5bd9-4491-9973-e5dcd043a897",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "980349a59a1877b19988f21a307f191aecbd239c4eaecd6c6f55f7e54e25bdf3",
+          "target": {
+            "kind": "import",
+            "importId": "82dd3088-d588-4361-9cfb-f67d0eb40602"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": {
+            "generation": 1,
+            "attemptId": "b1a24100-5bd9-4491-9973-e5dcd043a897",
+            "output": {
+              "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e"
+            }
+          }
+        },
+        "source": {
+          "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+          "streamId": "track:1"
+        }
+      },
+      "project": {
+        "create": {
+          "project": {
+            "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+            "title": "Untitled",
+            "createdAt": "2026-10-06T06:07:44.611Z",
+            "currentRevisionId": "fd5b8ce7-ce94-4bff-9b49-01e4e796cc97"
+          },
+          "revision": {
+            "id": "fd5b8ce7-ce94-4bff-9b49-01e4e796cc97",
+            "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+            "ordinal": 0,
+            "createdAt": "2026-10-06T06:07:44.611Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 96,
+                "height": 160,
+                "fps": {
+                  "numerator": 4,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "editRequest": {
+          "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+          "expectedRevisionId": "fd5b8ce7-ce94-4bff-9b49-01e4e796cc97",
+          "requestId": "place-rotated",
+          "operations": [
+            {
+              "operation": "track.add",
+              "label": "picture",
+              "track": {
+                "kind": "video",
+                "order": 0
+              }
+            },
+            {
+              "operation": "place",
+              "clip": {
+                "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                "streamId": "track:1",
+                "trackId": {
+                  "label": "picture"
+                },
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 2000000
+                  }
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 2000000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "edited": {
+          "revision": {
+            "id": "3d45c798-4921-4978-becb-e7ec86e4684a",
+            "projectId": "543aa26c-4480-49ee-8d97-c9e4d52ca04b",
+            "ordinal": 1,
+            "createdAt": "2026-10-06T06:07:44.692Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 96,
+                "height": 160,
+                "fps": {
+                  "numerator": 4,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0",
+                  "kind": "video",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                  "trackId": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 2000000
+                    }
+                  },
+                  "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                  "streamId": "track:1",
+                  "source": {
+                    "kind": "range",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 2000000
+                    }
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [
+              {
+                "kind": "track",
+                "id": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1"
+              }
+            ],
+            "labels": {
+              "picture": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0"
+            },
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "track",
+                    "id": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0",
+                    "value": {
+                      "id": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0",
+                      "kind": "video",
+                      "order": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 1,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                    "value": {
+                      "id": "clip:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:1",
+                      "trackId": "track:c0e0391279c3ffb3ec2e682d2bcbed2125a8c12687cb24cf40435c27686bdec7:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 2000000
+                        }
+                      },
+                      "assetId": "f96deff887e5882c53ea89bb9edd2f1c013291d6088ab9edd1d49db59283a35e",
+                      "streamId": "track:1",
+                      "source": {
+                        "kind": "range",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 2000000
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        }
+      }
+    }
+  ]
+}

@@ -15,6 +15,8 @@ public enum SourceImageRenderer {
         let maxLongEdge: Int?
         let maxEncodedBytes: Int?
         let maxDecodedPixels: Int64?
+        let observations: PictureObservationRequest?
+        let faceObservations: FaceObservationRequest?
     }
     public struct Result: Encodable {
         let kind = "image"
@@ -31,6 +33,8 @@ public enum SourceImageRenderer {
         let decodedImages = 1
         let readerOpens = 1
         let bytes: Int
+        let observations: PictureObservations?
+        let faceObservations: FaceObservations?
     }
     public static func write(_ request: Request) throws -> Result {
         let edge = request.maxLongEdge ?? FrameLimits.defaultLongEdge
@@ -50,13 +54,14 @@ public enum SourceImageRenderer {
         let output = try NewFile(at: request.output, assembledAs: "image.png")
         defer { output.discard() }
         let image = FrameImage(oriented: source.oriented, maxLongEdge: edge)
-        let bytes = try image.publishPNG(
+        let published = try image.publishPNG(
             to: output,
-            context: CIContext(options: [.cacheIntermediates: false]), maxEncodedBytes: limit)
+            context: CIContext(options: [.cacheIntermediates: false]), maxEncodedBytes: limit,
+            observations: request.observations, faceObservations: request.faceObservations)
         return Result(
             file: request.output, assetId: request.asset.assetId, streamId: request.asset.streamId,
             width: image.width, height: image.height, sourceWidth: source.orientedWidth,
             sourceHeight: source.orientedHeight, orientation: source.orientation,
-            hasAlpha: source.hasAlpha, bytes: bytes)
+            hasAlpha: source.hasAlpha, bytes: published.bytes, observations: published.observations, faceObservations: published.faceObservations)
     }
 }

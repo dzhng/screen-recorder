@@ -1,0 +1,15 @@
+{
+  "result": {
+    "ok": false,
+    "error": {
+      "code": "RESTORE_FAILED",
+      "message": "No module named 'lhotse.indexing'",
+      "retryable": false,
+      "details": {
+        "seconds": 6.853595833003055
+      }
+    }
+  },
+  "wallSeconds": 6.913506666,
+  "networkDenied": true
+}

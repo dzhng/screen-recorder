@@ -253,7 +253,7 @@ try {
         assert.equal(images.length, 1);
         assert.equal(images[0].mimeType, "image/png");
         const bytes = Buffer.from(images[0].data, "base64"),
-          m = ready.published.spectrogram;
+          m = ready.published.output;
         assert.equal(m.bytes, bytes.length);
         assert.equal(m.projectId, report.projectId);
         assert.equal(m.revisionId, revisionId);

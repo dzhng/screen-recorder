@@ -1,0 +1,276 @@
+{
+  "status": "frozen-before-inference",
+  "scope": "Private bounded-PCM alignment/emissions feasibility; slice08 not a dependency for these already-certified inputs; slice10 public integration still depends08",
+  "provider": "Original nvidia/parakeet-tdt_ctc-110m explicit auxiliaryCTChead; originalpreparedNeMo2.7.3/Torch2.8/Numpy2.3.5 CPU runtime; distinct fromfailedCoreML conversion",
+  "manifestSha256": "5c6c22d2ccab4352d7014d776976962874ea2984e7725ef6d325ca8a132e5d2c",
+  "workerSourceSha256": "7a645353c2a2582135ad961f2cd81961dfeaddbb23fbc57fe5798d5fd3a51948",
+  "sourceClosureDigest": "0204f80a2f31d9a7566146ae28cf0981a93eacf792375c91593985f8cfcb839d",
+  "processing": {
+    "sampleRate": 16000,
+    "channels": 1,
+    "sampleType": "Float32 little-endian",
+    "temperature": 1,
+    "blankBias": 0,
+    "blankId": 1024,
+    "tokenization": "Original pinned NeMo model.tokenizer.text_to_ids, no rewrite/numeral expansion",
+    "nativeEmissionMethod": "Strict local EncDecHybridRNNTCTCBPEModel restore→encoder→ctc_decoder, actual encoded_len trims padding. Complete logprobs/tensorbytes retained.",
+    "timebase": "Configured model window_stride×encoder.subsampling_factor; retain actual encoded_len and physical PCM separately. No timing fitted to words.",
+    "inferenceNetwork": "denied",
+    "dither": 0,
+    "padTo": 0,
+    "inferenceThreads": 2,
+    "interOpThreads": 2
+  },
+  "cases": [
+    {
+      "id": "madison-tiny",
+      "classification": "real-media-comparison-not-independent-word-truth",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/madison-tiny.f32",
+      "frames": 42400,
+      "pcmSha256": "a6b981d21aeb2cbcc8aca45b603af10b0be17ea0f8805980cd510b29de63029e",
+      "source": "fixtures/speech-timing/madison-1877.55.wav",
+      "sourceSha256": "0b8b94f0781c7ed5c5be8e070fca3dd6d260cb2505693629e027d96e9c264fbb",
+      "conversion": {
+        "toolSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/Users/server/dev/yap-video-editing/fixtures/speech-timing/madison-1877.55.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "/tmp/yap-editing-alignment-replication/inputs/madison-tiny.f32"
+        ]
+      },
+      "comparisonText": "I just kind of gave up on privacy",
+      "texts": [
+        "I just kind of gave up on privacy",
+        "I just kind of bought a purple elephant",
+        "I gave up on privacy",
+        "I just just kind of gave up on privacy"
+      ],
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110/madison-tiny.json"
+    },
+    {
+      "id": "overlap25",
+      "classification": "real-media-comparison-not-independent-word-truth",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/overlap25.f32",
+      "frames": 400000,
+      "pcmSha256": "6c18515f8d8acbf89f2a3d6c1820889739b205722985381577510614f5557f31",
+      "source": "fixtures/video-editing-feedback/overlap-region.wav",
+      "sourceSha256": "2a8f48a9eb53272fea02520e645859c170f5716d1087f7d2aa365cbcbd451607",
+      "conversion": {
+        "toolSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/Users/server/dev/yap-video-editing/fixtures/video-editing-feedback/overlap-region.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "/tmp/yap-editing-alignment-replication/inputs/overlap25.f32"
+        ]
+      },
+      "comparisonText": null,
+      "texts": [
+        "But I think it might make sense to have a new conference to try something completely different. It's like all of our papers are AI reviewed. We're going to do it as well as we possibly can, but we're going to review all of them with AI and then maybe have some mild human intervention at the end to filter it down or something. And then it's like, sure, submit 100,000 papers to this conference, and we'll pick the best 100 to feature.",
+        "A purple elephant dances under the ocean"
+      ],
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110/overlap25.json"
+    },
+    {
+      "id": "false-start",
+      "classification": "real-media-comparison-not-independent-word-truth",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/false-start.f32",
+      "frames": 28800,
+      "pcmSha256": "a55e465465deaf30d1654bff6c994625cddea2cddcc24e205423dbad18654843",
+      "source": "fixtures/video-editing-feedback/false-start.wav",
+      "sourceSha256": "37217b01cf438ff68c51eccf9ebc71f4742bbf852877446474a05c798a0b6a49",
+      "conversion": {
+        "toolSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/Users/server/dev/yap-video-editing/fixtures/video-editing-feedback/false-start.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "/tmp/yap-editing-alignment-replication/inputs/false-start.f32"
+        ]
+      },
+      "comparisonText": null,
+      "texts": [
+        "fortunately",
+        "fortun",
+        "a purple elephant"
+      ],
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110/false-start.json"
+    },
+    {
+      "id": "constructed-repeats",
+      "classification": "independent-generator-text-and-placement-support-control",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/constructed-repeats.f32",
+      "frames": 192000,
+      "pcmSha256": "4499639cbe3db64e0f55da025c4aa22d7310635e2ef4e21f0006ce90344543f5",
+      "placements": [
+        {
+          "word": "blue",
+          "start": 1,
+          "end": 1.5880625,
+          "samples": 9409,
+          "sha256": "cd0838a205e6f3e8c3246e92498a218dbc9c48f0b62300940ad7512fc9b4afd2"
+        },
+        {
+          "word": "seven",
+          "start": 4,
+          "end": 4.7319375,
+          "samples": 11711,
+          "sha256": "24a3d9446a526725d70a998a97eead2e41cc399dfb0b3b806ca4a27e92029473"
+        },
+        {
+          "word": "blue",
+          "start": 7,
+          "end": 7.5880625,
+          "samples": 9409,
+          "sha256": "cd0838a205e6f3e8c3246e92498a218dbc9c48f0b62300940ad7512fc9b4afd2"
+        }
+      ],
+      "comparisonText": "blue seven blue",
+      "generator": {
+        "executable": "/usr/bin/say",
+        "voice": "Samantha",
+        "rate": 140,
+        "texts": [
+          "blue",
+          "seven",
+          "fortunate"
+        ]
+      },
+      "truthScope": "Known generator requests and physical placement intervals; no connected-speech phonetic word boundary labels",
+      "texts": [
+        "blue seven blue",
+        "blue purple blue",
+        "blue seven",
+        "blue 7 blue",
+        "blue seven blue blue"
+      ],
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110/constructed-repeats.json"
+    },
+    {
+      "id": "fortunate-intact",
+      "classification": "independent-intact-truncated-physical-support-control",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/fortunate-intact.f32",
+      "frames": 15216,
+      "pcmSha256": "44d21ae68cdbb384a65f133c20ef0cb83ce56406e1ef58de5358f567f4905512",
+      "generatorText": "fortunate",
+      "activitySupport": {
+        "onsetFrame": 1075,
+        "endFrame": 11449,
+        "energyThreshold": 0.01
+      },
+      "cutFrame": null,
+      "truthScope": "Source bytes independently cut inside nonquiet isolated utterance; lexical fragment remains unverified",
+      "texts": [
+        "fortunate",
+        "purple",
+        "fortu"
+      ],
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110/fortunate-intact.json"
+    },
+    {
+      "id": "fortunate-truncated",
+      "classification": "independent-intact-truncated-physical-support-control",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/fortunate-truncated.f32",
+      "frames": 6262,
+      "pcmSha256": "2ba41e2db8e6e3964e3e0db271f121126f463e796c4415b0c0b2f0644ef4f349",
+      "generatorText": "fortunate",
+      "activitySupport": {
+        "onsetFrame": 1075,
+        "endFrame": 6262,
+        "energyThreshold": 0.01
+      },
+      "cutFrame": 6262,
+      "truthScope": "Source bytes independently cut inside nonquiet isolated utterance; lexical fragment remains unverified",
+      "texts": [
+        "fortunate",
+        "fortu",
+        "purple"
+      ],
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110/fortunate-truncated.json"
+    },
+    {
+      "id": "fortunate-contextual",
+      "classification": "independent-intact-truncated-physical-support-control",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/fortunate-contextual.f32",
+      "frames": 47216,
+      "pcmSha256": "448f0fd865058a922e8c2d20477682e93792d76d6609e7b3db20dbebce6d9ad0",
+      "generatorText": "fortunate",
+      "activitySupport": {
+        "onsetFrame": 17075,
+        "endFrame": 27449,
+        "energyThreshold": 0.01
+      },
+      "cutFrame": null,
+      "truthScope": "Source bytes independently cut inside nonquiet isolated utterance; lexical fragment remains unverified",
+      "texts": [
+        "fortunate",
+        "purple",
+        "fortu"
+      ],
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110/fortunate-contextual.json"
+    }
+  ],
+  "gates": {
+    "nativeOperandsFinite": true,
+    "inferenceWallAudioRatioMaximum": 2,
+    "RSSBytesMaximum": 4294967296,
+    "orderedRepeatedOccurrences": "All three caller words align to respective independently placed isolated-source support, not reused occurrence",
+    "wrongText": "Forced path is not successful word evidence by itself; preserve native scores/greedy contrast and explicit mismatch/unknown. No arbitrary probability threshold.",
+    "partialLexical": "Truncation known by sourcebytes; no generator prefix/recognizer text serves as independent partial phonetic truth",
+    "support": "No retained token span beyond physical PCM; omitted utterances and abrupt/contextual changes require explicit evidence, never inferred silence"
+  },
+  "limitations": [
+    "Real transcript is comparison text, not independently word-labeled truth",
+    "Synthetic generator controls test mechanism, not human connected-speech fidelity",
+    "CTC alignment path scores uncalibrated; wrongtext may have a forcedpath",
+    "Raw logits not exposed by public producer",
+    "25s upstream chunk merge and returned first frame clock require explicit physical mapping scrutiny"
+  ],
+  "baseRuntimeReceipt": {
+    "python": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+    "entry": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/execution/launch.py",
+    "model": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/original-model",
+    "cache": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/.cache/speaker-replication-r1",
+    "descriptorDigest": "d6378d03528660f4cc350d0fb6b1bcdfa873624f71a91c5e2e0d7f2bf668eb70",
+    "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "modelDigest": "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
+    "runtimeRevision": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "modelRevision": "cd03eee90fbec18297ac31b8c21546e596b7f71c"
+  },
+  "transportCorrection": {
+    "previousProtocol": "/tmp/yap-editing-alignment-replication/nemo-ctc110/stdout-refused/protocol.json",
+    "change": "Upstream logging redirected to stderr before imports; one JSON envelope stdout; model/preprocessing/gates unchanged"
+  },
+  "selection": "Single original-model exactCTC comparison, fixed preprocessing/algorithm before inference. No confidence threshold or parameter fit. No wider/whole-source run."
+}

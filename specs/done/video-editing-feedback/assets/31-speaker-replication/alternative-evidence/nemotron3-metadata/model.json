@@ -1,0 +1,129 @@
+{
+  "_id": "6a96d0493a36c5ec985d2291",
+  "id": "nvidia/Nemotron-3-Diarization",
+  "private": false,
+  "pipeline_tag": "voice-activity-detection",
+  "library_name": "nemo",
+  "tags": [
+    "nemo",
+    "safetensors",
+    "gguf",
+    "nemotron3_diarization",
+    "audio-frame-classification",
+    "speaker-diarization",
+    "streaming-sortformer",
+    "speaker-tagging",
+    "transformers",
+    "voice-activity-detection",
+    "arxiv:2409.06656",
+    "arxiv:2507.18446",
+    "arxiv:2605.15442",
+    "arxiv:2507.09226",
+    "arxiv:2408.13106",
+    "license:openmdw-1.1",
+    "region:us"
+  ],
+  "downloads": 55491,
+  "likes": 701,
+  "modelId": "nvidia/Nemotron-3-Diarization",
+  "author": "nvidia",
+  "sha": "f667ed73aee57d40cc39428eb768b4fd87a0a29e",
+  "lastModified": "2026-09-24T05:52:51.000Z",
+  "gated": false,
+  "disabled": false,
+  "model-index": null,
+  "config": {
+    "architectures": [
+      "Nemotron3DiarizationForAudioFrameClassification"
+    ],
+    "model_type": "nemotron3_diarization"
+  },
+  "cardData": {
+    "license": "openmdw-1.1",
+    "pipeline_tag": "voice-activity-detection",
+    "library_name": "nemo",
+    "tags": [
+      "speaker-diarization",
+      "streaming-sortformer",
+      "speaker-tagging",
+      "transformers"
+    ]
+  },
+  "transformersInfo": {
+    "auto_model": "AutoModelForAudioFrameClassification",
+    "pipeline_tag": "audio-frame-classification",
+    "processor": "AutoProcessor"
+  },
+  "gguf": {
+    "total": 99260363,
+    "architecture": "sortformer",
+    "totalFileSize": 107012128
+  },
+  "siblings": [
+    {
+      "rfilename": ".gitattributes"
+    },
+    {
+      "rfilename": "ASR_INTEGRATION_GUIDE.md"
+    },
+    {
+      "rfilename": "Nemotron-3-Diarization.nemo"
+    },
+    {
+      "rfilename": "Nemotron-3-Diarization.q8_0.gguf"
+    },
+    {
+      "rfilename": "README.md"
+    },
+    {
+      "rfilename": "bias.md"
+    },
+    {
+      "rfilename": "config.json"
+    },
+    {
+      "rfilename": "diarization_evaluation.md"
+    },
+    {
+      "rfilename": "explainability.md"
+    },
+    {
+      "rfilename": "model.safetensors"
+    },
+    {
+      "rfilename": "nemotron3_tts_8_open_voices.mp4"
+    },
+    {
+      "rfilename": "privacy.md"
+    },
+    {
+      "rfilename": "processor_config.json"
+    },
+    {
+      "rfilename": "safety.md"
+    },
+    {
+      "rfilename": "streaming_diarization_demo.gif"
+    },
+    {
+      "rfilename": "streaming_diarization_demo.png"
+    }
+  ],
+  "spaces": [
+    "tardellirs/model-pulse",
+    "nvidia/nemotron-diarization",
+    "embedl/hfviewer",
+    "nvidia/NeMo-Speech-Streaming-Multispeaker-ASR",
+    "eustlb/vad-models-on-the-hub",
+    "rizar001/nemotron-3-diarization",
+    "ahmadw/nemotron-diarization-web"
+  ],
+  "createdAt": "2026-09-01T13:16:57.000Z",
+  "safetensors": {
+    "parameters": {
+      "F32": 99226504
+    },
+    "total": 99226504
+  },
+  "usedStorage": 1116957691
+}

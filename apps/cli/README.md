@@ -35,15 +35,29 @@ messages and diagnostics belong on stderr. Before parsing establishes a mode,
 usage failures cannot safely be written as a CLI response. Structured operation
 failures retain their code and retry meaning across both adapters.
 
+Explicit waiting observes admitted work within one caller budget. The
+[wait observer](src/wait.ts) freezes selection and current attempt identity,
+continues from dependencies to the requested getter, and never resubmits a write
+or retries a failed job. Its top-level outcome describes observation separately
+from the service's acknowledgement; terminal work can still fail. Help owns
+flags, polling cadence and exit behavior. Cancellation stops observation and
+bounded lease cleanup continues independently; it does not roll back admission.
+
 Small MCP results retain complete text and structured data. Large results use a
 service-owned lease for the complete encoded response. Verify chunk identity,
 length and digest before decoding, then close the lease. Nested media has its own
 lifetime; renewing the response does not revive expired media or undo a mutation.
 Recover uncertain writes only through their advertised exact-request replay.
 
-Media delivery provides actual image/audio content or an explicitly requested
-output file. Batch consumption retains the service's revision, tap and generation,
+The [publication contract](../../packages/protocol/README.md#published-work) separates
+background readiness from transport success. Media consumption reads the published
+domain payload directly and uses its declared media type rather than guessing an
+operation-specific field.
+
+Media delivery provides actual image/audio content and measurement JSON or an
+explicitly requested output file. Batch consumption retains the service's revision, tap and generation,
 including pending metadata and partial failures. A pathname alone is not MCP media
-attachment proof. The [delivery owner](src/artifact-delivery.ts) defines consumption;
+attachment proof. The [delivery owner](src/artifact-delivery.ts) defines consumption
+and atomic file publication for single results and batches;
 [installed acceptance](../../specs/done/agent-editing/release-closeout.md) records
 what was actually exercised through the packaged app.

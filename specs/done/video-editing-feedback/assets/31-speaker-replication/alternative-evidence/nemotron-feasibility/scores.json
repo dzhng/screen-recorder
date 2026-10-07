@@ -1,0 +1,90 @@
+{
+  "passed": false,
+  "cases": [
+    {
+      "id": "bspxd30",
+      "role": "calibration",
+      "passed": true,
+      "countMatches": true,
+      "metrics": {
+        "referenceSpeakerSeconds": 29.839999999999996,
+        "overlapSeconds": 3.0399999999999903,
+        "silenceSeconds": 3.199999999999992,
+        "missedSpeakerSeconds": 0.3899999999999978,
+        "falseSpeakerSeconds": 0.5999999999999972,
+        "confusedSpeakerSeconds": 0,
+        "mapping": {
+          "speaker_0": "spk01",
+          "speaker_1": "spk00",
+          "speaker_2": "spk02"
+        },
+        "der": 0.03317694369973174
+      },
+      "confusionRatio": 0,
+      "overlap": {
+        "referenceOverlapSeconds": 3.0399999999999903,
+        "retainedOverlapSeconds": 2.7299999999999986,
+        "recall": 0.8980263157894761
+      },
+      "inferenceSeconds": 0.7615914159978274,
+      "peakProcessRSSBytes": 1588953088
+    },
+    {
+      "id": "returns-overlap-silence",
+      "role": "calibration",
+      "passed": true,
+      "countMatches": true,
+      "metrics": {
+        "referenceSpeakerSeconds": 96,
+        "overlapSeconds": 8,
+        "silenceSeconds": 12,
+        "missedSpeakerSeconds": 0.16000000000000014,
+        "falseSpeakerSeconds": 0.750000000000016,
+        "confusedSpeakerSeconds": 0,
+        "mapping": {
+          "speaker_0": "bspxd:spk00",
+          "speaker_1": "bspxd:spk01",
+          "speaker_2": "bspxd:spk02"
+        },
+        "der": 0.009479166666666835
+      },
+      "confusionRatio": 0,
+      "overlap": {
+        "referenceOverlapSeconds": 8,
+        "retainedOverlapSeconds": 8,
+        "recall": 1
+      },
+      "inferenceSeconds": 2.0633982500003185,
+      "peakProcessRSSBytes": 1693122560
+    },
+    {
+      "id": "aiqwk30",
+      "role": "held-out",
+      "passed": false,
+      "countMatches": true,
+      "metrics": {
+        "referenceSpeakerSeconds": 28.880000000000003,
+        "overlapSeconds": 2.230000000000004,
+        "silenceSeconds": 3.3500000000000014,
+        "missedSpeakerSeconds": 2.6600000000000077,
+        "falseSpeakerSeconds": 0.9500000000000011,
+        "confusedSpeakerSeconds": 0.14000000000000057,
+        "mapping": {
+          "speaker_0": "spk02",
+          "speaker_1": "spk03",
+          "speaker_2": "spk04",
+          "speaker_3": "spk05"
+        },
+        "der": 0.1298476454293632
+      },
+      "confusionRatio": 0.0048476454293629005,
+      "overlap": {
+        "referenceOverlapSeconds": 2.230000000000004,
+        "retainedOverlapSeconds": 1.3499999999999979,
+        "recall": 0.6053811659192805
+      },
+      "inferenceSeconds": 0.5674967920058407,
+      "peakProcessRSSBytes": 1693581312
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "case": "graham-picture",
+  "derivativeSha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+  "byteExact": true,
+  "preservation": {
+    "status": "unverified",
+    "basis": "physical raster/clock passed; source-to-derivative visual proof required"
+  },
+  "tool": {
+    "kind": "prepared-ffmpeg",
+    "version": "9.0.2",
+    "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+  }
+}

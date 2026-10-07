@@ -23,24 +23,26 @@ function phrases(rows, pauseUs) {
   const result = [];
   let current;
   let previous;
+  let currentEnd;
   for (const [index, row] of rows.entries()) {
     if (row.type !== "word") {
       current = previous = undefined;
       continue;
     }
     const range = rangeOf(row);
-    const priorRange = previous && rangeOf(previous);
     if (
       !current ||
       row.segment !== previous.segment ||
       row.clipId !== previous.clipId ||
       row.generation !== previous.generation ||
       row.trackId !== previous.trackId ||
+      row.instant ||
+      previous.instant ||
       row.partial ||
       previous.partial ||
       row.fragments?.length > 1 ||
       previous.fragments?.length > 1 ||
-      separatedByPause(range.startUs, priorRange.endUs, pauseUs)
+      separatedByPause(range.startUs, currentEnd, pauseUs)
     ) {
       current = {
         text: row.text,
@@ -48,6 +50,7 @@ function phrases(rows, pauseUs) {
         displayRangeSeconds: [displayTime(range.startUs), displayTime(range.endUs)],
         speaker: null,
       };
+      currentEnd = range.endUs;
       result.push(current);
     } else {
       current.text += ` ${row.text}`;
@@ -57,6 +60,7 @@ function phrases(rows, pauseUs) {
         displayTime(range.endUs),
       );
     }
+    if (separatedByPause(range.endUs, currentEnd, 0)) currentEnd = range.endUs;
     previous = row;
   }
   return result;
@@ -65,7 +69,7 @@ function phrases(rows, pauseUs) {
 function selectionParams(selection) {
   const params = { ...selection };
   delete params.label;
-  delete params.generation;
+  if ("projectId" in params) delete params.generation;
   return params;
 }
 
@@ -156,7 +160,6 @@ export async function compactTranscripts(request, invoke) {
     if (retained?.identity.revisionId) params.revisionId = retained.identity.revisionId;
     if (cursor) params.cursor = cursor;
     params.limit = pageRows;
-    params.prepare = false;
     const response = await invoke("transcript.get", params);
     pagesRead++;
     if (

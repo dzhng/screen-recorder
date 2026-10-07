@@ -1,0 +1,118 @@
+[
+  {
+    "metadataOutputVersion" : "3.0",
+    "storagePrecision" : "Mixed (Float16, Palettized (6 bits), Sparse)",
+    "outputSchema" : [
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 1 × 512 × 1 × 188)",
+        "shortDescription" : "",
+        "shape" : "[1, 512, 1, 188]",
+        "name" : "encoder_output_embeds",
+        "type" : "MultiArray"
+      },
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 1 × 640 × 1 × 188)",
+        "shortDescription" : "",
+        "shape" : "[1, 640, 1, 188]",
+        "name" : "joint_projected_encoder_output_embeds",
+        "type" : "MultiArray"
+      },
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 1 × 1025 × 1 × 188)",
+        "shortDescription" : "",
+        "shape" : "[1, 1025, 1, 188]",
+        "name" : "ctc_head_raw_output",
+        "type" : "MultiArray"
+      },
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 1 × 1025 × 1 × 188)",
+        "shortDescription" : "",
+        "shape" : "[1, 1025, 1, 188]",
+        "name" : "ctc_head_output",
+        "type" : "MultiArray"
+      }
+    ],
+    "modelParameters" : [
+
+    ],
+    "specificationVersion" : 8,
+    "mlProgramOperationTypeHistogram" : {
+      "Pad" : 17,
+      "Ios17.mul" : 86,
+      "Split" : 17,
+      "Ios17.transpose" : 1,
+      "Ios17.sub" : 1,
+      "Ios16.constexprLutToDense" : 190,
+      "Ios17.conv" : 402,
+      "Ios17.matmul" : 51,
+      "Ios17.log" : 1,
+      "Ios16.sigmoid" : 17,
+      "Ios17.add" : 309,
+      "Ios17.sliceByIndex" : 34,
+      "Ios16.constexprSparseToDense" : 190,
+      "Ios16.relu" : 3,
+      "Ios17.batchNorm" : 85,
+      "Ios16.softmax" : 18,
+      "Ios17.reshape" : 137,
+      "Ios17.layerNorm" : 85,
+      "Ios16.silu" : 51
+    },
+    "computePrecision" : "Mixed (Float16, Float32, Int32)",
+    "isUpdatable" : "0",
+    "stateSchema" : [
+
+    ],
+    "availability" : {
+      "macOS" : "14.0",
+      "tvOS" : "17.0",
+      "visionOS" : "1.0",
+      "watchOS" : "10.0",
+      "iOS" : "17.0",
+      "macCatalyst" : "17.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_mlProgram"
+    },
+    "userDefinedMetadata" : {
+      "com.github.apple.coremltools.source_dialect" : "TorchScript",
+      "com.github.apple.coremltools.source" : "torch==2.5.0",
+      "com.github.apple.coremltools.version" : "8.3.0"
+    },
+    "inputSchema" : [
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 1 × 1 × 1501 × 80)",
+        "shortDescription" : "",
+        "shape" : "[1, 1, 1501, 80]",
+        "name" : "melspectrogram_features",
+        "type" : "MultiArray"
+      },
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 1 × 1 × 1 × 1)",
+        "shortDescription" : "",
+        "shape" : "[1, 1, 1, 1]",
+        "name" : "input_1",
+        "type" : "MultiArray"
+      }
+    ],
+    "generatedClassName" : "AudioEncoder_mixedBitPalettized_6_bit",
+    "method" : "predict"
+  }
+]

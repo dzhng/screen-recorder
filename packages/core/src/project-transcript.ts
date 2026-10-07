@@ -18,6 +18,8 @@ import { foldWord } from "./word-kind.js";
 import { mergeHeads, compareKey, type EvidenceKey } from "./evidence-merge.js";
 import type { EvidenceManifest, EvidencePagePlan, EvidenceCheckpoint } from "./project-evidence.js";
 import { sourceSelectionKey as selectionKey } from "./source-selection.js";
+import { attributeTranscriptWords, type SpeakerAttribution } from "./speaker-attribution.js";
+import type { SpeakerEvidenceMetadata, SpeakerEvidenceStore } from "./speaker-evidence.js";
 const scanBudget = 128;
 const range = (value: ExactRange): SelectionRange => ({
   startUs: toTime(value.start),
@@ -35,7 +37,9 @@ export type ProjectTranscriptRow = {
   fragments: { source: SelectionRange; project: SelectionRange }[];
   partial: boolean;
 } & (
-  | Omit<Extract<SourceTranscriptRow, { type: "word" }>, "sourceRange" | "partial">
+  | (Omit<Extract<SourceTranscriptRow, { type: "word" }>, "sourceRange" | "partial"> & {
+      speaker?: SpeakerAttribution;
+    })
   | Omit<Extract<SourceTranscriptRow, { type: "gap" }>, "sourceRange" | "partial">
 );
 
@@ -79,11 +83,38 @@ export function mergeTranscript(
   state: EvidenceCheckpoint<TranscriptPosition>,
   limit: number,
   records: TranscriptRecords,
+  speakerRecords?: Pick<SpeakerEvidenceStore, "intervalPage">,
+  speakerLabels?: (metadata: SpeakerEvidenceMetadata) => ReadonlyMap<number, string>,
 ) {
   const dependencies = new Map(
     manifest.dependencies.map((dependency) => [selectionKey(dependency.selection), dependency]),
   );
   let budget = scanBudget;
+  const speakerTurns = new Map<string, { slot: number; sourceRange: SelectionRange }[]>();
+  const turnsFor = (clip: SourceWindowOccurrence) => {
+    const key = selectionKey(clip),
+      cached = speakerTurns.get(key);
+    if (cached) return cached;
+    const dependency = dependencies.get(key),
+      result: { slot: number; sourceRange: SelectionRange }[] = [];
+    if (speakerRecords && dependency?.speaker) {
+      for (const metadata of dependency.speaker.evidence) {
+        let afterSequence = -1;
+        for (;;) {
+          const page = speakerRecords.intervalPage({
+            identity: metadata,
+            afterSequence,
+            limit: 1000,
+          });
+          result.push(...page.intervals.map(({ slot, sourceRange }) => ({ slot, sourceRange })));
+          if (page.nextSequence === null) break;
+          afterSequence = page.nextSequence;
+        }
+      }
+    }
+    speakerTurns.set(key, result);
+    return result;
+  };
   const common = (clip: SourceWindowOccurrence, transcript: TranscriptMetadata | null) => ({
     clipId: clip.clipId,
     assetId: clip.assetId,
@@ -129,6 +160,15 @@ export function mergeTranscript(
       )
     )
       return null;
+    const dependency = dependencySpeaker(clip);
+    const speaker =
+      row.type === "word" && speakerRecords && dependency
+        ? attributeTranscriptWords(
+            [{ id: row.id, sourceRange: row.sourceRange }],
+            turnsFor(clip),
+            speakerLabels ? { labels: speakerLabels(dependency.evidence[0]!) } : {},
+          )[0]!.speaker
+        : undefined;
     return candidate(
       {
         ...row,
@@ -138,9 +178,14 @@ export function mergeTranscript(
           source: range(fragment.source),
           project: range(fragment.project),
         })),
+        ...(speaker === undefined ? {} : { speaker }),
       },
       row.type === "word" ? row.ordinal : -1,
     );
+  };
+  const dependencySpeaker = (clip: SourceWindowOccurrence) => {
+    const dependency = dependencies.get(selectionKey(clip));
+    return dependency?.speaker?.evidence.length ? dependency.speaker : undefined;
   };
   const fill = (index: number): boolean => {
     const track = state.tracks[index]!,
@@ -239,7 +284,9 @@ export function mergeTranscript(
           words,
           projectRange: {
             startUs: words[0]!.fragments[0]!.project.startUs,
-            endUs: words.at(-1)!.fragments.at(-1)!.project.endUs,
+            endUs: words
+              .flatMap((word) => word.fragments.map((fragment) => fragment.project.endUs))
+              .reduce((a, b) => (compare(fromTime(a), fromTime(b)) >= 0 ? a : b)),
           },
         },
       };

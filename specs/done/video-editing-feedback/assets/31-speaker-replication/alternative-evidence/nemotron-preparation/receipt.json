@@ -1,0 +1,7 @@
+{
+  "status": {
+    "state": "ready"
+  },
+  "modelPath": "/tmp/yap-editing-speaker-replication/nemotron-model-library/models/nemotron3-checkpoint-research/f667ed73aee57d40cc39428eb768b4fd87a0a29e/checkpoint/Nemotron-3-Diarization.nemo",
+  "seconds": 9.543576583
+}

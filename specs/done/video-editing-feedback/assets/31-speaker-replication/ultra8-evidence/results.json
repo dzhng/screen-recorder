@@ -1,0 +1,91 @@
+{
+  "cases": [
+    {
+      "id": "bspxd30",
+      "result": {
+        "metrics": {
+          "referenceSpeakerSeconds": 29.840000000000003,
+          "overlapSeconds": 3.039999999999992,
+          "silenceSeconds": 3.1999999999999886,
+          "missedSpeakerSeconds": 0.07999999999999774,
+          "falseSpeakerSeconds": 4.559999999999993,
+          "confusedSpeakerSeconds": 0,
+          "mapping": {
+            "speaker_0": "spk01",
+            "speaker_1": "spk00",
+            "speaker_2": "spk02"
+          },
+          "der": 0.1554959785522785
+        },
+        "referenceOverlapSeconds": 3.039999999999992,
+        "retainedOverlapSeconds": 2.959999999999994,
+        "overlapRecall": 0.9736842105263164,
+        "confusionRatio": 0,
+        "count": 3,
+        "requiredCount": 3,
+        "turnsSha256": "60c3071a9128f60ba1c1ba4ee52e1fb5329ed3db48181e4fdc7542d877e3dfce",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "resources": {
+        "inferenceSeconds": 0.4874880419811234,
+        "inferencePeakProcessRSSBytes": 2492563456,
+        "interpretationSeconds": 0.00016600000000000038
+      }
+    },
+    {
+      "id": "aiqwk30",
+      "result": {
+        "metrics": {
+          "referenceSpeakerSeconds": 28.880000000000003,
+          "overlapSeconds": 2.230000000000004,
+          "silenceSeconds": 3.3500000000000014,
+          "missedSpeakerSeconds": 0,
+          "falseSpeakerSeconds": 9.92,
+          "confusedSpeakerSeconds": 0.12000000000000455,
+          "mapping": {
+            "speaker_0": "spk02",
+            "speaker_1": "spk03",
+            "speaker_2": "spk04",
+            "speaker_3": "spk05"
+          },
+          "der": 0.347645429362881
+        },
+        "referenceOverlapSeconds": 2.230000000000004,
+        "retainedOverlapSeconds": 2.230000000000004,
+        "overlapRecall": 1,
+        "confusionRatio": 0.004155124653739769,
+        "count": 4,
+        "requiredCount": 4,
+        "turnsSha256": "aa3d5f69819278197e838c6546ea8c961c868c396606a86229a650aad9b63ad3",
+        "gates": {
+          "der": false,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": false
+      },
+      "resources": {
+        "inferenceSeconds": 0.5597939579747617,
+        "inferencePeakProcessRSSBytes": 2494021632,
+        "interpretationSeconds": 0.00015541699999999993
+      }
+    }
+  ],
+  "promotion": false,
+  "nativeCalls": 2,
+  "retries": 0,
+  "transportWallSeconds": 21.674588292,
+  "stop": "aiqwk30 DER fails; no returns or long calls",
+  "scope": "One native run per reused short control; no long or generalization quality claim."
+}

@@ -1,6 +1,6 @@
 import { hasStatefulProcessing, normalizeStateEdit } from "./processing-state.js";
 import { clipGraph } from "./clip-graph.js";
-import { placementForRange, resolveComposition } from "./model.js";
+import { placementForRange, resolveComposition, resolvePlacement } from "./model.js";
 import { getProcessing, processingKey } from "./processing.js";
 import { CompositionError } from "./errors.js";
 import { z } from "zod";
@@ -11,14 +11,18 @@ import {
   textClipSchema,
   textSourceSchema,
   compositionSchema,
+  isMediaClip,
   isStatefulProcessor,
   rangeSchema,
+  selectionRangeSchema,
   routingNodeSchema,
   processingTargetSchema,
   processingStepSchema,
   processingTapSchema,
   processorRegistry,
   interpolationSchema,
+  signedTimeValueSchema,
+  synchronizationEvidenceSchema,
 } from "./schema.js";
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
@@ -32,9 +36,12 @@ import { replaceClip } from "./replace.js";
 import { retimeClips } from "./retime.js";
 
 type Document = ValidatedComposition["document"];
-type EntityKind = "clip" | "track" | "group" | "syncGroup" | "processingStep";
+type EntityKind = "clip" | "track" | "group" | "syncGroup" | "angleGroup" | "processingStep";
 const reference = z.union([z.string().min(1), z.object({ label: z.string().min(1) }).strict()]);
 const label = z.string().min(1).optional();
+function greatestCommonDivisor(a: bigint, b: bigint): bigint {
+  return b === 0n ? a : greatestCommonDivisor(b, a % b);
+}
 const routingTarget = z.object({ kind: z.enum(["track", "group"]), id: reference }).strict();
 const processingTarget = z.union([
   processingTargetSchema.options[0].extend({ id: reference }),
@@ -92,6 +99,52 @@ const transition = {
   interpolation: interpolationSchema.default("linear"),
   label,
 };
+const transitionRecipe = z
+  .object({
+    operation: z.literal("transition"),
+    kind: z.enum(["crossfade", "dip", "flash", "zoom", "whip"]),
+    targets: z.array(processingTarget).min(1).max(2),
+    mediaKind: z.enum(["audio", "video"]),
+    window: exactAnchor,
+    interpolation: interpolationSchema.default("linear"),
+    from: z.number().finite().optional(),
+    to: z.number().finite().optional(),
+    geometry: processorRegistry.geometry.schema.omit({ type: true, scale: true }).optional(),
+    direction: z.enum(["left", "right", "up", "down"]).optional(),
+    distance: z.number().finite().positive().optional(),
+    overscan: z.number().finite().min(1).max(16).optional(),
+    label,
+  })
+  .strict()
+  .superRefine((value, context) => {
+    if (value.kind === "crossfade" && value.targets.length !== 2)
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Crossfade requires two targets" });
+    if (value.kind !== "crossfade" && value.targets.length !== 1)
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Transition requires one target" });
+    if (value.kind === "zoom") {
+      if (value.mediaKind !== "video" || value.from === undefined || value.to === undefined || value.from < 1 || value.to < 1)
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Zoom requires video from/to scales at least 1" });
+    }
+    if (value.kind === "whip") {
+      if (value.mediaKind !== "video" || value.direction === undefined || value.distance === undefined || value.overscan === undefined)
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Whip requires video direction, distance and overscan" });
+    }
+  });
+const angleMember = z
+  .object({
+    clipId: reference,
+    offsetUs: signedTimeValueSchema.optional(),
+    validRange: selectionRangeSchema.optional(),
+    segments: z.array(z.object({ offsetUs: signedTimeValueSchema, validRange: selectionRangeSchema }).strict()).min(1).optional(),
+  })
+  .strict()
+  .superRefine((member, context) => {
+    const piecewise = member.segments !== undefined;
+    if (piecewise && (member.offsetUs !== undefined || member.validRange !== undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle member cannot also set offsetUs/validRange" });
+    if (!piecewise && (member.offsetUs === undefined || member.validRange === undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Angle member requires offsetUs and validRange" });
+  });
 export const editOperationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("text.set"), clipId: reference, source: textSourceSchema })
@@ -106,6 +159,28 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       geometry: processorRegistry.geometry.schema.omit({ type: true, scale: true }).optional(),
     })
     .strict(),
+  transitionRecipe,
+  z
+    .object({
+      operation: z.literal("angle.declare"),
+      sessionId: z.string().min(1),
+      mapping: z.literal("piecewise-local").optional(),
+      originClipId: reference,
+      evidence: synchronizationEvidenceSchema,
+      members: z.array(angleMember).min(2),
+      label,
+    })
+    .strict()
+    .superRefine((operation, context) => {
+      const hasSegments = operation.members.some((member) => member.segments !== undefined);
+      if (hasSegments && operation.mapping !== "piecewise-local")
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle declaration must declare mapping" });
+      if (operation.mapping === "piecewise-local" && !hasSegments)
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle declaration requires segments" });
+      if (operation.mapping === "piecewise-local" && operation.members.some((member) => member.segments === undefined))
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle declaration requires segments for every member" });
+    }),
+  z.object({ operation: z.literal("angle.remove"), angleGroupId: reference }).strict(),
   z
     .object({
       operation: z.literal("processing.set"),
@@ -189,7 +264,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("remove"),
       clipIds: z.array(reference).min(1),
-      ranges: z.array(rangeSchema).min(1).max(1000).optional(),
+      ranges: z.array(selectionRangeSchema).min(1).max(1000).optional(),
       scope: z.enum(["linked", "selected"]).default("linked"),
       ripple,
     })
@@ -251,7 +326,12 @@ export type EditChange =
   | { kind: "track"; id: string; value: Document["tracks"][number] | null }
   | { kind: "group"; id: string; value: Document["groups"][number] | null }
   | { kind: "clip"; id: string; value: Document["clips"][number] | null }
-  | { kind: "syncGroup"; id: string; value: Document["syncGroups"][number] | null };
+  | { kind: "syncGroup"; id: string; value: Document["syncGroups"][number] | null }
+  | {
+      kind: "angleGroup";
+      id: string;
+      value: NonNullable<Document["angleGroups"]>[number] | null;
+    };
 export type EditBatchResult = {
   document: Document;
   changed: boolean;
@@ -298,6 +378,10 @@ function changes(before: Document, after: Document): EditChange[] {
       kind: "syncGroup" as const,
       ...change,
     })),
+    ...difference(before.angleGroups ?? [], after.angleGroups ?? []).map((change) => ({
+      kind: "angleGroup" as const,
+      ...change,
+    })),
   ];
   const previous = new Map(before.processing.map((stack) => [processingKey(stack.target), stack]));
   for (const stack of after.processing) {
@@ -341,6 +425,7 @@ export function applyBatch(
     ),
     group: new Set(initial.groups.map((value) => value.id)),
     syncGroup: new Set(initial.syncGroups.map((value) => value.id)),
+    angleGroup: new Set((initial.angleGroups ?? []).map((value) => value.id)),
   };
   const createdIds: EditBatchResult["createdIds"] = [];
   const bindings = new Map<string, { kind: EntityKind; id: string }>();
@@ -534,7 +619,7 @@ export function applyBatch(
   for (let operationIndex = 0; operationIndex < parsed.data.length; operationIndex++) {
     const authored = parsed.data[operationIndex]!;
     const before = model.document;
-    let next: Document;
+    let next: Document = before;
     try {
       if (
         authored.operation === "move" &&
@@ -802,6 +887,179 @@ export function applyBatch(
         operationIndex = end - 1;
         continue;
       }
+      if (authored.operation === "transition") {
+        const operation = authored;
+        const targets = operation.targets.map((target) =>
+          target.kind === "output"
+            ? target
+            : { kind: target.kind, id: resolve(target.id, target.kind) },
+        );
+        if (new Set(targets.map((target) => processingKey(target))).size !== targets.length)
+          invalid("Transition targets must be distinct");
+        const window =
+          operation.window.kind === "project"
+            ? operation.window
+            : { ...operation.window, clipId: resolve(operation.window.clipId, "clip") };
+        const transitionRange = resolvePlacement(model, window).range;
+        for (const target of targets) {
+          if (target.kind !== "clip") continue;
+          const clip = model.clips.find((value) => value.clip.id === target.id);
+          if (
+            !clip ||
+            compare(transitionRange.start, clip.range.start) < 0 ||
+            compare(transitionRange.end, clip.range.end) > 0
+          )
+            invalid("Transition window exceeds a target's available handle", { target });
+        }
+        if (operation.kind === "zoom" || operation.kind === "whip") {
+          if (operation.mediaKind !== "video" || targets.length !== 1 || targets[0]!.kind === "output")
+            invalid("Trajectory requires one video target");
+          const target = targets[0]!;
+          const [start, end] =
+            window.kind === "clip"
+              ? [window.start, window.end]
+              : window.kind === "content"
+                ? [window.sourceRange.startUs, window.sourceRange.endUs]
+                : [window.range.startUs, window.range.endUs];
+          if (window.kind !== "clip" && (typeof start !== "number" || typeof end !== "number"))
+            invalid("Trajectory endpoints must be whole microseconds; use a clip anchor for fractional boundaries");
+          const curve = {
+            keys: [
+              { at: start, value: operation.kind === "zoom" ? operation.from! : 0, interpolation: operation.interpolation },
+              { at: end, value: operation.kind === "zoom" ? operation.to! : 0, interpolation: "hold" as const },
+            ],
+          };
+          const processor =
+            operation.kind === "zoom"
+              ? { type: "geometry" as const, ...operation.geometry, scale: { x: curve, y: curve } }
+              : (() => {
+                  const width = operation.geometry?.rect?.width ?? model.document.canvas.width;
+                  const height = operation.geometry?.rect?.height ?? model.document.canvas.height;
+                  if (
+                    typeof width !== "number" ||
+                    typeof height !== "number" ||
+                    !Number.isFinite(width) ||
+                    !Number.isFinite(height) ||
+                    width <= 0 ||
+                    height <= 0
+                  )
+                    invalid(
+                      "Whip coverage requires fixed positive geometry rectangle dimensions",
+                    );
+                  const dimension =
+                    operation.direction === "left" || operation.direction === "right"
+                      ? width
+                      : height;
+                  const maximum = ((operation.overscan! - 1) * dimension) / 2;
+                  if (operation.distance! > maximum)
+                    invalid("Whip distance exceeds overscan coverage; increase overscan or reduce distance", {
+                      distance: operation.distance,
+                      maximum,
+                    });
+                  const signed =
+                    operation.direction === "left" || operation.direction === "up"
+                      ? operation.distance!
+                      : -operation.distance!;
+                  const x =
+                    operation.direction === "left" || operation.direction === "right"
+                      ? { keys: [{ at: start, value: signed, interpolation: operation.interpolation }, { at: end, value: 0, interpolation: "hold" as const }] }
+                      : 0;
+                  const y =
+                    operation.direction === "up" || operation.direction === "down"
+                      ? { keys: [{ at: start, value: signed, interpolation: operation.interpolation }, { at: end, value: 0, interpolation: "hold" as const }] }
+                      : 0;
+                  return {
+                    type: "geometry" as const,
+                    ...operation.geometry,
+                    rect: {
+                      x,
+                      y,
+                      width: operation.geometry?.rect?.width ?? model.document.canvas.width,
+                      height: operation.geometry?.rect?.height ?? model.document.canvas.height,
+                    },
+                    scale: { x: operation.overscan!, y: operation.overscan! },
+                  };
+                })();
+          next = replaceProcessing(before, [processingStack({
+            operation: "processing.set",
+            target,
+            steps: [...getProcessing(model, target), { enabled: true, window, processor }],
+          })]);
+        } else {
+        const endpoints =
+          window.kind === "clip"
+            ? [window.start, window.end]
+            : window.kind === "content"
+              ? [window.sourceRange.startUs, window.sourceRange.endUs]
+              : [window.range.startUs, window.range.endUs];
+        if (
+          window.kind !== "clip" &&
+          (typeof endpoints[0] !== "number" || typeof endpoints[1] !== "number")
+        )
+          invalid(
+            "Transition source/project endpoints must be whole microseconds; use a clip anchor for fractional boundaries",
+          );
+        const midpoint = operation.kind === "crossfade" ? undefined : (() => {
+          if (window.kind === "clip") {
+            const denominator =
+              2n * BigInt(window.start.denominator) * BigInt(window.end.denominator);
+            const numerator =
+              BigInt(window.start.numerator) * BigInt(window.end.denominator) +
+              BigInt(window.end.numerator) * BigInt(window.start.denominator);
+            const divisor = greatestCommonDivisor(
+              numerator < 0n ? -numerator : numerator,
+              denominator,
+            );
+            return {
+              numerator: Number(numerator / divisor),
+              denominator: Number(denominator / divisor),
+            };
+          }
+          const start = endpoints[0] as number,
+            end = endpoints[1] as number;
+          if ((start + end) % 2 !== 0)
+            invalid("Dip and flash require an even whole-microsecond midpoint");
+          return (start + end) / 2;
+        })();
+        const values =
+          operation.kind === "crossfade"
+            ? targets.map((_, index) => (index === 0 ? [1, 0] : [0, 1]))
+            : targets.map(() => [1, 0, 1]);
+        const updates = targets.map((target, index) => {
+          const valuesForTarget = values[index]!;
+          const at =
+            valuesForTarget.length === 2
+              ? endpoints
+              : [endpoints[0], midpoint!, endpoints[1]];
+          const curve = {
+            keys: valuesForTarget.map((value, keyIndex) => ({
+              at: at[keyIndex]!,
+              value,
+              interpolation:
+                keyIndex === valuesForTarget.length - 1 ? ("hold" as const) : operation.interpolation,
+            })),
+          };
+          const processor =
+            operation.mediaKind === "audio"
+              ? { type: "gain" as const, gain: curve }
+              : { type: "opacity" as const, opacity: curve };
+          return processingStack({
+            operation: "processing.set",
+            target,
+            steps: [
+              ...getProcessing(model, target),
+              {
+                enabled: true,
+                ...(index === 0 && operation.label ? { label: operation.label } : {}),
+                window,
+                processor,
+              },
+            ],
+          });
+        });
+        next = replaceProcessing(before, updates);
+        }
+      } else {
       let operation = authored;
       if (operation.operation === "fade" || operation.operation === "zoom") {
         const target =
@@ -1268,6 +1526,51 @@ export function applyBatch(
           };
           break;
         }
+        case "angle.declare": {
+          const memberIds = clips(operation.members.map((member) => member.clipId));
+          const originClipId = clips([operation.originClipId])[0]!;
+          if (!memberIds.includes(originClipId)) invalid("Angle origin must be a member");
+          const members = operation.members.map((member, index) => {
+            const clip = model.clips.find((value) => value.clip.id === memberIds[index])!;
+            if (!isMediaClip(clip.clip)) invalid("Angle members require media clips");
+            const base = {
+              clipId: clip.clip.id,
+              assetId: clip.clip.assetId,
+              streamId: clip.clip.streamId,
+            };
+            return operation.mapping === "piecewise-local"
+              ? { ...base, segments: member.segments! }
+              : { ...base, offsetUs: member.offsetUs!, validRange: member.validRange! };
+          });
+          const id = allocate("angleGroup");
+          bind(operation.label, "angleGroup", id);
+          next = {
+            ...before,
+            angleGroups: [
+              ...(before.angleGroups ?? []),
+              {
+                id,
+                sessionId: operation.sessionId,
+                originClipId,
+                evidence: operation.evidence,
+                ...(operation.mapping === "piecewise-local" ? { mapping: operation.mapping } : {}),
+                members,
+              },
+            ],
+          };
+          break;
+        }
+        case "angle.remove": {
+          const id = resolve(operation.angleGroupId, "angleGroup");
+          if (!(before.angleGroups ?? []).some((group) => group.id === id))
+            invalid("Unknown angle group", { angleGroupId: id });
+          next = {
+            ...before,
+            angleGroups: (before.angleGroups ?? []).filter((group) => group.id !== id),
+          };
+          break;
+        }
+      }
       }
       const candidate = resolveComposition(next, model.assets, model.acquisitions);
       const stateDocument = normalizeStateEdit(model, candidate);

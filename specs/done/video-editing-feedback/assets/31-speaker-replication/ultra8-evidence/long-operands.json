@@ -1,0 +1,64 @@
+{
+  "files": [
+    {
+      "path": "long-observations/bspxd-unedited336.json.gz",
+      "bytes": 319404,
+      "sha256": "efe05944645c8195bb29dde6ee90690c9bae82c4f0579fd5fcc9bed1cbe86c54"
+    },
+    {
+      "path": "long-observations/bspxd-unedited336.json.native-unverified.json.gz",
+      "bytes": 132373,
+      "sha256": "a0a3d8bfd4b4ebc8d7ac17a520f109c702ea06fcb87d6df09a1592124e42a4fc"
+    },
+    {
+      "path": "long-observations/bspxd-unedited336.request.json",
+      "bytes": 637,
+      "sha256": "785d15fbbdb60610a644cafaf290315f247b27ca432080cfccb10cbe08a59878"
+    },
+    {
+      "path": "long-observations/bspxd-unedited336.stderr.log.gz",
+      "bytes": 1779,
+      "sha256": "d6e4b936d4a68218ef482496477b293c1ad21cae5dd74bd86c018f8cdb0443f2"
+    },
+    {
+      "path": "long-observations/bspxd-unedited336.stdout.json",
+      "bytes": 709,
+      "sha256": "dd3ec69e500d5f4001a1c35b1018a5385f4c7a198dbd1ae429bf0a63f5bb8027"
+    },
+    {
+      "path": "long-observations/bspxd-unedited336.transport.json",
+      "bytes": 117,
+      "sha256": "10509d9f77cfc46cdda07cf491a997462c2a4f5bb3bd089899bf4253b19fc5f8"
+    },
+    {
+      "path": "long-observations/four-speaker600.json.gz",
+      "bytes": 573662,
+      "sha256": "149eedd00807b8f71dd9a555be6850a1acb2187fde2fd1c91edf4915a63c4feb"
+    },
+    {
+      "path": "long-observations/four-speaker600.json.native-unverified.json.gz",
+      "bytes": 241399,
+      "sha256": "2e8c096fcb9003aae3c53ed1fb0abef5da22fdd02e2eca8d6869dfb4dcaa4db1"
+    },
+    {
+      "path": "long-observations/four-speaker600.request.json",
+      "bytes": 631,
+      "sha256": "68ea6414ea96665ed414bf590fda76aac404dd1fccacecd80fa8db799a0df9b6"
+    },
+    {
+      "path": "long-observations/four-speaker600.stderr.log.gz",
+      "bytes": 1779,
+      "sha256": "d6e4b936d4a68218ef482496477b293c1ad21cae5dd74bd86c018f8cdb0443f2"
+    },
+    {
+      "path": "long-observations/four-speaker600.stdout.json",
+      "bytes": 709,
+      "sha256": "dd3ec69e500d5f4001a1c35b1018a5385f4c7a198dbd1ae429bf0a63f5bb8027"
+    },
+    {
+      "path": "long-observations/four-speaker600.transport.json",
+      "bytes": 115,
+      "sha256": "af81a42bfc69403500337310d1a3a00b10c2efa07a63a92d73f06053fd0d2def"
+    }
+  ]
+}

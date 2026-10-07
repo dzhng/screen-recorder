@@ -1,0 +1,41 @@
+{
+  "kind": "transition-source-rasterization-probe",
+  "status": "open",
+  "question": "Does bypassing the per-source CGImage materialization before composition remove the moving reference-parity mismatch?",
+  "productionPath": "FrameImage renderedImage then CIImage(cgImage:)",
+  "probePath": "native decoded CIImage surfaces composed directly",
+  "probeWorkerSha256": "49bf6143a2b9f3547038133ad433e0b7d36c3cf6e7b4459af50f4eadd36453c6",
+  "samples": [
+    {
+      "id": "moving-100000",
+      "candidateSha256": "d4e3f5a13f6bf712bd96215636036cb8a199c5185c94992ab933bb03c235b4cc",
+      "comparison": {
+        "mae": 0.07269965277777778,
+        "maxChannelDelta": 2,
+        "differingRatio": 0.21744791666666666
+      }
+    },
+    {
+      "id": "moving-500000",
+      "candidateSha256": "9b3003e564efc1e0e907d9b4cc019588e08c1febb8fff9e7ab6ae8aba85e4a11",
+      "comparison": {
+        "mae": 0.011176215277777778,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.028645833333333332
+      }
+    },
+    {
+      "id": "moving-900000",
+      "candidateSha256": "284ea6c0b846efb48781e2880c159e1e59dd214844d814500c19116e3c0d259a",
+      "comparison": {
+        "mae": 0.05967881944444445,
+        "maxChannelDelta": 1,
+        "differingRatio": 0.17903645833333334
+      }
+    }
+  ],
+  "result": {
+    "parityGatePassed": false,
+    "conclusion": "direct decoded CIImage composition did not remove the mismatch and worsened the first sample max channel delta to 2"
+  }
+}

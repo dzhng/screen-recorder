@@ -1,0 +1,56 @@
+[
+  {
+    "id": "overlap-region",
+    "left": "overlap-region-context2-0.jsonl",
+    "right": "overlap-region-context2-1.jsonl",
+    "boundaryUs": 20000000,
+    "shared": {
+      "startUs": 18000000,
+      "endUs": 22000000
+    }
+  },
+  {
+    "id": "overlap-neighbor",
+    "left": "overlap-neighbor-context2-0.jsonl",
+    "right": "overlap-neighbor-context2-1.jsonl",
+    "boundaryUs": 20000000,
+    "shared": {
+      "startUs": 18000000,
+      "endUs": 22000000
+    }
+  },
+  {
+    "id": "long-shifted-boundary60",
+    "left": "boundary60-context4-0.jsonl",
+    "right": "boundary60-context4-1.jsonl",
+    "boundaryUs": 60000000,
+    "shared": {
+      "startUs": 56000000,
+      "endUs": 64000000
+    }
+  },
+  {
+    "id": "overlap-region-context4",
+    "left": "overlap-region-bounded-context4.jsonl",
+    "right": "overlap-region-bounded-context4.jsonl",
+    "leftOrdinal": 0,
+    "rightOrdinal": 1,
+    "boundaryUs": 20000000,
+    "shared": {
+      "startUs": 16000000,
+      "endUs": 24000000
+    }
+  },
+  {
+    "id": "overlap-neighbor-context4",
+    "left": "overlap-neighbor-bounded-context4.jsonl",
+    "right": "overlap-neighbor-bounded-context4.jsonl",
+    "leftOrdinal": 0,
+    "rightOrdinal": 1,
+    "boundaryUs": 20000000,
+    "shared": {
+      "startUs": 16000000,
+      "endUs": 24000000
+    }
+  }
+]

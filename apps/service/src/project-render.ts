@@ -7,6 +7,7 @@ import { constants } from "node:fs";
 import { copyFile, mkdir, open } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { CatalogError } from "@yap/core/catalog";
+import { normalizationCorrectionPolicy } from "@yap/core/audio-measurement";
 import type { CompositionMovie, ProjectMovieRenderer } from "@yap/core/project-preview";
 import type { ProjectFrameRenderer } from "@yap/core/frame-inspection";
 import type { ProjectAudioRenderer } from "@yap/core/audio-inspection";
@@ -18,27 +19,32 @@ import {
   type MediaWorker,
 } from "./worker.js";
 
-import type {
-  PointerPreparation,
-  PointerHistoryRenderer,
-} from "@yap/core/pointer-preparation";
+import type { PointerPreparation, PointerHistoryRenderer } from "@yap/core/pointer-preparation";
 import type { SourceEvidenceReader } from "@yap/core/evidence-read";
 import type { PresentationReceipt } from "@yap/core/presentation-evidence";
 import { prepareCompositionPointers } from "@yap/core/composition-pointer";
 import { renderPlan } from "@yap/core/presentation-time";
-export type NativePictureCapabilities = { sdrCorrection?: string };
+export type NativePictureCapabilities = { sdrCorrection?: string; lut?: string };
 export async function nativePictureCapabilities(
   worker: MediaWorker,
 ): Promise<NativePictureCapabilities> {
   try {
     const result = nativeResult(await worker("media.pictureCapabilities", {}, { timeoutMs: 5000 }));
-    if (typeof result !== "object" || result === null || !("sdrCorrection" in result)) return {};
-    const identity = result.sdrCorrection;
-    return typeof identity === "string" &&
-      identity.startsWith("coreimage-sdr-source-neutral-v1:") &&
-      identity.length <= 256
-      ? { sdrCorrection: identity }
-      : {};
+    if (typeof result !== "object" || result === null) return {};
+    const sdr = "sdrCorrection" in result ? result.sdrCorrection : undefined;
+    const lut = "lut" in result ? result.lut : undefined;
+    return {
+      ...(typeof sdr === "string" &&
+      sdr.startsWith("coreimage-sdr-source-neutral-recovery-v2:") &&
+      sdr.length <= 256
+        ? { sdrCorrection: sdr }
+        : {}),
+      ...(typeof lut === "string" &&
+      lut.startsWith("coreimage-unit-linear-srgb-cube-trilinear-v1:") &&
+      lut.length <= 256
+        ? { lut }
+        : {}),
+    };
   } catch {
     return {};
   }
@@ -47,16 +53,20 @@ function picturePayload(
   window: AudioWindowInput["window"],
   capabilities: NativePictureCapabilities,
 ) {
-  const requirements = window.manifest.requirements.filter(
-    (item) => item.kind === "processor" && item.processor.type === "sdr-correction",
-  );
-  if (!requirements.length) return {};
-  if (
-    !capabilities.sdrCorrection ||
-    requirements.some((item) => item.implementationId !== capabilities.sdrCorrection)
-  )
-    throw new CatalogError("NOT_READY", "The bound native SDR correction recipe is unavailable");
-  return { sdrCorrectionImplementationId: capabilities.sdrCorrection };
+  const payload: { sdrCorrectionImplementationId?: string; lutImplementationId?: string } = {};
+  for (const [type, identity, field] of [
+    ["sdr-correction", capabilities.sdrCorrection, "sdrCorrectionImplementationId"],
+    ["lut", capabilities.lut, "lutImplementationId"],
+  ] as const) {
+    const requirements = window.manifest.requirements.filter(
+      (item) => item.kind === "processor" && item.processor.type === type,
+    );
+    if (!requirements.length) continue;
+    if (!identity || requirements.some((item) => item.implementationId !== identity))
+      throw new CatalogError("NOT_READY", `The bound native ${type} recipe is unavailable`);
+    payload[field] = identity;
+  }
+  return payload;
 }
 export type NativeAudioCapabilities = {
   rnnoise?: string;
@@ -206,8 +216,15 @@ function statePayload(
 export function audioDeadline(window: AudioWindowInput["window"], retained = false) {
   let preparationFrames = 0n;
   if (!retained) {
-    for (const domain of window.manifest.state?.domains ?? [])
-      preparationFrames += BigInt(domain.sampleRange.end - domain.sampleRange.start);
+    for (const domain of window.manifest.state?.domains ?? []) {
+      // Two initial scans plus a render and scanner for each bounded candidate.
+      const passes =
+        domain.recipe.type === "normalization" && domain.recipe.mode === "dynamic"
+          ? normalizationCorrectionPolicy.maximumCandidates + 1
+          : 1;
+      preparationFrames +=
+        BigInt(domain.sampleRange.end - domain.sampleRange.start) * BigInt(passes);
+    }
     const retimed = new Set(
       window.manifest.requirements.flatMap((item) => (item.kind === "retime" ? [item.clipId] : [])),
     );
@@ -317,8 +334,9 @@ export function projectMovieRenderer(
 ): ProjectMovieRenderer {
   return {
     implementationId:
-      "native-composition-movie-v21" +
+      "native-composition-movie-v24" +
       (pictureCapabilities.sdrCorrection ? ":" + pictureCapabilities.sdrCorrection : "") +
+      (pictureCapabilities.lut ? ":" + pictureCapabilities.lut : "") +
       (processingRuntime ? ":" + processingRuntime.implementationId : ""),
     ...pictureCapabilities,
     ...(processingRuntime ? { processors: processingRuntime.processors } : {}),
@@ -365,6 +383,7 @@ export function projectMovieRenderer(
             processing: nativeProcessing(request.window.processing()),
             assets: request.assets,
             fonts: request.fonts,
+            luts: request.luts,
             audio: {
               range: manifest.sampleRange,
               clips: [...request.window.audio()],
@@ -563,12 +582,14 @@ export function projectFrameRenderer(
 ): ProjectFrameRenderer {
   return {
     implementationId:
-      "native-composition-picture-v17" +
-      (capabilities.sdrCorrection ? ":" + capabilities.sdrCorrection : ""),
+      "native-composition-picture-v20" +
+      (capabilities.sdrCorrection ? ":" + capabilities.sdrCorrection : "") +
+      (capabilities.lut ? ":" + capabilities.lut : ""),
     ...capabilities,
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
-      const { window, assets, fonts, output, maxLongEdge } = request;
+      const { window, assets, fonts, luts, output, maxLongEdge, observations, faceObservations } =
+        request;
       const pictureRecipe = picturePayload(window, capabilities);
       return withRenderedFile(
         worker,
@@ -589,7 +610,10 @@ export function projectFrameRenderer(
                 processing: nativeProcessing(window.processing()),
                 assets,
                 fonts,
+                luts,
                 maxLongEdge,
+                ...(observations === undefined ? {} : { observations }),
+                ...(faceObservations === undefined ? {} : { faceObservations }),
               },
               { signal },
             ),

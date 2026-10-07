@@ -15,10 +15,7 @@ import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, run, root } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(
-  values.out && process.env.YAP_NATIVE,
-  "Pass --out NEW_DIRECTORY and YAP_NATIVE",
-);
+assert.ok(values.out && process.env.YAP_NATIVE, "Pass --out NEW_DIRECTORY and YAP_NATIVE");
 await mkdir(resolve(values.out));
 const out = await realpath(resolve(values.out)),
   home = await mkdtemp("/tmp/yap-motion-");
@@ -55,7 +52,7 @@ try {
     (v) => v.state === "ready",
     "alpha import",
   );
-  const asset = await call("asset.get", { assetId: imported.result.assetId });
+  const asset = await call("asset.get", { assetId: imported.published.output.assetId });
   assert.equal(asset.id, report.sourceSha256);
   const stream = asset.streams.find((s) => s.kind === "video");
   assert.equal(stream.codec, "ap4h");
@@ -239,7 +236,7 @@ try {
       (v) => v.state === "ready",
       "control image",
     );
-    const still = await call("asset.get", { assetId: ready.result.assetId });
+    const still = await call("asset.get", { assetId: ready.published.output.assetId });
     controlOperations.push({
       operation: "place",
       clip: {
@@ -331,7 +328,10 @@ try {
     (v) => v.state === "ready",
     "adopt alpha package",
   );
-  const recipient = { projectId: adopted.result.projectId, revisionId: adopted.result.revisionId };
+  const recipient = {
+    projectId: adopted.published.output.projectId,
+    revisionId: adopted.published.output.revisionId,
+  };
   assert.deepEqual(
     (await picture({ ...recipient, atUs: 2000001 }, "adopted-retimed-phase-2")).pixels,
     reference[2].pixels,

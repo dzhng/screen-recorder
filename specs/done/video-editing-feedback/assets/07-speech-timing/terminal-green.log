@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4 src/source-transcript-read.test.ts -t "terminal instant"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 7 skipped (8)
+   Start at  21:39:06
+   Duration  467ms (transform 81%, import 14%, tests 4%)

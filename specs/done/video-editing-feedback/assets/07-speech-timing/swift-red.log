@@ -1,0 +1,21 @@
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapCapture/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapSpeech/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapMedia/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapFrames/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapAudio/README.md
+[0/1] Planning build
+Building for debugging...
+[0/3] Write swift-version--58304C5D6DBC2206.txt
+[1/4] Write sources
+[3/6] Emitting module YapSpeechTests
+[4/6] Compiling YapSpeechTests main.swift
+[4/7] Write Objects.LinkFileList
+[5/7] Linking YapSpeechTests
+[6/7] Applying YapSpeechTests
+Build of product 'YapSpeechTests' complete! (1.14s)
+YapSpeechTests/main.swift:17: Precondition failed: Overlapping estimates must retain their operands, got 7.248 and 7.248

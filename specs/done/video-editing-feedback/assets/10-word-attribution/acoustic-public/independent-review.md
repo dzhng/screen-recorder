@@ -1,0 +1,17 @@
+Static review only; no tests, builds, or inference were run. Root `README.md` has no current diff.
+
+Verdict: **not clean**.
+
+- **P1 — retained-inference claim is unsupported and the runner performs fresh inference.**  
+  [alignment-acoustics.mjs:55-97](/Users/server/dev/yap-video-editing/packages/test-harness/editing/alignment-acoustics.mjs:55) creates and imports a new WAV asset, then calls `alignment.prepare`. The public processing path schedules a new source-alignment job ([alignment-processing.ts:130-143](/Users/server/dev/yap-video-editing/packages/core/src/alignment-processing.ts:130)), whose observer invokes the prepared model worker ([alignment.ts:35-60](/Users/server/dev/yap-video-editing/apps/service/src/alignment.ts:35)). There is no retained-report/matrix read or equality check. This conflicts with “reuses matching retained inference” in [the asset README:86-87](/Users/server/dev/yap-video-editing/specs/done/video-editing-feedback/assets/10-word-attribution/README.md:86) and [verdict.json:55](/Users/server/dev/yap-video-editing/specs/done/video-editing-feedback/assets/10-word-attribution/acoustic-public/verdict.json:55). The ready-model check also does not pin the expected model/runtime identity.
+
+- **P2 — activity oracle uses independently recomputed RMS instead of the public cell RMS.**  
+  [alignment-acoustics.mjs:120-143](/Users/server/dev/yap-video-editing/packages/test-harness/editing/alignment-acoustics.mjs:120) derives expected activity from local JS `rms`, while the public rule classifies from the retained `row.rms` ([alignment-read.ts:105-111](/Users/server/dev/yap-video-editing/packages/core/src/alignment-read.ts:105)). Because the runner explicitly allows a floating-point RMS difference, a value near the threshold can be classified differently by the two calculations. The oracle can therefore reject a contract-correct result or validate the wrong boundary behavior.
+
+- **P2 — public identity and raw-operand binding are under-asserted.**  
+  The acoustic assertion omits `cell.thresholdRMS` and does not verify the read page’s evidence generation, owner, or `source.pcm.sha256` ([alignment-acoustics.mjs:105-140](/Users/server/dev/yap-video-editing/packages/test-harness/editing/alignment-acoustics.mjs:105)). `rawOperand` only checks that concatenated bytes hash to the page-reported digest, then compares one derived lower-decile value ([alignment-acoustics.mjs:31-50](/Users/server/dev/yap-video-editing/packages/test-harness/editing/alignment-acoustics.mjs:31)); it never binds that digest to the published `reportSha256`. Thus the evidence does not independently prove that the returned pages and raw report are the same selected generation/PCM claimed by the README.
+
+- **P2 — failure evidence can be lost during cleanup.**  
+  The `finally` block stops the service before writing `report.json` ([alignment-acoustics.mjs:178-180](/Users/server/dev/yap-video-editing/packages/test-harness/editing/alignment-acoustics.mjs:178)). `JourneyService.stop()` can throw on client shutdown, non-zero service exit, or its shutdown deadline ([source-evidence-fixture.mjs:268-308](/Users/server/dev/yap-video-editing/packages/test-harness/editing/source-evidence-fixture.mjs:268)). In those failure cases the report is never persisted, precisely when a failed receipt is needed.
+
+The acoustic arithmetic itself is statically consistent with the stated forward-error approach, and the retained threshold mutation artifact documents the expected equality failure.

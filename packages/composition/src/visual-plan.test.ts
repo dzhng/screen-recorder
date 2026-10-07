@@ -90,6 +90,22 @@ test("nested opacity remains on flattened parents and a dry group tap excludes i
   expect(nodes.at(-1)).toEqual({ ...full.visual[4], operations: [] });
   expect(nodes.length).toBe(5);
 });
+
+test("blend processing is retained as an explicit layer-combination operation", () => {
+  const value = structuredClone(document);
+  value.processing = [
+    {
+      target: { kind: "group", id: "inner" },
+      steps: [{ id: "multiply", enabled: true, processor: { type: "blend", mode: "multiply" } }],
+    },
+  ];
+  const frame = [...compiler(value).frames({ startUs: 0, endUs: 1 })][0]!;
+  expect(
+    frame.visual.find((node) => node.target.kind === "group" && node.target.id === "inner")
+      ?.operations,
+  ).toEqual([{ kind: "blend", mode: "multiply" }]);
+});
+
 test("a second geometry crops the fixed canvas domain; disabled steps do not alter primitives", () => {
   const value = structuredClone(document);
   value.processing = [
@@ -114,4 +130,56 @@ test("a second geometry crops the fixed canvas domain; disabled steps do not alt
   ]);
   expect(operations.filter((operation) => operation.kind === "rasterize")).toHaveLength(1);
   expect(operations.some((operation) => operation.kind === "opacity")).toBe(false);
+});
+
+test("bounded motion blur emits a fixed sample recipe and bypasses identity settings", () => {
+  const value = structuredClone(document);
+  value.processing[0]!.steps.push({
+    id: "animated-geometry",
+    enabled: true,
+    processor: {
+      type: "geometry",
+      scale: {
+        x: {
+          keys: [
+            { at: { numerator: 0, denominator: 1 }, value: 1, interpolation: "linear" },
+            { at: { numerator: 1, denominator: 1 }, value: 1.5, interpolation: "linear" },
+          ],
+        },
+        y: {
+          keys: [
+            { at: { numerator: 0, denominator: 1 }, value: 1, interpolation: "linear" },
+            { at: { numerator: 1, denominator: 1 }, value: 1.5, interpolation: "linear" },
+          ],
+        },
+      },
+    },
+  });
+  value.processing[0]!.steps.push({
+    id: "blur",
+    enabled: true,
+    processor: { type: "motion-blur", samples: 4, shutter: 0.5 },
+  });
+  const frame = createCompiler(validateComposition(value, assets), "blur")
+    .frames({ startUs: 0, endUs: 1 })
+    .next().value!;
+  expect(
+    frame.visual[0]!.operations.find((operation: any) => operation.kind === "motion-blur"),
+  ).toEqual({
+    kind: "motion-blur",
+    samples: 4,
+    shutter: 0.5,
+  });
+  const bypass = structuredClone(document);
+  bypass.processing[0]!.steps.push({
+    id: "blur",
+    enabled: true,
+    processor: { type: "motion-blur", samples: 1, shutter: 0 },
+  });
+  const bypassFrame = createCompiler(validateComposition(bypass, assets), "blur-bypass")
+    .frames({ startUs: 0, endUs: 1 })
+    .next().value!;
+  expect(
+    bypassFrame.visual[0]!.operations.some((operation: any) => operation.kind === "motion-blur"),
+  ).toBe(false);
 });

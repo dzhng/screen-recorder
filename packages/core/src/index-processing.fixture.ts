@@ -136,7 +136,7 @@ export async function fixture(
         projects,
         renderer: {
           implementationId: projectRendererId,
-          async render({ window, assets: bindings, output }, signal) {
+          async render({ window, assets: bindings, output, faceObservations }, signal) {
             calls++;
             await options.beforeFrame?.(calls, signal);
             signal.throwIfAborted();
@@ -182,13 +182,32 @@ export async function fixture(
                   },
                 };
               }),
+              ...(faceObservations === undefined
+                ? {}
+                : {
+                    faceObservations: {
+                      recipe: "vision-face-rectangles-v1",
+                      implementationId: "vision-face-rectangles-v1:revision-3:fixture-OS",
+                      coordinateSpace: "delivered-top-left-pixels",
+                      width: 1,
+                      height: 1,
+                      status: "available",
+                      faces: [
+                        {
+                          id: "face-0",
+                          boundingBox: { x: 0, y: 0, width: 1, height: 1 },
+                          confidence: 0.9,
+                        },
+                      ],
+                    },
+                  }),
             };
           },
         },
       },
       sourceRenderer: {
         implementationId: "fixture-frame",
-        async render({ asset, atUs, output }, signal) {
+        async render({ asset, atUs, output, faceObservations }, signal) {
           calls++;
           await options.beforeFrame?.(calls, signal);
           signal.throwIfAborted();
@@ -217,6 +236,25 @@ export async function fixture(
             decodedSamples: 1,
             readerOpens: 1,
             bytes: png.length,
+            ...(faceObservations === undefined
+              ? {}
+              : {
+                  faceObservations: {
+                    recipe: "vision-face-rectangles-v1",
+                    implementationId: "vision-face-rectangles-v1:revision-3:fixture-OS",
+                    coordinateSpace: "delivered-top-left-pixels",
+                    width: 1,
+                    height: 1,
+                    status: "available",
+                    faces: [
+                      {
+                        id: "face-0",
+                        boundingBox: { x: 0, y: 0, width: 1, height: 1 },
+                        confidence: 0.9,
+                      },
+                    ],
+                  },
+                }),
           };
         },
       },

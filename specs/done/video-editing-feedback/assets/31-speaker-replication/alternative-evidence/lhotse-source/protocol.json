@@ -1,0 +1,6 @@
+{
+  "revision": "ed4eb7a242aeeca23077d08bd455030ce88b5175",
+  "url": "https://codeload.github.com/lhotse-speech/lhotse/tar.gz/ed4eb7a242aeeca23077d08bd455030ce88b5175",
+  "maximumBytes": 16777216,
+  "scope": "Required pure dependency of chosen Nemotron provider; original closure untouched"
+}

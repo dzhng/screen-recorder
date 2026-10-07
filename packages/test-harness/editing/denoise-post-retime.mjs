@@ -103,7 +103,7 @@ export async function denoisePostRetime({
       (value) => value.state === "ready",
       requestId,
     );
-    return call("asset.get", { assetId: job.result.assetId });
+    return call("asset.get", { assetId: job.published.output.assetId });
   }
   const bedAsset = await importAsset(bedPath, "post-retime-bed");
   const retimeAsset = await importAsset(sourcePath, "post-retime-source");
@@ -287,7 +287,7 @@ export async function denoisePostRetime({
     endUs: 4000000,
   });
   assert.equal(
-    report.checks["post-retime-late-before-full"].ready.published.audio.preparedResourceId,
+    report.checks["post-retime-late-before-full"].ready.published.output.preparedResourceId,
     null,
   );
   await call("audio.get", report.checks["post-retime-late-before-full"].params, {
@@ -370,7 +370,7 @@ export async function denoisePostRetime({
   const learnedCapability = capabilities.find((value) => value.type === "rnnoise");
   assert.equal(learnedCapability.execution, true);
   record.recipes = {
-    retime: report.checks["post-retime-stem"].ready.published.audio.retimeImplementationId,
+    retime: report.checks["post-retime-stem"].ready.published.output.retimeImplementationId,
     rnnoise: learnedCapability.implementationId,
   };
   assert.equal(typeof record.recipes.retime, "string");

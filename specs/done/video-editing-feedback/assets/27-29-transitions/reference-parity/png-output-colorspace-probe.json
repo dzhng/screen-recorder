@@ -1,0 +1,26 @@
+{
+  "kind": "transition-png-output-color-space-probe",
+  "status": "open",
+  "question": "Does asking createCGImage for explicit RGBA8 sRGB output remove the moving reference-parity mismatch?",
+  "productionOutput": "createCGImage without an explicit output color space",
+  "probeOutput": "RGBA8 with explicit sRGB color space",
+  "probeWorkerSha256": "822b2e010a73651acc4fb5f971f34969a271183a8cd7d4cfb6da1a816d6e1d76",
+  "samples": [
+    {
+      "id": "moving-100000",
+      "comparison": { "mae": 0.072265625, "maxChannelDelta": 1, "differingRatio": 0.072265625 }
+    },
+    {
+      "id": "moving-500000",
+      "comparison": { "mae": 0.011393229166666666, "maxChannelDelta": 1, "differingRatio": 0.011393229166666666 }
+    },
+    {
+      "id": "moving-900000",
+      "comparison": { "mae": 0.059244791666666664, "maxChannelDelta": 1, "differingRatio": 0.059244791666666664 }
+    }
+  ],
+  "result": {
+    "parityGatePassed": false,
+    "conclusion": "explicit sRGB PNG output is byte-identical in decoded RGB to the retained production candidate; output color-space selection is not the cause"
+  }
+}

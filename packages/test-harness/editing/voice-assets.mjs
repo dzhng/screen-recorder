@@ -58,7 +58,7 @@ async function generate(request) {
   const ready = await call("voice.generate", request);
   assert.deepEqual(await call("voice.generate", request, { transport: "mcp" }), ready);
   report.receipts.push(ready);
-  return ready.published.audio;
+  return ready.published.output;
 }
 async function imported(path, requestId) {
   const pending = await call("asset.import", { path, requestId });
@@ -67,7 +67,7 @@ async function imported(path, requestId) {
     (v) => v.state === "ready",
     "import",
   );
-  return call("asset.get", { assetId: job.result.assetId });
+  return call("asset.get", { assetId: job.published.output.assetId });
 }
 async function assetBytes(assetId, leaf) {
   const asset = await call("asset.get", { assetId });
@@ -153,7 +153,7 @@ try {
     (v) => v.state === "ready",
     "canonical reference",
   );
-  const excerpt = extracted.published.excerpt;
+  const excerpt = extracted.published.output;
   assert.equal(excerpt.assetId, reference.id);
   const donor = await project(`voice-donor-${randomUUID()}`, [
     { operation: "track.add", label: "audio", track: { kind: "audio", order: 0 } },
@@ -220,7 +220,7 @@ try {
     await cancelHit();
     const canceled = await call("job.cancel", { jobId: cancellation.jobId });
     assert.equal(canceled.state, "canceled");
-    assert.equal(canceled.result, null);
+    assert.equal(canceled.published, null);
     assert.deepEqual(await call("asset.list", {}), beforeCancel);
     await call("job.retry", { jobId: cancellation.jobId });
     phrase = await generate(phraseRequest);
@@ -243,7 +243,7 @@ try {
     await service.start();
     const recovered = await call("job.get", { jobId: crashing.jobId });
     assert.equal(recovered.state, "failed");
-    assert.equal(recovered.result, null);
+    assert.equal(recovered.published, null);
     assert.deepEqual(await call("asset.list", {}), beforeCrash);
     await call("job.retry", { jobId: crashing.jobId });
     const changed = await generate(changedRequest);
@@ -261,7 +261,7 @@ try {
     const refused = await settled(incomplete.jobId);
     assert.equal(refused.state, "failed");
     assert.equal(refused.errorCode, "VOICE_INCOMPLETE");
-    assert.equal(refused.result, null);
+    assert.equal(refused.published, null);
     assert.deepEqual(await call("asset.list", {}), beforeFailure);
     report.checks.incompleteSpeechNotPublished = true;
   }

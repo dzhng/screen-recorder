@@ -1,0 +1,7 @@
+PASS normal: frame maximum 1, movie maximum 4
+PASS multiply: frame maximum 0, movie maximum 3
+PASS screen: frame maximum 0, movie maximum 3
+PASS soft-light: frame maximum 1, movie maximum 3
+PASS soft-light-reversed: frame maximum 0, movie maximum 3
+PASS multiply-nested: frame maximum 0, movie maximum 4
+PASS vignette: frame maximum 1, movie maximum 4

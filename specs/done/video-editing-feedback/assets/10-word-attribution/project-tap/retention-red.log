@@ -1,0 +1,30 @@
+$ vitest run --maxWorkers=4 src/alignment-processing.test.ts -t "project alignment uses"
+
+ RUN  v5.0.0 /Users/server/dev/yap-video-editing/packages/core
+
+ ❯ src/alignment-processing.test.ts (6 tests | 1 failed | 5 skipped) 94ms
+   × project alignment uses a project job while retaining the prepared tap source 93ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/alignment-processing.test.ts > project alignment uses a project job while retaining the prepared tap source
+Error: Alignment evidence is not ready
+ ❯ AlignmentEvidenceStore.metadata src/alignment-evidence.ts:387:13
+    385|       row = this.row(identity);
+    386|     if (!row || row.complete !== 1)
+    387|       throw new CatalogError("NOT_READY", "Alignment evidence is not r…
+       |             ^
+    388|     const metadata = alignmentEvidenceMetadataSchema.parse(JSON.parse(…
+    389|     this.validateOwner(metadata, metadata.source);
+ ❯ AlignmentProcessing.prepareProject src/alignment-processing.ts:174:42
+ ❯ src/alignment-processing.test.ts:298:23
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  06:21:46
+   Duration  1.42s (transform 64%, import 29%, tests 7%)
+
+error: script "test" exited with code 1

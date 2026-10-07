@@ -1,0 +1,1 @@
+{"ok":true,"retainedSha256":"f2671fbf79911d33d3c773f189072fbb22ee3ffc3d6e85f5233c42a9b7d3dde1","coverage":{"comparisons":9,"sourcePairs":["grahamRaw:madisonRaw","grahamRaw:lilyRawP1","madisonRaw:lilyRawP1"],"accepted":0,"refused":9},"verdict":"no-synchronization-promotion"}

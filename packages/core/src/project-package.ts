@@ -34,6 +34,14 @@ import {
   speakerOperandRows,
   assetSpeakerOwner,
 } from "./speaker-evidence.js";
+import { speakerLabelBindingsSchema } from "./speaker-labels.js";
+import {
+  alignmentEvidenceMetadataSchema,
+  alignmentGenerationResource,
+  alignmentOperandRecords,
+  assetAlignmentOwner,
+} from "./alignment-evidence.js";
+import { alignmentOperandByteLimit } from "./alignment-operands.js";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const member = z.strictObject({
@@ -61,10 +69,20 @@ const indexMembersSchema = z.strictObject({
 const resourceSchema = z.discriminatedUnion("kind", [
   portableAssetSchema.extend({ kind: z.literal("asset") }),
   z.strictObject({
+    kind: z.literal("alignment-generation"),
+    metadata: alignmentEvidenceMetadataSchema,
+    sequence: z.int().positive(),
+    publication: retainedPublicationSchema.nullable(),
+    nativeReceipt: z.string().max(alignmentOperandByteLimit),
+    report: z.string().max(alignmentOperandByteLimit),
+    correspondence: z.string().max(alignmentOperandByteLimit),
+  }),
+  z.strictObject({
     kind: z.literal("speaker-generation"),
     metadata: speakerEvidenceMetadataSchema,
     sequence: z.int().positive(),
     publication: retainedPublicationSchema.nullable(),
+    bindings: speakerLabelBindingsSchema,
     nativeReceipt: z.string().max(1024 * 1024),
     report: z.string().max(1024 * 1024),
   }),
@@ -176,6 +194,8 @@ export function resourceIdentity(resource: PortableDependency): ResourceReferenc
       return { kind: "acquisition", id: resource.acquisition.id };
     case "speaker-generation":
       return { kind: "speaker-generation", id: speakerGenerationResource(resource.metadata) };
+    case "alignment-generation":
+      return { kind: "alignment-generation", id: alignmentGenerationResource(resource.metadata) };
     case "scene-generation":
       return { kind: "scene-generation", id: sceneGenerationResource(resource.metadata) };
     case "transcript-generation":
@@ -207,6 +227,7 @@ export function resourceDependencies(resource: PortableDependency): ResourceRefe
         kind: "asset",
         id: binding.assetId,
       }));
+    case "alignment-generation":
     case "speaker-generation":
     case "scene-generation":
     case "transcript-generation":
@@ -221,7 +242,12 @@ export function resourceDependencies(resource: PortableDependency): ResourceRefe
 export function resourceMembers(
   resource: PortableResource,
 ): { path: string; bytes: number; sha256: string | null }[] {
-  if (resource.kind === "prepared-audio" || resource.kind === "speaker-generation") return [];
+  if (
+    resource.kind === "prepared-audio" ||
+    resource.kind === "speaker-generation" ||
+    resource.kind === "alignment-generation"
+  )
+    return [];
   if (resource.kind === "index-generation" || resource.kind === "project-index-generation")
     return [
       ...resource.records.map((value, index) => ({
@@ -298,9 +324,10 @@ export function transcriptMemberPath(
     .digest("hex");
   return `transcripts/${id}/${leaf}`;
 }
+const projectPackageVersion = 6;
 const manifestSchema = z.strictObject({
   format: z.literal("yap-project"),
-  version: z.literal(4),
+  version: z.literal(projectPackageVersion),
   project: z.unknown(),
   undo: z.array(z.string()).max(1000),
   references: projectSnapshotReferencesSchema,
@@ -365,7 +392,7 @@ export function projectPackageManifest(
 ): ProjectPackageManifest {
   return {
     format: "yap-project",
-    version: 4,
+    version: projectPackageVersion,
     project: snapshot.project,
     undo: snapshot.undo,
     references: snapshot.references,
@@ -392,10 +419,10 @@ export function parseProjectPackageManifest(
     typeof value === "object" &&
     "format" in value &&
     value.format === "yap-project" &&
-    (!("version" in value) || value.version !== 4)
+    (!("version" in value) || value.version !== projectPackageVersion)
   )
     throw new CatalogError("INVALID_PACKAGE", "Unsupported project package version", {
-      supportedVersion: 4,
+      supportedVersion: projectPackageVersion,
     });
   const parsed = manifestSchema.safeParse(value);
   if (!parsed.success) invalid("Invalid project manifest");
@@ -598,6 +625,22 @@ export function resolveProjectPackage(
     const { owner, sourceId, generation, policy } = resource.metadata;
     validateSpeakerOwner({ owner, sourceId, generation, policy }, resource.metadata.source);
     speakerOperandRows(resource.metadata, resource);
+  }
+  const validateAlignmentOwner = assetAlignmentOwner(
+    {
+      get: (id) => portableAssets.get(id) ?? invalid("Missing alignment source asset"),
+      path: () => "",
+    },
+    { get: (id) => portableAcquisitions.get(id) ?? invalid("Missing alignment acquisition") },
+  );
+  const alignmentSequences = new Set<number>();
+  for (const resource of closure) {
+    if (resource.kind !== "alignment-generation") continue;
+    if (alignmentSequences.has(resource.sequence))
+      invalid("Duplicate alignment generation sequence");
+    alignmentSequences.add(resource.sequence);
+    validateAlignmentOwner(resource.metadata, resource.metadata.source);
+    alignmentOperandRecords(resource.metadata, resource);
   }
   for (const revision of snapshot.revisions)
     validateComposition(revision.document, assets, acquisitions);

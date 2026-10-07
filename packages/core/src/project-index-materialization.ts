@@ -107,6 +107,12 @@ export async function materializeProjectIndex(
         revisionId: identity.revisionId,
         tap: identity.tap,
         maxLongEdge: identity.maxLongEdge,
+        ...(identity.observationRequest === undefined
+          ? {}
+          : { observations: identity.observationRequest }),
+        ...(identity.faceObservationRequest === undefined
+          ? {}
+          : { faceObservations: identity.faceObservationRequest }),
         atUs: candidate.sampleAtUs,
       };
       const status = await waitForIndexFrame(

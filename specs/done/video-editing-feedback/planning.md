@@ -1,0 +1,67 @@
+# Planning choices and independent drafts
+
+Three fresh-context drafts investigated the same user brief with different biases.
+Two Codex-family agents optimized respectively for fewest slices and seam quality;
+the risk-first drafter used Claude Opus/high through a read-only CLI call. All
+drafts were read and synthesized. None implemented product behavior. Claude's
+shell/hash calls were restricted during its investigation; canonical provenance
+was computed separately and is not borrowed from an unexecuted draft command.
+
+## Alternative ladders
+
+| Bias | Proposed structure | Retained strengths | Why it is not the canonical ladder |
+| --- | --- | --- | --- |
+| Fewest slices | Evidence plus eleven capability stages; independent typography/timing and blend/grade gates within them | Useful capability milestones, early public-caller improvements, rendered speech distinct from source projection, external generation in the consumer workflow | Public delivery/exact edits span several owners, and source speech hides multiple unresolved experiments. Grouping them into one acceptance hides causes. |
+| Seam quality | Fine contracts for evidence, preparation/read separation, public replies, acoustic/picture observations, explicit treatments and replay | Explicit transcript.prepare/read cutover, one job/publication/evidence owner, exact source/project mapping, proposals separate from edits, per-variable visual checks | Dedicated native vignette/grain mechanisms and every small helper as a separate feature are unnecessary when existing deterministic overlays/ordinary edits suffice. |
+| Risk first | Corpus certification, multiple kill-or-confirm spikes, then production ports and a fixture-only integration | Freeze defects before ports; independent planted truncation controls; separate alignment feasibility; finite mastering work; retain Vision observations for deterministic replay | Blanket spike parallelism/cold inference is expensive; proposed fixed quality thresholds were unmeasured; several suggested policies conflict with approved scope or existing guarantees. |
+
+All three agree on certified fixtures, no compatibility, explicit source/output
+clock separation, automatic checking, existing owners, and agent coordination of
+external creative capabilities. The canonical README keeps readable milestones
+while slice files preserve independent contract/visual verdicts. Slices need not
+each become a PR. Cheap independent work may overlap only within repo resource
+and delegation rules; expensive inference/rendering remains case-selected.
+
+## Decisions where drafts diverged
+
+| Choice | Selected plan and reason | Alternative / disposition |
+| --- | --- | --- |
+| Overlapping ASR observations | Retain honest overlaps/instants and original operands; reject malformed/out-of-support input with useful diagnostics. Reproduce before changing consumers. | More clamping, dropping words or fabricating distinct microsecond durations can hide speech. Rejected as a semantic repair. |
+| Transcript preparation | Explicit preparation inputs bound to generation; reads do not trigger inference. | Adding scope to transcript.get keeps expensive side effects ambiguous. Hard cutover makes a clean separation feasible. |
+| Join truth | Contextual rendered recognition plus alignment/acoustic evidence and planted intact/truncated controls; unknowns stay visible. | One abrupt snippet, one aligner's self-comparison or waveform-only lexical labeling is not independent truth. Fixed RMS/padding thresholds remain unproven recipes, not requirements. |
+| Normalization | Preserve strict postconditions, extend existing audio preparation/preflight and freeze bounded correction after reproduction. | New onMiss/publish-best-effort policy and weakening peak/LUFS checks are rejected. A hard cutover is not permission to loosen requested output. |
+| Structural exactness | Fix remove and required affected consumers at the demonstrated seam. | Converting every unrelated point-control field adds scope without evidence. Exact adjacent operations can be resliced when a real caller needs them. |
+| Picture interpretation | Reproduce matched player-oriented decoding with explicit profiles/ranges/actual timestamps before metrics. | A universal native-bt709-to-sRGB label overstates current support. No second production FFmpeg renderer. |
+| Faces and replay | Freeze localization then association; author ordinary geometry from pinned observations. | Rerunning Vision during replay can silently change the output. Largest-face selection is not subject identity. |
+| Styling | Typography, active-word timing, entrance motion, blend arithmetic, tone, LUT, trajectories and blur each have separate verdicts. | One finished-look gate hides the variable that is wrong; native vignette/grain primitives add owners when imported deterministic overlays suffice. |
+| External music/SFX/images | Capability inventory first; use available tools and retain actual generated bytes/hashes/recipes. | Built-in catalogs/generators, automatic installs and stochastic regeneration guarantees are outside the agreed boundary. |
+| Corpus publication | User-authorized derivatives with fidelity certification and about 250 MB/LFS target. | An extra consent gate, arbitrary aired-only restriction or private-remote requirement is not adopted; authorization already covers these fixtures. |
+| Human checking | Show artifacts for direction, but every acceptance/repair is agent-owned. | A five-minute human QA window is rejected. No user labeling/listening oracle. |
+| Speaker labeling | Latest user request adds explicit mixed-source continuity and labeled transcript contracts in 31–32. | Earlier drafts handled only per-person raw-source labels/deferred general diarization. That narrower scope is superseded. |
+
+Provider choice, exact corpus encoding/ranges, color tolerance, sync estimator and
+new speaker continuity recipe are delegated to named measured checkpoints, not
+quietly selected here. Existing numeric admission tolerances remain authoritative.
+A failed checkpoint retains evidence and reslices dependent work; it cannot remove
+a required capability and declare the overall feature finished.
+
+## Conversation sweep
+
+[MAP.md](MAP.md) owns settled preferences and attribution. [Traceability](traceability.md)
+preserves all numbered reports and chronological user bullets, including positive
+feedback and directions that were later revised. [Retro](retro.md) records the
+actual agent's independent speech discoveries without misattributing user-reported
+picture/caption corrections. Original feedback/session evidence stays unchanged.
+
+The old workflow assessment is explicitly historical and points here for the current
+ladder. Earlier chat suggestions about preserving old contracts are superseded by
+the user's final hard-cutover instruction. No implementation, deletion, model
+acquisition, fixture derivation or new media verification occurred in this pass.
+
+Implementation scheduling: 02 is independent of real-media certification because
+it uses current helper/public-contract controls. Media-dependent ports still wait
+for their certified cases. This removes a false dependency, not an acceptance gate.
+
+06 is also independent of raw-corpus acquisition: exact rational removal is proved
+through ordinary authored composition/service controls without decoding or models.
+Real-media integration still inherits final fixture acceptance.

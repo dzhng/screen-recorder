@@ -293,7 +293,7 @@ try {
     camera.bindings,
   );
   report.checks.portable = {
-    projectId: portable.result.projectId,
+    projectId: portable.published.output.projectId,
     proofPreserved: true,
     donorAndOriginalLibraryRemoved: true,
     archiveRemoved: true,

@@ -1,0 +1,77 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "cases": [
+        {
+          "id": "madison-tiny",
+          "greedyText": "I just kind of gave up on prophey.",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "overlap25",
+          "greedyText": "But I think it might make sense to have a new conference to try something completely different. It's like all of our papers are AI reviewed. We're going to do it as well as we possibly can, but we're going to review all of them with A and then maybe have some mild human intervention at the end to filter it down or something. And then it's like, sure, submit one hundred thousand papers to this conference and we'll pick the best one hundred to feature in.",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "false-start",
+          "greedyText": "for maybe fortun.",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "constructed-repeats",
+          "greedyText": "Blue Seven Blue.",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "fortunate-intact",
+          "greedyText": "Fortunate.",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "fortunate-truncated",
+          "greedyText": "Forge.",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "fortunate-contextual",
+          "greedyText": "Fortunate.",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        }
+      ],
+      "wallSeconds": 1.158915457999683,
+      "peakProcessRSSBytes": 252592128
+    }
+  },
+  "networkDenied": true
+}

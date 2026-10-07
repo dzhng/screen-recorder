@@ -1,0 +1,6 @@
+{
+  "revision": "3c0fdca291547aa4898cbf38d9f0325ec225d9d8",
+  "url": "https://codeload.github.com/NVIDIA-NeMo/Speech/tar.gz/3c0fdca291547aa4898cbf38d9f0325ec225d9d8",
+  "maximumBytes": 67108864,
+  "scope": "Exact upstream source for new Nemotron3 provider only; existing original computational files untouched"
+}

@@ -1,10 +1,11 @@
 import { createHash } from "node:crypto";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
 import { Catalog } from "./catalog.js";
-import { TranscriptStore, type TranscriptMetadata } from "./transcript.js";
+import { speechExecution, TranscriptStore, type TranscriptMetadata } from "./transcript.js";
 import { SourceTranscriptRead, type SourceTranscriptRow } from "./transcript-read.js";
+import { portHistoricalSpeechRaw } from "../../test-harness/speech/reference-raw.mjs";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -41,6 +42,7 @@ async function fixture(
     },
   ] as { startUs: number; endUs: number; words: Word[] }[],
   durationUs = 1000,
+  retainedRaw?: string,
 ) {
   const home = await mkdtemp("/tmp/source-transcript-read-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
@@ -58,6 +60,7 @@ async function fixture(
   const lines = segments.map(({ startUs, endUs, words }, ordinal) => ({
     ordinal,
     source: { startUs, endUs },
+    owned: { startUs, endUs },
     state: "transcribed" as const,
     words: words.map(({ text, startUs, endUs }) => ({
       text,
@@ -65,7 +68,7 @@ async function fixture(
       confidence: 0.75,
     })),
   }));
-  const raw = lines.map((line) => JSON.stringify(line) + "\n").join("");
+  const raw = retainedRaw ?? lines.map((line) => JSON.stringify(line) + "\n").join("");
   await writeFile(output, raw);
   const metadata = await store.ingest({
     identity,
@@ -77,6 +80,7 @@ async function fixture(
       supportDigest: "b".repeat(64),
     },
     request: {
+      execution: speechExecution(),
       models: { directory: join(home, "models"), files: [] },
       output,
       track: {
@@ -96,10 +100,13 @@ async function fixture(
       segments: lines.map(({ ordinal, source, state, words }) => ({
         ordinal,
         source,
+        owned: source,
         state,
         wordCount: words.length,
       })),
+      execution: speechExecution(),
       wordCount: lines.reduce((sum, line) => sum + line.words.length, 0),
+      available: segments.map(({ startUs, endUs }) => ({ startUs, endUs })),
     },
     pins,
     signal: new AbortController().signal,
@@ -135,6 +142,45 @@ test("source pages preserve words and raw acquisition gaps across one-row contin
       .page({ range: { startUs: 200, endUs: 225 } })
       .rows.map((row) => [row.sourceRange, row.partial]),
   ).toEqual([[{ startUs: 100, endUs: 250 }, true]]);
+});
+
+test("coincident and overlapping estimates retain every word and instant point through bounded pages", async () => {
+  const words = [
+    { text: "I", startUs: 0, endUs: 80 },
+    { text: "just", startUs: 0, endUs: 160 },
+    { text: "point", startUs: 20, endUs: 20 },
+    { text: "again", startUs: 20, endUs: 20 },
+    { text: "kind", startUs: 80, endUs: 240 },
+  ];
+  const { read, store, metadata } = await fixture([{ startUs: 0, endUs: 300, words }], 300);
+  expect(
+    store
+      .wordRecords(metadata, { limit: 20 })
+      .map(({ text, startUs, endUs, instant }) => ({ text, startUs, endUs, instant })),
+  ).toEqual(words.map((word) => ({ ...word, instant: word.startUs === word.endUs })));
+  const rows: SourceTranscriptRow[] = [];
+  let cursor: unknown;
+  do {
+    const page = read.page({ range: { startUs: 20, endUs: 21 }, limit: 1, cursor });
+    rows.push(...page.rows);
+    cursor = page.nextCursor;
+  } while (cursor);
+  expect(rows.map((row) => [row.type === "word" ? row.text : row.reason, row.sourceRange])).toEqual(
+    [
+      ["I", { startUs: 0, endUs: 80 }],
+      ["just", { startUs: 0, endUs: 160 }],
+      ["point", { startUs: 20, endUs: 20 }],
+      ["again", { startUs: 20, endUs: 20 }],
+    ],
+  );
+  expect(
+    read
+      .page({ range: { startUs: 100, endUs: 101 } })
+      .rows.map((row) => (row.type === "word" ? row.text : row.reason)),
+  ).toEqual(["just", "kind"]);
+  expect(read.search({ text: "I just" }).entries).toEqual([
+    { wordIds: ["w0", "w1"], sourceRange: { startUs: 0, endUs: 160 } },
+  ]);
 });
 
 test("source search folds literal words, pages matches and refuses phrases across acquisition segments", async () => {
@@ -329,3 +375,106 @@ test("source pagination and phrase matches retain exact ordinals across storage 
   ]);
   expect(second.nextCursor).toBeNull();
 });
+
+test("whole-source listing retains terminal instant observations while selected ranges stay half-open", async () => {
+  const { read } = await fixture([
+    {
+      startUs: 0,
+      endUs: 1000,
+      words: [
+        { text: "last", startUs: 900, endUs: 1000 },
+        { text: "point", startUs: 1000, endUs: 1000 },
+        { text: "same", startUs: 1000, endUs: 1000 },
+      ],
+    },
+  ]);
+  const first = read.page({ limit: 1 });
+  const second = read.page({ limit: 1, cursor: first.nextCursor });
+  const third = read.page({ limit: 1, cursor: second.nextCursor });
+  expect(
+    [first, second, third].flatMap((page) =>
+      page.rows.map((row) => row.type === "word" && row.text),
+    ),
+  ).toEqual(["last", "point", "same"]);
+  expect(third.nextCursor).toBeNull();
+  expect(
+    read
+      .page({ range: { startUs: 900, endUs: 1000 } })
+      .rows.map((row) => row.type === "word" && row.text),
+  ).toEqual(["last"]);
+});
+
+test("a point at the next gap start never hides either record in one-row continuations", async () => {
+  const { read } = await fixture([
+    {
+      startUs: 0,
+      endUs: 500,
+      words: [
+        { text: "spoken", startUs: 0, endUs: 400 },
+        { text: "point", startUs: 500, endUs: 500 },
+      ],
+    },
+    { startUs: 700, endUs: 1000, words: [{ text: "later", startUs: 700, endUs: 800 }] },
+  ]);
+  for (const range of [undefined, { startUs: 400, endUs: 1000 }]) {
+    const rows: SourceTranscriptRow[] = [];
+    let cursor: unknown;
+    do {
+      const page = read.page({ range, cursor, limit: 1 });
+      rows.push(...page.rows);
+      cursor = page.nextCursor;
+    } while (cursor);
+    expect(rows.map((row) => (row.type === "word" ? row.text : row.reason))).toEqual(
+      range ? ["point", "not_acquired", "later"] : ["spoken", "point", "not_acquired", "later"],
+    );
+  }
+});
+
+test.each(["baseline", "green"])(
+  "retained Madison %s word estimates survive explicit reference admission",
+  async (version) => {
+    const raw = await readFile(
+      new URL(
+        `../../../specs/done/video-editing-feedback/assets/07-speech-timing/m1877.55-${version}.jsonl`,
+        import.meta.url,
+      ),
+      "utf8",
+    );
+    const segment = JSON.parse(raw) as {
+      source: { startUs: number; endUs: number };
+      words: { text: string; source: { startUs: number; endUs: number } }[];
+    };
+    const adapted = portHistoricalSpeechRaw(Buffer.from(raw), {
+      execution: speechExecution(),
+      available: [segment.source],
+    });
+    const { read, metadata } = await fixture(
+      [
+        {
+          ...segment.source,
+          words: segment.words.map((word) => ({ text: word.text, ...word.source })),
+        },
+      ],
+      2650000,
+      adapted.body.toString("utf8"),
+    );
+    expect(metadata.raw.sha256).toBe(adapted.sha256);
+    expect(adapted.referenceReplay.sourceSha256).toBe(
+      createHash("sha256").update(raw).digest("hex"),
+    );
+    expect(
+      read
+        .page({})
+        .rows.filter((row) => row.type === "word")
+        .map((row) => ({ text: row.text, source: row.sourceRange })),
+    ).toEqual(segment.words.map(({ text, source }) => ({ text, source })));
+    expect(
+      read
+        .page({ range: { startUs: 0, endUs: 1 } })
+        .rows.map((row) => row.type === "word" && row.text),
+    ).toEqual(["I", "just"]);
+    expect(read.search({ text: "I just" }).entries.map((entry) => entry.sourceRange)).toEqual([
+      { startUs: 0, endUs: 160000 },
+    ]);
+  },
+);

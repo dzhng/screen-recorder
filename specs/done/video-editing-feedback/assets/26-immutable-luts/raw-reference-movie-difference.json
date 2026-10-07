@@ -1,0 +1,6 @@
+{
+  "meanError": 3.3756192129629627,
+  "maximumError": 37,
+  "channels": 172800,
+  "scope": "first decoded candidate movie frame versus independent lossless reference, no mask"
+}

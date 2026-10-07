@@ -11,10 +11,7 @@ import { layerTree, expectedRgba, compareGeometry } from "./layers-oracle.mjs";
 import { layerCases } from "./layers-cases.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(
-  process.env.YAP_NATIVE,
-  "Freeze the native worker before the project-index journey",
-);
+assert.ok(process.env.YAP_NATIVE, "Freeze the native worker before the project-index journey");
 const out = values.out
   ? resolve(values.out)
   : await mkdtemp(join(tmpdir(), "project-index-evidence-"));
@@ -358,7 +355,7 @@ try {
     revisionId: composition.reference.revisionId,
     maxLongEdge: 160,
   });
-  assert.equal(retried.published.evidence.generation, composition.reference.generation);
+  assert.equal(retried.published.output.generation, composition.reference.generation);
   const firstPage = await call("index.get", {
     projectId: composition.reference.projectId,
     maxLongEdge: 160,

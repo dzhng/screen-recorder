@@ -1,0 +1,17 @@
+[
+  {
+    "url": "https://huggingface.co/api/models/nvidia/parakeet-ctc-0.6b",
+    "bytes": 8059,
+    "sha256": "1820cf576768f6cb3aa71e56b22372136cd94e24366f76e91d106850256f5f3f"
+  },
+  {
+    "url": "https://huggingface.co/nvidia/parakeet-ctc-0.6b/raw/ad09ba1cc62743fbc9814de5d2016fca9096485a/README.md",
+    "bytes": 12370,
+    "sha256": "d60eece6df19bd71cebdb36ff0f02f3df07983e08452e90208856717f5c8ce6f"
+  },
+  {
+    "url": "https://huggingface.co/api/models/nvidia/parakeet-ctc-0.6b/tree/ad09ba1cc62743fbc9814de5d2016fca9096485a?recursive=true&expand=false",
+    "bytes": 1338,
+    "sha256": "ade945d708bb2b5c68236470725072183a4f8bee0b999d232d8ab6d0f8bfa2a8"
+  }
+]

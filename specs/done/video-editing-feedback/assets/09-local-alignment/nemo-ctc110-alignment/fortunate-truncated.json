@@ -1,0 +1,192 @@
+{
+  "id": "fortunate-truncated",
+  "emissionsSha256": "ef12d4945896fc35eb0c7db38e915a3a5e6147ef793caf90c4f6df2239340fb6",
+  "pcmSha256": "2ba41e2db8e6e3964e3e0db271f121126f463e796c4415b0c0b2f0644ef4f349",
+  "sourceFrames": 6262,
+  "audioSeconds": 0.391375,
+  "emissionShape": [
+    5,
+    1025
+  ],
+  "frameDuration": 0.08,
+  "blankId": 1024,
+  "greedyTokenIds": [
+    758,
+    145,
+    986
+  ],
+  "greedyText": "Forge.",
+  "candidates": [
+    {
+      "text": "fortunate",
+      "ids": [
+        75,
+        968,
+        198,
+        159
+      ],
+      "status": "forced_path_observation",
+      "assignmentConfidence": null,
+      "path": [
+        1024,
+        75,
+        968,
+        198,
+        159
+      ],
+      "frameLogScores": [
+        -0.01741182804107666,
+        -0.9955666065216064,
+        -8.203727722167969,
+        -8.301600456237793,
+        -11.292152404785156
+      ],
+      "spans": [
+        {
+          "token": 75,
+          "startFrame": 1,
+          "endFrame": 2,
+          "startSeconds": 0.08,
+          "endSeconds": 0.16,
+          "nativeMeanTokenProbability": 0.36951401829719543
+        },
+        {
+          "token": 968,
+          "startFrame": 2,
+          "endFrame": 3,
+          "startSeconds": 0.16,
+          "endSeconds": 0.24,
+          "nativeMeanTokenProbability": 0.0002736316528171301
+        },
+        {
+          "token": 198,
+          "startFrame": 3,
+          "endFrame": 4,
+          "startSeconds": 0.24,
+          "endSeconds": 0.32,
+          "nativeMeanTokenProbability": 0.00024811940966174006
+        },
+        {
+          "token": 159,
+          "startFrame": 4,
+          "endFrame": 5,
+          "startSeconds": 0.32,
+          "endSeconds": 0.4,
+          "nativeMeanTokenProbability": 1.2470403817133047e-05
+        }
+      ],
+      "nativePathMeanLogScore": -5.762091636657715,
+      "nativeNonblankMeanLogScore": -7.198261737823486,
+      "alignmentSeconds": 3.9332997403107584e-05
+    },
+    {
+      "text": "fortu",
+      "ids": [
+        75,
+        968,
+        978
+      ],
+      "status": "forced_path_observation",
+      "assignmentConfidence": null,
+      "path": [
+        1024,
+        75,
+        968,
+        978,
+        1024
+      ],
+      "frameLogScores": [
+        -0.01741182804107666,
+        -0.9955666065216064,
+        -8.203727722167969,
+        -10.06640625,
+        -0.9913164377212524
+      ],
+      "spans": [
+        {
+          "token": 75,
+          "startFrame": 1,
+          "endFrame": 2,
+          "startSeconds": 0.08,
+          "endSeconds": 0.16,
+          "nativeMeanTokenProbability": 0.36951401829719543
+        },
+        {
+          "token": 968,
+          "startFrame": 2,
+          "endFrame": 3,
+          "startSeconds": 0.16,
+          "endSeconds": 0.24,
+          "nativeMeanTokenProbability": 0.0002736316528171301
+        },
+        {
+          "token": 978,
+          "startFrame": 3,
+          "endFrame": 4,
+          "startSeconds": 0.24,
+          "endSeconds": 0.32,
+          "nativeMeanTokenProbability": 4.2483014112804085e-05
+        }
+      ],
+      "nativePathMeanLogScore": -4.0548858642578125,
+      "nativeNonblankMeanLogScore": -6.421900272369385,
+      "alignmentSeconds": 3.283299156464636e-05
+    },
+    {
+      "text": "purple",
+      "ids": [
+        26,
+        78,
+        526
+      ],
+      "status": "forced_path_observation",
+      "assignmentConfidence": null,
+      "path": [
+        1024,
+        26,
+        78,
+        526,
+        1024
+      ],
+      "frameLogScores": [
+        -0.01741182804107666,
+        -9.843392372131348,
+        -8.958141326904297,
+        -13.893112182617188,
+        -0.9913164377212524
+      ],
+      "spans": [
+        {
+          "token": 26,
+          "startFrame": 1,
+          "endFrame": 2,
+          "startSeconds": 0.08,
+          "endSeconds": 0.16,
+          "nativeMeanTokenProbability": 5.3096882766112685e-05
+        },
+        {
+          "token": 78,
+          "startFrame": 2,
+          "endFrame": 3,
+          "startSeconds": 0.16,
+          "endSeconds": 0.24,
+          "nativeMeanTokenProbability": 0.0001286852202611044
+        },
+        {
+          "token": 526,
+          "startFrame": 3,
+          "endFrame": 4,
+          "startSeconds": 0.24,
+          "endSeconds": 0.32,
+          "nativeMeanTokenProbability": 9.253329835701152e-07
+        }
+      ],
+      "nativePathMeanLogScore": -6.7406744956970215,
+      "nativeNonblankMeanLogScore": -10.898215293884277,
+      "alignmentSeconds": 3.091699909418821e-05
+    }
+  ],
+  "semantics": "Forced alignment always conditions on supplied text; successful path is not lexical truth. Native likelihoods uncalibrated. No acceptance confidence or mismatch threshold invented.",
+  "torch": "2.8.0",
+  "torchaudio": "2.8.0"
+}

@@ -1,0 +1,8 @@
+{
+  "strength": 0.2,
+  "source": "frozen25A grade",
+  "formula": "red=-0.4*x^3+0.6*x^2+0.8*x; green=x; blue=0.4*x^3-0.6*x^2+1.2*x",
+  "interpretation": "linear-sRGB",
+  "knots": "size33 grid, redfastest",
+  "reference": "independent analytic curve, not LUT parser/sampler"
+}

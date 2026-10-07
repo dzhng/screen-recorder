@@ -1,0 +1,7 @@
+{
+  "id": "3",
+  "operation": "media.probe",
+  "params": {
+    "path": "/Users/server/Downloads/fullvideo_lily_p1.mp4"
+  }
+}

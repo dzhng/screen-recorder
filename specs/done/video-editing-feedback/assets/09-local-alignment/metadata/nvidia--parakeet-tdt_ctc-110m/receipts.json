@@ -1,0 +1,10 @@
+[
+  {
+    "url": "https://huggingface.co/api/models/nvidia/parakeet-tdt_ctc-110m",
+    "sha256": "5de9a710b29f542f72438a1373dcaf217fa6b2d8344425dd83fea5e74a2fde16"
+  },
+  {
+    "url": "https://huggingface.co/nvidia/parakeet-tdt_ctc-110m/raw/431a349f3051ab85c22b9b7a2741b5fe77065665/README.md",
+    "sha256": "b3b64ddb87cc162ebba6f1cbdc5770d036615c845703622a12a2eb1c6792114a"
+  }
+]

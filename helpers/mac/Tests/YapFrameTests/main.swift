@@ -22,8 +22,28 @@ func finish() -> Never { cleanupEvidence(); exit(0) }
 let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
 
+if CommandLine.arguments.contains("--face-observations") {
+    try verifyFaceObservations(in: images)
+    finish()
+}
+
+if CommandLine.arguments.contains("--picture-observations") {
+    try verifyPictureObservations(in: images)
+    finish()
+}
+
+if CommandLine.arguments.contains("--lut") {
+    try await verifyLUTs(in: images)
+    finish()
+}
+
 if CommandLine.arguments.contains("--sdr-correction") {
     try await verifySDRCorrection(in: images)
+    finish()
+}
+
+if CommandLine.arguments.contains("--composition-identity") {
+    try await verifyCompositionPNG(in: images)
     finish()
 }
 
@@ -37,6 +57,28 @@ if CommandLine.arguments.contains("--pointer-readability") {
     finish()
 }
 
+if CommandLine.arguments.contains("--text-vertical") {
+    try verifyTextVerticalPlacement()
+    finish()
+}
+
+if CommandLine.arguments.contains("--text-decorations") {
+    try verifyTextDecorations()
+    finish()
+}
+
+if CommandLine.arguments.contains("--text-highlights") {
+    try verifyTextHighlights()
+    finish()
+}
+
+if CommandLine.arguments.contains("--blend-modes") {
+    try await verifyCompositionBlends(in: images)
+    finish()
+}
+
+try verifyFaceObservations(in: images)
+try verifyPictureObservations(in: images)
 try await verifySDRCorrection(in: images)
 try await verifyCompositionPNG(in: images)
 try await verifyCompositionSourceColors(in: images)

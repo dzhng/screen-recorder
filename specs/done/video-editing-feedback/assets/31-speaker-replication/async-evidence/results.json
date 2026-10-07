@@ -1,0 +1,258 @@
+{
+  "cases": [
+    {
+      "id": "bspxd30",
+      "parent": {
+        "metrics": {
+          "referenceSpeakerSeconds": 29.840000000000003,
+          "overlapSeconds": 3.039999999999992,
+          "silenceSeconds": 3.1999999999999886,
+          "missedSpeakerSeconds": 0.09999999999999776,
+          "falseSpeakerSeconds": 3.5699999999999923,
+          "confusedSpeakerSeconds": 2.6645352591003757e-15,
+          "mapping": {
+            "speaker_0": "spk01",
+            "speaker_1": "spk00",
+            "speaker_2": "spk02"
+          },
+          "der": 0.12298927613940994
+        },
+        "referenceOverlapSeconds": 3.039999999999992,
+        "retainedOverlapSeconds": 2.939999999999994,
+        "overlapRecall": 0.9671052631578954,
+        "confusionRatio": 8.929407704759971e-17,
+        "count": 3,
+        "requiredCount": 3,
+        "turnsSha256": "379c6b2b70bcd46e1ffa804ba0fb7443fa4e5edd2e5f4a765748cc2f9f0ad8ce",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "candidate": {
+        "metrics": {
+          "referenceSpeakerSeconds": 29.840000000000003,
+          "overlapSeconds": 3.039999999999992,
+          "silenceSeconds": 3.1999999999999886,
+          "missedSpeakerSeconds": 0.09999999999999776,
+          "falseSpeakerSeconds": 3.5699999999999923,
+          "confusedSpeakerSeconds": 2.6645352591003757e-15,
+          "mapping": {
+            "speaker_0": "spk01",
+            "speaker_1": "spk00",
+            "speaker_2": "spk02"
+          },
+          "der": 0.12298927613940994
+        },
+        "referenceOverlapSeconds": 3.039999999999992,
+        "retainedOverlapSeconds": 2.939999999999994,
+        "overlapRecall": 0.9671052631578954,
+        "confusionRatio": 8.929407704759971e-17,
+        "count": 3,
+        "requiredCount": 3,
+        "turnsSha256": "379c6b2b70bcd46e1ffa804ba0fb7443fa4e5edd2e5f4a765748cc2f9f0ad8ce",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "exactRawFloat32Parity": true,
+      "maximumAbsoluteScoreChange": 0,
+      "exactInterpretedTurnParity": true
+    },
+    {
+      "id": "aiqwk30",
+      "parent": {
+        "metrics": {
+          "referenceSpeakerSeconds": 28.880000000000003,
+          "overlapSeconds": 2.230000000000004,
+          "silenceSeconds": 3.3500000000000014,
+          "missedSpeakerSeconds": 0.6100000000000048,
+          "falseSpeakerSeconds": 1.5800000000000067,
+          "confusedSpeakerSeconds": 0.08000000000000185,
+          "mapping": {
+            "speaker_0": "spk02",
+            "speaker_1": "spk03",
+            "speaker_2": "spk04",
+            "speaker_3": "spk05"
+          },
+          "der": 0.07860110803324145
+        },
+        "referenceOverlapSeconds": 2.230000000000004,
+        "retainedOverlapSeconds": 1.9199999999999982,
+        "overlapRecall": 0.8609865470851994,
+        "confusionRatio": 0.0027700831024931385,
+        "count": 4,
+        "requiredCount": 4,
+        "turnsSha256": "6cefdb9ccd0af3169b3831a3e289c26af30ce8725fffcd53f52911b249e3243e",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "candidate": {
+        "metrics": {
+          "referenceSpeakerSeconds": 28.880000000000003,
+          "overlapSeconds": 2.230000000000004,
+          "silenceSeconds": 3.3500000000000014,
+          "missedSpeakerSeconds": 0.6100000000000048,
+          "falseSpeakerSeconds": 1.5800000000000067,
+          "confusedSpeakerSeconds": 0.08000000000000185,
+          "mapping": {
+            "speaker_0": "spk02",
+            "speaker_1": "spk03",
+            "speaker_2": "spk04",
+            "speaker_3": "spk05"
+          },
+          "der": 0.07860110803324145
+        },
+        "referenceOverlapSeconds": 2.230000000000004,
+        "retainedOverlapSeconds": 1.9199999999999982,
+        "overlapRecall": 0.8609865470851994,
+        "confusionRatio": 0.0027700831024931385,
+        "count": 4,
+        "requiredCount": 4,
+        "turnsSha256": "6cefdb9ccd0af3169b3831a3e289c26af30ce8725fffcd53f52911b249e3243e",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "exactRawFloat32Parity": true,
+      "maximumAbsoluteScoreChange": 0,
+      "exactInterpretedTurnParity": true
+    },
+    {
+      "id": "returns-overlap-silence",
+      "parent": {
+        "metrics": {
+          "referenceSpeakerSeconds": 96,
+          "overlapSeconds": 8,
+          "silenceSeconds": 12,
+          "missedSpeakerSeconds": 0.16000000000000014,
+          "falseSpeakerSeconds": 4.779999999999996,
+          "confusedSpeakerSeconds": 0,
+          "mapping": {
+            "speaker_0": "bspxd:spk00",
+            "speaker_1": "bspxd:spk01",
+            "speaker_2": "bspxd:spk02"
+          },
+          "der": 0.05145833333333329
+        },
+        "referenceOverlapSeconds": 8,
+        "retainedOverlapSeconds": 8,
+        "overlapRecall": 1,
+        "confusionRatio": 0,
+        "count": 3,
+        "requiredCount": 3,
+        "turnsSha256": "ae2da50a8acc80e74869b8eb4b539a8ce8ff22ad70a00cf91680420ba976f12f",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "candidate": {
+        "metrics": {
+          "referenceSpeakerSeconds": 96,
+          "overlapSeconds": 8,
+          "silenceSeconds": 12,
+          "missedSpeakerSeconds": 0.16000000000000014,
+          "falseSpeakerSeconds": 4.779999999999996,
+          "confusedSpeakerSeconds": 0,
+          "mapping": {
+            "speaker_0": "bspxd:spk00",
+            "speaker_1": "bspxd:spk01",
+            "speaker_2": "bspxd:spk02"
+          },
+          "der": 0.05145833333333329
+        },
+        "referenceOverlapSeconds": 8,
+        "retainedOverlapSeconds": 8,
+        "overlapRecall": 1,
+        "confusionRatio": 0,
+        "count": 3,
+        "requiredCount": 3,
+        "turnsSha256": "ae2da50a8acc80e74869b8eb4b539a8ce8ff22ad70a00cf91680420ba976f12f",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "exactRawFloat32Parity": true,
+      "maximumAbsoluteScoreChange": 0,
+      "exactInterpretedTurnParity": true
+    }
+  ],
+  "resources": [
+    {
+      "id": "bspxd30",
+      "parent": {
+        "inferenceSeconds": 0.7615914159978274,
+        "inferencePeakProcessRSSBytes": 1588953088,
+        "interpretationSeconds": 0.00052975
+      },
+      "candidate": {
+        "inferenceSeconds": 0.5786129579937551,
+        "inferencePeakProcessRSSBytes": 1573453824,
+        "interpretationSeconds": 7.629199999999869e-05
+      }
+    },
+    {
+      "id": "aiqwk30",
+      "parent": {
+        "inferenceSeconds": 0.5674967920058407,
+        "inferencePeakProcessRSSBytes": 1693581312,
+        "interpretationSeconds": 0.0007319169999999992
+      },
+      "candidate": {
+        "inferenceSeconds": 0.9205519999959506,
+        "inferencePeakProcessRSSBytes": 1577910272,
+        "interpretationSeconds": 0.0006770829999999997
+      }
+    },
+    {
+      "id": "returns-overlap-silence",
+      "parent": {
+        "inferenceSeconds": 2.0633982500003185,
+        "inferencePeakProcessRSSBytes": 1693122560,
+        "interpretationSeconds": 0.00023391699999999815
+      },
+      "candidate": {
+        "inferenceSeconds": 2.7566198330023326,
+        "inferencePeakProcessRSSBytes": 1686159360,
+        "interpretationSeconds": 0.00014625000000000198
+      }
+    }
+  ],
+  "verdict": "null: exact raw Float32 and interpreted-turn parity across all preregistered controls; skip unchanged600; no provider promotion"
+}

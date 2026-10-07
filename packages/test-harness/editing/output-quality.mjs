@@ -162,8 +162,8 @@ try {
       path,
       bytes: (await readFile(path)).length,
       sha256: hash(await readFile(path)),
-      settings: ready.published.preview.settings,
-      encodedVideo: ready.published.preview.encodedVideo,
+      settings: ready.published.output.settings,
+      encodedVideo: ready.published.output.encodedVideo,
     });
   }
   report.passed = true;

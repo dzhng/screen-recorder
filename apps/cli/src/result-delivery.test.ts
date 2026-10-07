@@ -229,7 +229,7 @@ test("deferred media metadata leaves its nested lease usable instead of reading 
         ok: true,
         data: {
           state: "ready",
-          published: { frame: { mediaType: "image/png" } },
+          published: { generation: 1, output: { mediaType: "image/png" } },
           delivery: nested,
           evidence: "x".repeat(MCP_RESULT_INLINE_BYTES),
         },

@@ -1,0 +1,174 @@
+{
+  "cases": [
+    {
+      "id": "bspxd30",
+      "parent": {
+        "metrics": {
+          "referenceSpeakerSeconds": 29.840000000000003,
+          "overlapSeconds": 3.039999999999992,
+          "silenceSeconds": 3.1999999999999886,
+          "missedSpeakerSeconds": 0.09999999999999776,
+          "falseSpeakerSeconds": 3.5699999999999923,
+          "confusedSpeakerSeconds": 2.6645352591003757e-15,
+          "mapping": {
+            "speaker_0": "spk01",
+            "speaker_1": "spk00",
+            "speaker_2": "spk02"
+          },
+          "der": 0.12298927613940994
+        },
+        "referenceOverlapSeconds": 3.039999999999992,
+        "retainedOverlapSeconds": 2.939999999999994,
+        "overlapRecall": 0.9671052631578954,
+        "confusionRatio": 8.929407704759971e-17,
+        "count": 3,
+        "requiredCount": 3,
+        "turnsSha256": "379c6b2b70bcd46e1ffa804ba0fb7443fa4e5edd2e5f4a765748cc2f9f0ad8ce",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "candidate": {
+        "metrics": {
+          "referenceSpeakerSeconds": 29.840000000000003,
+          "overlapSeconds": 3.039999999999992,
+          "silenceSeconds": 3.1999999999999886,
+          "missedSpeakerSeconds": 0.09999999999999776,
+          "falseSpeakerSeconds": 3.8199999999999914,
+          "confusedSpeakerSeconds": 0.010000000000002451,
+          "mapping": {
+            "speaker_0": "spk01",
+            "speaker_1": "spk00",
+            "speaker_2": "spk02"
+          },
+          "der": 0.1317024128686324
+        },
+        "referenceOverlapSeconds": 3.039999999999992,
+        "retainedOverlapSeconds": 2.939999999999994,
+        "overlapRecall": 0.9671052631578954,
+        "confusionRatio": 0.0003351206434317175,
+        "count": 3,
+        "requiredCount": 3,
+        "turnsSha256": "41c75600c42cdef46c3f7fc5d6b2e83a29b8fb79d54c823136141915e18a5335",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "exactRawFloat32Parity": false,
+      "maximumAbsoluteScoreChange": 0.2600913643836975,
+      "exactInterpretedTurnParity": false
+    },
+    {
+      "id": "aiqwk30",
+      "parent": {
+        "metrics": {
+          "referenceSpeakerSeconds": 28.880000000000003,
+          "overlapSeconds": 2.230000000000004,
+          "silenceSeconds": 3.3500000000000014,
+          "missedSpeakerSeconds": 0.6100000000000048,
+          "falseSpeakerSeconds": 1.5800000000000067,
+          "confusedSpeakerSeconds": 0.08000000000000185,
+          "mapping": {
+            "speaker_0": "spk02",
+            "speaker_1": "spk03",
+            "speaker_2": "spk04",
+            "speaker_3": "spk05"
+          },
+          "der": 0.07860110803324145
+        },
+        "referenceOverlapSeconds": 2.230000000000004,
+        "retainedOverlapSeconds": 1.9199999999999982,
+        "overlapRecall": 0.8609865470851994,
+        "confusionRatio": 0.0027700831024931385,
+        "count": 4,
+        "requiredCount": 4,
+        "turnsSha256": "6cefdb9ccd0af3169b3831a3e289c26af30ce8725fffcd53f52911b249e3243e",
+        "gates": {
+          "der": true,
+          "identity": true,
+          "overlap": true,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": true
+      },
+      "candidate": {
+        "metrics": {
+          "referenceSpeakerSeconds": 28.880000000000003,
+          "overlapSeconds": 2.230000000000004,
+          "silenceSeconds": 3.3500000000000014,
+          "missedSpeakerSeconds": 2.100000000000005,
+          "falseSpeakerSeconds": 3.120000000000001,
+          "confusedSpeakerSeconds": 2.039999999999999,
+          "mapping": {
+            "speaker_0": "spk02",
+            "speaker_2": "spk04",
+            "speaker_3": "spk05"
+          },
+          "der": 0.2513850415512467
+        },
+        "referenceOverlapSeconds": 2.230000000000004,
+        "retainedOverlapSeconds": 1.2699999999999996,
+        "overlapRecall": 0.5695067264573979,
+        "confusionRatio": 0.07063711911357337,
+        "count": 4,
+        "requiredCount": 4,
+        "turnsSha256": "97e17ed98f00b182e4901cc4a74102d257f821045f06cbac860e9ba762355f51",
+        "gates": {
+          "der": false,
+          "identity": false,
+          "overlap": false,
+          "count": true,
+          "time": true,
+          "rss": true
+        },
+        "passed": false
+      },
+      "exactRawFloat32Parity": false,
+      "maximumAbsoluteScoreChange": 0.8212336599826813,
+      "exactInterpretedTurnParity": false
+    }
+  ],
+  "resources": [
+    {
+      "id": "bspxd30",
+      "parent": {
+        "inferenceSeconds": 0.7615914159978274,
+        "inferencePeakProcessRSSBytes": 1588953088,
+        "interpretationSeconds": 0.0004408329999999978
+      },
+      "candidate": {
+        "inferenceSeconds": 5.373821415996645,
+        "inferencePeakProcessRSSBytes": 1601847296,
+        "interpretationSeconds": 6.158399999999986e-05
+      }
+    },
+    {
+      "id": "aiqwk30",
+      "parent": {
+        "inferenceSeconds": 0.5674967920058407,
+        "inferencePeakProcessRSSBytes": 1693581312,
+        "interpretationSeconds": 0.0003458330000000025
+      },
+      "candidate": {
+        "inferenceSeconds": 4.513458542001899,
+        "inferencePeakProcessRSSBytes": 1598242816,
+        "interpretationSeconds": 5.395900000000253e-05
+      }
+    }
+  ],
+  "verdict": "discard: independent native1.04s buffering fails four-speaker short DER, identity and overlap gates; no100 or long inference"
+}

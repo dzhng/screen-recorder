@@ -75,15 +75,16 @@ turn a checklist into a mandatory approval sequence.
 - Check the delivered framing, readable text and moving transitions, not just a
   valid export or a still thumbnail. Use exposed settings and capability checks;
   a preset must not hide a requested supported control.
-- Ask for the smallest useful human check only when needed. Say what to hear or
-  see, offer a simple pass/issue response, and do not repeat an unchanged accepted
-  audition. Ask only about the changed candidate or unresolved variable; mention
-  prior acceptance as context, not another question. If a person must hold a
-  device or stage a capture, state the required
-  duration beforehand and honor their stop; analysis continues on retained files.
+- Verify autonomously using the capabilities discovered for this task. Use
+  available audio/video perception, rendered-excerpt transcription, signal
+  analysis and frame comparisons to investigate defects. No human listening,
+  watching or transcript labeling is a QA prerequisite. When a person must hold
+  a device or stage a requested capture, state the duration beforehand and honor
+  their stop; analysis continues on retained files.
 - State listening/playback limitations honestly. Numerical equality verifies
-  preservation; it does not supply perception. Record precisely what the user
-  accepted, rejected or left unresolved, then update the next check accordingly.
+  preservation; it does not supply perception. Record what each agent check
+  established and left unresolved; preserve any user preferences already given
+  without asking them to repeat a check.
 
 ## Review the rendered candidate
 
@@ -100,7 +101,7 @@ changes alone cannot enumerate edited joins.
   candidate artifact, not an audible-pop verdict.
 - Sample the opening, ending and representative middle sections. Check that the
   setup and chosen ending survive: a complete video delivers its payoff, while a
-  [teaser](video-use-cases.md#teasers-and-trailers) can deliberately
+  [teaser](teaser-videos.md#the-question-end-strategy) can deliberately
   withhold the answer after a complete question. Check that captions or end cards
   do not accidentally reveal it. Check that text is readable at the intended viewing size, grades
   match, and music/effects don't mask speech. A still cannot establish motion or
@@ -117,9 +118,20 @@ changes alone cannot enumerate edited joins.
   explanations out of a first visual impression. Record what the critic could
   actually view or hear.
 
+For suspected clipped speech, compare the rendered excerpt with its retained
+source in a complete sentence. Re-transcribe the changed excerpt when useful;
+prepare Yap's registered local transcription model through `model.prepare` when
+needed for this check. Missing or changed words prompt
+boundary investigation, not automatic text correction. ASR can omit or mishear
+words, so combine it with waveform/spectrogram and any available listening.
+Do not treat transcript agreement as proof that every phoneme survived, or
+install an external transcription tool/model by default. Inspect motion over the changed interval
+when possible; sparse frames leave unsampled intervals uncertain.
+
 Fix observed defects, render the affected output and recheck the changed behavior.
 Reuse unchanged accepted evidence. Keep iteration bounded: three review rounds
 can be a useful initial budget; stop sooner for an external blocker or no progress,
-and report unresolved issues instead of presenting them as passed. A failed render
+and deliver the best checked candidate with precise unresolved issues instead of
+presenting them as passed or shifting QA to the user. A failed render
 is not a reason to repeat the same request unchanged. Save verdicts against exact
 revision/artifact identities in the task workspace, not in the installed skill.

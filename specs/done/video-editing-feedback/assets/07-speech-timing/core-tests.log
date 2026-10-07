@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4 src/asset-transcript.test.ts src/source-transcript-read.test.ts src/text-seeds.test.ts src/project-evidence.test.ts
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+
+ Test Files  4 passed (4)
+      Tests  80 passed (80)
+   Start at  21:44:27
+   Duration  4.77s (tests 77%, transform 18%, import 4%)

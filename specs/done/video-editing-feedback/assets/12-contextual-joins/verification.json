@@ -1,0 +1,31 @@
+{
+  "scope": "Explicit composition boundary mapping only; authored cuts unchanged. No public join report or speech quality certification.",
+  "tests": {
+    "files": 1,
+    "passed": 8,
+    "runner": "bunx vitest run packages/composition/src/project-cuts.test.ts --maxWorkers=1"
+  },
+  "checks": [
+    "composition check-types",
+    "composition build",
+    "changed-code oxlint",
+    "oxfmt",
+    "git diff --check"
+  ],
+  "finalSourceSha256": "4f76d456061271c2dde25314358a47955186df3eea0fa8a6cb1758cd5c22323c",
+  "negativeProof": "Three retained mutations fail their targeted consumer assertions; each was restored. The settled implementation passes all eight tests.",
+  "review": {
+    "originalVerdict": "not clean; two P2 findings",
+    "triage": [
+      {
+        "finding": "Linear per-point clip scan",
+        "disposition": "Fixed: lower-bound search over the existing sorted, nonoverlapping placement list. No new index state/cache. Point lookup is O(log clips) rather than two O(clips) scans; index construction remains O(clips). No measured freeze or elapsed-time improvement claimed."
+      },
+      {
+        "finding": "Missing unavailable-media/placement-gap regression",
+        "disposition": "Fixed: exact source mapping inside unavailable support, null authored-gap sides, and gap-ending entry are checked. Deliberately filtering by physical availability fails the new test; restored code passes."
+      }
+    ],
+    "followup": "Implementation clean; remaining receipt wording corrected to eight tests and three retained mutation proofs. Independent follow-up exited 0 with turn.completed."
+  }
+}

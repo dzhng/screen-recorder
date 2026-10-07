@@ -156,6 +156,10 @@
       "types": "./dist/frame-inspection.d.ts",
       "default": "./dist/frame-inspection.js"
     },
+    "./face-tracking": {
+      "types": "./dist/face-tracking.d.ts",
+      "default": "./dist/face-tracking.js"
+    },
     "./audio-measurement": {
       "types": "./dist/audio-measurement.d.ts",
       "default": "./dist/audio-measurement.js"
@@ -240,6 +244,10 @@
       "types": "./dist/audio-extraction.d.ts",
       "default": "./dist/audio-extraction.js"
     },
+    "./rendered-speech": {
+      "types": "./dist/rendered-speech.d.ts",
+      "default": "./dist/rendered-speech.js"
+    },
     "./asset-origins": {
       "types": "./dist/asset-origins.d.ts",
       "default": "./dist/asset-origins.js"
@@ -276,9 +284,41 @@
       "types": "./dist/speaker-read.d.ts",
       "default": "./dist/speaker-read.js"
     },
+    "./speaker-attribution": {
+      "types": "./dist/speaker-attribution.d.ts",
+      "default": "./dist/speaker-attribution.js"
+    },
+    "./speaker-labels": {
+      "types": "./dist/speaker-labels.d.ts",
+      "default": "./dist/speaker-labels.js"
+    },
     "./project-speakers": {
       "types": "./dist/project-speakers.d.ts",
       "default": "./dist/project-speakers.js"
+    },
+    "./source-alignment": {
+      "types": "./dist/source-alignment.d.ts",
+      "default": "./dist/source-alignment.js"
+    },
+    "./alignment-operands": {
+      "types": "./dist/alignment-operands.d.ts",
+      "default": "./dist/alignment-operands.js"
+    },
+    "./alignment-evidence": {
+      "types": "./dist/alignment-evidence.d.ts",
+      "default": "./dist/alignment-evidence.js"
+    },
+    "./alignment-processing": {
+      "types": "./dist/alignment-processing.d.ts",
+      "default": "./dist/alignment-processing.js"
+    },
+    "./alignment-read": {
+      "types": "./dist/alignment-read.d.ts",
+      "default": "./dist/alignment-read.js"
+    },
+    "./project-alignment": {
+      "types": "./dist/project-alignment.d.ts",
+      "default": "./dist/project-alignment.js"
     }
   },
   "scripts": {
@@ -288,6 +328,7 @@
   },
   "dependencies": {
     "@yap/composition": "workspace:*",
+    "@yap/protocol": "workspace:*",
     "zod": "4.6.5"
   }
 }

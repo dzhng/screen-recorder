@@ -1,0 +1,20 @@
+[
+  {
+    "mutation": "wrong-signed-original-clock",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "F\n======================================================================\nFAIL: test_retained_refusals_and_local_evidence (__main__.Replay.test_retained_refusals_and_local_evidence)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/server/dev/yap-lexical-sync/packages/test-harness/editing/synchronization/bridge-replay.test.py\", line 19, in test_retained_refusals_and_local_evidence\n    self.assertEqual(result.returncode, 0, result.stderr)\nAssertionError: 1 != 0 : Traceback (most recent call last):\n  File \"/Users/server/dev/yap-lexical-sync/packages/test-harness/editing/synchronization/bridge-replay.py\", line 100, in <module>\n    if __name__ == '__main__': main()\n                               ^^^^^^\n  File \"/Users/server/dev/yap-lexical-sync/packages/test-harness/editing/synchronization/bridge-replay.py\", line 77, in main\n    same(exact, row['referenceMinusSourceSamples16k'], 'Signed exact original clock changed')\n  File \"/Users/server/dev/yap-lexical-sync/packages/test-harness/editing/synchronization/bridge-replay.py\", line 26, in same\n    if actual != expected: raise ValueError(message)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Signed exact original clock changed\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.458s\n\nFAILED (failures=1)\n"
+  },
+  {
+    "mutation": "omitted-prework-frozen-report-verification",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "F\n======================================================================\nFAIL: test_changed_frozen_report_refuses_before_numerical_work (__main__.Replay.test_changed_frozen_report_refuses_before_numerical_work)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/server/dev/yap-lexical-sync/packages/test-harness/editing/synchronization/bridge-replay.test.py\", line 38, in test_changed_frozen_report_refuses_before_numerical_work\n    self.assertIn('Frozen retained',result.stderr)\nAssertionError: 'Frozen retained' not found in 'Traceback (most recent call last):\\n  File \"/Users/server/dev/yap-lexical-sync/packages/test-harness/editing/synchronization/bridge-replay.py\", line 100, in <module>\\n    if __name__ == \\'__main__\\': main()\\n                               ^^^^^^\\n  File \"/Users/server/dev/yap-lexical-sync/packages/test-harness/editing/synchronization/bridge-replay.py\", line 86, in main\\n    if result.returncode: raise RuntimeError(result.stderr)\\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nRuntimeError: node:internal/modules/run_main:107\\n    triggerUncaughtException(\\n    ^\\n\\nAssertionError [ERR_ASSERTION]: Capture report differs from the frozen bridge identity\\n+ actual - expected\\n\\n+ \\'7b53277eeeb2a82ba31dde48380ee1cc1c5c06fb9afe25258a3bb6066ac5e877\\'\\n- \\'e9f41bbc464e5fe08bbe173eb9880a84bca1c5982b3f010584f00ab0c462c01c\\'\\n\\n    at file:///Users/server/dev/yap-lexical-sync/packages/test-harness/editing/synchronization/local-recognition.mjs:57:10\\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\\n    at async node:internal/modules/esm/loader:647:26\\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\\n  generatedMessage: false,\\n  code: \\'ERR_ASSERTION\\',\\n  actual: \\'7b53277eeeb2a82ba31dde48380ee1cc1c5c06fb9afe25258a3bb6066ac5e877\\',\\n  expected: \\'e9f41bbc464e5fe08bbe173eb9880a84bca1c5982b3f010584f00ab0c462c01c\\',\\n  operator: \\'strictEqual\\',\\n  diff: \\'simple\\'\\n}\\n\\nNode.js v24.21.0\\n\\n'\n\n----------------------------------------------------------------------\nRan 1 test in 0.528s\n\nFAILED (failures=1)\n"
+  },
+  {
+    "restoredGreen": true,
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.892s\n\nOK\n"
+  }
+]

@@ -1,0 +1,1694 @@
+[
+  {
+    "left": "grahamRaw",
+    "right": "madisonRaw",
+    "rangeSeconds": [
+      0,
+      20
+    ],
+    "elapsedSeconds": 0.01402441700338386,
+    "rms": [
+      0.002313441347257835,
+      0.011821305885907882
+    ],
+    "result": {
+      "state": "unsuitable",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "offsetFrames": null,
+      "sampleRate": 16000,
+      "spreadFrames": null,
+      "anchors": [
+        {
+          "centerFrames": 48000,
+          "rangeFrames": [
+            16000,
+            80000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -10010,
+              "correlation": 0.046838682029366245,
+              "absoluteCorrelation": 0.046838682029366245
+            },
+            {
+              "offsetFrames": -7681,
+              "correlation": 0.04283898837392056,
+              "absoluteCorrelation": 0.04283898837392056
+            },
+            {
+              "offsetFrames": 2508,
+              "correlation": -0.038597089618505664,
+              "absoluteCorrelation": 0.038597089618505664
+            },
+            {
+              "offsetFrames": 15311,
+              "correlation": 0.038019541061131985,
+              "absoluteCorrelation": 0.038019541061131985
+            },
+            {
+              "offsetFrames": 1607,
+              "correlation": -0.03550351041822827,
+              "absoluteCorrelation": 0.03550351041822827
+            },
+            {
+              "offsetFrames": -13383,
+              "correlation": 0.03411240631083479,
+              "absoluteCorrelation": 0.03411240631083479
+            },
+            {
+              "offsetFrames": -173,
+              "correlation": -0.03380236306433872,
+              "absoluteCorrelation": 0.03380236306433872
+            },
+            {
+              "offsetFrames": 14209,
+              "correlation": 0.03226392103678703,
+              "absoluteCorrelation": 0.03226392103678703
+            }
+          ],
+          "alternativeRatio": 0.9146070409722884
+        },
+        {
+          "centerFrames": 160000,
+          "rangeFrames": [
+            128000,
+            192000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -7440,
+              "correlation": -0.05937633257968432,
+              "absoluteCorrelation": 0.05937633257968432
+            },
+            {
+              "offsetFrames": -2051,
+              "correlation": -0.05891111008115878,
+              "absoluteCorrelation": 0.05891111008115878
+            },
+            {
+              "offsetFrames": -8345,
+              "correlation": 0.049953495568024475,
+              "absoluteCorrelation": 0.049953495568024475
+            },
+            {
+              "offsetFrames": -10342,
+              "correlation": 0.04463874452170177,
+              "absoluteCorrelation": 0.04463874452170177
+            },
+            {
+              "offsetFrames": -6114,
+              "correlation": -0.04124926727296688,
+              "absoluteCorrelation": 0.04124926727296688
+            },
+            {
+              "offsetFrames": 13408,
+              "correlation": -0.0399885154055325,
+              "absoluteCorrelation": 0.0399885154055325
+            },
+            {
+              "offsetFrames": 8037,
+              "correlation": -0.03851026580268658,
+              "absoluteCorrelation": 0.03851026580268658
+            },
+            {
+              "offsetFrames": -9514,
+              "correlation": -0.03821195532635572,
+              "absoluteCorrelation": 0.03821195532635572
+            }
+          ],
+          "alternativeRatio": 0.9921648495568297
+        },
+        {
+          "centerFrames": 272000,
+          "rangeFrames": [
+            240000,
+            304000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 11837,
+              "correlation": 0.04880061345147917,
+              "absoluteCorrelation": 0.04880061345147917
+            },
+            {
+              "offsetFrames": 13527,
+              "correlation": -0.04808227401939661,
+              "absoluteCorrelation": 0.04808227401939661
+            },
+            {
+              "offsetFrames": 9688,
+              "correlation": -0.046984271652431214,
+              "absoluteCorrelation": 0.046984271652431214
+            },
+            {
+              "offsetFrames": 8608,
+              "correlation": -0.044906748155014435,
+              "absoluteCorrelation": 0.044906748155014435
+            },
+            {
+              "offsetFrames": 6600,
+              "correlation": -0.04311637906111281,
+              "absoluteCorrelation": 0.04311637906111281
+            },
+            {
+              "offsetFrames": 5132,
+              "correlation": 0.0410555705380997,
+              "absoluteCorrelation": 0.0410555705380997
+            },
+            {
+              "offsetFrames": 14481,
+              "correlation": 0.04096340447438784,
+              "absoluteCorrelation": 0.04096340447438784
+            },
+            {
+              "offsetFrames": 3981,
+              "correlation": 0.040620858152545264,
+              "absoluteCorrelation": 0.040620858152545264
+            }
+          ],
+          "alternativeRatio": 0.9852801147100992
+        }
+      ],
+      "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+      "policy": {
+        "centersSeconds": [
+          3,
+          10,
+          17
+        ],
+        "seconds": 4,
+        "minimumCorrelation": 0.35,
+        "maximumAlternativeRatio": 0.8,
+        "alternativeSeparationMs": 50,
+        "maximumSpreadMs": 2
+      }
+    }
+  },
+  {
+    "left": "grahamRaw",
+    "right": "lilyRawP1",
+    "rangeSeconds": [
+      0,
+      20
+    ],
+    "elapsedSeconds": 0.010434791998704895,
+    "rms": [
+      0.002313441347257835,
+      0.007201175663006885
+    ],
+    "result": {
+      "state": "unsuitable",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "offsetFrames": null,
+      "sampleRate": 16000,
+      "spreadFrames": null,
+      "anchors": [
+        {
+          "centerFrames": 48000,
+          "rangeFrames": [
+            16000,
+            80000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -316,
+              "correlation": 0.18078763009927037,
+              "absoluteCorrelation": 0.18078763009927037
+            },
+            {
+              "offsetFrames": 507,
+              "correlation": -0.095996683172359,
+              "absoluteCorrelation": 0.095996683172359
+            },
+            {
+              "offsetFrames": 3732,
+              "correlation": 0.07867274867747862,
+              "absoluteCorrelation": 0.07867274867747862
+            },
+            {
+              "offsetFrames": -1963,
+              "correlation": 0.06936019314231968,
+              "absoluteCorrelation": 0.06936019314231968
+            },
+            {
+              "offsetFrames": 6712,
+              "correlation": 0.06845269802944591,
+              "absoluteCorrelation": 0.06845269802944591
+            },
+            {
+              "offsetFrames": -6368,
+              "correlation": 0.06832800008829651,
+              "absoluteCorrelation": 0.06832800008829651
+            },
+            {
+              "offsetFrames": 1469,
+              "correlation": -0.0652841137660577,
+              "absoluteCorrelation": 0.0652841137660577
+            },
+            {
+              "offsetFrames": -5053,
+              "correlation": -0.06366750010249414,
+              "absoluteCorrelation": 0.06366750010249414
+            }
+          ],
+          "alternativeRatio": 0.5309914351974595
+        },
+        {
+          "centerFrames": 160000,
+          "rangeFrames": [
+            128000,
+            192000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -11771,
+              "correlation": 0.07286619633540055,
+              "absoluteCorrelation": 0.07286619633540055
+            },
+            {
+              "offsetFrames": -4728,
+              "correlation": 0.06811167565789558,
+              "absoluteCorrelation": 0.06811167565789558
+            },
+            {
+              "offsetFrames": -12639,
+              "correlation": 0.06551724125500619,
+              "absoluteCorrelation": 0.06551724125500619
+            },
+            {
+              "offsetFrames": 11675,
+              "correlation": -0.05942767097158338,
+              "absoluteCorrelation": 0.05942767097158338
+            },
+            {
+              "offsetFrames": -6372,
+              "correlation": 0.058222070661558246,
+              "absoluteCorrelation": 0.058222070661558246
+            },
+            {
+              "offsetFrames": 15983,
+              "correlation": -0.05742668446913503,
+              "absoluteCorrelation": 0.05742668446913503
+            },
+            {
+              "offsetFrames": 2715,
+              "correlation": 0.05630021192931439,
+              "absoluteCorrelation": 0.05630021192931439
+            },
+            {
+              "offsetFrames": 13610,
+              "correlation": 0.05442364450165751,
+              "absoluteCorrelation": 0.05442364450165751
+            }
+          ],
+          "alternativeRatio": 0.9347499812448
+        },
+        {
+          "centerFrames": 272000,
+          "rangeFrames": [
+            240000,
+            304000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -4589,
+              "correlation": -0.07162635420939532,
+              "absoluteCorrelation": 0.07162635420939532
+            },
+            {
+              "offsetFrames": -5591,
+              "correlation": -0.05839581919744927,
+              "absoluteCorrelation": 0.05839581919744927
+            },
+            {
+              "offsetFrames": 14763,
+              "correlation": 0.055709794871795386,
+              "absoluteCorrelation": 0.055709794871795386
+            },
+            {
+              "offsetFrames": -6866,
+              "correlation": 0.04964958639709861,
+              "absoluteCorrelation": 0.04964958639709861
+            },
+            {
+              "offsetFrames": -7676,
+              "correlation": -0.0461482088484281,
+              "absoluteCorrelation": 0.0461482088484281
+            },
+            {
+              "offsetFrames": -237,
+              "correlation": -0.0411458107361063,
+              "absoluteCorrelation": 0.0411458107361063
+            },
+            {
+              "offsetFrames": -3666,
+              "correlation": 0.041001524210717906,
+              "absoluteCorrelation": 0.041001524210717906
+            },
+            {
+              "offsetFrames": 10907,
+              "correlation": 0.04021086813562209,
+              "absoluteCorrelation": 0.04021086813562209
+            }
+          ],
+          "alternativeRatio": 0.8152839809036296
+        }
+      ],
+      "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+      "policy": {
+        "centersSeconds": [
+          3,
+          10,
+          17
+        ],
+        "seconds": 4,
+        "minimumCorrelation": 0.35,
+        "maximumAlternativeRatio": 0.8,
+        "alternativeSeparationMs": 50,
+        "maximumSpreadMs": 2
+      }
+    }
+  },
+  {
+    "left": "madisonRaw",
+    "right": "lilyRawP1",
+    "rangeSeconds": [
+      0,
+      20
+    ],
+    "elapsedSeconds": 0.010156834003282711,
+    "rms": [
+      0.011821305885907882,
+      0.007201175663006885
+    ],
+    "result": {
+      "state": "unsuitable",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "offsetFrames": null,
+      "sampleRate": 16000,
+      "spreadFrames": null,
+      "anchors": [
+        {
+          "centerFrames": 48000,
+          "rangeFrames": [
+            16000,
+            80000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 7850,
+              "correlation": 0.04268459535857358,
+              "absoluteCorrelation": 0.04268459535857358
+            },
+            {
+              "offsetFrames": 14212,
+              "correlation": 0.034595822277656965,
+              "absoluteCorrelation": 0.034595822277656965
+            },
+            {
+              "offsetFrames": -8343,
+              "correlation": -0.03367358130497479,
+              "absoluteCorrelation": 0.03367358130497479
+            },
+            {
+              "offsetFrames": -3258,
+              "correlation": -0.0327170460426311,
+              "absoluteCorrelation": 0.0327170460426311
+            },
+            {
+              "offsetFrames": 9549,
+              "correlation": -0.03094817809188145,
+              "absoluteCorrelation": 0.03094817809188145
+            },
+            {
+              "offsetFrames": 11910,
+              "correlation": -0.02897841919671012,
+              "absoluteCorrelation": 0.02897841919671012
+            },
+            {
+              "offsetFrames": 8686,
+              "correlation": -0.027514986444039862,
+              "absoluteCorrelation": 0.027514986444039862
+            },
+            {
+              "offsetFrames": 1741,
+              "correlation": 0.026940461164744977,
+              "absoluteCorrelation": 0.026940461164744977
+            }
+          ],
+          "alternativeRatio": 0.810499009936335
+        },
+        {
+          "centerFrames": 160000,
+          "rangeFrames": [
+            128000,
+            192000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 7306,
+              "correlation": 0.034559106816205366,
+              "absoluteCorrelation": 0.034559106816205366
+            },
+            {
+              "offsetFrames": -330,
+              "correlation": 0.029115415571353984,
+              "absoluteCorrelation": 0.029115415571353984
+            },
+            {
+              "offsetFrames": -12784,
+              "correlation": -0.02711078401380236,
+              "absoluteCorrelation": 0.02711078401380236
+            },
+            {
+              "offsetFrames": 2330,
+              "correlation": 0.02706450907603609,
+              "absoluteCorrelation": 0.02706450907603609
+            },
+            {
+              "offsetFrames": -14834,
+              "correlation": -0.027041603625318187,
+              "absoluteCorrelation": 0.027041603625318187
+            },
+            {
+              "offsetFrames": -6273,
+              "correlation": -0.026714998841391592,
+              "absoluteCorrelation": 0.026714998841391592
+            },
+            {
+              "offsetFrames": -13802,
+              "correlation": -0.025817048001527388,
+              "absoluteCorrelation": 0.025817048001527388
+            },
+            {
+              "offsetFrames": -1712,
+              "correlation": -0.02357524070176295,
+              "absoluteCorrelation": 0.02357524070176295
+            }
+          ],
+          "alternativeRatio": 0.8424817147676184
+        },
+        {
+          "centerFrames": 272000,
+          "rangeFrames": [
+            240000,
+            304000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -5358,
+              "correlation": 0.023837775986682956,
+              "absoluteCorrelation": 0.023837775986682956
+            },
+            {
+              "offsetFrames": 14858,
+              "correlation": 0.02074127508046093,
+              "absoluteCorrelation": 0.02074127508046093
+            },
+            {
+              "offsetFrames": 15838,
+              "correlation": 0.01661080714835233,
+              "absoluteCorrelation": 0.01661080714835233
+            },
+            {
+              "offsetFrames": 14033,
+              "correlation": 0.01654354596535932,
+              "absoluteCorrelation": 0.01654354596535932
+            },
+            {
+              "offsetFrames": -6314,
+              "correlation": -0.016104517289895773,
+              "absoluteCorrelation": 0.016104517289895773
+            },
+            {
+              "offsetFrames": 5091,
+              "correlation": -0.0144411106499449,
+              "absoluteCorrelation": 0.0144411106499449
+            },
+            {
+              "offsetFrames": 4117,
+              "correlation": 0.013810738683451826,
+              "absoluteCorrelation": 0.013810738683451826
+            },
+            {
+              "offsetFrames": 1300,
+              "correlation": 0.013575398157173766,
+              "absoluteCorrelation": 0.013575398157173766
+            }
+          ],
+          "alternativeRatio": 0.8701010988629184
+        }
+      ],
+      "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+      "policy": {
+        "centersSeconds": [
+          3,
+          10,
+          17
+        ],
+        "seconds": 4,
+        "minimumCorrelation": 0.35,
+        "maximumAlternativeRatio": 0.8,
+        "alternativeSeparationMs": 50,
+        "maximumSpreadMs": 2
+      }
+    }
+  },
+  {
+    "left": "grahamRaw",
+    "right": "madisonRaw",
+    "rangeSeconds": [
+      240,
+      260
+    ],
+    "elapsedSeconds": 0.010942541994154453,
+    "rms": [
+      0.03307223487723885,
+      0.0017639948444089424
+    ],
+    "result": {
+      "state": "unsuitable",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "offsetFrames": null,
+      "sampleRate": 16000,
+      "spreadFrames": null,
+      "anchors": [
+        {
+          "centerFrames": 48000,
+          "rangeFrames": [
+            16000,
+            80000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -6730,
+              "correlation": 0.03457572871861356,
+              "absoluteCorrelation": 0.03457572871861356
+            },
+            {
+              "offsetFrames": 5171,
+              "correlation": 0.03374787242900068,
+              "absoluteCorrelation": 0.03374787242900068
+            },
+            {
+              "offsetFrames": 7963,
+              "correlation": 0.03226587226174507,
+              "absoluteCorrelation": 0.03226587226174507
+            },
+            {
+              "offsetFrames": 8992,
+              "correlation": 0.031978564263428925,
+              "absoluteCorrelation": 0.031978564263428925
+            },
+            {
+              "offsetFrames": 12209,
+              "correlation": 0.03170793194213405,
+              "absoluteCorrelation": 0.03170793194213405
+            },
+            {
+              "offsetFrames": -8911,
+              "correlation": 0.03155344012629784,
+              "absoluteCorrelation": 0.03155344012629784
+            },
+            {
+              "offsetFrames": 2763,
+              "correlation": -0.03092177192283364,
+              "absoluteCorrelation": 0.03092177192283364
+            },
+            {
+              "offsetFrames": -4411,
+              "correlation": 0.02932138627498287,
+              "absoluteCorrelation": 0.02932138627498287
+            }
+          ],
+          "alternativeRatio": 0.9760567218597129
+        },
+        {
+          "centerFrames": 160000,
+          "rangeFrames": [
+            128000,
+            192000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -13974,
+              "correlation": 0.038643637650342455,
+              "absoluteCorrelation": 0.038643637650342455
+            },
+            {
+              "offsetFrames": -15106,
+              "correlation": 0.025720643455108164,
+              "absoluteCorrelation": 0.025720643455108164
+            },
+            {
+              "offsetFrames": -12007,
+              "correlation": 0.024546192057635766,
+              "absoluteCorrelation": 0.024546192057635766
+            },
+            {
+              "offsetFrames": -15935,
+              "correlation": 0.02244677928926411,
+              "absoluteCorrelation": 0.02244677928926411
+            },
+            {
+              "offsetFrames": -12971,
+              "correlation": 0.021427215235024565,
+              "absoluteCorrelation": 0.021427215235024565
+            },
+            {
+              "offsetFrames": -10720,
+              "correlation": -0.01771246771131271,
+              "absoluteCorrelation": 0.01771246771131271
+            },
+            {
+              "offsetFrames": 14830,
+              "correlation": 0.01252906737653646,
+              "absoluteCorrelation": 0.01252906737653646
+            },
+            {
+              "offsetFrames": -8266,
+              "correlation": 0.011683671822935013,
+              "absoluteCorrelation": 0.011683671822935013
+            }
+          ],
+          "alternativeRatio": 0.6655854629379134
+        },
+        {
+          "centerFrames": 272000,
+          "rangeFrames": [
+            240000,
+            304000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 7390,
+              "correlation": 0.05759587829804836,
+              "absoluteCorrelation": 0.05759587829804836
+            },
+            {
+              "offsetFrames": 10185,
+              "correlation": -0.04486518493857806,
+              "absoluteCorrelation": 0.04486518493857806
+            },
+            {
+              "offsetFrames": 13522,
+              "correlation": -0.04236162369259653,
+              "absoluteCorrelation": 0.04236162369259653
+            },
+            {
+              "offsetFrames": 8347,
+              "correlation": -0.0403986380854111,
+              "absoluteCorrelation": 0.0403986380854111
+            },
+            {
+              "offsetFrames": 5779,
+              "correlation": 0.033691521038914964,
+              "absoluteCorrelation": 0.033691521038914964
+            },
+            {
+              "offsetFrames": 14610,
+              "correlation": 0.0336327412934674,
+              "absoluteCorrelation": 0.0336327412934674
+            },
+            {
+              "offsetFrames": 11830,
+              "correlation": 0.026571092241625092,
+              "absoluteCorrelation": 0.026571092241625092
+            },
+            {
+              "offsetFrames": 9170,
+              "correlation": -0.026554198263706984,
+              "absoluteCorrelation": 0.026554198263706984
+            }
+          ],
+          "alternativeRatio": 0.778965201405711
+        }
+      ],
+      "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+      "policy": {
+        "centersSeconds": [
+          3,
+          10,
+          17
+        ],
+        "seconds": 4,
+        "minimumCorrelation": 0.35,
+        "maximumAlternativeRatio": 0.8,
+        "alternativeSeparationMs": 50,
+        "maximumSpreadMs": 2
+      }
+    }
+  },
+  {
+    "left": "grahamRaw",
+    "right": "lilyRawP1",
+    "rangeSeconds": [
+      240,
+      260
+    ],
+    "elapsedSeconds": 0.009911291999742389,
+    "rms": [
+      0.03307223487723885,
+      6.869189491938328e-05
+    ],
+    "result": {
+      "state": "unsuitable",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "offsetFrames": null,
+      "sampleRate": 16000,
+      "spreadFrames": null,
+      "anchors": [
+        {
+          "centerFrames": 48000,
+          "rangeFrames": [
+            16000,
+            80000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 4347,
+              "correlation": -0.044659046495884314,
+              "absoluteCorrelation": 0.044659046495884314
+            },
+            {
+              "offsetFrames": 5233,
+              "correlation": -0.039183284411107897,
+              "absoluteCorrelation": 0.039183284411107897
+            },
+            {
+              "offsetFrames": 1206,
+              "correlation": 0.03839137777546358,
+              "absoluteCorrelation": 0.03839137777546358
+            },
+            {
+              "offsetFrames": 9863,
+              "correlation": -0.03421736232127347,
+              "absoluteCorrelation": 0.03421736232127347
+            },
+            {
+              "offsetFrames": 2035,
+              "correlation": -0.03283316194589919,
+              "absoluteCorrelation": 0.03283316194589919
+            },
+            {
+              "offsetFrames": -15450,
+              "correlation": -0.030995085042354452,
+              "absoluteCorrelation": 0.030995085042354452
+            },
+            {
+              "offsetFrames": -7861,
+              "correlation": 0.03098150426292509,
+              "absoluteCorrelation": 0.03098150426292509
+            },
+            {
+              "offsetFrames": 13196,
+              "correlation": -0.030903228104160414,
+              "absoluteCorrelation": 0.030903228104160414
+            }
+          ],
+          "alternativeRatio": 0.8773873937214255
+        },
+        {
+          "centerFrames": 160000,
+          "rangeFrames": [
+            128000,
+            192000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -13019,
+              "correlation": -0.03977581608206106,
+              "absoluteCorrelation": 0.03977581608206106
+            },
+            {
+              "offsetFrames": -3292,
+              "correlation": -0.03679417460928354,
+              "absoluteCorrelation": 0.03679417460928354
+            },
+            {
+              "offsetFrames": -11797,
+              "correlation": 0.03645751598439869,
+              "absoluteCorrelation": 0.03645751598439869
+            },
+            {
+              "offsetFrames": -15821,
+              "correlation": 0.035126363576162216,
+              "absoluteCorrelation": 0.035126363576162216
+            },
+            {
+              "offsetFrames": -1038,
+              "correlation": -0.03261950498588146,
+              "absoluteCorrelation": 0.03261950498588146
+            },
+            {
+              "offsetFrames": -5436,
+              "correlation": 0.03150293627132174,
+              "absoluteCorrelation": 0.03150293627132174
+            },
+            {
+              "offsetFrames": -10427,
+              "correlation": -0.031335360610347515,
+              "absoluteCorrelation": 0.031335360610347515
+            },
+            {
+              "offsetFrames": 856,
+              "correlation": 0.0312067446943333,
+              "absoluteCorrelation": 0.0312067446943333
+            }
+          ],
+          "alternativeRatio": 0.9250388359945619
+        },
+        {
+          "centerFrames": 272000,
+          "rangeFrames": [
+            240000,
+            304000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 4579,
+              "correlation": -0.06847240086365233,
+              "absoluteCorrelation": 0.06847240086365233
+            },
+            {
+              "offsetFrames": 6078,
+              "correlation": 0.053883872098100714,
+              "absoluteCorrelation": 0.053883872098100714
+            },
+            {
+              "offsetFrames": -13438,
+              "correlation": 0.05311711701641486,
+              "absoluteCorrelation": 0.05311711701641486
+            },
+            {
+              "offsetFrames": 2555,
+              "correlation": -0.041896466250987044,
+              "absoluteCorrelation": 0.041896466250987044
+            },
+            {
+              "offsetFrames": 7014,
+              "correlation": -0.03582812108879491,
+              "absoluteCorrelation": 0.03582812108879491
+            },
+            {
+              "offsetFrames": -15572,
+              "correlation": 0.035519997346693984,
+              "absoluteCorrelation": 0.035519997346693984
+            },
+            {
+              "offsetFrames": 13715,
+              "correlation": 0.03481285758547852,
+              "absoluteCorrelation": 0.03481285758547852
+            },
+            {
+              "offsetFrames": 1529,
+              "correlation": -0.034768448419107555,
+              "absoluteCorrelation": 0.034768448419107555
+            }
+          ],
+          "alternativeRatio": 0.7869429349410216
+        }
+      ],
+      "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+      "policy": {
+        "centersSeconds": [
+          3,
+          10,
+          17
+        ],
+        "seconds": 4,
+        "minimumCorrelation": 0.35,
+        "maximumAlternativeRatio": 0.8,
+        "alternativeSeparationMs": 50,
+        "maximumSpreadMs": 2
+      }
+    }
+  },
+  {
+    "left": "madisonRaw",
+    "right": "lilyRawP1",
+    "rangeSeconds": [
+      240,
+      260
+    ],
+    "elapsedSeconds": 0.010485375009011477,
+    "rms": [
+      0.0017639948444089424,
+      6.869189491938328e-05
+    ],
+    "result": {
+      "state": "unsuitable",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "offsetFrames": null,
+      "sampleRate": 16000,
+      "spreadFrames": null,
+      "anchors": [
+        {
+          "centerFrames": 48000,
+          "rangeFrames": [
+            16000,
+            80000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 10194,
+              "correlation": 0.06488171455319058,
+              "absoluteCorrelation": 0.06488171455319058
+            },
+            {
+              "offsetFrames": 11496,
+              "correlation": -0.06368473317312488,
+              "absoluteCorrelation": 0.06368473317312488
+            },
+            {
+              "offsetFrames": 7496,
+              "correlation": 0.05868953210445823,
+              "absoluteCorrelation": 0.05868953210445823
+            },
+            {
+              "offsetFrames": -14603,
+              "correlation": -0.058429258142659334,
+              "absoluteCorrelation": 0.058429258142659334
+            },
+            {
+              "offsetFrames": -3317,
+              "correlation": 0.05710505579336824,
+              "absoluteCorrelation": 0.05710505579336824
+            },
+            {
+              "offsetFrames": -11382,
+              "correlation": -0.055590164017653265,
+              "absoluteCorrelation": 0.055590164017653265
+            },
+            {
+              "offsetFrames": -7856,
+              "correlation": -0.05556015337533175,
+              "absoluteCorrelation": 0.05556015337533175
+            },
+            {
+              "offsetFrames": -2117,
+              "correlation": -0.05408573122559609,
+              "absoluteCorrelation": 0.05408573122559609
+            }
+          ],
+          "alternativeRatio": 0.9815513293952118
+        },
+        {
+          "centerFrames": 160000,
+          "rangeFrames": [
+            128000,
+            192000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 14021,
+              "correlation": -0.1192482403581543,
+              "absoluteCorrelation": 0.1192482403581543
+            },
+            {
+              "offsetFrames": 12724,
+              "correlation": -0.07128601374017415,
+              "absoluteCorrelation": 0.07128601374017415
+            },
+            {
+              "offsetFrames": 15044,
+              "correlation": 0.056113341216740276,
+              "absoluteCorrelation": 0.056113341216740276
+            },
+            {
+              "offsetFrames": 15917,
+              "correlation": -0.04171945947751024,
+              "absoluteCorrelation": 0.04171945947751024
+            },
+            {
+              "offsetFrames": 11779,
+              "correlation": -0.03436686415842958,
+              "absoluteCorrelation": 0.03436686415842958
+            },
+            {
+              "offsetFrames": 8629,
+              "correlation": -0.018617180353230414,
+              "absoluteCorrelation": 0.018617180353230414
+            },
+            {
+              "offsetFrames": 10369,
+              "correlation": 0.018538884080193403,
+              "absoluteCorrelation": 0.018538884080193403
+            },
+            {
+              "offsetFrames": 7537,
+              "correlation": -0.01037930808452961,
+              "absoluteCorrelation": 0.01037930808452961
+            }
+          ],
+          "alternativeRatio": 0.5977950997521747
+        },
+        {
+          "centerFrames": 272000,
+          "rangeFrames": [
+            240000,
+            304000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -1434,
+              "correlation": 0.007256724946521538,
+              "absoluteCorrelation": 0.007256724946521538
+            },
+            {
+              "offsetFrames": 13205,
+              "correlation": -0.006767210655259371,
+              "absoluteCorrelation": 0.006767210655259371
+            },
+            {
+              "offsetFrames": -9922,
+              "correlation": 0.0058772015956888995,
+              "absoluteCorrelation": 0.0058772015956888995
+            },
+            {
+              "offsetFrames": 4220,
+              "correlation": -0.005856078694249769,
+              "absoluteCorrelation": 0.005856078694249769
+            },
+            {
+              "offsetFrames": -14342,
+              "correlation": -0.0057540924520601685,
+              "absoluteCorrelation": 0.0057540924520601685
+            },
+            {
+              "offsetFrames": -12429,
+              "correlation": -0.005655087106603586,
+              "absoluteCorrelation": 0.005655087106603586
+            },
+            {
+              "offsetFrames": -6145,
+              "correlation": 0.005642114530765101,
+              "absoluteCorrelation": 0.005642114530765101
+            },
+            {
+              "offsetFrames": 1902,
+              "correlation": 0.005564283984481765,
+              "absoluteCorrelation": 0.005564283984481765
+            }
+          ],
+          "alternativeRatio": 0.9325433587645054
+        }
+      ],
+      "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+      "policy": {
+        "centersSeconds": [
+          3,
+          10,
+          17
+        ],
+        "seconds": 4,
+        "minimumCorrelation": 0.35,
+        "maximumAlternativeRatio": 0.8,
+        "alternativeSeparationMs": 50,
+        "maximumSpreadMs": 2
+      }
+    }
+  },
+  {
+    "left": "grahamRaw",
+    "right": "madisonRaw",
+    "rangeSeconds": [
+      1200,
+      1220
+    ],
+    "elapsedSeconds": 0.01039483302156441,
+    "rms": [
+      0.02646226328324304,
+      0.0038791033291363285
+    ],
+    "result": {
+      "state": "unsuitable",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "offsetFrames": null,
+      "sampleRate": 16000,
+      "spreadFrames": null,
+      "anchors": [
+        {
+          "centerFrames": 48000,
+          "rangeFrames": [
+            16000,
+            80000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -13583,
+              "correlation": -0.04869181157852641,
+              "absoluteCorrelation": 0.04869181157852641
+            },
+            {
+              "offsetFrames": -10850,
+              "correlation": -0.03649141758753946,
+              "absoluteCorrelation": 0.03649141758753946
+            },
+            {
+              "offsetFrames": 7660,
+              "correlation": 0.036451129009993664,
+              "absoluteCorrelation": 0.036451129009993664
+            },
+            {
+              "offsetFrames": 6320,
+              "correlation": 0.03579147035101194,
+              "absoluteCorrelation": 0.03579147035101194
+            },
+            {
+              "offsetFrames": 9943,
+              "correlation": -0.03518936620268235,
+              "absoluteCorrelation": 0.03518936620268235
+            },
+            {
+              "offsetFrames": -1641,
+              "correlation": -0.03471978564287663,
+              "absoluteCorrelation": 0.03471978564287663
+            },
+            {
+              "offsetFrames": -15999,
+              "correlation": 0.0336921378488081,
+              "absoluteCorrelation": 0.0336921378488081
+            },
+            {
+              "offsetFrames": 15358,
+              "correlation": -0.0322536924798139,
+              "absoluteCorrelation": 0.0322536924798139
+            }
+          ],
+          "alternativeRatio": 0.7494364330373888
+        },
+        {
+          "centerFrames": 160000,
+          "rangeFrames": [
+            128000,
+            192000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -1980,
+              "correlation": -0.19654627126340568,
+              "absoluteCorrelation": 0.19654627126340568
+            },
+            {
+              "offsetFrames": -2823,
+              "correlation": 0.07926603109053786,
+              "absoluteCorrelation": 0.07926603109053786
+            },
+            {
+              "offsetFrames": -1022,
+              "correlation": 0.052874818424044616,
+              "absoluteCorrelation": 0.052874818424044616
+            },
+            {
+              "offsetFrames": 833,
+              "correlation": 0.042669446149965734,
+              "absoluteCorrelation": 0.042669446149965734
+            },
+            {
+              "offsetFrames": -157,
+              "correlation": 0.035150831797051064,
+              "absoluteCorrelation": 0.035150831797051064
+            },
+            {
+              "offsetFrames": -9807,
+              "correlation": 0.032736297057864905,
+              "absoluteCorrelation": 0.032736297057864905
+            },
+            {
+              "offsetFrames": -6706,
+              "correlation": 0.032068401816512764,
+              "absoluteCorrelation": 0.032068401816512764
+            },
+            {
+              "offsetFrames": -12760,
+              "correlation": 0.02942220801578952,
+              "absoluteCorrelation": 0.02942220801578952
+            }
+          ],
+          "alternativeRatio": 0.4032945045510825
+        },
+        {
+          "centerFrames": 272000,
+          "rangeFrames": [
+            240000,
+            304000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 14412,
+              "correlation": 0.005865925112018558,
+              "absoluteCorrelation": 0.005865925112018558
+            },
+            {
+              "offsetFrames": 11451,
+              "correlation": -0.0047390819241730575,
+              "absoluteCorrelation": 0.0047390819241730575
+            },
+            {
+              "offsetFrames": 13603,
+              "correlation": -0.0037378130755299373,
+              "absoluteCorrelation": 0.0037378130755299373
+            },
+            {
+              "offsetFrames": 9648,
+              "correlation": -0.0037077173993763893,
+              "absoluteCorrelation": 0.0037077173993763893
+            },
+            {
+              "offsetFrames": 8740,
+              "correlation": -0.0032006958464906392,
+              "absoluteCorrelation": 0.0032006958464906392
+            },
+            {
+              "offsetFrames": 10564,
+              "correlation": 0.0026689007397837235,
+              "absoluteCorrelation": 0.0026689007397837235
+            },
+            {
+              "offsetFrames": 6071,
+              "correlation": 0.002538696150565751,
+              "absoluteCorrelation": 0.002538696150565751
+            },
+            {
+              "offsetFrames": 15969,
+              "correlation": -0.0023052208466363606,
+              "absoluteCorrelation": 0.0023052208466363606
+            }
+          ],
+          "alternativeRatio": 0.8079001749380098
+        }
+      ],
+      "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+      "policy": {
+        "centersSeconds": [
+          3,
+          10,
+          17
+        ],
+        "seconds": 4,
+        "minimumCorrelation": 0.35,
+        "maximumAlternativeRatio": 0.8,
+        "alternativeSeparationMs": 50,
+        "maximumSpreadMs": 2
+      }
+    }
+  },
+  {
+    "left": "grahamRaw",
+    "right": "lilyRawP1",
+    "rangeSeconds": [
+      1200,
+      1220
+    ],
+    "elapsedSeconds": 0.010370667005190626,
+    "rms": [
+      0.02646226328324304,
+      5.496930019578261e-05
+    ],
+    "result": {
+      "state": "unsuitable",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "offsetFrames": null,
+      "sampleRate": 16000,
+      "spreadFrames": null,
+      "anchors": [
+        {
+          "centerFrames": 48000,
+          "rangeFrames": [
+            16000,
+            80000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 5702,
+              "correlation": 0.028772978207458014,
+              "absoluteCorrelation": 0.028772978207458014
+            },
+            {
+              "offsetFrames": -15929,
+              "correlation": 0.027229848241652997,
+              "absoluteCorrelation": 0.027229848241652997
+            },
+            {
+              "offsetFrames": -7839,
+              "correlation": -0.02198470351288082,
+              "absoluteCorrelation": 0.02198470351288082
+            },
+            {
+              "offsetFrames": 10109,
+              "correlation": -0.01833284616939634,
+              "absoluteCorrelation": 0.01833284616939634
+            },
+            {
+              "offsetFrames": 6520,
+              "correlation": -0.01826551852691625,
+              "absoluteCorrelation": 0.01826551852691625
+            },
+            {
+              "offsetFrames": -15096,
+              "correlation": -0.017780615243077495,
+              "absoluteCorrelation": 0.017780615243077495
+            },
+            {
+              "offsetFrames": 7827,
+              "correlation": 0.01776882354596313,
+              "absoluteCorrelation": 0.01776882354596313
+            },
+            {
+              "offsetFrames": 11118,
+              "correlation": 0.017464184102119817,
+              "absoluteCorrelation": 0.017464184102119817
+            }
+          ],
+          "alternativeRatio": 0.9463687785574788
+        },
+        {
+          "centerFrames": 160000,
+          "rangeFrames": [
+            128000,
+            192000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 6263,
+              "correlation": -0.04368586845293226,
+              "absoluteCorrelation": 0.04368586845293226
+            },
+            {
+              "offsetFrames": 11940,
+              "correlation": -0.0334477296706326,
+              "absoluteCorrelation": 0.0334477296706326
+            },
+            {
+              "offsetFrames": 310,
+              "correlation": 0.03253771607065938,
+              "absoluteCorrelation": 0.03253771607065938
+            },
+            {
+              "offsetFrames": 7159,
+              "correlation": -0.03237529182382703,
+              "absoluteCorrelation": 0.03237529182382703
+            },
+            {
+              "offsetFrames": -7964,
+              "correlation": -0.030859890178668258,
+              "absoluteCorrelation": 0.030859890178668258
+            },
+            {
+              "offsetFrames": -14509,
+              "correlation": -0.030243913981540173,
+              "absoluteCorrelation": 0.030243913981540173
+            },
+            {
+              "offsetFrames": 13552,
+              "correlation": -0.03011917214674816,
+              "absoluteCorrelation": 0.03011917214674816
+            },
+            {
+              "offsetFrames": 9188,
+              "correlation": -0.029969679300538357,
+              "absoluteCorrelation": 0.029969679300538357
+            }
+          ],
+          "alternativeRatio": 0.7656418621200042
+        },
+        {
+          "centerFrames": 272000,
+          "rangeFrames": [
+            240000,
+            304000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": -5557,
+              "correlation": -0.03516857473235099,
+              "absoluteCorrelation": 0.03516857473235099
+            },
+            {
+              "offsetFrames": 4934,
+              "correlation": -0.031208414454402932,
+              "absoluteCorrelation": 0.031208414454402932
+            },
+            {
+              "offsetFrames": 4110,
+              "correlation": 0.026352296889017555,
+              "absoluteCorrelation": 0.026352296889017555
+            },
+            {
+              "offsetFrames": -9837,
+              "correlation": 0.02602309672927103,
+              "absoluteCorrelation": 0.02602309672927103
+            },
+            {
+              "offsetFrames": -10664,
+              "correlation": -0.026004549170958288,
+              "absoluteCorrelation": 0.026004549170958288
+            },
+            {
+              "offsetFrames": 10896,
+              "correlation": 0.026004130702382767,
+              "absoluteCorrelation": 0.026004130702382767
+            },
+            {
+              "offsetFrames": 1795,
+              "correlation": 0.025511431863107482,
+              "absoluteCorrelation": 0.025511431863107482
+            },
+            {
+              "offsetFrames": 7606,
+              "correlation": -0.024298595198485783,
+              "absoluteCorrelation": 0.024298595198485783
+            }
+          ],
+          "alternativeRatio": 0.8873949169653107
+        }
+      ],
+      "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+      "policy": {
+        "centersSeconds": [
+          3,
+          10,
+          17
+        ],
+        "seconds": 4,
+        "minimumCorrelation": 0.35,
+        "maximumAlternativeRatio": 0.8,
+        "alternativeSeparationMs": 50,
+        "maximumSpreadMs": 2
+      }
+    }
+  },
+  {
+    "left": "madisonRaw",
+    "right": "lilyRawP1",
+    "rangeSeconds": [
+      1200,
+      1220
+    ],
+    "elapsedSeconds": 0.010076083010062575,
+    "rms": [
+      0.0038791033291363285,
+      5.496930019578261e-05
+    ],
+    "result": {
+      "state": "unsuitable",
+      "reason": "insufficient-or-ambiguous-shared-waveform",
+      "offsetFrames": null,
+      "sampleRate": 16000,
+      "spreadFrames": null,
+      "anchors": [
+        {
+          "centerFrames": 48000,
+          "rangeFrames": [
+            16000,
+            80000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 8434,
+              "correlation": 0.028820064487667996,
+              "absoluteCorrelation": 0.028820064487667996
+            },
+            {
+              "offsetFrames": -5823,
+              "correlation": -0.0269320326645128,
+              "absoluteCorrelation": 0.0269320326645128
+            },
+            {
+              "offsetFrames": -7069,
+              "correlation": 0.025822718002313765,
+              "absoluteCorrelation": 0.025822718002313765
+            },
+            {
+              "offsetFrames": -9459,
+              "correlation": 0.02558141738692349,
+              "absoluteCorrelation": 0.02558141738692349
+            },
+            {
+              "offsetFrames": -8166,
+              "correlation": -0.025069691533153846,
+              "absoluteCorrelation": 0.025069691533153846
+            },
+            {
+              "offsetFrames": -12835,
+              "correlation": -0.024365931647995474,
+              "absoluteCorrelation": 0.024365931647995474
+            },
+            {
+              "offsetFrames": 2456,
+              "correlation": -0.023876565343121207,
+              "absoluteCorrelation": 0.023876565343121207
+            },
+            {
+              "offsetFrames": -15303,
+              "correlation": -0.02340489158719906,
+              "absoluteCorrelation": 0.02340489158719906
+            }
+          ],
+          "alternativeRatio": 0.9344889799270547
+        },
+        {
+          "centerFrames": 160000,
+          "rangeFrames": [
+            128000,
+            192000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 8063,
+              "correlation": 0.04867200863255161,
+              "absoluteCorrelation": 0.04867200863255161
+            },
+            {
+              "offsetFrames": 9357,
+              "correlation": -0.04699579842129025,
+              "absoluteCorrelation": 0.04699579842129025
+            },
+            {
+              "offsetFrames": -9146,
+              "correlation": -0.046079511784156583,
+              "absoluteCorrelation": 0.046079511784156583
+            },
+            {
+              "offsetFrames": 11387,
+              "correlation": -0.045869996675092735,
+              "absoluteCorrelation": 0.045869996675092735
+            },
+            {
+              "offsetFrames": -13914,
+              "correlation": 0.03736054873391993,
+              "absoluteCorrelation": 0.03736054873391993
+            },
+            {
+              "offsetFrames": 4205,
+              "correlation": 0.03674987183202221,
+              "absoluteCorrelation": 0.03674987183202221
+            },
+            {
+              "offsetFrames": -11144,
+              "correlation": 0.03444989224304356,
+              "absoluteCorrelation": 0.03444989224304356
+            },
+            {
+              "offsetFrames": -12313,
+              "correlation": -0.034215133655283995,
+              "absoluteCorrelation": 0.034215133655283995
+            }
+          ],
+          "alternativeRatio": 0.9655611046604656
+        },
+        {
+          "centerFrames": 272000,
+          "rangeFrames": [
+            240000,
+            304000
+          ],
+          "selectedFrames": null,
+          "alternatives": [
+            {
+              "offsetFrames": 6926,
+              "correlation": -0.042238357467172624,
+              "absoluteCorrelation": 0.042238357467172624
+            },
+            {
+              "offsetFrames": 8797,
+              "correlation": 0.03767411065062322,
+              "absoluteCorrelation": 0.03767411065062322
+            },
+            {
+              "offsetFrames": -4209,
+              "correlation": 0.03229953408561451,
+              "absoluteCorrelation": 0.03229953408561451
+            },
+            {
+              "offsetFrames": 7908,
+              "correlation": 0.03147386617163481,
+              "absoluteCorrelation": 0.03147386617163481
+            },
+            {
+              "offsetFrames": 4977,
+              "correlation": -0.03054744306007654,
+              "absoluteCorrelation": 0.03054744306007654
+            },
+            {
+              "offsetFrames": 9833,
+              "correlation": -0.028651146827682567,
+              "absoluteCorrelation": 0.028651146827682567
+            },
+            {
+              "offsetFrames": -7454,
+              "correlation": -0.02842125074879881,
+              "absoluteCorrelation": 0.02842125074879881
+            },
+            {
+              "offsetFrames": 12562,
+              "correlation": -0.02752817942185895,
+              "absoluteCorrelation": 0.02752817942185895
+            }
+          ],
+          "alternativeRatio": 0.891940712417695
+        }
+      ],
+      "mapping": "rightTime = leftTime + offsetFrames/sampleRate",
+      "policy": {
+        "centersSeconds": [
+          3,
+          10,
+          17
+        ],
+        "seconds": 4,
+        "minimumCorrelation": 0.35,
+        "maximumAlternativeRatio": 0.8,
+        "alternativeSeparationMs": 50,
+        "maximumSpreadMs": 2
+      }
+    }
+  }
+]

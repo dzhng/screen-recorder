@@ -31,10 +31,37 @@ Read-only acoustic measurements retain the selected PCM generation and recipe.
 Integrated loudness requires complete admitted support; a hole cannot become
 measured silence or concatenate neighboring material. A null gate result is
 evidence of measurement limits, never an instruction to normalize. Explicit
-normalization publication retains complete before/after measurements and refuses
+normalization publication retains complete before/after measurements and every
+bounded candidate offset/result, and refuses
 infeasible or missed requested targets. Prepared excerpts preserve that complete
 processing evidence rather than relabeling it as an excerpt measurement. An explicit
-prepared signal pin must match the processed output tap.
+prepared signal pin must match its complete tap, ordered processing recipe and revision
+inputs. Selected taps retain the same whole state domains as ordinary inspection;
+only a matching processed output may substitute for a video export's final mix.
+
+[Transcript observations](src/transcript.ts) retain overlapping estimates and true
+instant points without manufacturing playable duration. [Source enumeration](src/transcript-read.ts)
+returns every retained observation when unfiltered; explicit interval queries use
+half-open membership. Search and caption grouping preserve the widest selected
+estimate rather than assuming the final word ends latest. Text seeds keep original
+word pins; a selection consisting only of points requires caller-authored text extent.
+
+Speech preparation owns execution scope; retained reads own selection. A bounded
+preparation keeps the whole-source descriptor and pins its range, decode context
+and recipe in generation identity. Decoded context does not expand primary
+ownership: physical gaps, unobserved support and skipped support remain distinct.
+[Transcript publication](src/transcript-processing.ts) resolves omitted generation
+only through full-support identity; bounded reads and project dependencies pin the
+retained generation explicitly. Native windows remain raw provenance, while
+connected primary observation runs preserve phrase continuity across accepted seams.
+
+[Rendered recognition](src/rendered-speech.ts) measures newly extracted revision PCM;
+source-text projection remains a separate read. Each project attempt owns fresh
+inference even when its bytes match an existing source asset. Its identity pins
+model, decoder and transcript admission policy together. Retained words keep
+the PCM clock and map to project time from the actual first selected sample.
+Missing source support refuses recognition rather than becoming measured silence.
+PCM, engine provenance and words remain readable without current model readiness.
 
 Source evidence retains its source clock. Project evidence projects it through
 a revision's exact mapping without rewriting the source observation. Generation
@@ -48,6 +75,16 @@ Captured refusal operands remain evidence; only queue settlement publishes a
 validated generation. Retained reads bind that generation's original decoder,
 independently of the currently installed executable or prepared runtime. Chronological
 pagination preserves native row ordinals and simultaneous observations.
+
+[Conditional alignment](src/alignment-operands.ts) preserves literal supplied text,
+complete native matrices and all-optimal provider correspondence. Supplied path
+estimates and greedy observed words remain separate. A textual match never proves
+lexical truth; ambiguous repetitions stay unknown, and native cells outside selected
+physical support retain their bounds with a refusal. Retained acoustic classification
+uses only the caller's threshold and never assigns a word or authorizes a cut.
+[Publication](src/alignment-processing.ts) shares the existing jobs and Models owners;
+[retained reads](src/alignment-read.ts) need neither inference nor runtime bytes.
+Captured failed operands remain inspectable without claiming ready word evidence.
 
 Project speaker reads keep the observation generation beside each clip occurrence.
 Repeated uses and overlapping observations never merge anonymous slots. Coverage
@@ -66,7 +103,10 @@ catalogs are refused rather than silently reconstructing missing semantic inputs
 [persisted reference fixtures](fixtures/README.md) preserve that refusal contract.
 
 Background jobs retain attempt ownership through cancellation and resource drain.
-A stale result cannot publish into a replacement attempt. Readiness means admitted
+A stale result cannot publish into a replacement attempt. Public
+[job inspection](src/jobs.ts) uses the [publication contract](../protocol/README.md#published-work)
+while retaining the original output identity beside current work; internal execution
+and portable storage retain their serialized result contract. Readiness means admitted
 and published output, not merely a completed native call. Models and generated
 media share these owners rather than introducing separate queues or stores.
 
@@ -79,6 +119,12 @@ Registered acquisition policy can require explicitly supplied local model bytes;
 it does not change execution identity. An already verified preparation remains
 idempotent without repeating its original acquisition inputs.
 
+Curated runtime acquisition uses the same downloader and cancellation owner.
+The [runtime recipe](../../helpers/model-runtime/README.md) identifies public
+interpreter/package inputs and offline assembly; the service supplies execution
+lifetime. Full measured inventory admission precedes publication. Neither a
+successful installer nor a matching package version is runtime readiness.
+
 ## Publication and storage
 
 Export intent pins revision and destination before execution. Acknowledgement
@@ -87,9 +133,9 @@ stays owned until retirement is confirmed; a committed external file remains
 independent of project deletion. Portable adoption owns copied bytes and their
 meaning rather than borrowing a donor path indefinitely.
 
-The current project package format retains typed speaker generations, their full
-raw native/report strings and their original publication order. The same native
-parser admits live and portable observations. Older package formats are refused;
+The current project package format retains admitted speaker and conditional
+alignment generations, their complete original operands and publication order.
+The same evidence parsers admit live and portable observations. Older package formats are refused;
 adoption stages evidence against package source facts and rechecks the published
 live source owner inside the existing transaction before replaying readiness.
 
@@ -99,3 +145,12 @@ sources. Aggregate [storage observations](src/storage.ts) measure managed files;
 shared media does not have an invented per-project byte share. Models and external
 donors have separate ownership, and shutdown joins observations before closing
 the catalog.
+
+[Frame inspection](src/frame-inspection.ts) retains optional picture measurements
+beside its existing source sample or compiled revision identity. Requested masks
+and thresholds participate in the frame and index recipes, so plain pixels cannot
+stand in for measured evidence and another rectangle cannot reuse its receipt.
+The [pure public observation contract](../protocol/src/picture.ts) admits masks,
+coverage and histogram operands; native still owns their computation on the
+inspected raster. Index retention copies the complete evidence with its PNG and
+proves only the sampled picture, never intervening visibility or a quality grade.

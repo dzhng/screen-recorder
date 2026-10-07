@@ -1,0 +1,76 @@
+{
+  "sourceBytes": 67108864,
+  "acknowledgementMs": 4.589249999999993,
+  "request": {
+    "requestId": "import",
+    "path": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/asset-service-3f0U00/source.png"
+  },
+  "accepted": {
+    "ok": true,
+    "data": {
+      "jobId": "5f86807e-5989-47c2-a0e7-8f0c32029474",
+      "attemptId": "60b6b234-eb54-4dea-9b97-fa7493d6b7d2",
+      "artifact": "asset.import",
+      "lane": "heavy",
+      "state": "running",
+      "reason": null,
+      "generation": 1,
+      "errorCode": null,
+      "inputSha256": "0872a7ae4b95cc3059f68d423cafbe88dcab8d9af76cd4e53a4cb80ec2ecb573",
+      "target": {
+        "kind": "import",
+        "importId": "68489e76-6251-4865-91b6-7a2e3baeb75e"
+      },
+      "retryable": false,
+      "errorDetails": null,
+      "published": null
+    },
+    "id": "test"
+  },
+  "pending": {
+    "ok": true,
+    "data": {
+      "jobId": "5f86807e-5989-47c2-a0e7-8f0c32029474",
+      "attemptId": "60b6b234-eb54-4dea-9b97-fa7493d6b7d2",
+      "artifact": "asset.import",
+      "lane": "heavy",
+      "state": "running",
+      "reason": null,
+      "generation": 1,
+      "errorCode": null,
+      "inputSha256": "0872a7ae4b95cc3059f68d423cafbe88dcab8d9af76cd4e53a4cb80ec2ecb573",
+      "target": {
+        "kind": "import",
+        "importId": "68489e76-6251-4865-91b6-7a2e3baeb75e"
+      },
+      "retryable": false,
+      "errorDetails": null,
+      "published": null
+    },
+    "id": "test"
+  },
+  "ready": {
+    "jobId": "5f86807e-5989-47c2-a0e7-8f0c32029474",
+    "attemptId": "60b6b234-eb54-4dea-9b97-fa7493d6b7d2",
+    "artifact": "asset.import",
+    "lane": "heavy",
+    "state": "ready",
+    "reason": null,
+    "generation": 1,
+    "errorCode": null,
+    "inputSha256": "0872a7ae4b95cc3059f68d423cafbe88dcab8d9af76cd4e53a4cb80ec2ecb573",
+    "target": {
+      "kind": "import",
+      "importId": "68489e76-6251-4865-91b6-7a2e3baeb75e"
+    },
+    "retryable": false,
+    "errorDetails": null,
+    "published": {
+      "generation": 1,
+      "attemptId": "60b6b234-eb54-4dea-9b97-fa7493d6b7d2",
+      "output": {
+        "assetId": "390ff4e344c21b57c66e29370a4de7f1016a34938d7169e37000cf919a05b688"
+      }
+    }
+  }
+}

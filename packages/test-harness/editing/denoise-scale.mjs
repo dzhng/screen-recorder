@@ -113,7 +113,7 @@ try {
     (v) => v.state === "ready",
     "import",
   );
-  const asset = await call("asset.get", { assetId: job.result.assetId });
+  const asset = await call("asset.get", { assetId: job.published.output.assetId });
   const made = await call("project.create", {
     requestId: "project",
     canvas: {
@@ -175,10 +175,10 @@ try {
   assert.equal(prepared.state, "ready");
   report.observations.prepareMs = performance.now() - preparingAt;
   report.receipts.push(prepared);
-  report.observations.nativePeakResidentBytes = prepared.published.audio.peakResidentBytes;
-  assert.deepEqual(prepared.published.audio.sampleRange, { start: 0, end: seconds * 48000 });
+  report.observations.nativePeakResidentBytes = prepared.published.output.peakResidentBytes;
+  assert.deepEqual(prepared.published.output.sampleRange, { start: 0, end: seconds * 48000 });
   assert.deepEqual(await call("audio.prepare", selection), prepared);
-  const resultAsset = await call("asset.get", { assetId: prepared.published.audio.assetId });
+  const resultAsset = await call("asset.get", { assetId: prepared.published.output.assetId });
   const full = join(home, "library/assets", resultAsset.id + ".wav"),
     f = await open(full, "r");
   let expected;
@@ -269,8 +269,7 @@ try {
   report.failure = { message: error.message, stack: error.stack };
   throw error;
 } finally {
-  if (priorUnavailableOperations === undefined)
-    delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  if (priorUnavailableOperations === undefined) delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
   else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
   clearInterval(observer);
   while (sampling) await new Promise((resolve) => setImmediate(resolve));

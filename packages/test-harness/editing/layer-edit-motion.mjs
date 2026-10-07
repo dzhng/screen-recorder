@@ -86,7 +86,7 @@ async function delivered(
   assert.equal(images.length, 1);
   const bytes = await readFile(file);
   assert.ok(bytes.equals(Buffer.from(images[0].data, "base64")));
-  const receipt = ready.published.frame;
+  const receipt = ready.published.output;
   const actual = receipt.pictures.find((picture) => picture.clipId === clipId);
   if (frameIndex === null) assert.equal(actual, undefined);
   else {
@@ -192,6 +192,7 @@ async function movie(revisionId, range, mapping, name) {
   const decoded = JSON.parse((await run(fixtures.referenceTool, [request])).stdout);
   const checked = [];
   for (const frame of decoded) {
+    assert.equal(frame.status, "available", frame.error);
     const sampleAtUs = Math.floor((selected.startUs + frame.requestedUs) / 100000) * 100000;
     const sourceUs = mapping(sampleAtUs),
       frameIndex = sourceUs === null ? null : Math.floor(sourceUs / 100000);
@@ -274,7 +275,7 @@ async function movie(revisionId, range, mapping, name) {
     file,
     range: selected,
     frames: checked,
-    receipt: ready.published.preview,
+    receipt: ready.published.output,
   });
 }
 async function protectedAudio(revisionId, name) {
@@ -300,7 +301,7 @@ async function protectedAudio(revisionId, name) {
     decoded.equals(fixtures.media.narration.pcm),
     "Video edits changed the independent narration plane",
   );
-  return { file, pcmSha256: hash(decoded), receipt: ready.published.audio };
+  return { file, pcmSha256: hash(decoded), receipt: ready.published.output };
 }
 try {
   fixtures = await prepareMotionFixture(home, out);

@@ -1,0 +1,38 @@
+{
+  "hypothesis": "Independently recognized shared utterances can provide lexical candidates where frozen waveform anchors refused. No supplied text is recognition evidence.",
+  "stage": "lexical availability scout; timing acceptance only if lexical prerequisites pass",
+  "inputs": "Complete frozen nine mono16k Float32 WAVs from the existing synchronization manifest; no new decoding, resampling or source edits",
+  "recognition": "Registered Parakeet TDT0.6b-v2, native speech.transcribe, default source-windows-20s-context4s-guard1s-v2, one complete20s window, no context or prompt",
+  "lexicalGate": {
+    "minimumContiguousWords": 5,
+    "minimumDistinctWords": 3,
+    "normalization": "existing core foldWord only; no synonyms, numeral expansion or guessed fragments",
+    "ambiguity": "Each five-word phrase must occur exactly once in each source's complete selected transcript set; retain repeated competitors rather than choose one",
+    "minimumDistinctCheckpoints": 3,
+    "checkpointsUs": [0, 240000000, 1200000000],
+    "continuity": "Never join words across selected windows; compare all retained windows across each source pair, including different clock selections",
+    "interpretation": "Provider text correspondence only. Even a lexical gate pass is not synchronization. Return candidates and refusal reasons, never an inferred clock."
+  },
+  "timingPrerequisites": {
+    "recipe": "Accepted10B independent source alignment on each recognized phrase, unambiguous all-optimal correspondence and complete physical admission; supplied paths alone insufficient",
+    "clock": "Exact original source selection origin plus retained native rational frame/sample clock; preserve competing estimates and every endpoint residual",
+    "knownDelay": "Independently planted125ms delay on retained speech with exact16k sample membership; also different absolute source origins to expose local-clock substitution",
+    "maximumKnownDelayErrorUs": 80000,
+    "maximumEndpointResidualUs": 80000,
+    "maximumAnchorOffsetSpreadUs": 160000,
+    "minimumSeparatedCheckpoints": 3,
+    "controls": ["known-delay", "clock-origin", "unrelated", "silence", "repeated-phrase", "missing-checkpoint", "continuous-drift", "discontinuous-edited-clock"],
+    "resolution": "80ms native CTC cells bound this conditional estimate; never claim2ms acoustic precision or calibrated confidence",
+    "refusal": "Any insufficient, ambiguous, physically unsupported, inconsistent or drifted mapping refuses one constant offset. No trimming an outlier, automatic segmenting or retime."
+  },
+  "budget": {
+    "maximumRecognitionCalls": 9,
+    "secondsPerCall": 180,
+    "maximumWordsPerWindow": 512,
+    "maximumModelBytesRead": "registered Models inventory only",
+    "timingInference": "Not authorized by this scout runner; a separate frozen follow-up must implement and pass all timing controls before any real timing inference",
+    "replay": "Reuse complete captured raw recognition, hash-bound requests and input manifest; no repeated inference for docs or replay"
+  },
+  "retention": "Freeze this protocol hash and complete input/native/model request identities before first real inference. Preserve waveform protocol and all failed gates unchanged.",
+  "productBoundary": "Research only. No relationship declaration, camera choice, retime, edit, provider promotion or speaker identity. A refused lexical prerequisite reslices the next research step."
+}

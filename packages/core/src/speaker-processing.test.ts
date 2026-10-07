@@ -91,23 +91,27 @@ async function fixture() {
   const control = { hold: false, deleting: false, fail: false, release: () => {} };
   const observe: SpeakerObserver = async (request) => {
     requests.push(request);
+    const frames = request.selected.expectedPCM.frames;
     if (control.hold)
       await new Promise<void>((resolve) => {
         control.release = resolve;
       });
     if (control.fail)
       return {
-        pcm: speakerSource.pcm,
+        pcm: { ...speakerSource.pcm, frames },
         operands: {
-          nativeReceipt: nativeOutput(["0.000 30.001 speaker_0"], request.engine.modelSha256)
-            .nativeReceipt,
+          nativeReceipt: nativeOutput(
+            ["0.000 30.001 speaker_0"],
+            request.engine.modelSha256,
+            frames,
+          ).nativeReceipt,
           report: "{}",
         },
         failure: new CatalogError("MODEL_CONTRACT_CHANGED", "Native endpoint is outside support"),
       };
     return {
-      pcm: speakerSource.pcm,
-      operands: nativeOutput(undefined, request.engine.modelSha256),
+      pcm: { ...speakerSource.pcm, frames },
+      operands: nativeOutput(undefined, request.engine.modelSha256, frames),
     };
   };
   let processing: SpeakerProcessing;
@@ -258,6 +262,7 @@ test("retained reads bind the original decoder after native identity replacement
   expect(f.processing.prepareSource(f.input)).toEqual(original);
   expect(f.processing.sourceStatus({ ...f.input, channel: 0 }).published).toBeNull();
   expect(f.requests.length).toBe(1);
+  expect(f.requests[0]!.checkpoint).toBe(join(f.requests[0]!.runtime.model, "model.nemo"));
   await rm(join(f.home, "models", f.input.modelId), { recursive: true });
   expect(f.processing.sourceStatus(f.input)).toEqual(original);
 });
@@ -320,4 +325,47 @@ test("publication replay preserves the original observation without a runtime or
       attemptId: "different",
     }),
   ).toThrow("publication differs");
+});
+
+test("selected-range preparation publishes an independent bounded generation", async () => {
+  const f = await fixture();
+  const selected = { ...f.input, sourceRange: { startUs: 0, endUs: 10_000_000 } };
+  f.processing.prepareSource(selected);
+  for (
+    let attempt = 0;
+    attempt < 100 && f.processing.sourceStatus(selected).state !== "ready";
+    attempt++
+  )
+    await new Promise((resolve) => setTimeout(resolve, 5));
+  expect(f.processing.sourceStatus(selected).state).toBe("ready");
+  expect(f.processing.sourceStatus(selected).published?.evidence).toMatchObject({
+    source: { observationRange: selected.sourceRange, pcm: { frames: 160_000 } },
+    scoreCount: 125,
+  });
+  expect(f.requests).toHaveLength(1);
+});
+
+test("separate selected ranges retain separate generation pins instead of implying continuity", async () => {
+  const f = await fixture();
+  const first = { ...f.input, sourceRange: { startUs: 0, endUs: 10_000_000 } };
+  const second = { ...f.input, sourceRange: { startUs: 10_000_000, endUs: 20_000_000 } };
+  f.processing.prepareSource(first);
+  f.processing.prepareSource(second);
+  for (
+    let attempt = 0;
+    attempt < 100 &&
+    (f.processing.sourceStatus(first).state !== "ready" ||
+      f.processing.sourceStatus(second).state !== "ready");
+    attempt++
+  )
+    await new Promise((resolve) => setTimeout(resolve, 5));
+  const firstStatus = f.processing.sourceStatus(first),
+    secondStatus = f.processing.sourceStatus(second);
+  expect(firstStatus.state).toBe("ready");
+  expect(secondStatus.state).toBe("ready");
+  expect(firstStatus.published?.evidence.generation).not.toBe(
+    secondStatus.published?.evidence.generation,
+  );
+  expect(firstStatus.published?.evidence.source.observationRange).toEqual(first.sourceRange);
+  expect(secondStatus.published?.evidence.source.observationRange).toEqual(second.sourceRange);
 });

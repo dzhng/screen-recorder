@@ -1,0 +1,48 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "cases": [
+        {
+          "id": "short-return",
+          "audioSeconds": 24,
+          "inferenceSeconds": 0.2656414590019267,
+          "peakProcessRSSBytes": 2434400256,
+          "pcmSha256": "a7d52d7c724db656d7d31def2da61efe53dd8f78da66eb016330430b79485a19"
+        },
+        {
+          "id": "returns-overlap-silence",
+          "audioSeconds": 100,
+          "inferenceSeconds": 1.3076501250034198,
+          "peakProcessRSSBytes": 2434400256,
+          "pcmSha256": "e97f8450c758696193a8b9a8d0468217e24fa22a2d12631a2c37fa6eb20e9068"
+        },
+        {
+          "id": "bspxd-unedited336",
+          "audioSeconds": 336.32,
+          "inferenceSeconds": 4.982452500000363,
+          "peakProcessRSSBytes": 2434400256,
+          "pcmSha256": "fbb76b234aa5a30606b78369880f90361b14ab1f55249fd4dacf0cb1ad902226"
+        },
+        {
+          "id": "four-speaker600",
+          "audioSeconds": 600,
+          "inferenceSeconds": 7.901571791997412,
+          "peakProcessRSSBytes": 2844016640,
+          "pcmSha256": "147d2e7008361647c2f4b0824d754b6159f783c94e12f7f39dc2e1e2f853d59b"
+        }
+      ],
+      "coldLoadSeconds": 7.032314291005605,
+      "recipe": {
+        "chunk_len": 340,
+        "chunk_right_context": 40,
+        "fifo_len": 40,
+        "spkcache_update_period": 300,
+        "spkcache_len": 188
+      },
+      "stateScope": "one fresh state per selected input; persistent across all native internal chunks"
+    }
+  },
+  "wallSeconds": 22.191987709,
+  "networkDenied": true
+}

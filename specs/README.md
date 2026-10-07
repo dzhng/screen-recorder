@@ -38,13 +38,21 @@ owned by the [tag workflow](../scripts/README.md#versioned-github-releases).
 [FFmpeg parity and agent media workflows](done/ffmpeg-parity/README.md) records
 bundled media tools, explicit offline treatments and task-side agent workflows.
 
+## Archived plans
+
+The [reliable autonomous video editing rationale](done/video-editing-feedback/README.md)
+records the implementation derived from real trailer-agent feedback. It includes the
+full feedback snapshot, session retrospective, certified fixtures, retained evidence,
+and the invariants that the shipped contracts preserve. The code and replay tests own
+the mechanics; the archived document owns the reasons and explicit evidence limits.
+
 ## Future proposals
 
 These directories hold planning questions, not unfinished implementation slices.
 
-[Agent editing workflow](agent-editing-workflow/README.md) recommends inspection,
-review and production capability additions for agent-driven editing. It is a
-historical assessment; the closed FFmpeg parity record owns the resulting scope.
+[Agent editing workflow](agent-editing-workflow/README.md) preserves the historical
+assessment behind shipped FFmpeg parity work. Its remaining planning questions
+are reconciled in the active video-editing feedback spec, not an alternate ladder.
 
 [Editing UI](editing-ui/README.md) is a deferred client over shared operations.
 [Presenter effects](presenter-effects/README.md) retain visual intent and missing

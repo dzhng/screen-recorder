@@ -30,8 +30,8 @@ try {
   );
   // Import publication is recovered through its original request.
   const importReplay = await call("asset.import", { requestId: "hdr-source", path: source });
-  const originalId = importReplay.published?.result
-    ? JSON.parse(importReplay.published.result).assetId
+  const originalId = importReplay.published?.output
+    ? importReplay.published.output.assetId
     : hash(await readFile(source));
   const original = await call("asset.get", { assetId: originalId });
   const streamIds = original.streams
@@ -50,7 +50,7 @@ try {
     { ...request, streamIds: [...streamIds].reverse() },
     { transport: "mcp" },
   );
-  const result = JSON.parse(ready.published.result);
+  const result = ready.published.output;
   const derivative = await call("asset.get", { assetId: result.assetId });
   const origins = await call("asset.origins", { assetId: result.assetId });
   Object.assign(report, { original, derivative, result, origins, replay: ready });

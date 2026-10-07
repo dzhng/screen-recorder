@@ -1,0 +1,1 @@
+No actionable defects were found in the staged, unstaged, or untracked changes. Type checking passed; targeted test execution was blocked by the environment's temporary-directory permissions.

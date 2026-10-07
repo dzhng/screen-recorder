@@ -1,0 +1,10 @@
+Building for debugging...
+[0/3] Write swift-version--58304C5D6DBC2206.txt
+[1/5] Write sources
+[3/7] Compiling YapSpeechTests main.swift
+[4/7] Emitting module YapSpeechTests
+[4/7] Write Objects.LinkFileList
+[5/7] Linking YapSpeechTests
+[6/7] Applying YapSpeechTests
+Build of product 'YapSpeechTests' complete! (0.90s)
+Swift/ErrorType.swift:254: Fatal error: Error raised at top level: YapMedia.NativeFailure(code: "TRANSCRIPT_BOUNDARY_DISAGREEMENT", message: "Boundary ExactTime(numerator: 60000000, denominator: 1): left observation 1 \'going\' [60240000,60320000] has 0 peers.", retryable: false)

@@ -1,0 +1,68 @@
+{
+  "passed": true,
+  "comparisons": [
+    {
+      "field": "segments",
+      "exact": true
+    },
+    {
+      "field": "nativeSegmentLines",
+      "exact": true
+    },
+    {
+      "field": "nativeProbabilities",
+      "exact": true
+    },
+    {
+      "field": "probabilityShape",
+      "exact": true
+    },
+    {
+      "field": "sampleRate",
+      "exact": true
+    },
+    {
+      "field": "sourceFrames",
+      "exact": true
+    },
+    {
+      "field": "audioSeconds",
+      "exact": true
+    },
+    {
+      "field": "frameSeconds",
+      "exact": true
+    },
+    {
+      "field": "config",
+      "exact": true
+    },
+    {
+      "field": "postprocessing",
+      "exact": true
+    },
+    {
+      "field": "modelConfig",
+      "exact": true
+    },
+    {
+      "field": "modelSha256",
+      "exact": true
+    },
+    {
+      "field": "pcmSha256",
+      "exact": true
+    },
+    {
+      "field": "torch",
+      "exact": true
+    },
+    {
+      "field": "numpy",
+      "exact": true
+    }
+  ],
+  "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+  "inferenceSeconds": 0.471840666999924,
+  "peakProcessRSSBytes": 1984741376
+}

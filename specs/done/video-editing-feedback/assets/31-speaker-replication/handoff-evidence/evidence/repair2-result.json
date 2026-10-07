@@ -1,0 +1,12 @@
+[
+  {
+    "name": "soundfile",
+    "version": "0.14.0",
+    "url": "https://files.pythonhosted.org/packages/63/7a/dfdd6f8c748988427119f75eb860a3cedd858d1aea1fe28f39ad8559ef22/soundfile-0.14.0-py2.py3-none-macosx_11_0_arm64.whl",
+    "sha256": "d828d35a059626da52f1415b5faee610aeab393319cb3fc4a9aef47b619fc14c",
+    "path": "/tmp/yap-editing-speaker-replication/wheels/soundfile-0.14.0-py2.py3-none-macosx_11_0_arm64.whl",
+    "bytes": 1103726,
+    "seconds": 0.24732658399443608,
+    "verified": true
+  }
+]

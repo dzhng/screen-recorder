@@ -1,0 +1,288 @@
+{
+  "cases": [
+    {
+      "id": "madison-tiny",
+      "candidates": [
+        {
+          "text": "I just kind of gave up on privacy",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 42400,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "3bebe27a3c58701711c5d7e6c870dba08c6f747b601eb26494ce503accc3b9b9"
+        },
+        {
+          "text": "I just kind of bought a purple elephant",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 42400,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "3bebe27a3c58701711c5d7e6c870dba08c6f747b601eb26494ce503accc3b9b9"
+        },
+        {
+          "text": "I gave up on privacy",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 42400,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "3bebe27a3c58701711c5d7e6c870dba08c6f747b601eb26494ce503accc3b9b9"
+        },
+        {
+          "text": "I just just kind of gave up on privacy",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 42400,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "3bebe27a3c58701711c5d7e6c870dba08c6f747b601eb26494ce503accc3b9b9"
+        }
+      ]
+    },
+    {
+      "id": "overlap25",
+      "candidates": [
+        {
+          "text": "But I think it might make sense to have a new conference to try something completely different. It's like all of our papers are AI reviewed. We're going to do it as well as we possibly can, but we're going to review all of them with AI and then maybe have some mild human intervention at the end to filter it down or something. And then it's like, sure, submit 100,000 papers to this conference, and we'll pick the best 100 to feature.",
+          "outcome": "refused_unowned_support",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 400000,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [
+            {
+              "token": 986,
+              "startFrame": 312,
+              "endFrame": 313,
+              "cellEndSample": 400640,
+              "physicalEndSample": 400000
+            }
+          ],
+          "arithmeticReportSha256": "ac83ae3b6fa10a76a07e8ecbeabca27e28f772995f67afdf785ee7f59b7486c2"
+        },
+        {
+          "text": "A purple elephant dances under the ocean",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 400000,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "ac83ae3b6fa10a76a07e8ecbeabca27e28f772995f67afdf785ee7f59b7486c2"
+        }
+      ]
+    },
+    {
+      "id": "false-start",
+      "candidates": [
+        {
+          "text": "fortunately",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 28800,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "91ef355b3cf24c60ae8180794e4fd47433ddcf332b78e07d62b773a56a9722f6"
+        },
+        {
+          "text": "fortun",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 28800,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "91ef355b3cf24c60ae8180794e4fd47433ddcf332b78e07d62b773a56a9722f6"
+        },
+        {
+          "text": "a purple elephant",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 28800,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "91ef355b3cf24c60ae8180794e4fd47433ddcf332b78e07d62b773a56a9722f6"
+        }
+      ]
+    },
+    {
+      "id": "constructed-repeats",
+      "candidates": [
+        {
+          "text": "blue seven blue",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 192000,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "77c3fdd3dc4abc9b667acbf15b0b896ead3f02f342f31cafd9026a0c50ea35e8"
+        },
+        {
+          "text": "blue purple blue",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 192000,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "77c3fdd3dc4abc9b667acbf15b0b896ead3f02f342f31cafd9026a0c50ea35e8"
+        },
+        {
+          "text": "blue seven",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 192000,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "77c3fdd3dc4abc9b667acbf15b0b896ead3f02f342f31cafd9026a0c50ea35e8"
+        },
+        {
+          "text": "blue 7 blue",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 192000,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "77c3fdd3dc4abc9b667acbf15b0b896ead3f02f342f31cafd9026a0c50ea35e8"
+        },
+        {
+          "text": "blue seven blue blue",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 192000,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "77c3fdd3dc4abc9b667acbf15b0b896ead3f02f342f31cafd9026a0c50ea35e8"
+        }
+      ]
+    },
+    {
+      "id": "fortunate-intact",
+      "candidates": [
+        {
+          "text": "fortunate",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 15216,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "b6689cc8e6184df3de3b3aa8d14a0d1598b62e2e74ee725b975f32ad003f1fc8"
+        },
+        {
+          "text": "purple",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 15216,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "b6689cc8e6184df3de3b3aa8d14a0d1598b62e2e74ee725b975f32ad003f1fc8"
+        },
+        {
+          "text": "fortu",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 15216,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "b6689cc8e6184df3de3b3aa8d14a0d1598b62e2e74ee725b975f32ad003f1fc8"
+        }
+      ]
+    },
+    {
+      "id": "fortunate-truncated",
+      "candidates": [
+        {
+          "text": "fortunate",
+          "outcome": "refused_unowned_support",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 6262,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [
+            {
+              "token": 159,
+              "startFrame": 4,
+              "endFrame": 5,
+              "cellEndSample": 6400,
+              "physicalEndSample": 6262
+            }
+          ],
+          "arithmeticReportSha256": "12477bd311f5569bfe73c1943d204509a1e1804a0487586cf7238debd1983166"
+        },
+        {
+          "text": "fortu",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 6262,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "12477bd311f5569bfe73c1943d204509a1e1804a0487586cf7238debd1983166"
+        },
+        {
+          "text": "purple",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 6262,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "12477bd311f5569bfe73c1943d204509a1e1804a0487586cf7238debd1983166"
+        }
+      ]
+    },
+    {
+      "id": "fortunate-contextual",
+      "candidates": [
+        {
+          "text": "fortunate",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 47216,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "144d3f023774188e13e9c5514aeb87c23324c5f8e3f6a3a53fa3c8b6cc9efe51"
+        },
+        {
+          "text": "purple",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 47216,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "144d3f023774188e13e9c5514aeb87c23324c5f8e3f6a3a53fa3c8b6cc9efe51"
+        },
+        {
+          "text": "fortu",
+          "outcome": "conditional_path_text_unknown",
+          "lexicalAssignment": "unknown",
+          "assignmentConfidence": null,
+          "sourcePhysicalFrames": 47216,
+          "nativeFrameSamples": 1280,
+          "unownedSpans": [],
+          "arithmeticReportSha256": "144d3f023774188e13e9c5514aeb87c23324c5f8e3f6a3a53fa3c8b6cc9efe51"
+        }
+      ]
+    }
+  ],
+  "originalOperandsUnchanged": true,
+  "acceptedForVerifiedTimedWords": false,
+  "candidateScope": "Conditional text-placement evidence with explicit lexical uncertainty and unowned-support refusal. Not lexical or partial-fragment recognition."
+}

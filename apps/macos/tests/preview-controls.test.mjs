@@ -24,6 +24,13 @@ test(
             ),
           ).data,
       );
+      // Preserve archived receipts; project their payload at this current decoder input boundary.
+      for (const receipt of retained) {
+        if (receipt.published) {
+          const { preview, ...identity } = receipt.published;
+          receipt.published = { ...identity, output: preview };
+        }
+      }
       const fixture = join(scratch, "receipts.json");
       writeFileSync(fixture, JSON.stringify(retained));
       const executable = compileControlsCheck(
@@ -103,8 +110,8 @@ struct Refused: LocalizedError { let message: String; var errorDescription: Stri
 }
 func movie(_ receipt: [String: Any], _ change: (inout [String: Any]) -> Void) -> [String: Any] {
     var result = receipt, publication = result["published"] as! [String: Any]
-    var value = publication["preview"] as! [String: Any]
-    change(&value); publication["preview"] = value; result["published"] = publication
+    var value = publication["output"] as! [String: Any]
+    change(&value); publication["output"] = value; result["published"] = publication
     return result
 }
 // Owner/token variations are scripted controls, not newly acquired or renewed historical media.
@@ -128,7 +135,7 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
         let token = delivery["token"] as! String, bytes = delivery["bytes"] as! Int
         let expiry = delivery["expiresAt"] as! Double
         let start = Date(timeIntervalSince1970: expiry / 1000 - 20)
-        let originalMovie = (ready["published"] as! [String: Any])["preview"] as! [String: Any]
+        let originalMovie = (ready["published"] as! [String: Any])["output"] as! [String: Any]
 
         let pinned = Rig(start)
         pinned.service.answer("preview.get", waiting)

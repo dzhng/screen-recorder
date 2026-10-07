@@ -6,15 +6,21 @@ import { O_EXLOCK, O_NOFOLLOW_ANY } from "@yap/core/files";
 import { isPrivateDirectory } from "./managed-files.js";
 import { MAX_MEDIA_TIMEOUT_MS, nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
-type PublicationState = "unprepared" | "missing" | "committed" | "replaced" | "modified";
+type PublicationState =
+  | "unprepared"
+  | "missing"
+  | "prepared"
+  | "committed"
+  | "replaced"
+  | "modified"
+  | "conflicted";
 
-export type PublicationReceipt = {
+export type PublicationFile = { file: DirectoryIdentity; bytes: number; sha256: string };
+export type PublicationReceipt = PublicationFile & {
   stage: DirectoryIdentity;
   destination: DirectoryIdentity;
-  file: DirectoryIdentity;
   leaf: string;
-  bytes: number;
-  sha256: string;
+  replacement: PublicationFile | null;
 };
 type StagingPresence = "present" | "absent" | "unreachable";
 type PublicationObservation = {
@@ -70,6 +76,49 @@ export class Publication {
     }
   }
 
+  /** Identify a regular leaf under cooperative destination ownership before admitting replacement. */
+  static async inspect(
+    directory: string,
+    destination: DirectoryIdentity,
+    leaf: string,
+    worker: MediaWorker,
+    signal?: AbortSignal,
+  ): Promise<PublicationFile | null> {
+    const parent = await open(await realpath(directory), directoryFlags);
+    try {
+      const value = this.data(
+        await worker(
+          "publication.inspect",
+          { destination, leaf },
+          {
+            descriptors: [parent.fd],
+            timeoutMs: MAX_MEDIA_TIMEOUT_MS,
+            ...(signal ? { signal } : {}),
+          },
+        ),
+      );
+      if (value.file === null) return null;
+      const file = value.file as PublicationFile;
+      if (
+        !file ||
+        !file.file ||
+        typeof file.file.dev !== "string" ||
+        typeof file.file.ino !== "string" ||
+        !Number.isSafeInteger(file.bytes) ||
+        file.bytes < 0 ||
+        typeof file.sha256 !== "string" ||
+        !/^[0-9a-f]{64}$/.test(file.sha256)
+      )
+        throw new CatalogError(
+          "INVALID_NATIVE_RESPONSE",
+          "Publication destination was not identified",
+        );
+      return file;
+    } finally {
+      await parent.close();
+    }
+  }
+
   static async open(
     stagePath: string,
     destinationPath: string,
@@ -106,7 +155,23 @@ export class Publication {
       const before = await lstat(destinationPath, { bigint: true });
       if (!before.isDirectory())
         throw new CatalogError("INVALID_STORAGE", "Publication destination must be a directory");
-      destination = await open(await realpath(destinationPath), directoryFlags);
+      if (before.dev === actualStage.dev && before.ino === actualStage.ino)
+        throw new CatalogError(
+          "INVALID_STORAGE",
+          "Publication destination cannot be its staging directory",
+        );
+      destination = await open(await realpath(destinationPath), directoryFlags | O_EXLOCK).catch(
+        (error: NodeJS.ErrnoException) => {
+          if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
+            throw new CatalogError(
+              "PUBLICATION_BUSY",
+              "Another publisher holds this destination",
+              {},
+              true,
+            );
+          throw error;
+        },
+      );
       const actual = await destination.stat({ bigint: true });
       if (actual.dev !== before.dev || actual.ino !== before.ino)
         throw new CatalogError("INVALID_STORAGE", "Publication destination changed while opening");
@@ -144,7 +209,7 @@ export class Publication {
     name: string,
     worker: MediaWorker,
   ): Promise<DirectoryIdentity> {
-    const parent = await open(directory, directoryFlags);
+    const parent = await open(await realpath(directory), directoryFlags);
     try {
       const value = this.data(
         await worker(
@@ -252,11 +317,15 @@ export class Publication {
     source: { readonly fd: number },
     leaf: string,
     maxBytes: number,
-    options: { signal?: AbortSignal } = {},
+    options: { signal?: AbortSignal; replacement?: PublicationFile | null } = {},
   ) {
     return this.run(async () => {
       const value = Publication.data(
-        await this.call("prepare", { leaf, maxBytes }, { ...options, source }),
+        await this.call(
+          "prepare",
+          { leaf, maxBytes, replacement: options.replacement ?? null },
+          { ...options, source },
+        ),
       );
       if (!("receipt" in value))
         throw new CatalogError(
@@ -272,7 +341,15 @@ export class Publication {
     if (
       !("state" in value) ||
       typeof value.state !== "string" ||
-      !["unprepared", "missing", "committed", "replaced", "modified"].includes(value.state)
+      ![
+        "unprepared",
+        "missing",
+        "prepared",
+        "committed",
+        "replaced",
+        "modified",
+        "conflicted",
+      ].includes(value.state)
     )
       throw new CatalogError("INVALID_NATIVE_RESPONSE", "Publication outcome was not confirmed");
     const receipt = "receipt" in value ? value.receipt : undefined;
@@ -301,7 +378,9 @@ export class Publication {
       // mediaWorker has reaped the child. Even a canceled/timeout result may have linked.
       const observed = await this.observe();
       if (
-        (observed.state === "missing" || observed.state === "unprepared") &&
+        (observed.state === "missing" ||
+          observed.state === "prepared" ||
+          observed.state === "unprepared") &&
         failure !== undefined
       )
         throw failure;
@@ -343,13 +422,18 @@ export class Publication {
   }
 }
 
-/** Allow two full byte passes at 4 MiB/s plus startup; commit verifies payload and destination.
- * This is a conservative deadline policy, not a promise of destination throughput. */
-export function publicationDeadlineMs(bytes: number): number {
-  if (!Number.isSafeInteger(bytes) || bytes < 0)
+/** Budget payload validation and pinned-victim hashing at 4 MiB/s plus startup.
+ * The existing worker cap remains authoritative; this is not a throughput guarantee. */
+export function publicationDeadlineMs(bytes: number, replacementBytes = 0): number {
+  if (
+    !Number.isSafeInteger(bytes) ||
+    bytes < 0 ||
+    !Number.isSafeInteger(replacementBytes) ||
+    replacementBytes < 0
+  )
     throw new CatalogError("INVALID_STORAGE", "Publication byte count is invalid");
   return Math.min(
     MAX_MEDIA_TIMEOUT_MS,
-    30_000 + Math.ceil(((bytes * 2) / (4 * 1024 * 1024)) * 1000),
+    30_000 + Math.ceil(((bytes * 3 + replacementBytes * 2) / (4 * 1024 * 1024)) * 1000),
   );
 }

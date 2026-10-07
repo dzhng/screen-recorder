@@ -26,11 +26,13 @@ import {
   type JobQueue,
 } from "@yap/core/jobs";
 import type { ProjectStore } from "@yap/core/projects";
-import type {
-  ProjectPreviewInspection,
-  PinnedProjectPreview,
-} from "@yap/core/project-preview";
-import { Publication, publicationDeadlineMs, type PublicationReceipt } from "./publication.js";
+import type { ProjectPreviewInspection, PinnedProjectPreview } from "@yap/core/project-preview";
+import {
+  Publication,
+  publicationDeadlineMs,
+  type PublicationReceipt,
+  type PublicationFile,
+} from "./publication.js";
 import {
   provisionPackageWorkspace,
   removePackageWorkspace,
@@ -40,10 +42,7 @@ import {
 import type { ManagedFiles } from "./managed-files.js";
 import type { MediaWorker } from "./worker.js";
 
-import type {
-  MediaAudioInspection,
-  PinnedProjectAudioExport,
-} from "@yap/core/audio-inspection";
+import type { MediaAudioInspection, PinnedProjectAudioExport } from "@yap/core/audio-inspection";
 
 type Request = Extract<
   ReturnType<typeof operationSchema.parse>,
@@ -72,7 +71,12 @@ type Intent = {
     | PinnedProjectAudioExport
     | PinnedProjectPackage
     | PinnedCaptionSidecar;
-  destination: { directory: string; identity: DirectoryIdentity; leaf: string };
+  destination: {
+    directory: string;
+    identity: DirectoryIdentity;
+    leaf: string;
+    replacement: PublicationFile | null;
+  };
   staging: DirectoryIdentity | null;
   stagingCleared: 0 | 1;
   preview: ReadyRendition | null;
@@ -197,6 +201,9 @@ export class MediaExports {
     CREATE INDEX IF NOT EXISTS export_intents_owner ON export_intents(targetKind,targetId,exportId);
     CREATE INDEX IF NOT EXISTS export_discovery_unfinished ON export_intents(exportId) WHERE ${unfinishedSql};
     CREATE INDEX IF NOT EXISTS export_discovery_owner_unfinished ON export_intents(targetKind,targetId,exportId) WHERE ${unfinishedSql};
+    CREATE INDEX IF NOT EXISTS export_intents_destination ON export_intents(
+      json_extract(destination,'$.identity.dev'),json_extract(destination,'$.identity.ino'),json_extract(destination,'$.leaf'),
+      json_extract(receipt,'$.file.dev'),json_extract(receipt,'$.file.ino'),json_extract(receipt,'$.bytes'),json_extract(receipt,'$.sha256')) WHERE receipt IS NOT NULL;
     CREATE INDEX IF NOT EXISTS export_intents_status_projection ON export_intents(exportId,(${statusSnapshotSql}),targetKind,targetId,kind,destination,receipt,abandoning,
       (assembly IS NOT NULL),(staging IS NOT NULL),stagingCleared);`);
   }
@@ -553,6 +560,7 @@ export class MediaExports {
       request.revisionId ?? null,
       request.directory,
       request.leaf,
+      request.overwrite === true,
       ...(Object.keys(settingsRequest).length ? [settingsRequest] : []),
       ...("placementIds" in request ? [[...request.placementIds].sort()] : []),
     ]);
@@ -609,7 +617,35 @@ export class MediaExports {
     this.assertOwner({ targetId });
     // Another request may have won while metadata/directory checks awaited. Replay its pin.
     if (this.find(request.exportId)) return this.prepareIntent(request);
-    const destination = { ...selected, leaf: request.leaf };
+    const live = await Publication.inspect(
+      selected.directory,
+      selected.identity,
+      request.leaf,
+      this.owners.worker,
+      this.lifetime.signal,
+    );
+    this.protectSource(live);
+    const trusted =
+      live &&
+      this.owners.catalog.catalog
+        .prepare(`SELECT 1 FROM export_intents INDEXED BY export_intents_destination
+      WHERE json_extract(destination,'$.identity.dev')=? AND json_extract(destination,'$.identity.ino')=? AND json_extract(destination,'$.leaf')=?
+      AND receipt IS NOT NULL AND json_extract(receipt,'$.file.dev')=? AND json_extract(receipt,'$.file.ino')=?
+      AND json_extract(receipt,'$.bytes')=? AND json_extract(receipt,'$.sha256')=? LIMIT 1`)
+        .get(
+          selected.identity.dev,
+          selected.identity.ino,
+          request.leaf,
+          live.file.dev,
+          live.file.ino,
+          live.bytes,
+          live.sha256,
+        );
+    const destination = {
+      ...selected,
+      leaf: request.leaf,
+      replacement: live && (request.overwrite === true || trusted) ? live : null,
+    };
     const persist = () => {
       this.requireAdmission(request.exportId);
       this.assertOwner({ targetId });
@@ -941,6 +977,7 @@ export class MediaExports {
         },
         timeoutMs: publicationDeadlineMs(
           intent.receipt?.bytes ?? intent.assembly?.bytes ?? intent.preview?.bytes ?? 0,
+          intent.destination.replacement?.bytes ?? 0,
         ),
       },
     );
@@ -991,6 +1028,16 @@ export class MediaExports {
     });
     intent.receipt = receipt;
   }
+  private protectSource(file: PublicationFile | null) {
+    if (
+      file &&
+      this.owners.project.assets.isImportedSource({ device: file.file.dev, inode: file.file.ino })
+    )
+      throw new CatalogError(
+        "SOURCE_DESTINATION",
+        "Export cannot replace an original imported source",
+      );
+  }
   async execute({ job, signal }: JobExecution): Promise<string> {
     if (job.artifact === recoveryArtifact) return this.reconcile({ job, signal });
     if (job.artifact !== artifact)
@@ -1016,6 +1063,7 @@ export class MediaExports {
             publication = await this.open(intent);
             await publication.prepare(file, intent.destination.leaf, bytes, {
               signal,
+              replacement: intent.destination.replacement,
             });
           });
         } else if (intent.kind === "srt" || intent.kind === "vtt") {
@@ -1031,6 +1079,7 @@ export class MediaExports {
             await this.owners.cache.withDescriptor(output.id, (source) =>
               publication.prepare(source, intent.destination.leaf, Math.max(1, cached.bytes), {
                 signal,
+                replacement: intent.destination.replacement,
               }),
             );
           } finally {
@@ -1043,7 +1092,10 @@ export class MediaExports {
             await this.owners.cache.withDescriptor(preview.cacheId, async (source) => {
               if (source.bytes !== preview.bytes)
                 throw new CatalogError("INVALID_CACHE", "Pinned preview size changed");
-              await publication.prepare(source, intent.destination.leaf, source.bytes, { signal });
+              await publication.prepare(source, intent.destination.leaf, source.bytes, {
+                signal,
+                replacement: intent.destination.replacement,
+              });
             });
           } catch (error) {
             if (
@@ -1058,13 +1110,29 @@ export class MediaExports {
             throw error;
           }
         }
+        this.protectSource(intent.destination.replacement);
         observed = await publication.commit({ signal });
-      } else if (observed.state === "missing") observed = await publication.commit({ signal });
+      } else if (observed.state === "missing" || observed.state === "prepared") {
+        this.protectSource(intent.destination.replacement);
+        observed = await publication.commit({ signal });
+      }
       if (observed.state !== "committed" || !observed.receipt)
         throw new CatalogError(
           "DESTINATION_CHANGED",
           "Export destination belongs to another file or was modified",
-          { state: observed.state },
+          {
+            state: observed.state,
+            ...(observed.state === "conflicted"
+              ? {
+                  destinationVisibility: "uncertain",
+                  retainedDisplaced: join(
+                    intent.destination.directory,
+                    stageName(intent.exportId),
+                    "swap",
+                  ),
+                }
+              : {}),
+          },
         );
       await this.settleCommit(intent, publication, observed.receipt, signal);
       await this.cleanupAssembly(intent);

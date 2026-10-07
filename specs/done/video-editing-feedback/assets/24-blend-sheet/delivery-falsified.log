@@ -1,0 +1,17 @@
+PASS normal: frame maximum 1, movie maximum 4
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: RGBA maximum 255 exceeds 2
+    at compare (file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-sheet.mjs:126:10)
+    at file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-sheet.mjs:251:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

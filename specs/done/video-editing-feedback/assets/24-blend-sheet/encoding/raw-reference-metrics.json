@@ -1,0 +1,3911 @@
+{
+  "scope": "Independent full-raster observation of frozen reference, delivered still and both movie samples; no rerender",
+  "width": 128,
+  "height": 64,
+  "cases": [
+    {
+      "scenario": "normal",
+      "reference": {
+        "receipt": {
+          "outputProfile": "kCGColorSpaceSRGB",
+          "width": 128,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "opaque": true,
+          "height": 64
+        },
+        "sha256": "1568d7bf027b62595923ebbc1fe6923c7c6b7a44968186625b21625fb63851ff"
+      },
+      "still": {
+        "receipt": {
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "height": 64,
+          "opaque": true,
+          "width": 128,
+          "outputProfile": "kCGColorSpaceSRGB",
+          "sourceProfile": "kCGColorSpaceSRGB"
+        },
+        "sha256": "65ecfef2fd125763e4e5f428f8e8f12f50997b1c6b5650393383ab83afe67f0f",
+        "comparison": {
+          "maximum": 1,
+          "mae": 0.0078125,
+          "pixelsOver8": 0,
+          "interiorOver8": 0,
+          "borderOver8": 0,
+          "worst": [
+            {
+              "x": 48,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            },
+            {
+              "x": 49,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            },
+            {
+              "x": 50,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            },
+            {
+              "x": 51,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            },
+            {
+              "x": 52,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            },
+            {
+              "x": 53,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            },
+            {
+              "x": 54,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            },
+            {
+              "x": 55,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            },
+            {
+              "x": 56,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            },
+            {
+              "x": 57,
+              "y": 16,
+              "actual": [
+                163,
+                58,
+                155,
+                255
+              ],
+              "reference": [
+                163,
+                57,
+                155,
+                255
+              ]
+            }
+          ]
+        }
+      },
+      "movies": [
+        {
+          "receipt": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "width": 128,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true
+          },
+          "sha256": "690dd07f44edd04a85a0f147068c9ef9971c953b4da290ee62cef8024cbf7d24",
+          "comparison": {
+            "maximum": 109,
+            "mae": 2.378143310546875,
+            "pixelsOver8": 655,
+            "interiorOver8": 0,
+            "borderOver8": 655,
+            "worst": [
+              {
+                "x": 47,
+                "y": 0,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 1,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 2,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 3,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 4,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 5,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 6,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 7,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 8,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 9,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "receipt": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "height": 64
+          },
+          "sha256": "690dd07f44edd04a85a0f147068c9ef9971c953b4da290ee62cef8024cbf7d24",
+          "comparison": {
+            "maximum": 109,
+            "mae": 2.378143310546875,
+            "pixelsOver8": 655,
+            "interiorOver8": 0,
+            "borderOver8": 655,
+            "worst": [
+              {
+                "x": 47,
+                "y": 0,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 1,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 2,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 3,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 4,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 5,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 6,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 7,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 8,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 9,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "samplesIdentical": true
+    },
+    {
+      "scenario": "multiply",
+      "reference": {
+        "receipt": {
+          "outputProfile": "kCGColorSpaceSRGB",
+          "width": 128,
+          "height": 64,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "opaque": true,
+          "sourceProfile": "kCGColorSpaceSRGB"
+        },
+        "sha256": "4fd83e0510f4f9c8452e0171017d713e1d26129a5ac16cd5b4977717c00291bb"
+      },
+      "still": {
+        "receipt": {
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "height": 64,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "width": 128,
+          "outputProfile": "kCGColorSpaceSRGB",
+          "opaque": true
+        },
+        "sha256": "ebce23b41add693725ab99a7fda5fba556ac0a5ac265282a405c8f4386422e9f",
+        "comparison": {
+          "maximum": 0,
+          "mae": 0,
+          "pixelsOver8": 0,
+          "interiorOver8": 0,
+          "borderOver8": 0,
+          "worst": [
+            {
+              "x": 0,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 4,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 5,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 6,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 7,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 8,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 9,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            }
+          ]
+        }
+      },
+      "movies": [
+        {
+          "receipt": {
+            "width": 128,
+            "opaque": true,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          },
+          "sha256": "d9ff8fef57737e96eecf836b94a8ea980a369878d18de188483839cb5b4c2351",
+          "comparison": {
+            "maximum": 109,
+            "mae": 1.657623291015625,
+            "pixelsOver8": 518,
+            "interiorOver8": 0,
+            "borderOver8": 518,
+            "worst": [
+              {
+                "x": 95,
+                "y": 48,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 49,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 50,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 51,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 52,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 53,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 54,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 55,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 56,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 57,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "receipt": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "height": 64,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true
+          },
+          "sha256": "d9ff8fef57737e96eecf836b94a8ea980a369878d18de188483839cb5b4c2351",
+          "comparison": {
+            "maximum": 109,
+            "mae": 1.657623291015625,
+            "pixelsOver8": 518,
+            "interiorOver8": 0,
+            "borderOver8": 518,
+            "worst": [
+              {
+                "x": 95,
+                "y": 48,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 49,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 50,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 51,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 52,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 53,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 54,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 55,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 56,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 57,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "samplesIdentical": true
+    },
+    {
+      "scenario": "screen",
+      "reference": {
+        "receipt": {
+          "width": 128,
+          "outputProfile": "kCGColorSpaceSRGB",
+          "opaque": true,
+          "height": 64,
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+        },
+        "sha256": "d049acde5ba8d29fb1a3d671b03793811d6c22ae549422b75555832e012de86c"
+      },
+      "still": {
+        "receipt": {
+          "opaque": true,
+          "outputProfile": "kCGColorSpaceSRGB",
+          "width": 128,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "height": 64,
+          "sourceProfile": "kCGColorSpaceSRGB"
+        },
+        "sha256": "067e5a9218bf4fdd46f1a21afaae3369db4599696e2e4419811b288171604bc4",
+        "comparison": {
+          "maximum": 0,
+          "mae": 0,
+          "pixelsOver8": 0,
+          "interiorOver8": 0,
+          "borderOver8": 0,
+          "worst": [
+            {
+              "x": 0,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            },
+            {
+              "x": 4,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            },
+            {
+              "x": 5,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            },
+            {
+              "x": 6,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            },
+            {
+              "x": 7,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            },
+            {
+              "x": 8,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            },
+            {
+              "x": 9,
+              "y": 0,
+              "actual": [
+                40,
+                90,
+                180,
+                255
+              ],
+              "reference": [
+                40,
+                90,
+                180,
+                255
+              ]
+            }
+          ]
+        }
+      },
+      "movies": [
+        {
+          "receipt": {
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 128
+          },
+          "sha256": "2411af433258ae624701caabd367a12087d27feb3d3b861df98334ecd3b13788",
+          "comparison": {
+            "maximum": 109,
+            "mae": 2.3616943359375,
+            "pixelsOver8": 672,
+            "interiorOver8": 0,
+            "borderOver8": 672,
+            "worst": [
+              {
+                "x": 47,
+                "y": 32,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 33,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 34,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 35,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 36,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 37,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 38,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 39,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 40,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 41,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "receipt": {
+            "opaque": true,
+            "width": 128,
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB"
+          },
+          "sha256": "2411af433258ae624701caabd367a12087d27feb3d3b861df98334ecd3b13788",
+          "comparison": {
+            "maximum": 109,
+            "mae": 2.3616943359375,
+            "pixelsOver8": 672,
+            "interiorOver8": 0,
+            "borderOver8": 672,
+            "worst": [
+              {
+                "x": 47,
+                "y": 32,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 33,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 34,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 35,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 36,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 37,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 38,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 39,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 40,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 41,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "samplesIdentical": true
+    },
+    {
+      "scenario": "soft-light",
+      "reference": {
+        "receipt": {
+          "height": 64,
+          "outputProfile": "kCGColorSpaceSRGB",
+          "opaque": true,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "width": 128
+        },
+        "sha256": "ebd30d2a1e6fc6a8e305771fb830e15075f9d30b3c9a2992c39ad5e29e26b3de"
+      },
+      "still": {
+        "receipt": {
+          "width": 128,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "height": 64,
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "outputProfile": "kCGColorSpaceSRGB",
+          "opaque": true
+        },
+        "sha256": "f29d4db3e28cecfc7e7a23d1eec081fa49ac7690e76a8c80966bf903c0f37b31",
+        "comparison": {
+          "maximum": 1,
+          "mae": 0.0078125,
+          "pixelsOver8": 0,
+          "interiorOver8": 0,
+          "borderOver8": 0,
+          "worst": [
+            {
+              "x": 64,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            },
+            {
+              "x": 65,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            },
+            {
+              "x": 66,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            },
+            {
+              "x": 67,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            },
+            {
+              "x": 68,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            },
+            {
+              "x": 69,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            },
+            {
+              "x": 70,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            },
+            {
+              "x": 71,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            },
+            {
+              "x": 72,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            },
+            {
+              "x": 73,
+              "y": 0,
+              "actual": [
+                212,
+                135,
+                84,
+                255
+              ],
+              "reference": [
+                212,
+                135,
+                83,
+                255
+              ]
+            }
+          ]
+        }
+      },
+      "movies": [
+        {
+          "receipt": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "height": 64,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          },
+          "sha256": "b2aea0fedce49d22d791ea25e95793c577623b035b047cad8d5d30f35079c459",
+          "comparison": {
+            "maximum": 109,
+            "mae": 1.681671142578125,
+            "pixelsOver8": 533,
+            "interiorOver8": 0,
+            "borderOver8": 533,
+            "worst": [
+              {
+                "x": 95,
+                "y": 15,
+                "actual": [
+                  116,
+                  89,
+                  118,
+                  255
+                ],
+                "reference": [
+                  7,
+                  126,
+                  53,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 48,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 49,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 50,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 51,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 52,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 53,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 54,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 55,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 56,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "receipt": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "height": 64,
+            "opaque": true
+          },
+          "sha256": "b2aea0fedce49d22d791ea25e95793c577623b035b047cad8d5d30f35079c459",
+          "comparison": {
+            "maximum": 109,
+            "mae": 1.681671142578125,
+            "pixelsOver8": 533,
+            "interiorOver8": 0,
+            "borderOver8": 533,
+            "worst": [
+              {
+                "x": 95,
+                "y": 15,
+                "actual": [
+                  116,
+                  89,
+                  118,
+                  255
+                ],
+                "reference": [
+                  7,
+                  126,
+                  53,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 48,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 49,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 50,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 51,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 52,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 53,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 54,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 55,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 95,
+                "y": 56,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "samplesIdentical": true
+    },
+    {
+      "scenario": "soft-light-reversed",
+      "reference": {
+        "receipt": {
+          "opaque": true,
+          "width": 128,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "height": 64,
+          "outputProfile": "kCGColorSpaceSRGB"
+        },
+        "sha256": "939525ce0fb841489c2dee7632c8f4855d2bb98444ecf03370fd9bacf53bee83"
+      },
+      "still": {
+        "receipt": {
+          "height": 64,
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "outputProfile": "kCGColorSpaceSRGB",
+          "width": 128,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "opaque": true
+        },
+        "sha256": "82016f2f570928488b218348dcab466118d4fa6f7378546a092049fbfa9a0640",
+        "comparison": {
+          "maximum": 0,
+          "mae": 0,
+          "pixelsOver8": 0,
+          "interiorOver8": 0,
+          "borderOver8": 0,
+          "worst": [
+            {
+              "x": 0,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            },
+            {
+              "x": 4,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            },
+            {
+              "x": 5,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            },
+            {
+              "x": 6,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            },
+            {
+              "x": 7,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            },
+            {
+              "x": 8,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            },
+            {
+              "x": 9,
+              "y": 0,
+              "actual": [
+                1,
+                26,
+                126,
+                255
+              ],
+              "reference": [
+                1,
+                26,
+                126,
+                255
+              ]
+            }
+          ]
+        }
+      },
+      "movies": [
+        {
+          "receipt": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64,
+            "opaque": true
+          },
+          "sha256": "b9d07b1141088c13a10c2ba54b3a8bba33c2afb126edecf7a8fed96b9e696a59",
+          "comparison": {
+            "maximum": 109,
+            "mae": 1.6885986328125,
+            "pixelsOver8": 527,
+            "interiorOver8": 0,
+            "borderOver8": 527,
+            "worst": [
+              {
+                "x": 47,
+                "y": 32,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 33,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 34,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 35,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 36,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 37,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 38,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 39,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 40,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 41,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "receipt": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "height": 64,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true
+          },
+          "sha256": "b9d07b1141088c13a10c2ba54b3a8bba33c2afb126edecf7a8fed96b9e696a59",
+          "comparison": {
+            "maximum": 109,
+            "mae": 1.6885986328125,
+            "pixelsOver8": 527,
+            "interiorOver8": 0,
+            "borderOver8": 527,
+            "worst": [
+              {
+                "x": 47,
+                "y": 32,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 33,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 34,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 35,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 36,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 37,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 38,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 39,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 40,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 41,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "samplesIdentical": true
+    },
+    {
+      "scenario": "multiply-nested",
+      "reference": {
+        "receipt": {
+          "outputProfile": "kCGColorSpaceSRGB",
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "opaque": true,
+          "width": 128,
+          "height": 64,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+        },
+        "sha256": "3ba0d2daa11baa3786548f94cdac6cf1f443de0a41d2d0de3e4590b5ff276c08"
+      },
+      "still": {
+        "receipt": {
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "width": 128,
+          "opaque": true,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "height": 64,
+          "outputProfile": "kCGColorSpaceSRGB"
+        },
+        "sha256": "f5ce511307334b6302b60c49f43dc5228c43056c089075e6f5d52e7a19905689",
+        "comparison": {
+          "maximum": 0,
+          "mae": 0,
+          "pixelsOver8": 0,
+          "interiorOver8": 0,
+          "borderOver8": 0,
+          "worst": [
+            {
+              "x": 0,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 2,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 3,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 4,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 5,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 6,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 7,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 8,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "x": 9,
+              "y": 0,
+              "actual": [
+                0,
+                0,
+                0,
+                255
+              ],
+              "reference": [
+                0,
+                0,
+                0,
+                255
+              ]
+            }
+          ]
+        }
+      },
+      "movies": [
+        {
+          "receipt": {
+            "width": 128,
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB"
+          },
+          "sha256": "5e4096586ee2d402b20fa6bc9809ab5d4baf397ffc1eaba0b36f1889346da0aa",
+          "comparison": {
+            "maximum": 109,
+            "mae": 2.39898681640625,
+            "pixelsOver8": 703,
+            "interiorOver8": 0,
+            "borderOver8": 703,
+            "worst": [
+              {
+                "x": 47,
+                "y": 32,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 33,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 34,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 35,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 36,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 37,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 38,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 39,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 40,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 41,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "receipt": {
+            "opaque": true,
+            "height": 64,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 128
+          },
+          "sha256": "5e4096586ee2d402b20fa6bc9809ab5d4baf397ffc1eaba0b36f1889346da0aa",
+          "comparison": {
+            "maximum": 109,
+            "mae": 2.39898681640625,
+            "pixelsOver8": 703,
+            "interiorOver8": 0,
+            "borderOver8": 703,
+            "worst": [
+              {
+                "x": 47,
+                "y": 32,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 33,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 34,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 35,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 36,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 37,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 38,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 39,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 40,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              },
+              {
+                "x": 47,
+                "y": 41,
+                "actual": [
+                  169,
+                  143,
+                  173,
+                  255
+                ],
+                "reference": [
+                  60,
+                  180,
+                  120,
+                  255
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "samplesIdentical": true
+    },
+    {
+      "scenario": "vignette",
+      "reference": {
+        "receipt": {
+          "height": 64,
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "width": 128,
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "opaque": true,
+          "outputProfile": "kCGColorSpaceSRGB"
+        },
+        "sha256": "4ab1992508fa88ef7799bb343007bea8ed206b58873700e3005488c51b8e91d2"
+      },
+      "still": {
+        "receipt": {
+          "height": 64,
+          "sourceProfile": "kCGColorSpaceSRGB",
+          "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+          "outputProfile": "kCGColorSpaceSRGB",
+          "width": 128,
+          "opaque": true
+        },
+        "sha256": "3fdc727e8d61ae2aef09063c9452ca9910f4db3a3e371f0f8a484f3424e67a45",
+        "comparison": {
+          "maximum": 1,
+          "mae": 0.00775146484375,
+          "pixelsOver8": 0,
+          "interiorOver8": 0,
+          "borderOver8": 0,
+          "worst": [
+            {
+              "x": 37,
+              "y": 0,
+              "actual": [
+                29,
+                30,
+                60,
+                255
+              ],
+              "reference": [
+                28,
+                30,
+                60,
+                255
+              ]
+            },
+            {
+              "x": 68,
+              "y": 0,
+              "actual": [
+                43,
+                32,
+                69,
+                255
+              ],
+              "reference": [
+                43,
+                32,
+                70,
+                255
+              ]
+            },
+            {
+              "x": 37,
+              "y": 1,
+              "actual": [
+                29,
+                30,
+                60,
+                255
+              ],
+              "reference": [
+                28,
+                30,
+                60,
+                255
+              ]
+            },
+            {
+              "x": 45,
+              "y": 1,
+              "actual": [
+                32,
+                31,
+                62,
+                255
+              ],
+              "reference": [
+                32,
+                31,
+                63,
+                255
+              ]
+            },
+            {
+              "x": 77,
+              "y": 1,
+              "actual": [
+                48,
+                33,
+                74,
+                255
+              ],
+              "reference": [
+                48,
+                33,
+                73,
+                255
+              ]
+            },
+            {
+              "x": 37,
+              "y": 2,
+              "actual": [
+                29,
+                30,
+                60,
+                255
+              ],
+              "reference": [
+                28,
+                30,
+                60,
+                255
+              ]
+            },
+            {
+              "x": 69,
+              "y": 2,
+              "actual": [
+                53,
+                41,
+                84,
+                255
+              ],
+              "reference": [
+                54,
+                41,
+                84,
+                255
+              ]
+            },
+            {
+              "x": 87,
+              "y": 2,
+              "actual": [
+                49,
+                32,
+                71,
+                255
+              ],
+              "reference": [
+                49,
+                32,
+                72,
+                255
+              ]
+            },
+            {
+              "x": 72,
+              "y": 5,
+              "actual": [
+                69,
+                53,
+                105,
+                255
+              ],
+              "reference": [
+                68,
+                53,
+                105,
+                255
+              ]
+            },
+            {
+              "x": 46,
+              "y": 7,
+              "actual": [
+                57,
+                57,
+                102,
+                255
+              ],
+              "reference": [
+                57,
+                58,
+                102,
+                255
+              ]
+            }
+          ]
+        }
+      },
+      "movies": [
+        {
+          "receipt": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "opaque": true
+          },
+          "sha256": "4935592c75405c0ce1aebbcf5c32fc6d2212eab79ebb82930f8df6e1a4aa4153",
+          "comparison": {
+            "maximum": 4,
+            "mae": 0.64410400390625,
+            "pixelsOver8": 0,
+            "interiorOver8": 0,
+            "borderOver8": 0,
+            "worst": [
+              {
+                "x": 17,
+                "y": 8,
+                "actual": [
+                  18,
+                  32,
+                  52,
+                  255
+                ],
+                "reference": [
+                  21,
+                  33,
+                  56,
+                  255
+                ]
+              },
+              {
+                "x": 22,
+                "y": 16,
+                "actual": [
+                  42,
+                  63,
+                  92,
+                  255
+                ],
+                "reference": [
+                  43,
+                  63,
+                  96,
+                  255
+                ]
+              },
+              {
+                "x": 84,
+                "y": 24,
+                "actual": [
+                  125,
+                  108,
+                  177,
+                  255
+                ],
+                "reference": [
+                  129,
+                  111,
+                  181,
+                  255
+                ]
+              },
+              {
+                "x": 100,
+                "y": 27,
+                "actual": [
+                  121,
+                  96,
+                  159,
+                  255
+                ],
+                "reference": [
+                  123,
+                  97,
+                  163,
+                  255
+                ]
+              },
+              {
+                "x": 70,
+                "y": 28,
+                "actual": [
+                  127,
+                  125,
+                  188,
+                  255
+                ],
+                "reference": [
+                  128,
+                  126,
+                  192,
+                  255
+                ]
+              },
+              {
+                "x": 2,
+                "y": 33,
+                "actual": [
+                  15,
+                  46,
+                  59,
+                  255
+                ],
+                "reference": [
+                  19,
+                  49,
+                  61,
+                  255
+                ]
+              },
+              {
+                "x": 80,
+                "y": 33,
+                "actual": [
+                  130,
+                  124,
+                  189,
+                  255
+                ],
+                "reference": [
+                  134,
+                  127,
+                  191,
+                  255
+                ]
+              },
+              {
+                "x": 11,
+                "y": 50,
+                "actual": [
+                  15,
+                  49,
+                  55,
+                  255
+                ],
+                "reference": [
+                  19,
+                  49,
+                  55,
+                  255
+                ]
+              },
+              {
+                "x": 12,
+                "y": 51,
+                "actual": [
+                  15,
+                  49,
+                  54,
+                  255
+                ],
+                "reference": [
+                  19,
+                  49,
+                  55,
+                  255
+                ]
+              },
+              {
+                "x": 88,
+                "y": 52,
+                "actual": [
+                  89,
+                  93,
+                  127,
+                  255
+                ],
+                "reference": [
+                  93,
+                  95,
+                  129,
+                  255
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "receipt": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "opaque": true,
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          },
+          "sha256": "4935592c75405c0ce1aebbcf5c32fc6d2212eab79ebb82930f8df6e1a4aa4153",
+          "comparison": {
+            "maximum": 4,
+            "mae": 0.64410400390625,
+            "pixelsOver8": 0,
+            "interiorOver8": 0,
+            "borderOver8": 0,
+            "worst": [
+              {
+                "x": 17,
+                "y": 8,
+                "actual": [
+                  18,
+                  32,
+                  52,
+                  255
+                ],
+                "reference": [
+                  21,
+                  33,
+                  56,
+                  255
+                ]
+              },
+              {
+                "x": 22,
+                "y": 16,
+                "actual": [
+                  42,
+                  63,
+                  92,
+                  255
+                ],
+                "reference": [
+                  43,
+                  63,
+                  96,
+                  255
+                ]
+              },
+              {
+                "x": 84,
+                "y": 24,
+                "actual": [
+                  125,
+                  108,
+                  177,
+                  255
+                ],
+                "reference": [
+                  129,
+                  111,
+                  181,
+                  255
+                ]
+              },
+              {
+                "x": 100,
+                "y": 27,
+                "actual": [
+                  121,
+                  96,
+                  159,
+                  255
+                ],
+                "reference": [
+                  123,
+                  97,
+                  163,
+                  255
+                ]
+              },
+              {
+                "x": 70,
+                "y": 28,
+                "actual": [
+                  127,
+                  125,
+                  188,
+                  255
+                ],
+                "reference": [
+                  128,
+                  126,
+                  192,
+                  255
+                ]
+              },
+              {
+                "x": 2,
+                "y": 33,
+                "actual": [
+                  15,
+                  46,
+                  59,
+                  255
+                ],
+                "reference": [
+                  19,
+                  49,
+                  61,
+                  255
+                ]
+              },
+              {
+                "x": 80,
+                "y": 33,
+                "actual": [
+                  130,
+                  124,
+                  189,
+                  255
+                ],
+                "reference": [
+                  134,
+                  127,
+                  191,
+                  255
+                ]
+              },
+              {
+                "x": 11,
+                "y": 50,
+                "actual": [
+                  15,
+                  49,
+                  55,
+                  255
+                ],
+                "reference": [
+                  19,
+                  49,
+                  55,
+                  255
+                ]
+              },
+              {
+                "x": 12,
+                "y": 51,
+                "actual": [
+                  15,
+                  49,
+                  54,
+                  255
+                ],
+                "reference": [
+                  19,
+                  49,
+                  55,
+                  255
+                ]
+              },
+              {
+                "x": 88,
+                "y": 52,
+                "actual": [
+                  89,
+                  93,
+                  127,
+                  255
+                ],
+                "reference": [
+                  93,
+                  95,
+                  129,
+                  255
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "samplesIdentical": true
+    }
+  ],
+  "observer": {
+    "source": "packages/test-harness/editing/FrameImagePixels.swift",
+    "sourceSha256": "fad481a23d56d34c6557b3dd599c4ccac9b55bd3dc028a935e72f86c6767e302"
+  },
+  "recipe": "Read every frozen reference/still/movie PNG through the profile-aware sRGB observer; measure per-channel absolute byte deltas over the full 128x64 canvas. A pixel exceeds 8 if any channel does. Diagnostic fringe uses the existing 2px/16px boundary mask; no pixels are excluded from the reported full-raster maximum or count."
+}

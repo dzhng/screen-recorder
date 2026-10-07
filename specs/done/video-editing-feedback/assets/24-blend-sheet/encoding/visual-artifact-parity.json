@@ -1,0 +1,174 @@
+{
+  "scope": "Reviewed prototype display PNGs equal the accepted permanent-run display PNGs byte for byte; container identity is not claimed",
+  "passed": true,
+  "rows": [
+    {
+      "scenario": "normal",
+      "kind": "control-frames",
+      "sample": 0,
+      "sha256": "e7bb40defbddcb25a8bfbd056ae5fff9029a105b365b196bb391ce97dcdbe1f9"
+    },
+    {
+      "scenario": "normal",
+      "kind": "control-frames",
+      "sample": 1,
+      "sha256": "e7bb40defbddcb25a8bfbd056ae5fff9029a105b365b196bb391ce97dcdbe1f9"
+    },
+    {
+      "scenario": "normal",
+      "kind": "actual-frames",
+      "sample": 0,
+      "sha256": "690dd07f44edd04a85a0f147068c9ef9971c953b4da290ee62cef8024cbf7d24"
+    },
+    {
+      "scenario": "normal",
+      "kind": "actual-frames",
+      "sample": 1,
+      "sha256": "690dd07f44edd04a85a0f147068c9ef9971c953b4da290ee62cef8024cbf7d24"
+    },
+    {
+      "scenario": "multiply",
+      "kind": "control-frames",
+      "sample": 0,
+      "sha256": "831094d512eb4d9e27a3cb116aca1e8dd89393d5532be571c1ea6278b0db9703"
+    },
+    {
+      "scenario": "multiply",
+      "kind": "control-frames",
+      "sample": 1,
+      "sha256": "831094d512eb4d9e27a3cb116aca1e8dd89393d5532be571c1ea6278b0db9703"
+    },
+    {
+      "scenario": "multiply",
+      "kind": "actual-frames",
+      "sample": 0,
+      "sha256": "d9ff8fef57737e96eecf836b94a8ea980a369878d18de188483839cb5b4c2351"
+    },
+    {
+      "scenario": "multiply",
+      "kind": "actual-frames",
+      "sample": 1,
+      "sha256": "d9ff8fef57737e96eecf836b94a8ea980a369878d18de188483839cb5b4c2351"
+    },
+    {
+      "scenario": "screen",
+      "kind": "control-frames",
+      "sample": 0,
+      "sha256": "14355e795715a01ef7cea9759eefba8a301c47add4ba95b868aad7266f4eae2d"
+    },
+    {
+      "scenario": "screen",
+      "kind": "control-frames",
+      "sample": 1,
+      "sha256": "14355e795715a01ef7cea9759eefba8a301c47add4ba95b868aad7266f4eae2d"
+    },
+    {
+      "scenario": "screen",
+      "kind": "actual-frames",
+      "sample": 0,
+      "sha256": "2411af433258ae624701caabd367a12087d27feb3d3b861df98334ecd3b13788"
+    },
+    {
+      "scenario": "screen",
+      "kind": "actual-frames",
+      "sample": 1,
+      "sha256": "2411af433258ae624701caabd367a12087d27feb3d3b861df98334ecd3b13788"
+    },
+    {
+      "scenario": "soft-light",
+      "kind": "control-frames",
+      "sample": 0,
+      "sha256": "e407ffec1b3d99367589c3cd782a3c24593e07fda0b6ecf6eb9d0d2739ac76ad"
+    },
+    {
+      "scenario": "soft-light",
+      "kind": "control-frames",
+      "sample": 1,
+      "sha256": "e407ffec1b3d99367589c3cd782a3c24593e07fda0b6ecf6eb9d0d2739ac76ad"
+    },
+    {
+      "scenario": "soft-light",
+      "kind": "actual-frames",
+      "sample": 0,
+      "sha256": "b2aea0fedce49d22d791ea25e95793c577623b035b047cad8d5d30f35079c459"
+    },
+    {
+      "scenario": "soft-light",
+      "kind": "actual-frames",
+      "sample": 1,
+      "sha256": "b2aea0fedce49d22d791ea25e95793c577623b035b047cad8d5d30f35079c459"
+    },
+    {
+      "scenario": "soft-light-reversed",
+      "kind": "control-frames",
+      "sample": 0,
+      "sha256": "0b3c73863cf385ea722b46eb82df94fe1dc3bc5fdb99004ce8102ad6ef1fb090"
+    },
+    {
+      "scenario": "soft-light-reversed",
+      "kind": "control-frames",
+      "sample": 1,
+      "sha256": "0b3c73863cf385ea722b46eb82df94fe1dc3bc5fdb99004ce8102ad6ef1fb090"
+    },
+    {
+      "scenario": "soft-light-reversed",
+      "kind": "actual-frames",
+      "sample": 0,
+      "sha256": "b9d07b1141088c13a10c2ba54b3a8bba33c2afb126edecf7a8fed96b9e696a59"
+    },
+    {
+      "scenario": "soft-light-reversed",
+      "kind": "actual-frames",
+      "sample": 1,
+      "sha256": "b9d07b1141088c13a10c2ba54b3a8bba33c2afb126edecf7a8fed96b9e696a59"
+    },
+    {
+      "scenario": "multiply-nested",
+      "kind": "control-frames",
+      "sample": 0,
+      "sha256": "4ad752c348fc76447b2984afb856022e7f44afc169f6fbee6b29b91c205f24af"
+    },
+    {
+      "scenario": "multiply-nested",
+      "kind": "control-frames",
+      "sample": 1,
+      "sha256": "4ad752c348fc76447b2984afb856022e7f44afc169f6fbee6b29b91c205f24af"
+    },
+    {
+      "scenario": "multiply-nested",
+      "kind": "actual-frames",
+      "sample": 0,
+      "sha256": "5e4096586ee2d402b20fa6bc9809ab5d4baf397ffc1eaba0b36f1889346da0aa"
+    },
+    {
+      "scenario": "multiply-nested",
+      "kind": "actual-frames",
+      "sample": 1,
+      "sha256": "5e4096586ee2d402b20fa6bc9809ab5d4baf397ffc1eaba0b36f1889346da0aa"
+    },
+    {
+      "scenario": "vignette",
+      "kind": "control-frames",
+      "sample": 0,
+      "sha256": "c64e5c1ba5f8ce09c3d9ed9d632117e919adece9c85cfe2aaa67710a717e3942"
+    },
+    {
+      "scenario": "vignette",
+      "kind": "control-frames",
+      "sample": 1,
+      "sha256": "c64e5c1ba5f8ce09c3d9ed9d632117e919adece9c85cfe2aaa67710a717e3942"
+    },
+    {
+      "scenario": "vignette",
+      "kind": "actual-frames",
+      "sample": 0,
+      "sha256": "4935592c75405c0ce1aebbcf5c32fc6d2212eab79ebb82930f8df6e1a4aa4153"
+    },
+    {
+      "scenario": "vignette",
+      "kind": "actual-frames",
+      "sample": 1,
+      "sha256": "4935592c75405c0ce1aebbcf5c32fc6d2212eab79ebb82930f8df6e1a4aa4153"
+    }
+  ]
+}

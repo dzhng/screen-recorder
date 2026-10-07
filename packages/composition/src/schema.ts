@@ -1,3 +1,4 @@
+import { lutMetadataSchema, lutParameters } from "./lut.js";
 import { sdrCorrectionParameters } from "./sdr-correction.js";
 import { pointerSchema } from "./pointer.js";
 import { geometrySchemaWithScalars } from "./geometry.js";
@@ -117,7 +118,36 @@ export const silenceClipSchema = z
   .object({ ...clipFields, source: z.object({ kind: z.literal("silence") }).strict() })
   .strict();
 export const fontReferenceSchema = z.object({ assetId: id, postScriptName: id }).strict();
-export const textSourceSchema = z
+const textColor = z.string().regex(/^#[0-9a-fA-F]{8}$/);
+export const textStrokeSchema = z
+  .object({ color: textColor, width: finite.nonnegative().max(64) })
+  .strict();
+export const textShadowSchema = z
+  .object({
+    color: textColor,
+    offsetX: finite.min(-256).max(256),
+    offsetY: finite.min(-256).max(256),
+    blur: finite.nonnegative().max(128),
+  })
+  .strict();
+export const textBackgroundSchema = z
+  .object({
+    color: textColor,
+    padding: finite.nonnegative().max(256),
+    cornerRadius: finite.nonnegative().max(256),
+  })
+  .strict();
+const textCharacterRange = z
+  .tuple([z.int().nonnegative().max(8192), z.int().nonnegative().max(8192)])
+  .readonly()
+  .refine(([start, end]) => start < end, "Expected a positive UTF-16 range");
+export const textHighlightSchema = z
+  .object({ activeColor: textColor, inactiveColor: textColor })
+  .strict();
+export const textTimedWordSchema = z
+  .object({ range: textCharacterRange, sourceRange: selectionRangeSchema })
+  .strict();
+const textSourceObjectSchema = z
   .object({
     kind: z.literal("text"),
     text: z.string().max(8192),
@@ -125,11 +155,32 @@ export const textSourceSchema = z
     width: positive.max(4096),
     height: positive.max(4096),
     size: finite.positive().max(512),
-    color: z.string().regex(/^#[0-9a-fA-F]{8}$/),
+    color: textColor,
     alignment: z.enum(["left", "center", "right"]),
+    verticalAlignment: z.enum(["top", "center", "bottom"]).optional(),
+    stroke: textStrokeSchema.optional(),
+    shadow: textShadowSchema.optional(),
+    background: textBackgroundSchema.optional(),
+    highlight: textHighlightSchema.optional(),
+    timedWords: z.array(textTimedWordSchema).max(10000).readonly().optional(),
+    activeRanges: z.array(textCharacterRange).max(10000).readonly().optional(),
     wrap: z.boolean(),
   })
   .strict();
+export const textSourceSchema = textSourceObjectSchema
+  .refine(
+    (source) =>
+      source.highlight !== undefined ||
+      (source.timedWords === undefined && source.activeRanges === undefined),
+    "Timed words and active ranges require a highlight style",
+  )
+  .refine((source) => {
+    const length = source.text.length;
+    return [
+      ...(source.timedWords ?? []).map((word) => word.range),
+      ...(source.activeRanges ?? []),
+    ].every(([start, end]) => start < end && end <= length);
+  }, "Text ranges must be within the UTF-16 text");
 export const textSeedSchema = z
   .object({
     kind: z.literal("transcript"),
@@ -137,7 +188,20 @@ export const textSeedSchema = z
     generation: id,
     occurrenceClipId: id,
     words: z
-      .array(z.object({ ordinal: time, sourceRange: rangeSchema }).strict())
+      .array(
+        z
+          .object({
+            ordinal: time,
+            sourceRange: z
+              .object({ startUs: time, endUs: time })
+              .strict()
+              .refine(
+                (value) => value.startUs <= value.endUs,
+                "Expected ordered observation range",
+              ),
+          })
+          .strict(),
+      )
       .min(1)
       .max(1000)
       .readonly(),
@@ -151,7 +215,12 @@ export const textSeedCueSchema = textSeedSchema
     label: id.optional(),
     separator: z.string().max(32),
     anchor: z.enum(["project", "content", "clip"]),
-    style: textSourceSchema.omit({ kind: true, text: true }),
+    style: textSourceObjectSchema.omit({
+      kind: true,
+      text: true,
+      timedWords: true,
+      activeRanges: true,
+    }),
   })
   .strict();
 export const textSeedCuesSchema = z
@@ -215,7 +284,12 @@ export const acquisitionContextSchema = z
   .strict();
 export type AcquisitionContext = z.infer<typeof acquisitionContextSchema>;
 export const assetSchema = z
-  .object({ id, streams: z.array(streamSchema), fontFaces: z.array(id).optional() })
+  .object({
+    id,
+    streams: z.array(streamSchema),
+    fontFaces: z.array(id).optional(),
+    lut: lutMetadataSchema.optional(),
+  })
   .strict();
 export const routingNodeSchema = z
   .object({
@@ -322,6 +396,12 @@ export const processorRegistry = {
           .max(20 * Math.log10(8)),
         attackMs: z.number().finite().min(0.01).max(2000),
         releaseMs: z.number().finite().min(0.01).max(9000),
+        makeupGainDb: z
+          .number()
+          .finite()
+          .min(0)
+          .max(20 * Math.log10(64))
+          .optional(),
         detector: z.discriminatedUnion("kind", [
           z.object({ kind: z.literal("input") }).strict(),
           z.object({ kind: z.literal("tap"), tap: processingTapSchema }).strict(),
@@ -336,6 +416,7 @@ export const processorRegistry = {
       kneeDb: "full knee width in dB",
       attackMs: "peak detector milliseconds",
       releaseMs: "peak detector milliseconds",
+      makeupGainDb: "post-compression dB; omitted means unity (0 dB)",
     },
   },
   pointer: {
@@ -373,6 +454,28 @@ export const processorRegistry = {
       pivot: "normalized rectangle",
     },
   },
+  "motion-blur": {
+    schema: z
+      .object({
+        type: z.literal("motion-blur"),
+        samples: z.number().int().min(1).max(8),
+        shutter: z.number().finite().min(0).max(1),
+      })
+      .strict(),
+    targets: allProcessingTargets,
+    mediaKind: "video" as const,
+    units: { samples: "bounded temporal samples", shutter: "fraction of one frame interval" },
+  },
+  lut: {
+    schema: z.object({ type: z.literal("lut"), ...lutParameters }).strict(),
+    targets: allProcessingTargets,
+    mediaKind: "video" as const,
+    units: {
+      colorSpace:
+        "unpremultiplied linear sRGB RGB; unit grid with edge-linear extrapolation; alpha preserved",
+      interpolation: "trilinear cube samples, red index changes fastest",
+    },
+  },
   "sdr-correction": {
     schema: z.object({ type: z.literal("sdr-correction"), ...sdrCorrectionParameters }).strict(),
     targets: allProcessingTargets,
@@ -381,6 +484,8 @@ export const processorRegistry = {
       exposureEV: "stops",
       contrast: "multiplier around linear 0.5",
       saturation: "Core Image luminance multiplier",
+      shadows: "shadow recovery amount",
+      highlights: "highlight recovery amount",
       neutralKelvin: "source-neutral Kelvin corrected toward 6500K",
       neutralTint: "source-neutral tint corrected toward zero",
     },
@@ -399,6 +504,17 @@ export const processorRegistry = {
     targets: allProcessingTargets,
     mediaKind: "video" as const,
     units: { opacity: "linear alpha multiplier" },
+  },
+  blend: {
+    schema: z
+      .object({
+        type: z.literal("blend"),
+        mode: z.enum(["normal", "multiply", "screen", "soft-light"]),
+      })
+      .strict(),
+    targets: ["clip", "track", "group"] as const,
+    mediaKind: "video" as const,
+    units: { mode: "layer combination applied when this surface joins its parent" },
   },
   gain: {
     schema: z
@@ -446,8 +562,11 @@ export const processingStepSchema = z
       processorRegistry.pointer.schema,
       processorRegistry.gain.schema,
       processorRegistry.geometry.schema,
+      processorRegistry["motion-blur"].schema,
       processorRegistry.opacity.schema,
+      processorRegistry.blend.schema,
       processorRegistry["sdr-correction"].schema,
+      processorRegistry.lut.schema,
     ]),
   })
   .strict();
@@ -484,6 +603,63 @@ export const stateRecipeSchema = z.union([
     })
     .strict(),
 ]);
+const synchronizationSourceSchema = z
+  .object({ assetId: id, streamId: id })
+  .strict();
+/**
+ * Evidence is an immutable caller-supplied receipt. Composition validates its
+ * identity and verdict; it never computes or promotes synchronization itself.
+ */
+export const synchronizationEvidenceSchema = z
+  .object({
+    id,
+    generation: id,
+    status: z.enum(["accepted", "refused"]),
+    method: z.enum(["waveform", "lexical-anchor", "mixed-reference"]),
+    fingerprint: id,
+    sources: z.array(synchronizationSourceSchema).min(2),
+  })
+  .strict();
+export type SynchronizationEvidence = z.infer<typeof synchronizationEvidenceSchema>;
+export const angleSegmentSchema = z
+  .object({ offsetUs: signedTimeValueSchema, validRange: selectionRangeSchema })
+  .strict();
+const angleMemberSchema = z
+  .object({
+    clipId: id,
+    assetId: id,
+    streamId: id,
+    offsetUs: signedTimeValueSchema.optional(),
+    validRange: selectionRangeSchema.optional(),
+    segments: z.array(angleSegmentSchema).min(1).optional(),
+  })
+  .strict()
+  .superRefine((member, context) => {
+    const piecewise = member.segments !== undefined;
+    if (piecewise && (member.offsetUs !== undefined || member.validRange !== undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle member cannot also set offsetUs/validRange" });
+    if (!piecewise && (member.offsetUs === undefined || member.validRange === undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Angle member requires offsetUs and validRange" });
+  });
+export const angleGroupSchema = z
+  .object({
+    id,
+    sessionId: id,
+    originClipId: id,
+    evidence: synchronizationEvidenceSchema,
+    mapping: z.literal("piecewise-local").optional(),
+    members: z.array(angleMemberSchema).min(2),
+  })
+  .strict()
+  .superRefine((group, context) => {
+    const hasSegments = group.members.some((member) => member.segments !== undefined);
+    if (group.mapping === "piecewise-local" && !hasSegments)
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle group requires segments" });
+    if (group.mapping === undefined && hasSegments)
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle group must declare mapping" });
+    if (group.mapping === "piecewise-local" && group.members.some((member) => member.segments === undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle group requires segments for every member" });
+  });
 export const compositionSchema = z
   .object({
     canvas: z
@@ -498,6 +674,7 @@ export const compositionSchema = z
     groups: z.array(routingNodeSchema),
     clips: z.array(clipSchema),
     syncGroups: z.array(z.object({ id, clipIds: z.array(id).min(2) }).strict()),
+    angleGroups: z.array(angleGroupSchema).optional(),
     processing: z.array(processingStackSchema),
   })
   .strict();
@@ -511,8 +688,10 @@ export function isMediaClip(clip: Clip): clip is MediaClip {
   return clip.source.kind === "range" || clip.source.kind === "hold";
 }
 export type Stream = z.infer<typeof streamSchema>;
+export type AngleSegment = z.infer<typeof angleSegmentSchema>;
 export type Asset = z.infer<typeof assetSchema>;
 export type Composition = z.infer<typeof compositionSchema>;
+export type AngleGroup = z.infer<typeof angleGroupSchema>;
 
 export type TextSource = z.infer<typeof textSourceSchema>;
 export type TextSeed = z.infer<typeof textSeedSchema>;
@@ -528,8 +707,18 @@ export function clipAssetIds(clip: {
       ? []
       : [clip.assetId];
 }
-export function documentAssetIds(document: { clips: readonly Clip[] }): string[] {
-  return [...new Set(document.clips.flatMap(clipAssetIds))];
+export function documentAssetIds(document: {
+  clips: readonly Clip[];
+  processing?: readonly { steps: readonly ProcessingStep[] }[];
+}): string[] {
+  return [
+    ...new Set([
+      ...document.clips.flatMap(clipAssetIds),
+      ...(document.processing ?? []).flatMap(({ steps }) =>
+        steps.flatMap(({ processor }) => (processor.type === "lut" ? [processor.assetId] : [])),
+      ),
+    ]),
+  ];
 }
 
 export function documentAcquisitionIds(document: { clips: readonly Clip[] }): string[] {

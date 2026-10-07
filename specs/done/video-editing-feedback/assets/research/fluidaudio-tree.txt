@@ -1,0 +1,7 @@
+Sources/FluidAudioCLI/Commands/ASR/CanaryTranscribeCommand.swift
+Sources/FluidAudioCLI/Commands/ASR/Cohere/CohereTranscribeCommand.swift
+Sources/FluidAudioCLI/Commands/ASR/ParaformerTranscribeCommand.swift
+Sources/FluidAudioCLI/Commands/ASR/Parakeet/SlidingWindow/TranscribeCommand.swift
+Sources/FluidAudioCLI/Commands/ASR/SenseVoiceTranscribeCommand.swift
+Tests/FluidAudioTests/ASR/Parakeet/SlidingWindow/TDT/EndAlignedFinalWindowTests.swift
+Tests/FluidAudioTests/ASR/Parakeet/WordTimingTests.swift

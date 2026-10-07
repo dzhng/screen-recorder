@@ -1,0 +1,35 @@
+{
+  "verdict": "accepted_bounded_provider_correspondence_reference",
+  "selectedProvider": "nvidia/parakeet-tdt_ctc-110m original auxiliary CTC head in pinned prepared NeMo2.7.3/Torch2.8 CPU research runtime",
+  "rejectedProvider": "FluidAudio0.15.7 CTC110m CoreML conversion",
+  "acceptedScope": "Supplied literal word correspondence to independently retained greedy CTC output, unique ordered occurrences only, conditional estimated forced bounds, unknown/unmatched/observed-extra rows and refusal of token cells beyond selected physical PCM. Match never means lexical ground truth or calibrated confidence.",
+  "productionIntegration": "Not implemented by09;10 requires08 and port parity, first-class bounded runtime/model preparation and one shared ordered-correspondence owner.",
+  "gates": {
+    "finiteNativeOperands": "pass both actual recipes",
+    "workAndRSS": "pass both actual recipes; cold model load and CoreML external memory limits separate",
+    "orderedRepeatedPlacement": "NeMo pass on isolated generated placement control; Fluid fail",
+    "contextualPlacement": "NeMo pass inside shifted physical utterance support; Fluid fail in planted leading silence",
+    "wrongExtraOmittedNumeralText": "NeMo pass at provider-correspondence scope: wrong words unmatched, missing observed utterances retained extras, repeated-extra words unknown, literal7 never silently expanded",
+    "physicalSupport": "NeMo pass through separate admission; 25s final supplied word and truncated fullfortunate token cross unowned frame cells and are refused with untouched operands",
+    "partialLexicalIdentity": "Explicit unknown retained. Native fortun/Forge strings are model observations, not independently verified phonetic fragments."
+  },
+  "candidateInventory": "metadata directories retain larger CTC original/CoreML and unsupported Qwen pins/license/size inventory; unacquired candidates are not evaluated",
+  "evidenceOwners": {
+    "inputs": "inputs/manifest.json and complete bounded prepared/control bytes",
+    "emissions": "fluid-ctc110/ and nemo-ctc110/ retain frozen recipes, raw public/native outputs and tokenizations",
+    "ctcArithmetic": "align-ctc.py and both *-alignment directories retain complete path/score arrays",
+    "admission": "nemo-ctc110-admission/",
+    "correspondence": "nemo-ctc110-correspondence/ and frozen scratch arithmetic",
+    "normalization": "core word-kind.ts foldWord; verbatim source/typed-erased replay closure retained in reference-receipts",
+    "orderedMatching": "09 scratch arithmetic agrees with08 all-optimal LCS policy; future production10 reuses/promotes shared SpeechBoundaryMerge arithmetic instead of adding another owner"
+  },
+  "license": "Upstream originals are CC-BY4.0; Fluid conversion prose Apache2.0 conflicts with metadata/upstreamCC-BY4.0, stricter original attribution retained; Qwen license unspecified inventory only",
+  "limits": [
+    "7bounded inputs per model,25s maximum, no whole-source inference",
+    "No production model/runtime readiness or universal recognition claim",
+    "Mechanical text/isolated source-placement truth does not label connected-speech phonemes",
+    "Native scores never calibrated; assignmentConfidence null",
+    "CoreML processRSS excludes external ANE/service memory",
+    "First NeMo stdout refusal preserved; R2 transport correction leaves recipe unchanged"
+  ]
+}

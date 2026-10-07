@@ -1,0 +1,2 @@
+packages/core/src/source-transcript-read.test.ts(8,41): error TS7016: Could not find a declaration file for module '../../test-harness/speech/reference-raw.mjs'. '/Users/server/dev/yap-capability-skill/packages/test-harness/speech/reference-raw.mjs' implicitly has an 'any' type.
+packages/core/src/transcript-ownership.test.ts(7,41): error TS7016: Could not find a declaration file for module '../../test-harness/speech/reference-raw.mjs'. '/Users/server/dev/yap-capability-skill/packages/test-harness/speech/reference-raw.mjs' implicitly has an 'any' type.

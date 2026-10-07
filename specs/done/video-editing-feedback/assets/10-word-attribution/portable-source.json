@@ -1,0 +1,31 @@
+{
+  "scope": "checkpoint B2 source portability only; project selected tap and exact source projection open",
+  "providerResponses": "Controlled complete alignment edge responses; no new inference",
+  "actualBoundaries": [
+    "native archive/storage publication",
+    "public package.open and immutable source alignment.get",
+    "thresholded continuation pinned to package context",
+    "package.adopt and idempotent replay",
+    "retained-generation reads after service restart with native/media execution forbidden"
+  ],
+  "redGreen": [
+    "Missing portable evidence owner methods fail before implementation",
+    "Package alignment.get rejects packageHandle before public extension",
+    "Adoption failed when raw operand budget iterated structural resource metadata; complete three owned strings now checked and actual adopter passes",
+    "Managed-library cursor refuses in immutable package context"
+  ],
+  "preserved": [
+    "all original raw UTF8 operands including trailing report newline",
+    "conditional refusal and greedy observations remain separate",
+    "out-of-support ceil timing remains refused",
+    "complete rows and native score cells",
+    "original source observation/publication order"
+  ],
+  "ownership": "Same Models/JobQueue/Catalog evidence owner and existing package registry/adopter. Ready generations use the existing archive JSON budget while materializing. No new queue, decoder, model or migration. Captured unpublished diagnostic generations are not exported.",
+  "verification": "Focused portable/evidence/publication tests, existing project-package admission file, actual source export/open/adopt/restart service journey, affected core/service types; full suite deferred to root final feature closeout.",
+  "review": {
+    "session": "32080",
+    "verdict": "No actionable findings in the scoped B2 diff.",
+    "evidenceLimit": "Read-only static review of source portability diff and direct package/evidence owners; no tests/builds/inference."
+  }
+}

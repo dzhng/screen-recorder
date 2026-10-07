@@ -1,0 +1,22 @@
+{
+  "scope": "20 physically matched samples; sampled unchanged SDR pictures only. The failed full attempt stays failed.",
+  "selections": [
+    {
+      "report": "failed-orientation-preparation.json",
+      "cases": [
+        "graham",
+        "madison",
+        "lily",
+        "chart"
+      ],
+      "sha256": "32cb685ca2139788532bdab24dc11816d0e5325e6285d94863b3f0513bca53d2"
+    },
+    {
+      "report": "durable-rotated-report.json",
+      "cases": [
+        "rotated"
+      ],
+      "sha256": "411d717e53b8919e63c6fbc49f4a1e63f3a3044acf01b8520283f5b72383296a"
+    }
+  ]
+}

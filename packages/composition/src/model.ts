@@ -284,6 +284,42 @@ export function resolveComposition(
       if (grouped.has(id)) invalid(`Clip belongs to multiple synchronization entries: ${id}`);
       grouped.add(id);
     }
+  const angleMembers = new Set<string>();
+  for (const group of unique(document.angleGroups ?? [], "angle group").values()) {
+    if (group.evidence.status !== "accepted")
+      invalid(`Angle group requires accepted synchronization evidence: ${group.id}`);
+    const members = new Set<string>();
+    const sources = new Set(group.evidence.sources.map((source) => `${source.assetId}\0${source.streamId}`));
+    if (group.members.length < 2) invalid(`Angle group needs at least two members: ${group.id}`);
+    if (sources.size !== group.evidence.sources.length)
+      invalid(`Synchronization evidence repeats a source: ${group.id}`);
+    for (const member of group.members) {
+      if (!clips.has(member.clipId)) invalid(`Unknown angle clip: ${member.clipId}`);
+      if (members.has(member.clipId)) invalid(`Repeated angle member: ${member.clipId}`);
+      members.add(member.clipId);
+      if (angleMembers.has(member.clipId))
+        invalid(`Clip belongs to multiple angle groups: ${member.clipId}`);
+      angleMembers.add(member.clipId);
+      if (!sources.has(`${member.assetId}\0${member.streamId}`))
+        invalid(`Angle member source does not match synchronization evidence: ${member.clipId}`);
+      const segments = member.segments ?? [{ offsetUs: member.offsetUs!, validRange: member.validRange! }];
+      let through: Rational | undefined;
+      for (const segment of segments) {
+        const valid = exact(segment.validRange);
+        if (through !== undefined && compare(valid.start, through) < 0)
+          invalid(`Angle segments overlap or are out of order: ${member.clipId}`);
+        through = valid.end;
+      }
+    }
+    if (sources.size !== members.size)
+      invalid(`Synchronization evidence source set differs from angle members: ${group.id}`);
+    if (!members.has(group.originClipId))
+      invalid(`Angle origin is not a member: ${group.originClipId}`);
+    const origin = group.members.find((member) => member.clipId === group.originClipId)!;
+    const originSegments = origin.segments ?? [{ offsetUs: origin.offsetUs!, validRange: origin.validRange! }];
+    if (originSegments.some((segment) => compare(fromTime(segment.offsetUs), integer(0)) !== 0))
+      invalid(`Angle origin must have zero offset: ${group.originClipId}`);
+  }
   const ready: Clip[] = [],
     children = new Map<string, Clip[]>();
   for (const clip of clips.values()) {
@@ -385,6 +421,22 @@ export function resolveComposition(
     for (const child of children.get(clip.id) ?? []) ready.push(child);
   }
   if (resolved.size !== clips.size) invalid("Anchor dependency cycle");
+  for (const group of document.angleGroups ?? []) {
+    for (const member of group.members) {
+      const clip = resolved.get(member.clipId)!;
+      if (!isMediaClip(clip.clip)) invalid(`Angle member has no media source: ${member.clipId}`);
+      if (clip.stream?.kind !== "video")
+        invalid(`Angle member requires a video stream: ${member.clipId}`);
+      if (clip.clip.assetId !== member.assetId || clip.clip.streamId !== member.streamId)
+        invalid(`Angle member source does not match clip: ${member.clipId}`);
+      const segments = member.segments ?? [{ offsetUs: member.offsetUs!, validRange: member.validRange! }];
+      for (const segment of segments) {
+        const valid = exact(segment.validRange);
+        if (compare(valid.start, clip.range.start) < 0 || compare(valid.end, clip.range.end) > 0)
+          invalid(`Angle validity exceeds clip interval: ${member.clipId}`);
+      }
+    }
+  }
   const ordered = [...resolved.values()].sort(
     (a, b) =>
       compare(a.range.start, b.range.start) ||
@@ -400,7 +452,7 @@ export function resolveComposition(
     last.set(clip.track.id, clip);
     durationUs = Math.max(durationUs, ceil(clip.range.end));
   }
-  validateProcessing(document);
+  validateProcessing(document, assets);
   return freeze({ document, assets, acquisitions, clips: ordered, durationUs });
 }
 

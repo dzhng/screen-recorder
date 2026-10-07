@@ -1,3 +1,4 @@
+export { lutMetadataSchema } from "./lut.js";
 export {
   assetSchema,
   acquisitionContextSchema,
@@ -9,6 +10,11 @@ export {
   silenceClipSchema,
   textClipSchema,
   textSourceSchema,
+  textStrokeSchema,
+  textShadowSchema,
+  textBackgroundSchema,
+  textHighlightSchema,
+  textTimedWordSchema,
   textSeedSchema,
   textSeedCueSchema,
   textSeedCuesSchema,
@@ -23,6 +29,9 @@ export {
   signedTimeValueSchema,
   timeValueSchema,
   selectionRangeSchema,
+  angleGroupSchema,
+  angleSegmentSchema,
+  synchronizationEvidenceSchema,
 } from "./schema.js";
 export type {
   Anchor,
@@ -40,6 +49,9 @@ export type {
   TimeValue,
   SignedTimeValue,
   Stream,
+  AngleGroup,
+  AngleSegment,
+  SynchronizationEvidence,
 } from "./schema.js";
 export type { Rational } from "./rational.js";
 export {
@@ -76,6 +88,13 @@ export { applyBatch, editOperationSchema } from "./edits.js";
 export type { EditOperation, EditBatchResult, EditChange } from "./edits.js";
 
 export { CompositionError } from "./errors.js";
+
+export { planSubjectFraming, subjectFramingRequestSchema } from "./subject-framing.js";
+export type {
+  SubjectFramingRequest,
+  SubjectFramingPlan,
+  SubjectFramingViolation,
+} from "./subject-framing.js";
 
 export {
   getProcessing,

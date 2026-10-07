@@ -1,0 +1,474 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 4515,
+      "sha256": "d792c86bdb8e9bf5bcf825577980ec061e6e0273d57dd1eed65847a65302ed11"
+    },
+    {
+      "path": "fluidaudio-inventory/LICENSE",
+      "bytes": 19759,
+      "sha256": "736763bf08829e36266b8a3bebcc041ac68575424e976490671a7e6b43a525cf"
+    },
+    {
+      "path": "fluidaudio-inventory/NOTICE.md",
+      "bytes": 1925,
+      "sha256": "0964a66893fa5c3a574758257d30d2944669f44eeed5784b30ec3bab902012b3"
+    },
+    {
+      "path": "fluidaudio-inventory/README.md",
+      "bytes": 3046,
+      "sha256": "89297ebcb25a9b50e07f2b362ab302983a8281d539d5556a70b730cb26fdcc95"
+    },
+    {
+      "path": "fluidaudio-inventory/acquisition.json",
+      "bytes": 1626,
+      "sha256": "565e4df84e5f63b4fa50b4d0a536e49ce72b36de027c4db897c95888ce067f2b"
+    },
+    {
+      "path": "fluidaudio-inventory/model-card.md",
+      "bytes": 4836,
+      "sha256": "d0488f898df6da6e9d36f28b0704a65a13578d598c8685a9c5af0f5f8af13978"
+    },
+    {
+      "path": "fluidaudio-inventory/model.json",
+      "bytes": 5779,
+      "sha256": "38724ab51b673e3be3fd222532c3e49e412f4a31f057c53e2598050fbe62525b"
+    },
+    {
+      "path": "fluidaudio-inventory/provenance.json",
+      "bytes": 10048,
+      "sha256": "0353430db062715c411ba32e66cb435b9caee2662bccdb298f9e5d1bae760872"
+    },
+    {
+      "path": "fluidaudio-inventory/source/LICENSE",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/Diarizer/Offline/Clustering/ConstrainedClusterAssignment.swift",
+      "bytes": 1899,
+      "sha256": "bd997ad7030a03f7f26d3def0395d28a82b60c82dd39901dabbc232225e471ab"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/Diarizer/Offline/Clustering/VBxClustering.swift",
+      "bytes": 32461,
+      "sha256": "5af3e04c6fbf5dd9e8d7ad29f818936ca51d11d8a69d0a79c418cdfd9fe1139e"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerManager.swift",
+      "bytes": 41295,
+      "sha256": "5ac1c05b04068c76617c3c78bdf779e703e4bccec8874d3220f77331d0bf6f10"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerModels.swift",
+      "bytes": 6815,
+      "sha256": "89407ffa029ca71aa63c419020cd6898f61b48bfa1a12b0dc114f6a94fc6641c"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerTypes.swift",
+      "bytes": 28528,
+      "sha256": "ff7e63e82330e48c7986ca5a5a6194a8f1a2304d2f5dd3afa1249932d8b6d271"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/Diarizer/Offline/Core/PreparedDiarization.swift",
+      "bytes": 731,
+      "sha256": "68f4e93218676cd694e67d73214779281e384c28e3e0518401b32964661c96bf"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/Diarizer/Offline/Segmentation/OfflineSegmentationProcessor.swift",
+      "bytes": 23428,
+      "sha256": "8085de7a588cd9e1c2c7a1824a229ae9d4691d9a69301cb114fe1fb1d68d4d9f"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/Diarizer/Offline/Utils/OfflineReconstruction.swift",
+      "bytes": 19956,
+      "sha256": "10a0db69e2cbc9acdd5495ee75020a3db979ea8830823a3e85b23177782ac348"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/ModelNames.swift",
+      "bytes": 74315,
+      "sha256": "39d2c08dab5d36ce92092ada2960cd322665d26d1de05a83512a81f17ef165b1"
+    },
+    {
+      "path": "fluidaudio-inventory/source/Sources/FluidAudio/ModelRegistry.swift",
+      "bytes": 7518,
+      "sha256": "4c760c5cbb06ffbea4aa7b3c994c9633bc813a6ff1d0000072fcfa63e7de032d"
+    },
+    {
+      "path": "fluidaudio-inventory/source-receipt.json",
+      "bytes": 2240,
+      "sha256": "7a2a086b56088bcd4f112b0a6264862db3fcac06b03573dedf1c6c92e0a81890"
+    },
+    {
+      "path": "fluidaudio-inventory/tree.json",
+      "bytes": 26961,
+      "sha256": "ddaa67dedd3dfcc880853b00cd4596e38c29b42c9b841e60bca49eed537e7086"
+    },
+    {
+      "path": "invoke-low-latency.ts",
+      "bytes": 1925,
+      "sha256": "4a425a61012576ec52af0fd12c901d69d27dd6af81ef6c7d0f16dfb469c49c74"
+    },
+    {
+      "path": "invoke-nemotron.ts",
+      "bytes": 1982,
+      "sha256": "3312268445b8215d1688a072b7e29265bd9f1d3f5ed922a9eafb70f59083b3b5"
+    },
+    {
+      "path": "lhotse-source/commit.json",
+      "bytes": 8177,
+      "sha256": "08e13c21c92ed8dd7b31b3f7591572f60e8ed5baa8f12b2051ec09af531599f8"
+    },
+    {
+      "path": "lhotse-source/protocol.json",
+      "bytes": 292,
+      "sha256": "c9241bac32d60ad515985a47a3a19aa760dfd46a854e196cf4845a0f440f8f6d"
+    },
+    {
+      "path": "lhotse-source/sparse-acquisition.json",
+      "bytes": 1587,
+      "sha256": "35266365340c0ab30f7fb53780cd7b589b9456e9dfe2a4390c48b885f4cf8bfe"
+    },
+    {
+      "path": "low-latency/aiqwk30.json.gz",
+      "bytes": 15512,
+      "sha256": "41ebd2d486fab8eed8c3be71c8ef502c2b3289064ebcd0bd5ff6df7705b1336a"
+    },
+    {
+      "path": "low-latency/aiqwk30.json.native-unverified.json.gz",
+      "bytes": 6174,
+      "sha256": "1fe4a88ee5faab3846cd4927c335ccba1baa76bfe7bd5d7580979560054c4b0e"
+    },
+    {
+      "path": "low-latency/bspxd30.json.gz",
+      "bytes": 15348,
+      "sha256": "4a7c373c0726d236ab19b3389a1b27b22913c45f7d19bca967f6c7aeb1966244"
+    },
+    {
+      "path": "low-latency/bspxd30.json.native-unverified.json.gz",
+      "bytes": 6176,
+      "sha256": "c1096864adf600b4b372e1173367b4992ec1359777a75e47cfa91263102b1f7b"
+    },
+    {
+      "path": "low-latency/protocol.json",
+      "bytes": 8212,
+      "sha256": "bb10da2dc38a4d72b8789b3e13c4b35dd1b28d184a9d5f83a8f943b55b1380fa"
+    },
+    {
+      "path": "low-latency/returns-overlap-silence.json.gz",
+      "bytes": 48137,
+      "sha256": "fa6149adf6936102a8cd91778dfca1d73ab168ce361a01ed850113f867bba86b"
+    },
+    {
+      "path": "low-latency/returns-overlap-silence.json.native-unverified.json.gz",
+      "bytes": 19828,
+      "sha256": "e3c98ade7c00950e7ac5e95813a2760bb5ff900b7350ed68e753a6171c5ed021"
+    },
+    {
+      "path": "low-latency/scores.json",
+      "bytes": 2620,
+      "sha256": "1129c58fcc3199de77ad96b6f69e56ad596cbaf7e38e3fff96d2f3948e5fad8c"
+    },
+    {
+      "path": "low-latency/transport.json",
+      "bytes": 1267,
+      "sha256": "fca6d29db1de12107e40d3b2491d139550190d08377b3f616a24d315a841c154"
+    },
+    {
+      "path": "low-latency-worker.py",
+      "bytes": 3785,
+      "sha256": "9b63e5de0cfd2150b0487802eff6a9cd5afc4d73ef0b74e96e22fc4f2594c9bb"
+    },
+    {
+      "path": "nemo-checkpoint-date/commit.json",
+      "bytes": 9034,
+      "sha256": "b0df4976864abf3682d5ec6f1eb0291ca45c2d98a3e42fc56a14a2a6d5daccfe"
+    },
+    {
+      "path": "nemo-checkpoint-date/protocol.json",
+      "bytes": 317,
+      "sha256": "a279033e0a0f8d5afc904d8fed606c59a432c819521527a5d0e8cbc9c8bbd217"
+    },
+    {
+      "path": "nemo-checkpoint-date/receipt.json",
+      "bytes": 268,
+      "sha256": "498a24576c56993a6aacdb3826f31c1c4d1f9a0bb8c969d98cc2736a6b8d6c27"
+    },
+    {
+      "path": "nemo-checkpoint-date/selection.json",
+      "bytes": 49000,
+      "sha256": "2a04270a1151a8ae6bd8d5f5bd10b3e8673b53b7b0693592a3107f6446fec55a"
+    },
+    {
+      "path": "nemo-speech-source/acquisition-protocol.json",
+      "bytes": 312,
+      "sha256": "faba2e1a4ccf62ba8dfa831e744b1c5dc38944dffa8c1ad5b953d49b1b7e438e"
+    },
+    {
+      "path": "nemo-speech-source/commit.json",
+      "bytes": 69839,
+      "sha256": "b0d78546443d26ed1ae185affa7f42100bbf24ec4e91bc769fe86a7852ae79f9"
+    },
+    {
+      "path": "nemo-speech-source/receipt.json",
+      "bytes": 268,
+      "sha256": "afb19d82420b9576b880e2a3c678b8ec597567ce1f00fce1d27f33be51e59ead"
+    },
+    {
+      "path": "nemo-speech-source/selection.json",
+      "bytes": 49117,
+      "sha256": "fa13a47dc1488a13673034e69c77561c2d146de8f3de739bc6e7a5a1a7a02bc7"
+    },
+    {
+      "path": "nemo3-wheel/protocol.json",
+      "bytes": 396,
+      "sha256": "ef3952aeda835d08b7706ff685d24c0a6a4549da0bf808ce9b8474a6e03ccba9"
+    },
+    {
+      "path": "nemo3-wheel/wheel-receipt.json",
+      "bytes": 178,
+      "sha256": "705a428d9a82f0c76667fb1b861c0b414fd82185a512f0cac98210f6fa358167"
+    },
+    {
+      "path": "nemotron-feasibility/aiqwk30.json.gz",
+      "bytes": 227844,
+      "sha256": "19b872c61760e2da580f81d8d236280ca59f4adf80f62cb3927fad9a57d4e3ec"
+    },
+    {
+      "path": "nemotron-feasibility/aiqwk30.json.native-unverified.json.gz",
+      "bytes": 95765,
+      "sha256": "9660c624685c59d51863642120506f5326790ad91ca96d9d7d77af6ed2f02a03"
+    },
+    {
+      "path": "nemotron-feasibility/bspxd30.json.gz",
+      "bytes": 230859,
+      "sha256": "bac663b68238b2de81398ee3ef7f118ed165fdacb58b8d76dc07e86000a63bb3"
+    },
+    {
+      "path": "nemotron-feasibility/bspxd30.json.native-unverified.json.gz",
+      "bytes": 95552,
+      "sha256": "6e1eec8697c01d681cdd0b4a5b794a07ebf9e810a8783335a3171dd858a63b21"
+    },
+    {
+      "path": "nemotron-feasibility/protocol.json",
+      "bytes": 9513,
+      "sha256": "6782b4d8846fceca1ad44012d6a8f203f87f856ed4bf72fe9d761755739bc20f"
+    },
+    {
+      "path": "nemotron-feasibility/returns-overlap-silence.json.gz",
+      "bytes": 760538,
+      "sha256": "d4d1dffda587086b00152b6ca3d98364cdabc61e48539f1525061b0730cee6c4"
+    },
+    {
+      "path": "nemotron-feasibility/returns-overlap-silence.json.native-unverified.json.gz",
+      "bytes": 318006,
+      "sha256": "658e486287229c0db39200012918a3a854516077e652a95a5d24a2c072cb542f"
+    },
+    {
+      "path": "nemotron-feasibility/scores.json",
+      "bytes": 2674,
+      "sha256": "36e9741cb605eea2ab854e40f2da6bfcd22d0f228da6970fb8390efa88413726"
+    },
+    {
+      "path": "nemotron-feasibility/transport.json",
+      "bytes": 1270,
+      "sha256": "5b449e8b92b5bc92d95ce9e1f4f4a20b9d2646d53032899dde3216376add8b72"
+    },
+    {
+      "path": "nemotron-overlap-priority/held-out.json",
+      "bytes": 796,
+      "sha256": "e6219b995e2e36c031fadc27a1607c14f742d6611fc7a58987bc8fc88bd3b53c"
+    },
+    {
+      "path": "nemotron-overlap-priority/protocol.json",
+      "bytes": 1178,
+      "sha256": "3459956a0007f4731183f2db5273ed06a0ca147676ec61c566fa40f7d8dd4c0c"
+    },
+    {
+      "path": "nemotron-overlap-priority/selection.json",
+      "bytes": 14411,
+      "sha256": "18fe29b876c4fb000833e65e61a4c049605ad43d93a29b748560eec471f37a27"
+    },
+    {
+      "path": "nemotron-preparation/model_config.yaml",
+      "bytes": 3461,
+      "sha256": "0a738c13104761be11da4a315af0a94b3c14a1cd6509a3e788a78555751e1ccb"
+    },
+    {
+      "path": "nemotron-preparation/protocol.json",
+      "bytes": 1590,
+      "sha256": "eef8e73d94c725c9b0420c67e401275b34a9e5061a5dff836b053db5afe0540d"
+    },
+    {
+      "path": "nemotron-preparation/receipt.json",
+      "bytes": 263,
+      "sha256": "79c788ceb52c0fb1da3c3f9550d00eacdd3946acb6ff88911394c8d885e3fb5c"
+    },
+    {
+      "path": "nemotron-threshold/protocol.json",
+      "bytes": 1052,
+      "sha256": "b40ff46991e0490a3f858525721e6cb745240b58a1159de279f55678059808d4"
+    },
+    {
+      "path": "nemotron-threshold-r2/held-out.json",
+      "bytes": 763,
+      "sha256": "6137e3400d49c3a9a4b2c65f36961a9bb2e56ab7e98a8956cafb1acccf498ba3"
+    },
+    {
+      "path": "nemotron-threshold-r2/protocol.json",
+      "bytes": 1101,
+      "sha256": "350afb503ccdf75428113552bcafa4c5bb75cb37ee6d6ba6649b13fe6e8966c8"
+    },
+    {
+      "path": "nemotron-threshold-r2/selection.json",
+      "bytes": 13469,
+      "sha256": "d5e2c9cfedc3296f6068b383bc50e1b00d9d7d93d9b8b01bcd21a84790e99a64"
+    },
+    {
+      "path": "nemotron-worker.py",
+      "bytes": 4210,
+      "sha256": "6802fd55b0c03d1b214022802a1135f0a4c70a658534502ff9fbdfaea7fdab65"
+    },
+    {
+      "path": "nemotron3-metadata/license-page.html",
+      "bytes": 54205,
+      "sha256": "13123a9da5322fff60e4ab453bb2ace73b4130701d4df858cf353091013cfdbf"
+    },
+    {
+      "path": "nemotron3-metadata/model-card.md",
+      "bytes": 43239,
+      "sha256": "5fe88ca4020d2ee134f806a0a02c52c19855b73047bc2e6f25b9171e1abeebfd"
+    },
+    {
+      "path": "nemotron3-metadata/model.json",
+      "bytes": 2863,
+      "sha256": "c07affa4c3b407698f0c2cc9b0d691f3db8b5829866325e1758adae3ac1925e1"
+    },
+    {
+      "path": "nemotron3-metadata/pypi-versions.json",
+      "bytes": 1612,
+      "sha256": "13b35ca86aaa18bc24e3726da45db00c3af870ee14907a5dca11a21057b429e7"
+    },
+    {
+      "path": "nemotron3-metadata/tree.json",
+      "bytes": 3605,
+      "sha256": "9170665ec848b1668d52d53bbd6d669fbb25a901bf984c021a0927e4fe116830"
+    },
+    {
+      "path": "prepare-nemotron-r2.ts",
+      "bytes": 2593,
+      "sha256": "74684db91b61466b888dd4a6fa13826ac10b1f285f116df63a75b3bb4bd5d6c8"
+    },
+    {
+      "path": "replay.mjs",
+      "bytes": 7962,
+      "sha256": "29a5a31954b95fbeb1cf4a6b870d13f5b94b491195eea7b060f064bc1bc614af"
+    },
+    {
+      "path": "restore-evidence/nemo3-date-restore-attempt1.json",
+      "bytes": 490,
+      "sha256": "a4f858a5a07a6b33ec748f229da9aa95e49b897aa1416a94014fb05ee7b87aed"
+    },
+    {
+      "path": "restore-evidence/nemo3-date-restore-attempt1.log.gz",
+      "bytes": 276,
+      "sha256": "f0ac66950fe7611d3bd44767dfd275c0848da74a00b0204392370850577c4b6f"
+    },
+    {
+      "path": "restore-evidence/nemo3-date-restore-attempt2.json",
+      "bytes": 290,
+      "sha256": "7cc1f8008447e95af47a2dcb03b2db64ed44c3a9b0b941800841555c3ed6ec85"
+    },
+    {
+      "path": "restore-evidence/nemo3-date-restore-attempt2.log.gz",
+      "bytes": 155,
+      "sha256": "998f6952f1e4907c92df00e681d3a7059b1068dbcf38c1e6050a904ffa1c9e8c"
+    },
+    {
+      "path": "restore-evidence/nemo3-import-attempt1.json",
+      "bytes": 544,
+      "sha256": "8076d2341853942c7fb34f29bd5b1ab65dcf57fa8a3347f54598d3edb7ae1b8b"
+    },
+    {
+      "path": "restore-evidence/nemo3-import-attempt1.log.gz",
+      "bytes": 389,
+      "sha256": "60e08dc5b7215a2c5c621fe68382f712cc96f71a0649f7681f00483110fa0857"
+    },
+    {
+      "path": "restore-evidence/nemo3-restore-attempt1.json",
+      "bytes": 489,
+      "sha256": "4fd1bf63ab70a06f60c36b0fdab036efd9b14cab0b1ea81143b28fc205f3f2b2"
+    },
+    {
+      "path": "restore-evidence/nemo3-restore.log.gz",
+      "bytes": 275,
+      "sha256": "c0b498b3b33bf9465a3b4e268c4176fc40efc9176ce8f3ff86ccd3bdbef8ed24"
+    },
+    {
+      "path": "restore-evidence/nemo3-source-restore-attempt1.json",
+      "bytes": 290,
+      "sha256": "10d850dc83770185a59f0dbc1368ba716231a13077d7624cc65b3878ba4a4239"
+    },
+    {
+      "path": "restore-evidence/nemo3-source-restore-attempt1.log.gz",
+      "bytes": 153,
+      "sha256": "ff29d63f7a0d288cf281936365ce0f3aa8a18ef1f967149a571a5c28e922beb4"
+    },
+    {
+      "path": "restore-evidence/nemo3-source-restore-attempt2.json",
+      "bytes": 178,
+      "sha256": "116a24233d2598146ba97ceb3b0de6b5fa6d37752ecf2a9833cbdfa0413e276e"
+    },
+    {
+      "path": "restore-evidence/nemo3-source-restore-attempt2.log.gz",
+      "bytes": 79,
+      "sha256": "493fe688e7176bbfaf6fb267d6fa00cf7c4b944b524b19bc26e685eed5f1682d"
+    },
+    {
+      "path": "score-low-latency.mjs",
+      "bytes": 2049,
+      "sha256": "793c1a7a225d66541ed731163fc72a91c5f485a4821284a7b71207d4d61a22e3"
+    },
+    {
+      "path": "score-nemotron.mjs",
+      "bytes": 2225,
+      "sha256": "436e9e562927640f3001a7a5f17ee93f9143d1d0da8b745ce35efccea797a21e"
+    },
+    {
+      "path": "threshold-nemotron-overlap.mjs",
+      "bytes": 4996,
+      "sha256": "9aeae86d5a266231fc7dffa9fc3cb5cfd50eddacc9cb0cdd39a5144ba0aa4ddf"
+    },
+    {
+      "path": "threshold-nemotron-r2.mjs",
+      "bytes": 4634,
+      "sha256": "faa27062263ce7627f334a85e9000ed8c0bad59da52812f7bd5f3faefc2d43bb"
+    },
+    {
+      "path": "threshold-nemotron.mjs",
+      "bytes": 4586,
+      "sha256": "fc7dc9688bd436037009e40f9ffc8cad6305f75e9ea7bd5d0a405ce91c9dfeb4"
+    },
+    {
+      "path": "threshold-research/held-out.json",
+      "bytes": 1496,
+      "sha256": "73606302e1f456c731f37a2e954e8eb4538acc59211498b5bf5d1d61a3bcf027"
+    },
+    {
+      "path": "threshold-research/protocol.json",
+      "bytes": 1112,
+      "sha256": "10957c79fbb131639ee4e47386986852ffd90d8f9dd6b23f6398000405f8a97b"
+    },
+    {
+      "path": "threshold-research/selection.json",
+      "bytes": 19892,
+      "sha256": "eb776e1cbf39c6f50d20ae99da8f6a59426a837620c37a1a44e0019f71f4b2b3"
+    },
+    {
+      "path": "threshold-research.mjs",
+      "bytes": 5082,
+      "sha256": "7d350018e072a4630b510ceb97a2cce2a54ec6d59a0a840c9c915df391e8ea15"
+    }
+  ]
+}

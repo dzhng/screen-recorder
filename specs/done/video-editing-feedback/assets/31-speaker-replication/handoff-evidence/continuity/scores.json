@@ -1,0 +1,131 @@
+{
+  "passed": false,
+  "cases": [
+    {
+      "id": "short-return",
+      "role": "development",
+      "passed": true,
+      "metrics": {
+        "referenceSpeakerSeconds": 24,
+        "overlapSeconds": 0,
+        "silenceSeconds": 0,
+        "missedSpeakerSeconds": 0.010000000000001563,
+        "falseSpeakerSeconds": 0.08000000000000007,
+        "confusedSpeakerSeconds": 0.15999999999999837,
+        "mapping": {
+          "speaker_0": "bspxd:spk00",
+          "speaker_1": "bspxd:spk01"
+        },
+        "der": 0.010416666666666666
+      },
+      "confusionRatio": 0.006666666666666599,
+      "overlap": {
+        "referenceOverlapSeconds": 0,
+        "retainedOverlapSeconds": 0,
+        "recall": null
+      },
+      "inferenceSeconds": 0.2656414590019267,
+      "peakProcessRSSBytes": 2434400256
+    },
+    {
+      "id": "returns-overlap-silence",
+      "role": "development",
+      "passed": true,
+      "metrics": {
+        "referenceSpeakerSeconds": 96,
+        "overlapSeconds": 8,
+        "silenceSeconds": 12,
+        "missedSpeakerSeconds": 0.4200000000000159,
+        "falseSpeakerSeconds": 1.5199999999999942,
+        "confusedSpeakerSeconds": 0,
+        "mapping": {
+          "speaker_0": "bspxd:spk00",
+          "speaker_1": "bspxd:spk01",
+          "speaker_2": "bspxd:spk02"
+        },
+        "der": 0.02020833333333344
+      },
+      "confusionRatio": 0,
+      "overlap": {
+        "referenceOverlapSeconds": 8,
+        "retainedOverlapSeconds": 7.909999999999997,
+        "recall": 0.9887499999999996
+      },
+      "inferenceSeconds": 1.3076501250034198,
+      "peakProcessRSSBytes": 2434400256
+    },
+    {
+      "id": "bspxd-unedited336",
+      "role": "confirmation",
+      "passed": true,
+      "metrics": {
+        "referenceSpeakerSeconds": 379.5199999999999,
+        "overlapSeconds": 53.96000000000008,
+        "silenceSeconds": 10.760000000000016,
+        "missedSpeakerSeconds": 9.410000000000073,
+        "falseSpeakerSeconds": 4.599999999999984,
+        "confusedSpeakerSeconds": 0.04000000000000625,
+        "mapping": {
+          "speaker_0": "bspxd:spk00",
+          "speaker_1": "bspxd:spk01",
+          "speaker_2": "bspxd:spk02"
+        },
+        "der": 0.03702044688026999
+      },
+      "confusionRatio": 0.00010539629005060672,
+      "overlap": {
+        "referenceOverlapSeconds": 53.96000000000008,
+        "retainedOverlapSeconds": 47.60000000000001,
+        "recall": 0.8821349147516667
+      },
+      "inferenceSeconds": 4.982452500000363,
+      "peakProcessRSSBytes": 2434400256
+    },
+    {
+      "id": "four-speaker600",
+      "role": "confirmation",
+      "passed": false,
+      "metrics": {
+        "referenceSpeakerSeconds": 577.599999999999,
+        "overlapSeconds": 44.60000000000032,
+        "silenceSeconds": 67.00000000000136,
+        "missedSpeakerSeconds": 88.03000000000046,
+        "falseSpeakerSeconds": 13.220000000000894,
+        "confusedSpeakerSeconds": 14.279999999999887,
+        "mapping": {
+          "speaker_0": "aiqwk:spk02",
+          "speaker_1": "aiqwk:spk03",
+          "speaker_2": "aiqwk:spk04",
+          "speaker_3": "aiqwk:spk05"
+        },
+        "der": 0.20001731301939307
+      },
+      "confusionRatio": 0.02472299168975054,
+      "overlap": {
+        "referenceOverlapSeconds": 44.60000000000032,
+        "retainedOverlapSeconds": 0.23999999999999844,
+        "recall": 0.005381165919282438
+      },
+      "inferenceSeconds": 7.901571791997412,
+      "peakProcessRSSBytes": 2844016640
+    }
+  ],
+  "plantedSwap": {
+    "rejected": true,
+    "metrics": {
+      "referenceSpeakerSeconds": 577.599999999999,
+      "overlapSeconds": 44.60000000000032,
+      "silenceSeconds": 67.00000000000136,
+      "missedSpeakerSeconds": 88.03000000000046,
+      "falseSpeakerSeconds": 13.220000000000894,
+      "confusedSpeakerSeconds": 181.07999999999944,
+      "mapping": {
+        "speaker_0": "aiqwk:spk02",
+        "speaker_1": "aiqwk:spk03",
+        "speaker_2": "aiqwk:spk04",
+        "speaker_3": "aiqwk:spk05"
+      },
+      "der": 0.4887984764542958
+    }
+  }
+}

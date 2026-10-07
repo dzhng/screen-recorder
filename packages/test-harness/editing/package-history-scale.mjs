@@ -399,7 +399,7 @@ try {
     "package adoption",
   );
   await call("package.close", { admissionId: admission.id });
-  const receivingId = adopted.result.projectId;
+  const receivingId = adopted.published.output.projectId;
   let cursor = null,
     count = 0;
   const mapped = [];
@@ -457,7 +457,7 @@ try {
     baseline,
   );
   report.checks.adoption = {
-    result: adopted.result,
+    result: adopted.published.output,
     revisions: count,
     fullSemanticHistorySha256: digest(expected.map((row) => row.semanticSha256)),
     audioSha256: hash(baseline),

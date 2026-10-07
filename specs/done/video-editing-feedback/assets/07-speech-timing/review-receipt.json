@@ -1,0 +1,19 @@
+{
+  "command": [
+    "codex",
+    "exec",
+    "--sandbox",
+    "read-only",
+    "-C",
+    "/Users/server/dev/yap-capability-skill",
+    "review",
+    "--uncommitted",
+    "--json",
+    "-o",
+    "verdict.md"
+  ],
+  "exitCode": 0,
+  "terminalEvent": "turn.completed",
+  "verdict": "independent-review.md",
+  "limit": "Independent core tests were blocked by sandbox temporary-directory permissions; worktree focused checks passed separately."
+}

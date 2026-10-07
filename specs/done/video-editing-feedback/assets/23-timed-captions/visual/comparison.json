@@ -1,0 +1,177 @@
+[
+  {
+    "label": "entrance-0",
+    "referenceMAE": 0.0,
+    "baselineMAE": 5.724085648148148,
+    "inkBounds": null,
+    "visibleInkPixels": 0
+  },
+  {
+    "label": "entrance-187500",
+    "referenceMAE": 0.0,
+    "baselineMAE": 5.525350115740741,
+    "inkBounds": [
+      178,
+      95,
+      464,
+      125
+    ],
+    "visibleInkPixels": 3863
+  },
+  {
+    "label": "entrance-250000",
+    "referenceMAE": 0.0,
+    "baselineMAE": 5.41081886574074,
+    "inkBounds": [
+      175,
+      95,
+      467,
+      125
+    ],
+    "visibleInkPixels": 3931
+  },
+  {
+    "label": "entrance-437500",
+    "referenceMAE": 0.0,
+    "baselineMAE": 2.7269502314814815,
+    "inkBounds": [
+      166,
+      94,
+      476,
+      126
+    ],
+    "visibleInkPixels": 4381
+  },
+  {
+    "label": "entrance-500000",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3893
+  },
+  {
+    "label": "entrance-562500",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3893
+  },
+  {
+    "label": "entrance-62500",
+    "referenceMAE": 0.0,
+    "baselineMAE": 5.66427662037037,
+    "inkBounds": [
+      184,
+      96,
+      458,
+      124
+    ],
+    "visibleInkPixels": 3276
+  },
+  {
+    "label": "highlight-1312500",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3887
+  },
+  {
+    "label": "highlight-1375000",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3882
+  },
+  {
+    "label": "highlight-1437500",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3882
+  },
+  {
+    "label": "highlight-1500000",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3892
+  },
+  {
+    "label": "highlight-562500",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3893
+  },
+  {
+    "label": "highlight-625000",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3883
+  },
+  {
+    "label": "highlight-687500",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3883
+  },
+  {
+    "label": "highlight-750000",
+    "referenceMAE": 0.0,
+    "baselineMAE": 0.0,
+    "inkBounds": [
+      164,
+      94,
+      478,
+      126
+    ],
+    "visibleInkPixels": 3887
+  }
+]

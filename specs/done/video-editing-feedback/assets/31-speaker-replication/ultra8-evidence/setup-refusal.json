@@ -1,0 +1,7 @@
+{
+  "phase": "wrapper-output-reservation-before-inference",
+  "error": "missing observations parent directory",
+  "nativeCalls": 0,
+  "retryAllowanceUsed": false,
+  "repair": "Create owned empty observations directory; no worker,model,recipe or scorer change."
+}

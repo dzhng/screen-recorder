@@ -11,19 +11,21 @@ import { fileURLToPath } from "node:url";
 import { createHash, randomUUID } from "node:crypto";
 import { open, realpath } from "node:fs/promises";
 import { readAudioWave } from "@yap/core/audio-wave";
+import { audioProcessingEvidenceSchema, normalizationTolerance } from "@yap/core/audio-measurement";
 import { mkdtemp, mkdir, writeFile, readFile, rm, copyFile } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { callLocal } from "@yap/client";
 import { setTimeout as delay } from "node:timers/promises";
 import { startProjectService } from "./project-service.js";
-import { test, expect } from "vitest";
+import { test, expect, vi } from "vitest";
 import {
   projectAudioRenderer,
   projectMovieRenderer,
   nativeAudioCapabilities,
 } from "./project-render.js";
 import { ffmpegLoudnessAnalyzer } from "./loudness.js";
+import * as loudnessModule from "./loudness.js";
 import { audioProcessingRuntime } from "./audio-processing.js";
 import { mediaWorker } from "./worker.js";
 const installation = process.env.YAP_FFMPEG_DIRECTORY;
@@ -184,6 +186,275 @@ const limiter = {
   processor: { type: "limiter" as const, ceilingDbfs: -6, lookaheadMs: 5, releaseMs: 50 },
 };
 const real = test.runIf(Boolean(native && installation));
+function peakyDialogue(frame: number, peakLimited = false): [number, number] {
+  const t = frame / 48000,
+    phase = t % 0.6;
+  const speech =
+    (peakLimited ? 0.016 : 0.07) *
+    (0.35 + 0.65 * Math.abs(Math.sin(2 * Math.PI * t * 0.7))) *
+    (Math.sin(2 * Math.PI * 211 * t) + 0.25 * Math.sin(2 * Math.PI * 733 * t));
+  const kick =
+    (peakLimited ? 0.65 : 0.4) *
+    Math.sin(2 * Math.PI * (48 + 110 * Math.exp(-phase * 32)) * phase) *
+    Math.exp(-phase * 15);
+  const crash =
+    (peakLimited ? 0.18 : 0.08) *
+    (Math.sin(2 * Math.PI * 4017 * phase) + 0.4 * Math.sin(2 * Math.PI * 7031 * phase)) *
+    Math.exp(-phase * 65) *
+    Math.min(1, phase / 0.001);
+  const taper = Math.min(1, t / 0.1, (12 - t - 1 / 48000) / 0.1);
+  return [taper * (speech + kick + crash), taper * (0.7 * speech + kick + 0.65 * crash)];
+}
+real(
+  "bounded dynamic mastering meets the peaky dialogue target without changing requested constraints",
+  async () => {
+    const normalization: ProcessingStep = {
+      id: "normalize",
+      enabled: true,
+      processor: {
+        type: "normalization",
+        mode: "dynamic",
+        targetIntegratedLufs: -14.5,
+        truePeakCeilingDbtp: 0,
+        maxLoudnessRangeLu: 7,
+      },
+    };
+    const f = await fixture([normalization], 12000000);
+    let passed = false;
+    try {
+      const source = wave(576000, peakyDialogue);
+      await writeFile(join(f.dir, "source.wav"), source);
+      const full = await f.render(0, 12000000, "mastered");
+      expect(full.receipt).toMatchObject({
+        frames: 576000,
+        processingEvidence: [
+          {
+            recipe: normalization.processor,
+            normalization: {
+              after: {
+                integratedLufs: expect.any(Number),
+                loudnessRangeLu: expect.any(Number),
+                truePeakDbtp: expect.any(Number),
+              },
+            },
+          },
+        ],
+      });
+      const evidence = audioProcessingEvidenceSchema
+        .array()
+        .parse(
+          (full.receipt as { processingEvidence: unknown[] }).processingEvidence,
+        )[0]!.normalization!;
+      expect(Math.abs(evidence.after.integratedLufs! + 14.5)).toBeLessThanOrEqual(
+        normalizationTolerance.integratedAbsoluteLu,
+      );
+      expect(evidence.after.truePeakDbtp!).toBeLessThanOrEqual(
+        normalizationTolerance.meterSpecificTruePeakExcessDb,
+      );
+      expect(evidence.after.loudnessRangeLu!).toBeLessThanOrEqual(
+        7 + normalizationTolerance.rangeMaximumExcessLu,
+      );
+      expect(evidence.attempts.at(-1)!.after).toEqual(evidence.after);
+      expect(evidence.attempts.length).toBeGreaterThan(1);
+      expect(await readFile(join(f.dir, "source.wav"))).toEqual(source);
+      if (acceptanceEvidence) {
+        const retained = join(acceptanceEvidence, "mastering");
+        await mkdir(retained, { recursive: true });
+        await copyFile(join(f.dir, "source.wav"), join(retained, "source.wav"));
+        await copyFile(join(f.dir, "mastered.wav"), join(retained, "mastered.wav"));
+        await writeFile(
+          join(retained, "evidence.json"),
+          JSON.stringify(
+            {
+              requested: normalization.processor,
+              evidence,
+              frames: 576000,
+              sourceSha256: createHash("sha256").update(source).digest("hex"),
+              outputSha256: createHash("sha256")
+                .update(await readFile(join(f.dir, "mastered.wav")))
+                .digest("hex"),
+            },
+            null,
+            2,
+          ),
+        );
+      }
+      passed = true;
+    } finally {
+      if (passed) await rm(f.dir, { recursive: true, force: true });
+      else process.stderr.write(`Unverified peaky mastering operands retained: ${f.dir}\n`);
+    }
+  },
+  30000,
+);
+real(
+  "dynamic mastering refuses a stalled meter without publishing a candidate",
+  async () => {
+    // Controlled scanner output proves progress/lifetime; the peaky case proves actual accuracy.
+    const actualAnalyzer = loudnessModule.ffmpegLoudnessAnalyzer;
+    const spy = vi.spyOn(loudnessModule, "ffmpegLoudnessAnalyzer").mockImplementation((...args) => {
+      const actual = actualAnalyzer(...args);
+      return {
+        ...actual,
+        async measure(...operands) {
+          const measured = await actual.measure(...operands);
+          return { ...measured, integratedLufs: -14.9, loudnessRangeLu: 1, truePeakDbtp: 0 };
+        },
+      };
+    });
+    let f: Awaited<ReturnType<typeof fixture>> | undefined;
+    try {
+      f = await fixture(
+        [
+          {
+            id: "normalize",
+            enabled: true,
+            processor: {
+              type: "normalization",
+              mode: "dynamic",
+              targetIntegratedLufs: -14.5,
+              truePeakCeilingDbtp: 0,
+              maxLoudnessRangeLu: 7,
+            },
+          },
+        ],
+        12000000,
+      );
+      await writeFile(join(f.dir, "source.wav"), wave(576000, peakyDialogue));
+      let failure: unknown;
+      try {
+        await f.render(0, 12000000, "stalled");
+      } catch (error) {
+        failure = error;
+      }
+      expect(failure).toMatchObject({
+        code: "NORMALIZATION_TARGETS_UNMET",
+        details: {
+          stopReason: "no-progress",
+          attempts: [{ after: { integratedLufs: -14.9 } }, { after: { integratedLufs: -14.9 } }],
+        },
+      });
+      await expect(readFile(join(f.dir, "stalled.wav"))).rejects.toMatchObject({ code: "ENOENT" });
+    } finally {
+      spy.mockRestore();
+      if (f) await rm(f.dir, { recursive: true, force: true });
+    }
+  },
+  30000,
+);
+real(
+  "dynamic mastering retains an admitted candidate when interior correction regresses",
+  async () => {
+    const actualAnalyzer = loudnessModule.ffmpegLoudnessAnalyzer;
+    let ordinal = 0;
+    const spy = vi.spyOn(loudnessModule, "ffmpegLoudnessAnalyzer").mockImplementation((...args) => {
+      const actual = actualAnalyzer(...args);
+      return {
+        ...actual,
+        async measure(...operands) {
+          const measured = await actual.measure(...operands);
+          return {
+            ...measured,
+            integratedLufs: [-22.3, -14.65, -15][ordinal++]!,
+            loudnessRangeLu: 1,
+            truePeakDbtp: 0,
+          };
+        },
+      };
+    });
+    let f: Awaited<ReturnType<typeof fixture>> | undefined;
+    try {
+      f = await fixture(
+        [
+          {
+            id: "normalize",
+            enabled: true,
+            processor: {
+              type: "normalization",
+              mode: "dynamic",
+              targetIntegratedLufs: -14.5,
+              truePeakCeilingDbtp: 0,
+              maxLoudnessRangeLu: 7,
+            },
+          },
+        ],
+        12000000,
+      );
+      await writeFile(join(f.dir, "source.wav"), wave(576000, peakyDialogue));
+      const output = await f.render(0, 12000000, "retained-candidate");
+      expect(output.receipt).toMatchObject({
+        processingEvidence: [
+          {
+            normalization: {
+              selectedAttempt: 0,
+              after: { integratedLufs: -14.65 },
+              attempts: [{ after: { integratedLufs: -14.65 } }, { after: { integratedLufs: -15 } }],
+            },
+          },
+        ],
+      });
+      expect(output.bytes.length).toBe(576000 * 8);
+    } finally {
+      spy.mockRestore();
+      if (f) await rm(f.dir, { recursive: true, force: true });
+    }
+  },
+  30000,
+);
+real(
+  "peak-limited dynamic mastering refuses bounded correction without delivery",
+  async () => {
+    const f = await fixture(
+      [
+        {
+          id: "normalize",
+          enabled: true,
+          processor: {
+            type: "normalization",
+            mode: "dynamic",
+            targetIntegratedLufs: -14.5,
+            truePeakCeilingDbtp: 0,
+            maxLoudnessRangeLu: 7,
+          },
+        },
+      ],
+      12000000,
+    );
+    try {
+      const source = wave(576000, (i) => peakyDialogue(i, true));
+      await writeFile(join(f.dir, "source.wav"), source);
+      let failure: unknown;
+      try {
+        await f.render(0, 12000000, "peak-limited");
+      } catch (error) {
+        failure = error;
+      }
+      expect(failure).toMatchObject({
+        code: "NORMALIZATION_TARGETS_UNMET",
+        details: {
+          stopReason: "budget-exhausted",
+          attempts: [
+            { after: { integratedLufs: expect.any(Number) } },
+            { after: { integratedLufs: expect.any(Number) } },
+            { after: { integratedLufs: expect.any(Number) } },
+          ],
+        },
+      });
+      expect(await readFile(join(f.dir, "source.wav"))).toEqual(source);
+      await expect(readFile(join(f.dir, "peak-limited.wav"))).rejects.toMatchObject({
+        code: "ENOENT",
+      });
+      if (acceptanceEvidence) {
+        const retained = join(acceptanceEvidence, "peak-limited");
+        await mkdir(retained, { recursive: true });
+        await writeFile(join(retained, "refusal.json"), JSON.stringify(failure, null, 2));
+      }
+    } finally {
+      await rm(f.dir, { recursive: true, force: true });
+    }
+  },
+  30000,
+);
 real(
   "bundled limiter renders the full state domain before an exact late crop",
   async () => {
@@ -207,6 +478,61 @@ real(
     } finally {
       if (passed) await rm(f.dir, { recursive: true, force: true });
       else process.stderr.write(`Unverified audio operands retained: ${f.dir}\n`);
+    }
+  },
+  30000,
+);
+real(
+  "compressor makeup is an explicit post-compression gain and bypass remains dry",
+  async () => {
+    const base = {
+      id: "compress",
+      enabled: true,
+      processor: {
+        type: "compressor" as const,
+        thresholdDbfs: -12,
+        ratio: 4,
+        kneeDb: 3,
+        attackMs: 5,
+        releaseMs: 50,
+        detector: { kind: "input" as const },
+      },
+    };
+    const f = await fixture([base]);
+    try {
+      const control = await f.render(0, 1000000, "unity");
+      const boostedDocument = {
+        ...f.document,
+        processing: [
+          {
+            target: { kind: "output" as const },
+            steps: [{ ...base, processor: { ...base.processor, makeupGainDb: 6 } }],
+          },
+        ],
+      };
+      const boosted = await f.render(0, 1000000, "makeup", boostedDocument);
+      let delta = 0;
+      for (let at = 0; at < control.bytes.length; at += 4)
+        delta = Math.max(
+          delta,
+          Math.abs(boosted.bytes.readFloatLE(at) - control.bytes.readFloatLE(at) * 10 ** (6 / 20)),
+        );
+      expect(delta).toBeLessThanOrEqual(1e-6);
+      expect(boosted.receipt).toMatchObject({
+        processingEvidence: [{ recipe: { type: "compressor", makeupGainDb: 6 } }],
+      });
+      const bypass = await f.render(0, 1000000, "bypassed", {
+        ...boostedDocument,
+        processing: [
+          {
+            ...boostedDocument.processing[0],
+            steps: [{ ...boostedDocument.processing[0]!.steps[0]!, enabled: false }],
+          },
+        ],
+      });
+      expect(bypass.bytes.equals(wave(48000).subarray(44))).toBe(true);
+    } finally {
+      await rm(f.dir, { recursive: true, force: true });
     }
   },
   30000,
@@ -656,6 +982,7 @@ real(
             },
           ],
           fonts: [],
+          luts: [],
           output,
           settings: resolveOutputSettings(),
         },
@@ -681,27 +1008,123 @@ real(
   },
   30000,
 );
+
 real(
-  "AAC delivery retains separately measured decoded peak evidence",
+  "movie preflight refuses impossible gain before native picture encoding",
   async () => {
+    const f = await fixture(
+      [
+        {
+          id: "normalize",
+          enabled: true,
+          processor: {
+            type: "normalization",
+            mode: "gain-only",
+            targetIntegratedLufs: -5,
+            truePeakCeilingDbtp: -9,
+            maxLoudnessRangeLu: 7,
+          },
+        },
+      ],
+      8000000,
+    );
+    let pictures = 0,
+      passed = false;
+    try {
+      const model = validateComposition(f.document, [f.asset]);
+      const compiled = createCompiler(model, "revision").window({
+        range: { startUs: 0, endUs: 8000000 },
+        rendition: { sampleRate: 48000, channels: 2 },
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+      });
+      const window = {
+        ...compiled,
+        manifest: {
+          ...compiled.manifest,
+          requirements: compiled.manifest.requirements.map((r) => ({
+            ...r,
+            implementationId:
+              r.kind === "processor"
+                ? (f.runtime!.processors[r.processor.type] ?? null)
+                : r.kind === "executor"
+                  ? "preflight-movie"
+                  : r.implementationId,
+          })),
+        },
+      };
+      const renderer = projectMovieRenderer(
+        async (operation, ...args) => {
+          if (operation === "media.renderCompositionMovie") {
+            pictures++;
+            throw new Error("Picture encoding started before known audio refusal");
+          }
+          return f.worker(operation, ...args);
+        },
+        join(f.dir, "render"),
+        undefined,
+        f.capabilities,
+        new AbortController().signal,
+        {},
+        f.runtime,
+      );
+      const output = join(f.dir, "refused.mp4");
+      await expect(
+        renderer.render(
+          {
+            model,
+            window,
+            assets: [
+              {
+                assetId: f.asset.id,
+                streamId: "track:1",
+                path: join(f.dir, "source.wav"),
+                originUs: 0,
+              },
+            ],
+            fonts: [],
+            luts: [],
+            output,
+            settings: resolveOutputSettings(),
+          },
+          new AbortController().signal,
+        ),
+      ).rejects.toMatchObject({ code: "NORMALIZATION_NOT_FEASIBLE" });
+      expect(pictures).toBe(0);
+      await expect(open(output)).rejects.toMatchObject({ code: "ENOENT" });
+      passed = true;
+    } finally {
+      if (passed) await rm(f.dir, { recursive: true, force: true });
+      else process.stderr.write(`Unverified preflight operands retained: ${f.dir}\n`);
+    }
+  },
+  30000,
+);
+real.each([
+  { mode: "gain-only" as const, target: -6, peak: -1, duration: 8000000, peaky: false },
+  { mode: "dynamic" as const, target: -14.5, peak: 0, duration: 12000000, peaky: true },
+])(
+  "AAC $mode delivery retains separately measured decoded peak evidence",
+  async ({ mode, target, peak, duration, peaky }) => {
     const normalization: ProcessingStep = {
       id: "normalize",
       enabled: true,
       processor: {
         type: "normalization",
-        mode: "gain-only",
-        targetIntegratedLufs: -6,
-        truePeakCeilingDbtp: -1,
+        mode,
+        targetIntegratedLufs: target,
+        truePeakCeilingDbtp: peak,
         maxLoudnessRangeLu: 7,
       },
     };
-    const f = await fixture([normalization, limiter], 8000000);
+    const steps = peaky ? [normalization] : [normalization, limiter];
+    const f = await fixture(steps, duration);
     let passed = false;
     try {
-      const pcm = await f.render(0, 8000000, "prepared");
+      if (peaky) await writeFile(join(f.dir, "source.wav"), wave(576000, peakyDialogue));
+      const pcm = await f.render(0, duration, "prepared");
       const model = validateComposition(f.document, [f.asset]);
       const window = createCompiler(model, "revision").window({
-        range: { startUs: 0, endUs: 8000000 },
+        range: { startUs: 0, endUs: duration },
         rendition: { sampleRate: 48000, channels: 2 },
         tap: { target: { kind: "output" }, point: { kind: "processed" } },
       });
@@ -728,6 +1151,7 @@ real(
             },
           ],
           fonts: [],
+          luts: [],
           output,
           settings,
         },
@@ -739,7 +1163,7 @@ real(
         (stream) => stream.kind === "audio",
       )!;
       const decoded = join(f.dir, "decoded.wav");
-      const range = { startUs: 0, endUs: 8000000 };
+      const range = { startUs: 0, endUs: duration };
       const decode = await f.worker("media.sourceAudio", {
         source: { source: output, streamId: stream.id, sourceOffsetUs: 0, available: [range] },
         range,
@@ -777,7 +1201,7 @@ real(
         sourceSha256: createHash("sha256")
           .update(await readFile(join(f.dir, "source.wav")))
           .digest("hex"),
-        requested: [normalization.processor, limiter.processor],
+        requested: steps.map((step) => step.processor),
         prepared: prepared.measured,
         encodedDecoded: delivered.measured,
         movie: movie.audio,
@@ -785,7 +1209,7 @@ real(
       };
       await writeFile(join(f.dir, "encoded-evidence.json"), JSON.stringify(evidence, null, 2));
       if (acceptanceEvidence) {
-        const retained = join(acceptanceEvidence, "encoded");
+        const retained = join(acceptanceEvidence, `encoded-${mode}`);
         await mkdir(retained, { recursive: true });
         for (const filename of [
           "source.wav",
@@ -797,17 +1221,14 @@ real(
           await copyFile(join(f.dir, filename), join(retained, filename));
       }
       expect(settings.audio.codec).toBe("aac");
-      expect(delivered.audio.frames).toBe(384000);
+      expect(delivered.audio.frames).toBe((duration * 48000) / 1000000);
       expect(delivered.measured.truePeakDbtp).toEqual(expect.any(Number));
       expect(prepared.measured.truePeakDbtp).toEqual(expect.any(Number));
       expect((await readFile(decoded)).equals(await readFile(join(f.dir, "prepared.wav")))).toBe(
         false,
       );
       expect(pcm.receipt).toMatchObject({
-        processingEvidence: [
-          { recipe: { type: "normalization" } },
-          { recipe: { type: "limiter" } },
-        ],
+        processingEvidence: steps.map((step) => ({ recipe: step.processor })),
       });
       passed = true;
     } finally {
@@ -859,12 +1280,30 @@ real(
     const home = await realpath(await mkdtemp(join(tmpdir(), "public-typed-audio-")));
     let service: Awaited<ReturnType<typeof startProjectService>> | undefined;
     let passed = false;
+    let requireRetainedMix = false,
+      retainedMovieCalls = 0;
+    const nativeWorker = mediaWorker({ YAP_NATIVE: native });
+    const worker: typeof nativeWorker = async (operation, params, options) => {
+      if (requireRetainedMix) {
+        if (
+          operation === "media.prepareCompositionAudioDomain" ||
+          operation === "media.mixCompositionAudio"
+        )
+          throw new Error("Prepared movie unexpectedly rerendered audio");
+        if (operation === "media.renderCompositionMovie") {
+          expect(params).toMatchObject({ audio: { retained: { descriptor: 3 } } });
+          retainedMovieCalls++;
+        }
+      }
+      return nativeWorker(operation, params, options);
+    };
     try {
       const path = join(home, "source.wav");
       await writeFile(path, wave(384000));
       service = await startProjectService({
         home,
         nativeExecutable: native!,
+        worker,
         ffmpeg: {
           directory: installation!,
           receiptSha256:
@@ -886,7 +1325,7 @@ real(
         for (;;) {
           const result = await call<{
             state: string;
-            result: unknown;
+            published: { output: unknown } | null;
             errorCode: string | null;
             errorMessage: string | null;
           }>("job.get", { jobId });
@@ -901,7 +1340,7 @@ real(
       };
       const imported = await call<{ jobId: string }>("asset.import", { requestId: "source", path });
       const importedJob = await job(imported.jobId);
-      const assetId = (importedJob.result as { assetId: string }).assetId;
+      const assetId = (importedJob.published!.output as { assetId: string }).assetId;
       const created = await call<{ project: { projectId: string }; revision: { id: string } }>(
         "project.create",
         {
@@ -965,8 +1404,17 @@ real(
       type Prepared = {
         state: string;
         jobId: string;
-        published: null | { audio: { resourceId: string; processingEvidence: unknown[] } };
+        published: null | { output: { resourceId: string; processingEvidence: unknown[] } };
       };
+      const drySelection = {
+        ...selection,
+        tap: { target: { kind: "output" }, point: { kind: "dry" } },
+      };
+      const dryPending = await call<Prepared>("audio.prepare", drySelection);
+      await job(dryPending.jobId);
+      const dryReady = await call<Prepared>("audio.prepare", drySelection);
+      expect(dryReady.state).toBe("ready");
+      expect(dryReady.published!.output.processingEvidence ?? []).toEqual([]);
       const cachedInput = { ...selection, range: { startUs: 7000000, endUs: 7100000 } };
       const originalCache = await call<{ jobId: string }>("audio.get", cachedInput);
       await job(originalCache.jobId);
@@ -985,6 +1433,7 @@ real(
       service = await startProjectService({
         home,
         nativeExecutable: native!,
+        worker,
         ffmpeg: {
           directory: replaced,
           receiptSha256: createHash("sha256").update(receiptBytes).digest("hex"),
@@ -996,11 +1445,12 @@ real(
       const pending = await call<Prepared>("audio.prepare", selection);
       await job(pending.jobId);
       const ready = await call<Prepared>("audio.prepare", selection);
+      expect(ready.published!.output.resourceId).not.toBe(dryReady.published!.output.resourceId);
       expect(ready).toMatchObject({
         state: "ready",
         jobId: pending.jobId,
         published: {
-          audio: {
+          output: {
             processingEvidence: [
               {
                 recipe: { type: "normalization" },
@@ -1021,11 +1471,34 @@ real(
         range: { startUs: 7000000, endUs: 7100000 },
       });
       const excerptJob = await job(excerpt.jobId);
-      expect(excerptJob.result).toMatchObject({
+      expect(excerptJob.published?.output).toMatchObject({
         frames: 4800,
         sampleRange: { start: 336000, end: 340800 },
-        processingEvidence: ready.published!.audio.processingEvidence,
+        processingEvidence: ready.published!.output.processingEvidence,
       });
+      requireRetainedMix = true;
+      const movieExportId = randomUUID();
+      await call("export.create", {
+        ...selection,
+        exportId: movieExportId,
+        kind: "video",
+        directory: home,
+        leaf: "prepared.mp4",
+      });
+      const movieDeadline = performance.now() + 10000;
+      for (;;) {
+        const status = await call<{ state: string }>("export.status", { exportId: movieExportId });
+        if (status.state === "committed") break;
+        if (
+          ["failed", "unavailable", "canceled", "conflicted"].includes(status.state) ||
+          performance.now() > movieDeadline
+        )
+          throw Error(JSON.stringify(status));
+        await delay(10);
+      }
+      expect(retainedMovieCalls).toBe(1);
+      expect((await readFile(join(home, "prepared.mp4"))).length).toBeGreaterThan(0);
+      requireRetainedMix = false;
       const exportId = randomUUID();
       await call("export.create", {
         ...selection,
@@ -1072,10 +1545,10 @@ real(
       for (;;) {
         const status = await call<{
           state: string;
-          result: { projectId: string; revisionId: string } | null;
+          published: { output: { projectId: string; revisionId: string } } | null;
         }>("package.adopt", { packageHandle, requestId: "adopt" });
         if (status.state === "ready") {
-          adopted = status.result!;
+          adopted = status.published!.output;
           break;
         }
         if (
@@ -1089,7 +1562,7 @@ real(
       const adoptedAudio = await call<Prepared>("audio.prepare", adopted!);
       expect(adoptedAudio).toMatchObject({
         state: "ready",
-        published: { audio: { processingEvidence: ready.published!.audio.processingEvidence } },
+        published: { output: { processingEvidence: ready.published!.output.processingEvidence } },
       });
       passed = true;
     } finally {
@@ -1151,7 +1624,7 @@ real(
         }
         expect(report.failed).toMatchObject({
           state: limit === 64 ? "failed" : "ready",
-          ...(limit === 64 ? { result: null } : {}),
+          ...(limit === 64 ? { published: null } : {}),
         });
         expect(report.recovered).toMatchObject({ state: "ready" });
         expect(report.completedPrefixes).toBeGreaterThan(0);

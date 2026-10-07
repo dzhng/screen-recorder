@@ -1,0 +1,46 @@
+{
+  "rawSource": {
+    "path": "/Users/server/Downloads/riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+    "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa"
+  },
+  "originalExcerpt": {
+    "path": "/tmp/madcut/m1877.55.wav",
+    "sha256": "0b8b94f0781c7ed5c5be8e070fca3dd6d260cb2505693629e027d96e9c264fbb"
+  },
+  "recipe": {
+    "sourceRangeUs": {
+      "startUs": 1877550000,
+      "endUs": 1879700000
+    },
+    "trailingSyntheticSilenceUs": 500000,
+    "sampleRate": 16000,
+    "channels": 1,
+    "encoding": "pcm_s16le",
+    "frames": 42400,
+    "command": [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-ss",
+      "1877.55",
+      "-to",
+      "1879.7",
+      "-i",
+      "/Users/server/Downloads/riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+      "-vn",
+      "-ac",
+      "1",
+      "-ar",
+      "16000",
+      "-af",
+      "apad=pad_dur=0.5",
+      "/tmp/yap-slice07-reproduction/rederived-m1877.55.wav"
+    ]
+  },
+  "rederived": {
+    "sha256": "0b8b94f0781c7ed5c5be8e070fca3dd6d260cb2505693629e027d96e9c264fbb",
+    "pcmSha256": "55832c2163f3d3c32f384af5e58520ca1c1ac9c4efca0076abd6d0e0dc1bc282",
+    "matchesHistoricalPCM": true
+  },
+  "retainedFixture": "fixtures/speech-timing/madison-1877.55.wav"
+}

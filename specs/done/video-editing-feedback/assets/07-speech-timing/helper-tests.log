@@ -1,0 +1,35 @@
+✔ explicit corrected caption drafts retain word truth, exact pins and separate punctuation/pause groups (2.745667ms)
+✔ fractional retiming limits are exact and repeated/partial occurrences keep separate pins (0.542875ms)
+✔ multilingual graphemes and unbreakable words retain literal text while constraint failures remain visible (0.315459ms)
+✔ unavailable or source-only evidence never invents project time and every response obeys the UTF8 budget (0.873416ms)
+✔ explicit gaps, skipped words and fragmented support split proposals without dropping selected rows (1.081875ms)
+✔ consumer command returns pure proposals even when no CLI is available (33.891167ms)
+✔ large explicit selections respect the existing per-cue seed pin limit without losing words (96.394834ms)
+✔ a literal display string beyond text admission limits is retained with a violation (0.697791ms)
+✔ empty display corrections preserve the explicitly chosen inter-word separator (0.131375ms)
+✔ reading-speed admission compares exact project duration at the boundary (0.169916ms)
+✔ wrapping retains meaningful caller separators rather than silently deleting them (0.093417ms)
+✔ instant word evidence remains visible without invented dwell or aborting neighboring proposals (0.173625ms)
+✔ overlapping estimates use the widest exact envelope for dwell, speed and placement (0.104125ms)
+✔ reading two takes retains verbatim rows, generations and admitted duration (1.942834ms)
+✔ empty project pages continue with pinned revision and preserve repeated fractional occurrences (0.164083ms)
+✔ UTF-8 budget returns replayable pages without dropping verbatim words (0.342458ms)
+✔ a ready envelope without a transcript page is rejected rather than called complete (0.18275ms)
+✔ phrases never bridge discontinuous projected fragments even when words are close (0.082666ms)
+✔ unavailable reads do not erase the expected transcript-generation check (0.090625ms)
+✔ consumer command reads stdin and calls only installed transcript reads (256.5285ms)
+✔ gaps, inference segments and partial words split reading phrases (0.343917ms)
+✔ a bounded empty-page read returns its real continuation and rejects another source list (0.296291ms)
+✔ oversized verbatim words fail explicitly instead of truncating evidence (0.215875ms)
+✔ a later take that cannot fit returns the accepted prefix with a compact continuation (0.145958ms)
+✔ exact pause threshold separates phrases before display rounding (0.112208ms)
+✔ project occurrence coverage remains available after manifest-only continuation pages (0.183791ms)
+✔ reading phrases retain overlap envelopes and isolate exact instant observations (0.144875ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 299.974083

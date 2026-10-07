@@ -38,7 +38,9 @@ const identity = (row) =>
     row.segment,
   ]);
 const start = (row) => row.fragments[0].project.startUs;
-const end = (row) => row.fragments.at(-1).project.endUs;
+const maximumTime = (values) => values.reduce((a, b) => (compare(a, b) >= 0 ? a : b));
+const end = (row) => maximumTime(row.fragments.map((fragment) => fragment.project.endUs));
+const groupEnd = (words) => maximumTime(words.map((word) => end(word.row)));
 function appendLine(currentLines, token, separator, width, hasPrior = false) {
   const current = currentLines.at(-1);
   const candidate = current + (hasPrior ? separator : "") + token;
@@ -46,6 +48,8 @@ function appendLine(currentLines, token, separator, width, hasPrior = false) {
   if (current && !separator.includes("\n") && length(parts[0]) > width)
     currentLines.push(...((separator.trim() ? separator : "") + token).split("\n"));
   else currentLines.splice(currentLines.length - 1, 1, ...parts);
+  const end = currentLines.join("\n").length;
+  return [end - token.length, end];
 }
 const nonempty = (value) => typeof value === "string" && value.length > 0;
 
@@ -194,8 +198,16 @@ export function captionProposals(request) {
         "INVALID_REQUEST",
         "Each selected row must be an exact projected word occurrence",
       );
-    if (!row.sourceRange || compare(row.sourceRange.startUs, row.sourceRange.endUs) >= 0)
-      throw failure("INVALID_REQUEST", "Raw word pins must have positive exact ranges");
+    if (
+      !row.sourceRange ||
+      (row.instant
+        ? compare(row.sourceRange.startUs, row.sourceRange.endUs) !== 0
+        : compare(row.sourceRange.startUs, row.sourceRange.endUs) >= 0)
+    )
+      throw failure(
+        "INVALID_REQUEST",
+        "Raw word pins must retain positive estimates or exact instant points",
+      );
     for (const range of row.fragments.flatMap((fragment) => [fragment.source, fragment.project]))
       if (
         !range ||
@@ -215,7 +227,13 @@ export function captionProposals(request) {
   for (const word of selected) {
     const prior = current.at(-1);
     const candidateLines = [...currentLines];
-    appendLine(candidateLines, word.text, constraints.separator, width, current.length > 0);
+    let range = appendLine(
+      candidateLines,
+      word.text,
+      constraints.separator,
+      width,
+      current.length > 0,
+    );
     const pinsFull = current.length === 1000;
     if (
       prior &&
@@ -228,19 +246,19 @@ export function captionProposals(request) {
         prior.row.partial ||
         word.row.fragments.length > 1 ||
         prior.row.fragments.length > 1 ||
-        gapAtLeast(start(word.row), end(prior.row), pause) ||
+        gapAtLeast(start(word.row), groupEnd(current), pause) ||
         (constraints.breakOnPunctuation && sentenceEnd.test(prior.text)) ||
         candidateLines.length > maxLines ||
-        gapCompare(end(word.row), start(current[0].row), maximum) > 0)
+        gapCompare(groupEnd([...current, word]), start(current[0].row), maximum) > 0)
     ) {
       groups.push({ words: current, lines: currentLines });
       current = [];
       currentLines = [""];
-      appendLine(currentLines, word.text, constraints.separator, width);
+      range = appendLine(currentLines, word.text, constraints.separator, width);
       if (pinsFull && !violations.some((item) => item.code === "CUE_WORD_PIN_LIMIT"))
         violations.push({ code: "CUE_WORD_PIN_LIMIT", maximum: 1000 });
     } else currentLines = candidateLines;
-    current.push(word);
+    current.push({ ...word, range });
   }
   if (current.length) groups.push({ words: current, lines: currentLines });
   if (groups.length > 1000)
@@ -262,7 +280,7 @@ export function captionProposals(request) {
     rect.y + rect.height <= area.y + area.height;
   for (const { words: group, lines: renderedLines } of groups) {
     const first = group[0].row,
-      last = group.at(-1).row;
+      projectEnd = groupEnd(group);
     const text = renderedLines.join("\n");
     const cueViolations = [
       {
@@ -279,12 +297,12 @@ export function captionProposals(request) {
     if (!text.trim()) cueViolations.push({ code: "EMPTY_DISPLAY_TEXT" });
     if (text.length > 8192)
       cueViolations.push({ code: "TEXT_SIZE_LIMIT", maximumUTF16Units: 8192 });
-    if (!gapAtLeast(end(last), start(first), minimum))
+    if (!gapAtLeast(projectEnd, start(first), minimum))
       cueViolations.push({ code: "MINIMUM_DWELL", minimumUs: minimum });
-    if (gapCompare(end(last), start(first), maximum) > 0)
+    if (gapCompare(projectEnd, start(first), maximum) > 0)
       cueViolations.push({ code: "MAXIMUM_DWELL", maximumUs: maximum });
     if (first.instant) cueViolations.push({ code: "INSTANT_WORD", rowIndex: group[0].index });
-    const [en, ed] = time(end(last)),
+    const [en, ed] = time(projectEnd),
       [sn, sd] = time(start(first));
     const readingNumerator = BigInt(length(text.replaceAll("\n", ""))) * 1000000n * ed * sd,
       durationNumerator = en * sd - sn * ed;
@@ -311,7 +329,20 @@ export function captionProposals(request) {
         ? null
         : {
             trackId: request.trackId,
-            source: { ...style, kind: "text", text },
+            source: {
+              ...style,
+              kind: "text",
+              text,
+              ...(style.highlight
+                ? {
+                    timedWords: group.flatMap(({ row, range }) =>
+                      range[0] === range[1]
+                        ? []
+                        : row.fragments.map(({ source }) => ({ range, sourceRange: source })),
+                    ),
+                  }
+                : {}),
+            },
             seed: {
               kind: "transcript",
               source: {
@@ -331,7 +362,11 @@ export function captionProposals(request) {
               clipId: first.clipId,
               sourceRange: {
                 startUs: first.fragments[0].source.startUs,
-                endUs: last.fragments.at(-1).source.endUs,
+                endUs: maximumTime(
+                  group.flatMap((word) =>
+                    word.row.fragments.map((fragment) => fragment.source.endUs),
+                  ),
+                ),
               },
             },
           },
@@ -355,7 +390,7 @@ export function captionProposals(request) {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   if (process.argv.includes("--help"))
     console.log(
-      "Usage: node caption-proposals.mjs < request.json\nPure caption drafts from one complete pinned compact-transcript entry, explicit rowIndexes/corrections, caption track, canvas, text style and constraints. Constraints: widthGraphemes, maxLines, minDwellUs/maxDwellUs, maxCps, pauseUs, breakOnPunctuation, separator, safeArea {x,y,width,height}; optional maxBytes. Returns ordinary text clip/geometry drafts, exact word pins/fragments and violations. Instant points retain evidence with clip:null and explicit unsupported dwell/speed. Never calls CLI, transcribes or applies edits. Pixel/glyph fit requires explicit application and actual frame.get inspection.",
+      "Usage: node caption-proposals.mjs < request.json\nPure caption drafts from one complete pinned compact-transcript entry, explicit rowIndexes/corrections, caption track, canvas, text style and constraints. Constraints: widthGraphemes, maxLines, minDwellUs/maxDwellUs, maxCps, pauseUs, breakOnPunctuation, separator, safeArea {x,y,width,height}; optional maxBytes. Returns ordinary text clip/geometry drafts, exact word pins/fragments and violations. Explicit style.highlight {activeColor,inactiveColor} emits corrected display UTF16 timedWords mapped to retained source fragments; empty corrections have no run. Instant points retain evidence with clip:null and explicit unsupported dwell/speed. Never calls CLI, transcribes or applies edits. Pixel/glyph fit requires explicit application and actual frame.get inspection.",
     );
   else await runJsonHelper(captionProposals);
 }

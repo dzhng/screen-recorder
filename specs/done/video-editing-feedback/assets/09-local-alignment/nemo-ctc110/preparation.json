@@ -1,0 +1,8 @@
+{
+  "status": {
+    "state": "ready"
+  },
+  "checkpoint": "/tmp/yap-editing-alignment-replication/model-library/models/alignment-nemo-ctc110-reference/431a349f3051ab85c22b9b7a2741b5fe77065665/checkpoint/parakeet-tdt_ctc-110m.nemo",
+  "seconds": 27.779864625,
+  "scope": "Checkpoint byte closure only; strict local restore/emissions pending"
+}

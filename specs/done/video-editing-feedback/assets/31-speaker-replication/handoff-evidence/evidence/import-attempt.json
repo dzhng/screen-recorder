@@ -1,0 +1,21 @@
+{
+  "args": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)(deny file-read* (subpath \"/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python\"))(deny file-read* (subpath \"/private/tmp/yap-editing-speaker-replication/env\"))(deny file-read* (subpath \"/Users/server/dev/yap-video-editing\"))",
+    "/tmp/yap-editing-speaker-replication/assembly/bundle/python/bin/python",
+    "-I",
+    "-B",
+    "/tmp/yap-editing-speaker-replication/import-probe.py",
+    "/tmp/yap-editing-speaker-replication/assembly/bundle",
+    "/tmp/yap-editing-speaker-replication/evidence/import-relocated.json"
+  ],
+  "exitCode": 0,
+  "wallSeconds": 24.489020625,
+  "networkDenied": true,
+  "donorReadsDenied": [
+    "/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python",
+    "/private/tmp/yap-editing-speaker-replication/env",
+    "/Users/server/dev/yap-video-editing"
+  ]
+}

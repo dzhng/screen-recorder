@@ -1,0 +1,23 @@
+[
+  {
+    "case": "m1877.55",
+    "rawSha256": "32c01722f94c383dc8cf0f65d07d5eca3c4466ceb1096854a3003acd0ce9616a",
+    "policy": "transcript-v2",
+    "wordCount": 8,
+    "verdict": "retained operands and every lexical occurrence survived admission and one-row pagination"
+  },
+  {
+    "case": "overlap-region-derivative",
+    "rawSha256": "1b157ef54eb69bffed048e0ffbd9067c89d9cec1018b57b6ba7709e0c7305542",
+    "policy": "transcript-v2",
+    "wordCount": 83,
+    "verdict": "retained operands and every lexical occurrence survived admission and one-row pagination"
+  },
+  {
+    "case": "overlap-neighbor-derivative",
+    "rawSha256": "4942c2d45ed5ab3b0f53b078b734566232c20170a75bb4fdd2baf082cbe3aced",
+    "policy": "transcript-v2",
+    "wordCount": 78,
+    "verdict": "retained operands and every lexical occurrence survived admission and one-row pagination"
+  }
+]

@@ -1,0 +1,190 @@
+sample_rate: 16000
+pil_weight: 0.5
+ats_weight: 0.5
+max_num_of_spks: 8
+streaming_mode: true
+freeze_encoder: false
+freeze_transformer_encoder: false
+model_defaults:
+  fc_d_model: 512
+  tf_d_model: 192
+train_ds:
+  manifest_filepath: /home/devsy/workspace/synthetic_data/train_2to8spk_v4.json
+  sample_rate: 16000
+  num_spks: 8
+  session_len_sec: 180
+  soft_label_thres: 0.5
+  soft_targets: false
+  labels: null
+  batch_size: 4
+  shuffle: true
+  num_workers: 36
+  validation_mode: false
+  use_lhotse: false
+  use_bucketing: true
+  num_buckets: 10
+  bucket_duration_bins:
+  - 10
+  - 20
+  - 30
+  - 40
+  - 50
+  - 60
+  - 70
+  - 80
+  - 90
+  - 100
+  - 110
+  - 120
+  - 130
+  - 140
+  - 150
+  - 160
+  - 170
+  - 180
+  pin_memory: true
+  min_duration: 10
+  max_duration: 180
+  batch_duration: 400
+  quadratic_duration: 1200
+  bucket_buffer_size: 20000
+  shuffle_buffer_size: 10000
+  window_stride: 0.01
+  subsampling_factor: 8
+validation_ds:
+  manifest_filepath: /home/devsy/workspace/synthetic_data/val_2to8spk_v4.json
+  is_tarred: false
+  tarred_audio_filepaths: null
+  sample_rate: 16000
+  num_spks: 8
+  session_len_sec: 180
+  soft_label_thres: 0.5
+  soft_targets: false
+  labels: null
+  batch_size: 4
+  shuffle: false
+  num_workers: 36
+  validation_mode: true
+  use_lhotse: false
+  use_bucketing: false
+  drop_last: false
+  pin_memory: true
+  window_stride: 0.01
+  subsampling_factor: 8
+test_ds:
+  manifest_filepath: null
+  is_tarred: false
+  tarred_audio_filepaths: null
+  sample_rate: 16000
+  num_spks: 8
+  session_len_sec: 180
+  soft_label_thres: 0.5
+  soft_targets: false
+  labels: null
+  batch_size: 4
+  shuffle: false
+  seq_eval_mode: true
+  num_workers: 36
+  validation_mode: true
+  use_lhotse: false
+  use_bucketing: false
+  drop_last: false
+  pin_memory: true
+  window_stride: 0.01
+  subsampling_factor: 8
+preprocessor:
+  _target_: nemo.collections.asr.modules.AudioToMelSpectrogramPreprocessor
+  normalize: NA
+  window_size: 0.025
+  sample_rate: 16000
+  window_stride: 0.01
+  window: hann
+  features: 128
+  n_fft: 512
+  frame_splicing: 1
+  dither: 1.0e-05
+sortformer_modules:
+  _target_: nemo.collections.asr.modules.sortformer_modules.SortformerModules
+  num_spks: 8
+  dropout_rate: 0.3
+  fc_d_model: 512
+  tf_d_model: 192
+  spkcache_len: 376
+  fifo_len: 0
+  chunk_len: 376
+  spkcache_update_period: 376
+  chunk_left_context: 1
+  chunk_right_context: 1
+  spkcache_sil_frames_per_spk: 3
+  scores_add_rnd: 0
+  pred_score_threshold: 0.25
+  max_index: 99999
+  scores_boost_latest: 0.05
+  sil_threshold: 0.2
+  strong_boost_rate: 0.75
+  weak_boost_rate: 1.5
+  min_pos_scores_rate: 0.5
+  causal_attn_rate: 0.5
+  causal_attn_rc: 7
+encoder:
+  _target_: nemo.collections.asr.modules.ConformerEncoder
+  feat_in: 128
+  feat_out: -1
+  n_layers: 17
+  d_model: 512
+  subsampling: dw_striding
+  subsampling_factor: 8
+  subsampling_conv_channels: 256
+  causal_downsampling: false
+  ff_expansion_factor: 4
+  self_attention_model: rel_pos
+  n_heads: 8
+  att_context_size:
+  - -1
+  - -1
+  att_context_style: regular
+  xscaling: true
+  untie_biases: true
+  pos_emb_max_len: 5000
+  conv_kernel_size: 9
+  conv_norm_type: batch_norm
+  conv_context_size: null
+  dropout: 0.1
+  dropout_pre_encoder: 0.1
+  dropout_emb: 0.0
+  dropout_att: 0.1
+  stochastic_depth_drop_prob: 0.0
+  stochastic_depth_mode: linear
+  stochastic_depth_start_layer: 1
+transformer_encoder:
+  _target_: nemo.collections.asr.modules.transformer.transformer_encoders.TransformerEncoder
+  num_layers: 18
+  hidden_size: 192
+  inner_size: 768
+  num_attention_heads: 8
+  attn_score_dropout: 0.1
+  attn_layer_dropout: 0.1
+  ffn_dropout: 0.1
+  hidden_act: relu
+  pre_ln: false
+  pre_ln_final_layer_norm: true
+loss:
+  _target_: nemo.collections.asr.losses.bce_loss.BCELoss
+  weight: null
+  reduction: mean
+lr: 1.0e-05
+optim:
+  name: adamw
+  lr: 1.0e-05
+  betas:
+  - 0.9
+  - 0.98
+  weight_decay: 0.001
+  sched:
+    name: InverseSquareRootAnnealing
+    warmup_steps: 500
+    warmup_ratio: null
+    min_lr: 1.0e-06
+optim_new_lr: 0.0001
+target: nemo.collections.asr.models.sortformer_diar_models.SortformerEncLabelModel
+nemo_version: 2.7.0rc0

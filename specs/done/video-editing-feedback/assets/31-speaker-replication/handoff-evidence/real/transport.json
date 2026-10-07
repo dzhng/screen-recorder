@@ -1,0 +1,48 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "cases": [
+        {
+          "id": "main",
+          "audioSeconds": 100,
+          "inferenceSeconds": 1.873256582999602,
+          "peakProcessRSSBytes": 2822864896,
+          "pcmSha256": "d5e277d284224321eac0a03ce158d60b7c000afe8bc7fc0214eebaf4e941c410"
+        },
+        {
+          "id": "grahamRaw",
+          "audioSeconds": 60,
+          "inferenceSeconds": 0.9931709579977905,
+          "peakProcessRSSBytes": 2822864896,
+          "pcmSha256": "de5b3724d427ea61e59a72bad967822f551924c6a782812c461742c2af2cddde"
+        },
+        {
+          "id": "madisonRaw",
+          "audioSeconds": 60,
+          "inferenceSeconds": 0.9434062080108561,
+          "peakProcessRSSBytes": 2822864896,
+          "pcmSha256": "e690b8415050e87c2e19ee530301db3e39a12e17408fe84c92de9bb4b08380db"
+        },
+        {
+          "id": "lilyRawP1",
+          "audioSeconds": 60,
+          "inferenceSeconds": 0.9956837920035468,
+          "peakProcessRSSBytes": 2822864896,
+          "pcmSha256": "1e928c6dea5ded70348258f0a85530abcd5940c0c5c910c0d7233d644c6d060c"
+        }
+      ],
+      "coldLoadSeconds": 8.388967082995805,
+      "recipe": {
+        "chunk_len": 340,
+        "chunk_right_context": 40,
+        "fifo_len": 40,
+        "spkcache_update_period": 300,
+        "spkcache_len": 188
+      },
+      "stateScope": "one fresh state per selected input; persistent across all native internal chunks"
+    }
+  },
+  "wallSeconds": 13.613701459,
+  "networkDenied": true
+}

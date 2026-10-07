@@ -1,0 +1,3030 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f06dd396-cb96-45d5-b3a5-9d673a3dc3c0"
+    }
+  ],
+  "unavailableOperations": [
+    "media.probe",
+    "media.sourceChannelPCM",
+    "media.mixCompositionAudio",
+    "speech.transcribe"
+  ],
+  "model": {
+    "state": "absent"
+  },
+  "rows": [
+    {
+      "row": {
+        "startSample": 0,
+        "endSample": 160,
+        "rms": 0.0002441600534439952,
+        "peak": 0.0006628754199482501,
+        "ordinal": 0,
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 10000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 0,
+          "endUs": 10000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 0,
+          "endUs": 10000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 160,
+        "endSample": 320,
+        "rms": 0.00039410206319301594,
+        "peak": 0.0008646456990391016,
+        "ordinal": 1,
+        "sourceRange": {
+          "startUs": 10000,
+          "endUs": 20000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 10000,
+          "endUs": 20000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 10000,
+          "endUs": 20000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 320,
+        "endSample": 480,
+        "rms": 0.0008638284600356437,
+        "peak": 0.0034382138401269913,
+        "ordinal": 2,
+        "sourceRange": {
+          "startUs": 20000,
+          "endUs": 30000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 20000,
+          "endUs": 30000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 20000,
+          "endUs": 30000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 480,
+        "endSample": 640,
+        "rms": 0.0011853051915250146,
+        "peak": 0.0041803596541285515,
+        "ordinal": 3,
+        "sourceRange": {
+          "startUs": 30000,
+          "endUs": 40000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 30000,
+          "endUs": 40000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 30000,
+          "endUs": 40000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 640,
+        "endSample": 800,
+        "rms": 0.0015993376329515774,
+        "peak": 0.004610992036759853,
+        "ordinal": 4,
+        "sourceRange": {
+          "startUs": 40000,
+          "endUs": 50000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 40000,
+          "endUs": 50000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 40000,
+          "endUs": 50000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 800,
+        "endSample": 960,
+        "rms": 0.0021497395325269643,
+        "peak": 0.006477334536612034,
+        "ordinal": 5,
+        "sourceRange": {
+          "startUs": 50000,
+          "endUs": 60000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 50000,
+          "endUs": 60000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 50000,
+          "endUs": 60000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 960,
+        "endSample": 1120,
+        "rms": 0.0026720124471887757,
+        "peak": 0.010724951513111591,
+        "ordinal": 6,
+        "sourceRange": {
+          "startUs": 60000,
+          "endUs": 70000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 60000,
+          "endUs": 70000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 60000,
+          "endUs": 70000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 1120,
+        "endSample": 1280,
+        "rms": 0.0032010452965151094,
+        "peak": 0.010170786641538143,
+        "ordinal": 7,
+        "sourceRange": {
+          "startUs": 70000,
+          "endUs": 80000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 70000,
+          "endUs": 80000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 70000,
+          "endUs": 80000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 1280,
+        "endSample": 1440,
+        "rms": 0.004292144579211207,
+        "peak": 0.017868174239993095,
+        "ordinal": 8,
+        "sourceRange": {
+          "startUs": 80000,
+          "endUs": 90000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 80000,
+          "endUs": 90000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 80000,
+          "endUs": 90000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 1440,
+        "endSample": 1600,
+        "rms": 0.007904062351320294,
+        "peak": 0.03266026824712753,
+        "ordinal": 9,
+        "sourceRange": {
+          "startUs": 90000,
+          "endUs": 100000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 90000,
+          "endUs": 100000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 90000,
+          "endUs": 100000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 1600,
+        "endSample": 1760,
+        "rms": 0.014969423074724953,
+        "peak": 0.04571441560983658,
+        "ordinal": 10,
+        "sourceRange": {
+          "startUs": 100000,
+          "endUs": 110000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 100000,
+          "endUs": 110000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 100000,
+          "endUs": 110000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 1760,
+        "endSample": 1920,
+        "rms": 0.05752420043640485,
+        "peak": 0.1418355107307434,
+        "ordinal": 11,
+        "sourceRange": {
+          "startUs": 110000,
+          "endUs": 120000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 110000,
+          "endUs": 120000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 110000,
+          "endUs": 120000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 1920,
+        "endSample": 2080,
+        "rms": 0.19733769596407164,
+        "peak": 0.45259082317352295,
+        "ordinal": 12,
+        "sourceRange": {
+          "startUs": 120000,
+          "endUs": 130000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 120000,
+          "endUs": 130000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 120000,
+          "endUs": 130000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 2080,
+        "endSample": 2240,
+        "rms": 0.23700040088888388,
+        "peak": 0.5860217213630676,
+        "ordinal": 13,
+        "sourceRange": {
+          "startUs": 130000,
+          "endUs": 140000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 130000,
+          "endUs": 140000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 130000,
+          "endUs": 140000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 2240,
+        "endSample": 2400,
+        "rms": 0.23567912936441138,
+        "peak": 0.6135613918304443,
+        "ordinal": 14,
+        "sourceRange": {
+          "startUs": 140000,
+          "endUs": 150000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 140000,
+          "endUs": 150000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 140000,
+          "endUs": 150000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 2400,
+        "endSample": 2560,
+        "rms": 0.2396674579954949,
+        "peak": 0.6376481056213379,
+        "ordinal": 15,
+        "sourceRange": {
+          "startUs": 150000,
+          "endUs": 160000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 150000,
+          "endUs": 160000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 150000,
+          "endUs": 160000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 2560,
+        "endSample": 2720,
+        "rms": 0.23593591588291324,
+        "peak": 0.6437985897064209,
+        "ordinal": 16,
+        "sourceRange": {
+          "startUs": 160000,
+          "endUs": 170000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 160000,
+          "endUs": 170000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 160000,
+          "endUs": 170000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 2720,
+        "endSample": 2880,
+        "rms": 0.23189568399495997,
+        "peak": 0.6656846404075623,
+        "ordinal": 17,
+        "sourceRange": {
+          "startUs": 170000,
+          "endUs": 180000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 170000,
+          "endUs": 180000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 170000,
+          "endUs": 180000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 2880,
+        "endSample": 3040,
+        "rms": 0.23050373605023236,
+        "peak": 0.659721314907074,
+        "ordinal": 18,
+        "sourceRange": {
+          "startUs": 180000,
+          "endUs": 190000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 180000,
+          "endUs": 190000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 180000,
+          "endUs": 190000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 3040,
+        "endSample": 3200,
+        "rms": 0.22436478834821266,
+        "peak": 0.6426093578338623,
+        "ordinal": 19,
+        "sourceRange": {
+          "startUs": 190000,
+          "endUs": 200000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 190000,
+          "endUs": 200000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 190000,
+          "endUs": 200000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 3200,
+        "endSample": 3360,
+        "rms": 0.220676442547499,
+        "peak": 0.6598167419433594,
+        "ordinal": 20,
+        "sourceRange": {
+          "startUs": 200000,
+          "endUs": 210000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 200000,
+          "endUs": 210000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 200000,
+          "endUs": 210000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 3360,
+        "endSample": 3520,
+        "rms": 0.2164294033950512,
+        "peak": 0.6617794632911682,
+        "ordinal": 21,
+        "sourceRange": {
+          "startUs": 210000,
+          "endUs": 220000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 210000,
+          "endUs": 220000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 210000,
+          "endUs": 220000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 3520,
+        "endSample": 3680,
+        "rms": 0.21680955012311126,
+        "peak": 0.6602721810340881,
+        "ordinal": 22,
+        "sourceRange": {
+          "startUs": 220000,
+          "endUs": 230000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 220000,
+          "endUs": 230000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 220000,
+          "endUs": 230000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 3680,
+        "endSample": 3840,
+        "rms": 0.2124412439619322,
+        "peak": 0.646995484828949,
+        "ordinal": 23,
+        "sourceRange": {
+          "startUs": 230000,
+          "endUs": 240000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 230000,
+          "endUs": 240000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 230000,
+          "endUs": 240000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 3840,
+        "endSample": 4000,
+        "rms": 0.2042937041597801,
+        "peak": 0.6265777349472046,
+        "ordinal": 24,
+        "sourceRange": {
+          "startUs": 240000,
+          "endUs": 250000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 240000,
+          "endUs": 250000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 240000,
+          "endUs": 250000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 4000,
+        "endSample": 4160,
+        "rms": 0.1708291864702173,
+        "peak": 0.5990565419197083,
+        "ordinal": 25,
+        "sourceRange": {
+          "startUs": 250000,
+          "endUs": 260000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 250000,
+          "endUs": 260000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 250000,
+          "endUs": 260000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 4160,
+        "endSample": 4320,
+        "rms": 0.20528223190442244,
+        "peak": 0.546764612197876,
+        "ordinal": 26,
+        "sourceRange": {
+          "startUs": 260000,
+          "endUs": 270000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 260000,
+          "endUs": 270000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 260000,
+          "endUs": 270000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 4320,
+        "endSample": 4480,
+        "rms": 0.18505369918086717,
+        "peak": 0.538759708404541,
+        "ordinal": 27,
+        "sourceRange": {
+          "startUs": 270000,
+          "endUs": 280000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 270000,
+          "endUs": 280000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 270000,
+          "endUs": 280000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 4480,
+        "endSample": 4640,
+        "rms": 0.12939647467726711,
+        "peak": 0.2568213939666748,
+        "ordinal": 28,
+        "sourceRange": {
+          "startUs": 280000,
+          "endUs": 290000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 280000,
+          "endUs": 290000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 280000,
+          "endUs": 290000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 4640,
+        "endSample": 4800,
+        "rms": 0.08362771374547752,
+        "peak": 0.17130446434020996,
+        "ordinal": 29,
+        "sourceRange": {
+          "startUs": 290000,
+          "endUs": 300000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 290000,
+          "endUs": 300000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 290000,
+          "endUs": 300000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 4800,
+        "endSample": 4960,
+        "rms": 0.04590830290488951,
+        "peak": 0.08998818695545197,
+        "ordinal": 30,
+        "sourceRange": {
+          "startUs": 300000,
+          "endUs": 310000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 300000,
+          "endUs": 310000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 300000,
+          "endUs": 310000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 4960,
+        "endSample": 5120,
+        "rms": 0.028634347909676415,
+        "peak": 0.05025659501552582,
+        "ordinal": 31,
+        "sourceRange": {
+          "startUs": 310000,
+          "endUs": 320000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 310000,
+          "endUs": 320000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 310000,
+          "endUs": 320000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 5120,
+        "endSample": 5280,
+        "rms": 0.01684715879428236,
+        "peak": 0.027604609727859497,
+        "ordinal": 32,
+        "sourceRange": {
+          "startUs": 320000,
+          "endUs": 330000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 320000,
+          "endUs": 330000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 320000,
+          "endUs": 330000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 5280,
+        "endSample": 5440,
+        "rms": 0.015434632224543067,
+        "peak": 0.03642764687538147,
+        "ordinal": 33,
+        "sourceRange": {
+          "startUs": 330000,
+          "endUs": 340000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 330000,
+          "endUs": 340000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 330000,
+          "endUs": 340000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 5440,
+        "endSample": 5600,
+        "rms": 0.0321533226465366,
+        "peak": 0.09931857138872147,
+        "ordinal": 34,
+        "sourceRange": {
+          "startUs": 340000,
+          "endUs": 350000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 340000,
+          "endUs": 350000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 340000,
+          "endUs": 350000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 5600,
+        "endSample": 5760,
+        "rms": 0.05509843629430768,
+        "peak": 0.15134429931640625,
+        "ordinal": 35,
+        "sourceRange": {
+          "startUs": 350000,
+          "endUs": 360000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 350000,
+          "endUs": 360000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 350000,
+          "endUs": 360000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 5760,
+        "endSample": 5920,
+        "rms": 0.07766528197503532,
+        "peak": 0.16983334720134735,
+        "ordinal": 36,
+        "sourceRange": {
+          "startUs": 360000,
+          "endUs": 370000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 360000,
+          "endUs": 370000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 360000,
+          "endUs": 370000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 5920,
+        "endSample": 6080,
+        "rms": 0.07077731841545565,
+        "peak": 0.1932053118944168,
+        "ordinal": 37,
+        "sourceRange": {
+          "startUs": 370000,
+          "endUs": 380000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 370000,
+          "endUs": 380000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 370000,
+          "endUs": 380000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 6080,
+        "endSample": 6240,
+        "rms": 0.0643607657699228,
+        "peak": 0.16495327651500702,
+        "ordinal": 38,
+        "sourceRange": {
+          "startUs": 380000,
+          "endUs": 390000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 380000,
+          "endUs": 390000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 380000,
+          "endUs": 390000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 6240,
+        "endSample": 6400,
+        "rms": 0.0541028001351027,
+        "peak": 0.14385473728179932,
+        "ordinal": 39,
+        "sourceRange": {
+          "startUs": 390000,
+          "endUs": 400000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 390000,
+          "endUs": 400000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 390000,
+          "endUs": 400000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 6400,
+        "endSample": 6560,
+        "rms": 0.07020839346869565,
+        "peak": 0.20139914751052856,
+        "ordinal": 40,
+        "sourceRange": {
+          "startUs": 400000,
+          "endUs": 410000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 400000,
+          "endUs": 410000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 400000,
+          "endUs": 410000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 6560,
+        "endSample": 6720,
+        "rms": 0.18520812282069965,
+        "peak": 0.3869021236896515,
+        "ordinal": 41,
+        "sourceRange": {
+          "startUs": 410000,
+          "endUs": 420000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 410000,
+          "endUs": 420000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 410000,
+          "endUs": 420000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 6720,
+        "endSample": 6880,
+        "rms": 0.22859607181373323,
+        "peak": 0.4293820261955261,
+        "ordinal": 42,
+        "sourceRange": {
+          "startUs": 420000,
+          "endUs": 430000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 420000,
+          "endUs": 430000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 420000,
+          "endUs": 430000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 6880,
+        "endSample": 7040,
+        "rms": 0.2335510015290418,
+        "peak": 0.5162227749824524,
+        "ordinal": 43,
+        "sourceRange": {
+          "startUs": 430000,
+          "endUs": 440000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 430000,
+          "endUs": 440000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 430000,
+          "endUs": 440000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 7040,
+        "endSample": 7200,
+        "rms": 0.22527337267362021,
+        "peak": 0.540746808052063,
+        "ordinal": 44,
+        "sourceRange": {
+          "startUs": 440000,
+          "endUs": 450000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 440000,
+          "endUs": 450000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 440000,
+          "endUs": 450000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 7200,
+        "endSample": 7360,
+        "rms": 0.19285953204547587,
+        "peak": 0.4890558421611786,
+        "ordinal": 45,
+        "sourceRange": {
+          "startUs": 450000,
+          "endUs": 460000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 450000,
+          "endUs": 460000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 450000,
+          "endUs": 460000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 7360,
+        "endSample": 7520,
+        "rms": 0.22860375221937113,
+        "peak": 0.4534183144569397,
+        "ordinal": 46,
+        "sourceRange": {
+          "startUs": 460000,
+          "endUs": 470000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 460000,
+          "endUs": 470000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 460000,
+          "endUs": 470000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 7520,
+        "endSample": 7680,
+        "rms": 0.2136124306530423,
+        "peak": 0.4591870903968811,
+        "ordinal": 47,
+        "sourceRange": {
+          "startUs": 470000,
+          "endUs": 480000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 470000,
+          "endUs": 480000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 470000,
+          "endUs": 480000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 7680,
+        "endSample": 7840,
+        "rms": 0.23072608520741827,
+        "peak": 0.4846513271331787,
+        "ordinal": 48,
+        "sourceRange": {
+          "startUs": 480000,
+          "endUs": 490000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 480000,
+          "endUs": 490000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 480000,
+          "endUs": 490000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 7840,
+        "endSample": 8000,
+        "rms": 0.23806692292180628,
+        "peak": 0.48011431097984314,
+        "ordinal": 49,
+        "sourceRange": {
+          "startUs": 490000,
+          "endUs": 500000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 490000,
+          "endUs": 500000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 490000,
+          "endUs": 500000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 8000,
+        "endSample": 8160,
+        "rms": 0.19374813130076007,
+        "peak": 0.4446127414703369,
+        "ordinal": 50,
+        "sourceRange": {
+          "startUs": 500000,
+          "endUs": 510000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 500000,
+          "endUs": 510000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 500000,
+          "endUs": 510000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 8160,
+        "endSample": 8320,
+        "rms": 0.22579336955616322,
+        "peak": 0.5861806869506836,
+        "ordinal": 51,
+        "sourceRange": {
+          "startUs": 510000,
+          "endUs": 520000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 510000,
+          "endUs": 520000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 510000,
+          "endUs": 520000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 8320,
+        "endSample": 8480,
+        "rms": 0.18614282705415214,
+        "peak": 0.5316659212112427,
+        "ordinal": 52,
+        "sourceRange": {
+          "startUs": 520000,
+          "endUs": 530000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 520000,
+          "endUs": 530000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 520000,
+          "endUs": 530000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 8480,
+        "endSample": 8640,
+        "rms": 0.16785145798479328,
+        "peak": 0.5230803489685059,
+        "ordinal": 53,
+        "sourceRange": {
+          "startUs": 530000,
+          "endUs": 540000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 530000,
+          "endUs": 540000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 530000,
+          "endUs": 540000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 8640,
+        "endSample": 8800,
+        "rms": 0.16035990726348937,
+        "peak": 0.4947974979877472,
+        "ordinal": 54,
+        "sourceRange": {
+          "startUs": 540000,
+          "endUs": 550000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 540000,
+          "endUs": 550000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 540000,
+          "endUs": 550000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 8800,
+        "endSample": 8960,
+        "rms": 0.1859089027360984,
+        "peak": 0.4595632255077362,
+        "ordinal": 55,
+        "sourceRange": {
+          "startUs": 550000,
+          "endUs": 560000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 550000,
+          "endUs": 560000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 550000,
+          "endUs": 560000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 8960,
+        "endSample": 9120,
+        "rms": 0.1490575716379103,
+        "peak": 0.40137314796447754,
+        "ordinal": 56,
+        "sourceRange": {
+          "startUs": 560000,
+          "endUs": 570000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 560000,
+          "endUs": 570000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 560000,
+          "endUs": 570000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 9120,
+        "endSample": 9280,
+        "rms": 0.15716169961815937,
+        "peak": 0.38019484281539917,
+        "ordinal": 57,
+        "sourceRange": {
+          "startUs": 570000,
+          "endUs": 580000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 570000,
+          "endUs": 580000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 570000,
+          "endUs": 580000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 9280,
+        "endSample": 9440,
+        "rms": 0.13464903346843715,
+        "peak": 0.37360459566116333,
+        "ordinal": 58,
+        "sourceRange": {
+          "startUs": 580000,
+          "endUs": 590000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 580000,
+          "endUs": 590000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 580000,
+          "endUs": 590000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 9440,
+        "endSample": 9600,
+        "rms": 0.1289567185550985,
+        "peak": 0.3581634759902954,
+        "ordinal": 59,
+        "sourceRange": {
+          "startUs": 590000,
+          "endUs": 600000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 590000,
+          "endUs": 600000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 590000,
+          "endUs": 600000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 9600,
+        "endSample": 9760,
+        "rms": 0.12386367143675697,
+        "peak": 0.33328235149383545,
+        "ordinal": 60,
+        "sourceRange": {
+          "startUs": 600000,
+          "endUs": 610000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 600000,
+          "endUs": 610000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 600000,
+          "endUs": 610000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 9760,
+        "endSample": 9920,
+        "rms": 0.11265943798175762,
+        "peak": 0.3033024072647095,
+        "ordinal": 61,
+        "sourceRange": {
+          "startUs": 610000,
+          "endUs": 620000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 610000,
+          "endUs": 620000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 610000,
+          "endUs": 620000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 9920,
+        "endSample": 10080,
+        "rms": 0.08433270283727137,
+        "peak": 0.20600715279579163,
+        "ordinal": 62,
+        "sourceRange": {
+          "startUs": 620000,
+          "endUs": 630000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 620000,
+          "endUs": 630000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 620000,
+          "endUs": 630000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 10080,
+        "endSample": 10240,
+        "rms": 0.0481729725235576,
+        "peak": 0.11345572769641876,
+        "ordinal": 63,
+        "sourceRange": {
+          "startUs": 630000,
+          "endUs": 640000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 630000,
+          "endUs": 640000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 630000,
+          "endUs": 640000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 10240,
+        "endSample": 10400,
+        "rms": 0.027655074060555975,
+        "peak": 0.06282423436641693,
+        "ordinal": 64,
+        "sourceRange": {
+          "startUs": 640000,
+          "endUs": 650000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 640000,
+          "endUs": 650000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 640000,
+          "endUs": 650000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 10400,
+        "endSample": 10560,
+        "rms": 0.01248044651361083,
+        "peak": 0.025433987379074097,
+        "ordinal": 65,
+        "sourceRange": {
+          "startUs": 650000,
+          "endUs": 660000
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 650000,
+          "endUs": 660000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 650000,
+          "endUs": 660000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 10560,
+        "endSample": 10720,
+        "rms": 0.0005277542946954297,
+        "peak": 0.0012632349971681833,
+        "ordinal": 66,
+        "sourceRange": {
+          "startUs": 660000,
+          "endUs": 670000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 660000,
+          "endUs": 670000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 660000,
+          "endUs": 670000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 10720,
+        "endSample": 10880,
+        "rms": 0.0003021359514800185,
+        "peak": 0.0006699105142615736,
+        "ordinal": 67,
+        "sourceRange": {
+          "startUs": 670000,
+          "endUs": 680000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 670000,
+          "endUs": 680000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 670000,
+          "endUs": 680000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 10880,
+        "endSample": 11040,
+        "rms": 0.00018777430759756925,
+        "peak": 0.00045096338726580143,
+        "ordinal": 68,
+        "sourceRange": {
+          "startUs": 680000,
+          "endUs": 690000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 680000,
+          "endUs": 690000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 680000,
+          "endUs": 690000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 11040,
+        "endSample": 11200,
+        "rms": 0.0002077316113058069,
+        "peak": 0.0010721508879214525,
+        "ordinal": 69,
+        "sourceRange": {
+          "startUs": 690000,
+          "endUs": 700000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 690000,
+          "endUs": 700000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 690000,
+          "endUs": 700000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 11200,
+        "endSample": 11360,
+        "rms": 0.0058588493537446665,
+        "peak": 0.01629934087395668,
+        "ordinal": 70,
+        "sourceRange": {
+          "startUs": 700000,
+          "endUs": 710000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 700000,
+          "endUs": 710000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 700000,
+          "endUs": 710000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 11360,
+        "endSample": 11520,
+        "rms": 0.003991505636581206,
+        "peak": 0.01213008165359497,
+        "ordinal": 71,
+        "sourceRange": {
+          "startUs": 710000,
+          "endUs": 720000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 710000,
+          "endUs": 720000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 710000,
+          "endUs": 720000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 11520,
+        "endSample": 11680,
+        "rms": 0.001923657210761236,
+        "peak": 0.005282280966639519,
+        "ordinal": 72,
+        "sourceRange": {
+          "startUs": 720000,
+          "endUs": 730000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 720000,
+          "endUs": 730000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 720000,
+          "endUs": 730000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 11680,
+        "endSample": 11840,
+        "rms": 0.000498543988415659,
+        "peak": 0.0012036473490297794,
+        "ordinal": 73,
+        "sourceRange": {
+          "startUs": 730000,
+          "endUs": 740000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 730000,
+          "endUs": 740000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 730000,
+          "endUs": 740000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 11840,
+        "endSample": 12000,
+        "rms": 0.00022225858310946317,
+        "peak": 0.0005234167911112309,
+        "ordinal": 74,
+        "sourceRange": {
+          "startUs": 740000,
+          "endUs": 750000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 740000,
+          "endUs": 750000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 740000,
+          "endUs": 750000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 12000,
+        "endSample": 12160,
+        "rms": 0.00019873677952737733,
+        "peak": 0.0004956720513291657,
+        "ordinal": 75,
+        "sourceRange": {
+          "startUs": 750000,
+          "endUs": 760000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 750000,
+          "endUs": 760000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 750000,
+          "endUs": 760000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 12160,
+        "endSample": 12320,
+        "rms": 0.0001377821641721364,
+        "peak": 0.00040717865340411663,
+        "ordinal": 76,
+        "sourceRange": {
+          "startUs": 760000,
+          "endUs": 770000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 760000,
+          "endUs": 770000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 760000,
+          "endUs": 770000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 12320,
+        "endSample": 12480,
+        "rms": 0.00015477048601547167,
+        "peak": 0.0003775681834667921,
+        "ordinal": 77,
+        "sourceRange": {
+          "startUs": 770000,
+          "endUs": 780000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 770000,
+          "endUs": 780000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 770000,
+          "endUs": 780000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 12480,
+        "endSample": 12640,
+        "rms": 0.00010780417772574513,
+        "peak": 0.0002542539150454104,
+        "ordinal": 78,
+        "sourceRange": {
+          "startUs": 780000,
+          "endUs": 790000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 780000,
+          "endUs": 790000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 780000,
+          "endUs": 790000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 12640,
+        "endSample": 12800,
+        "rms": 0.00007294054839282101,
+        "peak": 0.0002099857374560088,
+        "ordinal": 79,
+        "sourceRange": {
+          "startUs": 790000,
+          "endUs": 800000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 790000,
+          "endUs": 800000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 790000,
+          "endUs": 800000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 12800,
+        "endSample": 12960,
+        "rms": 0.00009107217831330486,
+        "peak": 0.00023185233294498175,
+        "ordinal": 80,
+        "sourceRange": {
+          "startUs": 800000,
+          "endUs": 810000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 800000,
+          "endUs": 810000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 800000,
+          "endUs": 810000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 12960,
+        "endSample": 13120,
+        "rms": 0.00009533654717609698,
+        "peak": 0.0002923778956755996,
+        "ordinal": 81,
+        "sourceRange": {
+          "startUs": 810000,
+          "endUs": 820000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 810000,
+          "endUs": 820000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 810000,
+          "endUs": 820000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 13120,
+        "endSample": 13280,
+        "rms": 0.00009034596016479704,
+        "peak": 0.00031403236789628863,
+        "ordinal": 82,
+        "sourceRange": {
+          "startUs": 820000,
+          "endUs": 830000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 820000,
+          "endUs": 830000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 820000,
+          "endUs": 830000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 13280,
+        "endSample": 13440,
+        "rms": 0.00009754202266102544,
+        "peak": 0.000247735355515033,
+        "ordinal": 83,
+        "sourceRange": {
+          "startUs": 830000,
+          "endUs": 840000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 830000,
+          "endUs": 840000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 830000,
+          "endUs": 840000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 13440,
+        "endSample": 13600,
+        "rms": 0.00006755888663138511,
+        "peak": 0.00016387691721320152,
+        "ordinal": 84,
+        "sourceRange": {
+          "startUs": 840000,
+          "endUs": 850000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 840000,
+          "endUs": 850000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 840000,
+          "endUs": 850000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 13600,
+        "endSample": 13760,
+        "rms": 0.00007382361324307758,
+        "peak": 0.00019234645878896117,
+        "ordinal": 85,
+        "sourceRange": {
+          "startUs": 850000,
+          "endUs": 860000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 850000,
+          "endUs": 860000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 850000,
+          "endUs": 860000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 13760,
+        "endSample": 13920,
+        "rms": 0.00007424808529397305,
+        "peak": 0.00018813813221640885,
+        "ordinal": 86,
+        "sourceRange": {
+          "startUs": 860000,
+          "endUs": 870000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 860000,
+          "endUs": 870000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 860000,
+          "endUs": 870000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 13920,
+        "endSample": 14080,
+        "rms": 0.00006011359418530671,
+        "peak": 0.00018473494856152683,
+        "ordinal": 87,
+        "sourceRange": {
+          "startUs": 870000,
+          "endUs": 880000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 870000,
+          "endUs": 880000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 870000,
+          "endUs": 880000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 14080,
+        "endSample": 14240,
+        "rms": 0.000056671642737473535,
+        "peak": 0.0001575610222062096,
+        "ordinal": 88,
+        "sourceRange": {
+          "startUs": 880000,
+          "endUs": 890000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 880000,
+          "endUs": 890000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 880000,
+          "endUs": 890000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 14240,
+        "endSample": 14400,
+        "rms": 0.000048872251688720344,
+        "peak": 0.0001356631109956652,
+        "ordinal": 89,
+        "sourceRange": {
+          "startUs": 890000,
+          "endUs": 900000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 890000,
+          "endUs": 900000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 890000,
+          "endUs": 900000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 14400,
+        "endSample": 14560,
+        "rms": 0.000060784398374115894,
+        "peak": 0.00016304434393532574,
+        "ordinal": 90,
+        "sourceRange": {
+          "startUs": 900000,
+          "endUs": 910000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 900000,
+          "endUs": 910000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 900000,
+          "endUs": 910000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 14560,
+        "endSample": 14720,
+        "rms": 0.00004966978183051984,
+        "peak": 0.00012609007535502315,
+        "ordinal": 91,
+        "sourceRange": {
+          "startUs": 910000,
+          "endUs": 920000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 910000,
+          "endUs": 920000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 910000,
+          "endUs": 920000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 14720,
+        "endSample": 14880,
+        "rms": 0.000055500845180855214,
+        "peak": 0.00013378734001889825,
+        "ordinal": 92,
+        "sourceRange": {
+          "startUs": 920000,
+          "endUs": 930000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 920000,
+          "endUs": 930000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 920000,
+          "endUs": 930000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 14880,
+        "endSample": 15040,
+        "rms": 0.000058497931866710986,
+        "peak": 0.0001328370999544859,
+        "ordinal": 93,
+        "sourceRange": {
+          "startUs": 930000,
+          "endUs": 940000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 930000,
+          "endUs": 940000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 930000,
+          "endUs": 940000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 15040,
+        "endSample": 15200,
+        "rms": 2.0949561377111432e-7,
+        "peak": 0.0000024589483018644387,
+        "ordinal": 94,
+        "sourceRange": {
+          "startUs": 940000,
+          "endUs": 950000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 940000,
+          "endUs": 950000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 940000,
+          "endUs": 950000
+        }
+      ]
+    },
+    {
+      "row": {
+        "startSample": 15200,
+        "endSample": 15216,
+        "rms": 0,
+        "peak": 0,
+        "ordinal": 95,
+        "sourceRange": {
+          "startUs": 950000,
+          "endUs": 951000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "occurrence": null,
+      "sourceRanges": [
+        {
+          "startUs": 950000,
+          "endUs": 951000
+        }
+      ],
+      "projectRanges": [
+        {
+          "startUs": 950000,
+          "endUs": 951000
+        }
+      ]
+    }
+  ]
+}

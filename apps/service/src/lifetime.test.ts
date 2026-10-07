@@ -43,7 +43,7 @@ type Service = {
 async function startService(home: string): Promise<Service> {
   const child = spawn(process.execPath, [entry], {
     cwd: "/",
-    env: { ...process.env, YAP_HOME: home },
+    env: { ...process.env, YAP_HOME: home, YAP_AUTO_PREPARE_MODELS: "0" },
     stdio: ["pipe", "pipe", "pipe"],
   });
   const messages: ControlMessage[] = [];
@@ -519,6 +519,7 @@ it("announces its listener and answers health over both the pipe and the socket"
     socketPath: service.socketPath,
     home,
     node: process.versions.node,
+    models: expect.any(Array),
     uptimeMs: expect.any(Number),
     version: JSON.parse(
       await readFile(new URL("../../macos/package.json", import.meta.url), "utf8"),

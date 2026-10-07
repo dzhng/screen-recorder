@@ -1,0 +1,49 @@
+{
+  "target": "Decorations change visible pixels while text and layout remain identical; explicit imported fonts preserve emoji color and joined Devanagari glyphs.",
+  "metrics": [
+    {
+      "label": "top",
+      "crop": [
+        10,
+        10,
+        300,
+        170
+      ],
+      "changedPixels": 0,
+      "maxChannelDifference": 0
+    },
+    {
+      "label": "stroke",
+      "crop": [
+        330,
+        10,
+        300,
+        170
+      ],
+      "changedPixels": 2660,
+      "maxChannelDifference": 235
+    },
+    {
+      "label": "shadow",
+      "crop": [
+        10,
+        230,
+        300,
+        180
+      ],
+      "changedPixels": 3650,
+      "maxChannelDifference": 167
+    },
+    {
+      "label": "background",
+      "crop": [
+        330,
+        230,
+        300,
+        180
+      ],
+      "changedPixels": 9172,
+      "maxChannelDifference": 53
+    }
+  ]
+}

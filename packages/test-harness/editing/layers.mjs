@@ -13,10 +13,7 @@ const { values } = parseArgs({
   options: { case: { type: "string", default: "presenter-and-screen" }, out: { type: "string" } },
 });
 assert.equal(values.case, "presenter-and-screen");
-assert.ok(
-  process.env.YAP_NATIVE,
-  "Freeze the native compositor before running the layer journey",
-);
+assert.ok(process.env.YAP_NATIVE, "Freeze the native compositor before running the layer journey");
 const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "layers-evidence-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-layers-"));
@@ -67,7 +64,7 @@ async function delivered(params, name) {
     "CLI and MCP deliver different frames",
   );
   assert.equal(cli.revisionId, ready.revisionId);
-  return { file, receipt: cli.published.frame };
+  return { file, receipt: cli.published.output };
 }
 async function imported(fixture) {
   const pending = await call("asset.import", { requestId: fixture.sha256, path: fixture.path });
@@ -190,7 +187,7 @@ async function audioParity(selection, original, name) {
     range: selection.range,
     pcmSha256: hash(decoded),
     frames: end - start,
-    receipt: ready.published.audio,
+    receipt: ready.published.output,
   };
 }
 async function movieGeometry(file, surface, canvas, range, fixtures, name) {
@@ -209,6 +206,7 @@ async function movieGeometry(file, surface, canvas, range, fixtures, name) {
   const expected = expectedRgba(surface),
     results = [];
   for (const frame of sample) {
+    assert.equal(frame.status, "available", frame.error);
     const rgba = frame.file + ".rgba";
     await run(fixtures.pixelTool, [frame.file, rgba]);
     const actual = await readFile(rgba);

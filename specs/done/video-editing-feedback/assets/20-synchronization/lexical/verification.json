@@ -1,0 +1,24 @@
+{
+  "scope": "native independent recognition and lexical prerequisites only; no public synchronization or alignment timing claim",
+  "protocolFrozenBeforeInference": "b96a9b766a28c29ed8f8b98c9fa4e417a1c3913d8c8566a9a395a798ae27384e",
+  "nativeSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+  "actualRecognitionCalls": 9,
+  "actualTimingInferenceCalls": 0,
+  "realPairLexicalVerdicts": ["refused", "refused", "refused"],
+  "observedSharedFiveWordPhrases": 0,
+  "controls": {
+    "knownLexicalCorrespondence": "passed with unequal exact source origins retained",
+    "repeatedUtterance": "all competing occurrences retained; false first-occurrence mutation failed then restored passed",
+    "windowGap": "no concatenation across windows; false joined-window mutation failed then restored passed",
+    "emptyRecognition": "no shared utterance manufactured",
+    "completeInputBytes": "LFS pointer rejected before native launch; only required nine inputs hydrated",
+    "frozenCaptureIdentity": "changed model identity refused; removed report-hash check admitted changed identity and failed test, then restored passed",
+    "exactReplay": "all captured raw bytes and complete recomputed reports equal"
+  },
+  "focusedTests": "node --test packages/test-harness/editing/synchronization/lexical.test.mjs:4 passed",
+  "narrowFormattingAndLint": "passed on three added JavaScript files",
+  "timingControls": "not run; lexical prerequisite failed",
+  "originalWaveformProtocol": "unchanged",
+  "synchronizationPromotion": "none",
+  "remaining": "mixed/reference bridge discovery and separately frozen candidate with unchanged precision/long-span controls"
+}

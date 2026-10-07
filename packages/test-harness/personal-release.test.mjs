@@ -44,6 +44,12 @@ test("a repeated ready transcript cursor stops the caller before another page re
   const calls = readFileSync(trace, "utf8").trim().split("\n").map(JSON.parse);
   assert.deepEqual(
     calls
+      .filter((call) => ["transcript.prepare", "transcript.get"].includes(call.operation))
+      .map((call) => call.operation),
+    ["transcript.prepare", "transcript.get", "transcript.get"],
+  );
+  assert.deepEqual(
+    calls
       .filter((call) => call.operation === "transcript.get")
       .map((call) => call.params.cursor ?? null),
     [
@@ -488,7 +494,7 @@ test("personal release keeps search evidence separate from its explicit source-r
     { startUs: 3800000, endUs: 6900000 },
     "before-cut padding keeps its requested context across an unavailable interval",
   );
-  assert.deepEqual(preCutAudio.response.data.published.audio.unavailable, [
+  assert.deepEqual(preCutAudio.response.data.published.output.unavailable, [
     { startUs: 4000000, endUs: 5000000 },
   ]);
   const journey = JSON.parse(readFileSync(join(output, "journey.json"), "utf8"));

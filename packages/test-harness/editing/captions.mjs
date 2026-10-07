@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { captionClock } from "./caption-clock.mjs";
+import { captionTimedMotion } from "./caption-timed-motion.mjs";
 import { captionSeeds } from "./caption-seeds.mjs";
+import { styledCaptionSheet } from "./styled-caption-sheet.mjs";
 import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -16,6 +18,8 @@ assert.ok(
     "unicode",
     "repeated-retimed-speech",
     "caption-clock",
+    "styled-sheet",
+    "timed-motion",
   ].includes(values.case),
 );
 assert.ok(values.out && process.env.YAP_NATIVE);
@@ -41,12 +45,12 @@ async function admit(path) {
     (value) => value.state === "ready",
     "asset",
   );
-  return call("asset.get", { assetId: job.result.assetId });
+  return call("asset.get", { assetId: job.published.output.assetId });
 }
 async function rgba(path) {
   return (
     await run(
-      "/opt/homebrew/bin/ffmpeg",
+      process.env.FFMPEG ?? "ffmpeg",
       ["-v", "error", "-i", path, "-f", "rawvideo", "-pix_fmt", "rgba", "-"],
       { encoding: "buffer", maxBuffer: 8 * 1024 * 1024 },
     )
@@ -67,7 +71,7 @@ async function picture(selection, name) {
     Buffer.from(mcp.content.find((content) => content.type === "image").data, "base64"),
     bytes,
   );
-  const row = { name, selection, sha256: hash(bytes), receipt: result.published.frame };
+  const row = { name, selection, sha256: hash(bytes), receipt: result.published.output };
   report.pictures.push(row);
   return { path, bytes, receipt: row.receipt };
 }
@@ -254,6 +258,57 @@ try {
       assert.equal(result.state, "failed", JSON.stringify(job));
       assert.equal(job.errorCode, "UNSUPPORTED_MEDIA");
       assert.match(job.reason, /FONT_SUBSTITUTED|FONT_GLYPH_MISSING/);
+    }
+    for (const [name, path, postScriptName, text] of [
+      ["color-emoji", "/System/Library/Fonts/Apple Color Emoji.ttc", ".AppleColorEmojiUI", "😀"],
+      [
+        "devanagari",
+        "/System/Library/Fonts/Supplemental/Devanagari Sangam MN.ttc",
+        "DevanagariSangamMN",
+        "नमस्ते दुनिया",
+      ],
+    ]) {
+      const imported = await admit(path);
+      assert.ok(imported.fontFaces.some((face) => face.postScriptName === postScriptName));
+      await p.edit([
+        {
+          operation: "text.set",
+          clipId: placed.edit.labels["a-text"],
+          source: {
+            ...source,
+            text,
+            font: { assetId: imported.id, postScriptName },
+            size: 40,
+            verticalAlignment: "center",
+            alignment: "center",
+          },
+        },
+      ]);
+      const rendered = await picture({ ...p.selection(), atUs: 0 }, name);
+      const layout = rendered.receipt.pictures[0].layout;
+      assert.equal(layout.text, text);
+      assert.deepEqual(layout.visibleRange, [0, text.length]);
+      assert.deepEqual([...new Set(layout.lines.flatMap((line) => line.fonts))], [postScriptName]);
+      const pixels = await rgba(rendered.path);
+      let foregroundPixels = 0,
+        coloredPixels = 0;
+      for (let i = 0; i < pixels.length; i += 4) {
+        const channels = [pixels[i], pixels[i + 1], pixels[i + 2]];
+        if (Math.max(...channels) > 32) foregroundPixels++;
+        if (Math.max(...channels) - Math.min(...channels) > 32) coloredPixels++;
+      }
+      assert.ok(foregroundPixels > 100, `${name}: visible glyphs`);
+      if (name === "color-emoji") assert.ok(coloredPixels > 100, "Emoji must retain color");
+      report.checks.push({
+        name,
+        fontAssetId: imported.id,
+        postScriptName,
+        text,
+        exactUTF16: true,
+        noSubstitutedFonts: true,
+        foregroundPixels,
+        coloredPixels,
+      });
     }
   }
   if (values.case === "anchors") {
@@ -537,8 +592,8 @@ try {
       "adopt font package",
     );
     const adopted = {
-      project: await call("project.get", { projectId: adoption.result.projectId }),
-      revision: { id: adoption.result.revisionId },
+      project: await call("project.get", { projectId: adoption.published.output.projectId }),
+      revision: { id: adoption.published.output.revisionId },
     };
     const adoptedCurrent = await picture(
       { projectId: adopted.project.projectId, revisionId: adopted.revision.id, atUs: 0 },
@@ -728,6 +783,10 @@ try {
   }
   if (values.case === "caption-clock")
     await captionClock({ call, out, font, project, admit, picture, report });
+  if (values.case === "timed-motion")
+    await captionTimedMotion({ call, out, home, font, project, admit, picture, report, rgba });
+  if (values.case === "styled-sheet")
+    await styledCaptionSheet({ project, picture, font, report, rgba });
   report.passed = true;
 } finally {
   await service.stop();

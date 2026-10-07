@@ -1,3 +1,4 @@
+import { verifyJoin } from "./join-verification.js";
 import { AssetConversionJobs, assetConversionRuntime } from "./asset-conversion.js";
 import { UpdateAdmission } from "./update-admission.js";
 import { RecordingDeletion } from "./deletion.js";
@@ -6,12 +7,19 @@ import { ManagedStorage } from "@yap/core/storage";
 import { VoiceGenerationJobs } from "@yap/core/voice-generation";
 import { voiceRenderer } from "./voice.js";
 import { AudioExtraction } from "@yap/core/audio-extraction";
+import { RenderedSpeech } from "@yap/core/rendered-speech";
 import { assetProbe } from "./media-probe.js";
 import { sourceExporter } from "./source-export.js";
 import { PreparedAudioStore } from "@yap/core/prepared-audio";
 import { projectComposition } from "@yap/core/project-window";
 import { selectSource } from "@yap/core/source-selection";
-import { outputCapabilities, audioOutputCapabilities } from "@yap/composition";
+import {
+  outputCapabilities,
+  audioOutputCapabilities,
+  createSourceRangeProjection,
+  compare,
+  fromTime,
+} from "@yap/composition";
 import { ProjectPackages } from "./project-packages.js";
 import { writeFile } from "node:fs/promises";
 import { AcousticInspection } from "@yap/core/acoustic-inspection";
@@ -29,6 +37,7 @@ import type { SourceVisualObservations } from "@yap/core/source-scenes";
 import { MediaAudioInspection } from "@yap/core/audio-inspection";
 import { ProjectEvidenceInspection } from "@yap/core/project-evidence";
 import { Models } from "@yap/core/models";
+import { runtimeMaterializer } from "./runtime-materialization.js";
 import { TranscriptStore, type SpeechTranscriptionReceipt } from "@yap/core/transcript";
 import { TranscriptProcessing, assetTranscriptOwner } from "@yap/core/transcript-processing";
 import { SourceTranscriptRead } from "@yap/core/transcript-read";
@@ -51,7 +60,7 @@ import { DerivedCache } from "@yap/core/cache";
 import { ManagedFiles } from "./managed-files.js";
 import { ProjectDeletion } from "./project-deletion.js";
 import { ProjectStore } from "@yap/core/projects";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { AssetStore } from "@yap/core/assets";
 import { CatalogError } from "@yap/core/catalog";
@@ -63,6 +72,7 @@ import type { Readable, Writable } from "node:stream";
 import { JobQueue, type JobTargets } from "@yap/core/jobs";
 import {
   operationSchema,
+  publishedOutput,
   operationNames,
   operationError,
   serviceSocketPath,
@@ -92,10 +102,44 @@ import { operationFailure } from "./operation-errors.js";
 import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
 import { audioProcessingRuntime } from "./audio-processing.js";
 import { ffmpegLoudnessAnalyzer } from "./loudness.js";
+import { AlignmentEvidenceStore, assetAlignmentOwner } from "@yap/core/alignment-evidence";
+import { AlignmentProcessing } from "@yap/core/alignment-processing";
+import { SourceAlignmentRead } from "@yap/core/alignment-read";
+import { projectAlignmentRows, projectTapAlignmentRows } from "@yap/core/project-alignment";
+import { alignmentObserver } from "./alignment.js";
 import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
 import { SpeakerProcessing } from "@yap/core/speaker-processing";
 import { SourceSpeakerRead } from "@yap/core/speaker-read";
-import { speakerDecoder, speakerObserver } from "./speaker.js";
+import { attributeTranscriptWords } from "@yap/core/speaker-attribution";
+import { speakerObserver } from "./speaker.js";
+import { SpeakerLabelStore } from "@yap/core/speaker-labels";
+import type { SelectionRange } from "@yap/composition";
+import { sourcePCMDecoder } from "./source-channel.js";
+
+type TranscriptSpeakerRequest = {
+  streamId: string;
+  acquisitionId?: string;
+  channel: number;
+  modelId: string;
+  observationRange: SelectionRange;
+  generation: string;
+};
+type TranscriptSpeakerCursor = TranscriptSpeakerRequest & { bindingDigest?: string };
+
+function sameTranscriptSpeakerRequest(
+  a: TranscriptSpeakerRequest,
+  b: TranscriptSpeakerRequest,
+): boolean {
+  return (
+    a.streamId === b.streamId &&
+    a.acquisitionId === b.acquisitionId &&
+    a.channel === b.channel &&
+    a.modelId === b.modelId &&
+    a.generation === b.generation &&
+    a.observationRange.startUs === b.observationRange.startUs &&
+    a.observationRange.endUs === b.observationRange.endUs
+  );
+}
 
 export async function startProjectService(options: {
   home: string;
@@ -223,12 +267,23 @@ export async function startProjectService(options: {
     const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
     const nativeExecutable = options.nativeExecutable ?? process.env.YAP_NATIVE;
     const worker = options.worker ?? mediaWorker({ ...process.env, YAP_NATIVE: nativeExecutable });
-    const models = new Models(library);
+    const models = new Models(
+      library,
+      globalThis.fetch,
+      undefined,
+      runtimeMaterializer(nativeExecutable),
+    );
+    const speakerLabels = new SpeakerLabelStore(catalog);
     const speakerRecords = new SpeakerEvidenceStore(
       catalog,
       assetSpeakerOwner(assets, acquisitions),
+      (identity) => speakerLabels.remove(identity),
     );
-    const decoder = await speakerDecoder(worker, nativeExecutable, modelLifetime.signal);
+    const alignmentRecords = new AlignmentEvidenceStore(
+      catalog,
+      assetAlignmentOwner(assets, acquisitions),
+    );
+    const decoder = await sourcePCMDecoder(worker, nativeExecutable, modelLifetime.signal);
     modelsOwner = models;
     // Lifecycle models are acquired in the background at service startup so the first
     // transcript request never becomes the installer's setup wizard. The manifest owns
@@ -316,10 +371,12 @@ export async function startProjectService(options: {
     let mediaFrames: MediaFrameInspection;
     let transcripts: TranscriptProcessing;
     let speakers: SpeakerProcessing;
+    let alignments: AlignmentProcessing;
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
     let preparedAudio: PreparedAudioStore;
     let extractedAudio: AudioExtraction;
+    let renderedSpeech: RenderedSpeech;
     let generatedVoice: VoiceGenerationJobs;
     let convertedAssets: AssetConversionJobs;
     let acoustics: AcousticInspection;
@@ -346,6 +403,7 @@ export async function startProjectService(options: {
         if (job.artifact === "asset-conversion") return convertedAssets.execute({ job, signal });
         if (job.artifact === "voice-generation") return generatedVoice.execute({ job, signal });
         if (job.artifact === "audio-extract") return extractedAudio.execute({ job, signal });
+        if (job.artifact === "rendered-speech") return renderedSpeech.execute({ job, signal });
         if (job.artifact === "prepared-audio") return preparedAudio.execute({ job, signal });
         if (job.artifact === "pointer-presentation") return pointers.execute({ job, signal });
         if (
@@ -372,6 +430,11 @@ export async function startProjectService(options: {
           return mediaAudio.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "project.evidence")
           return projectEvidence.execute({ job, signal });
+        if (
+          (job.target.kind === "asset" && job.artifact === "source-alignment") ||
+          (job.target.kind === "project" && job.artifact === "project-alignment")
+        )
+          return alignments.execute({ job, signal });
         if (job.target.kind === "asset" && job.artifact === "source-speakers")
           return speakers.execute({ job, signal });
         if (job.artifact === "transcript") return transcripts.execute({ job, signal });
@@ -427,6 +490,61 @@ export async function startProjectService(options: {
       evidence: speakerRecords,
       decoder,
       observe: speakerObserver(worker, workspace),
+    });
+    alignments = new AlignmentProcessing({
+      assets,
+      acquisitions,
+      models,
+      jobs: queue,
+      evidence: alignmentRecords,
+      decoder,
+      observe: alignmentObserver(worker, workspace),
+      project: {
+        resolve(input) {
+          const composition = projectComposition(projects, assets, {
+              projectId: input.projectId,
+              revisionId: input.revisionId,
+            }),
+            end = fromTime(input.range.endUs),
+            duration = fromTime(composition.model.durationUs);
+          if (compare(end, duration) > 0)
+            throw new CatalogError(
+              "INVALID_RANGE",
+              "Project alignment range exceeds the pinned revision",
+            );
+          const prepared = preparedAudio.resolve(composition, input.tap, input.preparedResourceId);
+          if (!prepared)
+            throw new CatalogError(
+              "NOT_READY",
+              "Prepared project tap is not ready",
+              {
+                projectId: input.projectId,
+                revisionId: composition.revisionId,
+                preparedResourceId: input.preparedResourceId,
+              },
+              true,
+            );
+          const asset = assets.get(prepared.audio.assetId),
+            stream = asset.streams.find((value) => value.kind === "audio");
+          if (!stream)
+            throw new CatalogError("UNSUPPORTED_MEDIA", "Prepared project tap has no audio stream");
+          if (input.channel >= (stream.channels ?? 0))
+            throw new CatalogError("INVALID_PARAMS", "Project alignment channel is unavailable");
+          return {
+            source: {
+              assetId: prepared.audio.assetId,
+              streamId: stream.id,
+              channel: input.channel,
+              sourceRange: input.range,
+              text: input.text,
+              modelId: input.modelId,
+            },
+            projectId: input.projectId,
+            revisionId: composition.revisionId,
+            preparedResourceId: prepared.resourceId,
+          };
+        },
+      },
     });
     transcripts = new TranscriptProcessing({
       jobs: queue,
@@ -526,6 +644,15 @@ export async function startProjectService(options: {
       },
     });
     await extractedAudio.recover();
+    renderedSpeech = new RenderedSpeech({
+      catalog,
+      projects,
+      assets,
+      jobs: queue,
+      extraction: extractedAudio,
+      transcripts,
+      records: transcriptStore,
+    });
     generatedVoice = new VoiceGenerationJobs({
       assets,
       jobs: queue,
@@ -595,7 +722,12 @@ export async function startProjectService(options: {
       events: sourceEvents,
       speakers: {
         resolveMany: (selections, choice) => speakers.resolveMany(selections, choice),
+        sourceStatus: (input) => speakers.sourceStatus(input),
         records: speakerRecords,
+        labels: (metadata) =>
+          new Map(
+            speakerLabels.read(metadata).map((binding) => [binding.slot, binding.displayName]),
+          ),
       },
     });
     preview = new ProjectPreviewInspection(
@@ -630,7 +762,7 @@ export async function startProjectService(options: {
       cache,
       project: { projects, renderer: projectPictures },
       imageRenderer: {
-        implementationId: "native-source-image-v1",
+        implementationId: "native-source-image-v2",
         render: async (request, signal) =>
           withRenderedFile(
             worker,
@@ -641,7 +773,7 @@ export async function startProjectService(options: {
           ),
       },
       sourceRenderer: {
-        implementationId: "native-source-picture-v5",
+        implementationId: "native-source-picture-v6",
         render: async (request, signal) =>
           withRenderedFile(
             worker,
@@ -704,22 +836,24 @@ export async function startProjectService(options: {
       input:
         | Parameters<IndexProcessing["frameProject"]>[0]
         | Parameters<IndexProcessing["frameSource"]>[0],
-    ) =>
-      "projectId" in input
-        ? {
-            ...indexes.frameProject(input),
-            delivery: delivery.open({ kind: "project", id: input.projectId }, () =>
-              indexes.openReadProject(input),
-            ),
-          }
-        : {
-            ...indexes.frameSource(input),
-            delivery: delivery.open({ kind: "asset", id: input.assetId }, () =>
-              indexes.openReadSource(input),
-            ),
-          };
+    ) => {
+      const frame = "projectId" in input ? indexes.frameProject(input) : indexes.frameSource(input);
+      return {
+        ...frame,
+        published: publishedOutput({ generation: frame.generation }, () => frame.published.frame),
+        delivery:
+          "projectId" in input
+            ? delivery.open({ kind: "project", id: input.projectId }, () =>
+                indexes.openReadProject(input),
+              )
+            : delivery.open({ kind: "asset", id: input.assetId }, () =>
+                indexes.openReadSource(input),
+              ),
+      };
+    };
     const frameDelivery = (status: ReturnType<MediaFrameInspection["request"]>) => ({
       ...status,
+      published: publishedOutput(status.published, (value) => value.frame),
       delivery: status.published
         ? delivery.open(
             "projectId" in status
@@ -735,7 +869,10 @@ export async function startProjectService(options: {
       sceneRecords,
       scenes,
       speakerRecords,
+      speakerLabels,
       speakers,
+      alignmentRecords,
+      alignments,
       transcriptRecords: transcriptStore,
       transcripts,
       indexRecords: sourceIndex,
@@ -764,6 +901,7 @@ export async function startProjectService(options: {
     storage = managedStorage;
     queue.startAdmission((job) => {
       if (job.target.kind === "project") {
+        if (job.artifact === "rendered-speech") return renderedSpeech.admit(job);
         if (job.artifact === "audio-file") return mediaAudio.admitExport(job);
         if (job.artifact === "preview") return preview.admit(job);
         if (job.artifact === "frame") return mediaFrames.admit(job);
@@ -774,6 +912,7 @@ export async function startProjectService(options: {
     await transcripts.cleanup(modelLifetime.signal);
     await scenes.cleanup(modelLifetime.signal);
     await speakers.cleanup(modelLifetime.signal);
+    await alignments.cleanup(modelLifetime.signal);
     await indexes.cleanup(modelLifetime.signal);
     const projectDeletion = new ProjectDeletion(
       projects,
@@ -907,8 +1046,15 @@ export async function startProjectService(options: {
           }
           case "index.retry": {
             const params = operation.params;
-            if ("projectId" in params) return { ok: true, data: indexes.retryProject(params) };
-            return { ok: true, data: indexes.retrySource(params) };
+            const status =
+              "projectId" in params ? indexes.retryProject(params) : indexes.retrySource(params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.evidence),
+              },
+            };
           }
           case "index.coverage": {
             const params = operation.params;
@@ -973,23 +1119,198 @@ export async function startProjectService(options: {
             }
             return { ok: true, data: await models.status(modelId) };
           }
-          case "speaker.prepare":
-            return { ok: true, data: speakers.prepareSource(operation.params) };
-          case "speaker.get": {
-            if ("projectId" in operation.params)
+          case "alignment.prepare": {
+            const params = operation.params;
+            if ("projectId" in params) {
+              const status = alignments.prepareProject(params);
               return {
                 ok: true,
-                data:
-                  operation.params.packageHandle === undefined
-                    ? await projectEvidence.speakers(operation.params)
-                    : projectPackages.projectSpeakers(
-                        operation.params.packageHandle,
-                        (() => {
-                          const { packageHandle, view, ...input } = operation.params;
-                          return input;
-                        })(),
-                      ),
+                data: {
+                  ...status,
+                  tap: params.tap,
+                  published: publishedOutput(status.published, (value) => value.evidence),
+                },
               };
+            }
+            const status = alignments.prepareSource(params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.evidence),
+              },
+            };
+          }
+          case "alignment.get": {
+            const params = operation.params;
+            if ("projectId" in params) {
+              const composition = projectComposition(projects, assets, {
+                projectId: params.projectId,
+                revisionId: params.revisionId,
+              });
+              const prepared = preparedAudio.resolve(
+                composition,
+                params.tap,
+                params.preparedResourceId,
+              );
+              if (!prepared)
+                throw new CatalogError(
+                  "NOT_READY",
+                  "Prepared project tap is not ready",
+                  {
+                    projectId: params.projectId,
+                    revisionId: composition.revisionId,
+                    preparedResourceId: params.preparedResourceId,
+                  },
+                  true,
+                );
+              const identity = {
+                  owner: { kind: "asset" as const, assetId: params.assetId },
+                  generation: params.generation,
+                  policy: "alignment-v1" as const,
+                },
+                metadata = alignmentRecords.metadata(identity),
+                query = {
+                  view: params.view,
+                  sourceRange: params.sourceRange,
+                  thresholdRMS: params.thresholdRMS,
+                  limit: params.limit,
+                  cursor: params.cursor,
+                },
+                sourcePage = new SourceAlignmentRead(
+                  alignmentRecords,
+                  metadata,
+                  JSON.stringify({
+                    projectId: params.projectId,
+                    revisionId: composition.revisionId,
+                    tap: params.tap,
+                    preparedResourceId: prepared.resourceId,
+                    range: params.range ?? { startUs: 0, endUs: composition.model.durationUs },
+                    trackIds: params.trackIds ?? null,
+                  }),
+                ).page(query),
+                range = params.range ?? { startUs: 0, endUs: composition.model.durationUs },
+                occurrences = createSourceRangeProjection(composition.model).window({
+                  range,
+                  ...(params.trackIds === undefined ? {} : { trackIds: params.trackIds }),
+                }),
+                rows =
+                  "rows" in sourcePage
+                    ? metadata.owner.assetId === prepared.audio.assetId
+                      ? projectTapAlignmentRows(sourcePage.rows, range)
+                      : projectAlignmentRows(
+                          sourcePage.rows,
+                          occurrences.filter(
+                            (occurrence) =>
+                              occurrence.assetId === metadata.owner.assetId &&
+                              occurrence.streamId === metadata.source.streamId &&
+                              (occurrence.acquisitionId ?? null) === metadata.source.acquisitionId,
+                          ),
+                        )
+                    : [];
+              return {
+                ok: true,
+                data: {
+                  projectId: params.projectId,
+                  revisionId: composition.revisionId,
+                  preparedResourceId: prepared.resourceId,
+                  state: "ready",
+                  generation: params.generation,
+                  view: sourcePage.view,
+                  rows,
+                  nextCursor: sourcePage.nextCursor,
+                },
+              };
+            }
+            const { assetId, generation, packageHandle, ...query } = params;
+            if (packageHandle)
+              return {
+                ok: true,
+                data: projectPackages.sourceAlignment(packageHandle, assetId, generation, query),
+              };
+            const identity = {
+              owner: { kind: "asset" as const, assetId },
+              generation,
+              policy: "alignment-v1" as const,
+            };
+            const metadata = (() => {
+              try {
+                return alignmentRecords.metadata(identity);
+              } catch (error) {
+                if (
+                  query.view === "raw" &&
+                  error instanceof CatalogError &&
+                  error.code === "NOT_READY"
+                )
+                  return alignmentRecords.capturedMetadata(identity);
+                throw error;
+              }
+            })();
+            return {
+              ok: true,
+              data: {
+                assetId,
+                state: "wordCount" in metadata ? "ready" : "captured",
+                generation,
+                page: new SourceAlignmentRead(alignmentRecords, metadata).page(query),
+              },
+            };
+          }
+          case "speaker.prepare": {
+            const status = speakers.prepareSource(operation.params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.evidence),
+              },
+            };
+          }
+          case "speaker.get": {
+            if ("projectId" in operation.params) {
+              if (operation.params.packageHandle !== undefined)
+                return {
+                  ok: true,
+                  data: projectPackages.projectSpeakers(
+                    operation.params.packageHandle,
+                    (() => {
+                      const input = { ...operation.params };
+                      delete input.packageHandle;
+                      delete input.view;
+                      return input;
+                    })(),
+                  ),
+                };
+              const result = await projectEvidence.speakers(operation.params);
+              const labelsByGeneration = new Map<string, Map<number, string>>();
+              const rows = result.page?.rows.map((row) => {
+                const key = `${row.assetId}:${row.generation}`;
+                let labels = labelsByGeneration.get(key);
+                if (!labels) {
+                  labels = new Map(
+                    speakerLabels
+                      .read({
+                        owner: { kind: "asset", assetId: row.assetId },
+                        sourceId: row.assetId,
+                        generation: row.generation,
+                        policy: "speaker-v1",
+                      })
+                      .map((binding) => [binding.slot, binding.displayName]),
+                  );
+                  labelsByGeneration.set(key, labels);
+                }
+                return labels.has(row.slot) ? { ...row, label: labels.get(row.slot)! } : row;
+              });
+              return {
+                ok: true,
+                data: {
+                  ...result,
+                  ...(result.page === null || rows === undefined
+                    ? {}
+                    : { page: { ...result.page, rows } }),
+                },
+              };
+            }
             const {
               observationRange,
               sourceRange,
@@ -1023,25 +1344,114 @@ export async function startProjectService(options: {
               return { ok: true, data: { ...current, page: null } };
             }
             const metadata = current.published.evidence;
-            const page = new SourceSpeakerRead(speakerRecords, metadata).page({
+            const labels = new Map(
+              speakerLabels.read(metadata).map((binding) => [binding.slot, binding.displayName]),
+            );
+            const page = new SourceSpeakerRead(
+              speakerRecords,
+              metadata,
+              JSON.stringify([...labels.entries()]),
+            ).page({
               ...(sourceRange === undefined ? {} : { sourceRange }),
               ...(view === undefined ? {} : { view }),
               ...(limit === undefined ? {} : { limit }),
               ...(cursor === undefined ? {} : { cursor }),
             });
+            const labeledPage =
+              view === "scores"
+                ? page
+                : {
+                    ...page,
+                    rows: page.rows.map((row) =>
+                      "slot" in row && labels.has(row.slot)
+                        ? { ...row, label: labels.get(row.slot)! }
+                        : row,
+                    ),
+                  };
             return {
               ok: true,
-              data: { ...selection, state: "ready", generation: metadata.generation, page },
+              data: {
+                ...selection,
+                state: "ready",
+                generation: metadata.generation,
+                page: labeledPage,
+              },
             };
           }
-          case "transcript.retry":
+          case "speaker.bind": {
+            const { observationRange, generation, bindings, ...selection } = operation.params;
+            const current = speakers.sourceStatus({ ...selection, sourceRange: observationRange });
+            if (!current.published || current.published.evidence.generation !== generation)
+              throw new CatalogError(
+                "ARTIFACT_CHANGED",
+                "Speaker generation is no longer published",
+              );
+            const metadata = current.published.evidence;
+            const labels = speakerLabels.bind(metadata, bindings);
             return {
               ok: true,
-              data:
-                "projectId" in operation.params
-                  ? projectEvidence.retry(operation.params)
-                  : transcripts.retrySource(operation.params),
+              data: { ...selection, observationRange, generation, bindings: labels },
             };
+          }
+          case "join.verify": {
+            const composition = projectComposition(projects, assets, operation.params);
+            return {
+              ok: true,
+              data: await verifyJoin(operation.params, {
+                composition,
+                preparedAudio,
+                alignments: alignmentRecords,
+                renderedSpeech,
+                signal: requestSignal,
+              }),
+            };
+          }
+          case "transcript.render.prepare":
+          case "transcript.render.retry": {
+            const status = renderedSpeech[
+              operation.operation === "transcript.render.retry" ? "retry" : "prepare"
+            ](operation.params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.speech),
+              },
+            };
+          }
+          case "transcript.render.get":
+            return { ok: true, data: renderedSpeech.get(operation.params) };
+          case "transcript.prepare": {
+            transcripts.prepareSource(operation.params);
+            const status = transcripts.sourceStatus(operation.params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.transcript),
+              },
+            };
+          }
+          case "transcript.retry": {
+            if ("projectId" in operation.params) {
+              const status = projectEvidence.retry(operation.params);
+              return {
+                ok: true,
+                data: {
+                  ...status,
+                  published: publishedOutput(status.published, (value) => value.value),
+                },
+              };
+            }
+            const status = transcripts.retrySource(operation.params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.transcript),
+              },
+            };
+          }
           case "transcript.get":
           case "transcript.search": {
             const params = operation.params;
@@ -1060,10 +1470,26 @@ export async function startProjectService(options: {
                 ? {}
                 : { acquisitionId: params.acquisitionId }),
             };
-            const current =
-              "prepare" in params && params.prepare === false
-                ? transcripts.sourceStatus(selection)
-                : transcripts.publishedSource(selection);
+            const generation = params.generation ?? params.cursor?.generation;
+            const sourceParams = params as typeof params & {
+              speaker?: TranscriptSpeakerRequest;
+              cursor?: { speaker?: TranscriptSpeakerCursor } & Record<string, unknown>;
+            };
+            const cursorSpeaker = sourceParams.cursor?.speaker;
+            const speakerRequest = sourceParams.speaker ?? cursorSpeaker;
+            if (
+              sourceParams.speaker &&
+              cursorSpeaker &&
+              !sameTranscriptSpeakerRequest(sourceParams.speaker, cursorSpeaker)
+            )
+              throw new CatalogError(
+                "ARTIFACT_CHANGED",
+                "Transcript continuation used another speaker generation",
+              );
+            const current = transcripts.sourceStatus({
+              ...selection,
+              ...(generation === undefined ? {} : { generation }),
+            });
             if (!current.published) {
               if (params.cursor)
                 throw new CatalogError(
@@ -1074,14 +1500,106 @@ export async function startProjectService(options: {
             }
             const metadata = current.published.transcript;
             const read = new SourceTranscriptRead(transcriptStore, metadata);
-            const page = "text" in params ? read.search(params) : read.page(params);
+            const sourceCursor = sourceParams.cursor
+              ? (() => {
+                  const { speaker: _speaker, ...cursor } = sourceParams.cursor!;
+                  return cursor;
+                })()
+              : undefined;
+            const page =
+              "text" in params
+                ? read.search({ text: params.text, cursor: sourceCursor, limit: params.limit })
+                : read.page({ range: params.range, cursor: sourceCursor, limit: params.limit });
+            let attributedPage = page;
+            let pinnedSpeaker: TranscriptSpeakerCursor | undefined;
+            if (speakerRequest && "rows" in page) {
+              const speakerStatus = speakers.sourceStatus({
+                assetId: selection.assetId,
+                streamId: speakerRequest.streamId,
+                ...(speakerRequest.acquisitionId === undefined
+                  ? {}
+                  : { acquisitionId: speakerRequest.acquisitionId }),
+                channel: speakerRequest.channel,
+                modelId: speakerRequest.modelId,
+                sourceRange: speakerRequest.observationRange,
+              });
+              if (!speakerStatus.published) {
+                throw new CatalogError(
+                  "NOT_READY",
+                  "Speaker evidence is not ready for transcript attribution",
+                  {},
+                  speakerStatus.retryable,
+                );
+              }
+              if (speakerStatus.published.evidence.generation !== speakerRequest.generation)
+                throw new CatalogError(
+                  "ARTIFACT_CHANGED",
+                  "Transcript attribution generation is no longer published",
+                );
+              const labels = new Map(
+                speakerLabels
+                  .read(speakerStatus.published.evidence)
+                  .map((binding) => [binding.slot, binding.displayName]),
+              );
+              const bindingDigest = createHash("sha256")
+                .update(JSON.stringify([...labels.entries()]))
+                .digest("hex");
+              if (cursorSpeaker?.bindingDigest && cursorSpeaker.bindingDigest !== bindingDigest)
+                throw new CatalogError("ARTIFACT_CHANGED", "Transcript attribution labels changed");
+              pinnedSpeaker = { ...speakerRequest, bindingDigest };
+              const speakerRead = new SourceSpeakerRead(
+                speakerRecords,
+                speakerStatus.published.evidence,
+                JSON.stringify([...labels.entries()]),
+              );
+              const turns: { slot: number; sourceRange: SelectionRange }[] = [];
+              let speakerCursor: string | undefined;
+              do {
+                const speakerPage = speakerRead.page({
+                  view: "intervals",
+                  sourceRange: speakerRequest.observationRange,
+                  limit: 1000,
+                  ...(speakerCursor === undefined ? {} : { cursor: speakerCursor }),
+                });
+                turns.push(
+                  ...speakerPage.rows
+                    .filter(
+                      (row): row is Extract<(typeof speakerPage.rows)[number], { slot: number }> =>
+                        "slot" in row,
+                    )
+                    .map((row) => ({ slot: row.slot, sourceRange: row.sourceRange })),
+                );
+                speakerCursor = speakerPage.nextCursor ?? undefined;
+              } while (speakerCursor);
+              const words = page.rows.filter((row) => row.type === "word");
+              const decorated = attributeTranscriptWords(words, turns, { labels });
+              const byId = new Map(decorated.map((word) => [word.id, word.speaker]));
+              attributedPage = {
+                ...page,
+                rows: page.rows.map((row) =>
+                  row.type === "word" ? { ...row, speaker: byId.get(row.id)! } : row,
+                ),
+              };
+            }
             return {
               ok: true,
               data: {
                 ...selection,
                 state: "ready",
                 generation: metadata.generation,
-                page: { transcript: metadata, ...page },
+                page: {
+                  transcript: metadata,
+                  ...attributedPage,
+                  ...(pinnedSpeaker === undefined ? {} : { speaker: pinnedSpeaker }),
+                  ...(attributedPage.nextCursor === null
+                    ? {}
+                    : {
+                        nextCursor: {
+                          ...attributedPage.nextCursor,
+                          ...(pinnedSpeaker === undefined ? {} : { speaker: pinnedSpeaker }),
+                        },
+                      }),
+                },
               },
             };
           }
@@ -1166,12 +1684,7 @@ export async function startProjectService(options: {
               ok: true,
               data: {
                 ...status,
-                published: status.published
-                  ? {
-                      generation: status.published.generation,
-                      [spectrum ? "spectrogram" : "waveform"]: status.published.artifact,
-                    }
-                  : null,
+                published: publishedOutput(status.published, (value) => value.artifact),
                 delivery: status.published
                   ? delivery.open(
                       "projectId" in status
@@ -1190,12 +1703,10 @@ export async function startProjectService(options: {
               data: {
                 ...operation.params,
                 ...status,
-                published: status.published
-                  ? {
-                      generation: status.published.generation,
-                      audio: JSON.parse(status.published.result),
-                    }
-                  : null,
+                published: publishedOutput(
+                  status.published,
+                  (value) => JSON.parse(value.result) as unknown,
+                ),
               },
             };
           }
@@ -1206,12 +1717,10 @@ export async function startProjectService(options: {
               data: {
                 ...operation.params,
                 ...status,
-                published: status.published
-                  ? {
-                      generation: status.published.generation,
-                      excerpt: JSON.parse(status.published.result),
-                    }
-                  : null,
+                published: publishedOutput(
+                  status.published,
+                  (value) => JSON.parse(value.result) as unknown,
+                ),
               },
             };
           }
@@ -1222,31 +1731,30 @@ export async function startProjectService(options: {
               data: {
                 ...operation.params,
                 ...prepared,
-                published: prepared.published
-                  ? {
-                      generation: prepared.published.generation,
-                      audio: JSON.parse(prepared.published.result),
-                    }
-                  : null,
+                published: publishedOutput(
+                  prepared.published,
+                  (value) => JSON.parse(value.result) as unknown,
+                ),
               },
             };
           }
           case "audio.measure": {
             const status = await acoustics.request({ ...operation.params, kind: "loudness" });
-            const value = status.published?.artifact;
-            if (value) {
-              return {
-                ok: true,
-                data: {
-                  ...status,
-                  published: {
-                    generation: status.published!.generation,
-                    measurement: value,
-                  },
-                },
-              };
-            }
-            return { ok: true, data: status };
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.artifact),
+                delivery: status.published
+                  ? delivery.open(
+                      "projectId" in status
+                        ? { kind: "project", id: status.projectId }
+                        : { kind: "asset", id: status.assetId },
+                      () => cache.acquire(status.published!.artifact.cacheId),
+                    )
+                  : null,
+              },
+            };
           }
           case "audio.get":
           case "audio.retry": {
@@ -1257,6 +1765,7 @@ export async function startProjectService(options: {
               ok: true,
               data: {
                 ...status,
+                published: publishedOutput(status.published, (value) => value.audio),
                 delivery: status.published
                   ? delivery.open(
                       "assetId" in params
@@ -1384,11 +1893,20 @@ export async function startProjectService(options: {
             });
             return { ok: true, data: status(job.jobId) };
           }
-          case "asset.convert":
+          case "asset.convert": {
+            const converted = await convertedAssets.request(operation.params, requestSignal);
             return {
               ok: true,
-              data: await convertedAssets.request(operation.params, requestSignal),
+              data: {
+                ...operation.params,
+                ...converted,
+                published: publishedOutput(
+                  converted.published,
+                  (value) => JSON.parse(value.result) as unknown,
+                ),
+              },
             };
+          }
           case "asset.get":
             return { ok: true, data: assets.describe(operation.params.assetId) };
           case "asset.segments":
@@ -1424,6 +1942,7 @@ export async function startProjectService(options: {
               ok: true,
               data: {
                 ...status,
+                published: publishedOutput(status.published, (value) => value.preview),
                 delivery: status.published
                   ? delivery.open({ kind: "project", id: params.projectId }, () =>
                       cache.acquire(status.published!.preview.cacheId),

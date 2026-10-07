@@ -1,0 +1,29 @@
+{
+  "request": {
+    "source": "/private/tmp/yap-rendered-speech-public-v15EtD/library/staging/audio-extract/55ec23cd-fcf0-422e-8cda-00c921af4d12-selected.wav",
+    "output": "/private/tmp/yap-rendered-speech-public-v15EtD/library/render/render-8iWKB6/audio.wav",
+    "sampleRate": 16000,
+    "channels": 1
+  },
+  "response": {
+    "ok": true,
+    "data": {
+      "bytes": 367616,
+      "channelPolicy": "equal-weight-double-rounded-float32",
+      "contextPolicy": "complete-selected-pcm-zero-origin",
+      "file": "/private/tmp/yap-rendered-speech-public-v15EtD/library/render/render-8iWKB6/audio.wav",
+      "implementationId": "native-finite-pcm-v1",
+      "input": {
+        "channels": 2,
+        "frames": 272640,
+        "sampleRate": 48000
+      },
+      "mediaType": "audio/wav",
+      "output": {
+        "channels": 1,
+        "frames": 90880,
+        "sampleRate": 16000
+      }
+    }
+  }
+}

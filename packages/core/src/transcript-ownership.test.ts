@@ -4,8 +4,10 @@ import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
 import { CaptureStore } from "./capture-store.js";
 import { Catalog, CatalogError } from "./catalog.js";
+import { portHistoricalSpeechRaw } from "../../test-harness/speech/reference-raw.mjs";
 import {
   TranscriptStore,
+  speechExecution,
   recordingTranscript,
   recordingTranscriptOwner,
   type TranscriptIdentity,
@@ -53,6 +55,7 @@ const raw =
   JSON.stringify({
     ordinal: 0,
     source: { startUs: 100, endUs: 900 },
+    owned: { startUs: 100, endUs: 900 },
     state: "transcribed",
     words: [{ text: "kept", source: { startUs: 200, endUs: 400 }, confidence: 0.75 }],
   }) + "\n";
@@ -81,6 +84,7 @@ async function fixture() {
     const output = await store.reserve(identity);
     await writeFile(output, raw);
     const request: SpeechTranscriptionRequest = {
+      execution: speechExecution(),
       models: { directory: join(home, "models"), files: [] },
       track: {
         source: join(home, "immutable.mov"),
@@ -98,9 +102,17 @@ async function fixture() {
       },
       engine: { ...pins, encoderPrecision: "int8", computeUnits: "cpuAndNeuralEngine" },
       segments: [
-        { ordinal: 0, source: { startUs: 100, endUs: 900 }, state: "transcribed", wordCount: 1 },
+        {
+          ordinal: 0,
+          source: { startUs: 100, endUs: 900 },
+          owned: { startUs: 100, endUs: 900 },
+          state: "transcribed",
+          wordCount: 1,
+        },
       ],
+      execution: request.execution,
       wordCount: 1,
+      available: request.track.available,
     };
     return {
       identity,
@@ -128,6 +140,18 @@ async function fixture() {
     },
   };
 }
+
+test("raw transcript ownership is mandatory even when its receipt declares it", async () => {
+  const f = await fixture();
+  const input = await f.input(asset, source);
+  const { owned: _owned, ...line } = JSON.parse(raw);
+  const missingOwnership = JSON.stringify(line) + "\n";
+  await writeFile(input.request.output, missingOwnership);
+  input.receipt.output.bytes = Buffer.byteLength(missingOwnership);
+  input.receipt.output.sha256 = createHash("sha256").update(missingOwnership).digest("hex");
+  await expect(f.store.ingest(input)).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
+  expect(f.store.wordRecords(asset, { limit: 10 })).toEqual([]);
+});
 
 test("recording and asset owners with the same ID/generation retain separate files and rows", async () => {
   const f = await fixture();
@@ -284,7 +308,11 @@ test("the retained native recording transcript preserves every inherited word an
     generation: "native-fixture",
   };
   const output = await store.reserve(identity);
-  await writeFile(output, nativeRaw);
+  const adapted = portHistoricalSpeechRaw(nativeRaw, {
+    execution: speechExecution(),
+    available: nativeRequest.params.track.available,
+  });
+  await writeFile(output, adapted.body);
   const metadata = recordingTranscript(
     await store.ingest({
       identity,
@@ -293,8 +321,17 @@ test("the retained native recording transcript preserves every inherited word an
         durationUs: 134025574,
         sourceGeneration: "captured-native-fixture",
       },
-      request: { ...nativeRequest.params, output },
-      receipt: { ...nativeReply.data, output: { ...nativeReply.data.output, file: output } },
+      request: { ...nativeRequest.params, execution: speechExecution(), output },
+      receipt: {
+        ...nativeReply.data,
+        execution: speechExecution(),
+        segments: nativeReply.data.segments.map((segment: { source: unknown }) => ({
+          ...segment,
+          owned: segment.source,
+        })),
+        available: nativeRequest.params.track.available,
+        output: { file: output, bytes: adapted.body.length, sha256: adapted.sha256 },
+      },
       pins: { ...manifest.models.pins, modelDigest: manifest.models.digest },
       signal: new AbortController().signal,
     }),
@@ -307,12 +344,15 @@ test("the retained native recording transcript preserves every inherited word an
       sourceRange: { startUs: word.startUs, endUs: word.endUs },
     })),
   ).toEqual(retained.map(({ id, text, sourceRange }) => ({ id, text, sourceRange })));
-  expect(await readFile(output)).toEqual(nativeRaw);
+  expect(await readFile(output)).toEqual(adapted.body);
+  expect(adapted.referenceReplay.sourceSha256).toBe(
+    createHash("sha256").update(nativeRaw).digest("hex"),
+  );
   expect(metadata).toMatchObject({
     recordingId,
     sourceId,
     sourceGeneration: "captured-native-fixture",
     narration: { source: nativeRequest.params.track.source, sourceOffsetUs: 0 },
-    raw: { bytes: nativeRaw.length, sha256: createHash("sha256").update(nativeRaw).digest("hex") },
+    raw: { bytes: adapted.body.length, sha256: adapted.sha256 },
   });
 });

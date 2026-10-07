@@ -112,7 +112,7 @@ export async function projectServiceFixture(
       if (result.ok) {
         const data = result.data as {
           state: string;
-          result: { assetId: string } | null;
+          published: { generation: number; attemptId: string; output: { assetId: string } } | null;
           errorCode: string | null;
         };
         if (data.state === state) return data;

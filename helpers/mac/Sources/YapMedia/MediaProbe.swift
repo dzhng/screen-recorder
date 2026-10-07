@@ -6,6 +6,7 @@ public struct ProbedMedia: Encodable, Sendable {
     public let originUs: ExactTime
     public let streams: [ProbedStream]
     public var fontFaces: [ProbedFontFace]?
+    public var lut: CubeLUT.Metadata?
 }
 
 public struct ProbedStream: Encodable, Sendable {
@@ -111,7 +112,9 @@ public struct ProbedSamples: Encodable, Sendable {
 public enum MediaProbe {
     public static func inspect(url: URL, inspectCompressedVideo: Bool = false, inspectAudioStreamId: String? = nil) async throws -> ProbedMedia {
         let metadata: ProbedMedia
-        if let faces = try FontProbe.inspect(url: url) {
+        if let lut = try CubeLUT.inspect(url: url) {
+            metadata = ProbedMedia(originUs: ExactTime(0), streams: [], lut: lut)
+        } else if let faces = try FontProbe.inspect(url: url) {
             metadata = ProbedMedia(originUs: ExactTime(0), streams: [], fontFaces: faces)
         } else if let image = try StillImageSource.open(url) {
             var stream = ProbedStream(

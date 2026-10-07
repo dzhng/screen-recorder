@@ -1,0 +1,716 @@
+{
+  "cases": [
+    {
+      "id": "false-start",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E07"
+      ],
+      "purpose": "Context around omitted fragment; no independent lexical label",
+      "source": {
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 559200000,
+          "endUs": 561000000
+        },
+        "originUs": 0,
+        "stream": {
+          "channelLayoutTag": 6619138,
+          "channels": 2,
+          "codec": "aac ",
+          "decodable": true,
+          "endUs": 1976196000,
+          "id": "track:2",
+          "kind": "audio",
+          "sampleRate": 44100,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 1976196000,
+              "mediaDurationUs": 1976196000,
+              "mediaStartUs": {
+                "denominator": 441,
+                "numerator": 20480000
+              },
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      },
+      "derivative": {
+        "file": "false-start.wav",
+        "sha256": "37217b01cf438ff68c51eccf9ebc71f4742bbf852877446474a05c798a0b6a49",
+        "bytes": 639136,
+        "kind": "audio",
+        "sampleRate": 44100,
+        "channels": 2,
+        "frames": 79380
+      },
+      "clock": {
+        "sourceAtZeroUs": 559200000,
+        "sourceFrames": 79380,
+        "trailingSilenceFrames": 0
+      },
+      "recipe": {
+        "operation": "media.sourceAudio",
+        "streamId": "track:2",
+        "range": {
+          "startUs": 559200000,
+          "endUs": 561000000
+        },
+        "tool": {
+          "kind": "yap-native",
+          "sha256": "df4ca7a23928132a2d0dbe8d8ebac7e6fb186a56eef9d092ef45dfad7e1af5bd"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "retained Float32 re-decode equals original source decoder samples exactly",
+        "comparedSamples": 158760
+      },
+      "baseline": {
+        "state": "recognition-parity-pass",
+        "sourceRevision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
+        "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+        "recipe": "Frozen integrated07 selected-interval Parakeet recipe; no08 window/context topology",
+        "wordCount": 3,
+        "tokenCount": 11,
+        "scope": "Exact selected original/derivative raw observations after source-origin subtraction; result.processingTime excluded, every other field retained.",
+        "disposition": "Selected source and derivative both recognize Fortunate maybe fortunately. Historical fortun- fragment is comparison context; this output does not establish the fragment identity, partial-word completeness or cut safety.",
+        "evidenceSha256": "4b1d50875fde19fc0cca16a073a08e49f7496c796485793b143456d8baf736f0"
+      }
+    },
+    {
+      "id": "overlap-region",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "B01"
+      ],
+      "purpose": "Historical25second overlap refusal",
+      "source": {
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 825000000,
+          "endUs": 850000000
+        },
+        "originUs": 0,
+        "stream": {
+          "channelLayoutTag": 6619138,
+          "channels": 2,
+          "codec": "aac ",
+          "decodable": true,
+          "endUs": 1976196000,
+          "id": "track:2",
+          "kind": "audio",
+          "sampleRate": 44100,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 1976196000,
+              "mediaDurationUs": 1976196000,
+              "mediaStartUs": {
+                "denominator": 441,
+                "numerator": 20480000
+              },
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      },
+      "derivative": {
+        "file": "overlap-region.wav",
+        "sha256": "2a8f48a9eb53272fea02520e645859c170f5716d1087f7d2aa365cbcbd451607",
+        "bytes": 8824096,
+        "kind": "audio",
+        "sampleRate": 44100,
+        "channels": 2,
+        "frames": 1102500
+      },
+      "clock": {
+        "sourceAtZeroUs": 825000000,
+        "sourceFrames": 1102500,
+        "trailingSilenceFrames": 0
+      },
+      "recipe": {
+        "operation": "media.sourceAudio",
+        "streamId": "track:2",
+        "range": {
+          "startUs": 825000000,
+          "endUs": 850000000
+        },
+        "tool": {
+          "kind": "yap-native",
+          "sha256": "df4ca7a23928132a2d0dbe8d8ebac7e6fb186a56eef9d092ef45dfad7e1af5bd"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "retained Float32 re-decode equals original source decoder samples exactly",
+        "comparedSamples": 2205000
+      },
+      "baseline": {
+        "state": "fixed-current",
+        "basis": "Frozen integrated07 bounded original/derivative selections preserve exact tokens and word operands after source-clock rebasing; overlapping estimates retained without clamp. Does not establish08 window parity or lexical truth.",
+        "wordCount": 83,
+        "tokenCount": 150,
+        "normalizedSha256": "0d61e429061771ecb32ee2f788c8c957dc6779571b8f60d08c1c21b118372574",
+        "evidence": "../../specs/done/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
+        "evidenceSha256": "47c322d8650673f36a569f8e7bdf045368e932e09057afbd9cd335518cbf76b0"
+      }
+    },
+    {
+      "id": "overlap-neighbor",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "B01"
+      ],
+      "purpose": "Neighboring successful timing control",
+      "source": {
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 800000000,
+          "endUs": 825000000
+        },
+        "originUs": 0,
+        "stream": {
+          "channelLayoutTag": 6619138,
+          "channels": 2,
+          "codec": "aac ",
+          "decodable": true,
+          "endUs": 1976196000,
+          "id": "track:2",
+          "kind": "audio",
+          "sampleRate": 44100,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 1976196000,
+              "mediaDurationUs": 1976196000,
+              "mediaStartUs": {
+                "denominator": 441,
+                "numerator": 20480000
+              },
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      },
+      "derivative": {
+        "file": "overlap-neighbor.wav",
+        "sha256": "ed702a3250b81ae0365f8ef5c3be254e77e41fb6a7a81ea4b4a5e86028e42ba8",
+        "bytes": 8824096,
+        "kind": "audio",
+        "sampleRate": 44100,
+        "channels": 2,
+        "frames": 1102500
+      },
+      "clock": {
+        "sourceAtZeroUs": 800000000,
+        "sourceFrames": 1102500,
+        "trailingSilenceFrames": 0
+      },
+      "recipe": {
+        "operation": "media.sourceAudio",
+        "streamId": "track:2",
+        "range": {
+          "startUs": 800000000,
+          "endUs": 825000000
+        },
+        "tool": {
+          "kind": "yap-native",
+          "sha256": "df4ca7a23928132a2d0dbe8d8ebac7e6fb186a56eef9d092ef45dfad7e1af5bd"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "retained Float32 re-decode equals original source decoder samples exactly",
+        "comparedSamples": 2205000
+      },
+      "baseline": {
+        "state": "fixed-current",
+        "basis": "Frozen integrated07 bounded original/derivative selections preserve exact tokens and word operands after source-clock rebasing; overlapping estimates retained without clamp. Does not establish08 window parity or lexical truth.",
+        "wordCount": 78,
+        "tokenCount": 140,
+        "normalizedSha256": "42d8f94029c614d62e75b99cdc8aea2cdded62e6bbffd4454d6bdeccae34135e",
+        "evidence": "../../specs/done/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
+        "evidenceSha256": "47c322d8650673f36a569f8e7bdf045368e932e09057afbd9cd335518cbf76b0"
+      }
+    },
+    {
+      "id": "phrase-final-trend",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E12"
+      ],
+      "purpose": "Contextual phrase ending; recognizer timing is not lexical truth",
+      "source": {
+        "file": "20261005_graham-neubig_full-interview_final_1080p.mp4",
+        "sha256": "2732b4842e040067279f0f9f9cfe0accd8102da1397c02c8d7beac6f835b16df",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 1550000000,
+          "endUs": 1576500000
+        },
+        "originUs": 0,
+        "stream": {
+          "channelLayoutTag": 6619138,
+          "channels": 2,
+          "codec": "aac ",
+          "decodable": true,
+          "endUs": 1976196000,
+          "id": "track:2",
+          "kind": "audio",
+          "sampleRate": 44100,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 1976196000,
+              "mediaDurationUs": 1976196000,
+              "mediaStartUs": {
+                "denominator": 441,
+                "numerator": 20480000
+              },
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      },
+      "derivative": {
+        "file": "phrase-final-trend.wav",
+        "sha256": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+        "bytes": 9353296,
+        "kind": "audio",
+        "sampleRate": 44100,
+        "channels": 2,
+        "frames": 1168650
+      },
+      "clock": {
+        "sourceAtZeroUs": 1550000000,
+        "sourceFrames": 1168650,
+        "trailingSilenceFrames": 0
+      },
+      "recipe": {
+        "operation": "media.sourceAudio",
+        "streamId": "track:2",
+        "range": {
+          "startUs": 1550000000,
+          "endUs": 1576500000
+        },
+        "tool": {
+          "kind": "yap-native",
+          "sha256": "df4ca7a23928132a2d0dbe8d8ebac7e6fb186a56eef9d092ef45dfad7e1af5bd"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "retained Float32 re-decode equals original source decoder samples exactly",
+        "comparedSamples": 2337300
+      },
+      "baseline": {
+        "state": "recognition-parity-pass",
+        "sourceRevision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
+        "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+        "recipe": "Frozen integrated07 selected-interval Parakeet recipe; no08 window/context topology",
+        "wordCount": 49,
+        "tokenCount": 88,
+        "scope": "Exact selected original/derivative raw observations after source-origin subtraction; result.processingTime excluded, every other field retained.",
+        "disposition": "Selected source and derivative both recognize trend in full context. Historical edited/narrower turn and cut-loss observations remain comparison inputs, not independently confirmed lexical truth or a join-safety pass.",
+        "evidenceSha256": "4b1d50875fde19fc0cca16a073a08e49f7496c796485793b143456d8baf736f0"
+      }
+    },
+    {
+      "id": "madison-context",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "B04",
+        "E12"
+      ],
+      "purpose": "Context around exact retained tiny failure",
+      "source": {
+        "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+        "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "streamIndex": 1,
+        "range": {
+          "startUs": 1876300000,
+          "endUs": 1880700000
+        },
+        "originUs": 0,
+        "stream": {
+          "channelLayoutTag": 6553601,
+          "channels": 1,
+          "codec": "aac ",
+          "decodable": true,
+          "endUs": 2360011000,
+          "id": "track:2",
+          "kind": "audio",
+          "sampleRate": 44100,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 2360011000,
+              "mediaDurationUs": 2360011000,
+              "mediaStartUs": {
+                "denominator": 441,
+                "numerator": 10240000
+              },
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      },
+      "derivative": {
+        "file": "madison-context.wav",
+        "sha256": "f54d852925564b232718e16d5be701e36c923a3c24c1e64d7f665b764c42f10c",
+        "bytes": 780256,
+        "kind": "audio",
+        "sampleRate": 44100,
+        "channels": 1,
+        "frames": 194040
+      },
+      "clock": {
+        "sourceAtZeroUs": 1876300000,
+        "sourceFrames": 194040,
+        "trailingSilenceFrames": 0
+      },
+      "recipe": {
+        "operation": "media.sourceAudio",
+        "streamId": "track:2",
+        "range": {
+          "startUs": 1876300000,
+          "endUs": 1880700000
+        },
+        "tool": {
+          "kind": "yap-native",
+          "sha256": "df4ca7a23928132a2d0dbe8d8ebac7e6fb186a56eef9d092ef45dfad7e1af5bd"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "retained Float32 re-decode equals original source decoder samples exactly",
+        "comparedSamples": 194040
+      },
+      "baseline": {
+        "state": "recognition-parity-pass",
+        "sourceRevision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
+        "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+        "recipe": "Frozen integrated07 selected-interval Parakeet recipe; no08 window/context topology",
+        "wordCount": 13,
+        "tokenCount": 22,
+        "scope": "Exact selected original/derivative raw observations after source-origin subtraction; result.processingTime excluded, every other field retained.",
+        "disposition": "Selected source and derivative both recognize prophecy. Existing tiny1877.30/1877.55 controls recognize privacy while1877.45/1877.68 controls recognize prophecy; retained context sensitivity is not independent lexical truth.",
+        "evidenceSha256": "4b1d50875fde19fc0cca16a073a08e49f7496c796485793b143456d8baf736f0"
+      }
+    },
+    {
+      "id": "graham-picture",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E13",
+        "E14",
+        "S03"
+      ],
+      "purpose": "Full-frame original warm color, face, wall and edge detail; no editorial treatment",
+      "source": {
+        "file": "fullvideo_graham_p1.mp4",
+        "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+        "streamIndex": 0,
+        "range": {
+          "startUs": 1193000000,
+          "endUs": 1196000000
+        }
+      },
+      "derivative": {
+        "kind": "video",
+        "file": "graham-picture.mov",
+        "sha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+        "bytes": 35137261,
+        "width": 1920,
+        "height": 1080,
+        "frames": 72,
+        "color": {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709"
+        }
+      },
+      "clock": {
+        "sourceAtZeroUs": 1193000000,
+        "frameDurationUs": {
+          "numerator": 125000,
+          "denominator": 3
+        }
+      },
+      "recipe": {
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-ss",
+          "1193",
+          "-i",
+          "SOURCE",
+          "-t",
+          "3",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "prores_ks",
+          "-threads",
+          "4",
+          "-profile:v",
+          "2",
+          "-pix_fmt",
+          "yuv422p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-fps_mode",
+          "passthrough",
+          "OUTPUT"
+        ],
+        "tool": {
+          "kind": "prepared-ffmpeg",
+          "version": "9.0.2",
+          "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "native full-frame PNG comparison at four exact matched frame supports, face/wall/full-frame RGB metrics and independent visual critique; physical clock/raster/color checked across all 72 decoded frames",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-picture/graham.json",
+        "comparedFrames": [
+          0,
+          12,
+          36,
+          71
+        ]
+      },
+      "baseline": {
+        "state": "picture-replication-pass",
+        "evidence": "../../specs/done/video-editing-feedback/assets/13-decoded-picture/verification.json",
+        "scope": "Sampled unchanged SDR source/project picture observations; no full-video, HDR or editorial verdict",
+        "case": "graham",
+        "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
+      }
+    },
+    {
+      "id": "madison-picture",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E13",
+        "E14",
+        "S03"
+      ],
+      "purpose": "Full-frame original warm color, face, wall and edge detail; no editorial treatment",
+      "source": {
+        "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+        "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "streamIndex": 0,
+        "range": {
+          "startUs": 1877000000,
+          "endUs": 1880000000
+        }
+      },
+      "derivative": {
+        "kind": "video",
+        "file": "madison-picture.mov",
+        "sha256": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+        "bytes": 40773400,
+        "width": 1920,
+        "height": 1080,
+        "frames": 72,
+        "color": {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709"
+        }
+      },
+      "clock": {
+        "sourceAtZeroUs": 1877000000,
+        "frameDurationUs": {
+          "numerator": 125000,
+          "denominator": 3
+        }
+      },
+      "recipe": {
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-ss",
+          "1877",
+          "-i",
+          "SOURCE",
+          "-t",
+          "3",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "prores_ks",
+          "-threads",
+          "4",
+          "-profile:v",
+          "2",
+          "-pix_fmt",
+          "yuv422p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-fps_mode",
+          "passthrough",
+          "OUTPUT"
+        ],
+        "tool": {
+          "kind": "prepared-ffmpeg",
+          "version": "9.0.2",
+          "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "native full-frame PNG comparison at four exact matched frame supports, face/wall/full-frame RGB metrics and independent visual critique; physical clock/raster/color checked across all 72 decoded frames",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-picture/madison.json",
+        "comparedFrames": [
+          0,
+          12,
+          36,
+          71
+        ]
+      },
+      "baseline": {
+        "state": "picture-replication-pass",
+        "evidence": "../../specs/done/video-editing-feedback/assets/13-decoded-picture/verification.json",
+        "scope": "Sampled unchanged SDR source/project picture observations; no full-video, HDR or editorial verdict",
+        "case": "madison",
+        "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
+      }
+    },
+    {
+      "id": "lily-picture",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E13",
+        "E14",
+        "S03"
+      ],
+      "purpose": "Full-frame original warm color, face, wall and edge detail; no editorial treatment",
+      "source": {
+        "file": "fullvideo_lily_p1.mp4",
+        "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+        "streamIndex": 0,
+        "range": {
+          "startUs": 800000000,
+          "endUs": 803000000
+        }
+      },
+      "derivative": {
+        "kind": "video",
+        "file": "lily-picture.mov",
+        "sha256": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+        "bytes": 35703852,
+        "width": 1920,
+        "height": 1080,
+        "frames": 72,
+        "color": {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709"
+        }
+      },
+      "clock": {
+        "sourceAtZeroUs": 800000000,
+        "frameDurationUs": {
+          "numerator": 125000,
+          "denominator": 3
+        }
+      },
+      "recipe": {
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-ss",
+          "800",
+          "-i",
+          "SOURCE",
+          "-t",
+          "3",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "prores_ks",
+          "-threads",
+          "4",
+          "-profile:v",
+          "2",
+          "-pix_fmt",
+          "yuv422p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-fps_mode",
+          "passthrough",
+          "OUTPUT"
+        ],
+        "tool": {
+          "kind": "prepared-ffmpeg",
+          "version": "9.0.2",
+          "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "native full-frame PNG comparison at four exact matched frame supports, face/wall/full-frame RGB metrics and independent visual critique; physical clock/raster/color checked across all 72 decoded frames",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-picture/lily.json",
+        "comparedFrames": [
+          0,
+          12,
+          36,
+          71
+        ]
+      },
+      "baseline": {
+        "state": "picture-replication-pass",
+        "evidence": "../../specs/done/video-editing-feedback/assets/13-decoded-picture/verification.json",
+        "scope": "Sampled unchanged SDR source/project picture observations; no full-video, HDR or editorial verdict",
+        "case": "lily",
+        "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
+      }
+    }
+  ]
+}

@@ -108,7 +108,7 @@ export async function exportJourney({
     (value) => value.state === "canceled",
     "cancel held publication",
   );
-  assert.equal(canceledJob.result, null);
+  assert.equal(canceledJob.published, null);
   const recovering = await call("export.recover", { exportId: canceledRequest.exportId });
   assert.ok(recovering.recovery?.jobId, "Prepared publication must have a recovery job");
   await poll(

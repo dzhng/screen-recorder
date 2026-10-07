@@ -13,6 +13,8 @@ public enum CompositionVideoRenderer {
         public let processing: [CompositionProcessing]
         public let assets: [CompositionAsset]
         public let fonts: [FontAssetBinding]?
+        public let luts: [LUTAssetBinding]?
+        let lutImplementationId: String?
         let sdrCorrectionImplementationId: String?
         let pointers: PreparedPointersReceipt?
         public func validateOutput(hasAudio: Bool) throws {
@@ -25,7 +27,7 @@ public enum CompositionVideoRenderer {
         public func replacingOutput(_ path: String) -> Self {
             Self(
                 output: path, frames: frames, range: range, canvas: canvas, settings: settings,
-                processing: processing, assets: assets, fonts: fonts, sdrCorrectionImplementationId: sdrCorrectionImplementationId, pointers: pointers)
+                processing: processing, assets: assets, fonts: fonts, luts: luts, lutImplementationId: lutImplementationId, sdrCorrectionImplementationId: sdrCorrectionImplementationId, pointers: pointers)
         }
     }
     public struct Result: Encodable {
@@ -61,7 +63,7 @@ public enum CompositionVideoRenderer {
         }
         try request.validateOutput(hasAudio: false)
         let pictures = try CompositionPictureExecutor(
-            canvas: canvas, deliveredSize: (canvas.width, canvas.height), bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers, sdrCorrectionImplementationId: request.sdrCorrectionImplementationId)
+            canvas: canvas, deliveredSize: (canvas.width, canvas.height), bindings: request.assets, fonts: request.fonts ?? [], luts: request.luts ?? [], lutImplementationId: request.lutImplementationId, pointers: request.pointers, sdrCorrectionImplementationId: request.sdrCorrectionImplementationId)
         let output = try NewFile(at: request.output, assembledAs: "video.mp4")
         defer { output.discard() }
         let writer = try AVAssetWriter(outputURL: output.url, fileType: .mp4)

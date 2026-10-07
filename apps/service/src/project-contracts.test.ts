@@ -9,12 +9,9 @@ import { Models, parakeetModel } from "@yap/core/models";
 import type { SpeechTranscriptionRequest } from "@yap/core/transcript";
 import type { SourceTranscriptRow } from "@yap/core/transcript-read";
 import { callLocal } from "@yap/client";
-import {
-  REQUEST_FRAME_BYTES,
-  type OperationRequest,
-  type OperationResponse,
-} from "@yap/protocol";
+import { REQUEST_FRAME_BYTES, type OperationRequest, type OperationResponse } from "@yap/protocol";
 import { projectServiceFixture } from "./project-service.fixture.js";
+import { publishControlledObservation, speakerSource } from "./speaker.fixture.js";
 
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -81,6 +78,30 @@ async function sendRaw(socketPath: string, bytes: Buffer) {
     });
   });
 }
+test("public rendered recognition rejects absent generations and refuses out-of-project rendering through its job", async () => {
+  const f = await emptyProject();
+  const selector = { projectId: f.project.projectId, revisionId: f.revision.id };
+  expect(
+    await f.call("transcript.render.get", {
+      ...selector,
+      generation: "c6df7efc-a023-4c40-aa08-3b8b1c0b1b90",
+    }),
+  ).toMatchObject({ ok: false, error: { code: "NOT_FOUND" } });
+  const request = {
+    ...selector,
+    range: { startUs: 0, endUs: 1000000 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    rendition: { sampleRate: 16000, channels: 1 },
+  };
+  const pending = await f.call("transcript.render.prepare", request);
+  expect(pending).toMatchObject({ ok: true, data: { ...selector, published: null } });
+  if (!pending.ok) throw Error(JSON.stringify(pending));
+  const job = await f.job((pending.data as { jobId: string }).jobId, "failed");
+  expect(job).toMatchObject({
+    errorCode: "INVALID_PARAMS",
+    reason: "Rendering requires a nonempty range within the pinned project",
+  });
+});
 test("oversized independently valid project mutation does not dispatch", async () => {
   const f = await emptyProject();
   const before = await f.state();
@@ -270,6 +291,17 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
                 { startUs: 6000000, endUs: 10000000, empty: true },
               ],
             },
+            {
+              id: "audio",
+              kind: "audio",
+              codec: "pcm",
+              decodable: true,
+              channels: 2,
+              sampleRate: 16000,
+              startUs: 0,
+              endUs: 40000000,
+              segments: [{ startUs: 0, endUs: 40000000, empty: false }],
+            },
           ],
         },
       };
@@ -288,7 +320,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
           startSeconds: (range.startUs - Number(source.startUs)) / 1e6,
           endSeconds: (range.endUs - Number(source.startUs)) / 1e6,
         }));
-      return { ordinal, source, state: "transcribed" as const, words };
+      return { ordinal, source, owned: source, state: "transcribed" as const, words };
     });
     const raw = lines.map((line) => JSON.stringify(line) + "\n").join("");
     await writeFile(request.output, raw);
@@ -305,9 +337,12 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
           encoderPrecision: "int8",
           computeUnits: "cpuAndNeuralEngine",
         },
+        execution: request.execution,
+        available: request.track.available,
         segments: lines.map(({ ordinal, source, state, words }) => ({
           ordinal,
           source,
+          owned: source,
           state,
           wordCount: words.length,
         })),
@@ -319,14 +354,15 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
   const receipt = await readFile(model.receipt);
   const status = await f.call("model.status", { modelId: "parakeet" });
   expect(status).toMatchObject({ ok: true, data: { state: "ready" } });
-  expect(await f.call("model.prepare", { modelId: "parakeet" })).toEqual(status);
-  expect(await f.call("model.prepare", { modelId: "parakeet" })).toEqual(status);
+  const prepared = await f.call("model.prepare", { modelId: "parakeet" });
+  expect(prepared).toMatchObject({ ok: true, data: { state: "ready" } });
+  expect(await f.call("model.prepare", { modelId: "parakeet" })).toEqual(prepared);
   expect(await readFile(model.receipt)).toEqual(receipt);
   const imported = await f.call("asset.import", { requestId: "speech", path: f.path });
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const ready = await f.job((imported.data as { jobId: string }).jobId, "ready");
-  const selection = { assetId: ready.result!.assetId, streamId: "track:1" };
-  expect(await f.call("transcript.get", { ...selection, prepare: false })).toMatchObject({
+  const selection = { assetId: ready.published!.output.assetId, streamId: "track:1" };
+  expect(await f.call("transcript.get", selection)).toMatchObject({
     ok: true,
     data: { state: "not_requested", jobId: null, page: null },
   });
@@ -355,7 +391,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
     projectId: initial.project.projectId,
     revisionId: (edited.data as { revision: { id: string } }).revision.id,
   };
-  expect(await f.call("transcript.get", { ...projectSelection, prepare: false })).toMatchObject({
+  expect(await f.call("transcript.get", projectSelection)).toMatchObject({
     ok: true,
     data: {
       state: "not_ready",
@@ -370,10 +406,121 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
     [],
   );
   expect(requests).toEqual([]);
-  const pending = await f.call("transcript.get", selection);
+  const pending = await f.call("transcript.prepare", selection);
   if (!pending.ok) throw new Error(JSON.stringify(pending));
   const jobId = (pending.data as { jobId: string }).jobId;
   await f.job(jobId, "ready");
+  const speakerInput = {
+    assetId: selection.assetId,
+    streamId: "audio",
+    channel: 0,
+    sourceRange: { startUs: 0, endUs: 30000000 },
+    modelId: speakerSource.engine.modelId,
+  };
+  const speakerMetadata = await publishControlledObservation(f.home, speakerInput);
+  expect(
+    await f.call("speaker.bind", {
+      assetId: speakerInput.assetId,
+      streamId: speakerInput.streamId,
+      channel: speakerInput.channel,
+      modelId: speakerInput.modelId,
+      observationRange: speakerInput.sourceRange,
+      generation: speakerMetadata.generation,
+      bindings: [
+        { slot: 0, displayName: "Ada" },
+        { slot: 1, displayName: "Grace" },
+      ],
+    }),
+  ).toMatchObject({ ok: true });
+  const attributed = await f.call("transcript.get", {
+    ...selection,
+    limit: 4,
+    speaker: {
+      streamId: speakerInput.streamId,
+      channel: speakerInput.channel,
+      modelId: speakerInput.modelId,
+      observationRange: speakerInput.sourceRange,
+      generation: speakerMetadata.generation,
+    },
+  });
+  expect(attributed).toMatchObject({
+    ok: true,
+    data: {
+      page: {
+        rows: [
+          { id: "w0", speaker: { state: "attributed", slot: 0, displayName: "Ada" } },
+          { id: "w1", speaker: { state: "overlap", slots: [0, 1] } },
+          { id: "w2", speaker: { state: "overlap", slots: [0, 1] } },
+          { id: "w3", speaker: { state: "attributed", slot: 1, displayName: "Grace" } },
+        ],
+        nextCursor: expect.any(Object),
+      },
+    },
+  });
+  if (!attributed.ok) throw new Error(JSON.stringify(attributed));
+  const attributedCursor = (attributed.data as { page: { nextCursor: unknown } }).page.nextCursor;
+  expect(attributedCursor).toMatchObject({ speaker: { bindingDigest: expect.any(String) } });
+  const reorderedSpeaker = {
+    generation: speakerMetadata.generation,
+    observationRange: speakerInput.sourceRange,
+    modelId: speakerInput.modelId,
+    channel: speakerInput.channel,
+    streamId: speakerInput.streamId,
+  };
+  expect(
+    await f.call("transcript.get", {
+      ...selection,
+      limit: 4,
+      speaker: reorderedSpeaker,
+      cursor: attributedCursor,
+    }),
+  ).toMatchObject({ ok: true });
+  expect(
+    await f.call("speaker.bind", {
+      assetId: speakerInput.assetId,
+      streamId: speakerInput.streamId,
+      channel: speakerInput.channel,
+      modelId: speakerInput.modelId,
+      observationRange: speakerInput.sourceRange,
+      generation: speakerMetadata.generation,
+      bindings: [
+        { slot: 0, displayName: "Adele" },
+        { slot: 1, displayName: "Grace" },
+      ],
+    }),
+  ).toMatchObject({ ok: true });
+  expect(
+    await f.call("transcript.get", { ...selection, limit: 4, cursor: attributedCursor }),
+  ).toMatchObject({ ok: false, error: { code: "ARTIFACT_CHANGED" } });
+  expect(
+    await f.call("speaker.bind", {
+      assetId: speakerInput.assetId,
+      streamId: speakerInput.streamId,
+      channel: speakerInput.channel,
+      modelId: speakerInput.modelId,
+      observationRange: speakerInput.sourceRange,
+      generation: speakerMetadata.generation,
+      bindings: [
+        { slot: 0, displayName: "Ada" },
+        { slot: 1, displayName: "Grace" },
+      ],
+    }),
+  ).toMatchObject({ ok: true });
+  expect(
+    await f.call("transcript.get", { ...selection, limit: 4, cursor: attributedCursor }),
+  ).toMatchObject({
+    ok: true,
+    data: {
+      page: {
+        rows: [
+          { type: "gap", reason: "not_acquired" },
+          { id: "w4", speaker: { state: "unknown" } },
+          { id: "w5", speaker: { state: "unknown" } },
+          { id: "w6", speaker: { state: "unknown" } },
+        ],
+      },
+    },
+  });
   const rows: SourceTranscriptRow[] = [];
   let cursor: unknown;
   let generation: string | undefined;
@@ -426,7 +573,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
   const first = await f.call("transcript.retry", selection);
   expect(first).toMatchObject({
     ok: true,
-    data: { state: "ready", jobId, published: { transcript: { generation } } },
+    data: { state: "ready", jobId, published: { output: { generation } } },
   });
   expect(await f.call("transcript.retry", selection)).toEqual(first);
   expect(await f.call("transcript.get", selection)).toMatchObject({
@@ -520,7 +667,7 @@ test("ready and canceled source jobs retain identity through public cancel and r
   const failed = await f.call("job.get", { jobId });
   expect(failed).toMatchObject({
     ok: true,
-    data: { state: "failed", errorCode: "MEDIA_UNAVAILABLE", retryable: true },
+    data: { state: "failed", errorCode: "MEDIA_UNAVAILABLE", retryable: true, published: null },
   });
   failProbe = false;
   holdProbe = true;
@@ -532,7 +679,7 @@ test("ready and canceled source jobs retain identity through public cancel and r
   const canceled = await f.call("job.cancel", { jobId });
   expect(canceled).toMatchObject({
     ok: true,
-    data: { jobId, state: "canceled", target: { kind: "import" } },
+    data: { jobId, state: "canceled", target: { kind: "import" }, published: null },
   });
   const home = f.home;
   await f.service.close();

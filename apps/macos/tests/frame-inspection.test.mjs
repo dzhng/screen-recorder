@@ -97,14 +97,14 @@ test("real clean frames retain edit identity and reach CLI files and MCP pixels"
       throw new Error(JSON.stringify(result));
     return result.state === "ready" && result;
   }, 20000);
-  assert.equal(ready.published.frame.pictures[0].status, "available");
-  assert.equal(ready.published.frame.pictures[0].requestedSourceUs, 400000);
-  assert.equal(ready.published.frame.frame.sampleAtUs, 400000);
+  assert.equal(ready.published.output.pictures[0].status, "available");
+  assert.equal(ready.published.output.pictures[0].requestedSourceUs, 400000);
+  assert.equal(ready.published.output.frame.sampleAtUs, 400000);
   assert.deepEqual(
-    [ready.published.frame.width, ready.published.frame.height],
+    [ready.published.output.width, ready.published.output.height],
     [video.width, video.height],
   );
-  assert.ok(ready.published.frame.pictures[0].actualSourceUs < finished.sourceDurationUs);
+  assert.ok(ready.published.output.pictures[0].actualSourceUs < finished.sourceDurationUs);
   await call("artifact.close", { token: ready.delivery.token });
   const output = join(home, "delivered.png");
   const command = spawnSync(
@@ -126,9 +126,9 @@ test("real clean frames retain edit identity and reach CLI files and MCP pixels"
   assert.equal(result.data.output, output);
   const bytes = await readFile(output);
   assert.equal(bytes.subarray(1, 4).toString(), "PNG");
-  assert.equal(bytes.readUInt32BE(16), ready.published.frame.width);
-  assert.equal(bytes.readUInt32BE(20), ready.published.frame.height);
-  assert.equal(result.data.published.frame.cacheId, ready.published.frame.cacheId);
+  assert.equal(bytes.readUInt32BE(16), ready.published.output.width);
+  assert.equal(bytes.readUInt32BE(20), ready.published.output.height);
+  assert.equal(result.data.published.output.cacheId, ready.published.output.cacheId);
   if (process.env.YAP_FRAME_EVIDENCE) {
     await mkdir(process.env.YAP_FRAME_EVIDENCE, { recursive: true });
     await copyFile(output, join(process.env.YAP_FRAME_EVIDENCE, "delivered.png"));
@@ -186,14 +186,14 @@ test("real clean frames retain edit identity and reach CLI files and MCP pixels"
   }, 20000);
   if (process.env.YAP_FRAME_EVIDENCE)
     await copyFile(
-      cropped.published.frame.file,
+      cropped.published.output.file,
       join(process.env.YAP_FRAME_EVIDENCE, "cropped.png"),
     );
-  assert.equal(cropped.published.frame.width, 200);
-  assert.equal(cropped.published.frame.height, 100);
+  assert.equal(cropped.published.output.width, 200);
+  assert.equal(cropped.published.output.height, 100);
   assert.equal(
-    cropped.published.frame.pictures[0].actualSourceUs,
-    ready.published.frame.pictures[0].actualSourceUs,
+    cropped.published.output.pictures[0].actualSourceUs,
+    ready.published.output.pictures[0].actualSourceUs,
   );
   const rgb = (file, filters = []) => {
     const decoded = spawnSync(
@@ -204,7 +204,7 @@ test("real clean frames retain edit identity and reach CLI files and MCP pixels"
     assert.equal(decoded.status, 0, decoded.stderr.toString());
     return decoded.stdout;
   };
-  assert.deepEqual(rgb(cropped.published.frame.file), rgb(output, ["-vf", "crop=200:100:20:30"]));
+  assert.deepEqual(rgb(cropped.published.output.file), rgb(output, ["-vf", "crop=200:100:20:30"]));
   await call("artifact.close", { token: cropped.delivery.token });
   const outside = await callLocal(socketPath(home), {
     id: randomUUID(),
@@ -251,12 +251,12 @@ test("real clean frames retain edit identity and reach CLI files and MCP pixels"
     return result.state === "ready" && result;
   }, 20000);
   assert.equal(edited.revisionId, revision.revision.id);
-  assert.equal(edited.published.frame.pictures[0].requestedSourceUs, 200000);
+  assert.equal(edited.published.output.pictures[0].requestedSourceUs, 200000);
   assert.ok(
-    edited.published.frame.pictures[0].actualSourceUs >= 0 &&
-      edited.published.frame.pictures[0].actualSourceUs <= 200000,
+    edited.published.output.pictures[0].actualSourceUs >= 0 &&
+      edited.published.output.pictures[0].actualSourceUs <= 200000,
   );
-  assert.equal(edited.published.frame.atUs, 0);
+  assert.equal(edited.published.output.atUs, 0);
   await call("artifact.close", { token: edited.delivery.token });
   const historical = await call("frame.get", params);
   assert.deepEqual(historical.published, ready.published);

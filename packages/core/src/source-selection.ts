@@ -1,7 +1,12 @@
 import { createHash } from "node:crypto";
-import type { z } from "zod";
+import { z } from "zod";
 import {
   mediaClipSchema,
+  selectionRangeSchema,
+  compare,
+  rational,
+  multiply,
+  add,
   sourceAvailability,
   toSignedTime,
   subtract,
@@ -143,3 +148,57 @@ export function selectSourceSupport(
 
 export const sourceSelectionKey = (value: SourceSelection) =>
   JSON.stringify([value.assetId, value.streamId, value.acquisitionId ?? null]);
+
+export const sourceChannelSchema = sourceSelectionSchema
+  .extend({ channel: z.int().nonnegative() })
+  .strict();
+/** Selected channel authority is independent of any provider's window policy. */
+export function selectSourceChannel(
+  assets: Pick<AssetStore, "get" | "path">,
+  acquisitions: { get(id: string): Pick<ReturnType<AcquisitionStore["get"]>, "id" | "bindings"> },
+  input: z.infer<typeof sourceChannelSchema>,
+) {
+  const { channel, ...selection } = sourceChannelSchema.parse(input);
+  const source = selectSource(assets, acquisitions, selection);
+  if (
+    source.stream.kind !== "audio" ||
+    source.stream.channels === undefined ||
+    channel >= source.stream.channels
+  )
+    throw new CatalogError("UNSUPPORTED_MEDIA", "Selected audio requires a known source channel");
+  return { ...source, originUs: assets.get(selection.assetId).originUs, channel };
+}
+/** Complete exact-grid support is shared; each provider chooses its duration bound. */
+export function selectSourceChannelRange(
+  assets: Pick<AssetStore, "get" | "path">,
+  acquisitions: { get(id: string): Pick<ReturnType<AcquisitionStore["get"]>, "id" | "bindings"> },
+  input: z.infer<typeof sourceChannelSchema> & {
+    sourceRange: z.infer<typeof selectionRangeSchema>;
+  },
+) {
+  const { sourceRange, ...selection } = sourceChannelSchema
+    .extend({ sourceRange: selectionRangeSchema })
+    .strict()
+    .parse(input);
+  const selected = selectSourceChannel(assets, acquisitions, selection),
+    start = fromTime(sourceRange.startUs),
+    end = fromTime(sourceRange.endUs);
+  const startFrame = multiply(start, rational(16000n, 1000000n)),
+    endFrame = multiply(end, rational(16000n, 1000000n));
+  if (startFrame.denominator !== 1n || endFrame.denominator !== 1n)
+    throw new CatalogError("INVALID_PARAMS", "Selected observations must use the 16k sample grid");
+  const covered = sourceAvailability(selected.track.available, [sourceRange]).reduce(
+    (sum, r) => add(sum, subtract(fromTime(r.endUs), fromTime(r.startUs))),
+    rational(0n),
+  );
+  if (compare(covered, subtract(end, start)) !== 0)
+    throw new CatalogError("UNAVAILABLE_SUPPORT", "Observations require complete selected support");
+  return {
+    ...selected,
+    sourceRange,
+    expectedPCM: {
+      sampleRate: 16000 as const,
+      frames: Number(endFrame.numerator - startFrame.numerator),
+    },
+  };
+}

@@ -67,7 +67,7 @@ try {
   );
   const asset = await call(
     "asset.get",
-    { assetId: admission.result.assetId },
+    { assetId: admission.published.output.assetId },
     { transport: "mcp" },
   );
   const created = await call("project.create", {

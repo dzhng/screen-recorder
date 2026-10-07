@@ -8,12 +8,16 @@ public enum SDRCorrection {
     var exposureEV: Double
     var contrast: Double
     var saturation: Double
+    var shadows: Double
+    var highlights: Double
     var neutralKelvin: Double
     var neutralTint: Double
     func validate() throws {
       guard exposureEV.isFinite, (-8...8).contains(exposureEV),
         contrast.isFinite, (0...2).contains(contrast),
         saturation.isFinite, (0...2).contains(saturation),
+        shadows.isFinite, (0...1).contains(shadows),
+        highlights.isFinite, (0...1).contains(highlights),
         neutralKelvin.isFinite, (2000...10000).contains(neutralKelvin),
         neutralTint.isFinite, (-100...100).contains(neutralTint)
       else { throw NativeFailure("INVALID_REQUEST", "Invalid static SDR correction parameters.") }
@@ -21,11 +25,11 @@ public enum SDRCorrection {
   }
   public static var implementationId: String? {
     guard
-      ["CITemperatureAndTint", "CIExposureAdjust", "CIColorControls"].allSatisfy({
+      ["CITemperatureAndTint", "CIExposureAdjust", "CIColorControls", "CIHighlightShadowAdjust"].allSatisfy({
         CIFilter(name: $0) != nil
       })
     else { return nil }
-    return "coreimage-sdr-source-neutral-v1:" + ProcessInfo.processInfo.operatingSystemVersionString
+    return "coreimage-sdr-source-neutral-recovery-v2:" + ProcessInfo.processInfo.operatingSystemVersionString
   }
   static func requireImplementation(_ identity: String?) throws {
     guard let identity, identity == implementationId else {
@@ -53,6 +57,14 @@ public enum SDRCorrection {
         parameters: [
           kCIInputContrastKey: parameters.contrast, kCIInputSaturationKey: parameters.saturation,
           kCIInputBrightnessKey: 0,
+        ])
+    }
+    if parameters.shadows != 0 || parameters.highlights != 0 {
+      result = result.applyingFilter(
+        "CIHighlightShadowAdjust",
+        parameters: [
+          "inputShadowAmount": parameters.shadows,
+          "inputHighlightAmount": 1 - parameters.highlights,
         ])
     }
     return result

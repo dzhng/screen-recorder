@@ -1,3 +1,4 @@
+import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
@@ -14,7 +15,6 @@ import { setImmediate } from "node:timers/promises";
 import type { Models, PreparedRuntime } from "./models.js";
 import {
   selectSpeakerSource,
-  selectSpeakerChannel,
   speakerSourceSchema,
   type SpeakerSourceInput,
 } from "./source-speakers.js";
@@ -25,7 +25,7 @@ import type {
   SpeakerEvidenceMetadata,
 } from "./speaker-evidence.js";
 
-import type { SourceSelection } from "./source-selection.js";
+import { selectSourceChannel, type SourceSelection } from "./source-selection.js";
 
 const artifact = "source-speakers";
 export type SpeakerObserver = (
@@ -91,9 +91,9 @@ export class SpeakerProcessing {
   ) {
     const engine = this.engine(choice.modelId);
     return selections.map((selection) => {
-      const selected = selectSpeakerChannel(this.options.assets, this.options.acquisitions, {
+      const selected = selectSourceChannel(this.options.assets, this.options.acquisitions, {
         ...selection,
-        ...choice,
+        channel: choice.channel,
       });
       const evidence = this.options.evidence.latestObservations(selection.assetId, {
         streamId: selected.selection.streamId,
@@ -199,7 +199,7 @@ export class SpeakerProcessing {
         engine: descriptor.engine,
         decoder: descriptor.decoder,
         runtime,
-        checkpoint: model.checkpoint,
+        checkpoint: join(runtime.model, model.checkpoint),
       },
       signal,
     );

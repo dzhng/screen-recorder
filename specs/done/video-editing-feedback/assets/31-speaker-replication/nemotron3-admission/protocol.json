@@ -1,0 +1,56 @@
+{
+  "status": "refused-before-inference",
+  "candidate": {
+    "provider": "nvidia",
+    "repository": "nvidia/Nemotron-3-Diarization",
+    "revision": "f667ed73aee57d40cc39428eb768b4fd87a0a29e",
+    "artifact": "Nemotron-3-Diarization.nemo",
+    "artifactBytes": 198676480,
+    "artifactSha256": "867c53f552998f772e5b5e5c082962ae85ee7ca5669c2bc17d7f615133d4e96d",
+    "license": "OpenMDW-1.1",
+    "declaredSlots": 8,
+    "declaredOutputClock": "80ms",
+    "declaredNemoVersion": "3.0.0",
+    "modelTarget": "nemo.collections.asr.models.sortformer_diar_models.SortformerEncLabelModel",
+    "encoderTarget": "nemo.collections.asr.modules.TransformerEncoder"
+  },
+  "acquisition": {
+    "state": "downloaded-and-hashed",
+    "workspace": "/private/tmp/yap-nemotron3-admission",
+    "networkDeniedDuringInference": false,
+    "gitTrackedModel": false
+  },
+  "runtime": {
+    "preparedRuntime": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+    "nemo": "2.7.3",
+    "torch": "2.8.0",
+    "numpy": "2.3.5",
+    "attemptedRecipe": {
+      "chunk_len": 340,
+      "chunk_right_context": 40,
+      "fifo_len": 40,
+      "spkcache_update_period": 300,
+      "spkcache_len": 264
+    },
+    "restore": {
+      "state": "refused",
+      "errorType": "InstantiationException",
+      "error": "Error locating target 'nemo.collections.asr.modules.TransformerEncoder': ModuleNotFoundError: No module named 'nemo.collections.asr.modules.TransformerEncoder'"
+    },
+    "sourceCompatibilityProbe": {
+      "source": "NVIDIA-NeMo/Speech",
+      "revision": "50c71dbe1534a89e0d07fe66fbffd205408062ad",
+      "state": "refused",
+      "error": "No module named 'lhotse.indexing'",
+      "installedLhotse": "1.33.0"
+    }
+  },
+  "qualityGate": {
+    "state": "not-run",
+    "reason": "Model restore failed before inference",
+    "requiredShortCases": ["bspxd30", "aiqwk30", "returns-overlap-silence"],
+    "longExpansion": "blocked until every short gate passes",
+    "promotion": false
+  },
+  "nextAction": "Prepare and hash a NeMo 3-compatible relocatable runtime with its matching lhotse dependency, then rerun the unchanged short-first controls; do not modify production speaker defaults."
+}

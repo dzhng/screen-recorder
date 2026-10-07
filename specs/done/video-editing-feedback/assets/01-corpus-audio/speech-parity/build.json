@@ -1,0 +1,32 @@
+{
+  "revision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
+  "speechImplementation": "Frozen integrated07 selected-interval recipe; no unintegrated08 window/context topology",
+  "command": [
+    "swift",
+    "build",
+    "--package-path",
+    "helpers/mac",
+    "--scratch-path",
+    "/tmp/yap-corpus-speech-parity/native-build",
+    "--build-system",
+    "native",
+    "--disable-automatic-resolution",
+    "-j",
+    "2",
+    "--product",
+    "yap-native"
+  ],
+  "swift": "swift-driver 1.168.6; Apple Swift6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1); target arm64-apple-macosx27.0.0",
+  "buildExitCode": 0,
+  "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
+  "sharedInputs": {
+    "FluidAudio": {
+      "directory": "/Users/server/dev/yap-video-editing/helpers/mac/.build/checkouts/FluidAudio",
+      "version": "0.15.7",
+      "revision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "method": "checkout symlink; scratch workspace-state local package paths remapped to isolated worktree; unused binary artifact records removed"
+    },
+    "rnnoise": "unchanged verified root denoise input symlink"
+  },
+  "scope": "Build output isolated; no root build, model preparation, external original, installed app or user library mutation; no model acquisition."
+}

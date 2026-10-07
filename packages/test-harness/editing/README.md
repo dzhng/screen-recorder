@@ -24,6 +24,19 @@ contract change. Match the original operands and observable outcome instead of
 recreating the old implementation. The [preservation registry](../../../specs/done/agent-editing/assets/23-owner-fixture-ports/README.md)
 locates those scoped results and their producing code.
 
+Speech journeys explicitly prepare source dependencies before reading them.
+Historical raw responses remain frozen; the reference-only admission port adds
+required execution/ownership provenance to a derived artifact. Short whole-support
+recognition comparisons validate new ownership and candidate fields before comparing
+every original raw operand except measured processing time. Context or multi-window
+results have different inference topology and cannot use that historical comparison.
+
+[Rendered speech](rendered-speech-public.mjs) compares projected source words with
+fresh recognition of retained revision PCM through CLI/MCP. Independent audio
+landmarks check the selected sample clock; restart reads prove that retained evidence
+needs neither rendering nor inference. Its [accepted evidence](../../../specs/done/video-editing-feedback/assets/11-rendered-speech/README.md)
+keeps the planted edge-cut limitation separate from fresh-observation proof.
+
 ## Pictures, audio and processing
 
 Picture checks separate source-frame membership, sampled project time, geometry
@@ -31,6 +44,22 @@ and encoded appearance. Layer, pointer, caption and scalar-motion fixtures belon
 here because a structurally valid plan can still draw the wrong result. A decoded
 image comparison needs matched input, output time and color interpretation;
 encoding loss must not be mistaken for a composition or color-management error.
+
+[Timed captions](caption-timed-motion.mjs) separate word-to-display mapping from
+entrance motion. Declared synthetic observations isolate those contracts from
+speech-model accuracy; independent numeric frame recipes check actual public
+stills and encoded movies, including a preview beginning inside the motion.
+
+[Blend arithmetic](blend-sheet.mjs) compares authored color/alpha surfaces and a smooth
+vignette against an independent linear-light reference through the public compiler and
+native still/movie operations. Its [retained evidence](../../../specs/done/video-editing-feedback/assets/24-blend-sheet/README.md)
+keeps full-raster still proof separate from movie patch-interior codec tolerance.
+The [public blend journey](blend-public.mjs) adds CLI/MCP admission, delivered bytes,
+exact sample support and export publication over those same frozen operands.
+The [encoded blend reference](blend-encoding.mjs) compares every movie pixel against
+the independent arithmetic image delivered through the same declared codec. Raw
+edge preservation and declared-codec reproducibility are separate claims; retain
+the former failure rather than letting an interior mask certify the latter.
 
 [Loudness references](loudness/README.md) separate independent BS.1770 arithmetic
 from the exact signal/coverage reported by public operations. Meter agreement is
@@ -56,6 +85,11 @@ remain separate from caller edit intent.
 [Optional runtime assembly](../../../helpers/model-runtime/README.md) preserves
 explicit dependency precedence for local inference experiments. It produces an
 artifact for the existing preparation owner, never another installer.
+
+[Conditional alignment](../../../helpers/alignment/README.md) separates controlled
+provider-response parity, native correspondence arithmetic and actual prepared
+runtime inference. A matching forced path does not establish that the supplied
+word was spoken; physical admission and interpretation retain separate proof.
 
 ## Delivery, lifetime and work
 
@@ -88,7 +122,30 @@ source identity and clock. Reuse original narration rather than making another
 copy or requesting another capture. A missing independent label leaves that
 perceptual claim unverified; it does not stop unrelated primitive verification.
 
+The [real-video corpus tool](video-corpus.mjs) derives selected source-decoder
+operands and verifies retained bytes, sample support and exact clock mappings.
+Its [authorized inputs](../../../fixtures/video-editing-feedback/README.md) keep
+reduction fidelity distinct from current recognition/picture behavior.
+
+The [scoped behavior ledger](corpus-behavior.mjs) binds each physically certified
+real case to an existing replayable recognition/timing or picture receipt. It
+keeps the evidence scope explicit; multicamera synchronization, speaker
+continuity and editorial quality remain separate contracts.
+
+The [independent control verifier](corpus-controls.mjs) rechecks the canonical
+small synthetic operands that real-media certification cannot provide: rational
+24fps boundaries, known offset/drift, unrelated tones, rotated asymmetric
+picture, alpha/flat patches, edge landmarks, wrong supplied text, blank input
+and an explicit transition gap. Its feature manifest hashes the existing
+canonical bytes and hand-authored oracles; it does not duplicate media or claim
+that synthetic controls replace the retained real recordings.
+
 ## Platform reproductions
+
+[The decoded-picture runner](decoded-picture-replication.mjs) freezes player-oriented
+SDR comparisons against public unchanged source/project delivery, including exact
+physical clocks and actual profiles. Its [retained reference](../../../specs/done/video-editing-feedback/assets/13-decoded-picture/README.md)
+separates sampled acceptance from broader rendering claims.
 
 [Native rendering](RENDER-REPRODUCTION.md) explains temporal sample support;
 [color and encoding](COLOR-REPRODUCTION.md) explains appearance interpretation.
@@ -119,3 +176,79 @@ sample/clock preservation; it makes no listening or managed-publication claim.
 
 [Audio recipe reproduction](audio-recipes/README.md) retains numerical
 normalization, limiter and compressor evidence before production admission.
+
+[Picture observation verification](picture-observations.mjs) reuses public journey
+lifetime and the independent delivered-PNG observer. It checks explicit region
+operands, alpha coverage and read-only pixel identity, including scratch-authored
+exposure controls and retained index receipts. Its help owns selected inputs and
+invocation. [Accepted observations](../../../specs/done/video-editing-feedback/assets/14-picture-statistics/README.md)
+retain measured scopes without turning camera histograms into grade targets.
+
+[Physical empty-edit delivery](empty-edit-delivery.mjs) imports the frozen
+AVFoundation empty-edit fixture through the public source/project/export path.
+It keeps physical support coverage, refused source reads, black gap pixels and
+available neighbors as separate observations; a black output without physical
+support evidence is not accepted as an empty edit. The retained receipt lives at
+[`30-delivered-scenes/native/empty-edit`](../../../specs/done/video-editing-feedback/assets/30-delivered-scenes/native/empty-edit/README.md).
+
+[Dialogue matching](dialogue-matching.mjs) drives the public CLI and pure consumer
+helper with two identified real-speaker controls. It verifies independent
+processed-clip matching, ordered explicit gains and complete strict mastering;
+its usage owns case inputs. It reuses the existing journey/process owners.
+
+[Alignment evidence parity](alignment-evidence-parity.mjs) reuses existing controlled
+provider outputs and complete frozen word operands through the native correspondence,
+core publication and retained-read boundaries. It checks every possible pairing,
+conditional frame bound and physical refusal; it neither reruns inference nor treats
+supplied text as independent lexical truth.
+
+[Acoustic synchronization research](synchronization/README.md) separates planted
+offsets, retained unlike-microphone PCM and competing-anchor refusals from declared
+source relationships. Its runner owns acquisition and replay; no clock is inferred
+from equal duration or one correlation peak.
+
+The [multicam corpus verifier](multicam-corpus.mjs) certifies the retained
+three-source physical window bank and immutable WAV/PCM identities. A green
+coverage report does not promote synchronization or camera selection.
+
+[Switched-angle delivery](switched-angle-delivery.mjs) imports three caller-authored
+camera controls through CLI/MCP, declares source-bound accepted angle evidence, and
+checks native frame and preview delivery for an explicit sequential switch. It does
+not infer synchronization, speakers or camera selection.
+
+[Retained multicam delivery](multicam-native-delivery.mjs) replays the canonical
+three-source picture recipe through public import, sequential placement and native
+frame/preview delivery. Its verifier reuses the corpus and source-choice owners,
+then checks the retained PNG/MP4 bytes and decoded RGB measurements; it remains
+explicitly caller-authored and unsynchronized.
+
+[Immutable LUT checkpoint](lut-assets.mjs) exercises explicit import, public
+processing, delivered pixels and project-package replay using isolated managed
+state. Its usage owns required executable inputs. The retained
+[evidence](../../../specs/done/video-editing-feedback/assets/26-immutable-luts/README.md)
+distinguishes numerical response from editorial grade quality.
+
+[Tone controls](tone-controls.mjs) compares actual public PNG/movie delivery with
+an independent provider reference over a chart and retained bright-wall picture.
+It freezes treatment before delivery, observes caller-declared regions and
+separates matched codec response from lossless reference fidelity. Its usage owns
+invocation; [accepted evidence](../../../specs/done/video-editing-feedback/assets/25-tone-controls/README.md)
+records the narrow visual scope.
+[Public split-tone delivery](split-tone-public.mjs) runs the immutable LUT through
+CLI/MCP import, project authoring and native frame delivery against an independent
+linear-sRGB curve. It retains neutral, shadow-color and highlight-neutral masks in
+its receipt; [the feature evidence](../../../specs/done/video-editing-feedback/assets/25-tone-controls/split-tone/public/README.md)
+records the scoped response.
+
+[Transition delivery](transition-delivery.mjs) runs caller-authored crossfade, dip
+and flash picture recipes through public import, edit authoring, native frame reads
+and preview export with solid-color controls. Its midpoint proves both explicit
+sources reach a crossfade, while dip and flash prove the source reaches the black
+canvas and returns; [the feature evidence](../../../specs/done/video-editing-feedback/assets/27-29-transitions/crossfade/README.md)
+keeps audio and visual-reference gates separate.
+
+[Motion delivery replay](motion-delivery-replay.mjs) replays the retained moved/split
+zoom receipt without rerendering. It checks the frozen worker identities, picture
+membership counts and preview/export hashes; its focused test also proves a mutated
+receipt is refused. This is structural evidence only, so it does not stand in for
+reference-conditioned trajectory or blur appearance parity.

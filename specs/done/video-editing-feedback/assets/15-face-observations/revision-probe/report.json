@@ -1,0 +1,68 @@
+{
+  "kind": "face-localization-revision-probe",
+  "status": "refused",
+  "recipe": {
+    "visionRevision": 2,
+    "delivery": "native media.sourceImage via public worker",
+    "sourceScale": "maxLongEdge=640",
+    "minimumBoxIoU": 0.5
+  },
+  "source": {
+    "asset": "fixtures/video-editing-feedback/graham-picture.mov",
+    "sha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118"
+  },
+  "candidateReport": {
+    "path": "graham-revision2-report.json.gz",
+    "sha256": "4b81f5f21b6577eff30f3629bce6d688f26fd412cf3b316870c06c02a9340ca0",
+    "uncompressedSha256": "a1f378a27a929c10ef51e84f56e534921617d5c0168f9c31225c3b21f6dd5942"
+  },
+  "implementationId": "vision-face-rectangles-v1:revision-2:Version 27.0.1 (Build 26A434):landmarks-revision-3",
+  "failedFrames": [
+    {
+      "ordinal": 63,
+      "iou": 0.4638574688091655
+    },
+    {
+      "ordinal": 64,
+      "iou": 0.47135747047916465
+    },
+    {
+      "ordinal": 65,
+      "iou": 0.4974980754426482
+    },
+    {
+      "ordinal": 66,
+      "iou": 0.48489425981873113
+    },
+    {
+      "ordinal": 67,
+      "iou": 0.4771923020989869
+    },
+    {
+      "ordinal": 68,
+      "iou": 0.4823791749478889
+    },
+    {
+      "ordinal": 69,
+      "iou": 0.4959581780337867
+    },
+    {
+      "ordinal": 70,
+      "iou": 0.4959581780337867
+    },
+    {
+      "ordinal": 71,
+      "iou": 0.4865336175159853
+    }
+  ],
+  "failureCount": 9,
+  "minFailedIoU": 0.4638574688091655,
+  "maxFailedIoU": 0.4974980754426482,
+  "additionalRefusal": {
+    "workflow": "subject-observations.mjs",
+    "case": "graham/crop-center",
+    "reason": "Every static delivered raster must match the frozen reference bound"
+  },
+  "promotion": false,
+  "interpretation": "Revision 2 materially improves the frozen Graham failure count but does not satisfy the unchanged full-face gate; the production detector remains unchanged."
+}

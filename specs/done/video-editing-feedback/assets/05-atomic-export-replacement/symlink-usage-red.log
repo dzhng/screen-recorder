@@ -1,0 +1,49 @@
+✖ public external swap symlink conflict reports uncertain visibility and retains unknown displacement (2724.613042ms)
+✖ symlink raced at the kernel swap boundary is retained in conflict without following it (384.782958ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3008.849041
+
+✖ failing tests:
+
+test at apps/service/tests/export-replacement.mjs:355:44
+✖ public external swap symlink conflict reports uncertain visibility and retains unknown displacement (2724.613042ms)
+  AssertionError [ERR_ASSERTION]: {"code":1,"response":{"ok":false,"error":{"code":"INVALID_STORAGE","message":"Unexpected private publication file type.","retryable":false,"details":{}},"id":"f039b724-579a-434e-88ad-784096517100"},"stderr":""}
+  
+  1 !== 0
+  
+      at Object.good (file:///Users/server/dev/yap-exact-removal/apps/service/tests/export-replacement.mjs:86:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///Users/server/dev/yap-exact-removal/apps/service/tests/export-replacement.mjs:408:19)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at helpers/mac/Tests/publication.test.mjs:268:1
+✖ symlink raced at the kernel swap boundary is retained in conflict without following it (384.782958ms)
+  AssertionError [ERR_ASSERTION]: {"id":"test","ok":false,"error":{"retryable":false,"message":"Unexpected private publication file type.","details":{},"code":"INVALID_STORAGE"}}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-exact-removal/helpers/mac/Tests/publication.test.mjs:282:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

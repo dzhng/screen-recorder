@@ -87,8 +87,8 @@ async function delivered(params, transport) {
     (v) => v.state === "ready",
     "audio ready",
   );
-  assert.equal(ready.published.audio.sampleRate, 48000);
-  assert.equal(ready.published.audio.channels, 2);
+  assert.equal(ready.published.output.sampleRate, 48000);
+  assert.equal(ready.published.output.channels, 2);
   const name = `${String(ordinal++).padStart(2, "0")}-${transport}.wav`;
   let bytes, data;
   if (transport === "cli") {
@@ -110,8 +110,8 @@ async function delivered(params, transport) {
       inlineAudio: true,
     });
   }
-  assert.equal(data.published.audio.revisionId, ready.revisionId);
-  assert.equal(data.published.audio.frames, pcm(bytes).length / 8);
+  assert.equal(data.published.output.revisionId, ready.revisionId);
+  assert.equal(data.published.output.frames, pcm(bytes).length / 8);
   return { bytes, data, name };
 }
 async function waveform(params, range, gain, requestedBucketFrames = 479) {
@@ -132,7 +132,7 @@ async function waveform(params, range, gain, requestedBucketFrames = 479) {
   assert.equal(mcp.content.length, 2);
   assert.equal(mcp.content[1].type, "text");
   assert.equal(mcp.content[1].text, bytes.toString("utf8"));
-  assert.equal(cli.published.waveform.bytes, bytes.length);
+  assert.equal(cli.published.output.bytes, bytes.length);
   assert.equal(cli.published.generation, ready.published.generation);
   const document = JSON.parse(bytes);
   const start = Math.floor((range.startUs * 48000) / 1000000);
@@ -296,7 +296,7 @@ try {
         mcp = await delivered(params, "mcp");
       assert.deepEqual(cli.bytes, mcp.bytes);
       const result = verify(cli.bytes, range, gain);
-      assert.deepEqual(cli.data.published.audio.sampleRange, {
+      assert.deepEqual(cli.data.published.output.sampleRange, {
         start: result.start,
         end: result.end,
       });

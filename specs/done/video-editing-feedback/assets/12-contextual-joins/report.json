@@ -1,0 +1,21 @@
+{
+  "restoredSha256": "ebc8e294a8e58303da54b8b4acb2e04b6a83c03586de604d59bf2889cc9781f2",
+  "checks": [
+    {
+      "name": "ending-source-clock",
+      "exitCode": 1,
+      "mutation": {
+        "from": "before: side(before, at),",
+        "to": "before: side(before, fromTime(0)),"
+      }
+    },
+    {
+      "name": "fractional-extent",
+      "exitCode": 1,
+      "mutation": {
+        "from": "compare(at, terminal) > 0",
+        "to": "compare(at, fromTime(model.durationUs)) > 0"
+      }
+    }
+  ]
+}

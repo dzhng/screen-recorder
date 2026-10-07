@@ -1,12 +1,4 @@
 import { randomUUID } from "node:crypto";
-import { Catalog } from "@yap/core/catalog";
-import { AssetStore } from "@yap/core/assets";
-import { AcquisitionStore } from "@yap/core/acquisitions";
-import { Models } from "@yap/core/models";
-import { JobQueue } from "@yap/core/jobs";
-import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
-import { SpeakerProcessing } from "@yap/core/speaker-processing";
-import { selectSpeakerSource, type SpeakerSourceInput } from "@yap/core/source-speakers";
 import { afterEach, expect, test } from "vitest";
 import { writeFile, realpath, rm } from "node:fs/promises";
 import { join } from "node:path";
@@ -14,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { jsonWorker } from "./worker.js";
 import { setTimeout as delay } from "node:timers/promises";
 import { projectServiceFixture } from "./project-service.fixture.js";
-import { nativeOutput, speakerSource } from "./speaker.fixture.js";
+import { publishControlledObservation, speakerSource } from "./speaker.fixture.js";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -50,7 +42,7 @@ test("public speaker source requests report missing optional preparation without
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
   const input = {
-    assetId: job.result!.assetId,
+    assetId: job.published!.output.assetId,
     streamId: "audio",
     channel: 1,
     sourceRange: speakerSource.observationRange,
@@ -101,7 +93,7 @@ test("public retained speaker pages survive service restart without runtime byte
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
   const input = {
-    assetId: job.result!.assetId,
+    assetId: job.published!.output.assetId,
     streamId: "audio",
     channel: 1,
     sourceRange: speakerSource.observationRange,
@@ -163,7 +155,7 @@ test("public retained speaker pages survive service restart without runtime byte
   expect(resumed).toEqual(second);
   expect(prepared).toMatchObject({
     ok: true,
-    data: { state: "ready", published: { evidence: published } },
+    data: { state: "ready", published: { output: published } },
   });
   expect(await restarted.call("speaker.get", { ...query, view: "scores", cursor })).toMatchObject({
     ok: false,
@@ -171,77 +163,191 @@ test("public retained speaker pages survive service restart without runtime byte
   });
 });
 
-async function publishControlledObservation(home: string, input: SpeakerSourceInput) {
-  const library = join(home, "library"),
-    catalog = new Catalog(join(library, "catalog.sqlite"));
-  const assets = new AssetStore(catalog, library),
-    acquisitions = new AcquisitionStore(catalog);
-  const models = new Models(library),
-    selected = selectSpeakerSource(assets, acquisitions, input);
-  const evidence = new SpeakerEvidenceStore(catalog, assetSpeakerOwner(assets, acquisitions));
-  const jobs = new JobQueue({
-    store: catalog,
-    deferExecution: true,
-    providers: { newId: randomUUID },
-    targets: {
-      pin: (target) =>
-        target.kind === "project"
-          ? { ...target, revisionId: target.revisionId ?? null }
-          : { ...target, revisionId: null },
-      isAvailable: () => true,
-      isDeleting: () => false,
-      isCapturing: () => false,
-    },
-    execute: async () => {
-      throw new Error("Retained fixture cannot execute a model");
+test("public speaker bindings are pinned to one retained generation and decorate interval rows", async () => {
+  const f = await projectServiceFixture(cleanup, async (operation) => {
+    if (operation !== "media.probe") throw new Error(operation);
+    return {
+      ok: true,
+      data: {
+        originUs: -250000,
+        streams: [
+          {
+            id: "audio",
+            kind: "audio",
+            codec: "controlled",
+            decodable: true,
+            channels: 2,
+            sampleRate: 16000,
+            startUs: 0,
+            endUs: 40000000,
+            segments: [{ startUs: 0, endUs: 40000000, empty: false }],
+          },
+        ],
+      },
+    };
+  });
+  const imported = await f.call("asset.import", { requestId: "bind-speaker", path: f.path });
+  if (!imported.ok) throw new Error(JSON.stringify(imported));
+  const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
+  const input = {
+    assetId: job.published!.output.assetId,
+    streamId: "audio",
+    channel: 1,
+    sourceRange: speakerSource.observationRange,
+    modelId: speakerSource.engine.modelId,
+  };
+  const metadata = await publishControlledObservation(f.home, input);
+  const { sourceRange, ...selection } = input;
+  const bound = await f.call("speaker.bind", {
+    ...selection,
+    observationRange: sourceRange,
+    generation: metadata.generation,
+    bindings: [{ slot: 1, displayName: "Ada" }],
+  });
+  const read = await f.call("speaker.get", { ...selection, observationRange: sourceRange });
+  expect(bound).toMatchObject({ ok: true, data: { bindings: [{ slot: 1, displayName: "Ada" }] } });
+  expect(read).toMatchObject({ ok: true });
+  if (read.ok) {
+    const rows = (read.data as { page: { rows: { slot: number; label?: string }[] } }).page.rows;
+    expect(rows.find((row) => row.slot === 1)).toMatchObject({ slot: 1, label: "Ada" });
+    expect(rows.find((row) => row.slot === 0)).not.toHaveProperty("label");
+    const paged = await f.call("speaker.get", {
+      ...selection,
+      observationRange: sourceRange,
+      limit: 1,
+    });
+    expect(paged).toMatchObject({ ok: true });
+    const nextCursor = paged.ok
+      ? (paged.data as { page: { nextCursor: string | null } }).page.nextCursor
+      : null;
+    if (nextCursor) {
+      expect(
+        await f.call("speaker.bind", {
+          ...selection,
+          observationRange: sourceRange,
+          generation: metadata.generation,
+          bindings: [{ slot: 1, displayName: "Grace" }],
+        }),
+      ).toMatchObject({ ok: true, data: { bindings: [{ slot: 1, displayName: "Grace" }] } });
+      expect(
+        await f.call("speaker.get", {
+          ...selection,
+          observationRange: sourceRange,
+          cursor: nextCursor,
+        }),
+      ).toMatchObject({ ok: false, error: { code: "ARTIFACT_CHANGED" } });
+    }
+  }
+  expect(
+    await f.call("speaker.bind", {
+      ...selection,
+      observationRange: sourceRange,
+      generation: "another-generation",
+      bindings: [],
+    }),
+  ).toMatchObject({ ok: false, error: { code: "ARTIFACT_CHANGED" } });
+});
+
+test("project speaker rows carry caller labels for their retained generation", async () => {
+  const f = await projectServiceFixture(cleanup, async (operation) => {
+    if (operation !== "media.probe") throw new Error(operation);
+    return {
+      ok: true,
+      data: {
+        originUs: -250000,
+        streams: [
+          {
+            id: "audio",
+            kind: "audio",
+            codec: "controlled",
+            decodable: true,
+            channels: 2,
+            sampleRate: 16000,
+            startUs: 0,
+            endUs: 40000000,
+            segments: [{ startUs: 0, endUs: 40000000, empty: false }],
+          },
+        ],
+      },
+    };
+  });
+  const imported = await f.call("asset.import", { requestId: "project-labels", path: f.path });
+  if (!imported.ok) throw new Error(JSON.stringify(imported));
+  const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
+  const input = {
+    assetId: job.published!.output.assetId,
+    streamId: "audio",
+    channel: 1,
+    sourceRange: speakerSource.observationRange,
+    modelId: speakerSource.engine.modelId,
+  };
+  const metadata = await publishControlledObservation(f.home, input);
+  expect(
+    await f.call("speaker.bind", {
+      assetId: input.assetId,
+      streamId: input.streamId,
+      channel: input.channel,
+      modelId: input.modelId,
+      observationRange: input.sourceRange,
+      generation: metadata.generation,
+      bindings: [{ slot: 1, displayName: "Ada" }],
+    }),
+  ).toMatchObject({ ok: true });
+  const created = await f.call("project.create", {
+    requestId: "project-labels-create",
+    canvas: {
+      width: 64,
+      height: 48,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
     },
   });
-  try {
-    const source = {
-      ...speakerSource,
-      streamId: input.streamId,
-      supportDigest: selected.supportDigest,
-      originUs: selected.originUs,
-      durationUs: selected.durationUs,
-      engine: models.speaker(input.modelId).engine,
-    };
-    const identity = {
-      owner: { kind: "asset" as const, assetId: input.assetId },
-      sourceId: input.assetId,
-      generation: "retained-control-g1",
-      policy: "speaker-v1" as const,
-    };
-    const staged = evidence.stage(
-      identity,
-      source,
-      nativeOutput(undefined, source.engine.modelSha256),
-    );
-    const processing = new SpeakerProcessing({
-      assets,
-      acquisitions,
-      models,
-      jobs,
-      evidence,
-      decoder: null,
-      observe: async () => {
-        throw new Error("Retained fixture cannot observe");
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const { project, revision } = created.data as {
+    project: { projectId: string };
+    revision: { id: string };
+  };
+  const edited = await f.call("edit.apply", {
+    projectId: project.projectId,
+    requestId: "project-labels-place",
+    expectedRevisionId: revision.id,
+    operations: [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "sound" },
+      {
+        operation: "place",
+        clip: {
+          trackId: { label: "sound" },
+          assetId: input.assetId,
+          streamId: input.streamId,
+          source: { kind: "range", range: { startUs: 0, endUs: 30000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 30000000 } },
+        },
       },
-    });
-    const { pcm, ...executionSource } = source;
-    catalog.transaction(() => {
-      staged.publish();
-      processing.adoptPublication(staged.metadata, {
-        generation: 1,
-        attemptId: identity.generation,
-        input: JSON.stringify({ request: input, source: executionSource }),
-      });
-    });
-    return staged.metadata;
-  } finally {
-    await jobs.close();
-    catalog.close();
+    ],
+  });
+  if (!edited.ok) throw new Error(JSON.stringify(edited));
+  const editedData = edited.data as { revision: { id: string } };
+  const query = {
+    projectId: project.projectId,
+    revisionId: editedData.revision.id,
+    range: { startUs: 0, endUs: 3000000 },
+    channel: input.channel,
+    modelId: input.modelId,
+  };
+  let read;
+  for (;;) {
+    read = await f.call("speaker.get", query);
+    if (!read.ok || (read.data as { page: unknown }).page !== null) break;
+    await delay(10);
   }
-}
+  expect(read).toMatchObject({ ok: true });
+  if (read.ok) {
+    const data = read.data as { page: { rows: { slot: number; label?: string }[] } };
+    const rows = data.page.rows;
+    expect(rows.find((row) => row.slot === 1)).toMatchObject({ slot: 1, label: "Ada" });
+    expect(rows.find((row) => row.slot === 0)).not.toHaveProperty("label");
+  }
+});
 
 test.runIf(process.platform === "darwin")(
   "speaker package export, read-only open and adoption preserve exact source evidence without model execution",
@@ -249,9 +355,7 @@ test.runIf(process.platform === "darwin")(
     const native = jsonWorker({
       executable:
         process.env.YAP_NATIVE ??
-        fileURLToPath(
-          new URL("../../../helpers/mac/.build/debug/yap-native", import.meta.url),
-        ),
+        fileURLToPath(new URL("../../../helpers/mac/.build/debug/yap-native", import.meta.url)),
       args: [],
     });
     const f = await projectServiceFixture(cleanup, async (operation, params, options) => {
@@ -280,7 +384,7 @@ test.runIf(process.platform === "darwin")(
     if (!imported.ok) throw Error(JSON.stringify(imported));
     const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
     const input = {
-      assetId: job.result!.assetId,
+      assetId: job.published!.output.assetId,
       streamId: "audio",
       channel: 1,
       sourceRange: speakerSource.observationRange,
@@ -289,6 +393,14 @@ test.runIf(process.platform === "darwin")(
     await publishControlledObservation(f.home, input);
     const { sourceRange, ...selection } = input;
     const query = { ...selection, observationRange: sourceRange, view: "scores", limit: 1000 };
+    const unlabeled = await f.call("speaker.get", query);
+    if (!unlabeled.ok) throw Error(JSON.stringify(unlabeled));
+    await f.call("speaker.bind", {
+      ...selection,
+      observationRange: sourceRange,
+      generation: (unlabeled.data as { generation: string }).generation,
+      bindings: [{ slot: 0, displayName: "Ada" }],
+    });
     const original = await f.call("speaker.get", query);
     const created = await f.call("project.create", {
       requestId: "portable-speaker-project",
@@ -384,6 +496,11 @@ test.runIf(process.platform === "darwin")(
       { ...projectQuery, packageHandle },
       "ready",
     );
+    expect(
+      (portableProjection.page as { rows: { slot: number; label?: string }[] }).rows.find(
+        (row) => row.slot === 0,
+      ),
+    ).toMatchObject({ slot: 0, label: "Ada" });
     expect((portableProjection.page as { rows: unknown }).rows).toEqual(
       (projected.page as { rows: unknown }).rows,
     );
@@ -397,6 +514,17 @@ test.runIf(process.platform === "darwin")(
     });
     const packaged = await target.call("speaker.get", { ...query, packageHandle });
     expect(packaged).toMatchObject(original);
+    const packagedIntervals = await target.call("speaker.get", {
+      ...query,
+      view: "intervals",
+      packageHandle,
+    });
+    if (!packagedIntervals.ok) throw Error(JSON.stringify(packagedIntervals));
+    expect(
+      (
+        packagedIntervals.data as { page: { rows: { slot: number; label?: string }[] } }
+      ).page.rows.find((row) => row.slot === 0),
+    ).toMatchObject({ slot: 0, label: "Ada" });
     const adopted = await ready(
       "package.adopt",
       { packageHandle, requestId: "speaker-adopt" },
@@ -406,7 +534,10 @@ test.runIf(process.platform === "darwin")(
       packageHandle,
       requestId: "speaker-adopt",
     });
-    expect(replayed).toMatchObject({ ok: true, data: { state: "ready", result: adopted.result } });
+    expect(replayed).toMatchObject({
+      ok: true,
+      data: { state: "ready", published: adopted.published },
+    });
     await target.call("package.close", { admissionId });
     await f.service.close();
     await rm(f.home, { recursive: true, force: true });

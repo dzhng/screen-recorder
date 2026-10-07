@@ -1,0 +1,8 @@
+- At native size, all four captions are inside the 640×420 sheets with comfortable margins. No clipping, overlap, or positioning failure is visible. **Confidence: high.**
+- The red stroke, blue shadow, and rounded background panel read as deliberate aesthetic treatments. The panel has balanced padding and smooth corners. **Confidence: high.**
+- The blue shadow is broad and offset above/left, creating a noticeable ghost-like halo. This is visible in the native sheet but remains legible; it looks stylistic, with mild over-blur rather than a clear defect. **Confidence: medium.**
+- The 2× crops expose normal raster stair-stepping and gray antialiasing on the plain text. The styled stroke has slightly uneven, pixel-rough thickness around curves, but this is largely crop-only. **Confidence: medium.**
+- The shadow crop shows the strongest blur/ringing and reduced edge contrast around the white letters. **Confidence: medium.**
+- The `é` glyph is shaped correctly, but its leftmost pixels touch the image edge, creating a possible crop-clipping risk depending on the intended placement. **Confidence: medium.**
+- The color emoji is centered, fully rendered, and clean; only slight softening at its edge is visible in the 2× crop. **Confidence: high.**
+- The Devanagari sample has correct shaping, connected headline, and attached marks with no missing glyphs. The enlarged crop shows ordinary pixel stair-stepping only. **Confidence: high.**

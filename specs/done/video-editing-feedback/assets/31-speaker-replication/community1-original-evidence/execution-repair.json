@@ -1,0 +1,9 @@
+{
+  "firstAttempt": "runs/bspxd30",
+  "firstVerdict": "Pre-model-import JSONL parse refusal; inferenceCalls0",
+  "repair": "Transport serializes one JSON line; distinct output reservation",
+  "repairAttempt": "runs/bspxd30-repair1",
+  "workerSha256": "70b6e82a908d053b88c77a4c23c861cce96b9d8de30368b0367b6ac0c1791d98",
+  "qualityRecipeChanged": false,
+  "repairAllowanceConsumed": 1
+}

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "policy": "caller-authored-source-choice",
+  "selections": [
+    { "source": "grahamRaw", "audioWindowStartUs": 0, "pictureSource": "grahamRaw", "pictureSampleIndex": 0 },
+    { "source": "grahamRaw", "audioWindowStartUs": 240000000, "pictureSource": "grahamRaw", "pictureSampleIndex": 1 },
+    { "source": "grahamRaw", "audioWindowStartUs": 1200000000, "pictureSource": "grahamRaw", "pictureSampleIndex": 2 },
+    { "source": "lilyRawP1", "audioWindowStartUs": 0, "pictureSource": "lilyRawP1", "pictureSampleIndex": 0 },
+    { "source": "lilyRawP1", "audioWindowStartUs": 240000000, "pictureSource": "lilyRawP1", "pictureSampleIndex": 1 },
+    { "source": "lilyRawP1", "audioWindowStartUs": 1200000000, "pictureSource": "lilyRawP1", "pictureSampleIndex": 2 },
+    { "source": "madisonRaw", "audioWindowStartUs": 0, "pictureSource": "madisonRaw", "pictureSampleIndex": 0 },
+    { "source": "madisonRaw", "audioWindowStartUs": 240000000, "pictureSource": "madisonRaw", "pictureSampleIndex": 1 },
+    { "source": "madisonRaw", "audioWindowStartUs": 1200000000, "pictureSource": "madisonRaw", "pictureSampleIndex": 2 }
+  ]
+}

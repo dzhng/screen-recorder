@@ -1,0 +1,33 @@
+$ vitest run --maxWorkers=4 src/source-transcript-read.test.ts -t "retained Madison"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+ ❯ src/source-transcript-read.test.ts (11 tests | 1 failed | 9 skipped) 14ms
+   × retained Madison green native evidence survives admission unchanged 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-transcript-read.test.ts > retained Madison green native evidence survives admission unchanged
+Error: Transcript words must not overlap
+ ❯ invalid src/transcript.ts:294:9
+    292| });
+    293| function invalid(message: string, details: Record<string, unknown> = {…
+    294|   throw new CatalogError("INVALID_RESPONSE", message, details);
+       |         ^
+    295| }
+    296| function component(value: string): string {
+ ❯ consume src/transcript.ts:855:38
+ ❯ TranscriptStore.index src/transcript.ts:889:17
+ ❯ TranscriptStore.ingest src/transcript.ts:674:20
+ ❯ fixture src/source-transcript-read.test.ts:71:20
+ ❯ src/source-transcript-read.test.ts:391:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed | 9 skipped (11)
+   Start at  21:43:24
+   Duration  189ms (transform 62%, import 28%, tests 10%, worker 1%)
+
+error: script "test" exited with code 1

@@ -176,8 +176,8 @@ export async function denoiseTransitions({
   }
   assert.notEqual(endpointPreparations[1].jobId, endpointPreparations[2].jobId);
   assert.equal(
-    endpointPreparations[1].published.audio.assetId,
-    endpointPreparations[2].published.audio.assetId,
+    endpointPreparations[1].published.output.assetId,
+    endpointPreparations[2].published.output.assetId,
   );
   revision = await call("edit.restore", {
     projectId,

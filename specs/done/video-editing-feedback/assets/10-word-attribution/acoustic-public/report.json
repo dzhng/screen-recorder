@@ -1,0 +1,4655 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "alignment.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "alignment.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "alignment.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "checks": [
+    {
+      "name": "fortunate-intact",
+      "selection": {
+        "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+        "streamId": "track:1",
+        "channel": 0,
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 951000
+        },
+        "text": "fortunate",
+        "modelId": "nemo-ctc110"
+      },
+      "published": {
+        "owner": {
+          "kind": "asset",
+          "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9"
+        },
+        "generation": "c6ee8426-907e-4495-a0bb-52c1bfe64e43",
+        "policy": "alignment-v1",
+        "source": {
+          "streamId": "track:1",
+          "acquisitionId": null,
+          "supportDigest": "882980d478fff63f26c695ef7ba69c0e70b9a11757a8c4a3040ca6f17ccea677",
+          "channel": 0,
+          "originUs": 0,
+          "durationUs": 951000,
+          "observationRange": {
+            "startUs": 0,
+            "endUs": 951000
+          },
+          "text": "fortunate",
+          "pcm": {
+            "sha256": "44d21ae68cdbb384a65f133c20ef0cb83ce56406e1ef58de5358f567f4905512",
+            "sampleRate": 16000,
+            "frames": 15216
+          },
+          "decoder": {
+            "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+            "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+            "osBuild": "Version 27.0.1 (Build 26A434)"
+          },
+          "engine": {
+            "modelId": "nemo-ctc110",
+            "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+            "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+            "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+            "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+            "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+            "recipe": "nemo-auxiliary-ctc110-v1"
+          }
+        },
+        "nativeReceiptSha256": "edf7d0f2b91ef12797436e6267c6798be28ef269dd8f81b307a3c48f642d1e7d",
+        "reportSha256": "86639b07c2d09f6a92b7f4f1d9b1163414a4749559ff44e986baea3fca4a8b4b",
+        "correspondenceSha256": "eb922462628b6f612b54a6db2d9e10de17f3b64954b4ba550744f9dd639afcf4",
+        "wordCount": 2,
+        "acousticCount": 96,
+        "scoreCount": 12,
+        "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+        "observedLowerDecileRMS": 0.00006934362460077379,
+        "conditionalStatus": "forced_path_observation",
+        "correspondenceOptimum": 1,
+        "lexicalIdentity": "unknown",
+        "scoreMeaning": "uncalibrated"
+      },
+      "thresholds": [
+        {
+          "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+          "state": "ready",
+          "generation": "c6ee8426-907e-4495-a0bb-52c1bfe64e43",
+          "page": {
+            "evidence": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9"
+              },
+              "generation": "c6ee8426-907e-4495-a0bb-52c1bfe64e43",
+              "policy": "alignment-v1",
+              "source": {
+                "streamId": "track:1",
+                "acquisitionId": null,
+                "supportDigest": "882980d478fff63f26c695ef7ba69c0e70b9a11757a8c4a3040ca6f17ccea677",
+                "channel": 0,
+                "originUs": 0,
+                "durationUs": 951000,
+                "observationRange": {
+                  "startUs": 0,
+                  "endUs": 951000
+                },
+                "text": "fortunate",
+                "pcm": {
+                  "sha256": "44d21ae68cdbb384a65f133c20ef0cb83ce56406e1ef58de5358f567f4905512",
+                  "sampleRate": 16000,
+                  "frames": 15216
+                },
+                "decoder": {
+                  "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+                  "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+                  "osBuild": "Version 27.0.1 (Build 26A434)"
+                },
+                "engine": {
+                  "modelId": "nemo-ctc110",
+                  "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+                  "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+                  "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+                  "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+                  "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+                  "recipe": "nemo-auxiliary-ctc110-v1"
+                }
+              },
+              "nativeReceiptSha256": "edf7d0f2b91ef12797436e6267c6798be28ef269dd8f81b307a3c48f642d1e7d",
+              "reportSha256": "86639b07c2d09f6a92b7f4f1d9b1163414a4749559ff44e986baea3fca4a8b4b",
+              "correspondenceSha256": "eb922462628b6f612b54a6db2d9e10de17f3b64954b4ba550744f9dd639afcf4",
+              "wordCount": 2,
+              "acousticCount": 96,
+              "scoreCount": 12,
+              "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+              "observedLowerDecileRMS": 0.00006934362460077379,
+              "conditionalStatus": "forced_path_observation",
+              "correspondenceOptimum": 1,
+              "lexicalIdentity": "unknown",
+              "scoreMeaning": "uncalibrated"
+            },
+            "view": "acoustic",
+            "sourceRange": {
+              "startUs": 0,
+              "endUs": 951000
+            },
+            "rows": [
+              {
+                "startSample": 0,
+                "endSample": 160,
+                "rms": 0.0002544878409607705,
+                "peak": 0.0006406696047633886,
+                "ordinal": 0,
+                "sourceRange": {
+                  "startUs": 0,
+                  "endUs": 10000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 160,
+                "endSample": 320,
+                "rms": 0.0004325191684805482,
+                "peak": 0.0010755810653790832,
+                "ordinal": 1,
+                "sourceRange": {
+                  "startUs": 10000,
+                  "endUs": 20000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 320,
+                "endSample": 480,
+                "rms": 0.000994060677257301,
+                "peak": 0.004037503618746996,
+                "ordinal": 2,
+                "sourceRange": {
+                  "startUs": 20000,
+                  "endUs": 30000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 480,
+                "endSample": 640,
+                "rms": 0.001377753171943479,
+                "peak": 0.004535960033535957,
+                "ordinal": 3,
+                "sourceRange": {
+                  "startUs": 30000,
+                  "endUs": 40000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 640,
+                "endSample": 800,
+                "rms": 0.0019177090931252775,
+                "peak": 0.006047303322702646,
+                "ordinal": 4,
+                "sourceRange": {
+                  "startUs": 40000,
+                  "endUs": 50000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 800,
+                "endSample": 960,
+                "rms": 0.0024009041965554058,
+                "peak": 0.007631051819771528,
+                "ordinal": 5,
+                "sourceRange": {
+                  "startUs": 50000,
+                  "endUs": 60000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 960,
+                "endSample": 1120,
+                "rms": 0.003396907675849028,
+                "peak": 0.013873935677111149,
+                "ordinal": 6,
+                "sourceRange": {
+                  "startUs": 60000,
+                  "endUs": 70000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1120,
+                "endSample": 1280,
+                "rms": 0.0039785933448541295,
+                "peak": 0.01327322144061327,
+                "ordinal": 7,
+                "sourceRange": {
+                  "startUs": 70000,
+                  "endUs": 80000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1280,
+                "endSample": 1440,
+                "rms": 0.005121764596326275,
+                "peak": 0.016481470316648483,
+                "ordinal": 8,
+                "sourceRange": {
+                  "startUs": 80000,
+                  "endUs": 90000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1440,
+                "endSample": 1600,
+                "rms": 0.008514323897135457,
+                "peak": 0.03327722102403641,
+                "ordinal": 9,
+                "sourceRange": {
+                  "startUs": 90000,
+                  "endUs": 100000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1600,
+                "endSample": 1760,
+                "rms": 0.01568500548377755,
+                "peak": 0.047239549458026886,
+                "ordinal": 10,
+                "sourceRange": {
+                  "startUs": 100000,
+                  "endUs": 110000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1760,
+                "endSample": 1920,
+                "rms": 0.057569402369977166,
+                "peak": 0.14174038171768188,
+                "ordinal": 11,
+                "sourceRange": {
+                  "startUs": 110000,
+                  "endUs": 120000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1920,
+                "endSample": 2080,
+                "rms": 0.19733567061295595,
+                "peak": 0.45268455147743225,
+                "ordinal": 12,
+                "sourceRange": {
+                  "startUs": 120000,
+                  "endUs": 130000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2080,
+                "endSample": 2240,
+                "rms": 0.23699736085255074,
+                "peak": 0.5860771536827087,
+                "ordinal": 13,
+                "sourceRange": {
+                  "startUs": 130000,
+                  "endUs": 140000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2240,
+                "endSample": 2400,
+                "rms": 0.23567639174104327,
+                "peak": 0.613801121711731,
+                "ordinal": 14,
+                "sourceRange": {
+                  "startUs": 140000,
+                  "endUs": 150000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2400,
+                "endSample": 2560,
+                "rms": 0.23966564772039547,
+                "peak": 0.6376404166221619,
+                "ordinal": 15,
+                "sourceRange": {
+                  "startUs": 150000,
+                  "endUs": 160000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2560,
+                "endSample": 2720,
+                "rms": 0.23593466438840546,
+                "peak": 0.6439880728721619,
+                "ordinal": 16,
+                "sourceRange": {
+                  "startUs": 160000,
+                  "endUs": 170000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2720,
+                "endSample": 2880,
+                "rms": 0.2318937869865349,
+                "peak": 0.6656380295753479,
+                "ordinal": 17,
+                "sourceRange": {
+                  "startUs": 170000,
+                  "endUs": 180000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2880,
+                "endSample": 3040,
+                "rms": 0.23050190817566021,
+                "peak": 0.6597368121147156,
+                "ordinal": 18,
+                "sourceRange": {
+                  "startUs": 180000,
+                  "endUs": 190000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3040,
+                "endSample": 3200,
+                "rms": 0.22436375145775206,
+                "peak": 0.6425520777702332,
+                "ordinal": 19,
+                "sourceRange": {
+                  "startUs": 190000,
+                  "endUs": 200000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3200,
+                "endSample": 3360,
+                "rms": 0.22067522619267074,
+                "peak": 0.659699022769928,
+                "ordinal": 20,
+                "sourceRange": {
+                  "startUs": 200000,
+                  "endUs": 210000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3360,
+                "endSample": 3520,
+                "rms": 0.2164295612195805,
+                "peak": 0.6617483496665955,
+                "ordinal": 21,
+                "sourceRange": {
+                  "startUs": 210000,
+                  "endUs": 220000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3520,
+                "endSample": 3680,
+                "rms": 0.21680965001824715,
+                "peak": 0.6602290868759155,
+                "ordinal": 22,
+                "sourceRange": {
+                  "startUs": 220000,
+                  "endUs": 230000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3680,
+                "endSample": 3840,
+                "rms": 0.21243959342492752,
+                "peak": 0.6472417116165161,
+                "ordinal": 23,
+                "sourceRange": {
+                  "startUs": 230000,
+                  "endUs": 240000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3840,
+                "endSample": 4000,
+                "rms": 0.2042934878083349,
+                "peak": 0.6265286207199097,
+                "ordinal": 24,
+                "sourceRange": {
+                  "startUs": 240000,
+                  "endUs": 250000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4000,
+                "endSample": 4160,
+                "rms": 0.17082809156854906,
+                "peak": 0.5989174842834473,
+                "ordinal": 25,
+                "sourceRange": {
+                  "startUs": 250000,
+                  "endUs": 260000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4160,
+                "endSample": 4320,
+                "rms": 0.20528223963689335,
+                "peak": 0.5464649200439453,
+                "ordinal": 26,
+                "sourceRange": {
+                  "startUs": 260000,
+                  "endUs": 270000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4320,
+                "endSample": 4480,
+                "rms": 0.18505338735738114,
+                "peak": 0.5385946035385132,
+                "ordinal": 27,
+                "sourceRange": {
+                  "startUs": 270000,
+                  "endUs": 280000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4480,
+                "endSample": 4640,
+                "rms": 0.1293950271554016,
+                "peak": 0.2568666934967041,
+                "ordinal": 28,
+                "sourceRange": {
+                  "startUs": 280000,
+                  "endUs": 290000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4640,
+                "endSample": 4800,
+                "rms": 0.08362706995658234,
+                "peak": 0.17133429646492004,
+                "ordinal": 29,
+                "sourceRange": {
+                  "startUs": 290000,
+                  "endUs": 300000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4800,
+                "endSample": 4960,
+                "rms": 0.04590784662157522,
+                "peak": 0.09001777321100235,
+                "ordinal": 30,
+                "sourceRange": {
+                  "startUs": 300000,
+                  "endUs": 310000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4960,
+                "endSample": 5120,
+                "rms": 0.028633977130816803,
+                "peak": 0.05026886984705925,
+                "ordinal": 31,
+                "sourceRange": {
+                  "startUs": 310000,
+                  "endUs": 320000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5120,
+                "endSample": 5280,
+                "rms": 0.01684704711704499,
+                "peak": 0.027605416253209114,
+                "ordinal": 32,
+                "sourceRange": {
+                  "startUs": 320000,
+                  "endUs": 330000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5280,
+                "endSample": 5440,
+                "rms": 0.015557861453264996,
+                "peak": 0.03529684990644455,
+                "ordinal": 33,
+                "sourceRange": {
+                  "startUs": 330000,
+                  "endUs": 340000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5440,
+                "endSample": 5600,
+                "rms": 0.03525161571485528,
+                "peak": 0.12017149478197098,
+                "ordinal": 34,
+                "sourceRange": {
+                  "startUs": 340000,
+                  "endUs": 350000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5600,
+                "endSample": 5760,
+                "rms": 0.06587399329625195,
+                "peak": 0.18371960520744324,
+                "ordinal": 35,
+                "sourceRange": {
+                  "startUs": 350000,
+                  "endUs": 360000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5760,
+                "endSample": 5920,
+                "rms": 0.09805380591522736,
+                "peak": 0.24318693578243256,
+                "ordinal": 36,
+                "sourceRange": {
+                  "startUs": 360000,
+                  "endUs": 370000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5920,
+                "endSample": 6080,
+                "rms": 0.08807520482700154,
+                "peak": 0.23533907532691956,
+                "ordinal": 37,
+                "sourceRange": {
+                  "startUs": 370000,
+                  "endUs": 380000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6080,
+                "endSample": 6240,
+                "rms": 0.07153039265417613,
+                "peak": 0.1896197348833084,
+                "ordinal": 38,
+                "sourceRange": {
+                  "startUs": 380000,
+                  "endUs": 390000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6240,
+                "endSample": 6400,
+                "rms": 0.05848202878065513,
+                "peak": 0.15846411883831024,
+                "ordinal": 39,
+                "sourceRange": {
+                  "startUs": 390000,
+                  "endUs": 400000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6400,
+                "endSample": 6560,
+                "rms": 0.07214778127332791,
+                "peak": 0.2010597139596939,
+                "ordinal": 40,
+                "sourceRange": {
+                  "startUs": 400000,
+                  "endUs": 410000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6560,
+                "endSample": 6720,
+                "rms": 0.18522103687455405,
+                "peak": 0.38638967275619507,
+                "ordinal": 41,
+                "sourceRange": {
+                  "startUs": 410000,
+                  "endUs": 420000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6720,
+                "endSample": 6880,
+                "rms": 0.22859151339666112,
+                "peak": 0.42967987060546875,
+                "ordinal": 42,
+                "sourceRange": {
+                  "startUs": 420000,
+                  "endUs": 430000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6880,
+                "endSample": 7040,
+                "rms": 0.23355921330746374,
+                "peak": 0.5166753530502319,
+                "ordinal": 43,
+                "sourceRange": {
+                  "startUs": 430000,
+                  "endUs": 440000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7040,
+                "endSample": 7200,
+                "rms": 0.22527405836188402,
+                "peak": 0.540805995464325,
+                "ordinal": 44,
+                "sourceRange": {
+                  "startUs": 440000,
+                  "endUs": 450000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7200,
+                "endSample": 7360,
+                "rms": 0.19285986393365512,
+                "peak": 0.48907470703125,
+                "ordinal": 45,
+                "sourceRange": {
+                  "startUs": 450000,
+                  "endUs": 460000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7360,
+                "endSample": 7520,
+                "rms": 0.22860159535313548,
+                "peak": 0.4534893333911896,
+                "ordinal": 46,
+                "sourceRange": {
+                  "startUs": 460000,
+                  "endUs": 470000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7520,
+                "endSample": 7680,
+                "rms": 0.21361020140332174,
+                "peak": 0.45917218923568726,
+                "ordinal": 47,
+                "sourceRange": {
+                  "startUs": 470000,
+                  "endUs": 480000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7680,
+                "endSample": 7840,
+                "rms": 0.23072351009240907,
+                "peak": 0.484727680683136,
+                "ordinal": 48,
+                "sourceRange": {
+                  "startUs": 480000,
+                  "endUs": 490000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7840,
+                "endSample": 8000,
+                "rms": 0.2380635802617878,
+                "peak": 0.4802018702030182,
+                "ordinal": 49,
+                "sourceRange": {
+                  "startUs": 490000,
+                  "endUs": 500000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8000,
+                "endSample": 8160,
+                "rms": 0.19374700909560147,
+                "peak": 0.44449102878570557,
+                "ordinal": 50,
+                "sourceRange": {
+                  "startUs": 500000,
+                  "endUs": 510000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8160,
+                "endSample": 8320,
+                "rms": 0.22579361224736932,
+                "peak": 0.5862838625907898,
+                "ordinal": 51,
+                "sourceRange": {
+                  "startUs": 510000,
+                  "endUs": 520000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8320,
+                "endSample": 8480,
+                "rms": 0.18614477492355921,
+                "peak": 0.5317766070365906,
+                "ordinal": 52,
+                "sourceRange": {
+                  "startUs": 520000,
+                  "endUs": 530000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8480,
+                "endSample": 8640,
+                "rms": 0.16785201259304017,
+                "peak": 0.523071825504303,
+                "ordinal": 53,
+                "sourceRange": {
+                  "startUs": 530000,
+                  "endUs": 540000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8640,
+                "endSample": 8800,
+                "rms": 0.1603603975915074,
+                "peak": 0.4947744309902191,
+                "ordinal": 54,
+                "sourceRange": {
+                  "startUs": 540000,
+                  "endUs": 550000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8800,
+                "endSample": 8960,
+                "rms": 0.18590943608535407,
+                "peak": 0.4599877595901489,
+                "ordinal": 55,
+                "sourceRange": {
+                  "startUs": 550000,
+                  "endUs": 560000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8960,
+                "endSample": 9120,
+                "rms": 0.14905743156327667,
+                "peak": 0.4009101688861847,
+                "ordinal": 56,
+                "sourceRange": {
+                  "startUs": 560000,
+                  "endUs": 570000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9120,
+                "endSample": 9280,
+                "rms": 0.15716226614693488,
+                "peak": 0.3803149163722992,
+                "ordinal": 57,
+                "sourceRange": {
+                  "startUs": 570000,
+                  "endUs": 580000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9280,
+                "endSample": 9440,
+                "rms": 0.13464982438853088,
+                "peak": 0.37415042519569397,
+                "ordinal": 58,
+                "sourceRange": {
+                  "startUs": 580000,
+                  "endUs": 590000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9440,
+                "endSample": 9600,
+                "rms": 0.12895639110178367,
+                "peak": 0.35762491822242737,
+                "ordinal": 59,
+                "sourceRange": {
+                  "startUs": 590000,
+                  "endUs": 600000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9600,
+                "endSample": 9760,
+                "rms": 0.12386299835079848,
+                "peak": 0.3331890404224396,
+                "ordinal": 60,
+                "sourceRange": {
+                  "startUs": 600000,
+                  "endUs": 610000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9760,
+                "endSample": 9920,
+                "rms": 0.11265841107877102,
+                "peak": 0.3033668100833893,
+                "ordinal": 61,
+                "sourceRange": {
+                  "startUs": 610000,
+                  "endUs": 620000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9920,
+                "endSample": 10080,
+                "rms": 0.08433185196435868,
+                "peak": 0.20600855350494385,
+                "ordinal": 62,
+                "sourceRange": {
+                  "startUs": 620000,
+                  "endUs": 630000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10080,
+                "endSample": 10240,
+                "rms": 0.04817248008211545,
+                "peak": 0.11344973742961884,
+                "ordinal": 63,
+                "sourceRange": {
+                  "startUs": 630000,
+                  "endUs": 640000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10240,
+                "endSample": 10400,
+                "rms": 0.027654755531297967,
+                "peak": 0.0628155916929245,
+                "ordinal": 64,
+                "sourceRange": {
+                  "startUs": 640000,
+                  "endUs": 650000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10400,
+                "endSample": 10560,
+                "rms": 0.012480373171879462,
+                "peak": 0.02544429711997509,
+                "ordinal": 65,
+                "sourceRange": {
+                  "startUs": 650000,
+                  "endUs": 660000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10560,
+                "endSample": 10720,
+                "rms": 0.0005281662516123157,
+                "peak": 0.0012879841960966587,
+                "ordinal": 66,
+                "sourceRange": {
+                  "startUs": 660000,
+                  "endUs": 670000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10720,
+                "endSample": 10880,
+                "rms": 0.00030306024658495353,
+                "peak": 0.0006791468476876616,
+                "ordinal": 67,
+                "sourceRange": {
+                  "startUs": 670000,
+                  "endUs": 680000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10880,
+                "endSample": 11040,
+                "rms": 0.00018879656274277471,
+                "peak": 0.0004661851853597909,
+                "ordinal": 68,
+                "sourceRange": {
+                  "startUs": 680000,
+                  "endUs": 690000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11040,
+                "endSample": 11200,
+                "rms": 0.00021121648882437588,
+                "peak": 0.00110863265581429,
+                "ordinal": 69,
+                "sourceRange": {
+                  "startUs": 690000,
+                  "endUs": 700000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11200,
+                "endSample": 11360,
+                "rms": 0.005915947996851228,
+                "peak": 0.01666582003235817,
+                "ordinal": 70,
+                "sourceRange": {
+                  "startUs": 700000,
+                  "endUs": 710000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11360,
+                "endSample": 11520,
+                "rms": 0.004039671467898231,
+                "peak": 0.012011205777525902,
+                "ordinal": 71,
+                "sourceRange": {
+                  "startUs": 710000,
+                  "endUs": 720000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11520,
+                "endSample": 11680,
+                "rms": 0.0019387617752352486,
+                "peak": 0.005516613367944956,
+                "ordinal": 72,
+                "sourceRange": {
+                  "startUs": 720000,
+                  "endUs": 730000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11680,
+                "endSample": 11840,
+                "rms": 0.000502099833426542,
+                "peak": 0.0012440972495824099,
+                "ordinal": 73,
+                "sourceRange": {
+                  "startUs": 730000,
+                  "endUs": 740000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11840,
+                "endSample": 12000,
+                "rms": 0.0002246137734455451,
+                "peak": 0.0005451150354929268,
+                "ordinal": 74,
+                "sourceRange": {
+                  "startUs": 740000,
+                  "endUs": 750000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12000,
+                "endSample": 12160,
+                "rms": 0.0001998002339626968,
+                "peak": 0.0005021154647693038,
+                "ordinal": 75,
+                "sourceRange": {
+                  "startUs": 750000,
+                  "endUs": 760000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12160,
+                "endSample": 12320,
+                "rms": 0.0001391504718837678,
+                "peak": 0.000418793031712994,
+                "ordinal": 76,
+                "sourceRange": {
+                  "startUs": 760000,
+                  "endUs": 770000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12320,
+                "endSample": 12480,
+                "rms": 0.0001555590021320379,
+                "peak": 0.0003819412086158991,
+                "ordinal": 77,
+                "sourceRange": {
+                  "startUs": 770000,
+                  "endUs": 780000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12480,
+                "endSample": 12640,
+                "rms": 0.00010981096220726546,
+                "peak": 0.0002731113345362246,
+                "ordinal": 78,
+                "sourceRange": {
+                  "startUs": 780000,
+                  "endUs": 790000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12640,
+                "endSample": 12800,
+                "rms": 0.00007496210178525826,
+                "peak": 0.00022960091882850975,
+                "ordinal": 79,
+                "sourceRange": {
+                  "startUs": 790000,
+                  "endUs": 800000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12800,
+                "endSample": 12960,
+                "rms": 0.00009306619542819956,
+                "peak": 0.0002446903963573277,
+                "ordinal": 80,
+                "sourceRange": {
+                  "startUs": 800000,
+                  "endUs": 810000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12960,
+                "endSample": 13120,
+                "rms": 0.00009701316955480387,
+                "peak": 0.00030522243469022214,
+                "ordinal": 81,
+                "sourceRange": {
+                  "startUs": 810000,
+                  "endUs": 820000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13120,
+                "endSample": 13280,
+                "rms": 0.00009292035638100057,
+                "peak": 0.0003466888447292149,
+                "ordinal": 82,
+                "sourceRange": {
+                  "startUs": 820000,
+                  "endUs": 830000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13280,
+                "endSample": 13440,
+                "rms": 0.00009938675232366654,
+                "peak": 0.0002694413124118,
+                "ordinal": 83,
+                "sourceRange": {
+                  "startUs": 830000,
+                  "endUs": 840000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13440,
+                "endSample": 13600,
+                "rms": 0.00006934362460077379,
+                "peak": 0.0001803305058274418,
+                "ordinal": 84,
+                "sourceRange": {
+                  "startUs": 840000,
+                  "endUs": 850000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13600,
+                "endSample": 13760,
+                "rms": 0.00007542079947836711,
+                "peak": 0.00020646142365876585,
+                "ordinal": 85,
+                "sourceRange": {
+                  "startUs": 850000,
+                  "endUs": 860000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13760,
+                "endSample": 13920,
+                "rms": 0.00007514407127537999,
+                "peak": 0.00018624105723574758,
+                "ordinal": 86,
+                "sourceRange": {
+                  "startUs": 860000,
+                  "endUs": 870000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13920,
+                "endSample": 14080,
+                "rms": 0.00006107998064711473,
+                "peak": 0.00017962645506486297,
+                "ordinal": 87,
+                "sourceRange": {
+                  "startUs": 870000,
+                  "endUs": 880000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14080,
+                "endSample": 14240,
+                "rms": 0.00005716058182431034,
+                "peak": 0.00015667814295738935,
+                "ordinal": 88,
+                "sourceRange": {
+                  "startUs": 880000,
+                  "endUs": 890000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14240,
+                "endSample": 14400,
+                "rms": 0.000049737443799475476,
+                "peak": 0.00013491627760231495,
+                "ordinal": 89,
+                "sourceRange": {
+                  "startUs": 890000,
+                  "endUs": 900000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14400,
+                "endSample": 14560,
+                "rms": 0.00006150428584066352,
+                "peak": 0.0001612248452147469,
+                "ordinal": 90,
+                "sourceRange": {
+                  "startUs": 900000,
+                  "endUs": 910000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14560,
+                "endSample": 14720,
+                "rms": 0.000050252310602357696,
+                "peak": 0.00012984400382265449,
+                "ordinal": 91,
+                "sourceRange": {
+                  "startUs": 910000,
+                  "endUs": 920000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14720,
+                "endSample": 14880,
+                "rms": 0.00005610274878231999,
+                "peak": 0.0001389520475640893,
+                "ordinal": 92,
+                "sourceRange": {
+                  "startUs": 920000,
+                  "endUs": 930000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14880,
+                "endSample": 15040,
+                "rms": 0.00005908107539503729,
+                "peak": 0.00013631982437800616,
+                "ordinal": 93,
+                "sourceRange": {
+                  "startUs": 930000,
+                  "endUs": 940000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 15040,
+                "endSample": 15200,
+                "rms": 3.0377826149807044e-7,
+                "peak": 0.0000028068457140761893,
+                "ordinal": 94,
+                "sourceRange": {
+                  "startUs": 940000,
+                  "endUs": 950000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 15200,
+                "endSample": 15216,
+                "rms": 0,
+                "peak": 0,
+                "ordinal": 95,
+                "sourceRange": {
+                  "startUs": 950000,
+                  "endUs": 951000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              }
+            ],
+            "acousticResolutionSamples": 160,
+            "noiseFloorInterpretation": "unknown",
+            "nextCursor": null
+          }
+        },
+        {
+          "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+          "state": "ready",
+          "generation": "c6ee8426-907e-4495-a0bb-52c1bfe64e43",
+          "page": {
+            "evidence": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9"
+              },
+              "generation": "c6ee8426-907e-4495-a0bb-52c1bfe64e43",
+              "policy": "alignment-v1",
+              "source": {
+                "streamId": "track:1",
+                "acquisitionId": null,
+                "supportDigest": "882980d478fff63f26c695ef7ba69c0e70b9a11757a8c4a3040ca6f17ccea677",
+                "channel": 0,
+                "originUs": 0,
+                "durationUs": 951000,
+                "observationRange": {
+                  "startUs": 0,
+                  "endUs": 951000
+                },
+                "text": "fortunate",
+                "pcm": {
+                  "sha256": "44d21ae68cdbb384a65f133c20ef0cb83ce56406e1ef58de5358f567f4905512",
+                  "sampleRate": 16000,
+                  "frames": 15216
+                },
+                "decoder": {
+                  "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+                  "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+                  "osBuild": "Version 27.0.1 (Build 26A434)"
+                },
+                "engine": {
+                  "modelId": "nemo-ctc110",
+                  "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+                  "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+                  "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+                  "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+                  "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+                  "recipe": "nemo-auxiliary-ctc110-v1"
+                }
+              },
+              "nativeReceiptSha256": "edf7d0f2b91ef12797436e6267c6798be28ef269dd8f81b307a3c48f642d1e7d",
+              "reportSha256": "86639b07c2d09f6a92b7f4f1d9b1163414a4749559ff44e986baea3fca4a8b4b",
+              "correspondenceSha256": "eb922462628b6f612b54a6db2d9e10de17f3b64954b4ba550744f9dd639afcf4",
+              "wordCount": 2,
+              "acousticCount": 96,
+              "scoreCount": 12,
+              "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+              "observedLowerDecileRMS": 0.00006934362460077379,
+              "conditionalStatus": "forced_path_observation",
+              "correspondenceOptimum": 1,
+              "lexicalIdentity": "unknown",
+              "scoreMeaning": "uncalibrated"
+            },
+            "view": "acoustic",
+            "sourceRange": {
+              "startUs": 0,
+              "endUs": 951000
+            },
+            "rows": [
+              {
+                "startSample": 0,
+                "endSample": 160,
+                "rms": 0.0002544878409607705,
+                "peak": 0.0006406696047633886,
+                "ordinal": 0,
+                "sourceRange": {
+                  "startUs": 0,
+                  "endUs": 10000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 160,
+                "endSample": 320,
+                "rms": 0.0004325191684805482,
+                "peak": 0.0010755810653790832,
+                "ordinal": 1,
+                "sourceRange": {
+                  "startUs": 10000,
+                  "endUs": 20000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 320,
+                "endSample": 480,
+                "rms": 0.000994060677257301,
+                "peak": 0.004037503618746996,
+                "ordinal": 2,
+                "sourceRange": {
+                  "startUs": 20000,
+                  "endUs": 30000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 480,
+                "endSample": 640,
+                "rms": 0.001377753171943479,
+                "peak": 0.004535960033535957,
+                "ordinal": 3,
+                "sourceRange": {
+                  "startUs": 30000,
+                  "endUs": 40000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 640,
+                "endSample": 800,
+                "rms": 0.0019177090931252775,
+                "peak": 0.006047303322702646,
+                "ordinal": 4,
+                "sourceRange": {
+                  "startUs": 40000,
+                  "endUs": 50000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 800,
+                "endSample": 960,
+                "rms": 0.0024009041965554058,
+                "peak": 0.007631051819771528,
+                "ordinal": 5,
+                "sourceRange": {
+                  "startUs": 50000,
+                  "endUs": 60000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 960,
+                "endSample": 1120,
+                "rms": 0.003396907675849028,
+                "peak": 0.013873935677111149,
+                "ordinal": 6,
+                "sourceRange": {
+                  "startUs": 60000,
+                  "endUs": 70000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1120,
+                "endSample": 1280,
+                "rms": 0.0039785933448541295,
+                "peak": 0.01327322144061327,
+                "ordinal": 7,
+                "sourceRange": {
+                  "startUs": 70000,
+                  "endUs": 80000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1280,
+                "endSample": 1440,
+                "rms": 0.005121764596326275,
+                "peak": 0.016481470316648483,
+                "ordinal": 8,
+                "sourceRange": {
+                  "startUs": 80000,
+                  "endUs": 90000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1440,
+                "endSample": 1600,
+                "rms": 0.008514323897135457,
+                "peak": 0.03327722102403641,
+                "ordinal": 9,
+                "sourceRange": {
+                  "startUs": 90000,
+                  "endUs": 100000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1600,
+                "endSample": 1760,
+                "rms": 0.01568500548377755,
+                "peak": 0.047239549458026886,
+                "ordinal": 10,
+                "sourceRange": {
+                  "startUs": 100000,
+                  "endUs": 110000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1760,
+                "endSample": 1920,
+                "rms": 0.057569402369977166,
+                "peak": 0.14174038171768188,
+                "ordinal": 11,
+                "sourceRange": {
+                  "startUs": 110000,
+                  "endUs": 120000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1920,
+                "endSample": 2080,
+                "rms": 0.19733567061295595,
+                "peak": 0.45268455147743225,
+                "ordinal": 12,
+                "sourceRange": {
+                  "startUs": 120000,
+                  "endUs": 130000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2080,
+                "endSample": 2240,
+                "rms": 0.23699736085255074,
+                "peak": 0.5860771536827087,
+                "ordinal": 13,
+                "sourceRange": {
+                  "startUs": 130000,
+                  "endUs": 140000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2240,
+                "endSample": 2400,
+                "rms": 0.23567639174104327,
+                "peak": 0.613801121711731,
+                "ordinal": 14,
+                "sourceRange": {
+                  "startUs": 140000,
+                  "endUs": 150000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2400,
+                "endSample": 2560,
+                "rms": 0.23966564772039547,
+                "peak": 0.6376404166221619,
+                "ordinal": 15,
+                "sourceRange": {
+                  "startUs": 150000,
+                  "endUs": 160000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2560,
+                "endSample": 2720,
+                "rms": 0.23593466438840546,
+                "peak": 0.6439880728721619,
+                "ordinal": 16,
+                "sourceRange": {
+                  "startUs": 160000,
+                  "endUs": 170000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2720,
+                "endSample": 2880,
+                "rms": 0.2318937869865349,
+                "peak": 0.6656380295753479,
+                "ordinal": 17,
+                "sourceRange": {
+                  "startUs": 170000,
+                  "endUs": 180000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2880,
+                "endSample": 3040,
+                "rms": 0.23050190817566021,
+                "peak": 0.6597368121147156,
+                "ordinal": 18,
+                "sourceRange": {
+                  "startUs": 180000,
+                  "endUs": 190000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3040,
+                "endSample": 3200,
+                "rms": 0.22436375145775206,
+                "peak": 0.6425520777702332,
+                "ordinal": 19,
+                "sourceRange": {
+                  "startUs": 190000,
+                  "endUs": 200000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3200,
+                "endSample": 3360,
+                "rms": 0.22067522619267074,
+                "peak": 0.659699022769928,
+                "ordinal": 20,
+                "sourceRange": {
+                  "startUs": 200000,
+                  "endUs": 210000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3360,
+                "endSample": 3520,
+                "rms": 0.2164295612195805,
+                "peak": 0.6617483496665955,
+                "ordinal": 21,
+                "sourceRange": {
+                  "startUs": 210000,
+                  "endUs": 220000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3520,
+                "endSample": 3680,
+                "rms": 0.21680965001824715,
+                "peak": 0.6602290868759155,
+                "ordinal": 22,
+                "sourceRange": {
+                  "startUs": 220000,
+                  "endUs": 230000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3680,
+                "endSample": 3840,
+                "rms": 0.21243959342492752,
+                "peak": 0.6472417116165161,
+                "ordinal": 23,
+                "sourceRange": {
+                  "startUs": 230000,
+                  "endUs": 240000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3840,
+                "endSample": 4000,
+                "rms": 0.2042934878083349,
+                "peak": 0.6265286207199097,
+                "ordinal": 24,
+                "sourceRange": {
+                  "startUs": 240000,
+                  "endUs": 250000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4000,
+                "endSample": 4160,
+                "rms": 0.17082809156854906,
+                "peak": 0.5989174842834473,
+                "ordinal": 25,
+                "sourceRange": {
+                  "startUs": 250000,
+                  "endUs": 260000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4160,
+                "endSample": 4320,
+                "rms": 0.20528223963689335,
+                "peak": 0.5464649200439453,
+                "ordinal": 26,
+                "sourceRange": {
+                  "startUs": 260000,
+                  "endUs": 270000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4320,
+                "endSample": 4480,
+                "rms": 0.18505338735738114,
+                "peak": 0.5385946035385132,
+                "ordinal": 27,
+                "sourceRange": {
+                  "startUs": 270000,
+                  "endUs": 280000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4480,
+                "endSample": 4640,
+                "rms": 0.1293950271554016,
+                "peak": 0.2568666934967041,
+                "ordinal": 28,
+                "sourceRange": {
+                  "startUs": 280000,
+                  "endUs": 290000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4640,
+                "endSample": 4800,
+                "rms": 0.08362706995658234,
+                "peak": 0.17133429646492004,
+                "ordinal": 29,
+                "sourceRange": {
+                  "startUs": 290000,
+                  "endUs": 300000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4800,
+                "endSample": 4960,
+                "rms": 0.04590784662157522,
+                "peak": 0.09001777321100235,
+                "ordinal": 30,
+                "sourceRange": {
+                  "startUs": 300000,
+                  "endUs": 310000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4960,
+                "endSample": 5120,
+                "rms": 0.028633977130816803,
+                "peak": 0.05026886984705925,
+                "ordinal": 31,
+                "sourceRange": {
+                  "startUs": 310000,
+                  "endUs": 320000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5120,
+                "endSample": 5280,
+                "rms": 0.01684704711704499,
+                "peak": 0.027605416253209114,
+                "ordinal": 32,
+                "sourceRange": {
+                  "startUs": 320000,
+                  "endUs": 330000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5280,
+                "endSample": 5440,
+                "rms": 0.015557861453264996,
+                "peak": 0.03529684990644455,
+                "ordinal": 33,
+                "sourceRange": {
+                  "startUs": 330000,
+                  "endUs": 340000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5440,
+                "endSample": 5600,
+                "rms": 0.03525161571485528,
+                "peak": 0.12017149478197098,
+                "ordinal": 34,
+                "sourceRange": {
+                  "startUs": 340000,
+                  "endUs": 350000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5600,
+                "endSample": 5760,
+                "rms": 0.06587399329625195,
+                "peak": 0.18371960520744324,
+                "ordinal": 35,
+                "sourceRange": {
+                  "startUs": 350000,
+                  "endUs": 360000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5760,
+                "endSample": 5920,
+                "rms": 0.09805380591522736,
+                "peak": 0.24318693578243256,
+                "ordinal": 36,
+                "sourceRange": {
+                  "startUs": 360000,
+                  "endUs": 370000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5920,
+                "endSample": 6080,
+                "rms": 0.08807520482700154,
+                "peak": 0.23533907532691956,
+                "ordinal": 37,
+                "sourceRange": {
+                  "startUs": 370000,
+                  "endUs": 380000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6080,
+                "endSample": 6240,
+                "rms": 0.07153039265417613,
+                "peak": 0.1896197348833084,
+                "ordinal": 38,
+                "sourceRange": {
+                  "startUs": 380000,
+                  "endUs": 390000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6240,
+                "endSample": 6400,
+                "rms": 0.05848202878065513,
+                "peak": 0.15846411883831024,
+                "ordinal": 39,
+                "sourceRange": {
+                  "startUs": 390000,
+                  "endUs": 400000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6400,
+                "endSample": 6560,
+                "rms": 0.07214778127332791,
+                "peak": 0.2010597139596939,
+                "ordinal": 40,
+                "sourceRange": {
+                  "startUs": 400000,
+                  "endUs": 410000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6560,
+                "endSample": 6720,
+                "rms": 0.18522103687455405,
+                "peak": 0.38638967275619507,
+                "ordinal": 41,
+                "sourceRange": {
+                  "startUs": 410000,
+                  "endUs": 420000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6720,
+                "endSample": 6880,
+                "rms": 0.22859151339666112,
+                "peak": 0.42967987060546875,
+                "ordinal": 42,
+                "sourceRange": {
+                  "startUs": 420000,
+                  "endUs": 430000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6880,
+                "endSample": 7040,
+                "rms": 0.23355921330746374,
+                "peak": 0.5166753530502319,
+                "ordinal": 43,
+                "sourceRange": {
+                  "startUs": 430000,
+                  "endUs": 440000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7040,
+                "endSample": 7200,
+                "rms": 0.22527405836188402,
+                "peak": 0.540805995464325,
+                "ordinal": 44,
+                "sourceRange": {
+                  "startUs": 440000,
+                  "endUs": 450000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7200,
+                "endSample": 7360,
+                "rms": 0.19285986393365512,
+                "peak": 0.48907470703125,
+                "ordinal": 45,
+                "sourceRange": {
+                  "startUs": 450000,
+                  "endUs": 460000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7360,
+                "endSample": 7520,
+                "rms": 0.22860159535313548,
+                "peak": 0.4534893333911896,
+                "ordinal": 46,
+                "sourceRange": {
+                  "startUs": 460000,
+                  "endUs": 470000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7520,
+                "endSample": 7680,
+                "rms": 0.21361020140332174,
+                "peak": 0.45917218923568726,
+                "ordinal": 47,
+                "sourceRange": {
+                  "startUs": 470000,
+                  "endUs": 480000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7680,
+                "endSample": 7840,
+                "rms": 0.23072351009240907,
+                "peak": 0.484727680683136,
+                "ordinal": 48,
+                "sourceRange": {
+                  "startUs": 480000,
+                  "endUs": 490000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 7840,
+                "endSample": 8000,
+                "rms": 0.2380635802617878,
+                "peak": 0.4802018702030182,
+                "ordinal": 49,
+                "sourceRange": {
+                  "startUs": 490000,
+                  "endUs": 500000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8000,
+                "endSample": 8160,
+                "rms": 0.19374700909560147,
+                "peak": 0.44449102878570557,
+                "ordinal": 50,
+                "sourceRange": {
+                  "startUs": 500000,
+                  "endUs": 510000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8160,
+                "endSample": 8320,
+                "rms": 0.22579361224736932,
+                "peak": 0.5862838625907898,
+                "ordinal": 51,
+                "sourceRange": {
+                  "startUs": 510000,
+                  "endUs": 520000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8320,
+                "endSample": 8480,
+                "rms": 0.18614477492355921,
+                "peak": 0.5317766070365906,
+                "ordinal": 52,
+                "sourceRange": {
+                  "startUs": 520000,
+                  "endUs": 530000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8480,
+                "endSample": 8640,
+                "rms": 0.16785201259304017,
+                "peak": 0.523071825504303,
+                "ordinal": 53,
+                "sourceRange": {
+                  "startUs": 530000,
+                  "endUs": 540000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8640,
+                "endSample": 8800,
+                "rms": 0.1603603975915074,
+                "peak": 0.4947744309902191,
+                "ordinal": 54,
+                "sourceRange": {
+                  "startUs": 540000,
+                  "endUs": 550000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8800,
+                "endSample": 8960,
+                "rms": 0.18590943608535407,
+                "peak": 0.4599877595901489,
+                "ordinal": 55,
+                "sourceRange": {
+                  "startUs": 550000,
+                  "endUs": 560000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 8960,
+                "endSample": 9120,
+                "rms": 0.14905743156327667,
+                "peak": 0.4009101688861847,
+                "ordinal": 56,
+                "sourceRange": {
+                  "startUs": 560000,
+                  "endUs": 570000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9120,
+                "endSample": 9280,
+                "rms": 0.15716226614693488,
+                "peak": 0.3803149163722992,
+                "ordinal": 57,
+                "sourceRange": {
+                  "startUs": 570000,
+                  "endUs": 580000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9280,
+                "endSample": 9440,
+                "rms": 0.13464982438853088,
+                "peak": 0.37415042519569397,
+                "ordinal": 58,
+                "sourceRange": {
+                  "startUs": 580000,
+                  "endUs": 590000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9440,
+                "endSample": 9600,
+                "rms": 0.12895639110178367,
+                "peak": 0.35762491822242737,
+                "ordinal": 59,
+                "sourceRange": {
+                  "startUs": 590000,
+                  "endUs": 600000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9600,
+                "endSample": 9760,
+                "rms": 0.12386299835079848,
+                "peak": 0.3331890404224396,
+                "ordinal": 60,
+                "sourceRange": {
+                  "startUs": 600000,
+                  "endUs": 610000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9760,
+                "endSample": 9920,
+                "rms": 0.11265841107877102,
+                "peak": 0.3033668100833893,
+                "ordinal": 61,
+                "sourceRange": {
+                  "startUs": 610000,
+                  "endUs": 620000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 9920,
+                "endSample": 10080,
+                "rms": 0.08433185196435868,
+                "peak": 0.20600855350494385,
+                "ordinal": 62,
+                "sourceRange": {
+                  "startUs": 620000,
+                  "endUs": 630000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10080,
+                "endSample": 10240,
+                "rms": 0.04817248008211545,
+                "peak": 0.11344973742961884,
+                "ordinal": 63,
+                "sourceRange": {
+                  "startUs": 630000,
+                  "endUs": 640000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10240,
+                "endSample": 10400,
+                "rms": 0.027654755531297967,
+                "peak": 0.0628155916929245,
+                "ordinal": 64,
+                "sourceRange": {
+                  "startUs": 640000,
+                  "endUs": 650000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10400,
+                "endSample": 10560,
+                "rms": 0.012480373171879462,
+                "peak": 0.02544429711997509,
+                "ordinal": 65,
+                "sourceRange": {
+                  "startUs": 650000,
+                  "endUs": 660000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10560,
+                "endSample": 10720,
+                "rms": 0.0005281662516123157,
+                "peak": 0.0012879841960966587,
+                "ordinal": 66,
+                "sourceRange": {
+                  "startUs": 660000,
+                  "endUs": 670000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10720,
+                "endSample": 10880,
+                "rms": 0.00030306024658495353,
+                "peak": 0.0006791468476876616,
+                "ordinal": 67,
+                "sourceRange": {
+                  "startUs": 670000,
+                  "endUs": 680000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 10880,
+                "endSample": 11040,
+                "rms": 0.00018879656274277471,
+                "peak": 0.0004661851853597909,
+                "ordinal": 68,
+                "sourceRange": {
+                  "startUs": 680000,
+                  "endUs": 690000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11040,
+                "endSample": 11200,
+                "rms": 0.00021121648882437588,
+                "peak": 0.00110863265581429,
+                "ordinal": 69,
+                "sourceRange": {
+                  "startUs": 690000,
+                  "endUs": 700000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11200,
+                "endSample": 11360,
+                "rms": 0.005915947996851228,
+                "peak": 0.01666582003235817,
+                "ordinal": 70,
+                "sourceRange": {
+                  "startUs": 700000,
+                  "endUs": 710000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11360,
+                "endSample": 11520,
+                "rms": 0.004039671467898231,
+                "peak": 0.012011205777525902,
+                "ordinal": 71,
+                "sourceRange": {
+                  "startUs": 710000,
+                  "endUs": 720000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11520,
+                "endSample": 11680,
+                "rms": 0.0019387617752352486,
+                "peak": 0.005516613367944956,
+                "ordinal": 72,
+                "sourceRange": {
+                  "startUs": 720000,
+                  "endUs": 730000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11680,
+                "endSample": 11840,
+                "rms": 0.000502099833426542,
+                "peak": 0.0012440972495824099,
+                "ordinal": 73,
+                "sourceRange": {
+                  "startUs": 730000,
+                  "endUs": 740000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 11840,
+                "endSample": 12000,
+                "rms": 0.0002246137734455451,
+                "peak": 0.0005451150354929268,
+                "ordinal": 74,
+                "sourceRange": {
+                  "startUs": 740000,
+                  "endUs": 750000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12000,
+                "endSample": 12160,
+                "rms": 0.0001998002339626968,
+                "peak": 0.0005021154647693038,
+                "ordinal": 75,
+                "sourceRange": {
+                  "startUs": 750000,
+                  "endUs": 760000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12160,
+                "endSample": 12320,
+                "rms": 0.0001391504718837678,
+                "peak": 0.000418793031712994,
+                "ordinal": 76,
+                "sourceRange": {
+                  "startUs": 760000,
+                  "endUs": 770000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12320,
+                "endSample": 12480,
+                "rms": 0.0001555590021320379,
+                "peak": 0.0003819412086158991,
+                "ordinal": 77,
+                "sourceRange": {
+                  "startUs": 770000,
+                  "endUs": 780000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12480,
+                "endSample": 12640,
+                "rms": 0.00010981096220726546,
+                "peak": 0.0002731113345362246,
+                "ordinal": 78,
+                "sourceRange": {
+                  "startUs": 780000,
+                  "endUs": 790000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12640,
+                "endSample": 12800,
+                "rms": 0.00007496210178525826,
+                "peak": 0.00022960091882850975,
+                "ordinal": 79,
+                "sourceRange": {
+                  "startUs": 790000,
+                  "endUs": 800000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12800,
+                "endSample": 12960,
+                "rms": 0.00009306619542819956,
+                "peak": 0.0002446903963573277,
+                "ordinal": 80,
+                "sourceRange": {
+                  "startUs": 800000,
+                  "endUs": 810000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 12960,
+                "endSample": 13120,
+                "rms": 0.00009701316955480387,
+                "peak": 0.00030522243469022214,
+                "ordinal": 81,
+                "sourceRange": {
+                  "startUs": 810000,
+                  "endUs": 820000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13120,
+                "endSample": 13280,
+                "rms": 0.00009292035638100057,
+                "peak": 0.0003466888447292149,
+                "ordinal": 82,
+                "sourceRange": {
+                  "startUs": 820000,
+                  "endUs": 830000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13280,
+                "endSample": 13440,
+                "rms": 0.00009938675232366654,
+                "peak": 0.0002694413124118,
+                "ordinal": 83,
+                "sourceRange": {
+                  "startUs": 830000,
+                  "endUs": 840000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13440,
+                "endSample": 13600,
+                "rms": 0.00006934362460077379,
+                "peak": 0.0001803305058274418,
+                "ordinal": 84,
+                "sourceRange": {
+                  "startUs": 840000,
+                  "endUs": 850000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13600,
+                "endSample": 13760,
+                "rms": 0.00007542079947836711,
+                "peak": 0.00020646142365876585,
+                "ordinal": 85,
+                "sourceRange": {
+                  "startUs": 850000,
+                  "endUs": 860000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13760,
+                "endSample": 13920,
+                "rms": 0.00007514407127537999,
+                "peak": 0.00018624105723574758,
+                "ordinal": 86,
+                "sourceRange": {
+                  "startUs": 860000,
+                  "endUs": 870000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 13920,
+                "endSample": 14080,
+                "rms": 0.00006107998064711473,
+                "peak": 0.00017962645506486297,
+                "ordinal": 87,
+                "sourceRange": {
+                  "startUs": 870000,
+                  "endUs": 880000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14080,
+                "endSample": 14240,
+                "rms": 0.00005716058182431034,
+                "peak": 0.00015667814295738935,
+                "ordinal": 88,
+                "sourceRange": {
+                  "startUs": 880000,
+                  "endUs": 890000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14240,
+                "endSample": 14400,
+                "rms": 0.000049737443799475476,
+                "peak": 0.00013491627760231495,
+                "ordinal": 89,
+                "sourceRange": {
+                  "startUs": 890000,
+                  "endUs": 900000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14400,
+                "endSample": 14560,
+                "rms": 0.00006150428584066352,
+                "peak": 0.0001612248452147469,
+                "ordinal": 90,
+                "sourceRange": {
+                  "startUs": 900000,
+                  "endUs": 910000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14560,
+                "endSample": 14720,
+                "rms": 0.000050252310602357696,
+                "peak": 0.00012984400382265449,
+                "ordinal": 91,
+                "sourceRange": {
+                  "startUs": 910000,
+                  "endUs": 920000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14720,
+                "endSample": 14880,
+                "rms": 0.00005610274878231999,
+                "peak": 0.0001389520475640893,
+                "ordinal": 92,
+                "sourceRange": {
+                  "startUs": 920000,
+                  "endUs": 930000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 14880,
+                "endSample": 15040,
+                "rms": 0.00005908107539503729,
+                "peak": 0.00013631982437800616,
+                "ordinal": 93,
+                "sourceRange": {
+                  "startUs": 930000,
+                  "endUs": 940000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 15040,
+                "endSample": 15200,
+                "rms": 3.0377826149807044e-7,
+                "peak": 0.0000028068457140761893,
+                "ordinal": 94,
+                "sourceRange": {
+                  "startUs": 940000,
+                  "endUs": 950000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 15200,
+                "endSample": 15216,
+                "rms": 0,
+                "peak": 0,
+                "ordinal": 95,
+                "sourceRange": {
+                  "startUs": 950000,
+                  "endUs": 951000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              }
+            ],
+            "acousticResolutionSamples": 160,
+            "noiseFloorInterpretation": "unknown",
+            "nextCursor": null
+          }
+        }
+      ],
+      "words": {
+        "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+        "state": "ready",
+        "generation": "c6ee8426-907e-4495-a0bb-52c1bfe64e43",
+        "page": {
+          "evidence": {
+            "owner": {
+              "kind": "asset",
+              "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9"
+            },
+            "generation": "c6ee8426-907e-4495-a0bb-52c1bfe64e43",
+            "policy": "alignment-v1",
+            "source": {
+              "streamId": "track:1",
+              "acquisitionId": null,
+              "supportDigest": "882980d478fff63f26c695ef7ba69c0e70b9a11757a8c4a3040ca6f17ccea677",
+              "channel": 0,
+              "originUs": 0,
+              "durationUs": 951000,
+              "observationRange": {
+                "startUs": 0,
+                "endUs": 951000
+              },
+              "text": "fortunate",
+              "pcm": {
+                "sha256": "44d21ae68cdbb384a65f133c20ef0cb83ce56406e1ef58de5358f567f4905512",
+                "sampleRate": 16000,
+                "frames": 15216
+              },
+              "decoder": {
+                "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+                "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+                "osBuild": "Version 27.0.1 (Build 26A434)"
+              },
+              "engine": {
+                "modelId": "nemo-ctc110",
+                "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+                "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+                "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+                "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+                "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+                "recipe": "nemo-auxiliary-ctc110-v1"
+              }
+            },
+            "nativeReceiptSha256": "edf7d0f2b91ef12797436e6267c6798be28ef269dd8f81b307a3c48f642d1e7d",
+            "reportSha256": "86639b07c2d09f6a92b7f4f1d9b1163414a4749559ff44e986baea3fca4a8b4b",
+            "correspondenceSha256": "eb922462628b6f612b54a6db2d9e10de17f3b64954b4ba550744f9dd639afcf4",
+            "wordCount": 2,
+            "acousticCount": 96,
+            "scoreCount": 12,
+            "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+            "observedLowerDecileRMS": 0.00006934362460077379,
+            "conditionalStatus": "forced_path_observation",
+            "correspondenceOptimum": 1,
+            "lexicalIdentity": "unknown",
+            "scoreMeaning": "uncalibrated"
+          },
+          "view": "words",
+          "sourceRange": {
+            "startUs": 0,
+            "endUs": 951000
+          },
+          "rows": [
+            {
+              "kind": "supplied",
+              "ordinal": 0,
+              "text": "fortunate",
+              "correspondence": "matched",
+              "possibleIndices": [
+                0
+              ],
+              "omissionPossible": false,
+              "lexicalIdentity": "unknown",
+              "timing": {
+                "startFrame": 2,
+                "endFrame": 9,
+                "sourceRange": {
+                  "startUs": 160000,
+                  "endUs": 720000
+                },
+                "physicalAdmission": "within_source_support",
+                "interpretation": "conditional_supplied_path"
+              },
+              "nativeTokens": [
+                75,
+                968,
+                198,
+                159
+              ],
+              "nativeTokenizationUnknown": false,
+              "assignmentConfidence": null
+            },
+            {
+              "kind": "observed",
+              "ordinal": 0,
+              "text": "Fortunate.",
+              "correspondence": "matched",
+              "possibleIndices": [
+                0
+              ],
+              "omissionPossible": false,
+              "lexicalIdentity": "unknown",
+              "timing": {
+                "startFrame": 2,
+                "endFrame": 12,
+                "sourceRange": null,
+                "physicalAdmission": "refused_unowned_support",
+                "interpretation": "greedy_observation"
+              },
+              "nativeTokens": [
+                221,
+                197,
+                198,
+                159,
+                986
+              ],
+              "nativeTokenizationUnknown": false,
+              "assignmentConfidence": null
+            }
+          ],
+          "acousticResolutionSamples": 160,
+          "noiseFloorInterpretation": "unknown",
+          "nextCursor": null
+        }
+      },
+      "exactPCM": true,
+      "sampleSupportAndPeaksExact": true,
+      "rmsWithinForwardError": true,
+      "reusedPublishedInference": true,
+      "measuredTail": {
+        "startSample": 15200,
+        "endSample": 15216,
+        "rms": 0,
+        "peak": 0,
+        "ordinal": 95,
+        "sourceRange": {
+          "startUs": 950000,
+          "endUs": 951000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "lexicalCutVerdict": "unknown"
+    },
+    {
+      "name": "fortunate-truncated",
+      "selection": {
+        "assetId": "93b51ba446161ce22bad5b840747501e309a4e68bdfb00c9b3f694c00676d171",
+        "streamId": "track:1",
+        "channel": 0,
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 391375
+        },
+        "text": "fortunate",
+        "modelId": "nemo-ctc110"
+      },
+      "published": {
+        "owner": {
+          "kind": "asset",
+          "assetId": "93b51ba446161ce22bad5b840747501e309a4e68bdfb00c9b3f694c00676d171"
+        },
+        "generation": "7e1993f3-3065-4ea0-9d79-62f7f8cfdfd9",
+        "policy": "alignment-v1",
+        "source": {
+          "streamId": "track:1",
+          "acquisitionId": null,
+          "supportDigest": "c81212aacd8da18d21dbf7da101148195bf228967ee7f30307552f4a750bab0f",
+          "channel": 0,
+          "originUs": 0,
+          "durationUs": 391375,
+          "observationRange": {
+            "startUs": 0,
+            "endUs": 391375
+          },
+          "text": "fortunate",
+          "pcm": {
+            "sha256": "2ba41e2db8e6e3964e3e0db271f121126f463e796c4415b0c0b2f0644ef4f349",
+            "sampleRate": 16000,
+            "frames": 6262
+          },
+          "decoder": {
+            "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+            "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+            "osBuild": "Version 27.0.1 (Build 26A434)"
+          },
+          "engine": {
+            "modelId": "nemo-ctc110",
+            "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+            "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+            "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+            "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+            "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+            "recipe": "nemo-auxiliary-ctc110-v1"
+          }
+        },
+        "nativeReceiptSha256": "fe51074173a41bc390123f08752600f0a4cfb9bd71b5d69b384dec9dbed22226",
+        "reportSha256": "e0a0c9bd281b51c698292439107e2e6d74dadc711a0e02a7f679f50d9f715697",
+        "correspondenceSha256": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65",
+        "wordCount": 2,
+        "acousticCount": 40,
+        "scoreCount": 5,
+        "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+        "observedLowerDecileRMS": 0.001377753171943479,
+        "conditionalStatus": "forced_path_observation",
+        "correspondenceOptimum": 0,
+        "lexicalIdentity": "unknown",
+        "scoreMeaning": "uncalibrated"
+      },
+      "thresholds": [
+        {
+          "assetId": "93b51ba446161ce22bad5b840747501e309a4e68bdfb00c9b3f694c00676d171",
+          "state": "ready",
+          "generation": "7e1993f3-3065-4ea0-9d79-62f7f8cfdfd9",
+          "page": {
+            "evidence": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "93b51ba446161ce22bad5b840747501e309a4e68bdfb00c9b3f694c00676d171"
+              },
+              "generation": "7e1993f3-3065-4ea0-9d79-62f7f8cfdfd9",
+              "policy": "alignment-v1",
+              "source": {
+                "streamId": "track:1",
+                "acquisitionId": null,
+                "supportDigest": "c81212aacd8da18d21dbf7da101148195bf228967ee7f30307552f4a750bab0f",
+                "channel": 0,
+                "originUs": 0,
+                "durationUs": 391375,
+                "observationRange": {
+                  "startUs": 0,
+                  "endUs": 391375
+                },
+                "text": "fortunate",
+                "pcm": {
+                  "sha256": "2ba41e2db8e6e3964e3e0db271f121126f463e796c4415b0c0b2f0644ef4f349",
+                  "sampleRate": 16000,
+                  "frames": 6262
+                },
+                "decoder": {
+                  "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+                  "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+                  "osBuild": "Version 27.0.1 (Build 26A434)"
+                },
+                "engine": {
+                  "modelId": "nemo-ctc110",
+                  "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+                  "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+                  "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+                  "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+                  "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+                  "recipe": "nemo-auxiliary-ctc110-v1"
+                }
+              },
+              "nativeReceiptSha256": "fe51074173a41bc390123f08752600f0a4cfb9bd71b5d69b384dec9dbed22226",
+              "reportSha256": "e0a0c9bd281b51c698292439107e2e6d74dadc711a0e02a7f679f50d9f715697",
+              "correspondenceSha256": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65",
+              "wordCount": 2,
+              "acousticCount": 40,
+              "scoreCount": 5,
+              "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+              "observedLowerDecileRMS": 0.001377753171943479,
+              "conditionalStatus": "forced_path_observation",
+              "correspondenceOptimum": 0,
+              "lexicalIdentity": "unknown",
+              "scoreMeaning": "uncalibrated"
+            },
+            "view": "acoustic",
+            "sourceRange": {
+              "startUs": 0,
+              "endUs": 391375
+            },
+            "rows": [
+              {
+                "startSample": 0,
+                "endSample": 160,
+                "rms": 0.0002544878409607705,
+                "peak": 0.0006406696047633886,
+                "ordinal": 0,
+                "sourceRange": {
+                  "startUs": 0,
+                  "endUs": 10000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 160,
+                "endSample": 320,
+                "rms": 0.0004325191684805482,
+                "peak": 0.0010755810653790832,
+                "ordinal": 1,
+                "sourceRange": {
+                  "startUs": 10000,
+                  "endUs": 20000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 320,
+                "endSample": 480,
+                "rms": 0.000994060677257301,
+                "peak": 0.004037503618746996,
+                "ordinal": 2,
+                "sourceRange": {
+                  "startUs": 20000,
+                  "endUs": 30000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 480,
+                "endSample": 640,
+                "rms": 0.001377753171943479,
+                "peak": 0.004535960033535957,
+                "ordinal": 3,
+                "sourceRange": {
+                  "startUs": 30000,
+                  "endUs": 40000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 640,
+                "endSample": 800,
+                "rms": 0.0019177090931252775,
+                "peak": 0.006047303322702646,
+                "ordinal": 4,
+                "sourceRange": {
+                  "startUs": 40000,
+                  "endUs": 50000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 800,
+                "endSample": 960,
+                "rms": 0.0024009041965554058,
+                "peak": 0.007631051819771528,
+                "ordinal": 5,
+                "sourceRange": {
+                  "startUs": 50000,
+                  "endUs": 60000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 960,
+                "endSample": 1120,
+                "rms": 0.003396907675849028,
+                "peak": 0.013873935677111149,
+                "ordinal": 6,
+                "sourceRange": {
+                  "startUs": 60000,
+                  "endUs": 70000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1120,
+                "endSample": 1280,
+                "rms": 0.0039785933448541295,
+                "peak": 0.01327322144061327,
+                "ordinal": 7,
+                "sourceRange": {
+                  "startUs": 70000,
+                  "endUs": 80000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1280,
+                "endSample": 1440,
+                "rms": 0.005121764596326275,
+                "peak": 0.016481470316648483,
+                "ordinal": 8,
+                "sourceRange": {
+                  "startUs": 80000,
+                  "endUs": 90000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1440,
+                "endSample": 1600,
+                "rms": 0.008514323897135457,
+                "peak": 0.03327722102403641,
+                "ordinal": 9,
+                "sourceRange": {
+                  "startUs": 90000,
+                  "endUs": 100000
+                },
+                "activity": "quiet",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1600,
+                "endSample": 1760,
+                "rms": 0.01568500548377755,
+                "peak": 0.047239549458026886,
+                "ordinal": 10,
+                "sourceRange": {
+                  "startUs": 100000,
+                  "endUs": 110000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1760,
+                "endSample": 1920,
+                "rms": 0.057569402369977166,
+                "peak": 0.14174038171768188,
+                "ordinal": 11,
+                "sourceRange": {
+                  "startUs": 110000,
+                  "endUs": 120000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1920,
+                "endSample": 2080,
+                "rms": 0.19733567061295595,
+                "peak": 0.45268455147743225,
+                "ordinal": 12,
+                "sourceRange": {
+                  "startUs": 120000,
+                  "endUs": 130000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2080,
+                "endSample": 2240,
+                "rms": 0.23699736085255074,
+                "peak": 0.5860771536827087,
+                "ordinal": 13,
+                "sourceRange": {
+                  "startUs": 130000,
+                  "endUs": 140000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2240,
+                "endSample": 2400,
+                "rms": 0.23567639174104327,
+                "peak": 0.613801121711731,
+                "ordinal": 14,
+                "sourceRange": {
+                  "startUs": 140000,
+                  "endUs": 150000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2400,
+                "endSample": 2560,
+                "rms": 0.23966564772039547,
+                "peak": 0.6376404166221619,
+                "ordinal": 15,
+                "sourceRange": {
+                  "startUs": 150000,
+                  "endUs": 160000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2560,
+                "endSample": 2720,
+                "rms": 0.23593466438840546,
+                "peak": 0.6439880728721619,
+                "ordinal": 16,
+                "sourceRange": {
+                  "startUs": 160000,
+                  "endUs": 170000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2720,
+                "endSample": 2880,
+                "rms": 0.2318937869865349,
+                "peak": 0.6656380295753479,
+                "ordinal": 17,
+                "sourceRange": {
+                  "startUs": 170000,
+                  "endUs": 180000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2880,
+                "endSample": 3040,
+                "rms": 0.23050190817566021,
+                "peak": 0.6597368121147156,
+                "ordinal": 18,
+                "sourceRange": {
+                  "startUs": 180000,
+                  "endUs": 190000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3040,
+                "endSample": 3200,
+                "rms": 0.22436375145775206,
+                "peak": 0.6425520777702332,
+                "ordinal": 19,
+                "sourceRange": {
+                  "startUs": 190000,
+                  "endUs": 200000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3200,
+                "endSample": 3360,
+                "rms": 0.22067522619267074,
+                "peak": 0.659699022769928,
+                "ordinal": 20,
+                "sourceRange": {
+                  "startUs": 200000,
+                  "endUs": 210000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3360,
+                "endSample": 3520,
+                "rms": 0.2164295612195805,
+                "peak": 0.6617483496665955,
+                "ordinal": 21,
+                "sourceRange": {
+                  "startUs": 210000,
+                  "endUs": 220000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3520,
+                "endSample": 3680,
+                "rms": 0.21680965001824715,
+                "peak": 0.6602290868759155,
+                "ordinal": 22,
+                "sourceRange": {
+                  "startUs": 220000,
+                  "endUs": 230000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3680,
+                "endSample": 3840,
+                "rms": 0.21243959342492752,
+                "peak": 0.6472417116165161,
+                "ordinal": 23,
+                "sourceRange": {
+                  "startUs": 230000,
+                  "endUs": 240000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3840,
+                "endSample": 4000,
+                "rms": 0.2042934878083349,
+                "peak": 0.6265286207199097,
+                "ordinal": 24,
+                "sourceRange": {
+                  "startUs": 240000,
+                  "endUs": 250000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4000,
+                "endSample": 4160,
+                "rms": 0.17082809156854906,
+                "peak": 0.5989174842834473,
+                "ordinal": 25,
+                "sourceRange": {
+                  "startUs": 250000,
+                  "endUs": 260000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4160,
+                "endSample": 4320,
+                "rms": 0.20528223963689335,
+                "peak": 0.5464649200439453,
+                "ordinal": 26,
+                "sourceRange": {
+                  "startUs": 260000,
+                  "endUs": 270000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4320,
+                "endSample": 4480,
+                "rms": 0.18505338735738114,
+                "peak": 0.5385946035385132,
+                "ordinal": 27,
+                "sourceRange": {
+                  "startUs": 270000,
+                  "endUs": 280000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4480,
+                "endSample": 4640,
+                "rms": 0.1293950271554016,
+                "peak": 0.2568666934967041,
+                "ordinal": 28,
+                "sourceRange": {
+                  "startUs": 280000,
+                  "endUs": 290000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4640,
+                "endSample": 4800,
+                "rms": 0.08362706995658234,
+                "peak": 0.17133429646492004,
+                "ordinal": 29,
+                "sourceRange": {
+                  "startUs": 290000,
+                  "endUs": 300000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4800,
+                "endSample": 4960,
+                "rms": 0.04590784662157522,
+                "peak": 0.09001777321100235,
+                "ordinal": 30,
+                "sourceRange": {
+                  "startUs": 300000,
+                  "endUs": 310000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4960,
+                "endSample": 5120,
+                "rms": 0.028633977130816803,
+                "peak": 0.05026886984705925,
+                "ordinal": 31,
+                "sourceRange": {
+                  "startUs": 310000,
+                  "endUs": 320000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5120,
+                "endSample": 5280,
+                "rms": 0.01684704711704499,
+                "peak": 0.027605416253209114,
+                "ordinal": 32,
+                "sourceRange": {
+                  "startUs": 320000,
+                  "endUs": 330000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5280,
+                "endSample": 5440,
+                "rms": 0.015557861453264996,
+                "peak": 0.03529684990644455,
+                "ordinal": 33,
+                "sourceRange": {
+                  "startUs": 330000,
+                  "endUs": 340000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5440,
+                "endSample": 5600,
+                "rms": 0.03525161571485528,
+                "peak": 0.12017149478197098,
+                "ordinal": 34,
+                "sourceRange": {
+                  "startUs": 340000,
+                  "endUs": 350000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5600,
+                "endSample": 5760,
+                "rms": 0.06587399329625195,
+                "peak": 0.18371960520744324,
+                "ordinal": 35,
+                "sourceRange": {
+                  "startUs": 350000,
+                  "endUs": 360000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5760,
+                "endSample": 5920,
+                "rms": 0.09805380591522736,
+                "peak": 0.24318693578243256,
+                "ordinal": 36,
+                "sourceRange": {
+                  "startUs": 360000,
+                  "endUs": 370000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5920,
+                "endSample": 6080,
+                "rms": 0.08807520482700154,
+                "peak": 0.23533907532691956,
+                "ordinal": 37,
+                "sourceRange": {
+                  "startUs": 370000,
+                  "endUs": 380000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6080,
+                "endSample": 6240,
+                "rms": 0.07153039265417613,
+                "peak": 0.1896197348833084,
+                "ordinal": 38,
+                "sourceRange": {
+                  "startUs": 380000,
+                  "endUs": 390000
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6240,
+                "endSample": 6262,
+                "rms": 0.06317602383978838,
+                "peak": 0.1377202719449997,
+                "ordinal": 39,
+                "sourceRange": {
+                  "startUs": 390000,
+                  "endUs": 391375
+                },
+                "activity": "active",
+                "thresholdRMS": 0.01,
+                "lexicalIdentity": "unknown"
+              }
+            ],
+            "acousticResolutionSamples": 160,
+            "noiseFloorInterpretation": "unknown",
+            "nextCursor": null
+          }
+        },
+        {
+          "assetId": "93b51ba446161ce22bad5b840747501e309a4e68bdfb00c9b3f694c00676d171",
+          "state": "ready",
+          "generation": "7e1993f3-3065-4ea0-9d79-62f7f8cfdfd9",
+          "page": {
+            "evidence": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "93b51ba446161ce22bad5b840747501e309a4e68bdfb00c9b3f694c00676d171"
+              },
+              "generation": "7e1993f3-3065-4ea0-9d79-62f7f8cfdfd9",
+              "policy": "alignment-v1",
+              "source": {
+                "streamId": "track:1",
+                "acquisitionId": null,
+                "supportDigest": "c81212aacd8da18d21dbf7da101148195bf228967ee7f30307552f4a750bab0f",
+                "channel": 0,
+                "originUs": 0,
+                "durationUs": 391375,
+                "observationRange": {
+                  "startUs": 0,
+                  "endUs": 391375
+                },
+                "text": "fortunate",
+                "pcm": {
+                  "sha256": "2ba41e2db8e6e3964e3e0db271f121126f463e796c4415b0c0b2f0644ef4f349",
+                  "sampleRate": 16000,
+                  "frames": 6262
+                },
+                "decoder": {
+                  "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+                  "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+                  "osBuild": "Version 27.0.1 (Build 26A434)"
+                },
+                "engine": {
+                  "modelId": "nemo-ctc110",
+                  "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+                  "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+                  "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+                  "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+                  "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+                  "recipe": "nemo-auxiliary-ctc110-v1"
+                }
+              },
+              "nativeReceiptSha256": "fe51074173a41bc390123f08752600f0a4cfb9bd71b5d69b384dec9dbed22226",
+              "reportSha256": "e0a0c9bd281b51c698292439107e2e6d74dadc711a0e02a7f679f50d9f715697",
+              "correspondenceSha256": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65",
+              "wordCount": 2,
+              "acousticCount": 40,
+              "scoreCount": 5,
+              "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+              "observedLowerDecileRMS": 0.001377753171943479,
+              "conditionalStatus": "forced_path_observation",
+              "correspondenceOptimum": 0,
+              "lexicalIdentity": "unknown",
+              "scoreMeaning": "uncalibrated"
+            },
+            "view": "acoustic",
+            "sourceRange": {
+              "startUs": 0,
+              "endUs": 391375
+            },
+            "rows": [
+              {
+                "startSample": 0,
+                "endSample": 160,
+                "rms": 0.0002544878409607705,
+                "peak": 0.0006406696047633886,
+                "ordinal": 0,
+                "sourceRange": {
+                  "startUs": 0,
+                  "endUs": 10000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 160,
+                "endSample": 320,
+                "rms": 0.0004325191684805482,
+                "peak": 0.0010755810653790832,
+                "ordinal": 1,
+                "sourceRange": {
+                  "startUs": 10000,
+                  "endUs": 20000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 320,
+                "endSample": 480,
+                "rms": 0.000994060677257301,
+                "peak": 0.004037503618746996,
+                "ordinal": 2,
+                "sourceRange": {
+                  "startUs": 20000,
+                  "endUs": 30000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 480,
+                "endSample": 640,
+                "rms": 0.001377753171943479,
+                "peak": 0.004535960033535957,
+                "ordinal": 3,
+                "sourceRange": {
+                  "startUs": 30000,
+                  "endUs": 40000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 640,
+                "endSample": 800,
+                "rms": 0.0019177090931252775,
+                "peak": 0.006047303322702646,
+                "ordinal": 4,
+                "sourceRange": {
+                  "startUs": 40000,
+                  "endUs": 50000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 800,
+                "endSample": 960,
+                "rms": 0.0024009041965554058,
+                "peak": 0.007631051819771528,
+                "ordinal": 5,
+                "sourceRange": {
+                  "startUs": 50000,
+                  "endUs": 60000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 960,
+                "endSample": 1120,
+                "rms": 0.003396907675849028,
+                "peak": 0.013873935677111149,
+                "ordinal": 6,
+                "sourceRange": {
+                  "startUs": 60000,
+                  "endUs": 70000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1120,
+                "endSample": 1280,
+                "rms": 0.0039785933448541295,
+                "peak": 0.01327322144061327,
+                "ordinal": 7,
+                "sourceRange": {
+                  "startUs": 70000,
+                  "endUs": 80000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1280,
+                "endSample": 1440,
+                "rms": 0.005121764596326275,
+                "peak": 0.016481470316648483,
+                "ordinal": 8,
+                "sourceRange": {
+                  "startUs": 80000,
+                  "endUs": 90000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1440,
+                "endSample": 1600,
+                "rms": 0.008514323897135457,
+                "peak": 0.03327722102403641,
+                "ordinal": 9,
+                "sourceRange": {
+                  "startUs": 90000,
+                  "endUs": 100000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1600,
+                "endSample": 1760,
+                "rms": 0.01568500548377755,
+                "peak": 0.047239549458026886,
+                "ordinal": 10,
+                "sourceRange": {
+                  "startUs": 100000,
+                  "endUs": 110000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1760,
+                "endSample": 1920,
+                "rms": 0.057569402369977166,
+                "peak": 0.14174038171768188,
+                "ordinal": 11,
+                "sourceRange": {
+                  "startUs": 110000,
+                  "endUs": 120000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 1920,
+                "endSample": 2080,
+                "rms": 0.19733567061295595,
+                "peak": 0.45268455147743225,
+                "ordinal": 12,
+                "sourceRange": {
+                  "startUs": 120000,
+                  "endUs": 130000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2080,
+                "endSample": 2240,
+                "rms": 0.23699736085255074,
+                "peak": 0.5860771536827087,
+                "ordinal": 13,
+                "sourceRange": {
+                  "startUs": 130000,
+                  "endUs": 140000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2240,
+                "endSample": 2400,
+                "rms": 0.23567639174104327,
+                "peak": 0.613801121711731,
+                "ordinal": 14,
+                "sourceRange": {
+                  "startUs": 140000,
+                  "endUs": 150000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2400,
+                "endSample": 2560,
+                "rms": 0.23966564772039547,
+                "peak": 0.6376404166221619,
+                "ordinal": 15,
+                "sourceRange": {
+                  "startUs": 150000,
+                  "endUs": 160000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2560,
+                "endSample": 2720,
+                "rms": 0.23593466438840546,
+                "peak": 0.6439880728721619,
+                "ordinal": 16,
+                "sourceRange": {
+                  "startUs": 160000,
+                  "endUs": 170000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2720,
+                "endSample": 2880,
+                "rms": 0.2318937869865349,
+                "peak": 0.6656380295753479,
+                "ordinal": 17,
+                "sourceRange": {
+                  "startUs": 170000,
+                  "endUs": 180000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 2880,
+                "endSample": 3040,
+                "rms": 0.23050190817566021,
+                "peak": 0.6597368121147156,
+                "ordinal": 18,
+                "sourceRange": {
+                  "startUs": 180000,
+                  "endUs": 190000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3040,
+                "endSample": 3200,
+                "rms": 0.22436375145775206,
+                "peak": 0.6425520777702332,
+                "ordinal": 19,
+                "sourceRange": {
+                  "startUs": 190000,
+                  "endUs": 200000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3200,
+                "endSample": 3360,
+                "rms": 0.22067522619267074,
+                "peak": 0.659699022769928,
+                "ordinal": 20,
+                "sourceRange": {
+                  "startUs": 200000,
+                  "endUs": 210000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3360,
+                "endSample": 3520,
+                "rms": 0.2164295612195805,
+                "peak": 0.6617483496665955,
+                "ordinal": 21,
+                "sourceRange": {
+                  "startUs": 210000,
+                  "endUs": 220000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3520,
+                "endSample": 3680,
+                "rms": 0.21680965001824715,
+                "peak": 0.6602290868759155,
+                "ordinal": 22,
+                "sourceRange": {
+                  "startUs": 220000,
+                  "endUs": 230000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3680,
+                "endSample": 3840,
+                "rms": 0.21243959342492752,
+                "peak": 0.6472417116165161,
+                "ordinal": 23,
+                "sourceRange": {
+                  "startUs": 230000,
+                  "endUs": 240000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 3840,
+                "endSample": 4000,
+                "rms": 0.2042934878083349,
+                "peak": 0.6265286207199097,
+                "ordinal": 24,
+                "sourceRange": {
+                  "startUs": 240000,
+                  "endUs": 250000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4000,
+                "endSample": 4160,
+                "rms": 0.17082809156854906,
+                "peak": 0.5989174842834473,
+                "ordinal": 25,
+                "sourceRange": {
+                  "startUs": 250000,
+                  "endUs": 260000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4160,
+                "endSample": 4320,
+                "rms": 0.20528223963689335,
+                "peak": 0.5464649200439453,
+                "ordinal": 26,
+                "sourceRange": {
+                  "startUs": 260000,
+                  "endUs": 270000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4320,
+                "endSample": 4480,
+                "rms": 0.18505338735738114,
+                "peak": 0.5385946035385132,
+                "ordinal": 27,
+                "sourceRange": {
+                  "startUs": 270000,
+                  "endUs": 280000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4480,
+                "endSample": 4640,
+                "rms": 0.1293950271554016,
+                "peak": 0.2568666934967041,
+                "ordinal": 28,
+                "sourceRange": {
+                  "startUs": 280000,
+                  "endUs": 290000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4640,
+                "endSample": 4800,
+                "rms": 0.08362706995658234,
+                "peak": 0.17133429646492004,
+                "ordinal": 29,
+                "sourceRange": {
+                  "startUs": 290000,
+                  "endUs": 300000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4800,
+                "endSample": 4960,
+                "rms": 0.04590784662157522,
+                "peak": 0.09001777321100235,
+                "ordinal": 30,
+                "sourceRange": {
+                  "startUs": 300000,
+                  "endUs": 310000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 4960,
+                "endSample": 5120,
+                "rms": 0.028633977130816803,
+                "peak": 0.05026886984705925,
+                "ordinal": 31,
+                "sourceRange": {
+                  "startUs": 310000,
+                  "endUs": 320000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5120,
+                "endSample": 5280,
+                "rms": 0.01684704711704499,
+                "peak": 0.027605416253209114,
+                "ordinal": 32,
+                "sourceRange": {
+                  "startUs": 320000,
+                  "endUs": 330000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5280,
+                "endSample": 5440,
+                "rms": 0.015557861453264996,
+                "peak": 0.03529684990644455,
+                "ordinal": 33,
+                "sourceRange": {
+                  "startUs": 330000,
+                  "endUs": 340000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5440,
+                "endSample": 5600,
+                "rms": 0.03525161571485528,
+                "peak": 0.12017149478197098,
+                "ordinal": 34,
+                "sourceRange": {
+                  "startUs": 340000,
+                  "endUs": 350000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5600,
+                "endSample": 5760,
+                "rms": 0.06587399329625195,
+                "peak": 0.18371960520744324,
+                "ordinal": 35,
+                "sourceRange": {
+                  "startUs": 350000,
+                  "endUs": 360000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5760,
+                "endSample": 5920,
+                "rms": 0.09805380591522736,
+                "peak": 0.24318693578243256,
+                "ordinal": 36,
+                "sourceRange": {
+                  "startUs": 360000,
+                  "endUs": 370000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 5920,
+                "endSample": 6080,
+                "rms": 0.08807520482700154,
+                "peak": 0.23533907532691956,
+                "ordinal": 37,
+                "sourceRange": {
+                  "startUs": 370000,
+                  "endUs": 380000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6080,
+                "endSample": 6240,
+                "rms": 0.07153039265417613,
+                "peak": 0.1896197348833084,
+                "ordinal": 38,
+                "sourceRange": {
+                  "startUs": 380000,
+                  "endUs": 390000
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              },
+              {
+                "startSample": 6240,
+                "endSample": 6262,
+                "rms": 0.06317602383978838,
+                "peak": 0.1377202719449997,
+                "ordinal": 39,
+                "sourceRange": {
+                  "startUs": 390000,
+                  "endUs": 391375
+                },
+                "activity": "active",
+                "thresholdRMS": 0,
+                "lexicalIdentity": "unknown"
+              }
+            ],
+            "acousticResolutionSamples": 160,
+            "noiseFloorInterpretation": "unknown",
+            "nextCursor": null
+          }
+        }
+      ],
+      "words": {
+        "assetId": "93b51ba446161ce22bad5b840747501e309a4e68bdfb00c9b3f694c00676d171",
+        "state": "ready",
+        "generation": "7e1993f3-3065-4ea0-9d79-62f7f8cfdfd9",
+        "page": {
+          "evidence": {
+            "owner": {
+              "kind": "asset",
+              "assetId": "93b51ba446161ce22bad5b840747501e309a4e68bdfb00c9b3f694c00676d171"
+            },
+            "generation": "7e1993f3-3065-4ea0-9d79-62f7f8cfdfd9",
+            "policy": "alignment-v1",
+            "source": {
+              "streamId": "track:1",
+              "acquisitionId": null,
+              "supportDigest": "c81212aacd8da18d21dbf7da101148195bf228967ee7f30307552f4a750bab0f",
+              "channel": 0,
+              "originUs": 0,
+              "durationUs": 391375,
+              "observationRange": {
+                "startUs": 0,
+                "endUs": 391375
+              },
+              "text": "fortunate",
+              "pcm": {
+                "sha256": "2ba41e2db8e6e3964e3e0db271f121126f463e796c4415b0c0b2f0644ef4f349",
+                "sampleRate": 16000,
+                "frames": 6262
+              },
+              "decoder": {
+                "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+                "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+                "osBuild": "Version 27.0.1 (Build 26A434)"
+              },
+              "engine": {
+                "modelId": "nemo-ctc110",
+                "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+                "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+                "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+                "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+                "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+                "recipe": "nemo-auxiliary-ctc110-v1"
+              }
+            },
+            "nativeReceiptSha256": "fe51074173a41bc390123f08752600f0a4cfb9bd71b5d69b384dec9dbed22226",
+            "reportSha256": "e0a0c9bd281b51c698292439107e2e6d74dadc711a0e02a7f679f50d9f715697",
+            "correspondenceSha256": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65",
+            "wordCount": 2,
+            "acousticCount": 40,
+            "scoreCount": 5,
+            "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+            "observedLowerDecileRMS": 0.001377753171943479,
+            "conditionalStatus": "forced_path_observation",
+            "correspondenceOptimum": 0,
+            "lexicalIdentity": "unknown",
+            "scoreMeaning": "uncalibrated"
+          },
+          "view": "words",
+          "sourceRange": {
+            "startUs": 0,
+            "endUs": 391375
+          },
+          "rows": [
+            {
+              "kind": "supplied",
+              "ordinal": 0,
+              "text": "fortunate",
+              "correspondence": "unmatched",
+              "possibleIndices": [],
+              "omissionPossible": true,
+              "lexicalIdentity": "unknown",
+              "timing": {
+                "startFrame": 1,
+                "endFrame": 5,
+                "sourceRange": null,
+                "physicalAdmission": "refused_unowned_support",
+                "interpretation": "conditional_supplied_path"
+              },
+              "nativeTokens": [
+                75,
+                968,
+                198,
+                159
+              ],
+              "nativeTokenizationUnknown": false,
+              "assignmentConfidence": null
+            },
+            {
+              "kind": "observed",
+              "ordinal": 0,
+              "text": "Forge.",
+              "correspondence": "observed_extra",
+              "possibleIndices": [],
+              "omissionPossible": true,
+              "lexicalIdentity": "unknown",
+              "timing": {
+                "startFrame": 1,
+                "endFrame": 5,
+                "sourceRange": null,
+                "physicalAdmission": "refused_unowned_support",
+                "interpretation": "greedy_observation"
+              },
+              "nativeTokens": [
+                758,
+                145,
+                986
+              ],
+              "nativeTokenizationUnknown": false,
+              "assignmentConfidence": null
+            }
+          ],
+          "acousticResolutionSamples": 160,
+          "noiseFloorInterpretation": "unknown",
+          "nextCursor": null
+        }
+      },
+      "exactPCM": true,
+      "sampleSupportAndPeaksExact": true,
+      "rmsWithinForwardError": true,
+      "reusedPublishedInference": true,
+      "measuredTail": {
+        "startSample": 6240,
+        "endSample": 6262,
+        "rms": 0.06317602383978838,
+        "peak": 0.1377202719449997,
+        "ordinal": 39,
+        "sourceRange": {
+          "startUs": 390000,
+          "endUs": 391375
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "lexicalCutVerdict": "unknown"
+    }
+  ],
+  "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd"
+}

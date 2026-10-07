@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4 src/text-seeds.test.ts -t "instant pins"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 8 skipped (9)
+   Start at  21:42:57
+   Duration  326ms (transform 63%, import 21%, tests 16%)

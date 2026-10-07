@@ -1,0 +1,9 @@
+$ bun run --cwd packages/composition test -- src/convenience.test.ts src/geometry-temporal.test.ts src/visual-plan.test.ts
+
+ RUN  v5.0.0 <repo>/packages/composition
+
+ Test Files  3 passed (3)
+      Tests  37 passed (37)
+
+$ bun run --cwd packages/composition check-types
+$ tsc -p tsconfig.check.json

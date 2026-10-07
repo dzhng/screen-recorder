@@ -46,7 +46,7 @@ try {
     (v) => v.state === "ready",
     "import",
   );
-  const asset = await call("asset.get", { assetId: imported.result.assetId });
+  const asset = await call("asset.get", { assetId: imported.published.output.assetId });
   const decoded = [];
   for (const padding of [0, 8]) {
     const created = await call("project.create", {

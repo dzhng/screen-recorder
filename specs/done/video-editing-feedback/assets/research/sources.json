@@ -1,0 +1,76 @@
+[
+  {
+    "id": "fluidaudio-tree",
+    "url": "https://api.github.com/repos/FluidInference/FluidAudio/git/trees/v0.15.7?recursive=1",
+    "sha256": "3a6234f5ab5e568db4d9cdf21c10798facdf3d798d583285e796264776a4fec6",
+    "bytes": 222524,
+    "retrieved": "2026-10-05",
+    "status": "read",
+    "gitTreeSha": "41540ea237350afe5117a082b5c28eda642d0612",
+    "note": "No forced-alignment-named path found; this is not proof that no reusable model logits API exists.",
+    "excerpt": "assets/research/fluidaudio-tree.txt"
+  },
+  {
+    "id": "ffmpeg-filters",
+    "url": "https://raw.githubusercontent.com/FFmpeg/FFmpeg/n9.0.2/doc/filters.texi",
+    "sha256": "65661cccd35c02e12894f674b706df8e465fd6862cf0aa64db7d3383271e5a9e",
+    "bytes": 949519,
+    "retrieved": "2026-10-05",
+    "status": "read",
+    "excerpt": "assets/research/ffmpeg-filters.txt"
+  },
+  {
+    "id": "whisperx",
+    "url": "https://raw.githubusercontent.com/m-bain/whisperX/main/README.md",
+    "sha256": "38a681ac8cc79589e11f227f9d053f6f66054cab4ae0069804ca6b52306e3aa8",
+    "bytes": 16028,
+    "retrieved": "2026-10-05",
+    "status": "read",
+    "excerpt": "assets/research/whisperx.txt"
+  },
+  {
+    "id": "apple-faces",
+    "url": "https://developer.apple.com/tutorials/data/documentation/vision/vndetectfacerectanglesrequest.json",
+    "sha256": "3c4f66a9a1432aa9ffbba55e93fcd68ac7c71fbe69edcd77561c4450d058846a",
+    "bytes": 25980,
+    "retrieved": "2026-10-05",
+    "status": "read",
+    "excerpt": "assets/research/apple-faces.txt"
+  },
+  {
+    "id": "apple-tracking",
+    "url": "https://developer.apple.com/tutorials/data/documentation/vision/vntrackobjectrequest.json",
+    "sha256": "8a7f48a4e64e83cc21a169026e8c3b8097b89c08b1d3f4f5ecb5e47423b59b23",
+    "bytes": 23931,
+    "retrieved": "2026-10-05",
+    "status": "read",
+    "excerpt": "assets/research/apple-tracking.txt"
+  },
+  {
+    "id": "fluidaudio-timing",
+    "url": "https://raw.githubusercontent.com/FluidInference/FluidAudio/v0.15.7/Sources/FluidAudioCLI/Commands/ASR/Parakeet/SlidingWindow/TranscribeCommand.swift",
+    "sha256": "d87b7028453fa17d6a239be84a8989183289425d022d2b454656ad5af75eb82c",
+    "bytes": 48890,
+    "retrieved": "2026-10-05",
+    "status": "read",
+    "excerpt": "assets/research/fluidaudio-timing.txt"
+  },
+  {
+    "id": "fluidaudio-models",
+    "url": "https://raw.githubusercontent.com/FluidInference/FluidAudio/main/Documentation/Models.md",
+    "sha256": "0535e89f81ed9d5ace1acbae36ad9dbcacbdecb2f0c67f120f36992dc98c4cf0",
+    "bytes": 18292,
+    "retrieved": "2026-10-05",
+    "status": "read",
+    "excerpt": "assets/research/fluidaudio-models.txt"
+  },
+  {
+    "id": "ctc-segmentation",
+    "url": "https://raw.githubusercontent.com/lumaku/ctc-segmentation/master/README.md",
+    "sha256": "0d446d9bcb46877be00454d2265c702d63c8de3a8ce7b0b27f78391d569c2e10",
+    "bytes": 29046,
+    "retrieved": "2026-10-05",
+    "status": "read",
+    "excerpt": "assets/research/ctc-segmentation.txt"
+  }
+]

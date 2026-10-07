@@ -1,0 +1,230 @@
+{
+  "id": "fortunate-intact",
+  "emissionsSha256": "a81aac6d391c814668b808197a142c109e0d0f7dd48ee8c7cb937199d181cfd8",
+  "pcmSha256": "44d21ae68cdbb384a65f133c20ef0cb83ce56406e1ef58de5358f567f4905512",
+  "sourceFrames": 15216,
+  "audioSeconds": 0.951,
+  "emissionShape": [
+    12,
+    1025
+  ],
+  "frameDuration": 0.07925,
+  "blankId": 1024,
+  "greedyTokenIds": [],
+  "greedyText": "",
+  "candidates": [
+    {
+      "text": "fortunate",
+      "ids": [
+        75,
+        968,
+        198,
+        159
+      ],
+      "status": "forced_path_observation",
+      "assignmentConfidence": null,
+      "path": [
+        75,
+        1024,
+        1024,
+        1024,
+        1024,
+        1024,
+        1024,
+        1024,
+        968,
+        1024,
+        198,
+        159
+      ],
+      "frameLogScores": [
+        -14.562971115112305,
+        -0.000523430178873241,
+        -0.00023529145983047783,
+        -0.00017724849749356508,
+        -0.00020644917094614357,
+        -0.00030882356804795563,
+        -0.0002668739762157202,
+        -0.0002821285743266344,
+        -13.394841194152832,
+        -0.00027497802511788905,
+        -14.550135612487793,
+        -16.016189575195312
+      ],
+      "spans": [
+        {
+          "token": 75,
+          "startFrame": 0,
+          "endFrame": 1,
+          "startSeconds": 0.0,
+          "endSeconds": 0.07925,
+          "nativeMeanTokenProbability": 4.7356763843708904e-07
+        },
+        {
+          "token": 968,
+          "startFrame": 8,
+          "endFrame": 9,
+          "startSeconds": 0.634,
+          "endSeconds": 0.71325,
+          "nativeMeanTokenProbability": 1.5229807104333304e-06
+        },
+        {
+          "token": 198,
+          "startFrame": 10,
+          "endFrame": 11,
+          "startSeconds": 0.7925,
+          "endSeconds": 0.87175,
+          "nativeMeanTokenProbability": 4.796852977051458e-07
+        },
+        {
+          "token": 159,
+          "startFrame": 11,
+          "endFrame": 12,
+          "startSeconds": 0.87175,
+          "endSeconds": 0.9510000000000001,
+          "nativeMeanTokenProbability": 1.1072794592337232e-07
+        }
+      ],
+      "nativePathMeanLogScore": -4.877201080322266,
+      "nativeNonblankMeanLogScore": -14.631034851074219,
+      "alignmentSeconds": 4.170800093561411e-05
+    },
+    {
+      "text": "purple",
+      "ids": [
+        26,
+        78,
+        526
+      ],
+      "status": "forced_path_observation",
+      "assignmentConfidence": null,
+      "path": [
+        1024,
+        1024,
+        26,
+        1024,
+        1024,
+        78,
+        1024,
+        1024,
+        1024,
+        1024,
+        1024,
+        526
+      ],
+      "frameLogScores": [
+        -0.001447463990189135,
+        -0.000523430178873241,
+        -13.342764854431152,
+        -0.00017724849749356508,
+        -0.00020644917094614357,
+        -14.292301177978516,
+        -0.0002668739762157202,
+        -0.0002821285743266344,
+        -0.00031001531169749796,
+        -0.00027497802511788905,
+        -0.00033122775494121015,
+        -14.404861450195312
+      ],
+      "spans": [
+        {
+          "token": 26,
+          "startFrame": 2,
+          "endFrame": 3,
+          "startSeconds": 0.1585,
+          "endSeconds": 0.23775000000000002,
+          "nativeMeanTokenProbability": 1.60439333285467e-06
+        },
+        {
+          "token": 78,
+          "startFrame": 5,
+          "endFrame": 6,
+          "startSeconds": 0.39625,
+          "endSeconds": 0.47550000000000003,
+          "nativeMeanTokenProbability": 6.207724823070748e-07
+        },
+        {
+          "token": 526,
+          "startFrame": 11,
+          "endFrame": 12,
+          "startSeconds": 0.87175,
+          "endSeconds": 0.9510000000000001,
+          "nativeMeanTokenProbability": 5.546872330342012e-07
+        }
+      ],
+      "nativePathMeanLogScore": -3.503645658493042,
+      "nativeNonblankMeanLogScore": -14.013309478759766,
+      "alignmentSeconds": 3.254201146773994e-05
+    },
+    {
+      "text": "fortu",
+      "ids": [
+        75,
+        968,
+        978
+      ],
+      "status": "forced_path_observation",
+      "assignmentConfidence": null,
+      "path": [
+        75,
+        1024,
+        1024,
+        1024,
+        1024,
+        1024,
+        1024,
+        1024,
+        968,
+        1024,
+        978,
+        1024
+      ],
+      "frameLogScores": [
+        -14.562971115112305,
+        -0.000523430178873241,
+        -0.00023529145983047783,
+        -0.00017724849749356508,
+        -0.00020644917094614357,
+        -0.00030882356804795563,
+        -0.0002668739762157202,
+        -0.0002821285743266344,
+        -13.394841194152832,
+        -0.00027497802511788905,
+        -12.567957878112793,
+        -0.0005650115781463683
+      ],
+      "spans": [
+        {
+          "token": 75,
+          "startFrame": 0,
+          "endFrame": 1,
+          "startSeconds": 0.0,
+          "endSeconds": 0.07925,
+          "nativeMeanTokenProbability": 4.7356763843708904e-07
+        },
+        {
+          "token": 968,
+          "startFrame": 8,
+          "endFrame": 9,
+          "startSeconds": 0.634,
+          "endSeconds": 0.71325,
+          "nativeMeanTokenProbability": 1.5229807104333304e-06
+        },
+        {
+          "token": 978,
+          "startFrame": 10,
+          "endFrame": 11,
+          "startSeconds": 0.7925,
+          "endSeconds": 0.87175,
+          "nativeMeanTokenProbability": 3.481811290839687e-06
+        }
+      ],
+      "nativePathMeanLogScore": -3.3773844242095947,
+      "nativeNonblankMeanLogScore": -13.508590698242188,
+      "alignmentSeconds": 3.1499992473982275e-05
+    }
+  ],
+  "semantics": "Forced alignment always conditions on supplied text; successful path is not lexical truth. Native likelihoods uncalibrated. No acceptance confidence or mismatch threshold invented.",
+  "torch": "2.8.0",
+  "torchaudio": "2.8.0"
+}

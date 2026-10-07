@@ -1,0 +1,7 @@
+PASS public normal: frame max 1; movie max 4; exact preview/export bytes
+PASS public multiply: frame max 0; movie max 3; exact preview/export bytes
+PASS public screen: frame max 0; movie max 3; exact preview/export bytes
+PASS public soft-light: frame max 1; movie max 3; exact preview/export bytes
+PASS public soft-light-reversed: frame max 0; movie max 3; exact preview/export bytes
+PASS public multiply-nested: frame max 0; movie max 4; exact preview/export bytes
+PASS public vignette: frame max 1; movie max 4; exact preview/export bytes

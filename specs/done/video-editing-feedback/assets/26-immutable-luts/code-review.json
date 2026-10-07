@@ -1,0 +1,11 @@
+{
+  "kind": "code-review",
+  "completed": true,
+  "exitCode": 0,
+  "eventsSha256": "095f4ba416e5bb470c1e3e42c374087977d2e26465cef713bc345ee5bda13b09",
+  "verdictSha256": "bafd5ac8baff75fa734f157c07259b8a379c5bc102d2b495a00474a58ee81040",
+  "finding": "P1: default new manifest.luts or migrate previously persisted prepared-audio recipes",
+  "disposition": "dismissed: confirmed old manifests reject; user explicitly requires hard cutover with no backward compatibility, shims or migrations and permits disposable current data",
+  "scope": "LUT admission, schema, compilation, retention, native sampler, renderer integration and public evidence; existing prepared-audio schema reuse checked",
+  "verificationLimits": "Reviewer read-only tests hit temp-directory EPERM and unsupported flags; implementing pass owns passing checks, no reviewer test success claimed"
+}

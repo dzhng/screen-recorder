@@ -1,0 +1,29 @@
+{
+  "passed": false,
+  "selectedThreshold": 0.05,
+  "cases": [
+    {
+      "id": "aiqwk30",
+      "threshold": 0.05,
+      "metrics": {
+        "referenceSpeakerSeconds": 28.880000000000003,
+        "overlapSeconds": 2.230000000000004,
+        "silenceSeconds": 3.3500000000000014,
+        "missedSpeakerSeconds": 0.24000000000000332,
+        "falseSpeakerSeconds": 13.719999999999986,
+        "confusedSpeakerSeconds": 0.009999999999994458,
+        "mapping": {
+          "speaker_0": "spk02",
+          "speaker_1": "spk03",
+          "speaker_2": "spk04",
+          "speaker_3": "spk05"
+        },
+        "der": 0.4837257617728526
+      },
+      "overlapRecall": 0.9506726457399075,
+      "confusionRatio": 0.0003462603878114424,
+      "countMatches": false,
+      "passed": false
+    }
+  ]
+}

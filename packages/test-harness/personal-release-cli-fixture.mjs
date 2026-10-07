@@ -11,10 +11,7 @@ const output = outputAt < 0 ? null : process.argv[outputAt + 1];
 const entry = { operation, params, output };
 const tracedCalls = () => {
   try {
-    return readFileSync(process.env.YAP_CALLER_TRACE, "utf8")
-      .trim()
-      .split("\n")
-      .map(JSON.parse);
+    return readFileSync(process.env.YAP_CALLER_TRACE, "utf8").trim().split("\n").map(JSON.parse);
   } catch {
     return [];
   }
@@ -166,6 +163,9 @@ switch (operation) {
       ],
     };
     break;
+  case "transcript.prepare":
+    data = { ...params, state: "ready" };
+    break;
   case "transcript.get":
     data = readyTranscript;
     if (process.env.YAP_CALLER_REPEAT_CURSOR) {
@@ -301,7 +301,7 @@ switch (operation) {
       state: "ready",
       published: {
         generation: "audio-generation",
-        audio: {
+        output: {
           range: params.range,
           unavailable: params.assetId ? unavailable(params.range, narrationBinding.available) : [],
         },

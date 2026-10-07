@@ -1,0 +1,39 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill
+
+ ❯ packages/core/src/asset-transcript.test.ts (14 tests | 1 failed | 13 skipped) 30ms
+   × bounded preparation retains whole-source identity, unobserved coverage and an explicit reusable generation 29ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/asset-transcript.test.ts > bounded preparation retains whole-source identity, unobserved coverage and an explicit reusable generation
+AssertionError: expected [ { text: 'track:2', …(2) } ] to deeply equal [ { text: 'track:2', …(2) } ]
+
+- Expected
++ Received
+
+  [
+    {
+-     "endUs": 790,
+-     "startUs": 210,
++     "endUs": 990,
++     "startUs": 110,
+      "text": "track:2",
+    },
+  ]
+
+ ❯ packages/core/src/asset-transcript.test.ts:238:6
+    236|   expect(metadata.source).toMatchObject({ durationUs: 1000, streamId: …
+    237|   expect(f.transcripts.wordRecords(metadata, { limit: 10 }).map(({ tex…
+    238|     .toEqual([{ text: "track:2", startUs: 210, endUs: 790 }]);
+       |      ^
+    239|   expect(f.transcripts.gapRecords(metadata, { limit: 10 })).toEqual([
+    240|     { startUs: 0, endUs: 100, reason: "not_acquired" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 skipped (14)
+   Start at  22:20:42
+   Duration  237ms (transform 61%, import 24%, tests 15%, worker 1%)

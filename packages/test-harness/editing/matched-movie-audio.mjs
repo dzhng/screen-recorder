@@ -35,7 +35,7 @@ export async function matchedMovieAudio({ call, out, canvas, name, expected, wro
       (value) => value.state === "ready",
       name + "-import",
     );
-    const asset = await call("asset.get", { assetId: imported.result.assetId });
+    const asset = await call("asset.get", { assetId: imported.published.output.assetId });
     const created = await call("project.create", {
       requestId: name + "-project",
       canvas,

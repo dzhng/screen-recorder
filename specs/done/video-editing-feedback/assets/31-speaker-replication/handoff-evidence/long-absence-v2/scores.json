@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "id": "long-absence600",
+      "role": "confirmation",
+      "passed": true,
+      "metrics": {
+        "referenceSpeakerSeconds": 416,
+        "overlapSeconds": 0,
+        "silenceSeconds": 184,
+        "missedSpeakerSeconds": 1.5600000000001089,
+        "falseSpeakerSeconds": 7.2400000000002525,
+        "confusedSpeakerSeconds": 0,
+        "mapping": {
+          "speaker_0": "spk00",
+          "speaker_1": "spk01",
+          "speaker_2": "spk02"
+        },
+        "der": 0.021153846153847022
+      },
+      "confusionRatio": 0,
+      "overlap": {
+        "referenceOverlapSeconds": 0,
+        "retainedOverlapSeconds": 0,
+        "recall": null
+      },
+      "inferenceSeconds": 11.240385707991663,
+      "peakProcessRSSBytes": 2931113984,
+      "postReturnIdentityCoverage": 1,
+      "silenceFalseSpeakerSeconds": 0.12000000000000455
+    }
+  ]
+}

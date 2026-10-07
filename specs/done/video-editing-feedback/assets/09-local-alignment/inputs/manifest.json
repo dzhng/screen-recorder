@@ -1,0 +1,179 @@
+{
+  "cases": [
+    {
+      "id": "madison-tiny",
+      "classification": "real-media-comparison-not-independent-word-truth",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/madison-tiny.f32",
+      "frames": 42400,
+      "pcmSha256": "a6b981d21aeb2cbcc8aca45b603af10b0be17ea0f8805980cd510b29de63029e",
+      "source": "fixtures/speech-timing/madison-1877.55.wav",
+      "sourceSha256": "0b8b94f0781c7ed5c5be8e070fca3dd6d260cb2505693629e027d96e9c264fbb",
+      "conversion": {
+        "toolSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/Users/server/dev/yap-video-editing/fixtures/speech-timing/madison-1877.55.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "/tmp/yap-editing-alignment-replication/inputs/madison-tiny.f32"
+        ]
+      },
+      "comparisonText": "I just kind of gave up on privacy"
+    },
+    {
+      "id": "overlap25",
+      "classification": "real-media-comparison-not-independent-word-truth",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/overlap25.f32",
+      "frames": 400000,
+      "pcmSha256": "6c18515f8d8acbf89f2a3d6c1820889739b205722985381577510614f5557f31",
+      "source": "fixtures/video-editing-feedback/overlap-region.wav",
+      "sourceSha256": "2a8f48a9eb53272fea02520e645859c170f5716d1087f7d2aa365cbcbd451607",
+      "conversion": {
+        "toolSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/Users/server/dev/yap-video-editing/fixtures/video-editing-feedback/overlap-region.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "/tmp/yap-editing-alignment-replication/inputs/overlap25.f32"
+        ]
+      },
+      "comparisonText": null
+    },
+    {
+      "id": "false-start",
+      "classification": "real-media-comparison-not-independent-word-truth",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/false-start.f32",
+      "frames": 28800,
+      "pcmSha256": "a55e465465deaf30d1654bff6c994625cddea2cddcc24e205423dbad18654843",
+      "source": "fixtures/video-editing-feedback/false-start.wav",
+      "sourceSha256": "37217b01cf438ff68c51eccf9ebc71f4742bbf852877446474a05c798a0b6a49",
+      "conversion": {
+        "toolSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+        "args": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-i",
+          "/Users/server/dev/yap-video-editing/fixtures/video-editing-feedback/false-start.wav",
+          "-map",
+          "0:a:0",
+          "-ac",
+          "1",
+          "-ar",
+          "16000",
+          "-f",
+          "f32le",
+          "/tmp/yap-editing-alignment-replication/inputs/false-start.f32"
+        ]
+      },
+      "comparisonText": null
+    },
+    {
+      "id": "constructed-repeats",
+      "classification": "independent-generator-text-and-placement-support-control",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/constructed-repeats.f32",
+      "frames": 192000,
+      "pcmSha256": "4499639cbe3db64e0f55da025c4aa22d7310635e2ef4e21f0006ce90344543f5",
+      "placements": [
+        {
+          "word": "blue",
+          "start": 1,
+          "end": 1.5880625,
+          "samples": 9409,
+          "sha256": "cd0838a205e6f3e8c3246e92498a218dbc9c48f0b62300940ad7512fc9b4afd2"
+        },
+        {
+          "word": "seven",
+          "start": 4,
+          "end": 4.7319375,
+          "samples": 11711,
+          "sha256": "24a3d9446a526725d70a998a97eead2e41cc399dfb0b3b806ca4a27e92029473"
+        },
+        {
+          "word": "blue",
+          "start": 7,
+          "end": 7.5880625,
+          "samples": 9409,
+          "sha256": "cd0838a205e6f3e8c3246e92498a218dbc9c48f0b62300940ad7512fc9b4afd2"
+        }
+      ],
+      "comparisonText": "blue seven blue",
+      "generator": {
+        "executable": "/usr/bin/say",
+        "voice": "Samantha",
+        "rate": 140,
+        "texts": [
+          "blue",
+          "seven",
+          "fortunate"
+        ]
+      },
+      "truthScope": "Known generator requests and physical placement intervals; no connected-speech phonetic word boundary labels"
+    },
+    {
+      "id": "fortunate-intact",
+      "classification": "independent-intact-truncated-physical-support-control",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/fortunate-intact.f32",
+      "frames": 15216,
+      "pcmSha256": "44d21ae68cdbb384a65f133c20ef0cb83ce56406e1ef58de5358f567f4905512",
+      "generatorText": "fortunate",
+      "activitySupport": {
+        "onsetFrame": 1075,
+        "endFrame": 11449,
+        "energyThreshold": 0.01
+      },
+      "cutFrame": null,
+      "truthScope": "Source bytes independently cut inside nonquiet isolated utterance; lexical fragment remains unverified"
+    },
+    {
+      "id": "fortunate-truncated",
+      "classification": "independent-intact-truncated-physical-support-control",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/fortunate-truncated.f32",
+      "frames": 6262,
+      "pcmSha256": "2ba41e2db8e6e3964e3e0db271f121126f463e796c4415b0c0b2f0644ef4f349",
+      "generatorText": "fortunate",
+      "activitySupport": {
+        "onsetFrame": 1075,
+        "endFrame": 6262,
+        "energyThreshold": 0.01
+      },
+      "cutFrame": 6262,
+      "truthScope": "Source bytes independently cut inside nonquiet isolated utterance; lexical fragment remains unverified"
+    },
+    {
+      "id": "fortunate-contextual",
+      "classification": "independent-intact-truncated-physical-support-control",
+      "pcm": "/tmp/yap-editing-alignment-replication/inputs/fortunate-contextual.f32",
+      "frames": 47216,
+      "pcmSha256": "448f0fd865058a922e8c2d20477682e93792d76d6609e7b3db20dbebce6d9ad0",
+      "generatorText": "fortunate",
+      "activitySupport": {
+        "onsetFrame": 17075,
+        "endFrame": 27449,
+        "energyThreshold": 0.01
+      },
+      "cutFrame": null,
+      "truthScope": "Source bytes independently cut inside nonquiet isolated utterance; lexical fragment remains unverified"
+    }
+  ],
+  "scorePolicy": "No ASR transcript serves as independent truth. Generator/placements test physical ordered occurrence mechanics. Unknown connected/partial phonetic boundaries remain unknown."
+}

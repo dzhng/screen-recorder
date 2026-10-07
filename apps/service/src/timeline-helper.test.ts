@@ -66,7 +66,8 @@ test("timeline helper consumes actual selected-source public frames and preserve
   });
   const imported = await f.call("asset.import", { requestId: "timeline-source", path: f.path });
   if (!imported.ok) throw new Error(JSON.stringify(imported));
-  const asset = (await f.job((imported.data as { jobId: string }).jobId, "ready")).result!;
+  const asset = (await f.job((imported.data as { jobId: string }).jobId, "ready")).published!
+    .output;
   const outputs = new Map<string, Buffer>();
   async function delivered(data: Record<string, unknown>) {
     const delivery = data.delivery as { token: string; bytes: number } | null;
@@ -124,7 +125,7 @@ test("timeline helper consumes actual selected-source public frames and preserve
     data: {
       state: "ready",
       published: {
-        frame: {
+        output: {
           requestedSourceUs: 40001,
           actualSourceUs: 33333,
           sample: { value: "1", endValue: "2", timescale: 30 },

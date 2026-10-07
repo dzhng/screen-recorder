@@ -56,3 +56,9 @@ managed preparation or installed acceptance proof.
 corpus labels and local producers. A registered speech engine and an experiment
 provider have different authority: only a family-specific passed gate can justify
 product preparation or execution. Failed/pending observations remain research.
+
+## Retained timing admission
+
+The [case-selected replay](timing-replay.mjs) verifies native word operands through
+current admission and pagination without inference. Its [retained evidence](../../../specs/done/video-editing-feedback/assets/07-speech-timing/README.md)
+separates exact preservation from accuracy claims; use its own help for execution.

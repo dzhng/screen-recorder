@@ -1,0 +1,175 @@
+{
+  "status": "passed",
+  "case": "moved-split-zoom",
+  "nativeSha256": "b6d1f73e0777f635c1a1bc9718a6cf23ac7235a72f1b7fff071a259b31b5b5de",
+  "runnerSha256": "97e7a8b93e42ba9c500e3ddf20bcca9e380ffba050cd84ee17c7119a60ea0d0b",
+  "decoderSha256": "c8173e9755795978bce8e104f8d7044fabe7d6d84044aba37d3648c6f4e4e1a8",
+  "pictures": 39,
+  "checks": {
+    "wholeCurveRefusals": 0,
+    "analyticStaticControls": 8,
+    "movedPictures": 8,
+    "splitPictures": 8,
+    "trimmedPictures": 4,
+    "activationPictures": 3,
+    "previewExportExact": true,
+    "movieErrors": [
+      {
+        "mean": 0.47734375,
+        "max": 14
+      },
+      {
+        "mean": 2.585546875,
+        "max": 219
+      },
+      {
+        "mean": 3.998177083333333,
+        "max": 236
+      },
+      {
+        "mean": 4.913020833333333,
+        "max": 198
+      },
+      {
+        "mean": 1.5895833333333333,
+        "max": 12
+      },
+      {
+        "mean": 3.855338541666667,
+        "max": 165
+      },
+      {
+        "mean": 3.9330729166666667,
+        "max": 206
+      },
+      {
+        "mean": 3.779557291666667,
+        "max": 122
+      }
+    ],
+    "rangeErrors": [
+      {
+        "mean": 0.5328125,
+        "max": 29
+      },
+      {
+        "mean": 0.862109375,
+        "max": 28
+      },
+      {
+        "mean": 0.04375,
+        "max": 3
+      },
+      {
+        "mean": 0.25247395833333336,
+        "max": 15
+      },
+      {
+        "mean": 0.20208333333333334,
+        "max": 8
+      }
+    ],
+    "encodedGate": "existing meanRGB<=12 still-image membership/layout tolerance; not strict color conformance",
+    "coverage": [
+      {
+        "frame": 16,
+        "occupiedPixelRatio": 0.1094,
+        "bounds": [
+          10,
+          16,
+          29,
+          47
+        ],
+        "touchesPerimeter": false
+      },
+      {
+        "frame": 17,
+        "occupiedPixelRatio": 0.1688,
+        "bounds": [
+          9,
+          14,
+          31,
+          51
+        ],
+        "touchesPerimeter": false
+      },
+      {
+        "frame": 18,
+        "occupiedPixelRatio": 0.2371,
+        "bounds": [
+          6,
+          10,
+          35,
+          53
+        ],
+        "touchesPerimeter": false
+      },
+      {
+        "frame": 19,
+        "occupiedPixelRatio": 0.3969,
+        "bounds": [
+          2,
+          5,
+          38,
+          60
+        ],
+        "touchesPerimeter": false
+      },
+      {
+        "frame": 20,
+        "occupiedPixelRatio": 0.4375,
+        "bounds": [
+          0,
+          0,
+          39,
+          63
+        ],
+        "touchesPerimeter": true
+      },
+      {
+        "frame": 21,
+        "occupiedPixelRatio": 0.4234,
+        "bounds": [
+          0,
+          0,
+          39,
+          63
+        ],
+        "touchesPerimeter": true
+      },
+      {
+        "frame": 22,
+        "occupiedPixelRatio": 0.3879,
+        "bounds": [
+          0,
+          0,
+          39,
+          63
+        ],
+        "touchesPerimeter": true
+      },
+      {
+        "frame": 23,
+        "occupiedPixelRatio": 0.3984,
+        "bounds": [
+          0,
+          0,
+          39,
+          63
+        ],
+        "touchesPerimeter": true
+      }
+    ]
+  },
+  "outputs": {
+    "full": {
+      "path": "full.mp4",
+      "sha256": "cf60ee1d9019c0fbc9bf4182e8f92e5d96c24472d39066d35b10a08347ca66a0"
+    },
+    "range": {
+      "path": "range.mp4",
+      "sha256": "21568ea171f41f83a722203f47f43e96f2a530214f295b483200012f912189f5"
+    }
+  },
+  "scope": "current native public frame/preview/export delivery for authored zoom geometry; frozen color-hash parity remains a separate acceptance gate"
+}

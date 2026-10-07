@@ -1,0 +1,26 @@
+[
+  {
+    "name": "madison-tiny",
+    "seconds": 8.651786375,
+    "exactNativeMatrix": true,
+    "exactConditionalPath": true,
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+    "execution": 1,
+    "postInferenceModelsRead": "ready; complete inventory verified",
+    "processOwner": "shared preparedModelWorker",
+    "compilerCache": "existing Models-owned cache outside runtime"
+  },
+  {
+    "name": "madison-tiny",
+    "seconds": 8.369296666,
+    "exactNativeMatrix": true,
+    "exactConditionalPath": true,
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+    "execution": 2,
+    "postInferenceModelsRead": "ready; complete inventory verified",
+    "processOwner": "shared preparedModelWorker",
+    "compilerCache": "existing Models-owned cache outside runtime"
+  }
+]

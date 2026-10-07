@@ -11,10 +11,14 @@ public enum CompositionFrameRenderer {
         let processing: [CompositionProcessing]
         public let assets: [CompositionAsset]
         public let fonts: [FontAssetBinding]?
+        public let luts: [LUTAssetBinding]?
+        let lutImplementationId: String?
         let maxLongEdge: Int?
         let maxEncodedBytes: Int?
         let sdrCorrectionImplementationId: String?
         let pointers: PreparedPointersReceipt?
+        let observations: PictureObservationRequest?
+        let faceObservations: FaceObservationRequest?
     }
     public struct Result: Encodable {
         let file: String
@@ -30,6 +34,8 @@ public enum CompositionFrameRenderer {
         let decodedSamples: Int
         let readerOpens: Int
         let bytes: Int
+        let observations: PictureObservations?
+        let faceObservations: FaceObservations?
     }
 
     public static func write(_ request: Request) async throws -> Result {
@@ -49,20 +55,21 @@ public enum CompositionFrameRenderer {
         let pictures = try CompositionPictureExecutor(
             canvas: request.canvas, deliveredSize: FrameImage.delivered(
                 width: request.canvas.width, height: request.canvas.height, maxLongEdge: edge),
-            bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers, sdrCorrectionImplementationId: request.sdrCorrectionImplementationId)
+            bindings: request.assets, fonts: request.fonts ?? [], luts: request.luts ?? [], lutImplementationId: request.lutImplementationId, pointers: request.pointers, sdrCorrectionImplementationId: request.sdrCorrectionImplementationId)
         let output = try NewFile(at: request.output, assembledAs: "frame.png")
         defer { output.discard() }
         let composed = try await pictures.image(frame)
         try pictures.finishPointers()
         // Orientation and composition are complete. Only the established delivery bound remains.
         let image = FrameImage(oriented: composed, maxLongEdge: edge)
-        let bytes = try image.publishPNG(
-            to: output, context: pictures.context, maxEncodedBytes: limit)
+        let published = try image.publishPNG(
+            to: output, context: pictures.context, maxEncodedBytes: limit,
+            observations: request.observations, faceObservations: request.faceObservations)
         return Result(
             file: request.output, frame: frame, pictures: pictures.pictures,
             width: image.width, height: image.height,
             sourceWidth: request.canvas.width, sourceHeight: request.canvas.height,
             decodedImages: pictures.decodedImages, decodedSamples: pictures.decodedSamples,
-            readerOpens: pictures.opens, bytes: bytes)
+            readerOpens: pictures.opens, bytes: published.bytes, observations: published.observations, faceObservations: published.faceObservations)
     }
 }

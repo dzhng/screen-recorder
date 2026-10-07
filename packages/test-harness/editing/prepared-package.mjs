@@ -188,7 +188,7 @@ try {
     () => call("job.get", { jobId: imported.jobId }),
     (value) => value.state === "ready",
   );
-  const asset = await call("asset.get", { assetId: importedJob.result.assetId });
+  const asset = await call("asset.get", { assetId: importedJob.published.output.assetId });
   const created = await call("project.create", {
     requestId: "create",
     canvas: {
@@ -289,7 +289,7 @@ try {
   );
   assert.deepEqual(await call("audio.prepare", selection), publication);
   report.learnedPublication = publication;
-  const learnedAsset = await call("asset.get", { assetId: publication.published.audio.assetId });
+  const learnedAsset = await call("asset.get", { assetId: publication.published.output.assetId });
   const learnedPath = join(out, "donor-learned.wav");
   await poll(
     () =>
@@ -319,13 +319,13 @@ try {
   values.push(
     await owner(donor, false, async ({ prepared, projects }) => {
       assert.deepEqual(projects.revision(projectId, learned.revision.id), learned.revision);
-      const portable = prepared.portable(publication.published.audio.resourceId);
+      const portable = prepared.portable(publication.published.output.resourceId);
       assert(
         JSON.parse(portable.publication.input).requirements.some((r) =>
           r.implementationId?.startsWith("rnnoise-"),
         ),
       );
-      return { value: { assetId: publication.published.audio.assetId }, portable };
+      return { value: { assetId: publication.published.output.assetId }, portable };
     }),
   );
   await start(donor);
@@ -389,16 +389,16 @@ try {
   );
   assert.deepEqual(
     (await call("package.adopt", { packageHandle: opened.packageHandle, requestId: "adopt" }))
-      .result,
-    adopted.result,
+      .published.output,
+    adopted.published.output,
   );
-  const history = await call("revision.history", { projectId: adopted.result.projectId });
+  const history = await call("revision.history", { projectId: adopted.published.output.projectId });
   await call("package.close", { admissionId: admission.id });
   await rm(archive);
   const changed = await call("edit.apply", {
-    projectId: adopted.result.projectId,
+    projectId: adopted.published.output.projectId,
     requestId: "changed-learned",
-    expectedRevisionId: adopted.result.revisionId,
+    expectedRevisionId: adopted.published.output.revisionId,
     operations: [
       {
         operation: "processing.set",
@@ -407,7 +407,10 @@ try {
       },
     ],
   });
-  const changedSelection = { projectId: adopted.result.projectId, revisionId: changed.revision.id };
+  const changedSelection = {
+    projectId: adopted.published.output.projectId,
+    revisionId: changed.revision.id,
+  };
   for (const operation of ["audio.prepare", "audio.get"]) {
     const failure = await call(
       operation,
@@ -426,16 +429,16 @@ try {
     );
   }
   const undone = await call("edit.undo", {
-    projectId: adopted.result.projectId,
+    projectId: adopted.published.output.projectId,
     expectedRevisionId: changed.revision.id,
     requestId: "undo-changed-learned",
   });
   const restored = await call("audio.prepare", {
-    projectId: adopted.result.projectId,
+    projectId: adopted.published.output.projectId,
     revisionId: undone.id,
   });
   assert.equal(restored.state, "ready");
-  assert.equal(restored.published.audio.assetId, learnedAsset.id);
+  assert.equal(restored.published.output.assetId, learnedAsset.id);
   await close();
   await owner(receiver, false, async ({ prepared, assets, projects, calls }) => {
     for (const [i, original] of values.entries()) {
@@ -443,7 +446,7 @@ try {
         (revision) => revision.ordinal === originals[i].ordinal,
       ).id;
       const resourceId = preparedAudioResource(
-        adopted.result.projectId,
+        adopted.published.output.projectId,
         original.portable.publication.attemptId,
       );
       const portable = prepared.portable(resourceId);
@@ -460,7 +463,7 @@ try {
       );
       assert(
         projects
-          .revisionDependencies(adopted.result.projectId, revisionId)
+          .revisionDependencies(adopted.published.output.projectId, revisionId)
           .some((reference) => reference.kind === "prepared-audio" && reference.id === resourceId),
       );
       report.publications.push({

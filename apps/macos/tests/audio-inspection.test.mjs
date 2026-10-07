@@ -104,7 +104,7 @@ function publicAudioClient(getService) {
       assert.ok(!["failed", "unavailable"].includes(result.state), JSON.stringify(result));
       if (result.state !== "ready") return false;
       try {
-        if (consume) await consume(result.published.audio);
+        if (consume) await consume(result.published.output);
         return result;
       } finally {
         await call("artifact.close", { token: result.delivery.token });
@@ -186,7 +186,7 @@ test("public project audio preserves explicit cuts, captured support, pinned rev
       range: { startUs: 500000, endUs: 2500000 },
     };
     const ready = await audio(params),
-      excerpt = ready.published.audio;
+      excerpt = ready.published.output;
     assert.equal(excerpt.frames, 96000);
     assert.equal(excerpt.sampleRate, 48000);
     assert.deepEqual(excerpt.range, params.range);
@@ -253,9 +253,9 @@ test("public project audio preserves explicit cuts, captured support, pinned rev
     assert.deepEqual((await audio(params)).published, ready.published);
     const historical = await audio({ ...params, revisionId: placed.revision.id });
     assert.notEqual(historical.jobId, ready.jobId);
-    assert.equal(historical.published.audio.revisionId, placed.revision.id);
+    assert.equal(historical.published.output.revisionId, placed.revision.id);
     assert.deepEqual(
-      historical.published.audio.unavailable.filter((item) => item.ranges.length),
+      historical.published.output.unavailable.filter((item) => item.ranges.length),
       [],
     );
     assert.deepEqual((await audio({ projectId, range: params.range })).published, ready.published);
@@ -368,7 +368,7 @@ test("public source audio keeps native failure until explicit retry after restor
         throw Error(JSON.stringify(job));
       return job.state === "ready" && job;
     }, 20000);
-    const asset = await call("asset.get", { assetId: job.result.assetId });
+    const asset = await call("asset.get", { assetId: job.published.output.assetId });
     const stream = asset.streams.find((stream) => stream.kind === "audio");
     assert.ok(stream);
     registered = join(home, "library", "assets", asset.fileName);
@@ -401,7 +401,7 @@ test("public source audio keeps native failure until explicit retry after restor
     });
     assert.equal(result.jobId, failed.jobId);
     assert.equal(result.published.generation, 2);
-    assert.equal(result.published.audio.frames, 48000);
+    assert.equal(result.published.output.frames, 48000);
     assert.deepEqual(await readFile(registered), original);
     const repeated = await call("audio.retry", params);
     assert.deepEqual(repeated.published, result.published);

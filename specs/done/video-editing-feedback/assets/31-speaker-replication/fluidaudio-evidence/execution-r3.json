@@ -1,0 +1,8 @@
+{
+  "binarySha256": "543a13d2cd1fd41a3854895b963bf29415a40fbc4b86555f0ae312d83df2a8dd",
+  "modelRoot": "/tmp/yap-editing-speaker-replication/fluidaudio-model-library/models/community1-speaker-research-r2/df2625ac79a7ac6b65ad868fee6d80f320da4232",
+  "networkDenied": true,
+  "originalSourceReadsDenied": true,
+  "providerModelsVerified": true,
+  "sourceReadAtRuntime": false
+}

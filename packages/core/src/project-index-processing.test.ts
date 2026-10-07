@@ -82,6 +82,23 @@ test("empty and audio-only projects execute through the shared queue without sou
   ]);
 });
 
+test("face observation requests reach project index frame materialization", async () => {
+  const f = await fixture();
+  videos(f);
+  const faceObservations = { recipe: "vision-face-rectangles-v1" as const };
+  f.index.requestProject({ projectId: f.projectId, faceObservations });
+  await f.jobs.idle();
+  f.index.requestProject({ projectId: f.projectId, faceObservations });
+  await f.jobs.idle();
+  const result = f.index.requestProject({ projectId: f.projectId, faceObservations });
+  expect(result.state).toBe("ready");
+  expect(result.published!.evidence.faceObservationRequest).toEqual(faceObservations);
+  expect(
+    f.projectRetained.page({ identity: result.published!.evidence }).entries[0]!.frame
+      .faceObservations,
+  ).toMatchObject({ status: "available", faces: [{ id: "face-0" }] });
+});
+
 test("project recipes pin both selected scene generations while queued and retain independent PNGs", async () => {
   const barrier = gate(),
     f = await fixture({ barrier });

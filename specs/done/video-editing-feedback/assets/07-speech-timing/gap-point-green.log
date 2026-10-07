@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4 src/source-transcript-read.test.ts -t "next gap start"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 8 skipped (9)
+   Start at  21:40:33
+   Duration  261ms (transform 64%, import 29%, tests 6%, worker 1%)

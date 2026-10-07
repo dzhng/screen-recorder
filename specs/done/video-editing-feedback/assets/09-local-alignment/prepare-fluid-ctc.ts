@@ -1,0 +1,5 @@
+import {Models} from '/Users/server/dev/yap-video-editing/packages/core/src/models.ts';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+const b='/tmp/yap-editing-alignment-replication';const manifest=JSON.parse(await readFile(b+'/fluid-ctc110/manifest.json','utf8'));await mkdir(b+'/model-library',{recursive:true,mode:0o700});
+const models=new Models(b+'/model-library',globalThis.fetch,[manifest]);const start=performance.now();const timer=setInterval(async()=>console.log(JSON.stringify({elapsedSeconds:(performance.now()-start)/1000,status:await models.status(manifest.name)})),5000);
+try{await models.prepare(manifest.name,AbortSignal.timeout(180000));await writeFile(b+'/fluid-ctc110/preparation.json',JSON.stringify({status:await models.status(manifest.name),modelDirectory:b+'/model-library/models/'+manifest.name+'/'+manifest.revision+'/'+manifest.folderName,seconds:(performance.now()-start)/1000,scope:'Model byte closure ready; offline load/emission quality pending'},null,2),{flag:'wx'});}finally{clearInterval(timer);await models.settled();}

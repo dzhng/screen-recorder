@@ -1,0 +1,9 @@
+{
+  "tool": "Bun.Transpiler",
+  "version": "1.4.2",
+  "loader": "ts",
+  "target": "node",
+  "sourceSha256": "989995b52e00ca2d8770c93d958c9587c0482ef2bd43839a7d6da3bde75f4ed7",
+  "ownerSha256": "02d61654027a0910fef4b919ca10ed1ad3fbc6662fa40b0670db1dc4ee731bd8",
+  "onlyRelocation": "Emitted import from absolute core owner becomes local verbatim-transpiled word-kind.mjs; no arithmetic/policy changes"
+}

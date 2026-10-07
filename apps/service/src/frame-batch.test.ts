@@ -29,6 +29,7 @@ function batch(reply: OperationResult) {
   return reply.data as SourceSelection & { items: FrameItem[] };
 }
 async function fixture() {
+  const observationRequests: unknown[] = [];
   const attempts: number[] = [],
     failures = new Set<number>();
   const f = await projectServiceFixture(cleanups, async (operation, params) => {
@@ -56,6 +57,7 @@ async function fixture() {
       };
     expect(operation).toBe("media.sourceFrame");
     const at = Number(params.atUs);
+    observationRequests.push(params.observations);
     attempts.push(at);
     if (failures.has(at))
       return {
@@ -93,14 +95,21 @@ async function fixture() {
         decodedSamples: 1,
         readerOpens: 1,
         bytes: png.length,
+        ...(params.observations ? { observations: whiteObservations(params.observations) } : {}),
       },
     };
   });
   const imported = await f.call("asset.import", { requestId: "batch-source", path: f.path });
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const job = imported.data as { jobId: string };
-  const asset = (await f.job(job.jobId, "ready")).result!;
-  return { ...f, selection: { assetId: asset.assetId, streamId: "v" }, attempts, failures };
+  const asset = (await f.job(job.jobId, "ready")).published!.output;
+  return {
+    ...f,
+    selection: { assetId: asset.assetId, streamId: "v" },
+    attempts,
+    failures,
+    observationRequests,
+  };
 }
 async function ready(f: Awaited<ReturnType<typeof fixture>>, atUs: number[]) {
   let result = batch(await f.call("frame.batch", { ...f.selection, atUs }));
@@ -134,7 +143,7 @@ test("service source batches isolate invalid admission and retain ordered duplic
   expect(good[0]!.data.published).toEqual(good[1]!.data.published);
   expect(good[0]!.data.jobId).toBe(good[1]!.data.jobId);
   for (const item of good) {
-    expect(item.data.published!.frame).toMatchObject({
+    expect(item.data.published!.output).toMatchObject({
       ...f.selection,
       atUs: item.atUs,
       requestedSourceUs: item.atUs,
@@ -145,7 +154,7 @@ test("service source batches isolate invalid admission and retain ordered duplic
       ok: true,
       data: { offset: 0, nextOffset: png.length, eof: true, data: png.toString("base64") },
     });
-    expect(await readFile(item.data.published!.frame.file)).toEqual(png);
+    expect(await readFile(item.data.published!.output.file)).toEqual(png);
   }
   expect([...f.attempts].sort((a, b) => a - b)).toEqual([0, 500_000]);
   await closeDeliveries(f, result.items);
@@ -156,7 +165,7 @@ test("service source batches isolate an unreadable cached sibling", async () => 
   const initial = await ready(f, [0]);
   const first = initial.items[0]!;
   if (!first.ok) throw new Error(JSON.stringify(first));
-  const file = first.data.published!.frame.file;
+  const file = first.data.published!.output.file;
   await closeDeliveries(f, initial.items);
   await chmod(file, 0);
   try {
@@ -173,7 +182,7 @@ test("service source batches isolate an unreadable cached sibling", async () => 
     expect(retained.items[0]).toMatchObject({ atUs: 500_000, ok: true, data: { state: "ready" } });
     const item = retained.items[0]!;
     if (!item.ok) throw new Error(JSON.stringify(item));
-    expect(await readFile(item.data.published!.frame.file)).toEqual(png);
+    expect(await readFile(item.data.published!.output.file)).toEqual(png);
     await closeDeliveries(f, retained.items);
     expect([...f.attempts].sort((a, b) => a - b)).toEqual([0, 500_000]);
   } finally {
@@ -218,8 +227,91 @@ test("service source batches require independent explicit retry of a failed pict
   });
   for (const item of final.items) {
     if (!item.ok) throw new Error(JSON.stringify(item));
-    expect(await readFile(item.data.published!.frame.file)).toEqual(png);
+    expect(await readFile(item.data.published!.output.file)).toEqual(png);
   }
   expect([...f.attempts].sort((a, b) => a - b)).toEqual([0, 500_000, 500_000]);
   await closeDeliveries(f, final.items);
+});
+
+function whiteObservations(request: unknown) {
+  const histogram = Array<number>(256).fill(0);
+  histogram[255] = 1;
+  const metric = {
+    histogram,
+    mean: 255,
+    minimum: 255,
+    maximum: 255,
+    darkFraction: 0,
+    brightFraction: 1,
+  };
+  const rect = { x: 0, y: 0, width: 1, height: 1 };
+  return {
+    recipe: "profile-managed-srgb-rgba8-rec709-encoded-luma-opaque-only-v1",
+    coordinateSpace: "delivered-top-left-pixels",
+    lumaWeights: [0.2126, 0.7152, 0.0722],
+    alphaInterpretation: "only-alpha-255-contributes-to-color-metrics",
+    sourceProfile: { name: "kCGColorSpaceDeviceRGB", sha256: null, iccStatus: "absent" },
+    measurementProfile: { name: "kCGColorSpaceSRGB", sha256: "a".repeat(64), iccStatus: "present" },
+    width: 1,
+    height: 1,
+    rgbaSha256: "b".repeat(64),
+    request,
+    full: {
+      id: "full",
+      requestedRect: rect,
+      sampledRect: rect,
+      state: "measured",
+      coverage: {
+        requestedPixels: 1,
+        rasterPixels: 1,
+        opaquePixels: 1,
+        transparentPixels: 0,
+        partialAlphaPixels: 0,
+      },
+      channels: { red: metric, green: metric, blue: metric },
+      luma: metric,
+    },
+    regions: [],
+    edgeBands: [],
+  };
+}
+
+test("public picture observations are retained with selection and create a distinct normalized cache identity", async () => {
+  const f = await fixture();
+  const plain = await ready(f, [0]);
+  const first = plain.items[0]!;
+  if (!first.ok) throw new Error(JSON.stringify(first));
+  await closeDeliveries(f, plain.items);
+  const requested = batch(
+    await f.call("frame.batch", { ...f.selection, atUs: [0], observations: {} }),
+  );
+  const item = requested.items[0]!;
+  if (!item.ok || !item.data.jobId) throw new Error(JSON.stringify(item));
+  expect(item.data.jobId).not.toBe(first.data.jobId);
+  await f.job(item.data.jobId, "ready");
+  const normalized = {
+    darkAtOrBelow: 5,
+    brightAtOrAbove: 250,
+    edgeDarkFraction: 0.98,
+    edgeOpaqueFraction: 1,
+    regions: [],
+  };
+  const received = batch(
+    await f.call("frame.batch", { ...f.selection, atUs: [0], observations: normalized }),
+  );
+  expect(received.items[0]).toMatchObject({
+    ok: true,
+    data: {
+      jobId: item.data.jobId,
+      published: {
+        output: {
+          ...f.selection,
+          atUs: 0,
+          observations: { request: normalized, full: { luma: { mean: 255, brightFraction: 1 } } },
+        },
+      },
+    },
+  });
+  expect(f.observationRequests).toEqual([undefined, normalized]);
+  await closeDeliveries(f, received.items);
 });

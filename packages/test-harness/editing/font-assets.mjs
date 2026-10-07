@@ -32,7 +32,7 @@ async function importFont(path, requestId = randomUUID(), transport = "cli") {
     (v) => v.state === "ready",
     "font admission",
   );
-  const asset = await call("asset.get", { assetId: job.result.assetId });
+  const asset = await call("asset.get", { assetId: job.published.output.assetId });
   assert.equal(asset.id, hash(await readFile(path)));
   assert.deepEqual(asset.streams, []);
   assert.equal(asset.originUs, 0);
@@ -143,7 +143,8 @@ try {
   );
   assert.deepEqual(await call("asset.get", { assetId: collection.asset.id }), collection.asset);
   assert.equal(
-    (await call("asset.import", { requestId: "single", path: singlePath })).result.assetId,
+    (await call("asset.import", { requestId: "single", path: singlePath })).published.output
+      .assetId,
     single.asset.id,
   );
   report.checks = [

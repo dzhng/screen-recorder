@@ -1,0 +1,62 @@
+{
+  "scope": "slice04 working-tree changes from 5d56d2f4; latest confirmation restricted to terminal export recovery",
+  "reviewer": "local Codex CLI, read-only sandbox",
+  "final": {
+    "command": "codex exec --sandbox read-only -C /Users/server/dev/yap-exact-removal --json -o terminal-confirmation-verdict.md - < terminal-confirmation.txt",
+    "exitCode": 0,
+    "marker": "yap-slice04-terminal-domain-confirmation",
+    "verdictFile": "review-final.md",
+    "verdictSha256": "40d6d2bb95decd0eca714fd03a85528916d26e7786261ce43e33a76a335e26b2"
+  },
+  "runs": [
+    {
+      "name": "confirmation",
+      "eventsFile": "/tmp/yap-slice04-review.e3ncB7/confirmation-events.jsonl",
+      "eventsSha256": "65a7aa38ae29f76a69f15025bb4d52913382cd1de629c9f95c7a902e4549a69a",
+      "eventCount": 59,
+      "completedTurns": 1,
+      "verdictSha256": "eccd80a9e09f0d24d626155135aa0c258a1fc028aaefe8ae86029511d42067f3"
+    },
+    {
+      "name": "initial",
+      "eventsFile": "/tmp/yap-slice04-review.e3ncB7/events.jsonl",
+      "eventsSha256": "171a89443d682643a70d4d195aa7bf8f467f494ccdbedb30e99c80b16ade5450",
+      "eventCount": 46,
+      "completedTurns": 1,
+      "verdictSha256": "89e4b4ea08a1527bec1f059e54dd14b66b349ebb7cc5cbe08de52657351d68bd"
+    },
+    {
+      "name": "final",
+      "eventsFile": "/tmp/yap-slice04-review.e3ncB7/final-events.jsonl",
+      "eventsSha256": "059e31d5aa99febf5b8aa03456f0d1ead6288c8b9a193c17760866c1601ae223",
+      "eventCount": 128,
+      "completedTurns": 1,
+      "verdictSha256": "acb1323a94ebacaff71aa99d326ad1256179ee446acacd8ba5cae97515fde080"
+    },
+    {
+      "name": "followup",
+      "eventsFile": "/tmp/yap-slice04-review.e3ncB7/followup-events.jsonl",
+      "eventsSha256": "104a7af5463f20e79e607ecc68a978b2928053af6ffb0a83d0b61c221b1e9023",
+      "eventCount": 86,
+      "completedTurns": 1,
+      "verdictSha256": "aec38aca1cef6aaa54ece85b3dfde04f73ce0fcd2ab8866dc9564f01967d7ac3"
+    },
+    {
+      "name": "recovery-confirmation",
+      "eventsFile": "/tmp/yap-slice04-review.e3ncB7/recovery-confirmation-events.jsonl",
+      "eventsSha256": "095641e01af1d8ba25d3d9f1163c5be8266c569d334593b8c3d08b2a15c78d99",
+      "eventCount": 93,
+      "completedTurns": 1,
+      "verdictSha256": "d84b8b36458902b67f2e50f0bd47b2c78c2ad5a6db86beb5dd0513f48484e429"
+    },
+    {
+      "name": "terminal-confirmation",
+      "eventsFile": "/tmp/yap-slice04-review.e3ncB7/terminal-confirmation-events.jsonl",
+      "eventsSha256": "c97b21a12141040f5386fa0fbb07ea51a3673b89db1fd560e16c4ee044b3afaf",
+      "eventCount": 27,
+      "completedTurns": 1,
+      "verdictSha256": "9b567516d84f5e89bd655c28c67fc2f0969569e2adeb0b5e27e9af278c6db6f0"
+    }
+  ],
+  "limits": "Prior review used source inspection and direct observer probes; final confirmation used source inspection only. Read-only sandbox could not rerun Vitest. Implementing worktree executed the retained scoped tests. No full-suite/native inference/media-quality/live-installed-app claim."
+}

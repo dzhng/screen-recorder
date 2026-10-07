@@ -1,0 +1,39 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill
+
+ ❯ packages/core/src/asset-transcript.test.ts (13 tests | 1 failed | 12 skipped) 31ms
+   × retained transcript inspection never starts first-time inference 30ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/asset-transcript.test.ts > retained transcript inspection never starts first-time inference
+AssertionError: expected { …(9) } to match object { state: 'not_requested', …(3) }
+(6 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "jobId": null,
++   "jobId": "4fc5a673-2b0b-42c8-8295-b300ff70c995",
+    "published": null,
+    "reason": null,
+-   "state": "not_requested",
++   "state": "processing",
+  }
+
+ ❯ packages/core/src/asset-transcript.test.ts:204:53
+    202| test("retained transcript inspection never starts first-time inference…
+    203|   const f = await fixture();
+    204|   expect(f.processing.publishedSource(f.selection)).toMatchObject({
+       |                                                     ^
+    205|     state: "not_requested",
+    206|     reason: null,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  22:03:12
+   Duration  337ms (transform 68%, import 21%, tests 11%)

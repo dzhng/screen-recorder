@@ -1,0 +1,7 @@
+PASS encoded normal: full-raster maxima 3, 3
+PASS encoded multiply: full-raster maxima 3, 3
+PASS encoded screen: full-raster maxima 2, 2
+PASS encoded soft-light: full-raster maxima 4, 4
+PASS encoded soft-light-reversed: full-raster maxima 3, 3
+PASS encoded multiply-nested: full-raster maxima 3, 3
+PASS encoded vignette: full-raster maxima 6, 6

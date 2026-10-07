@@ -1,0 +1,308 @@
+{
+  "controls": {
+    "pcm": "one Float32 mono sample at 0.25, 48 kHz; native boundary fixture",
+    "meter": "fixed FFmpeg stderr summary; production parser and real native CLI lifetime"
+  },
+  "params": {
+    "assetId": "fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2",
+    "streamId": "audio:1"
+  },
+  "imported": {
+    "ok": true,
+    "data": {
+      "jobId": "13e97623-9517-43b4-bce3-8aee7da3cbf3",
+      "attemptId": "9f689cfa-ab13-4888-888b-1e55431f632a",
+      "artifact": "asset.import",
+      "lane": "heavy",
+      "state": "ready",
+      "reason": null,
+      "generation": 1,
+      "errorCode": null,
+      "inputSha256": "062a086d8b7e4669385a8c2ea87ab95ff44203213559e8a969db2780b3d18ead",
+      "target": {
+        "kind": "import",
+        "importId": "25d46515-5abd-4ad7-82c4-8be46eb10384"
+      },
+      "retryable": false,
+      "errorDetails": null,
+      "published": {
+        "generation": 1,
+        "attemptId": "9f689cfa-ab13-4888-888b-1e55431f632a",
+        "output": {
+          "assetId": "fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2"
+        }
+      }
+    },
+    "id": "27eff39c-985d-4bcb-af47-9e7591d7b7b8",
+    "wait": {
+      "state": "settled",
+      "timeoutMs": 3000,
+      "job": {
+        "jobId": "13e97623-9517-43b4-bce3-8aee7da3cbf3",
+        "generation": 1,
+        "attemptId": "9f689cfa-ab13-4888-888b-1e55431f632a"
+      }
+    }
+  },
+  "measured": {
+    "ok": true,
+    "data": {
+      "assetId": "fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2",
+      "streamId": "audio:1",
+      "range": {
+        "startUs": 0,
+        "endUs": 21
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "231eb7aa-507d-4c94-b1a8-77a5c8ee4fb6",
+      "dependency": {
+        "jobId": "937bc766-ea18-4c0a-944f-5ca31abe6e39",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1
+      },
+      "published": {
+        "generation": 1,
+        "output": {
+          "range": {
+            "startUs": 0,
+            "endUs": 21
+          },
+          "timeOriginUs": 0,
+          "sampleRange": {
+            "start": 0,
+            "end": 1
+          },
+          "sampleRate": 48000,
+          "channels": 1,
+          "layout": "mono",
+          "implementationId": "native-source-audio-v5",
+          "unavailable": [],
+          "domain": "source",
+          "assetId": "fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2",
+          "streamId": "audio:1",
+          "supportDigest": "781d194b0451ac7c219aa2cf20f974adefd807a4077599f7fc3e3d8412be19f2",
+          "file": "/private/tmp/yap-measure-delivery-eDp7r8/library/cache/derived/e470f170-7e8a-4f3e-a180-883ba851c1e3.cache",
+          "bytes": 1166,
+          "mediaType": "application/json",
+          "cacheId": "e470f170-7e8a-4f3e-a180-883ba851c1e3",
+          "analysis": {
+            "kind": "loudness",
+            "channelInterpretation": "native",
+            "truePeak": true,
+            "implementationId": "ffmpeg-ebur128-v1:12ed97d89e5fe670c702260abe0a217bc7ffce4a60a066e55a4bcb5302ffc954",
+            "signalRecipe": {
+              "sha256": "9fc3713cd9ffb03c91a949451c94080fe3b123ec2481d534a2a5f5acf6b91dcd",
+              "preparedResourceId": null,
+              "processingSha256": null
+            },
+            "scope": "full-signal",
+            "measurement": {
+              "integratedLufs": null,
+              "loudnessRangeLu": null,
+              "samplePeakDbfs": -4,
+              "truePeakDbtp": -3.5,
+              "integratedReason": "insufficient-duration",
+              "rangeReason": "insufficient-duration",
+              "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+              "version": "fixture"
+            }
+          },
+          "audio": {
+            "jobId": "937bc766-ea18-4c0a-944f-5ca31abe6e39",
+            "generation": 1
+          }
+        }
+      },
+      "delivery": {
+        "token": "c8fda086-e4fd-40d9-a1d0-03e12e940a39",
+        "bytes": 1166,
+        "expiresAt": 1791267221473
+      },
+      "output": "/tmp/yap-measure-delivery-eDp7r8/measurement.json"
+    },
+    "id": "de03f654-c884-4e70-8bec-f73cd719da86",
+    "wait": {
+      "state": "settled",
+      "timeoutMs": 5000,
+      "job": {
+        "jobId": "231eb7aa-507d-4c94-b1a8-77a5c8ee4fb6",
+        "generation": 1,
+        "attemptId": "752a54ff-2f3a-4592-b10f-2201267888ea"
+      }
+    }
+  },
+  "waveform": {
+    "ok": true,
+    "data": {
+      "assetId": "fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2",
+      "streamId": "audio:1",
+      "range": {
+        "startUs": 0,
+        "endUs": 21
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "76cfdc6b-79fc-4df7-bc20-9307efe8d93b",
+      "dependency": {
+        "jobId": "937bc766-ea18-4c0a-944f-5ca31abe6e39",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1
+      },
+      "published": {
+        "generation": 1,
+        "output": {
+          "range": {
+            "startUs": 0,
+            "endUs": 21
+          },
+          "timeOriginUs": 0,
+          "sampleRange": {
+            "start": 0,
+            "end": 1
+          },
+          "sampleRate": 48000,
+          "channels": 1,
+          "layout": "mono",
+          "implementationId": "native-source-audio-v5",
+          "unavailable": [],
+          "domain": "source",
+          "assetId": "fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2",
+          "streamId": "audio:1",
+          "supportDigest": "781d194b0451ac7c219aa2cf20f974adefd807a4077599f7fc3e3d8412be19f2",
+          "file": "/private/tmp/yap-measure-delivery-eDp7r8/library/cache/derived/c10ec526-923a-4eb1-b95f-b069899155c1.cache",
+          "bytes": 721,
+          "mediaType": "application/json",
+          "cacheId": "c10ec526-923a-4eb1-b95f-b069899155c1",
+          "analysis": {
+            "kind": "waveform",
+            "bucketFrames": 1,
+            "bucketCount": 1
+          },
+          "bucketFrames": 1,
+          "bucketCount": 1,
+          "audio": {
+            "jobId": "937bc766-ea18-4c0a-944f-5ca31abe6e39",
+            "generation": 1
+          }
+        }
+      },
+      "delivery": {
+        "token": "f194cac0-b7c6-4346-8643-4b907f94bd69",
+        "bytes": 721,
+        "expiresAt": 1791267221691
+      },
+      "output": "/tmp/yap-measure-delivery-eDp7r8/waveform.json"
+    },
+    "id": "85d5ee2f-46d7-4ee3-9393-209f93d453a3",
+    "wait": {
+      "state": "settled",
+      "timeoutMs": 3000,
+      "job": {
+        "jobId": "76cfdc6b-79fc-4df7-bc20-9307efe8d93b",
+        "generation": 1,
+        "attemptId": "e733987c-120b-45b3-a377-18f5f5bd47e7"
+      }
+    }
+  },
+  "mcp": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"ok\":true,\"data\":{\"assetId\":\"fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2\",\"streamId\":\"audio:1\",\"range\":{\"startUs\":0,\"endUs\":21},\"state\":\"ready\",\"reason\":null,\"retryable\":false,\"jobId\":\"231eb7aa-507d-4c94-b1a8-77a5c8ee4fb6\",\"dependency\":{\"jobId\":\"937bc766-ea18-4c0a-944f-5ca31abe6e39\",\"state\":\"ready\",\"reason\":null,\"retryable\":false,\"generation\":1},\"published\":{\"generation\":1,\"output\":{\"range\":{\"startUs\":0,\"endUs\":21},\"timeOriginUs\":0,\"sampleRange\":{\"start\":0,\"end\":1},\"sampleRate\":48000,\"channels\":1,\"layout\":\"mono\",\"implementationId\":\"native-source-audio-v5\",\"unavailable\":[],\"domain\":\"source\",\"assetId\":\"fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2\",\"streamId\":\"audio:1\",\"supportDigest\":\"781d194b0451ac7c219aa2cf20f974adefd807a4077599f7fc3e3d8412be19f2\",\"file\":\"/private/tmp/yap-measure-delivery-eDp7r8/library/cache/derived/e470f170-7e8a-4f3e-a180-883ba851c1e3.cache\",\"bytes\":1166,\"mediaType\":\"application/json\",\"cacheId\":\"e470f170-7e8a-4f3e-a180-883ba851c1e3\",\"analysis\":{\"kind\":\"loudness\",\"channelInterpretation\":\"native\",\"truePeak\":true,\"implementationId\":\"ffmpeg-ebur128-v1:12ed97d89e5fe670c702260abe0a217bc7ffce4a60a066e55a4bcb5302ffc954\",\"signalRecipe\":{\"sha256\":\"9fc3713cd9ffb03c91a949451c94080fe3b123ec2481d534a2a5f5acf6b91dcd\",\"preparedResourceId\":null,\"processingSha256\":null},\"scope\":\"full-signal\",\"measurement\":{\"integratedLufs\":null,\"loudnessRangeLu\":null,\"samplePeakDbfs\":-4,\"truePeakDbtp\":-3.5,\"integratedReason\":\"insufficient-duration\",\"rangeReason\":\"insufficient-duration\",\"algorithm\":\"FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary\",\"version\":\"fixture\"}},\"audio\":{\"jobId\":\"937bc766-ea18-4c0a-944f-5ca31abe6e39\",\"generation\":1}}},\"delivery\":{\"token\":\"62634056-e642-418e-bc32-a3385431e065\",\"bytes\":1166,\"expiresAt\":1791267221797}},\"id\":\"007ff6f9-92d8-499c-929a-d51a0f4cddee\"}"
+      },
+      {
+        "type": "text",
+        "text": "{\"range\":{\"startUs\":0,\"endUs\":21},\"timeOriginUs\":0,\"sampleRange\":{\"start\":0,\"end\":1},\"sampleRate\":48000,\"channels\":1,\"layout\":\"mono\",\"implementationId\":\"ffmpeg-ebur128-v1:12ed97d89e5fe670c702260abe0a217bc7ffce4a60a066e55a4bcb5302ffc954\",\"unavailable\":[],\"domain\":\"source\",\"assetId\":\"fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2\",\"streamId\":\"audio:1\",\"supportDigest\":\"781d194b0451ac7c219aa2cf20f974adefd807a4077599f7fc3e3d8412be19f2\",\"kind\":\"loudness\",\"channelInterpretation\":\"native\",\"truePeak\":true,\"signalRecipe\":{\"sha256\":\"9fc3713cd9ffb03c91a949451c94080fe3b123ec2481d534a2a5f5acf6b91dcd\",\"preparedResourceId\":null,\"processingSha256\":null},\"scope\":\"full-signal\",\"measurement\":{\"integratedLufs\":null,\"loudnessRangeLu\":null,\"samplePeakDbfs\":-4,\"truePeakDbtp\":-3.5,\"integratedReason\":\"insufficient-duration\",\"rangeReason\":\"insufficient-duration\",\"algorithm\":\"FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary\",\"version\":\"fixture\"},\"units\":{\"integratedLufs\":\"LUFS\",\"loudnessRangeLu\":\"LU\",\"samplePeakDbfs\":\"dBFS\",\"truePeakDbtp\":\"dBTP\"},\"audio\":{\"jobId\":\"937bc766-ea18-4c0a-944f-5ca31abe6e39\",\"generation\":1},\"generation\":1}\n"
+      }
+    ],
+    "structuredContent": {
+      "ok": true,
+      "data": {
+        "assetId": "fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2",
+        "streamId": "audio:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 21
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "231eb7aa-507d-4c94-b1a8-77a5c8ee4fb6",
+        "dependency": {
+          "jobId": "937bc766-ea18-4c0a-944f-5ca31abe6e39",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "generation": 1
+        },
+        "published": {
+          "generation": 1,
+          "output": {
+            "range": {
+              "startUs": 0,
+              "endUs": 21
+            },
+            "timeOriginUs": 0,
+            "sampleRange": {
+              "start": 0,
+              "end": 1
+            },
+            "sampleRate": 48000,
+            "channels": 1,
+            "layout": "mono",
+            "implementationId": "native-source-audio-v5",
+            "unavailable": [],
+            "domain": "source",
+            "assetId": "fac6007baf29e5dd1d8a244960fc3f73f070480e4d1a6d1bd178bf2070b357b2",
+            "streamId": "audio:1",
+            "supportDigest": "781d194b0451ac7c219aa2cf20f974adefd807a4077599f7fc3e3d8412be19f2",
+            "file": "/private/tmp/yap-measure-delivery-eDp7r8/library/cache/derived/e470f170-7e8a-4f3e-a180-883ba851c1e3.cache",
+            "bytes": 1166,
+            "mediaType": "application/json",
+            "cacheId": "e470f170-7e8a-4f3e-a180-883ba851c1e3",
+            "analysis": {
+              "kind": "loudness",
+              "channelInterpretation": "native",
+              "truePeak": true,
+              "implementationId": "ffmpeg-ebur128-v1:12ed97d89e5fe670c702260abe0a217bc7ffce4a60a066e55a4bcb5302ffc954",
+              "signalRecipe": {
+                "sha256": "9fc3713cd9ffb03c91a949451c94080fe3b123ec2481d534a2a5f5acf6b91dcd",
+                "preparedResourceId": null,
+                "processingSha256": null
+              },
+              "scope": "full-signal",
+              "measurement": {
+                "integratedLufs": null,
+                "loudnessRangeLu": null,
+                "samplePeakDbfs": -4,
+                "truePeakDbtp": -3.5,
+                "integratedReason": "insufficient-duration",
+                "rangeReason": "insufficient-duration",
+                "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+                "version": "fixture"
+              }
+            },
+            "audio": {
+              "jobId": "937bc766-ea18-4c0a-944f-5ca31abe6e39",
+              "generation": 1
+            }
+          }
+        },
+        "delivery": {
+          "token": "62634056-e642-418e-bc32-a3385431e065",
+          "bytes": 1166,
+          "expiresAt": 1791267221797
+        }
+      },
+      "id": "007ff6f9-92d8-499c-929a-d51a0f4cddee"
+    },
+    "isError": false
+  }
+}

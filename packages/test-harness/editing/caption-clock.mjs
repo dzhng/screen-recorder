@@ -142,8 +142,8 @@ export async function captionClock({ call, out, font, project, admit, picture, r
       );
       const path = join(out, name + "-" + atUs + ".png");
       const delivered = await api("frame.get", selection, { output: path });
-      assert.equal(delivered.published.frame.actualSourceUs, selection.atUs);
-      const sample = delivered.published.frame.sample;
+      assert.equal(delivered.published.output.actualSourceUs, selection.atUs);
+      const sample = delivered.published.output.sample;
       const expectedEndUs =
         name === "full" ? atUs + 125000 : Math.min(atUs + 125000, range.endUs) - range.startUs;
       assert.equal(

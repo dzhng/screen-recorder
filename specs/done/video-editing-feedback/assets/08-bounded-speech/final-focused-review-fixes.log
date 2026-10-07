@@ -1,0 +1,8 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill
+
+
+ Test Files  10 passed (10)
+      Tests  151 passed (151)
+   Start at  23:04:00
+   Duration  4.76s (tests 78%, transform 14%, import 8%)

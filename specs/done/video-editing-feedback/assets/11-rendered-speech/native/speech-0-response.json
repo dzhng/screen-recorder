@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "data": {
+    "available": [
+      {
+        "endUs": 5680000,
+        "startUs": 0
+      }
+    ],
+    "details": {
+      "largestDecodedSamples": 90880,
+      "peakResidentBytes": 100646912
+    },
+    "engine": {
+      "computeUnits": "cpuAndNeuralEngine",
+      "decoder": "parakeet-tdt-batch",
+      "encoderPrecision": "int8",
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7"
+    },
+    "execution": {
+      "context": {
+        "afterUs": 0,
+        "beforeUs": 0
+      },
+      "executionRange": null,
+      "recipe": "source-windows-20s-context4s-guard1s-v2"
+    },
+    "output": {
+      "bytes": 5443,
+      "file": "/private/tmp/yap-rendered-speech-public-v15EtD/library/transcripts/assets/9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163/299be457-1954-4015-834f-38ff3459fe7d/raw.jsonl",
+      "sha256": "bbcbc1a9eb17bbc07ceb031a9e4e79c85f9bc6d512e4b222fc2686fbdf523d52"
+    },
+    "segments": [
+      {
+        "ordinal": 0,
+        "owned": {
+          "endUs": 5680000,
+          "startUs": 0
+        },
+        "source": {
+          "endUs": 5680000,
+          "startUs": 0
+        },
+        "state": "transcribed",
+        "wordCount": 8
+      }
+    ],
+    "wordCount": 8
+  }
+}

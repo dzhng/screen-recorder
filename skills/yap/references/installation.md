@@ -85,7 +85,8 @@ set `YAP_APP` to that bundle's absolute path; the launcher defaults to
    Do not remove quarantine attributes or disable Gatekeeper to bypass it.
 4. Discover `capture.sources` and `capture.status` before an actual recording
    request. Screen, microphone and camera permissions are separate user actions.
-   Speech/voice model downloads require explicit preparation when requested.
+   Yap-owned speech/voice models are prepared automatically when a requested
+   first-class feature needs them; status and help reads never download models.
 
 Report the installed release tag, app/launcher paths and observed health result.
 If only help passed, say so; blocked app launch is not verified service readiness.

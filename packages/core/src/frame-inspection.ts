@@ -1,3 +1,12 @@
+import {
+  pictureObservationRequestSchema,
+  pictureObservationsSchema,
+  type PictureObservationRequest,
+  type NormalizedPictureObservationRequest,
+  faceObservationRequestSchema,
+  faceObservationsSchema,
+  type FaceObservationRequest,
+} from "@yap/protocol";
 import { sceneSampleSourceTime } from "./source-scenes.js";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
@@ -14,6 +23,10 @@ import {
   compare,
   fromTime,
   fontReferenceSchema,
+  textStrokeSchema,
+  textShadowSchema,
+  textBackgroundSchema,
+  textHighlightSchema,
   processingTapSchema,
   type ProcessingTap,
   type CompiledFrame,
@@ -30,7 +43,7 @@ import {
   projectWindow,
   type CompositionWindow,
   type CompositionAssetBinding,
-  type FontAssetBinding,
+  type ImmutableAssetBinding,
   type ProjectRenderSupport,
 } from "./project-window.js";
 
@@ -45,6 +58,8 @@ const pictureDeliverySchema = z.object({
   mediaType: z.literal("image/png"),
   width: z.int().positive(),
   height: z.int().positive(),
+  observations: pictureObservationsSchema.optional(),
+  faceObservations: faceObservationsSchema.optional(),
   sourceWidth: z.int().positive(),
   sourceHeight: z.int().positive(),
   bytes: z
@@ -70,7 +85,36 @@ const textLayoutSchema = z
           .strict(),
       )
       .max(8192),
+    inkBounds: z.tuple([
+      z.number().finite(), z.number().finite(),
+      z.number().finite().nonnegative(), z.number().finite().nonnegative(),
+    ]),
+    visibleBounds: z.union([
+      z.tuple([
+        z.number().finite(), z.number().finite(),
+        z.number().finite().nonnegative(), z.number().finite().nonnegative(),
+      ]),
+      z.tuple([]),
+    ]),
+    decorationBounds: z.tuple([
+      z.number().finite(), z.number().finite(),
+      z.number().finite().nonnegative(), z.number().finite().nonnegative(),
+    ]),
+    verticalOffset: z.number().finite(),
+    stroke: textStrokeSchema.optional(),
+    shadow: textShadowSchema.optional(),
+    background: textBackgroundSchema.optional(),
+    highlight: textHighlightSchema.optional(),
+    activeRanges: z
+      .array(z.tuple([time, time]).refine(([start, end]) => start < end, "Expected active range"))
+      .max(10000)
+      .optional(),
   })
+  .refine((layout) => {
+    const [x, y, width, height] = layout.decorationBounds;
+    const [inkX, inkY, inkWidth, inkHeight] = layout.inkBounds;
+    return x <= inkX && y <= inkY && x + width >= inkX + inkWidth && y + height >= inkY + inkHeight;
+  }, "Decoration bounds must contain ink bounds")
   .strict();
 const nativeProjectReceiptSchema = pictureDeliverySchema.extend({
   profile: z.literal("h264-rec709"),
@@ -135,6 +179,8 @@ export const projectPictureOptionsSchema = z.strictObject({
   maxLongEdge: z.int().min(1).max(8192),
   tap: processingTapSchema,
   implementationId: z.string().min(1),
+  observationRequest: pictureObservationRequestSchema.optional(),
+  faceObservationRequest: faceObservationRequestSchema.optional(),
 });
 const optionsSchema = z.strictObject({ atUs: time, ...projectPictureOptionsSchema.shape });
 export const retainedProjectFrameSchema = projectReceiptSchema
@@ -150,6 +196,8 @@ export type ProjectFrameInput = {
   atUs: number;
   maxLongEdge?: number | undefined;
   tap?: ProcessingTap | undefined;
+  observations?: PictureObservationRequest | undefined;
+  faceObservations?: FaceObservationRequest | undefined;
 };
 export type ProjectFrameRenderer = ProjectRenderSupport & {
   implementationId: string;
@@ -158,9 +206,12 @@ export type ProjectFrameRenderer = ProjectRenderSupport & {
       model: import("@yap/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
-      fonts: readonly FontAssetBinding[];
+      fonts: readonly ImmutableAssetBinding[];
+      luts: readonly ImmutableAssetBinding[];
       output: string;
       maxLongEdge: number;
+      observations?: NormalizedPictureObservationRequest | undefined;
+      faceObservations?: FaceObservationRequest | undefined;
     },
     signal: AbortSignal,
   ): Promise<unknown>;
@@ -178,6 +229,8 @@ const sourceOptionsSchema = z.strictObject({
   maxLongEdge: z.int().min(1).max(8192),
   supportDigest: z.string().regex(/^[a-f0-9]{64}$/),
   implementationId: z.string().min(1),
+  observationRequest: pictureObservationRequestSchema.optional(),
+  faceObservationRequest: faceObservationRequestSchema.optional(),
 });
 const sourceReceiptSchema = pictureDeliverySchema.extend({
   decodedSamples: time,
@@ -206,6 +259,8 @@ const imageOptionsSchema = z.strictObject({
   selection: sourceImageSelectionSchema,
   maxLongEdge: z.int().min(1).max(8192),
   implementationId: z.string().min(1),
+  observationRequest: pictureObservationRequestSchema.optional(),
+  faceObservationRequest: faceObservationRequestSchema.optional(),
 });
 const imageReceiptSchema = pictureDeliverySchema.extend({
   kind: z.literal("image"),
@@ -218,15 +273,19 @@ const imageReceiptSchema = pictureDeliverySchema.extend({
 const imageInputSchema = sourceImageSelectionSchema
   .extend({
     maxLongEdge: imageOptionsSchema.shape.maxLongEdge.optional(),
+    observations: pictureObservationRequestSchema.optional(),
+    faceObservations: faceObservationRequestSchema.optional(),
   })
   .strict();
-export type SourceImageInput = z.infer<typeof imageInputSchema>;
+export type SourceImageInput = z.input<typeof imageInputSchema>;
 export type SourceImageRenderer = {
   implementationId: string;
   render(
     request: {
       asset: Pick<CompositionAssetBinding, "assetId" | "streamId" | "path">;
       maxLongEdge: number;
+      observations?: NormalizedPictureObservationRequest | undefined;
+      faceObservations?: FaceObservationRequest | undefined;
       output: string;
     },
     signal: AbortSignal,
@@ -235,10 +294,17 @@ export type SourceImageRenderer = {
 export type SourceImageArtifact = z.infer<typeof imageReceiptSchema> & {
   maxLongEdge: number;
   implementationId: string;
+  observationRequest?: NormalizedPictureObservationRequest | undefined;
+  faceObservationRequest?: FaceObservationRequest | undefined;
   cacheId: string;
 };
 
-export type SourceFrameInput = SourceSelection & { atUs: number; maxLongEdge?: number | undefined };
+export type SourceFrameInput = SourceSelection & {
+  atUs: number;
+  maxLongEdge?: number | undefined;
+  observations?: PictureObservationRequest | undefined;
+  faceObservations?: FaceObservationRequest | undefined;
+};
 export type SourceFrameUnavailable = z.infer<typeof sourceOptionsSchema> &
   Pick<Job, "jobId" | "attemptId" | "reason"> & {
     observation: { requestedSourceUs: number; status: "unavailable"; reason: "empty_edit" };
@@ -265,6 +331,8 @@ export type SourceFrameRenderer = {
       available: SelectionRange[];
       atUs: number;
       maxLongEdge: number;
+      observations?: NormalizedPictureObservationRequest | undefined;
+      faceObservations?: FaceObservationRequest | undefined;
       output: string;
     },
     signal: AbortSignal,
@@ -276,6 +344,8 @@ export type SourceFrameArtifact = z.infer<typeof sourceReceiptSchema> &
     maxLongEdge: number;
     supportDigest: string;
     implementationId: string;
+    observationRequest?: NormalizedPictureObservationRequest | undefined;
+    faceObservationRequest?: FaceObservationRequest | undefined;
     cacheId: string;
   };
 
@@ -294,6 +364,25 @@ export function validateSourceFrameGeometry(
     throw new CatalogError("INVALID_RESPONSE", "Source picture receipt changed its geometry");
 }
 
+export function validateFaceObservations(
+  value: { width: number; height: number; faceObservations?: unknown },
+  request: FaceObservationRequest | undefined,
+): void {
+  if (request === undefined) {
+    if (value.faceObservations !== undefined)
+      throw new CatalogError("INVALID_RESPONSE", "Unexpected face observations were returned");
+    return;
+  }
+  const observations = faceObservationsSchema.safeParse(value.faceObservations);
+  if (!observations.success)
+    throw new CatalogError("INVALID_RESPONSE", "Requested face observations were not returned");
+  if (observations.data.width !== value.width || observations.data.height !== value.height)
+    throw new CatalogError(
+      "INVALID_RESPONSE",
+      "Face observations address another delivered raster",
+    );
+}
+
 export const retainedSourceFrameSchema = sourceReceiptSchema
   .extend({
     ...sourceSelectionSchema.shape,
@@ -301,6 +390,8 @@ export const retainedSourceFrameSchema = sourceReceiptSchema
     maxLongEdge: sourceOptionsSchema.shape.maxLongEdge,
     supportDigest: sourceOptionsSchema.shape.supportDigest,
     implementationId: z.string().min(1).max(256),
+    observationRequest: pictureObservationRequestSchema.optional(),
+    faceObservationRequest: faceObservationRequestSchema.optional(),
   })
   .strict();
 
@@ -336,7 +427,7 @@ export class MediaFrameInspection {
     if (!parsedInput.success)
       throw new CatalogError(
         "INVALID_PARAMS",
-        "Still images accept assetId, streamId and maxLongEdge only",
+        "Still images accept assetId, streamId, maxLongEdge and observations only",
       );
     const asset = this.owners.assets.get(input.assetId);
     const stream = compositionAsset(asset).streams.find((value) => value.id === input.streamId);
@@ -353,6 +444,10 @@ export class MediaFrameInspection {
       kind: "image",
       selection: { assetId: asset.id, streamId: stream.id },
       maxLongEdge: input.maxLongEdge ?? 1600,
+      ...(input.observations === undefined ? {} : { observationRequest: input.observations }),
+      ...(input.faceObservations === undefined
+        ? {}
+        : { faceObservationRequest: input.faceObservations }),
       implementationId: renderer.implementationId,
     });
     return {
@@ -393,6 +488,12 @@ export class MediaFrameInspection {
       ...options.selection,
       kind: options.kind,
       maxLongEdge: options.maxLongEdge,
+      ...(options.observationRequest === undefined
+        ? {}
+        : { observationRequest: options.observationRequest }),
+      ...(options.faceObservationRequest === undefined
+        ? {}
+        : { faceObservationRequest: options.faceObservationRequest }),
       implementationId: options.implementationId,
       state: status.state,
       reason: status.reason,
@@ -416,6 +517,10 @@ export class MediaFrameInspection {
       selection: source.selection,
       atUs: input.atUs,
       maxLongEdge: input.maxLongEdge ?? 1600,
+      ...(input.observations === undefined ? {} : { observationRequest: input.observations }),
+      ...(input.faceObservations === undefined
+        ? {}
+        : { faceObservationRequest: input.faceObservations }),
       supportDigest: source.supportDigest,
       implementationId: this.owners.sourceRenderer.implementationId,
     });
@@ -453,6 +558,12 @@ export class MediaFrameInspection {
       ...options.selection,
       atUs: options.atUs,
       maxLongEdge: options.maxLongEdge,
+      ...(options.observationRequest === undefined
+        ? {}
+        : { observationRequest: options.observationRequest }),
+      ...(options.faceObservationRequest === undefined
+        ? {}
+        : { faceObservationRequest: options.faceObservationRequest }),
       supportDigest: options.supportDigest,
       implementationId: options.implementationId,
       state: status.state,
@@ -527,7 +638,12 @@ export class MediaFrameInspection {
       parsed.data.selection.assetId !== job.target.assetId
     )
       throw new CatalogError("UNSUPPORTED_JOB", "Picture job does not name a still image");
-    const plan = this.imagePlan({ ...parsed.data.selection, maxLongEdge: parsed.data.maxLongEdge });
+    const plan = this.imagePlan({
+      ...parsed.data.selection,
+      maxLongEdge: parsed.data.maxLongEdge,
+      observations: parsed.data.observationRequest,
+      faceObservations: parsed.data.faceObservationRequest,
+    });
     if (plan.options.implementationId !== parsed.data.implementationId)
       throw new CatalogError("NOT_READY", "Pinned image renderer is unavailable", {}, true);
     return this.publish(job.target, signal, async (output) => {
@@ -537,6 +653,12 @@ export class MediaFrameInspection {
             asset: plan.asset,
             output,
             maxLongEdge: plan.options.maxLongEdge,
+            ...(plan.options.observationRequest === undefined
+              ? {}
+              : { observations: plan.options.observationRequest }),
+            ...(plan.options.faceObservationRequest === undefined
+              ? {}
+              : { faceObservations: plan.options.faceObservationRequest }),
           },
           signal,
         ),
@@ -544,6 +666,8 @@ export class MediaFrameInspection {
       if (!receipt.success)
         throw new CatalogError("INVALID_RESPONSE", "Malformed still-image receipt");
       const value = receipt.data;
+      validatePictureObservations(value, plan.options.observationRequest);
+      validateFaceObservations(value, plan.options.faceObservationRequest);
       const scale = Math.min(
         1,
         plan.options.maxLongEdge / Math.max(plan.stream.width, plan.stream.height),
@@ -566,6 +690,12 @@ export class MediaFrameInspection {
         ...value,
         maxLongEdge: plan.options.maxLongEdge,
         implementationId: plan.options.implementationId,
+        ...(plan.options.observationRequest === undefined
+          ? {}
+          : { observationRequest: plan.options.observationRequest }),
+        ...(plan.options.faceObservationRequest === undefined
+          ? {}
+          : { faceObservationRequest: plan.options.faceObservationRequest }),
       };
     });
   }
@@ -580,7 +710,12 @@ export class MediaFrameInspection {
       throw new CatalogError("UNSUPPORTED_JOB", "Picture job does not name a selected source");
     if (parsed.data.implementationId !== this.owners.sourceRenderer.implementationId)
       throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
-    const plan = this.sourcePlan({ ...parsed.data.selection, ...parsed.data });
+    const plan = this.sourcePlan({
+      ...parsed.data.selection,
+      ...parsed.data,
+      observations: parsed.data.observationRequest,
+      faceObservations: parsed.data.faceObservationRequest,
+    });
     if (plan.options.supportDigest !== parsed.data.supportDigest)
       throw new CatalogError("ARTIFACT_CHANGED", "Selected source support changed");
     if (plan.reason) throw new CatalogError("UNAVAILABLE", plan.reason);
@@ -594,6 +729,12 @@ export class MediaFrameInspection {
               available: plan.available,
               atUs: plan.options.atUs,
               maxLongEdge: plan.options.maxLongEdge,
+              ...(plan.options.observationRequest === undefined
+                ? {}
+                : { observations: plan.options.observationRequest }),
+              ...(plan.options.faceObservationRequest === undefined
+                ? {}
+                : { faceObservations: plan.options.faceObservationRequest }),
               output,
             },
             signal,
@@ -609,6 +750,8 @@ export class MediaFrameInspection {
       );
       if (!parsedReceipt.success)
         throw new CatalogError("INVALID_RESPONSE", "Malformed source picture receipt");
+      validatePictureObservations(parsedReceipt.data, plan.options.observationRequest);
+      validateFaceObservations(parsedReceipt.data, plan.options.faceObservationRequest);
       const value = parsedReceipt.data,
         sample = value.sample;
       const start = BigInt(sample.value),
@@ -647,6 +790,12 @@ export class MediaFrameInspection {
         maxLongEdge: plan.options.maxLongEdge,
         supportDigest: plan.options.supportDigest,
         implementationId: plan.options.implementationId,
+        ...(plan.options.observationRequest === undefined
+          ? {}
+          : { observationRequest: plan.options.observationRequest }),
+        ...(plan.options.faceObservationRequest === undefined
+          ? {}
+          : { faceObservationRequest: plan.options.faceObservationRequest }),
       };
     });
   }
@@ -655,6 +804,10 @@ export class MediaFrameInspection {
     const options = optionsSchema.safeParse({
       atUs: input.atUs,
       maxLongEdge: input.maxLongEdge ?? 1600,
+      ...(input.observations === undefined ? {} : { observationRequest: input.observations }),
+      ...(input.faceObservations === undefined
+        ? {}
+        : { faceObservationRequest: input.faceObservations }),
       tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
       implementationId: this.project.renderer.implementationId,
     });
@@ -758,6 +911,8 @@ export class MediaFrameInspection {
       projectId: job.target.projectId,
       revisionId: job.target.revisionId,
       ...options,
+      observations: options.observationRequest,
+      faceObservations: options.faceObservationRequest,
     });
     return this.project.renderer.pointers?.admit(plan.pointerSources) ?? { state: "ready" };
   }
@@ -778,6 +933,8 @@ export class MediaFrameInspection {
       projectId: job.target.projectId,
       revisionId: job.target.revisionId,
       ...parsed.data,
+      observations: parsed.data.observationRequest,
+      faceObservations: parsed.data.faceObservationRequest,
     });
     const projectId = job.target.projectId;
     return this.publish({ kind: "project", projectId }, signal, async (output) => {
@@ -788,8 +945,15 @@ export class MediaFrameInspection {
             window: plan.window,
             assets: plan.assets,
             fonts: plan.fonts,
+            luts: plan.luts,
             output,
             maxLongEdge: plan.options.maxLongEdge,
+            ...(plan.options.observationRequest === undefined
+              ? {}
+              : { observations: plan.options.observationRequest }),
+            ...(plan.options.faceObservationRequest === undefined
+              ? {}
+              : { faceObservations: plan.options.faceObservationRequest }),
           },
           signal,
         );
@@ -798,6 +962,8 @@ export class MediaFrameInspection {
         : await render();
       signal.throwIfAborted();
       const value = validateProjectFrameReceipt(receipt, plan, output, plan.options.maxLongEdge);
+      validatePictureObservations(value, plan.options.observationRequest);
+      validateFaceObservations(value, plan.options.faceObservationRequest);
       return { ...value, ...plan.options, projectId, revisionId: plan.window.manifest.revisionId };
     });
   }
@@ -870,6 +1036,11 @@ function checkPictureReceipt(
           picture.status === "available" &&
           (!isDeepStrictEqual(picture.layout.font, layer.text.font) ||
             picture.layout.text !== layer.text.text ||
+            !isDeepStrictEqual(picture.layout.stroke, layer.text.stroke) ||
+            !isDeepStrictEqual(picture.layout.shadow, layer.text.shadow) ||
+            !isDeepStrictEqual(picture.layout.background, layer.text.background) ||
+            !isDeepStrictEqual(picture.layout.highlight, layer.text.highlight) ||
+            !isDeepStrictEqual(picture.layout.activeRanges, layer.text.activeRanges) ||
             picture.layout.visibleRange[0] + picture.layout.visibleRange[1] >
               layer.text.text.length ||
             picture.layout.lines.some(
@@ -904,4 +1075,26 @@ function checkPictureReceipt(
     )
   )
     throw new CatalogError("INVALID_RESPONSE", "Picture receipt changed its source clock");
+}
+
+/** Measurement admission binds the receipt to the exact requested masks and delivered geometry. */
+export function validatePictureObservations(
+  value: {
+    width: number;
+    height: number;
+    observations?: import("@yap/protocol").PictureObservations | undefined;
+  },
+  request: NormalizedPictureObservationRequest | undefined,
+): void {
+  if (
+    (request === undefined) !== (value.observations === undefined) ||
+    (value.observations &&
+      (value.observations.width !== value.width ||
+        value.observations.height !== value.height ||
+        !isDeepStrictEqual(value.observations.request, request)))
+  )
+    throw new CatalogError(
+      "INVALID_RESPONSE",
+      "Picture measurements differ from their requested masks or delivered raster",
+    );
 }

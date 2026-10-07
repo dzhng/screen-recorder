@@ -20,6 +20,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import type { AddressInfo } from "node:net";
 import { join } from "node:path";
 import { CatalogError } from "./catalog.js";
+import { speakerModel } from "./model-registry.js";
 import { parakeetModel, Models, type ModelManifest } from "./models.js";
 
 const cleanups: (() => Promise<unknown> | void)[] = [];
@@ -639,18 +640,213 @@ test("speaker runtime uses managed preparation and remains readable offline afte
   });
 });
 
-test("the registered original speaker keeps its verified execution identity and refuses implicit acquisition", async () => {
+test("alignment runtime keeps pinned checkpoint and runtime identity through managed preparation", async () => {
+  const f = await voiceFixture();
+  const body = Buffer.from("pinned alignment worker");
+  await mkdir(join(f.runtime, "execution"), { mode: 0o700 });
+  await writeFile(join(f.runtime, "execution/worker.py"), body, { mode: 0o700 });
+  const entries = [
+    ...f.voice.runtimeArtifact!.entries,
+    { kind: "directory" as const, path: "execution", mode: 0o700 },
+    { kind: "file" as const, mode: 0o700, ...pin("execution/worker.py", body) },
+  ];
+  const alignment: ModelManifest = {
+    ...f.voice,
+    name: "alignment",
+    purpose: "alignment",
+    runtimeArtifact: {
+      ...f.voice.runtimeArtifact!,
+      entries,
+      digest: createHash("sha256").update(JSON.stringify(entries)).digest("hex"),
+    },
+    engine: { ...f.voice.engine, decoder: "nemo-auxiliary-ctc110-v1" },
+    files: [f.voice.files[0]!],
+  };
+  const models = new Models(f.home, offline, [alignment, f.voice]);
+  expect(() => models.alignment(f.voice.name)).toThrow(failure("INVALID_REQUEST"));
+  const provider = models.alignment(alignment.name);
+  await expect(provider.runtime()).rejects.toMatchObject({ code: "MODEL_NOT_PREPARED" });
+  await models.prepare(alignment.name, new AbortController().signal, f.sources);
+  const restored = new Models(f.home, offline, [alignment]).alignment(alignment.name);
+  expect(restored.engine).toEqual(provider.engine);
+  expect(restored.engine.workerSha256).toBe(pin("execution/worker.py", body).sha256);
+  expect(restored.checkpoint).toBe(alignment.files[0]!.path);
+  const runtime = await restored.runtime();
+  expect(runtime.runtimeDigest).toBe(restored.engine.runtimeDigest);
+  expect(runtime.modelDigest).toBe(restored.engine.modelDigest);
+  expect(await readFile(runtime.python)).toEqual(Buffer.from("a pinned executable"));
+});
+
+test("model preparation acquires its pinned upstream inputs before materialization and model publication", async () => {
+  const f = await voiceFixture();
+  const archive = Buffer.from("immutable runtime input fixture");
+  const registered: ModelManifest = {
+    ...f.voice,
+    runtimeArtifact: {
+      ...f.voice.runtimeArtifact!,
+      acquisition: {
+        recipe: "python-wheels-v1",
+        interpreterArchive: "interpreter.tar.gz",
+        installs: [],
+        resources: [],
+        nativePolicy: { files: [] },
+        files: [
+          {
+            path: "interpreter.tar.gz",
+            url: "https://runtime.invalid/interpreter.tar.gz",
+            bytes: archive.length,
+            sha256: createHash("sha256").update(archive).digest("hex"),
+          },
+        ],
+      },
+    },
+  };
+  const requests: string[] = [];
+  let extracted = 0;
+  const models = new Models(
+    f.home,
+    async (input) => {
+      const url = String(input);
+      requests.push(url);
+      const body =
+        url === registered.runtimeArtifact!.acquisition!.files[0]!.url
+          ? archive
+          : contents[decodeURIComponent(url.split("/resolve/r1/")[1]!)];
+      return new Response(new Uint8Array(body!));
+    },
+    [registered],
+    async ({ inputs, directory }) => {
+      expect(await readFile(join(inputs, "interpreter.tar.gz"))).toEqual(archive);
+      extracted++;
+      await writeFile(join(directory, "worker"), "a pinned executable", { mode: 0o700 });
+      await symlink("worker", join(directory, "python"));
+    },
+  );
+  expect(models.list()[0]!.preparation.runtimeSourceRequired).toBe(false);
+  await models.prepare(registered.name, new AbortController().signal);
+  const ready = await models.runtime(registered.name, "voice");
+  expect(await readFile(ready.python)).toEqual(Buffer.from("a pinned executable"));
+  expect(requests).toEqual([
+    "https://runtime.invalid/interpreter.tar.gz",
+    ...registered.files.map(
+      (file) =>
+        `https://huggingface.co/${registered.repo}/resolve/r1/${file.path.split("/").map(encodeURIComponent).join("/")}`,
+    ),
+  ]);
+  await models.prepare(registered.name, new AbortController().signal);
+  expect(extracted).toBe(1);
+  expect(await f.staged()).toEqual([]);
+});
+
+test("a corrupt upstream runtime input is refused before materialization and never becomes ready", async () => {
+  const f = await voiceFixture();
+  const archive = Buffer.from("immutable runtime input fixture");
+  const corrupt = Buffer.from(archive);
+  corrupt[0] = corrupt[0]! ^ 1;
+  const registered: ModelManifest = {
+    ...f.voice,
+    runtimeArtifact: {
+      ...f.voice.runtimeArtifact!,
+      acquisition: {
+        recipe: "python-wheels-v1",
+        interpreterArchive: "interpreter.tar.gz",
+        installs: [],
+        resources: [],
+        nativePolicy: { files: [] },
+        files: [
+          {
+            path: "interpreter.tar.gz",
+            url: "https://runtime.invalid/interpreter.tar.gz",
+            bytes: archive.length,
+            sha256: createHash("sha256").update(archive).digest("hex"),
+          },
+        ],
+      },
+    },
+  };
+  let extracted = false;
+  const models = new Models(
+    f.home,
+    async () => new Response(corrupt),
+    [registered],
+    async () => {
+      extracted = true;
+    },
+  );
+  await expect(models.prepare(registered.name, new AbortController().signal)).rejects.toMatchObject(
+    { code: "MODEL_HASH_MISMATCH", details: { path: "interpreter.tar.gz" } },
+  );
+  expect(extracted).toBe(false);
+  expect(await models.status(registered.name)).toMatchObject({
+    state: "failed",
+    code: "MODEL_HASH_MISMATCH",
+  });
+  expect(await f.staged()).toEqual([]);
+});
+
+test("unavailable runtime execution refuses before acquiring any upstream bytes", async () => {
+  const f = await voiceFixture();
+  const registered: ModelManifest = {
+    ...f.voice,
+    runtimeArtifact: {
+      ...f.voice.runtimeArtifact!,
+      acquisition: {
+        recipe: "python-wheels-v1",
+        interpreterArchive: "interpreter.tar.gz",
+        installs: [],
+        resources: [],
+        nativePolicy: { files: [] },
+        files: [
+          {
+            path: "interpreter.tar.gz",
+            url: "https://runtime.invalid/input",
+            bytes: 1,
+            sha256: createHash("sha256").update("x").digest("hex"),
+          },
+        ],
+      },
+    },
+  };
+  const requests: string[] = [];
+  const models = new Models(
+    f.home,
+    async (url) => {
+      requests.push(String(url));
+      return new Response("x");
+    },
+    [registered],
+  );
+  await expect(models.prepare(registered.name, new AbortController().signal)).rejects.toMatchObject(
+    { code: "MODEL_RUNTIME_UNAVAILABLE" },
+  );
+  expect(requests).toEqual([]);
+  expect(await f.staged()).toEqual([]);
+});
+
+test("the registered original speaker advertises first-party auto-preparation", async () => {
   const home = await mkdtemp("/tmp/yap-original-speaker-");
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const models = new Models(home, offline);
+  expect(speakerModel).toMatchObject({
+    autoPrepare: true,
+    runtimeArtifact: {
+      acquisition: {
+        recipe: "python-wheels-v1",
+        interpreterArchive: "cpython-3.12.14+20260825-aarch64-apple-darwin-install_only.tar.gz",
+        files: expect.arrayContaining([
+          expect.objectContaining({
+            path: "nemo_toolkit-2.7.3-py3-none-any.whl",
+            url: expect.stringContaining("files.pythonhosted.org"),
+          }),
+        ]),
+      },
+    },
+  });
   expect(models.list().find((entry) => entry.modelId === "speaker-runtime-control")).toMatchObject({
     purpose: "speaker",
-    descriptorDigest: "53b62eb7953ce8f126cf7ed70f4604237063f5104e244448e1c65e047d968442",
-    runtimeDigest: "6d21b755cf6ef36ef0146688d6c7ca35863ed9a4dbb5fb14d5affd62812fdb02",
+    descriptorDigest: "f9fba304e5f821bad2ec406013616a9a36a78faa5bea7bcd76cabbc3cfd06f01",
+    runtimeDigest: "8f55df1092cca3527e5f892de2c3277f6588630f72ba60c197a84c3db026750e",
     modelDigest: "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
-    preparation: { runtimeSourceRequired: true, modelSourceRequired: true },
+    preparation: { runtimeSourceRequired: false, modelSourceRequired: false },
   });
-  await expect(
-    models.prepare("speaker-runtime-control", new AbortController().signal),
-  ).rejects.toMatchObject({ code: "MODEL_SOURCE_REQUIRED" });
 });

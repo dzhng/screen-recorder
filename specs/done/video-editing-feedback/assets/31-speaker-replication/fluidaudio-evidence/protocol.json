@@ -1,0 +1,357 @@
+{
+  "status": "frozen-before-inference",
+  "scope": "Distinct FluidAudio Community-1 whole-input clustering; no original Sortformer rewrite or threshold retuning",
+  "selection": "Default community configuration except exclusiveSegments=false to preserve overlap. exposeChunkEmbeddings=true retains complete public embedding observations without affecting inference or clustering. All count hints nil. BSP30/100 calibration and aiqwk30 held-out. No tuning and no long run unless all short gates pass.",
+  "config": {
+    "segmentation": {
+      "windowDurationSeconds": 10,
+      "sampleRate": 16000,
+      "minDurationOn": 0,
+      "minDurationOff": 0,
+      "stepRatio": 0.2,
+      "speechOnsetThreshold": 0.5,
+      "speechOffsetThreshold": 0.5
+    },
+    "embedding": {
+      "batchSize": 32,
+      "excludeOverlap": true,
+      "minSegmentDurationSeconds": 1,
+      "skipStrategy": "none"
+    },
+    "clustering": {
+      "threshold": 0.6,
+      "warmStartFa": 0.07,
+      "warmStartFb": 0.8,
+      "minSpeakers": null,
+      "maxSpeakers": null,
+      "numSpeakers": null,
+      "constrainedAssignment": true
+    },
+    "vbx": {
+      "maxIterations": 20,
+      "convergenceTolerance": 0.0001
+    },
+    "postProcessing": {
+      "minGapDurationSeconds": 0.1,
+      "exclusiveSegments": false
+    },
+    "zeroVoteReembed": {
+      "enabled": false,
+      "minDurationSeconds": 0.4
+    },
+    "export": {
+      "embeddingsPath": null
+    },
+    "exposeChunkEmbeddings": true,
+    "computeUnits": "all",
+    "fbankComputeUnits": "cpuOnly"
+  },
+  "gates": {
+    "everyCaseDERMaximum": 0.2,
+    "inferenceWallAudioRatioMaximum": 2,
+    "RSSBytesMaximum": 4294967296,
+    "globalIdentityConfusionRatioMaximum": 0.05,
+    "overlapRecallMinimum": 0.8,
+    "everyCaseObservedSpeakerCountMatchesReference": true
+  },
+  "cases": [
+    {
+      "id": "bspxd30",
+      "role": "calibration",
+      "pcm": "/tmp/yap-editing-speaker-replication/bspxd.f32",
+      "pcmSha256": "9ba2131687811bfbb9fb08d915648738cd83b35476370b55ae95b5c809133bb1",
+      "frames": 480000,
+      "output": "/tmp/yap-editing-speaker-replication/fluidaudio-feasibility/bspxd30.json",
+      "reference": [
+        {
+          "speaker": "spk01",
+          "start": 0,
+          "end": 4.439999999999998
+        },
+        {
+          "speaker": "spk01",
+          "start": 9.200000000000003,
+          "end": 10.439999999999998
+        },
+        {
+          "speaker": "spk01",
+          "start": 10.760000000000005,
+          "end": 11.280000000000001
+        },
+        {
+          "speaker": "spk02",
+          "start": 18.120000000000005,
+          "end": 22.760000000000005
+        },
+        {
+          "speaker": "spk00",
+          "start": 0.5600000000000023,
+          "end": 1.1600000000000037
+        },
+        {
+          "speaker": "spk02",
+          "start": 23.519999999999996,
+          "end": 26.36
+        },
+        {
+          "speaker": "spk02",
+          "start": 27.239999999999995,
+          "end": 30
+        },
+        {
+          "speaker": "spk00",
+          "start": 2.6000000000000014,
+          "end": 3.280000000000001
+        },
+        {
+          "speaker": "spk00",
+          "start": 4.439999999999998,
+          "end": 16.560000000000002
+        }
+      ]
+    },
+    {
+      "id": "returns-overlap-silence",
+      "role": "calibration",
+      "pcm": "/tmp/yap-editing-speaker-replication/continuity/returns-overlap-silence.f32",
+      "frames": 1600000,
+      "pcmSha256": "e97f8450c758696193a8b9a8d0468217e24fa22a2d12631a2c37fa6eb20e9068",
+      "output": "/tmp/yap-editing-speaker-replication/fluidaudio-feasibility/returns-overlap-silence.json",
+      "reference": [
+        {
+          "speaker": "bspxd:spk00",
+          "start": 0,
+          "end": 8
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 9,
+          "end": 17
+        },
+        {
+          "speaker": "bspxd:spk02",
+          "start": 18.0,
+          "end": 22.0
+        },
+        {
+          "speaker": "bspxd:spk00",
+          "start": 23.0,
+          "end": 31.0
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 32.0,
+          "end": 40.0
+        },
+        {
+          "speaker": "bspxd:spk02",
+          "start": 41.0,
+          "end": 45.0
+        },
+        {
+          "speaker": "bspxd:spk00",
+          "start": 46.0,
+          "end": 54.0
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 55.0,
+          "end": 63.0
+        },
+        {
+          "speaker": "bspxd:spk02",
+          "start": 64.0,
+          "end": 68.0
+        },
+        {
+          "speaker": "bspxd:spk00",
+          "start": 69.0,
+          "end": 77.0
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 78.0,
+          "end": 86.0
+        },
+        {
+          "speaker": "bspxd:spk02",
+          "start": 87.0,
+          "end": 91.0
+        },
+        {
+          "speaker": "bspxd:spk00",
+          "start": 92.0,
+          "end": 100.0
+        },
+        {
+          "speaker": "bspxd:spk01",
+          "start": 92.0,
+          "end": 100.0
+        }
+      ],
+      "pieces": [
+        {
+          "source": "bspxd",
+          "start": 94,
+          "end": 102,
+          "at": 0
+        },
+        {
+          "source": "bspxd",
+          "start": 33,
+          "end": 41,
+          "at": 9
+        },
+        {
+          "source": "bspxd",
+          "start": 78.4,
+          "end": 82.4,
+          "at": 18
+        },
+        {
+          "source": "bspxd",
+          "start": 94,
+          "end": 102,
+          "at": 23.0
+        },
+        {
+          "source": "bspxd",
+          "start": 33,
+          "end": 41,
+          "at": 32.0
+        },
+        {
+          "source": "bspxd",
+          "start": 78.4,
+          "end": 82.4,
+          "at": 41.0
+        },
+        {
+          "source": "bspxd",
+          "start": 94,
+          "end": 102,
+          "at": 46.0
+        },
+        {
+          "source": "bspxd",
+          "start": 33,
+          "end": 41,
+          "at": 55.0
+        },
+        {
+          "source": "bspxd",
+          "start": 78.4,
+          "end": 82.4,
+          "at": 64.0
+        },
+        {
+          "source": "bspxd",
+          "start": 94,
+          "end": 102,
+          "at": 69.0
+        },
+        {
+          "source": "bspxd",
+          "start": 33,
+          "end": 41,
+          "at": 78.0
+        },
+        {
+          "source": "bspxd",
+          "start": 78.4,
+          "end": 82.4,
+          "at": 87.0
+        },
+        {
+          "source": "bspxd",
+          "start": 94,
+          "end": 102,
+          "at": 92.0,
+          "gain": 0.5
+        },
+        {
+          "source": "bspxd",
+          "start": 33,
+          "end": 41,
+          "at": 92.0,
+          "gain": 0.5
+        }
+      ]
+    },
+    {
+      "id": "aiqwk30",
+      "role": "held-out",
+      "pcm": "/tmp/yap-editing-speaker-replication/aiqwk.f32",
+      "pcmSha256": "d5b47fcc546370ebf65b395d6ae7d2c5f5e9ebc3e3529c6550b89b82ea3bd759",
+      "frames": 480000,
+      "output": "/tmp/yap-editing-speaker-replication/fluidaudio-feasibility/aiqwk30.json",
+      "reference": [
+        {
+          "speaker": "spk02",
+          "start": 0,
+          "end": 1.3599999999999994
+        },
+        {
+          "speaker": "spk02",
+          "start": 1.7700000000000031,
+          "end": 5.159999999999997
+        },
+        {
+          "speaker": "spk02",
+          "start": 5.859999999999999,
+          "end": 11.900000000000006
+        },
+        {
+          "speaker": "spk03",
+          "start": 12.349999999999994,
+          "end": 13.879999999999995
+        },
+        {
+          "speaker": "spk02",
+          "start": 14.519999999999996,
+          "end": 19.319999999999993
+        },
+        {
+          "speaker": "spk04",
+          "start": 19.590000000000003,
+          "end": 23.0
+        },
+        {
+          "speaker": "spk05",
+          "start": 20.730000000000004,
+          "end": 21.430000000000007
+        },
+        {
+          "speaker": "spk05",
+          "start": 23.879999999999995,
+          "end": 27.36
+        },
+        {
+          "speaker": "spk04",
+          "start": 26.58,
+          "end": 28.61
+        },
+        {
+          "speaker": "spk05",
+          "start": 27.86,
+          "end": 30
+        }
+      ]
+    }
+  ],
+  "manifestSha256": "e4a43a433846b3393fb9dcbe13f827878ed6ccd59f67f492f0f90ed0eab0c356",
+  "sourceClosureDigest": "0204f80a2f31d9a7566146ae28cf0981a93eacf792375c91593985f8cfcb839d",
+  "workerSourceSha256": "d5161293ac93679473410dec8a56c8edef11a036f96d05c6afbee8d24fb89c96",
+  "rawEvidenceContract": "Complete public segments/embedding vectors/cluster assignments/database/timings retained. Internal segmentation logits inaccessible externally and not claimed retained. If green, explicit isolated frozen upstream extension is needed for complete rawmodel replay.",
+  "modelReadinessContract": "Core Models exact pinned byte closure + offline all-model loading, not acquisition alone",
+  "originalComparator": "Preserved original pinned2.7.3 and all15 semantic fields remain unchanged; separate handoff replay verifies exact parity",
+  "limitations": [
+    "VoxConverse training overlap retained",
+    "repeated controls do not prove population identity",
+    "real source tracks are not isolated voice truth",
+    "scores uncalibrated; no known-person identities",
+    "full selected audio/features materialized; state bounded but arbitrary duration not yet proven"
+  ],
+  "transportCorrection": "Before any model inference, first invocation emitted a refusal without protocol-required error.details; add empty details. Exact candidate/config remains frozen.",
+  "preInferenceFolderCorrection": "Pinned Repo.folderName strips -coreml. Models re-prepares identical bytes from first verified scratch closure under speaker-diarization; no alias/runtime or candidate change."
+}

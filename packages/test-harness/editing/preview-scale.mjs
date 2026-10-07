@@ -54,7 +54,7 @@ export async function previewScale(service, out, limits, base, durationUs) {
       (value) => value.state === "ready",
       "preview source",
     );
-    assets.push(await call("asset.get", { assetId: job.result.assetId }));
+    assets.push(await call("asset.get", { assetId: job.published.output.assetId }));
     const metadata = await probe(file),
       frames = metadata.frames.filter((frame) => frame.media_type === "video");
     const rgb = await pixels(

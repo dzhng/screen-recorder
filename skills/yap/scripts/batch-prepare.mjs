@@ -159,7 +159,11 @@ export async function prepareBatch(
     });
     if (item.import.state !== "ready") return !activeStates.has(item.import.state);
     if (!item.asset) {
-      item.asset = await invoke("asset.get", { assetId: item.import.result.assetId }, { signal });
+      item.asset = await invoke(
+        "asset.get",
+        { assetId: item.import.published.output.assetId },
+        { signal },
+      );
       await persist();
     }
     const pendingStream = (id) =>
@@ -178,9 +182,8 @@ export async function prepareBatch(
         entry.status = await invoke(
           "transcript.get",
           {
-            assetId: item.import.result.assetId,
+            assetId: item.import.published.output.assetId,
             streamId,
-            prepare: false,
             limit: 1,
           },
           { signal },
@@ -203,8 +206,8 @@ export async function prepareBatch(
       if (entry.status.state === "not_requested") {
         if (
           !(await request(
-            "transcript.retry",
-            { assetId: item.import.result.assetId, streamId },
+            "transcript.prepare",
+            { assetId: item.import.published.output.assetId, streamId },
             (status) => {
               entry.status = status;
             },

@@ -14,6 +14,16 @@ struct TextSource: Codable, Hashable {
     let size: Double
     let color: String
     let alignment: String
+    let verticalAlignment: String?
+    struct Stroke: Codable, Hashable { let color: String; let width: Double }
+    struct Shadow: Codable, Hashable { let color: String; let offsetX: Double; let offsetY: Double; let blur: Double }
+    struct Background: Codable, Hashable { let color: String; let padding: Double; let cornerRadius: Double }
+    struct Highlight: Codable, Hashable { let activeColor: String; let inactiveColor: String }
+    let stroke: Stroke?
+    let shadow: Shadow?
+    let background: Background?
+    let highlight: Highlight?
+    let activeRanges: [[Int]]?
     let wrap: Bool
 
     // Swift String equality normalizes Unicode; receipts retain exact UTF-16 literals.
@@ -21,7 +31,10 @@ struct TextSource: Codable, Hashable {
         lhs.kind == rhs.kind && lhs.text.utf16.elementsEqual(rhs.text.utf16)
             && lhs.font == rhs.font && lhs.width == rhs.width && lhs.height == rhs.height
             && lhs.size == rhs.size && lhs.color == rhs.color
-            && lhs.alignment == rhs.alignment && lhs.wrap == rhs.wrap
+            && lhs.alignment == rhs.alignment && lhs.verticalAlignment == rhs.verticalAlignment
+            && lhs.stroke == rhs.stroke && lhs.shadow == rhs.shadow && lhs.background == rhs.background
+            && lhs.highlight == rhs.highlight && lhs.activeRanges == rhs.activeRanges
+            && lhs.wrap == rhs.wrap
     }
 
     func hash(into hasher: inout Hasher) {
@@ -33,6 +46,12 @@ struct TextSource: Codable, Hashable {
         hasher.combine(size)
         hasher.combine(color)
         hasher.combine(alignment)
+        hasher.combine(verticalAlignment)
+        hasher.combine(stroke)
+        hasher.combine(shadow)
+        hasher.combine(background)
+        hasher.combine(highlight)
+        hasher.combine(activeRanges)
         hasher.combine(wrap)
     }
 }
@@ -41,7 +60,7 @@ struct TextLayout: Encodable {
     struct Line: Encodable {
         let range: [Int]
         let text: String
-        let origin: [Double]
+        var origin: [Double]
         let width: Double
         let fonts: [String]
     }
@@ -49,6 +68,15 @@ struct TextLayout: Encodable {
     let text: String
     let visibleRange: [Int]
     let lines: [Line]
+    let inkBounds: [Double]
+    let visibleBounds: [Double]
+    let decorationBounds: [Double]
+    let verticalOffset: Double
+    let stroke: TextSource.Stroke?
+    let shadow: TextSource.Shadow?
+    let background: TextSource.Background?
+    let highlight: TextSource.Highlight?
+    let activeRanges: [[Int]]?
 }
 
 struct TextRaster {
@@ -57,11 +85,20 @@ struct TextRaster {
     let pixels: Int64
 
     init(_ request: TextSource, binding: FontAssetBinding) throws {
+        func validColor(_ value: String) -> Bool {
+            value.count == 9 && value.first == "#" && UInt32(value.dropFirst(), radix: 16) != nil
+        }
         guard request.kind == "text", request.width > 0, request.width <= 4096,
             request.height > 0, request.height <= 4096,
             request.size.isFinite, request.size > 0, request.size <= 512,
             request.text.utf16.count <= 8192, request.color.count == 9, request.color.first == "#",
-            let rgba = UInt32(request.color.dropFirst(), radix: 16) else {
+            validColor(request.color),
+            request.stroke.map({ validColor($0.color) && $0.width.isFinite && $0.width >= 0 && $0.width <= 64 }) ?? true,
+            request.shadow.map({ validColor($0.color) && $0.offsetX.isFinite && $0.offsetX >= -256 && $0.offsetX <= 256 && $0.offsetY.isFinite && $0.offsetY >= -256 && $0.offsetY <= 256 && $0.blur.isFinite && $0.blur >= 0 && $0.blur <= 128 }) ?? true,
+            request.background.map({ validColor($0.color) && $0.padding.isFinite && $0.padding >= 0 && $0.padding <= 256 && $0.cornerRadius.isFinite && $0.cornerRadius >= 0 && $0.cornerRadius <= 256 }) ?? true,
+            request.highlight.map({ validColor($0.activeColor) && validColor($0.inactiveColor) }) ?? true,
+            request.activeRanges == nil || request.highlight != nil,
+            request.activeRanges?.allSatisfy({ range in range.count == 2 && range[0] >= 0 && range[1] > range[0] && range[1] <= request.text.utf16.count }) ?? true else {
             throw NativeFailure("INVALID_REQUEST", "Invalid text layout request.")
         }
         let font = try FontFile.load(binding, postScriptName: request.font.postScriptName, size: request.size)
@@ -72,6 +109,10 @@ struct TextRaster {
         case "center": alignment = .center
         case "right": alignment = .right
         default: throw NativeFailure("INVALID_REQUEST", "Invalid text alignment.")
+        }
+        let verticalAlignment = request.verticalAlignment ?? "top"
+        guard ["top", "center", "bottom"].contains(verticalAlignment) else {
+            throw NativeFailure("INVALID_REQUEST", "Invalid vertical text alignment.")
         }
         var lineBreak: CTLineBreakMode = request.wrap ? .byWordWrapping : .byClipping
         let paragraph = withUnsafePointer(to: &alignment) { alignmentPointer in
@@ -84,12 +125,24 @@ struct TextRaster {
             }
         }
         let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
-        let color = CGColor(colorSpace: colorSpace, components: [24,16,8,0].map { CGFloat((rgba >> $0) & 255) / 255 })!
-        let attributed = NSAttributedString(string: request.text, attributes: [
+        func cgColor(_ value: String) -> CGColor? {
+            guard value.count == 9, value.first == "#", let raw = UInt32(value.dropFirst(), radix: 16) else { return nil }
+            return CGColor(colorSpace: colorSpace, components: [24, 16, 8, 0].map { CGFloat((raw >> $0) & 255) / 255 })
+        }
+        let color = cgColor(request.highlight?.inactiveColor ?? request.color)!
+        let attributed = NSMutableAttributedString(string: request.text, attributes: [
             NSAttributedString.Key(kCTFontAttributeName as String): font,
             NSAttributedString.Key(kCTForegroundColorAttributeName as String): color,
             NSAttributedString.Key(kCTParagraphStyleAttributeName as String): paragraph,
         ])
+        if let highlight = request.highlight, let activeColor = cgColor(highlight.activeColor) {
+            for range in request.activeRanges ?? [] {
+                attributed.addAttribute(
+                    NSAttributedString.Key(kCTForegroundColorAttributeName as String),
+                    value: activeColor,
+                    range: NSRange(location: range[0], length: range[1] - range[0]))
+            }
+        }
         let framesetter = CTFramesetterCreateWithAttributedString(attributed)
         let box = CGRect(x: 0, y: 0, width: request.width, height: request.height)
         let frame = CTFramesetterCreateFrame(framesetter, CFRange(location: 0, length: 0), CGPath(rect: box, transform: nil), nil)
@@ -97,6 +150,7 @@ struct TextRaster {
         var origins = [CGPoint](repeating: .zero, count: lines.count)
         CTFrameGetLineOrigins(frame, CFRange(location: 0, length: 0), &origins)
         var reports: [TextLayout.Line] = []
+        var glyphBounds = CGRect.null
         for (index, line) in lines.enumerated() {
             try Task.checkCancellation()
             let range = CTLineGetStringRange(line)
@@ -116,6 +170,33 @@ struct TextRaster {
                 text: (request.text as NSString).substring(with: NSRange(location: range.location, length: range.length)),
                 origin: [origins[index].x, Double(request.height) - origins[index].y],
                 width: CTLineGetTypographicBounds(line, nil, nil, nil), fonts: usedFonts))
+            glyphBounds = glyphBounds.union(CTLineGetBoundsWithOptions(line, .useGlyphPathBounds).offsetBy(dx: origins[index].x, dy: origins[index].y))
+        }
+        let hasGlyphBounds = !glyphBounds.isNull
+        guard !hasGlyphBounds || (glyphBounds.width.isFinite && glyphBounds.height.isFinite) else {
+            throw NativeFailure("UNSUPPORTED_MEDIA", "FONT_GLYPH_BOUNDS_UNAVAILABLE")
+        }
+        let baseGlyphBounds = glyphBounds
+        let verticalOffset: CGFloat
+        if hasGlyphBounds {
+            let targetMinY: CGFloat
+            switch verticalAlignment {
+            case "bottom": targetMinY = 0
+            case "center": targetMinY = (CGFloat(request.height) - glyphBounds.height) / 2
+            default: targetMinY = glyphBounds.minY
+            }
+            verticalOffset = targetMinY - glyphBounds.minY
+            glyphBounds = glyphBounds.offsetBy(dx: 0, dy: verticalOffset)
+        } else {
+            verticalOffset = 0
+            glyphBounds = .zero
+        }
+        if verticalOffset != 0 {
+            reports = reports.map { line in
+                var line = line
+                line.origin[1] += -Double(verticalOffset)
+                return line
+            }
         }
         guard let context = CGContext(data: nil, width: request.width, height: request.height,
             bitsPerComponent: 8, bytesPerRow: request.width * 4, space: colorSpace,
@@ -124,11 +205,58 @@ struct TextRaster {
         }
         context.textMatrix = .identity
         context.clip(to: box)
+        context.translateBy(x: 0, y: verticalOffset)
+        let backgroundRect = hasGlyphBounds
+            ? baseGlyphBounds.insetBy(dx: -(request.background?.padding ?? 0), dy: -(request.background?.padding ?? 0))
+            : .zero
+        if let shadow = request.shadow, hasGlyphBounds, let color = cgColor(shadow.color) {
+            context.saveGState()
+            context.setShadow(offset: CGSize(width: shadow.offsetX, height: -shadow.offsetY), blur: shadow.blur, color: color)
+            if request.background != nil {
+                context.setFillColor(cgColor(request.background!.color)!)
+                context.addPath(CGPath(roundedRect: backgroundRect, cornerWidth: request.background!.cornerRadius, cornerHeight: request.background!.cornerRadius, transform: nil))
+                context.fillPath()
+            } else {
+                context.setFillColor(cgColor(request.color)!)
+                CTFrameDraw(frame, context)
+            }
+            context.restoreGState()
+        }
+        if let background = request.background, hasGlyphBounds, let color = cgColor(background.color) {
+            context.setFillColor(color)
+            context.addPath(CGPath(roundedRect: backgroundRect, cornerWidth: background.cornerRadius, cornerHeight: background.cornerRadius, transform: nil))
+            context.fillPath()
+        }
+        if let stroke = request.stroke, hasGlyphBounds, let color = cgColor(stroke.color) {
+            context.saveGState()
+            context.setTextDrawingMode(.stroke)
+            context.setLineWidth(stroke.width)
+            context.setLineJoin(.round)
+            context.setStrokeColor(color)
+            CTFrameDraw(frame, context)
+            context.restoreGState()
+        }
         CTFrameDraw(frame, context)
         guard let image = context.makeImage() else { throw NativeFailure.decodeFailed("Cannot create text raster.") }
         let visible = CTFrameGetVisibleStringRange(frame)
+        let visibleGlyphBounds = hasGlyphBounds ? glyphBounds.intersection(box) : .null
+        var decorationBounds = glyphBounds
+        if request.background != nil { decorationBounds = decorationBounds.union(glyphBounds.insetBy(dx: -(request.background!.padding), dy: -(request.background!.padding))) }
+        if let stroke = request.stroke { decorationBounds = decorationBounds.insetBy(dx: -stroke.width / 2, dy: -stroke.width / 2) }
+        if let shadow = request.shadow {
+            let spread = max(shadow.blur * 2, 0)
+            decorationBounds = decorationBounds.union(decorationBounds.offsetBy(dx: shadow.offsetX, dy: -shadow.offsetY).insetBy(dx: -spread, dy: -spread))
+        }
         self.image = CIImage(cgImage: image)
-        self.layout = .init(font: request.font, text: request.text, visibleRange: [visible.location, visible.length], lines: reports)
+        self.layout = .init(
+            font: request.font, text: request.text, visibleRange: [visible.location, visible.length], lines: reports,
+            inkBounds: hasGlyphBounds
+                ? [glyphBounds.minX, Double(request.height) - glyphBounds.maxY, glyphBounds.width, glyphBounds.height]
+                : [0, 0, 0, 0],
+            visibleBounds: visibleGlyphBounds.isNull ? [] : [visibleGlyphBounds.minX, Double(request.height) - visibleGlyphBounds.maxY, visibleGlyphBounds.width, visibleGlyphBounds.height],
+            decorationBounds: hasGlyphBounds ? [decorationBounds.minX, Double(request.height) - decorationBounds.maxY, decorationBounds.width, decorationBounds.height] : [0, 0, 0, 0],
+            verticalOffset: Double(verticalOffset), stroke: request.stroke, shadow: request.shadow, background: request.background,
+            highlight: request.highlight, activeRanges: request.activeRanges)
         self.pixels = Int64(request.width) * Int64(request.height)
     }
 }

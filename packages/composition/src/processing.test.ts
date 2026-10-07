@@ -304,28 +304,44 @@ test("duplicate, ripple movement and deletion preserve target-owned stacks witho
       id: fresh.labels.fresh,
     }),
   ).toEqual([]);
-  expect(processingCapabilities()).toMatchObject([
-    {
-      type: "rnnoise",
+  const capabilities = processingCapabilities();
+  expect(capabilities.map(({ type }) => type)).toEqual([
+    "rnnoise",
+    "normalization",
+    "limiter",
+    "compressor",
+    "pointer",
+    "geometry",
+    "motion-blur",
+    "lut",
+    "sdr-correction",
+    "opacity",
+    "blend",
+    "gain",
+  ]);
+  expect(Object.fromEntries(capabilities.map((capability) => [capability.type, capability]))).toMatchObject({
+    rnnoise: {
       mediaKind: "audio",
       targets: ["clip", "track", "group", "output"],
       execution: false,
     },
-    { type: "normalization", mediaKind: "audio", execution: false },
-    { type: "limiter", mediaKind: "audio", execution: false },
-    { type: "compressor", mediaKind: "audio", execution: false },
-    {
-      type: "pointer",
+    normalization: { mediaKind: "audio", execution: false },
+    limiter: { mediaKind: "audio", execution: false },
+    compressor: { mediaKind: "audio", execution: false },
+    pointer: {
       mediaKind: "video",
       targets: ["clip"],
       requiresAcquisition: true,
       execution: false,
     },
-    { type: "geometry", mediaKind: "video", execution: false },
-    { type: "sdr-correction", mediaKind: "video", execution: false },
-    { type: "opacity", mediaKind: "video", execution: false },
-    { type: "gain", mediaKind: "audio", execution: false },
-  ]);
+    geometry: { mediaKind: "video", execution: false },
+    "motion-blur": { mediaKind: "video", execution: false },
+    lut: { mediaKind: "video", execution: false },
+    "sdr-correction": { mediaKind: "video", execution: false },
+    opacity: { mediaKind: "video", execution: false },
+    blend: { mediaKind: "video", targets: ["clip", "track", "group"], execution: false },
+    gain: { mediaKind: "audio", execution: false },
+  });
 });
 
 test("fractional splits and insert boundaries copy gain; replacing a parent removes only descendant stacks", () => {

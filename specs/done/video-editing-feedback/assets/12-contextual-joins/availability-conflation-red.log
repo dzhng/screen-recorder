@@ -1,0 +1,40 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-video-editing
+
+ ❯ packages/composition/src/project-cuts.test.ts (8 tests | 1 failed | 7 skipped) 6ms
+   × boundary mapping distinguishes unavailable media from an authored placement gap 6ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  06:56:28
+   Duration  180ms (transform 68%, import 26%, tests 5%, worker 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/project-cuts.test.ts > boundary mapping distinguishes unavailable media from an authored placement gap
+AssertionError: expected null to deeply equal { clipId: 'left', kind: 'range', …(4) }
+
+- Expected:
+{
+  "assetId": "source",
+  "clipId": "left",
+  "kind": "range",
+  "rate": 1,
+  "sourceAtUs": 3,
+  "streamId": "audio",
+}
+
++ Received:
+null
+
+ ❯ packages/composition/src/project-cuts.test.ts:161:30
+    159|   );
+    160|   const unavailable = index.boundary({ trackId: "audio", projectAtUs: …
+    161|   expect(unavailable.before).toEqual({
+       |                              ^
+    162|     clipId: "left",
+    163|     kind: "range",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

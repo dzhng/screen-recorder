@@ -7,10 +7,7 @@ import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, run, root } from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(
-  values.out && process.env.YAP_NATIVE,
-  "Pass --out NEW_DIRECTORY and YAP_NATIVE",
-);
+assert.ok(values.out && process.env.YAP_NATIVE, "Pass --out NEW_DIRECTORY and YAP_NATIVE");
 const out = resolve(values.out);
 await mkdir(out);
 const home = await mkdtemp("/tmp/yap-sdr-");
@@ -47,7 +44,7 @@ try {
   const capability = report.capabilities.find((c) => c.type === "sdr-correction");
   assert.ok(
     capability.execution &&
-      capability.implementationId.startsWith("coreimage-sdr-source-neutral-v1:"),
+      capability.implementationId.startsWith("coreimage-sdr-source-neutral-recovery-v2:"),
   );
   const admitted = await call("asset.import", { requestId: randomUUID(), path: source });
   const ready = await poll(
@@ -55,7 +52,7 @@ try {
     (v) => v.state === "ready",
     "still import",
   );
-  const asset = await call("asset.get", { assetId: ready.result.assetId });
+  const asset = await call("asset.get", { assetId: ready.published.output.assetId });
   const project = await call("project.create", {
     requestId: randomUUID(),
     canvas: {
@@ -103,7 +100,7 @@ try {
     await save();
     if (name !== "control")
       assert.ok(
-        result.published.frame.implementationId.includes(capability.implementationId),
+        result.published.output.implementationId.includes(capability.implementationId),
         "Persisted frame must retain actual native SDR recipe",
       );
     return { result, path, pixels: await pixels(path) };
@@ -168,6 +165,8 @@ try {
                   exposureEV: 1,
                   contrast: 1,
                   saturation: 1,
+                  shadows: 0,
+                  highlights: 0,
                   neutralKelvin: 6500,
                   neutralTint: 0,
                 },
@@ -202,7 +201,7 @@ try {
   await call("preview.get", previewParams, { output: movie });
   report.preview = preview;
   assert.ok(
-    preview.published.preview.implementationId.includes(capability.implementationId),
+    preview.published.output.implementationId.includes(capability.implementationId),
     "Persisted preview must retain actual native SDR recipe",
   );
   const exportId = randomUUID();

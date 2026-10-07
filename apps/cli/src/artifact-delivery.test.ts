@@ -1,5 +1,5 @@
 import { afterEach, expect, test, vi } from "vitest";
-import { mkdtemp, rm, readFile, readdir } from "node:fs/promises";
+import { mkdtemp, rm, readFile, readdir, open } from "node:fs/promises";
 import { listenLocal } from "@yap/service";
 import type { OperationResponse } from "@yap/protocol";
 import { artifactBytes, consumeBatch, artifactFile } from "./artifact-delivery.js";
@@ -58,14 +58,7 @@ async function fixture(
     data: {
       state: "ready",
       delivery: { token: "lease", bytes: bytes.length, expiresAt: Date.now() + 30000 },
-      published:
-        mediaType === "image/png"
-          ? { frame: { mediaType } }
-          : mediaType === "audio/wav"
-            ? { audio: { mediaType } }
-            : mediaType === "application/json"
-              ? { waveform: { mediaType } }
-              : { preview: { mediaType } },
+      published: { generation: 1, output: { mediaType } },
     },
   };
   return {
@@ -299,16 +292,38 @@ test("invalid JSON evidence fails as a delivery error and releases its lease", a
   expect(f.closes()).toBe(1);
 });
 
-test.each(["waveform", "spectrogram"])(
-  "%s images use the shared image delivery and close the lease",
-  async (kind) => {
-    const bytes = Buffer.from("external PNG transport fixture");
-    const f = await fixture(bytes);
-    const response = {
-      ...f.result,
-      data: { ...(f.result.data as object), published: { [kind]: { mediaType: "image/png" } } },
-    };
-    expect(await artifactBytes(f.selection, response)).toEqual({ bytes, mediaType: "image/png" });
-    expect(f.closes()).toBe(1);
-  },
-);
+test("invalid JSON evidence never publishes a final output file", async () => {
+  const f = await fixture(Buffer.from('{"measurement":'), false, "application/json");
+  const directory = await mkdtemp("/tmp/yap-invalid-json-");
+  cleanups.push(() => rm(directory, { recursive: true, force: true }));
+  await expect(
+    artifactFile(f.selection, f.result, `${directory}/evidence.json`),
+  ).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
+  expect(await readdir(directory)).toEqual([]);
+  expect(f.closes()).toBe(1);
+});
+
+test("cancellation during file synchronization refuses final publication and drains staging", async () => {
+  const f = await fixture(Buffer.from("{}"), false, "application/json");
+  const directory = await mkdtemp("/tmp/yap-sync-cancel-");
+  cleanups.push(() => rm(directory, { recursive: true, force: true }));
+  const probe = await open(`${directory}/probe`, "wx");
+  const prototype = Object.getPrototypeOf(probe);
+  const sync = prototype.sync;
+  await probe.close();
+  await rm(`${directory}/probe`);
+  const controller = new AbortController();
+  vi.spyOn(prototype, "sync").mockImplementation(async function (this: typeof probe) {
+    await sync.call(this);
+    controller.abort();
+  });
+  await expect(
+    artifactFile(
+      { ...f.selection, signal: controller.signal },
+      f.result,
+      `${directory}/evidence.json`,
+    ),
+  ).rejects.toMatchObject({ code: "ABORTED" });
+  expect(await readdir(directory)).toEqual([]);
+  expect(f.closes()).toBe(1);
+});

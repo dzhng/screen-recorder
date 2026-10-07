@@ -18,6 +18,12 @@ export function skillCaseFiles(skill, fixture) {
     files["work/.agents/skills/yap/references/removed.md"] = "Deleted upstream reference.\n";
     files["work/upstream/skills/yap/references/added.md"] = "New upstream reference.\n";
   }
+  if (fixture === "skill-provenance") {
+    files["work/.agents/skills/yap/SKILL.md"] =
+      "---\nname: yap\ndescription: Inspect recordings using Yap.\n---\n\n# Yap\n\nInspect the installed CLI before operating.\n";
+    delete files["work/.agents/skills/yap/references/capability-discovery.md"];
+    delete files["work/.agents/skills/yap/references/helper-examples.md"];
+  }
   return files;
 }
 

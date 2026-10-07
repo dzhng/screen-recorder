@@ -1,0 +1,243 @@
+{
+  "repositoryHead": "e02676d0",
+  "inferenceRerun": false,
+  "slice31Complete": false,
+  "bundles": [
+    {
+      "name": "handoff-evidence",
+      "exitCode": 0,
+      "result": {
+        "verified": true,
+        "slice31Complete": false,
+        "cases": [
+          {
+            "id": "short-return",
+            "passed": true,
+            "der": 0.010416666666666666
+          },
+          {
+            "id": "returns-overlap-silence",
+            "passed": true,
+            "der": 0.02020833333333344
+          },
+          {
+            "id": "bspxd-unedited336",
+            "passed": true,
+            "der": 0.03702044688026999
+          },
+          {
+            "id": "four-speaker600",
+            "passed": false,
+            "der": 0.20001731301939307
+          },
+          {
+            "id": "three-speaker600",
+            "passed": true,
+            "der": 0.048810321715819074
+          },
+          {
+            "id": "long-absence600",
+            "passed": true,
+            "der": 0.021153846153847022
+          }
+        ]
+      }
+    },
+    {
+      "name": "alternative-evidence",
+      "exitCode": 0,
+      "result": {
+        "verified": true,
+        "slice31Complete": false,
+        "newProviderRelocatedClosure": false,
+        "inference": [
+          {
+            "provider": "low-latency",
+            "id": "bspxd30",
+            "der": 0.04993297587131433,
+            "overlapRecall": 0.9078947368421061,
+            "countMatches": true,
+            "passed": true
+          },
+          {
+            "provider": "low-latency",
+            "id": "returns-overlap-silence",
+            "der": 0.023541666666666756,
+            "overlapRecall": 0.9887499999999996,
+            "countMatches": true,
+            "passed": true
+          },
+          {
+            "provider": "low-latency",
+            "id": "aiqwk30",
+            "der": 0.19909972299169035,
+            "overlapRecall": 0,
+            "countMatches": true,
+            "passed": false
+          },
+          {
+            "provider": "nemotron-feasibility",
+            "id": "bspxd30",
+            "der": 0.03317694369973174,
+            "overlapRecall": 0.8980263157894761,
+            "countMatches": true,
+            "passed": true
+          },
+          {
+            "provider": "nemotron-feasibility",
+            "id": "returns-overlap-silence",
+            "der": 0.009479166666666835,
+            "overlapRecall": 1,
+            "countMatches": true,
+            "passed": true
+          },
+          {
+            "provider": "nemotron-feasibility",
+            "id": "aiqwk30",
+            "der": 0.1298476454293632,
+            "overlapRecall": 0.6053811659192805,
+            "countMatches": true,
+            "passed": false
+          }
+        ],
+        "interpretations": [
+          {
+            "recipe": "threshold-research",
+            "selectedThreshold": 0.4,
+            "cases": [
+              {
+                "id": "four-speaker600",
+                "der": 0.1948234072022186,
+                "overlapRecall": 0.08071748878923637,
+                "passed": false
+              },
+              {
+                "id": "original-aiqwk30",
+                "der": 0.14785318559556845,
+                "overlapRecall": 0.13452914798206286,
+                "passed": false
+              }
+            ]
+          },
+          {
+            "recipe": "nemotron-threshold-r2",
+            "selectedThreshold": 0.5,
+            "cases": [
+              {
+                "id": "aiqwk30",
+                "der": 0.1298476454293632,
+                "overlapRecall": 0.6053811659192805,
+                "passed": false
+              }
+            ]
+          },
+          {
+            "recipe": "nemotron-overlap-priority",
+            "selectedThreshold": 0.05,
+            "cases": [
+              {
+                "id": "aiqwk30",
+                "der": 0.4837257617728526,
+                "overlapRecall": 0.9506726457399075,
+                "countMatches": false,
+                "passed": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "fluidaudio-evidence",
+      "exitCode": 0,
+      "result": {
+        "verified": true,
+        "slice31Complete": false,
+        "providerModelClosureReady": true,
+        "providerQualityReady": false,
+        "cases": [
+          {
+            "id": "bspxd30",
+            "role": "calibration",
+            "passed": false,
+            "sourceSupportValid": false,
+            "countMatches": false,
+            "scoreRefusal": "Invalid interval",
+            "metrics": null,
+            "confusionRatio": null,
+            "overlap": {
+              "referenceOverlapSeconds": 3.039999999999992,
+              "retainedOverlapSeconds": 1.1735141754150362,
+              "recall": 0.3860243998075787
+            },
+            "inferenceSeconds": 0.17770695686340332,
+            "peakProcessRSSBytes": 211501056,
+            "publicChunkEmbeddingCount": 20,
+            "rawModelLogitsRetained": false
+          },
+          {
+            "id": "returns-overlap-silence",
+            "role": "calibration",
+            "passed": false,
+            "sourceSupportValid": false,
+            "countMatches": true,
+            "scoreRefusal": "Invalid interval",
+            "metrics": null,
+            "confusionRatio": null,
+            "overlap": {
+              "referenceOverlapSeconds": 8,
+              "retainedOverlapSeconds": 7.945671081542969,
+              "recall": 0.9932088851928711
+            },
+            "inferenceSeconds": 0.359902024269104,
+            "peakProcessRSSBytes": 338706432,
+            "publicChunkEmbeddingCount": 75,
+            "rawModelLogitsRetained": false
+          },
+          {
+            "id": "aiqwk30",
+            "role": "held-out",
+            "passed": false,
+            "sourceSupportValid": true,
+            "countMatches": false,
+            "scoreRefusal": null,
+            "metrics": {
+              "referenceSpeakerSeconds": 28.880000000000003,
+              "overlapSeconds": 2.230000000000004,
+              "silenceSeconds": 3.3500000000000014,
+              "missedSpeakerSeconds": 2.6179629039764407,
+              "falseSpeakerSeconds": 1.5478104972839333,
+              "confusedSpeakerSeconds": 10.805330810546877,
+              "mapping": {
+                "S1": "spk02"
+              },
+              "der": 0.5183900350348771
+            },
+            "confusionRatio": 0.3741458036892963,
+            "overlap": {
+              "referenceOverlapSeconds": 2.230000000000004,
+              "retainedOverlapSeconds": 0,
+              "recall": 0
+            },
+            "inferenceSeconds": 0.14146411418914795,
+            "peakProcessRSSBytes": 338706432,
+            "publicChunkEmbeddingCount": 17,
+            "rawModelLogitsRetained": false
+          }
+        ]
+      }
+    }
+  ],
+  "review": {
+    "shape": "frozen research operands remain under one spec evidence owner; existing scorer/runtime/model owners reused",
+    "diff": "all replay identities/metrics preserved; failed gates and support refusals remain failed",
+    "docs": "hub distinguishes model readiness, partial continuity and failed general quality; no production readiness claim",
+    "frozenUpstreamWhitespace": {
+      "files": [
+        "alternative-evidence/nemotron3-metadata/license-page.html",
+        "alternative-evidence/nemotron3-metadata/model-card.md"
+      ],
+      "disposition": "Retained byte-for-byte upstream license/card evidence. Existing CRLF/trailing whitespace is deliberately not normalized; operand hashes remain authoritative. Authored files pass diff whitespace check."
+    }
+  }
+}

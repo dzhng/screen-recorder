@@ -1,0 +1,26 @@
+• turbo 2.10.13
+
+   • Packages in scope: @yap/cli, @yap/protocol, @yap/service
+   • Running check-types in 3 packages
+   • Remote caching disabled, using shared worktree cache
+
+@yap/composition:build: cache hit, replaying logs 34925e27c58b51b0
+@yap/composition:build: $ tsc -p tsconfig.json
+@yap/protocol:build: cache hit, replaying logs 576ec2867c272564
+@yap/protocol:build: $ tsc -p tsconfig.json
+@yap/client:build: cache hit, replaying logs d1e55064086e943e
+@yap/client:build: $ tsc -p tsconfig.json
+@yap/protocol:check-types: cache hit, replaying logs 0f344065c689d801
+@yap/core:build: cache hit, replaying logs 6bbae58ea76066e8
+@yap/protocol:check-types: $ tsc -p tsconfig.check.json
+@yap/core:build: $ tsc -p tsconfig.json
+@yap/service:build: cache hit, replaying logs dcafaaa4da5226fa
+@yap/service:build: $ tsc -p tsconfig.json
+@yap/service:check-types: cache hit, replaying logs 681ce6fa8472c199
+@yap/cli:check-types: cache miss, executing 960096c8aa062782
+@yap/service:check-types: $ tsc -p tsconfig.check.json
+@yap/cli:check-types: $ tsc -p tsconfig.check.json
+
+ Tasks:    8 successful, 8 total
+Cached:    7 cached, 8 total
+  Time:    622ms

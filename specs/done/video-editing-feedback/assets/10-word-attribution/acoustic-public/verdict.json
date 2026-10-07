@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "scope": "Public source acoustic cells over two frozen alignment inputs; lexical identity remains unknown. Project-tap/package continuation is a separate open delivery gate.",
+  "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+  "cases": [
+    {
+      "name": "fortunate-intact",
+      "exactPCM": true,
+      "sampleSupportAndPeaksExact": true,
+      "rmsWithinForwardError": true,
+      "reusedPublishedInference": true,
+      "measuredTail": {
+        "startSample": 15200,
+        "endSample": 15216,
+        "rms": 0,
+        "peak": 0,
+        "ordinal": 95,
+        "sourceRange": {
+          "startUs": 950000,
+          "endUs": 951000
+        },
+        "activity": "quiet",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "lexicalCutVerdict": "unknown"
+    },
+    {
+      "name": "fortunate-truncated",
+      "exactPCM": true,
+      "sampleSupportAndPeaksExact": true,
+      "rmsWithinForwardError": true,
+      "reusedPublishedInference": true,
+      "measuredTail": {
+        "startSample": 6240,
+        "endSample": 6262,
+        "rms": 0.06317602383978838,
+        "peak": 0.1377202719449997,
+        "ordinal": 39,
+        "sourceRange": {
+          "startUs": 390000,
+          "endUs": 391375
+        },
+        "activity": "active",
+        "thresholdRMS": 0.01,
+        "lexicalIdentity": "unknown"
+      },
+      "lexicalCutVerdict": "unknown"
+    }
+  ],
+  "numericalInterpretation": "Exact selected Float32 PCM, integer sample support, peaks and source-clock bounds. RMS differs only within a forward-error bound (samples+2)*double epsilon*reference RMS because Python compensated and JS serial sums have different rounding. Bound chosen from arithmetic, not observed deltas.",
+  "negativeCheck": {
+    "mutation": "Actual compiled threshold comparison >= changed to >, restored in finally.",
+    "expectedFailure": "At threshold zero, exact-zero intact tail incorrectly classified quiet.",
+    "restoredRunPassed": true
+  },
+  "reuse": "Matching retained inference reused; raw PCM references and full model inputs remain in09.",
+  "review": {
+    "independent": "Original read-only verdict not clean; all findings triaged here. Reviewer ran no tests/builds/inference.",
+    "triage": [
+      {
+        "finding": "P1 assumes importing a newly named deterministic WAV always schedules inference",
+        "disposition": "Dismissed: AssetStore identity hashes complete bytes, not requestId/path. Public alignment.prepare returns ready immediately with both existing generation IDs; worker submission is bypassed by retained sourceStatus early return. New report explicitly records reusedPublishedInference. Added frozen registered engine pins."
+      },
+      {
+        "finding": "P2 activity oracle conflates independently rounded RMS with threshold input",
+        "disposition": "Fixed: independently verify RMS numerical error; classify against retained public RMS and assert echoed threshold."
+      },
+      {
+        "finding": "P2 raw/page identity under-asserted",
+        "disposition": "Fixed: complete page evidence must equal published generation; raw report digest must equal published reportSha256."
+      },
+      {
+        "finding": "P2 shutdown failure prevents evidence write",
+        "disposition": "Fixed: nested finally persists report even if stop throws."
+      }
+    ],
+    "finalScopedVerdict": "Shape/code/docs clean after fixes and restored public red/green run."
+  }
+}

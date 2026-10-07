@@ -1,0 +1,9 @@
+{
+  "checkpoint": "/tmp/yap-editing-alignment-replication/model-library/models/alignment-nemo-ctc110-reference/431a349f3051ab85c22b9b7a2741b5fe77065665/checkpoint/parakeet-tdt_ctc-110m.nemo",
+  "bytes": 459243520,
+  "sha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+  "expected": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+  "rehashAfterOfflineLoad": true,
+  "strictRestore": "passed",
+  "networkDenied": true
+}

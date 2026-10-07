@@ -1,3 +1,6 @@
+import { portHistoricalSpeechRaw } from "../speech/reference-raw.mjs";
+import { speechExecution, transcriptPolicy } from "../../core/dist/transcript.js";
+import { wordKindPolicy } from "../../core/dist/word-kind.js";
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -8,7 +11,7 @@ import { realpath } from "node:fs/promises";
 import { readAudioWaveFile } from "../../core/dist/audio-wave.js";
 import { parakeetModel } from "../../core/dist/models.js";
 import { existingSpeechModelSnapshot } from "./existing-speech-model.mjs";
-import { comparableSpeechRecords } from "./speech-parity-records.mjs";
+import { historicalWholeSupportRecords } from "./speech-parity-records.mjs";
 import { changedTranscriptGeneration } from "./generation-evidence.mjs";
 import { hash, JourneyService, poll, root, run } from "./source-evidence-fixture.mjs";
 
@@ -46,7 +49,7 @@ const report = {
     ? "Declared scratch readiness with actual native inference from existing read-only prepared files; actual public source processing, queries, explicit cuts, restart and generation fencing"
     : "Declared model readiness and retained ASR responses; actual native admission/audio and public CLI/MCP ingestion, queries, edits and restart",
   actualModelParity: actualInference
-    ? "pending: current native inference must match complete retained selected-source records excluding only result.processingTime; actual Models-owner readiness/preparation is not tested"
+    ? "pending: current native inference must match complete retained selected-source records excluding measured result.processingTime and validated additive whole-support ownership/candidate fields; every original lexical/token/source operand remains exact; actual Models-owner readiness/preparation is not tested"
     : "not exercised: declared readiness and frozen ASR cannot certify current native inference; recreated container bytes and current decoder differ from historical inputs",
   listening: "not performed; no quality verdict changed",
   trace: [],
@@ -65,21 +68,13 @@ const call = service.call.bind(service);
 try {
   report.runtimeResolution = [];
   for (const [from, specifier, expected] of [
-    [
-      "apps/service/dist/project-service.js",
-      "@yap/core/models",
-      "packages/core/dist/models.js",
-    ],
+    ["apps/service/dist/project-service.js", "@yap/core/models", "packages/core/dist/models.js"],
     [
       "apps/service/dist/project-service.js",
       "@yap/core/transcript-processing",
       "packages/core/dist/transcript-processing.js",
     ],
-    [
-      "apps/service/dist/project-service.js",
-      "@yap/protocol",
-      "packages/protocol/dist/index.js",
-    ],
+    ["apps/service/dist/project-service.js", "@yap/protocol", "packages/protocol/dist/index.js"],
     [
       "packages/core/dist/transcript-processing.js",
       "@yap/composition",
@@ -238,6 +233,7 @@ try {
       });
     }
   }
+  await call("transcript.prepare", selection);
   const full = await poll(
     () => call("transcript.get", { ...selection, limit: 1000 }),
     (value) => value.state === "ready",
@@ -247,10 +243,19 @@ try {
     await call("transcript.get", { ...selection, limit: 1000 }, { transport: "mcp" }),
     full,
   );
-  assert.deepEqual(full.page.transcript.engine, engine);
-  const actualRaw = actualInference ? await readFile(join(out, "native-1.jsonl")) : raw;
+  assert.deepEqual(full.page.transcript.engine, {
+    ...engine,
+    policy: transcriptPolicy,
+    kindPolicy: wordKindPolicy,
+  });
+  const actualRaw = actualInference
+    ? await readFile(join(out, "native-1.jsonl"))
+    : portHistoricalSpeechRaw(raw, {
+        execution: speechExecution(),
+        available: receipt.segments.map((segment) => segment.source),
+      }).body;
   if (actualInference)
-    assert.deepEqual(comparableSpeechRecords(actualRaw), comparableSpeechRecords(raw));
+    assert.deepEqual(historicalWholeSupportRecords(actualRaw), historicalWholeSupportRecords(raw));
   assert.deepEqual(full.page.transcript.raw, { bytes: actualRaw.length, sha256: hash(actualRaw) });
   assert.deepEqual(
     full.page.rows
@@ -419,9 +424,12 @@ try {
       "Exactly initial and replacement actual speech calls",
     );
     const replacementRaw = await readFile(join(out, "native-2.jsonl"));
-    assert.deepEqual(comparableSpeechRecords(replacementRaw), comparableSpeechRecords(raw));
+    assert.deepEqual(
+      historicalWholeSupportRecords(replacementRaw),
+      historicalWholeSupportRecords(raw),
+    );
     report.actualModelParity =
-      "Complete current native raw records match retained selected-source reference excluding only result.processingTime; scratch readiness declared; actual Models-owner preparation/readiness not exercised";
+      "Complete current native raw records match retained selected-source reference excluding measured result.processingTime and validated additive whole-support ownership/candidate fields; every original lexical/token/source operand remains exact; scratch readiness declared; actual Models-owner preparation/readiness not exercised";
   }
   report.checks.rawAndSourcePreserved = true;
   report.runtime = Object.fromEntries(

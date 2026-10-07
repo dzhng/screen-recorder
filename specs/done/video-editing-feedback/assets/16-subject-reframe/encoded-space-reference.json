@@ -1,0 +1,2257 @@
+{
+  "scope": "Independent CoreGraphics encoded-space interpolator versus production linear-light geometry, failure retained; no relaxed gate.",
+  "framing": [
+    {
+      "host": "graham",
+      "id": "contain-reachable",
+      "observationPin": {
+        "cacheGeneration": "22e924cf-384e-43d3-938f-c89962472b82",
+        "faceObservationSha256": "ddf12aa3bb9906c9764ee6cee2ac4120045add7e3658014c703d6e2eb1dc040f",
+        "inputSha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 849,
+              "y": 309,
+              "width": 348,
+              "height": 348
+            },
+            "confidence": 0.9102819561958313
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5328125,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "contain"
+      },
+      "plan": {
+        "status": "ready",
+        "geometry": {
+          "type": "geometry",
+          "rect": {
+            "x": 0,
+            "y": 19,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "contain"
+        },
+        "zoom": 0.3333333333333333,
+        "violations": []
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/7a04c246-14a3-4331-9545-0291b6dfa9e7.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 278638,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+              "trackId": "track:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+            "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "9e2b79e9-b956-4d10-a2da-46fbf9e917bb",
+        "revisionId": "b0373a66-bd93-4281-9d3a-b17b3c58cc43",
+        "cacheId": "7a04c246-14a3-4331-9545-0291b6dfa9e7"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.3558553059895833,
+        "maximumChannelDifference": 36,
+        "blackPixels": 179200,
+        "footprint": {
+          "x": 0,
+          "y": 159,
+          "width": 640,
+          "height": 360
+        },
+        "faceCenter": {
+          "x": 341,
+          "y": 320
+        },
+        "targetErrorPixels": 0,
+        "sourcePerimeter": {
+          "scope": "3px source perimeter, excluding the 1px fractional rasterization boundary; full-raster error also retained",
+          "meanChannelDifference": 0.8754769921436588,
+          "maximumChannelDifference": 29,
+          "passed": false
+        }
+      },
+      "pngSha256": "156df12ba7ad450eb182168384ad33f62ab0d69f5f40244b78c6f742bdf1b996",
+      "referenceSha256": "0841ac19a1260d21db0668d5174e4a34d13875ebcae09ba459da2b5848ead640"
+    },
+    {
+      "host": "graham",
+      "id": "contain-center",
+      "observationPin": {
+        "cacheGeneration": "22e924cf-384e-43d3-938f-c89962472b82",
+        "faceObservationSha256": "ddf12aa3bb9906c9764ee6cee2ac4120045add7e3658014c703d6e2eb1dc040f",
+        "inputSha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 849,
+              "y": 309,
+              "width": 348,
+              "height": 348
+            },
+            "confidence": 0.9102819561958313
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "contain"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "rect": {
+            "x": 0,
+            "y": 19,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "contain"
+        },
+        "zoom": 0.3333333333333333,
+        "violations": [
+          "target_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/d09d9488-1097-49ce-bd1c-6da032306c03.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 278638,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+              "trackId": "track:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+            "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "9e2b79e9-b956-4d10-a2da-46fbf9e917bb",
+        "revisionId": "eb76e7f7-5503-4988-b96f-d15c297ec94b",
+        "cacheId": "d09d9488-1097-49ce-bd1c-6da032306c03"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.3558553059895833,
+        "maximumChannelDifference": 36,
+        "blackPixels": 179200,
+        "footprint": {
+          "x": 0,
+          "y": 159,
+          "width": 640,
+          "height": 360
+        },
+        "faceCenter": {
+          "x": 341,
+          "y": 320
+        },
+        "targetErrorPixels": 21,
+        "sourcePerimeter": {
+          "scope": "3px source perimeter, excluding the 1px fractional rasterization boundary; full-raster error also retained",
+          "meanChannelDifference": 0.8754769921436588,
+          "maximumChannelDifference": 29,
+          "passed": false
+        }
+      },
+      "pngSha256": "156df12ba7ad450eb182168384ad33f62ab0d69f5f40244b78c6f742bdf1b996",
+      "referenceSha256": "0841ac19a1260d21db0668d5174e4a34d13875ebcae09ba459da2b5848ead640"
+    },
+    {
+      "host": "graham",
+      "id": "contain-conflict",
+      "observationPin": {
+        "cacheGeneration": "22e924cf-384e-43d3-938f-c89962472b82",
+        "faceObservationSha256": "ddf12aa3bb9906c9764ee6cee2ac4120045add7e3658014c703d6e2eb1dc040f",
+        "inputSha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 849,
+              "y": 309,
+              "width": 348,
+              "height": 348
+            },
+            "confidence": 0.9102819561958313
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.1
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "contain"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "rect": {
+            "x": 0,
+            "y": -140,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "contain"
+        },
+        "zoom": 0.3333333333333333,
+        "violations": [
+          "target_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/bcfd6c7a-112d-4e0a-b62d-57a7b123ba4a.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 278096,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+              "trackId": "track:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+            "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "9e2b79e9-b956-4d10-a2da-46fbf9e917bb",
+        "revisionId": "e6c77272-d200-47d3-bdc7-427b66ae4561",
+        "cacheId": "bcfd6c7a-112d-4e0a-b62d-57a7b123ba4a"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.3558553059895833,
+        "maximumChannelDifference": 36,
+        "blackPixels": 179200,
+        "footprint": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 360
+        },
+        "faceCenter": {
+          "x": 341,
+          "y": 161
+        },
+        "targetErrorPixels": 99.24716620639605,
+        "sourcePerimeter": {
+          "scope": "3px source perimeter, excluding the 1px fractional rasterization boundary; full-raster error also retained",
+          "meanChannelDifference": 0.8754769921436588,
+          "maximumChannelDifference": 29,
+          "passed": false
+        }
+      },
+      "pngSha256": "d70036951e3d3fb788affa7b2aaeec2acf491247811adb4571439803864f306e",
+      "referenceSha256": "94a504f2b6d1befc3a1a9fd1d9005d0456c1992afcfce93d9f74c5aec7ccbf3b"
+    },
+    {
+      "host": "graham",
+      "id": "crop-center",
+      "observationPin": {
+        "cacheGeneration": "22e924cf-384e-43d3-938f-c89962472b82",
+        "faceObservationSha256": "ddf12aa3bb9906c9764ee6cee2ac4120045add7e3658014c703d6e2eb1dc040f",
+        "inputSha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 849,
+              "y": 309,
+              "width": 348,
+              "height": 348
+            },
+            "confidence": 0.9102819561958313
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "crop"
+      },
+      "plan": {
+        "status": "ready",
+        "geometry": {
+          "type": "geometry",
+          "crop": {
+            "x": 777,
+            "y": 237,
+            "width": 492,
+            "height": 492
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "stretch"
+        },
+        "zoom": 1.3008130081300813,
+        "violations": []
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/d9412014-ca53-49a7-bd44-94cfab203b8a.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 472147,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+              "trackId": "track:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+            "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "9e2b79e9-b956-4d10-a2da-46fbf9e917bb",
+        "revisionId": "2932355e-e9d2-4cc0-9d7b-120c2c84a451",
+        "cacheId": "d9412014-ca53-49a7-bd44-94cfab203b8a"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.32385091145833333,
+        "maximumChannelDifference": 19,
+        "blackPixels": 0,
+        "footprint": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 640
+        },
+        "faceCenter": {
+          "x": 320,
+          "y": 320
+        },
+        "targetErrorPixels": 0,
+        "sourcePerimeter": null
+      },
+      "pngSha256": "565fcd8da3d70630924356b58a95f5ea02abdacef214b17da1c2ea285b32f058",
+      "referenceSha256": "d5343838be59f85530715c119539e3dc23fbb93c3115fb40548d7693f3e07fef"
+    },
+    {
+      "host": "graham",
+      "id": "crop-cap",
+      "observationPin": {
+        "cacheGeneration": "22e924cf-384e-43d3-938f-c89962472b82",
+        "faceObservationSha256": "ddf12aa3bb9906c9764ee6cee2ac4120045add7e3658014c703d6e2eb1dc040f",
+        "inputSha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 849,
+              "y": 309,
+              "width": 348,
+              "height": 348
+            },
+            "confidence": 0.9102819561958313
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 0.4
+        },
+        "preservation": "crop"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "crop": {
+            "x": 223,
+            "y": 0,
+            "width": 1600,
+            "height": 1080
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "stretch"
+        },
+        "zoom": 0.4,
+        "violations": [
+          "zoom_cap",
+          "source_bounds",
+          "target_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/7e8bf517-772f-4455-a988-e73f1d0a252f.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 454334,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+              "trackId": "track:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:b5e4b386bff18861ef1274848c3cb930d59aebf0e2b76f63d6ecb069bfaaed88:1",
+            "assetId": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "9e2b79e9-b956-4d10-a2da-46fbf9e917bb",
+        "revisionId": "45687445-3cb6-4c72-854c-6dfc79cea548",
+        "cacheId": "7e8bf517-772f-4455-a988-e73f1d0a252f"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.4877010091145833,
+        "maximumChannelDifference": 43,
+        "blackPixels": 0,
+        "footprint": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 640
+        },
+        "faceCenter": {
+          "x": 320,
+          "y": 286.22222222222223
+        },
+        "targetErrorPixels": 33.77777777777777,
+        "sourcePerimeter": null
+      },
+      "pngSha256": "1e1fbb9a43f772f999cf065a5882e16427a98510130e683bfad70fc239e8942c",
+      "referenceSha256": "63974405382a307d5890fd7158ba38319a7b1964d930c21701fabc9dda5c89f5"
+    },
+    {
+      "host": "madison",
+      "id": "contain-reachable",
+      "observationPin": {
+        "cacheGeneration": "8431143d-2212-44a4-bc3c-a71889cad180",
+        "faceObservationSha256": "04596a03b7d1fa60223d52e0a421f85243b31ad598b30ca2116d9a1ae56fe62b",
+        "inputSha256": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 702,
+              "y": 270,
+              "width": 492,
+              "height": 492
+            },
+            "confidence": 0.8962268829345703
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.49375,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "contain"
+      },
+      "plan": {
+        "status": "ready",
+        "geometry": {
+          "type": "geometry",
+          "rect": {
+            "x": 0,
+            "y": 8,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "contain"
+        },
+        "zoom": 0.3333333333333333,
+        "violations": []
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/fd2df1ca-765e-460b-8b01-4aac6200140e.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 298911,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+              "trackId": "track:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+            "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "27537a75-6381-4c67-903b-586021c129ce",
+        "revisionId": "0963f1b0-518e-4efe-9eb2-85d3fc5aa109",
+        "cacheId": "fd2df1ca-765e-460b-8b01-4aac6200140e"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.5993888346354167,
+        "maximumChannelDifference": 52,
+        "blackPixels": 179200,
+        "footprint": {
+          "x": 0,
+          "y": 148,
+          "width": 640,
+          "height": 360
+        },
+        "faceCenter": {
+          "x": 316,
+          "y": 320
+        },
+        "targetErrorPixels": 0,
+        "sourcePerimeter": {
+          "scope": "3px source perimeter, excluding the 1px fractional rasterization boundary; full-raster error also retained",
+          "meanChannelDifference": 1.4070707070707071,
+          "maximumChannelDifference": 41,
+          "passed": false
+        }
+      },
+      "pngSha256": "9153bdb71d5da0c64c9203c877885ed03933620565e9aacf2006b1139206ce8a",
+      "referenceSha256": "9434bdf464d7a7b0ccc428834bcfb5957920d7eb1c3531308eb1ca8035bd29fa"
+    },
+    {
+      "host": "madison",
+      "id": "contain-center",
+      "observationPin": {
+        "cacheGeneration": "8431143d-2212-44a4-bc3c-a71889cad180",
+        "faceObservationSha256": "04596a03b7d1fa60223d52e0a421f85243b31ad598b30ca2116d9a1ae56fe62b",
+        "inputSha256": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 702,
+              "y": 270,
+              "width": 492,
+              "height": 492
+            },
+            "confidence": 0.8962268829345703
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "contain"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "rect": {
+            "x": 0,
+            "y": 8,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "contain"
+        },
+        "zoom": 0.3333333333333333,
+        "violations": [
+          "target_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/823a73df-bbbc-4629-8db8-53538cd04348.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 298911,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+              "trackId": "track:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+            "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "27537a75-6381-4c67-903b-586021c129ce",
+        "revisionId": "9409aa3d-a17e-40e2-ba12-8ebbced6a34f",
+        "cacheId": "823a73df-bbbc-4629-8db8-53538cd04348"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.5993888346354167,
+        "maximumChannelDifference": 52,
+        "blackPixels": 179200,
+        "footprint": {
+          "x": 0,
+          "y": 148,
+          "width": 640,
+          "height": 360
+        },
+        "faceCenter": {
+          "x": 316,
+          "y": 320
+        },
+        "targetErrorPixels": 4,
+        "sourcePerimeter": {
+          "scope": "3px source perimeter, excluding the 1px fractional rasterization boundary; full-raster error also retained",
+          "meanChannelDifference": 1.4070707070707071,
+          "maximumChannelDifference": 41,
+          "passed": false
+        }
+      },
+      "pngSha256": "9153bdb71d5da0c64c9203c877885ed03933620565e9aacf2006b1139206ce8a",
+      "referenceSha256": "9434bdf464d7a7b0ccc428834bcfb5957920d7eb1c3531308eb1ca8035bd29fa"
+    },
+    {
+      "host": "madison",
+      "id": "contain-conflict",
+      "observationPin": {
+        "cacheGeneration": "8431143d-2212-44a4-bc3c-a71889cad180",
+        "faceObservationSha256": "04596a03b7d1fa60223d52e0a421f85243b31ad598b30ca2116d9a1ae56fe62b",
+        "inputSha256": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 702,
+              "y": 270,
+              "width": 492,
+              "height": 492
+            },
+            "confidence": 0.8962268829345703
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.1
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "contain"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "rect": {
+            "x": 0,
+            "y": -140,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "contain"
+        },
+        "zoom": 0.3333333333333333,
+        "violations": [
+          "target_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/9b3b910b-1017-4e90-8386-3210b8fe0f64.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 298171,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+              "trackId": "track:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+            "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "27537a75-6381-4c67-903b-586021c129ce",
+        "revisionId": "7a7ee661-6ade-4943-b076-ec6c72aec682",
+        "cacheId": "9b3b910b-1017-4e90-8386-3210b8fe0f64"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.5993888346354167,
+        "maximumChannelDifference": 52,
+        "blackPixels": 179200,
+        "footprint": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 360
+        },
+        "faceCenter": {
+          "x": 316,
+          "y": 172
+        },
+        "targetErrorPixels": 108.07404868885037,
+        "sourcePerimeter": {
+          "scope": "3px source perimeter, excluding the 1px fractional rasterization boundary; full-raster error also retained",
+          "meanChannelDifference": 1.4070707070707071,
+          "maximumChannelDifference": 41,
+          "passed": false
+        }
+      },
+      "pngSha256": "931a438891b74f9815c7f57249ea2ce95d3e87d399b33e70fc1a2fea0e2cad50",
+      "referenceSha256": "ac8ce1d107224702895d497ddc4254a43d75df8dedc29c7d9d554698cdead428"
+    },
+    {
+      "host": "madison",
+      "id": "crop-center",
+      "observationPin": {
+        "cacheGeneration": "8431143d-2212-44a4-bc3c-a71889cad180",
+        "faceObservationSha256": "04596a03b7d1fa60223d52e0a421f85243b31ad598b30ca2116d9a1ae56fe62b",
+        "inputSha256": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 702,
+              "y": 270,
+              "width": 492,
+              "height": 492
+            },
+            "confidence": 0.8962268829345703
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "crop"
+      },
+      "plan": {
+        "status": "ready",
+        "geometry": {
+          "type": "geometry",
+          "crop": {
+            "x": 630,
+            "y": 198,
+            "width": 636,
+            "height": 636
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "stretch"
+        },
+        "zoom": 1.0062893081761006,
+        "violations": []
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/c1dae8d4-075f-464e-904d-1c127ad48f35.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 521464,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+              "trackId": "track:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+            "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "27537a75-6381-4c67-903b-586021c129ce",
+        "revisionId": "f708aead-dedf-4ed7-a94f-3daabf855ca3",
+        "cacheId": "c1dae8d4-075f-464e-904d-1c127ad48f35"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.4216609700520833,
+        "maximumChannelDifference": 61,
+        "blackPixels": 0,
+        "footprint": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 640
+        },
+        "faceCenter": {
+          "x": 320,
+          "y": 320
+        },
+        "targetErrorPixels": 0,
+        "sourcePerimeter": null
+      },
+      "pngSha256": "e01ab688fc47037dd67f537e1011a927885800d6ca1a97c2dab782b06cae2a6f",
+      "referenceSha256": "599df8f5d2faf54b90431cdeadd4f89fc30b80589ca92b13018bc7fb331592ff"
+    },
+    {
+      "host": "madison",
+      "id": "crop-cap",
+      "observationPin": {
+        "cacheGeneration": "8431143d-2212-44a4-bc3c-a71889cad180",
+        "faceObservationSha256": "04596a03b7d1fa60223d52e0a421f85243b31ad598b30ca2116d9a1ae56fe62b",
+        "inputSha256": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 702,
+              "y": 270,
+              "width": 492,
+              "height": 492
+            },
+            "confidence": 0.8962268829345703
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 0.4
+        },
+        "preservation": "crop"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "crop": {
+            "x": 148,
+            "y": 0,
+            "width": 1600,
+            "height": 1080
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "stretch"
+        },
+        "zoom": 0.4,
+        "violations": [
+          "zoom_cap",
+          "source_bounds",
+          "target_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/f60a509c-f394-4247-a51b-23f11aed4235.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 488357,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+              "trackId": "track:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:620c244dd0d45e74378cd09e7e59f16c54e888573f63d775597920a866405f46:1",
+            "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "27537a75-6381-4c67-903b-586021c129ce",
+        "revisionId": "1230de5e-bedd-456e-b250-e1bf605170d8",
+        "cacheId": "f60a509c-f394-4247-a51b-23f11aed4235"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.9549283854166667,
+        "maximumChannelDifference": 79,
+        "blackPixels": 0,
+        "footprint": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 640
+        },
+        "faceCenter": {
+          "x": 320,
+          "y": 305.77777777777777
+        },
+        "targetErrorPixels": 14.222222222222229,
+        "sourcePerimeter": null
+      },
+      "pngSha256": "fb7f25e336d8a8062ab99020671e952d0e45f88be942029e74dd929e81daa7b3",
+      "referenceSha256": "3039a74c044896994edf2a2d2c5dee3fe644e36b44df43adf2efb06c38250c24"
+    },
+    {
+      "host": "lily",
+      "id": "contain-reachable",
+      "observationPin": {
+        "cacheGeneration": "830bf6c7-6ce5-40e9-b2e5-05b30398d027",
+        "faceObservationSha256": "9f52b457f172f48935a98adc9bce637704444ea3f76f3b3d24383e38f97f86d7",
+        "inputSha256": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 693,
+              "y": 501,
+              "width": 471,
+              "height": 471
+            },
+            "confidence": 0.9038221836090088
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.48359375,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "contain"
+      },
+      "plan": {
+        "status": "ready",
+        "geometry": {
+          "type": "geometry",
+          "rect": {
+            "x": 0,
+            "y": -65.5,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "contain"
+        },
+        "zoom": 0.3333333333333333,
+        "violations": []
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/6bfcc2b3-8957-4187-b1f4-2dfbba22e7cf.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 303926,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+              "trackId": "track:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+            "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "dd324c6e-7fb0-4f42-ad43-01d363373292",
+        "revisionId": "89c4b04e-1229-4a63-8533-f2a694ca926b",
+        "cacheId": "6bfcc2b3-8957-4187-b1f4-2dfbba22e7cf"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.69120361328125,
+        "maximumChannelDifference": 115,
+        "blackPixels": 178560,
+        "footprint": {
+          "x": 0,
+          "y": 74.5,
+          "width": 640,
+          "height": 360
+        },
+        "faceCenter": {
+          "x": 309.5,
+          "y": 320
+        },
+        "targetErrorPixels": 0,
+        "sourcePerimeter": {
+          "scope": "3px source perimeter, excluding the 1px fractional rasterization boundary; full-raster error also retained",
+          "meanChannelDifference": 0.46927311538029437,
+          "maximumChannelDifference": 31,
+          "passed": false
+        }
+      },
+      "pngSha256": "3a83e5a1fe5dba1b93eed9c0d3d755b0b4810ae777c09660d6b9f2a002949a77",
+      "referenceSha256": "e117a2d1ad2c9b9665619e6f53f346ed8182f01c7c5f418e82bc0e7b6e12478f"
+    },
+    {
+      "host": "lily",
+      "id": "contain-center",
+      "observationPin": {
+        "cacheGeneration": "830bf6c7-6ce5-40e9-b2e5-05b30398d027",
+        "faceObservationSha256": "9f52b457f172f48935a98adc9bce637704444ea3f76f3b3d24383e38f97f86d7",
+        "inputSha256": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 693,
+              "y": 501,
+              "width": 471,
+              "height": 471
+            },
+            "confidence": 0.9038221836090088
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "contain"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "rect": {
+            "x": 0,
+            "y": -65.5,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "contain"
+        },
+        "zoom": 0.3333333333333333,
+        "violations": [
+          "target_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/15aede7f-0bd9-49bb-860c-c6871626ed53.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 303926,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+              "trackId": "track:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+            "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "dd324c6e-7fb0-4f42-ad43-01d363373292",
+        "revisionId": "f407f7c4-3f06-41cf-a878-3e3952496d68",
+        "cacheId": "15aede7f-0bd9-49bb-860c-c6871626ed53"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.69120361328125,
+        "maximumChannelDifference": 115,
+        "blackPixels": 178560,
+        "footprint": {
+          "x": 0,
+          "y": 74.5,
+          "width": 640,
+          "height": 360
+        },
+        "faceCenter": {
+          "x": 309.5,
+          "y": 320
+        },
+        "targetErrorPixels": 10.5,
+        "sourcePerimeter": {
+          "scope": "3px source perimeter, excluding the 1px fractional rasterization boundary; full-raster error also retained",
+          "meanChannelDifference": 0.46927311538029437,
+          "maximumChannelDifference": 31,
+          "passed": false
+        }
+      },
+      "pngSha256": "3a83e5a1fe5dba1b93eed9c0d3d755b0b4810ae777c09660d6b9f2a002949a77",
+      "referenceSha256": "e117a2d1ad2c9b9665619e6f53f346ed8182f01c7c5f418e82bc0e7b6e12478f"
+    },
+    {
+      "host": "lily",
+      "id": "contain-conflict",
+      "observationPin": {
+        "cacheGeneration": "830bf6c7-6ce5-40e9-b2e5-05b30398d027",
+        "faceObservationSha256": "9f52b457f172f48935a98adc9bce637704444ea3f76f3b3d24383e38f97f86d7",
+        "inputSha256": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 693,
+              "y": 501,
+              "width": 471,
+              "height": 471
+            },
+            "confidence": 0.9038221836090088
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.1
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "contain"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "rect": {
+            "x": 0,
+            "y": -140,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "contain"
+        },
+        "zoom": 0.3333333333333333,
+        "violations": [
+          "target_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/dc8c74c6-ed49-4baa-a5e0-6bb232cf085f.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 301063,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+              "trackId": "track:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+            "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "dd324c6e-7fb0-4f42-ad43-01d363373292",
+        "revisionId": "0c0feebf-ddb6-4d0a-9c1c-541088b4f4a9",
+        "cacheId": "dc8c74c6-ed49-4baa-a5e0-6bb232cf085f"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.3817496744791667,
+        "maximumChannelDifference": 37,
+        "blackPixels": 179200,
+        "footprint": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 360
+        },
+        "faceCenter": {
+          "x": 309.5,
+          "y": 245.5
+        },
+        "targetErrorPixels": 181.80346531350827,
+        "sourcePerimeter": {
+          "scope": "3px source perimeter, excluding the 1px fractional rasterization boundary; full-raster error also retained",
+          "meanChannelDifference": 0.40712682379349047,
+          "maximumChannelDifference": 24,
+          "passed": false
+        }
+      },
+      "pngSha256": "452119b6222da38b6ff9348f05ad5e78fa7dd9891e29c1e9d0d21702df38711f",
+      "referenceSha256": "b588633d9d3b72bf43caf8ac329bf2963d01761a3128121a4d878f15a79a5519"
+    },
+    {
+      "host": "lily",
+      "id": "crop-center",
+      "observationPin": {
+        "cacheGeneration": "830bf6c7-6ce5-40e9-b2e5-05b30398d027",
+        "faceObservationSha256": "9f52b457f172f48935a98adc9bce637704444ea3f76f3b3d24383e38f97f86d7",
+        "inputSha256": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 693,
+              "y": 501,
+              "width": 471,
+              "height": 471
+            },
+            "confidence": 0.9038221836090088
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 2
+        },
+        "preservation": "crop"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "crop": {
+            "x": 621.0000000000001,
+            "y": 429.0000000000001,
+            "width": 614.9999999999999,
+            "height": 614.9999999999999
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "stretch"
+        },
+        "zoom": 1.0406504065040652,
+        "violations": [
+          "margins_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/459e350a-5669-4f16-926a-24c6d8a1d67f.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 555713,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+              "trackId": "track:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+            "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "dd324c6e-7fb0-4f42-ad43-01d363373292",
+        "revisionId": "3cb04b24-c835-4a74-b790-58f0a4d815b7",
+        "cacheId": "459e350a-5669-4f16-926a-24c6d8a1d67f"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.38109619140625,
+        "maximumChannelDifference": 17,
+        "blackPixels": 0,
+        "footprint": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 640
+        },
+        "faceCenter": {
+          "x": 319.99999999999994,
+          "y": 319.99999999999994
+        },
+        "targetErrorPixels": 8.038873388460929e-14,
+        "sourcePerimeter": null
+      },
+      "pngSha256": "593898762f28fc63fe63acf5237c5f176d85a3fed6d81280ff52aac025d0cac6",
+      "referenceSha256": "44168283e9746d81754f3800fdf5b62419b229ced6a86ffdf92eb77597db7d50"
+    },
+    {
+      "host": "lily",
+      "id": "crop-cap",
+      "observationPin": {
+        "cacheGeneration": "830bf6c7-6ce5-40e9-b2e5-05b30398d027",
+        "faceObservationSha256": "9f52b457f172f48935a98adc9bce637704444ea3f76f3b3d24383e38f97f86d7",
+        "inputSha256": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a"
+      },
+      "operands": {
+        "source": {
+          "width": 1920,
+          "height": 1080
+        },
+        "canvas": {
+          "width": 640,
+          "height": 640
+        },
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 693,
+              "y": 501,
+              "width": 471,
+              "height": 471
+            },
+            "confidence": 0.9038221836090088
+          }
+        ],
+        "subjectId": "face-0",
+        "target": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "margins": {
+          "x": 72,
+          "y": 72
+        },
+        "zoom": {
+          "min": 0.1,
+          "max": 0.4
+        },
+        "preservation": "crop"
+      },
+      "plan": {
+        "status": "refused",
+        "geometry": {
+          "type": "geometry",
+          "crop": {
+            "x": 128.5,
+            "y": 0,
+            "width": 1600,
+            "height": 1080
+          },
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 640,
+            "height": 640
+          },
+          "fit": "stretch"
+        },
+        "zoom": 0.4,
+        "violations": [
+          "zoom_cap",
+          "source_bounds",
+          "target_unreachable"
+        ]
+      },
+      "receipt": {
+        "file": "/private/tmp/yap-subject-observations-cTAd5H/library/cache/derived/c2bebde8-bc0e-42d1-b99f-7aef04b07cd7.cache",
+        "mediaType": "image/png",
+        "width": 640,
+        "height": 640,
+        "sourceWidth": 640,
+        "sourceHeight": 640,
+        "bytes": 509644,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 41666
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+              "trackId": "track:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:0",
+              "availability": "available",
+              "width": 1920,
+              "height": 1080
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:4ed5f77fc9ea38af2776e90a91c6156173cadb4530b4a741424abe4ced23cd66:1",
+            "assetId": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 12288,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 640,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v18:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "dd324c6e-7fb0-4f42-ad43-01d363373292",
+        "revisionId": "82a84295-eb75-4bea-a1f8-4da8b1475de8",
+        "cacheId": "c2bebde8-bc0e-42d1-b99f-7aef04b07cd7"
+      },
+      "comparison": {
+        "meanChannelDifference": 0.83395751953125,
+        "maximumChannelDifference": 47,
+        "blackPixels": 0,
+        "footprint": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 640
+        },
+        "faceCenter": {
+          "x": 320,
+          "y": 436.4444444444444
+        },
+        "targetErrorPixels": 116.4444444444444,
+        "sourcePerimeter": null
+      },
+      "pngSha256": "711120052c9f81059185fad3f295372154446d980b5cb5b004258a40656d4949",
+      "referenceSha256": "dbc5c6f5a5f1adf46b117192d89d939e779e5cd1a23ca5bda2a3d395e176b2e2"
+    }
+  ]
+}

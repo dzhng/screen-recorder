@@ -1,0 +1,182 @@
+"""Explicit Mach-O packaging metadata changes; inference and donor files stay external."""
+import hashlib
+import json
+from pathlib import Path
+import struct
+import subprocess
+
+
+def remove_rpaths(path, selected):
+    """Remove declared thin-ARM64 search commands without moving occupied sections."""
+    data = bytearray(path.read_bytes())
+    assert data[:4] == bytes.fromhex("cffaedfe") and struct.unpack_from("<I", data, 4)[0] == 0x100000c, "Expected thin arm64 Mach-O"
+    count, size = struct.unpack_from("<II", data, 16)
+    assert 0 < count <= 4096 and size <= 1024 * 1024 and 32 + size <= len(data), "Invalid native command region"
+    assert selected and len(set(selected)) == len(selected), "Distinct selected search paths required"
+    offset, kept, removed = 32, [], []
+    for _ in range(count):
+        command, length = struct.unpack_from("<II", data, offset)
+        assert length >= 8 and length % 8 == 0 and offset + length <= 32 + size, "Invalid native load command"
+        name = None
+        if command == 0x8000001c:
+            assert length >= 12, "Invalid native search command"
+            start = struct.unpack_from("<I", data, offset + 8)[0]
+            assert 12 <= start < length, "Invalid native search string"
+            encoded = data[offset + start:offset + length]
+            assert 0 in encoded, "Unterminated native search string"
+            name = bytes(encoded).split(b"\0")[0].decode()
+        if name in selected:
+            removed.append(name)
+        else:
+            kept.append(data[offset:offset + length])
+        offset += length
+    assert offset == 32 + size and sorted(removed) == sorted(selected), "Selected search policy differs from native commands"
+    commands = b"".join(kept)
+    data[32:32 + size] = commands + bytes(size - len(commands))
+    struct.pack_into("<II", data, 16, len(kept), len(commands))
+    path.write_bytes(data)
+
+
+def inspect(path):
+    data = path.read_bytes()
+    assert data[:4] == bytes.fromhex("cffaedfe") and struct.unpack_from("<I", data, 4)[0] == 0x100000c, "Expected thin arm64 Mach-O"
+    offset = 32
+    result = {"sections": [], "loads": [], "rpaths": [], "installIds": []}
+    for _ in range(struct.unpack_from("<I", data, 16)[0]):
+        command, size = struct.unpack_from("<II", data, offset)
+        assert size >= 8 and offset + size <= len(data), "Invalid native load command"
+        if command == 0x19:
+            for index in range(struct.unpack_from("<I", data, offset + 64)[0]):
+                section = offset + 72 + index * 80
+                assert section + 80 <= offset + size, "Invalid native section"
+                name = data[section:section + 16].split(b"\0")[0].decode()
+                segment = data[section + 16:section + 32].split(b"\0")[0].decode()
+                address, length = struct.unpack_from("<QQ", data, section + 32)
+                start = struct.unpack_from("<I", data, section + 48)[0]
+                flags = struct.unpack_from("<I", data, section + 64)[0]
+                zero_fill = (flags & 0xff) in [1, 12, 18]
+                payload = b"" if zero_fill else data[start:start + length]
+                assert zero_fill or len(payload) == length, "Native section exceeds file"
+                result["sections"].append({"segment": segment, "section": name,
+                    "address": address, "offset": start, "bytes": length, "flags": flags,
+                    "zeroFill": zero_fill, "sha256": hashlib.sha256(payload).hexdigest()})
+        elif command in [0x8000001c, 0xd, 0xc, 0x80000018, 0x8000001f, 0x20, 0x80000023]:
+            name_offset = struct.unpack_from("<I", data, offset + 8)[0]
+            name = data[offset + name_offset:offset + size].split(b"\0")[0].decode()
+            key = "rpaths" if command == 0x8000001c else "installIds" if command == 0xd else "loads"
+            if key == "rpaths":
+                result[key].append(name)
+            else:
+                timestamp, current, compatibility = struct.unpack_from("<III", data, offset + 12)
+                result[key].append({"kind": command, "name": name, "timestamp": timestamp,
+                    "currentVersion": current, "compatibilityVersion": compatibility})
+        offset += size
+    return result
+
+
+def relocate(policy_path, bundle, sources, out, clone_file, sha):
+    policy = json.loads(policy_path.read_text())
+    assert set(policy) == {"files"} and isinstance(policy["files"], list), "Invalid native policy"
+    assert len({entry["path"] for entry in policy["files"]}) == len(policy["files"]), "Duplicate native policy path"
+    assert sum(Path(sources[entry["path"]]).stat().st_size * 2 for entry in policy["files"]) <= 64 * 1024 * 1024, "Native diagnostic operands exceed 64 MiB budget"
+    report = {"verified": False, "policySha256": sha(policy_path), "files": []}
+    report_path = out / "native-relocation.json"
+    changes = {}
+
+    def save():
+        report_path.write_text(json.dumps(report, indent=2) + "\n")
+
+    save()
+    for index, entry in enumerate(policy["files"]):
+        assert set(entry) == {"path", "sourceSha256", "removeRpaths"}, "Invalid native policy fields"
+        target = bundle / entry["path"]
+        source = Path(sources[entry["path"]])
+        before_file = out / f"native-operands/{index}/before"
+        after_file = before_file.with_name("after")
+        before_file.parent.mkdir(parents=True)
+        clone_file(source, before_file)
+        clone_file(target, after_file)
+        row = {"path": entry["path"], "sourceFile": str(source),
+               "beforeFile": str(before_file.relative_to(out)),
+               "afterFile": str(after_file.relative_to(out)),
+               "sourceSha256": sha(before_file), "before": inspect(before_file),
+               "finalSha256": sha(after_file), "after": inspect(after_file), "finalCaptureComplete": False, "verified": False}
+        report["files"].append(row)
+        save()
+        assert row["sourceSha256"] == entry["sourceSha256"] and sha(target) == entry["sourceSha256"], "Native policy/source identity mismatch"
+        remove = entry["removeRpaths"]
+        assert isinstance(remove, list) and remove and len(set(remove)) == len(remove), "Native policy requires distinct search paths"
+        assert all(path in row["before"]["rpaths"] and path.startswith("/") and
+                   path != "/usr/lib" and not path.startswith(("/usr/lib/", "/System/Library/"))
+                   for path in remove), "Only identified foreign absolute rpaths may be removed"
+        packaging_error = None
+        try:
+            remove_rpaths(target, remove)
+            row["loadCommandRemoval"] = {"recipe": "thin-arm64-load-command-removal-v1", "paths": remove}
+            commands = [["/usr/bin/codesign", "--force", "--sign", "-", str(target)],
+                        ["/usr/bin/codesign", "--verify", "--strict", str(target)]]
+            row["commands"] = []
+            for command in commands:
+                try:
+                    result = subprocess.run(command, capture_output=True, text=True, timeout=10)
+                except (subprocess.TimeoutExpired, OSError) as error:
+                    def text(value):
+                        return value.decode(errors="replace") if isinstance(value, bytes) else value or ""
+                    row["commands"].append({"args": command, "exitCode": None,
+                        "timedOut": isinstance(error, subprocess.TimeoutExpired), "error": str(error),
+                        "stdout": text(getattr(error, "stdout", None)),
+                        "stderr": text(getattr(error, "stderr", None))})
+                    packaging_error = error
+                    save()
+                    raise
+                row["commands"].append({"args": command, "exitCode": result.returncode,
+                    "stdout": result.stdout, "stderr": result.stderr})
+                if result.returncode != 0:
+                    packaging_error = AssertionError("Native packaging command failed")
+                save()
+                if packaging_error is not None:
+                    raise packaging_error
+        except BaseException as error:
+            if packaging_error is None:
+                packaging_error = error
+            raise packaging_error
+        finally:
+            # A hash failure must preserve the saved operand and its matching receipt.
+            pending_file = after_file.with_name("after-pending")
+            try:
+                clone_file(target, pending_file)
+                pending_sha256 = sha(pending_file)
+                pending_file.replace(after_file)
+                row["finalSha256"] = pending_sha256
+                row["after"] = None
+                row["finalCaptureComplete"] = True
+                save()
+                try:
+                    row["after"] = inspect(after_file)
+                except BaseException as error:
+                    row["afterInspectionError"] = str(error)
+                    save()
+                    if packaging_error is None:
+                        raise
+                else:
+                    save()
+            except BaseException as error:
+                if not row["finalCaptureComplete"]:
+                    row["finalCaptureError"] = str(error)
+                try:
+                    save()
+                except BaseException as receipt_error:
+                    raise (packaging_error or error) from receipt_error
+                if packaging_error is not None:
+                    raise packaging_error from error
+                raise
+        assert row["before"]["sections"] == row["after"]["sections"], "Native section content/support changed"
+        assert row["before"]["loads"] == row["after"]["loads"] and row["before"]["installIds"] == row["after"]["installIds"], "Native dependency identities changed"
+        assert row["after"]["rpaths"] == [path for path in row["before"]["rpaths"] if path not in remove], "Unexpected native search-path change"
+        assert sha(source) == row["sourceSha256"], "Native donor changed"
+        row["verified"] = True
+        changes[entry["path"]] = row
+        save()
+    report["verified"] = True
+    save()
+    return report, changes

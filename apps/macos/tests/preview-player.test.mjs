@@ -82,7 +82,7 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: pro
         if delayed { try await Task.sleep(for: .milliseconds(100)) }
         return try JSONSerialization.data(withJSONObject: ["projectId": "take", "revisionId": "r7", "state": "ready",
             "delivery": ["token": token, "bytes": bytes, "expiresAt": (Date().timeIntervalSince1970 + expiresIn) * 1000],
-            "published": ["preview": ["projectId": "take", "revisionId": "r7", "mediaType": "video/mp4", "file": brokenFile ? file + "-missing" : file, "bytes": bytes]]])
+            "published": ["generation": 1, "output": ["projectId": "take", "revisionId": "r7", "mediaType": "video/mp4", "file": brokenFile ? file + "-missing" : file, "bytes": bytes]]])
     }
 }
 @main struct Probe {
@@ -255,7 +255,7 @@ struct PlaybackFailure: LocalizedError {
             "projectId": project, "revisionId": revision, "state": "ready",
             "delivery": ["token": "continuous-token", "bytes": 167145,
                 "expiresAt": (Date().timeIntervalSince1970 + 30) * 1000],
-            "published": ["preview": ["projectId": project, "revisionId": revision,
+            "published": ["generation": 1, "output": ["projectId": project, "revisionId": revision,
                 "mediaType": "video/mp4", "file": file, "bytes": 167145]],
         ])
     }

@@ -1,0 +1,668 @@
+{
+  "oldSha256": "d3726c471cc132643b511af50750f4cadb3a08c116e65d6773ecd2c77a766572",
+  "newSha256": "41c16b66281a0f8a0738a36fcd3660256da1075ea20f85a8da3a6edcac57607c",
+  "exchanges": [
+    {
+      "operation": "asset.import",
+      "params": {
+        "path": "/tmp/yap-replacement-output-CQEeOL/original-font.bin",
+        "requestId": "font"
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "53cde73f-edeb-4a41-b78e-240a9c151d9b",
+          "attemptId": "c58b4d51-8920-4bd1-a730-233ed5374c42",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "91656beb38fa556f441186b9cc5fb969a65a9593ccbe35f7357c64726be9cf94",
+          "target": {
+            "kind": "import",
+            "importId": "4ff864fc-989b-4f72-9c96-9cebb394a8cd"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": {
+            "generation": 1,
+            "attemptId": "c58b4d51-8920-4bd1-a730-233ed5374c42",
+            "output": {
+              "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274"
+            }
+          }
+        },
+        "id": "889310fc-e8bd-465f-97a3-c91529a2d257",
+        "wait": {
+          "state": "settled",
+          "timeoutMs": 5000,
+          "job": {
+            "jobId": "53cde73f-edeb-4a41-b78e-240a9c151d9b",
+            "generation": 1,
+            "attemptId": "c58b4d51-8920-4bd1-a730-233ed5374c42"
+          }
+        }
+      }
+    },
+    {
+      "operation": "project.create",
+      "params": {
+        "requestId": "project",
+        "canvas": {
+          "width": 160,
+          "height": 96,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "project": {
+            "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+            "title": "Untitled",
+            "createdAt": "2026-10-06T07:12:03.771Z",
+            "currentRevisionId": "37f40e9f-0e6a-4c0a-9402-5c0a8486a3ce"
+          },
+          "revision": {
+            "id": "37f40e9f-0e6a-4c0a-9402-5c0a8486a3ce",
+            "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+            "ordinal": 0,
+            "createdAt": "2026-10-06T07:12:03.771Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 160,
+                "height": 96,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "id": "67c4f015-eb74-4c96-bec8-f779404064a3"
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+        "requestId": "first-text",
+        "expectedRevisionId": "37f40e9f-0e6a-4c0a-9402-5c0a8486a3ce",
+        "operations": [
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "video",
+              "order": 0
+            },
+            "label": "captions"
+          },
+          {
+            "operation": "place",
+            "label": "text",
+            "clip": {
+              "trackId": {
+                "label": "captions"
+              },
+              "source": {
+                "kind": "text",
+                "text": "First words",
+                "font": {
+                  "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                  "postScriptName": "FixtureFont"
+                },
+                "width": 160,
+                "height": 96,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "8b23b58f-b80f-42d6-9083-1d2c64447e59",
+            "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+            "ordinal": 1,
+            "createdAt": "2026-10-06T07:12:03.885Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 160,
+                "height": 96,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0",
+                  "kind": "video",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1",
+                  "trackId": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 1000000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "First words",
+                    "font": {
+                      "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                      "postScriptName": "FixtureFont"
+                    },
+                    "width": 160,
+                    "height": 96,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [
+              {
+                "kind": "track",
+                "id": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+              }
+            ],
+            "labels": {
+              "captions": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0",
+              "text": "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+            },
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "track",
+                    "id": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0",
+                    "value": {
+                      "id": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0",
+                      "kind": "video",
+                      "order": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 1,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1",
+                    "value": {
+                      "id": "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1",
+                      "trackId": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 1000000
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "First words",
+                        "font": {
+                          "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                          "postScriptName": "FixtureFont"
+                        },
+                        "width": 160,
+                        "height": 96,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "571648db-a164-41af-88cb-783bdece8f2d"
+      }
+    },
+    {
+      "operation": "export.create",
+      "params": {
+        "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+        "revisionId": "8b23b58f-b80f-42d6-9083-1d2c64447e59",
+        "placementIds": [
+          "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+        ],
+        "kind": "srt",
+        "directory": "/tmp/yap-replacement-output-CQEeOL",
+        "leaf": "captions.srt",
+        "exportId": "d8d26a02-300e-4a15-8fa0-adfd597ce596"
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "d8d26a02-300e-4a15-8fa0-adfd597ce596",
+          "kind": "srt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+          "snapshot": {
+            "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+            "revisionId": "8b23b58f-b80f-42d6-9083-1d2c64447e59",
+            "kind": "srt",
+            "placementIds": [
+              "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+            ],
+            "cueCount": 1,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/yap-replacement-output-CQEeOL",
+            "leaf": "captions.srt"
+          },
+          "receipt": {
+            "sha256": "d3726c471cc132643b511af50750f4cadb3a08c116e65d6773ecd2c77a766572",
+            "destination": {
+              "dev": "16777232",
+              "ino": "7332276"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "7332545"
+            },
+            "replacement": null,
+            "bytes": 45,
+            "stage": {
+              "dev": "16777232",
+              "ino": "7332538"
+            },
+            "leaf": "captions.srt"
+          },
+          "output": "/private/tmp/yap-replacement-output-CQEeOL/captions.srt",
+          "jobId": "0e5918b8-3516-4144-8d16-8388386880b9",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "e6dc15af-02c1-487e-ba98-383b35cbc86a",
+        "wait": {
+          "state": "settled",
+          "timeoutMs": 5000,
+          "job": {
+            "jobId": "0e5918b8-3516-4144-8d16-8388386880b9",
+            "generation": 1,
+            "attemptId": "45683707-4a9d-40a3-8969-9a3957fa34a6"
+          }
+        }
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+        "requestId": "73a1788b-92ad-475a-8f9a-6bed805ba606",
+        "expectedRevisionId": "8b23b58f-b80f-42d6-9083-1d2c64447e59",
+        "operations": [
+          {
+            "operation": "text.set",
+            "clipId": "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1",
+            "source": {
+              "kind": "text",
+              "text": "Revised words",
+              "font": {
+                "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                "postScriptName": "FixtureFont"
+              },
+              "width": 160,
+              "height": 96,
+              "size": 32,
+              "color": "#ffffffff",
+              "alignment": "left",
+              "wrap": true
+            }
+          }
+        ]
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "f154c8ca-3667-4c10-9396-5dc76a4f2d8c",
+            "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+            "ordinal": 2,
+            "createdAt": "2026-10-06T07:12:04.351Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 160,
+                "height": 96,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0",
+                  "kind": "video",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1",
+                  "trackId": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 1000000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "Revised words",
+                    "font": {
+                      "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                      "postScriptName": "FixtureFont"
+                    },
+                    "width": 160,
+                    "height": 96,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [],
+            "labels": {},
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1",
+                    "value": {
+                      "id": "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1",
+                      "trackId": "track:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 1000000
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "Revised words",
+                        "font": {
+                          "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                          "postScriptName": "FixtureFont"
+                        },
+                        "width": 160,
+                        "height": 96,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "5091f587-7914-457b-8637-023c8b7fe925"
+      }
+    },
+    {
+      "operation": "export.create",
+      "params": {
+        "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+        "revisionId": "f154c8ca-3667-4c10-9396-5dc76a4f2d8c",
+        "placementIds": [
+          "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+        ],
+        "kind": "srt",
+        "directory": "/tmp/yap-replacement-output-CQEeOL",
+        "leaf": "captions.srt",
+        "exportId": "6ee0262c-5d41-4fdc-86e0-c7d4ff56650f"
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "6ee0262c-5d41-4fdc-86e0-c7d4ff56650f",
+          "kind": "srt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+          "snapshot": {
+            "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+            "revisionId": "f154c8ca-3667-4c10-9396-5dc76a4f2d8c",
+            "kind": "srt",
+            "placementIds": [
+              "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+            ],
+            "cueCount": 1,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/yap-replacement-output-CQEeOL",
+            "leaf": "captions.srt"
+          },
+          "receipt": {
+            "sha256": "41c16b66281a0f8a0738a36fcd3660256da1075ea20f85a8da3a6edcac57607c",
+            "destination": {
+              "ino": "7332276",
+              "dev": "16777232"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "7332653"
+            },
+            "bytes": 47,
+            "replacement": {
+              "bytes": 45,
+              "file": {
+                "ino": "7332545",
+                "dev": "16777232"
+              },
+              "sha256": "d3726c471cc132643b511af50750f4cadb3a08c116e65d6773ecd2c77a766572"
+            },
+            "stage": {
+              "dev": "16777232",
+              "ino": "7332647"
+            },
+            "leaf": "captions.srt"
+          },
+          "output": "/private/tmp/yap-replacement-output-CQEeOL/captions.srt",
+          "jobId": "9ad2dcea-15cf-44ec-a17a-b05422baa58f",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "66394bbe-27fd-4395-8347-8dfa504a62fe",
+        "wait": {
+          "state": "settled",
+          "timeoutMs": 5000,
+          "job": {
+            "jobId": "9ad2dcea-15cf-44ec-a17a-b05422baa58f",
+            "generation": 1,
+            "attemptId": "83cedc19-f680-470f-a8c0-1724bed93163"
+          }
+        }
+      }
+    },
+    {
+      "operation": "export.retry",
+      "params": {
+        "exportId": "d8d26a02-300e-4a15-8fa0-adfd597ce596"
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "d8d26a02-300e-4a15-8fa0-adfd597ce596",
+          "kind": "srt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+          "snapshot": {
+            "projectId": "70224a28-337a-41a8-ab4f-901fd8ed08fa",
+            "revisionId": "8b23b58f-b80f-42d6-9083-1d2c64447e59",
+            "kind": "srt",
+            "placementIds": [
+              "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+            ],
+            "cueCount": 1,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:0d054ccc9a1d3b6aa98ca2ebf1bdc0f703c8448408cfb1f629e52a5bb685a847:1"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/yap-replacement-output-CQEeOL",
+            "leaf": "captions.srt"
+          },
+          "receipt": {
+            "sha256": "d3726c471cc132643b511af50750f4cadb3a08c116e65d6773ecd2c77a766572",
+            "destination": {
+              "dev": "16777232",
+              "ino": "7332276"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "7332545"
+            },
+            "replacement": null,
+            "bytes": 45,
+            "stage": {
+              "dev": "16777232",
+              "ino": "7332538"
+            },
+            "leaf": "captions.srt"
+          },
+          "output": "/private/tmp/yap-replacement-output-CQEeOL/captions.srt",
+          "jobId": "0e5918b8-3516-4144-8d16-8388386880b9",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "d99255fc-9161-4546-8c31-dcab1c31d3ee",
+        "wait": {
+          "state": "settled",
+          "timeoutMs": 5000,
+          "job": {
+            "jobId": "0e5918b8-3516-4144-8d16-8388386880b9",
+            "generation": 1,
+            "attemptId": "45683707-4a9d-40a3-8969-9a3957fa34a6"
+          }
+        }
+      }
+    }
+  ]
+}

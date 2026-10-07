@@ -1,0 +1,37 @@
+{
+  "operation": "join.verify",
+  "scope": "read-only pinned revision and prepared output tap",
+  "boundary": {
+    "projectAtUs": 500000,
+    "before": { "kind": "range", "sourceAtUs": 500000 },
+    "after": { "kind": "range", "sourceAtUs": 500000 }
+  },
+  "projectRange": { "startUs": 400000, "endUs": 600000 },
+  "source": {
+    "before": { "state": "observed", "coverage": { "missing": [] } },
+    "after": { "state": "observed", "coverage": { "missing": [] } }
+  },
+  "rendered": {
+    "alignment": { "state": "missing" },
+    "recognition": {
+      "state": "observed",
+      "textComparison": {
+        "literalMatch": null,
+        "interpretation": "recognition_observation_not_phonetic_certification"
+      }
+    }
+  },
+  "audio": {
+    "waveform": { "sampleRange": { "start": 19200, "end": 28800 } },
+    "spectrum": { "layout": "column-channel-frequency" },
+    "discontinuity": { "interpretation": "energy_boundary_only" },
+    "roomTone": { "state": "unknown" }
+  },
+  "candidates": [
+    { "offsetUs": -50000, "state": "observed" },
+    { "offsetUs": 50000, "state": "observed" }
+  ],
+  "phoneticCompleteness": "unknown",
+  "inferencePerformed": false,
+  "editAuthored": false
+}

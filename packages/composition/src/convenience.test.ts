@@ -254,3 +254,700 @@ test("content fade keys stay in source time and output fades explicitly select t
   const output = result.document.processing.find((s) => s.target.kind === "output")!;
   expect(output.steps[0]!.processor.type).toBe("opacity");
 });
+
+test("crossfade lowers to opposing opacity ramps on two explicit overlapping targets", () => {
+  const assets = [
+    { id: "a", streams: [{ id: "v", kind: "image", width: 64, height: 48 }] },
+    { id: "b", streams: [{ id: "v", kind: "image", width: 64, height: 48 }] },
+  ];
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "first" },
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "second" },
+      {
+        operation: "place",
+        label: "a",
+        clip: {
+          assetId: "a",
+          streamId: "v",
+          trackId: { label: "first" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+      {
+        operation: "place",
+        label: "b",
+        clip: {
+          assetId: "b",
+          streamId: "v",
+          trackId: { label: "second" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+      {
+        operation: "transition",
+        kind: "crossfade",
+        targets: [
+          { kind: "clip", id: { label: "a" } },
+          { kind: "clip", id: { label: "b" } },
+        ],
+        mediaKind: "video",
+        window: {
+          kind: "project",
+          range: { startUs: 250000, endUs: 750000 },
+        },
+      },
+    ],
+    { assets, namespace: "crossfade" },
+  );
+  const stacks = result.document.processing.filter((stack) => stack.target.kind === "clip");
+  expect(stacks).toHaveLength(2);
+  expect(stacks.map((stack) => stack.steps[0]!.processor)).toEqual([
+    {
+      type: "opacity",
+      opacity: {
+        keys: [
+          { at: 250000, value: 1, interpolation: "linear" },
+          { at: 750000, value: 0, interpolation: "hold" },
+        ],
+      },
+    },
+    {
+      type: "opacity",
+      opacity: {
+        keys: [
+          { at: 250000, value: 0, interpolation: "linear" },
+          { at: 750000, value: 1, interpolation: "hold" },
+        ],
+      },
+    },
+  ]);
+});
+
+test("dip and flash use a bounded three-point alpha pulse and refuse an unrepresentable midpoint", () => {
+  const assets = [{ id: "a", streams: [{ id: "v", kind: "image", width: 64, height: 48 }] }];
+  const setup = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "video" },
+      {
+        operation: "place",
+        label: "clip",
+        clip: {
+          assetId: "a",
+          streamId: "v",
+          trackId: { label: "video" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    { assets, namespace: "pulse-setup" },
+  );
+  const target = { kind: "clip", id: setup.labels.clip };
+  for (const kind of ["dip", "flash"] as const) {
+    const result = applyBatch(
+      setup.document,
+      [
+        {
+          operation: "transition",
+          kind,
+          targets: [target],
+          mediaKind: "video",
+          window: { kind: "project", range: { startUs: 200000, endUs: 800000 } },
+        },
+      ],
+      { assets, namespace: `pulse-${kind}` },
+    );
+    expect(result.document.processing[0]!.steps[0]!.processor).toEqual({
+      type: "opacity",
+      opacity: {
+        keys: [
+          { at: 200000, value: 1, interpolation: "linear" },
+          { at: 500000, value: 0, interpolation: "linear" },
+          { at: 800000, value: 1, interpolation: "hold" },
+        ],
+      },
+    });
+  }
+  expect(() =>
+    applyBatch(
+      setup.document,
+      [
+        {
+          operation: "transition",
+          kind: "dip",
+          targets: [target],
+          mediaKind: "video",
+          window: { kind: "project", range: { startUs: 200001, endUs: 800000 } },
+        },
+      ],
+      { assets, namespace: "pulse-odd" },
+    ),
+  ).toThrow(/midpoint/);
+});
+
+test("zoom transition lowers to a bounded geometry trajectory and whip refuses uncovered travel", () => {
+  const assets = [{ id: "image", streams: [{ id: "s", kind: "image", width: 80, height: 60 }] }];
+  const setup = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "video" },
+      {
+        operation: "place",
+        label: "image",
+        clip: {
+          assetId: "image",
+          streamId: "s",
+          trackId: { label: "video" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    { assets, namespace: "trajectory" },
+  );
+  const target = { kind: "clip", id: setup.labels.image };
+  const window = {
+    kind: "clip",
+    clipId: setup.labels.image,
+    start: { numerator: 0, denominator: 1 },
+    end: { numerator: 1, denominator: 1 },
+  };
+  const zoom = applyBatch(
+    setup.document,
+    [
+      {
+        operation: "transition",
+        kind: "zoom",
+        targets: [target],
+        mediaKind: "video",
+        from: 1,
+        to: 2,
+        window,
+      },
+    ],
+    { assets, namespace: "zoom-transition" },
+  );
+  const zoomStep = zoom.document.processing[0]!.steps[0]!.processor;
+  expect(zoomStep).toMatchObject({
+    type: "geometry",
+    scale: { x: { keys: [{ value: 1 }, { value: 2 }] }, y: { keys: [{ value: 1 }, { value: 2 }] } },
+  });
+  expect(() =>
+    applyBatch(
+      setup.document,
+      [
+        {
+          operation: "transition",
+          kind: "whip",
+          targets: [target],
+          mediaKind: "video",
+          direction: "left",
+          distance: 80,
+          overscan: 1,
+          window,
+        },
+      ],
+      { assets, namespace: "whip-invalid" },
+    ),
+  ).toThrow(/coverage|overscan|distance/i);
+  const whip = applyBatch(
+    setup.document,
+    [
+      {
+        operation: "transition",
+        kind: "whip",
+        targets: [target],
+        mediaKind: "video",
+        direction: "left",
+        distance: 8,
+        overscan: 1.5,
+        window,
+      },
+    ],
+    { assets, namespace: "whip" },
+  );
+  const whipStep = whip.document.processing[0]!.steps[0]!.processor;
+  expect(whipStep).toMatchObject({
+    type: "geometry",
+    scale: { x: 1.5, y: 1.5 },
+    rect: { x: { keys: [{ value: 8 }, { value: 0 }] } },
+  });
+  const right = applyBatch(
+    setup.document,
+    [
+      {
+        operation: "transition",
+        kind: "whip",
+        targets: [target],
+        mediaKind: "video",
+        direction: "right",
+        distance: 8,
+        overscan: 1.5,
+        window,
+      },
+    ],
+    { assets, namespace: "whip-right" },
+  );
+  expect(right.document.processing[0]!.steps[0]!.processor).toMatchObject({
+    rect: { x: { keys: [{ value: -8 }, { value: 0 }] } },
+  });
+});
+
+test("whip coverage uses the caller's authored rectangle instead of the canvas", () => {
+  const assets = [{ id: "image", streams: [{ id: "s", kind: "image", width: 80, height: 60 }] }];
+  const setup = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "video" },
+      {
+        operation: "place",
+        label: "image",
+        clip: {
+          assetId: "image",
+          streamId: "s",
+          trackId: { label: "video" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    { assets, namespace: "trajectory-rect" },
+  );
+  const target = { kind: "clip", id: setup.labels.image };
+  const window = {
+    kind: "clip",
+    clipId: setup.labels.image,
+    start: { numerator: 0, denominator: 1 },
+    end: { numerator: 1, denominator: 1 },
+  };
+  expect(() =>
+    applyBatch(
+      setup.document,
+      [
+        {
+          operation: "transition",
+          kind: "whip",
+          targets: [target],
+          mediaKind: "video",
+          direction: "left",
+          distance: 15,
+          overscan: 1.5,
+          geometry: { rect: { x: 0, y: 0, width: 40, height: 60 } },
+          window,
+        },
+      ],
+      { assets, namespace: "trajectory-rect-invalid" },
+    ),
+  ).toThrow(/coverage|overscan|distance/i);
+});
+
+test("angle declaration retains explicit session members, source identity, offsets and validity", () => {
+  const assets = [
+    {
+      id: "camera-a",
+      streams: [
+        {
+          id: "video",
+          kind: "video",
+          width: 64,
+          height: 48,
+          bounds: { startUs: 0, endUs: 2000000 },
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
+    },
+    {
+      id: "camera-b",
+      streams: [
+        {
+          id: "video",
+          kind: "video",
+          width: 64,
+          height: 48,
+          bounds: { startUs: 0, endUs: 2000000 },
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
+    },
+  ];
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "a-track" },
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "b-track" },
+      {
+        operation: "place",
+        label: "a",
+        clip: {
+          assetId: "camera-a",
+          streamId: "video",
+          trackId: { label: "a-track" },
+          source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 2000000 } },
+        },
+      },
+      {
+        operation: "place",
+        label: "b",
+        clip: {
+          assetId: "camera-b",
+          streamId: "video",
+          trackId: { label: "b-track" },
+          source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 2000000 } },
+        },
+      },
+      {
+        operation: "angle.declare",
+        label: "angles",
+        sessionId: "session-1",
+        originClipId: { label: "a" },
+        evidence: {
+          id: "sync-evidence", generation: "g1", status: "accepted", method: "mixed-reference",
+          fingerprint: "sha256:angle-evidence", sources: [
+            { assetId: "camera-a", streamId: "video" }, { assetId: "camera-b", streamId: "video" },
+          ],
+        },
+        members: [
+          {
+            clipId: { label: "a" },
+            offsetUs: 0,
+            validRange: { startUs: 0, endUs: 2000000 },
+          },
+          {
+            clipId: { label: "b" },
+            offsetUs: { numerator: 1, denominator: 2 },
+            validRange: { startUs: 0, endUs: 2000000 },
+          },
+        ],
+      },
+    ],
+    { assets, namespace: "angles" },
+  );
+  expect(result.labels.angles).toMatch(/^angleGroup:angles:/);
+  expect(result.document.angleGroups).toEqual([
+    {
+      id: result.labels.angles,
+      sessionId: "session-1",
+      originClipId: result.labels.a,
+      evidence: {
+        id: "sync-evidence", generation: "g1", status: "accepted", method: "mixed-reference",
+        fingerprint: "sha256:angle-evidence", sources: [
+          { assetId: "camera-a", streamId: "video" }, { assetId: "camera-b", streamId: "video" },
+        ],
+      },
+      members: [
+        {
+          clipId: result.labels.a,
+          assetId: "camera-a",
+          streamId: "video",
+          offsetUs: 0,
+          validRange: { startUs: 0, endUs: 2000000 },
+        },
+        {
+          clipId: result.labels.b,
+          assetId: "camera-b",
+          streamId: "video",
+          offsetUs: { numerator: 1, denominator: 2 },
+          validRange: { startUs: 0, endUs: 2000000 },
+        },
+      ],
+    },
+  ]);
+  expect(() =>
+    validateComposition(
+      {
+        ...result.document,
+        angleGroups: result.document.angleGroups!.map((group) => ({
+          ...group,
+          members: group.members.map((member, index) =>
+            index === 0 ? { ...member, assetId: "foreign" } : member,
+          ),
+        })),
+      },
+      assets,
+    ),
+  ).toThrow(/source does not match/);
+  const removed = applyBatch(
+    result.document,
+    [{ operation: "angle.remove", angleGroupId: result.labels.angles }],
+    { assets, namespace: "angles-remove" },
+  );
+  expect(removed.document.angleGroups).toEqual([]);
+});
+
+test("angle declaration refuses synchronization evidence without an accepted source-bound verdict", () => {
+  const assets = [
+    {
+      id: "camera-a",
+      streams: [{ id: "video", kind: "video", width: 64, height: 48,
+        bounds: { startUs: 0, endUs: 1000000 }, available: [{ startUs: 0, endUs: 1000000 }] }],
+    },
+    {
+      id: "camera-b",
+      streams: [{ id: "video", kind: "video", width: 64, height: 48,
+        bounds: { startUs: 0, endUs: 1000000 }, available: [{ startUs: 0, endUs: 1000000 }] }],
+    },
+  ];
+  const setup = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "video", order: 0 }, label: "a-track" },
+    { operation: "track.add", track: { kind: "video", order: 1 }, label: "b-track" },
+    { operation: "place", label: "a", clip: {
+      assetId: "camera-a", streamId: "video", trackId: { label: "a-track" },
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    } },
+    { operation: "place", label: "b", clip: {
+      assetId: "camera-b", streamId: "video", trackId: { label: "b-track" },
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    } },
+  ], { assets, namespace: "angle-evidence-setup" });
+  expect(() => applyBatch(setup.document, [{
+    operation: "angle.declare", sessionId: "session-1", originClipId: setup.labels.a!,
+    evidence: {
+      id: "sync-evidence", generation: "g1", status: "refused", method: "waveform",
+      fingerprint: "sha256:refused", sources: [
+        { assetId: "camera-a", streamId: "video" }, { assetId: "camera-b", streamId: "video" },
+      ],
+    },
+    members: [
+      { clipId: setup.labels.a!, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+      { clipId: setup.labels.b!, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+    ],
+  }], { assets, namespace: "angle-evidence-refused" }),
+  ).toThrow(/accepted synchronization evidence/);
+
+  expect(() => applyBatch(setup.document, [{
+    operation: "angle.declare", sessionId: "session-duplicate", originClipId: setup.labels.a!,
+    evidence: {
+      id: "sync-evidence", generation: "g1", status: "accepted", method: "mixed-reference",
+      fingerprint: "sha256:duplicate-source", sources: [
+        { assetId: "camera-a", streamId: "video" }, { assetId: "camera-a", streamId: "video" },
+      ],
+    },
+    members: [
+      { clipId: setup.labels.a!, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+      { clipId: setup.labels.b!, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+    ],
+  }], { assets, namespace: "angle-evidence-duplicate" }),
+  ).toThrow(/repeats a source/);
+});
+
+test("angle declarations require video streams", () => {
+  const assets = ["a", "b"].map((id) => ({
+    id: `microphone-${id}`,
+    streams: [{
+      id: "audio", kind: "audio" as const, sampleRate: 48000, channels: 1,
+      bounds: { startUs: 0, endUs: 1000000 },
+      available: [{ startUs: 0, endUs: 1000000 }],
+    }],
+  }));
+  const setup = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "audio", order: 0 }, label: "a-track" },
+    { operation: "track.add", track: { kind: "audio", order: 1 }, label: "b-track" },
+    ...assets.map((asset) => ({
+      operation: "place" as const,
+      label: asset.id,
+      clip: {
+        assetId: asset.id,
+        streamId: "audio",
+        trackId: { label: `${asset.id === "microphone-a" ? "a" : "b"}-track` },
+        source: { kind: "range" as const, range: { startUs: 0, endUs: 1000000 } },
+        placement: { kind: "project" as const, range: { startUs: 0, endUs: 1000000 } },
+      },
+    })),
+  ], { assets, namespace: "audio-angle" });
+  expect(() => applyBatch(setup.document, [{
+    operation: "angle.declare",
+    sessionId: "audio-session",
+    originClipId: setup.labels["microphone-a"]!,
+    evidence: {
+      id: "audio-evidence", generation: "g1", status: "accepted", method: "waveform",
+      fingerprint: "sha256:audio-angle", sources: assets.map((asset) => ({ assetId: asset.id, streamId: "audio" })),
+    },
+    members: assets.map((asset) => ({
+      clipId: setup.labels[asset.id]!, offsetUs: 0,
+      validRange: { startUs: 0, endUs: 1000000 },
+    })),
+  }], { assets, namespace: "audio-angle-declare" })).toThrow(/video stream/);
+});
+
+test("ordinary placements replay a three-angle switch without automatic selection", () => {
+  const assets = ["a", "b", "c"].map((id) => ({
+    id: `camera-${id}`,
+    streams: [{
+      id: "video", kind: "video" as const, width: 64, height: 48,
+      bounds: { startUs: 0, endUs: 1000000 },
+      available: [{ startUs: 0, endUs: 1000000 }],
+    }],
+  }));
+  const result = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "video", order: 0 }, label: "angles" },
+    ...assets.map((asset, index) => ({
+      operation: "place" as const,
+      label: asset.id,
+      clip: {
+        assetId: asset.id,
+        streamId: "video",
+        trackId: { label: "angles" },
+        source: { kind: "range" as const, range: { startUs: 0, endUs: 1000000 } },
+        placement: {
+          kind: "project" as const,
+          range: { startUs: index * 1000000, endUs: (index + 1) * 1000000 },
+        },
+      },
+    })),
+    {
+      operation: "angle.declare",
+      sessionId: "session-1",
+      originClipId: { label: "camera-a" },
+      evidence: {
+        id: "known-control", generation: "g1", status: "accepted", method: "waveform",
+        fingerprint: "sha256:known-control", sources: [...assets].reverse().map((asset) => ({
+          assetId: asset.id, streamId: "video",
+        })),
+      },
+      members: assets.map((asset, index) => ({
+        clipId: { label: asset.id }, offsetUs: 0,
+        validRange: { startUs: index * 1000000, endUs: (index + 1) * 1000000 },
+      })),
+    },
+  ], { assets, namespace: "angle-switch" });
+  const compiler = createCompiler(validateComposition(result.document, assets), "angle-switch");
+  const frames = [...compiler.frames({ startUs: 0, endUs: 3000000 })];
+  expect(frames).toHaveLength(24);
+  const selectedAssets = frames.map((frame) => frame.layers.map((layer) => {
+    if (layer.kind !== "video") throw new Error("Expected a video layer");
+    return layer.assetId;
+  }));
+  expect(selectedAssets).toEqual([
+    ...Array.from({ length: 8 }, () => ["camera-a"]),
+    ...Array.from({ length: 8 }, () => ["camera-b"]),
+    ...Array.from({ length: 8 }, () => ["camera-c"]),
+  ]);
+});
+
+test("piecewise angle declarations retain bounded local offsets without retiming", () => {
+  const assets = ["a", "b"].map((id) => ({
+    id: `camera-${id}`,
+    streams: [{
+      id: "video", kind: "video" as const, width: 64, height: 48,
+      bounds: { startUs: 0, endUs: 4000000 },
+      available: [{ startUs: 0, endUs: 4000000 }],
+    }],
+  }));
+  const result = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "video", order: 0 }, label: "a-track" },
+    { operation: "track.add", track: { kind: "video", order: 1 }, label: "b-track" },
+    ...assets.map((asset, index) => ({
+      operation: "place" as const,
+      label: asset.id,
+      clip: {
+        assetId: asset.id, streamId: "video", trackId: { label: `${asset.id === "camera-a" ? "a" : "b"}-track` },
+        source: { kind: "range" as const, range: { startUs: 0, endUs: 4000000 } },
+        placement: { kind: "project" as const, range: { startUs: 0, endUs: 4000000 } },
+      },
+    })),
+    {
+      operation: "angle.declare",
+      label: "angles",
+      sessionId: "session-piecewise",
+      mapping: "piecewise-local",
+      originClipId: { label: "camera-a" },
+      evidence: {
+        id: "local-evidence", generation: "g1", status: "accepted", method: "mixed-reference",
+        fingerprint: "sha256:local-evidence", sources: assets.map((asset) => ({ assetId: asset.id, streamId: "video" })),
+      },
+      members: [
+        {
+          clipId: { label: "camera-a" },
+          segments: [
+            { offsetUs: 0, validRange: { startUs: 0, endUs: 2000000 } },
+            { offsetUs: 0, validRange: { startUs: 2000000, endUs: 4000000 } },
+          ],
+        },
+        {
+          clipId: { label: "camera-b" },
+          segments: [
+            { offsetUs: 125000, validRange: { startUs: 0, endUs: 2000000 } },
+            { offsetUs: 127000, validRange: { startUs: 2000000, endUs: 4000000 } },
+          ],
+        },
+      ],
+    },
+  ], { assets, namespace: "piecewise-angle" });
+  expect(result.document.angleGroups?.[0]).toMatchObject({
+    mapping: "piecewise-local",
+    members: [
+      { clipId: result.labels["camera-a"], segments: [{ offsetUs: 0 }, { offsetUs: 0 }] },
+      { clipId: result.labels["camera-b"], segments: [{ offsetUs: 125000 }, { offsetUs: 127000 }] },
+    ],
+  });
+  expect(result.document.clips.map((clip) => clip.placement)).toEqual([
+    { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+    { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+  ]);
+});
+
+test("piecewise angle declarations refuse overlapping segments and a shifted origin", () => {
+  const assets = ["a", "b"].map((id) => ({
+    id: `camera-${id}`,
+    streams: [{ id: "video", kind: "video" as const, width: 64, height: 48,
+      bounds: { startUs: 0, endUs: 3000000 }, available: [{ startUs: 0, endUs: 3000000 }] }],
+  }));
+  const setup = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "video", order: 0 }, label: "a-track" },
+    { operation: "track.add", track: { kind: "video", order: 1 }, label: "b-track" },
+    ...assets.map((asset) => ({ operation: "place" as const, label: asset.id, clip: {
+      assetId: asset.id, streamId: "video", trackId: { label: `${asset.id === "camera-a" ? "a" : "b"}-track` },
+      source: { kind: "range" as const, range: { startUs: 0, endUs: 3000000 } },
+      placement: { kind: "project" as const, range: { startUs: 0, endUs: 3000000 } },
+    } })),
+  ], { assets, namespace: "piecewise-invalid" });
+  const declare = (offsetUs: number, segments: [{ offsetUs: number; validRange: { startUs: number; endUs: number } }, { offsetUs: number; validRange: { startUs: number; endUs: number } }]) => ({
+    operation: "angle.declare" as const, mapping: "piecewise-local" as const, sessionId: "piecewise-invalid",
+    originClipId: setup.labels["camera-a"]!, evidence: {
+      id: "local", generation: "g1", status: "accepted" as const, method: "mixed-reference" as const,
+      fingerprint: "sha256:local", sources: assets.map((asset) => ({ assetId: asset.id, streamId: "video" })),
+    }, members: [
+      { clipId: setup.labels["camera-a"]!, segments: [{ offsetUs, validRange: { startUs: 0, endUs: 2000000 } }, ...segments.slice(1)] },
+      { clipId: setup.labels["camera-b"]!, segments: offsetUs === 0
+        ? [{ offsetUs: 0, validRange: { startUs: 0, endUs: 1500000 } }, { offsetUs: 0, validRange: { startUs: 1400000, endUs: 3000000 } }]
+        : [{ offsetUs: 0, validRange: { startUs: 0, endUs: 1500000 } }, { offsetUs: 0, validRange: { startUs: 1500000, endUs: 3000000 } }] },
+    ],
+  });
+  expect(() => applyBatch(setup.document, [declare(0, [{ offsetUs: 0, validRange: { startUs: 2000000, endUs: 3000000 } }, { offsetUs: 0, validRange: { startUs: 2000000, endUs: 3000000 } }])], { assets, namespace: "overlap" })).toThrow(/overlap|out of order/i);
+  expect(() => applyBatch(setup.document, [declare(1, [{ offsetUs: 0, validRange: { startUs: 2000000, endUs: 3000000 } }, { offsetUs: 0, validRange: { startUs: 2000000, endUs: 3000000 } }])], { assets, namespace: "origin" })).toThrow(/origin.*zero/i);
+});
+
+test("piecewise angle declarations require segments for every member", () => {
+  const assets = ["a", "b"].map((id) => ({
+    id: `camera-${id}`,
+    streams: [{ id: "video" as const, kind: "video" as const, width: 64, height: 48,
+      bounds: { startUs: 0, endUs: 1000000 }, available: [{ startUs: 0, endUs: 1000000 }] }],
+  }));
+  const setup = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "video", order: 0 }, label: "a-track" },
+    { operation: "track.add", track: { kind: "video", order: 1 }, label: "b-track" },
+    ...assets.map((asset) => ({ operation: "place" as const, label: asset.id, clip: {
+      assetId: asset.id, streamId: "video", trackId: { label: `${asset.id === "camera-a" ? "a" : "b"}-track` },
+      source: { kind: "range" as const, range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project" as const, range: { startUs: 0, endUs: 1000000 } },
+    } })),
+  ] as const, { assets, namespace: "piecewise-mixed" });
+  expect(() => applyBatch(setup.document, [{
+    operation: "angle.declare", label: "angles", sessionId: "mixed", mapping: "piecewise-local",
+    originClipId: { label: "camera-a" },
+    evidence: { id: "evidence", generation: "g1", status: "accepted", method: "mixed-reference", fingerprint: "sha256:evidence", sources: assets.map((asset) => ({ assetId: asset.id, streamId: "video" })) },
+    members: [
+      { clipId: { label: "camera-a" }, segments: [{ offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } }] },
+      { clipId: { label: "camera-b" }, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+    ],
+  }], { assets, namespace: "piecewise-mixed-declare" })).toThrow(/segments for every member/);
+});

@@ -65,13 +65,25 @@ public final class CompositionPictureExecutor {
             let exposureEV: Double?
             let contrast: Double?
             let saturation: Double?
+            let shadows: Double?
+            let highlights: Double?
             let neutralKelvin: Double?
             let neutralTint: Double?
+            let mode: String?
+            let assetId: String?
+            let colorSpace: String?
+            let interpolation: String?
+            let samples: Int?
+            let shutter: Double?
             func correction() throws -> SDRCorrection.Parameters {
-                guard let exposureEV, let contrast, let saturation, let neutralKelvin, let neutralTint else {
+                guard let exposureEV, let contrast, let saturation, let shadows, let highlights,
+                    let neutralKelvin, let neutralTint else {
                     throw NativeFailure("INVALID_REQUEST", "Missing SDR correction parameters.")
                 }
-                return SDRCorrection.Parameters(exposureEV: exposureEV, contrast: contrast, saturation: saturation, neutralKelvin: neutralKelvin, neutralTint: neutralTint)
+                return SDRCorrection.Parameters(
+                    exposureEV: exposureEV, contrast: contrast, saturation: saturation,
+                    shadows: shadows, highlights: highlights,
+                    neutralKelvin: neutralKelvin, neutralTint: neutralTint)
             }
             let opacity: Double?
             let stepId: String?
@@ -145,6 +157,9 @@ public final class CompositionPictureExecutor {
     private let deliveredSize: (width: Int, height: Int)
     private let assets: [String: CompositionAsset]
     private let fonts: [String: FontAssetBinding]
+    private let lutBindings: [String: LUTAssetBinding]
+    private var luts: [String: CubeLUT] = [:]
+    private let lutImplementationId: String?
     private let background: CIImage
     private let backgroundIsOpaque: Bool
     let color = CVImageBufferCreateColorSpaceFromAttachments(
@@ -178,10 +193,11 @@ public final class CompositionPictureExecutor {
     private(set) var outputIsKnownOpaque = false
     var decodedSamples: Int { decoded + readers.values.reduce(0) { $0 + $1.source.decodedCount } }
 
-    init(canvas: Canvas, deliveredSize: (width: Int, height: Int), bindings: [CompositionAsset], fonts: [FontAssetBinding] = [], pointers: PreparedPointersReceipt? = nil, sdrCorrectionImplementationId: String? = nil)
+    init(canvas: Canvas, deliveredSize: (width: Int, height: Int), bindings: [CompositionAsset], fonts: [FontAssetBinding] = [], luts: [LUTAssetBinding] = [], lutImplementationId: String? = nil, pointers: PreparedPointersReceipt? = nil, sdrCorrectionImplementationId: String? = nil)
         throws
     {
         self.sdrCorrectionImplementationId = sdrCorrectionImplementationId
+        self.lutImplementationId = lutImplementationId
         self.preparedPointers = try pointers.map(PreparedPointers.init)
         try canvas.validate()
         var assets: [String: CompositionAsset] = [:]
@@ -202,6 +218,13 @@ public final class CompositionPictureExecutor {
             guard fontBindings.updateValue(font, forKey: font.assetId) == nil else { throw Self.invalid("Duplicate font asset binding.") }
         }
         self.fonts = fontBindings
+        var lutBindings: [String: LUTAssetBinding] = [:]
+        for lut in luts {
+            guard lutBindings.updateValue(lut, forKey: lut.assetId) == nil else {
+                throw Self.invalid("Duplicate LUT asset binding.")
+            }
+        }
+        self.lutBindings = lutBindings
     }
 
     func image(_ frame: Frame) async throws -> CIImage {
@@ -510,11 +533,12 @@ public final class CompositionPictureExecutor {
                     else {
                         throw Self.invalid("Visual inputs must precede their one parent.")
                     }
-                    image = child.composited(over: image)
+                    image = try composite(child, over: image, mode: blendMode(for: input, in: prepared.key.visual))
                 }
                 image = image.cropped(to: canvasRect)
             }
             for operation in node.operations {
+                if operation.kind == "blend" { continue }
                 if operation.kind != "pointer" {
                     image = try apply(operation, to: image)
                     continue
@@ -544,8 +568,38 @@ public final class CompositionPictureExecutor {
         return image
     }
 
+    private func blendMode(for target: CompositionProcessing.Target, in nodes: [Frame.Node]) throws -> String {
+        guard let node = nodes.first(where: { $0.target == target }) else {
+            throw Self.invalid("Visual input has no compiled node.")
+        }
+        let modes = node.operations.compactMap { $0.kind == "blend" ? $0.mode : nil }
+        guard modes.count <= 1 else { throw Self.invalid("A visual surface cannot declare multiple blend modes.") }
+        guard let mode = modes.first else { return "normal" }
+        guard ["normal", "multiply", "screen", "soft-light"].contains(mode) else {
+            throw Self.invalid("Unknown layer blend mode.")
+        }
+        return mode
+    }
+
+    private func composite(_ source: CIImage, over backdrop: CIImage, mode: String) throws -> CIImage {
+        switch mode {
+        case "normal": return source.composited(over: backdrop)
+        case "multiply":
+            return source.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: backdrop])
+        case "screen":
+            return source.applyingFilter("CIScreenBlendMode", parameters: [kCIInputBackgroundImageKey: backdrop])
+        case "soft-light":
+            return source.applyingFilter("CISoftLightBlendMode", parameters: [kCIInputBackgroundImageKey: backdrop])
+        default: throw Self.invalid("Unknown layer blend mode.")
+        }
+    }
+
     private func preflightSurfaces(_ frame: Frame) throws -> Set<Frame.Operation> {
         var masks = Set<Frame.Operation>()
+        let requiredLuts = Set(frame.visual.flatMap(\.operations).filter { $0.kind == "lut" }.compactMap(\.assetId))
+        luts = luts.filter { requiredLuts.contains($0.key) }
+        var lutBytes: Int64 = 0
+        var seenLuts = Set<String>()
         var intermediatePixels: Int64 = 0
         var overlayPixels: Int64 = 0
         let area = Int64(canvas.width) * Int64(canvas.height)
@@ -581,10 +635,25 @@ public final class CompositionPictureExecutor {
                             intermediatePixels += area
                         }
                     }
+                } else if operation.kind == "lut" {
+                    try LUTColor.requireImplementation(lutImplementationId)
+                    let cube = try lut(operation)
+                    if seenLuts.insert(operation.assetId!).inserted {
+                        lutBytes += Int64(cube.rgba.count * MemoryLayout<Float>.size)
+                        try Self.requireBudget("lut-sample-bytes", requested: lutBytes,
+                            limit: 16 * 1024 * 1024, frame: frame.index)
+                    }
                 } else if operation.kind == "sdr-correction" {
                     try SDRCorrection.requireImplementation(sdrCorrectionImplementationId)
                     try operation.correction().validate()
-                } else if operation.kind != "opacity" {
+                } else if operation.kind == "motion-blur" {
+                    guard let samples = operation.samples, samples >= 1, samples <= 8,
+                        let shutter = operation.shutter, shutter.isFinite, shutter >= 0, shutter <= 1
+                    else { throw Self.invalid("Invalid bounded motion-blur recipe.") }
+                    if samples > 1 && shutter > 0 {
+                        intermediatePixels += Int64(samples) * area
+                    }
+                } else if operation.kind != "opacity" && operation.kind != "blend" {
                     geometry.append(index)
                 }
             }
@@ -740,6 +809,17 @@ public final class CompositionPictureExecutor {
         return sources
     }
 
+    private func lut(_ operation: Frame.Operation) throws -> CubeLUT {
+        guard operation.colorSpace == "linear-srgb", operation.interpolation == "trilinear",
+            let assetId = operation.assetId, let binding = lutBindings[assetId] else {
+            throw Self.invalid("LUT requires an explicit immutable asset and supported interpretation.")
+        }
+        if let cube = luts[assetId] { return cube }
+        let cube = try CubeLUT.load(binding)
+        luts[assetId] = cube
+        return cube
+    }
+
     private func apply(_ operation: Frame.Operation, to image: CIImage) throws -> CIImage {
         switch operation.kind {
         case "clamp":
@@ -789,6 +869,8 @@ public final class CompositionPictureExecutor {
             let matrix = try Self.affine(operation)
             if matrix.a * matrix.d - matrix.b * matrix.c == 0 { return CIImage.empty() }
             return image.transformed(by: matrix)
+        case "lut":
+            return try LUTColor.apply(lut(operation), to: image)
         case "sdr-correction":
             return try SDRCorrection.apply(operation.correction(), to: image)
         case "opacity":
@@ -799,6 +881,21 @@ public final class CompositionPictureExecutor {
             return image.applyingFilter(
                 "CIColorMatrix",
                 parameters: ["inputAVector": CIVector(x: 0, y: 0, z: 0, w: opacity)])
+        case "motion-blur":
+            guard let samples = operation.samples, samples >= 1, samples <= 8,
+                let shutter = operation.shutter, shutter.isFinite, shutter >= 0, shutter <= 1
+            else { throw Self.invalid("Invalid bounded motion-blur recipe.") }
+            if samples == 1 || shutter == 0 { return image }
+            // Keep the blur envelope proportional to the shutter interval.
+            // Sample count is a bounded work budget; it must not change the
+            // requested appearance for the same authored trajectory.
+            let radius = max(0.25, shutter)
+            return image.applyingFilter(
+                "CIMotionBlur",
+                parameters: [
+                    kCIInputRadiusKey: radius,
+                    kCIInputAngleKey: 0,
+                ])
         default: throw Self.unsupported("Unknown compiled picture primitive.")
         }
     }

@@ -1,0 +1,905 @@
+{
+  "id": "constructed-repeats",
+  "sourceFrames": 192000,
+  "sourceEmissionSha256": "f78efefb1bf89c7f22f50a7294798e761b61554cd6ea70bb63f8556d3815a9cd",
+  "arithmeticReportSha256": "77c3fdd3dc4abc9b667acbf15b0b896ead3f02f342f31cafd9026a0c50ea35e8",
+  "greedyText": "Blue Seven Blue.",
+  "candidates": [
+    {
+      "text": "blue seven blue",
+      "optimum": 3,
+      "requested": [
+        {
+          "index": 0,
+          "text": "blue",
+          "folded": "blue",
+          "status": "matched",
+          "observedIndices": [
+            0
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 1.04,
+            "endSeconds": 1.36,
+            "startFrame": 13,
+            "endFrame": 17,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 13,
+              "endFrame": 14,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 16,
+              "endFrame": 17,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "seven",
+          "folded": "seven",
+          "status": "matched",
+          "observedIndices": [
+            1
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "seven",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 4.16,
+            "endSeconds": 4.48,
+            "startFrame": 52,
+            "endFrame": 56,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 101,
+              "startFrame": 52,
+              "endFrame": 53,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 239,
+              "startFrame": 55,
+              "endFrame": 56,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "blue",
+          "folded": "blue",
+          "status": "matched",
+          "observedIndices": [
+            2
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 7.04,
+            "endSeconds": 7.36,
+            "startFrame": 88,
+            "endFrame": 92,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 88,
+              "endFrame": 89,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 91,
+              "endFrame": 92,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        }
+      ],
+      "observed": [
+        {
+          "index": 0,
+          "text": "Blue",
+          "folded": "blue",
+          "status": "matched",
+          "suppliedIndices": [
+            0
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            107,
+            976,
+            348
+          ],
+          "startFrame": 13,
+          "endFrame": 17,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 1,
+          "text": "Seven",
+          "folded": "seven",
+          "status": "matched",
+          "suppliedIndices": [
+            1
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            70,
+            967,
+            239
+          ],
+          "startFrame": 52,
+          "endFrame": 56,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 2,
+          "text": "Blue.",
+          "folded": "blue",
+          "status": "matched",
+          "suppliedIndices": [
+            2
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            107,
+            976,
+            348,
+            986
+          ],
+          "startFrame": 88,
+          "endFrame": 150,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        }
+      ],
+      "partialLexicalInterpretation": "not_inferred"
+    },
+    {
+      "text": "blue purple blue",
+      "optimum": 2,
+      "requested": [
+        {
+          "index": 0,
+          "text": "blue",
+          "folded": "blue",
+          "status": "matched",
+          "observedIndices": [
+            0
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 1.04,
+            "endSeconds": 1.36,
+            "startFrame": 13,
+            "endFrame": 17,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 13,
+              "endFrame": 14,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 16,
+              "endFrame": 17,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "purple",
+          "folded": "purple",
+          "status": "unmatched",
+          "observedIndices": [],
+          "omissionPossible": true,
+          "nativeDecodedTarget": "purple",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 4.16,
+            "endSeconds": 4.48,
+            "startFrame": 52,
+            "endFrame": 56,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 26,
+              "startFrame": 52,
+              "endFrame": 53,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 78,
+              "startFrame": 53,
+              "endFrame": 54,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 526,
+              "startFrame": 55,
+              "endFrame": 56,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "blue",
+          "folded": "blue",
+          "status": "matched",
+          "observedIndices": [
+            2
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 7.04,
+            "endSeconds": 7.36,
+            "startFrame": 88,
+            "endFrame": 92,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 88,
+              "endFrame": 89,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 91,
+              "endFrame": 92,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        }
+      ],
+      "observed": [
+        {
+          "index": 0,
+          "text": "Blue",
+          "folded": "blue",
+          "status": "matched",
+          "suppliedIndices": [
+            0
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            107,
+            976,
+            348
+          ],
+          "startFrame": 13,
+          "endFrame": 17,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 1,
+          "text": "Seven",
+          "folded": "seven",
+          "status": "observed_extra",
+          "suppliedIndices": [],
+          "extraPossible": true,
+          "nativeTokens": [
+            70,
+            967,
+            239
+          ],
+          "startFrame": 52,
+          "endFrame": 56,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 2,
+          "text": "Blue.",
+          "folded": "blue",
+          "status": "matched",
+          "suppliedIndices": [
+            2
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            107,
+            976,
+            348,
+            986
+          ],
+          "startFrame": 88,
+          "endFrame": 150,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        }
+      ],
+      "partialLexicalInterpretation": "not_inferred"
+    },
+    {
+      "text": "blue seven",
+      "optimum": 2,
+      "requested": [
+        {
+          "index": 0,
+          "text": "blue",
+          "folded": "blue",
+          "status": "matched",
+          "observedIndices": [
+            0
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 1.04,
+            "endSeconds": 1.36,
+            "startFrame": 13,
+            "endFrame": 17,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 13,
+              "endFrame": 14,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 16,
+              "endFrame": 17,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "seven",
+          "folded": "seven",
+          "status": "matched",
+          "observedIndices": [
+            1
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "seven",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 4.16,
+            "endSeconds": 4.48,
+            "startFrame": 52,
+            "endFrame": 56,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 101,
+              "startFrame": 52,
+              "endFrame": 53,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 239,
+              "startFrame": 55,
+              "endFrame": 56,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        }
+      ],
+      "observed": [
+        {
+          "index": 0,
+          "text": "Blue",
+          "folded": "blue",
+          "status": "matched",
+          "suppliedIndices": [
+            0
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            107,
+            976,
+            348
+          ],
+          "startFrame": 13,
+          "endFrame": 17,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 1,
+          "text": "Seven",
+          "folded": "seven",
+          "status": "matched",
+          "suppliedIndices": [
+            1
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            70,
+            967,
+            239
+          ],
+          "startFrame": 52,
+          "endFrame": 56,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 2,
+          "text": "Blue.",
+          "folded": "blue",
+          "status": "observed_extra",
+          "suppliedIndices": [],
+          "extraPossible": true,
+          "nativeTokens": [
+            107,
+            976,
+            348,
+            986
+          ],
+          "startFrame": 88,
+          "endFrame": 150,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        }
+      ],
+      "partialLexicalInterpretation": "not_inferred"
+    },
+    {
+      "text": "blue 7 blue",
+      "optimum": 2,
+      "requested": [
+        {
+          "index": 0,
+          "text": "blue",
+          "folded": "blue",
+          "status": "matched",
+          "observedIndices": [
+            0
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 1.04,
+            "endSeconds": 1.36,
+            "startFrame": 13,
+            "endFrame": 17,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 13,
+              "endFrame": 14,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 16,
+              "endFrame": 17,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "7",
+          "folded": "7",
+          "status": "unmatched",
+          "observedIndices": [],
+          "omissionPossible": true,
+          "nativeDecodedTarget": "<unk>",
+          "nativeTokenizationUnknown": true,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 4.4,
+            "endSeconds": 4.48,
+            "startFrame": 55,
+            "endFrame": 56,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 0,
+              "startFrame": 55,
+              "endFrame": 56,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "blue",
+          "folded": "blue",
+          "status": "matched",
+          "observedIndices": [
+            2
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 7.04,
+            "endSeconds": 7.36,
+            "startFrame": 88,
+            "endFrame": 92,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 88,
+              "endFrame": 89,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 91,
+              "endFrame": 92,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        }
+      ],
+      "observed": [
+        {
+          "index": 0,
+          "text": "Blue",
+          "folded": "blue",
+          "status": "matched",
+          "suppliedIndices": [
+            0
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            107,
+            976,
+            348
+          ],
+          "startFrame": 13,
+          "endFrame": 17,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 1,
+          "text": "Seven",
+          "folded": "seven",
+          "status": "observed_extra",
+          "suppliedIndices": [],
+          "extraPossible": true,
+          "nativeTokens": [
+            70,
+            967,
+            239
+          ],
+          "startFrame": 52,
+          "endFrame": 56,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 2,
+          "text": "Blue.",
+          "folded": "blue",
+          "status": "matched",
+          "suppliedIndices": [
+            2
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            107,
+            976,
+            348,
+            986
+          ],
+          "startFrame": 88,
+          "endFrame": 150,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        }
+      ],
+      "partialLexicalInterpretation": "not_inferred"
+    },
+    {
+      "text": "blue seven blue blue",
+      "optimum": 3,
+      "requested": [
+        {
+          "index": 0,
+          "text": "blue",
+          "folded": "blue",
+          "status": "matched",
+          "observedIndices": [
+            0
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 1.04,
+            "endSeconds": 1.36,
+            "startFrame": 13,
+            "endFrame": 17,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 13,
+              "endFrame": 14,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 16,
+              "endFrame": 17,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "seven",
+          "folded": "seven",
+          "status": "matched",
+          "observedIndices": [
+            1
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "seven",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 4.16,
+            "endSeconds": 4.48,
+            "startFrame": 52,
+            "endFrame": 56,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 101,
+              "startFrame": 52,
+              "endFrame": 53,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 239,
+              "startFrame": 55,
+              "endFrame": 56,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "blue",
+          "folded": "blue",
+          "status": "unknown",
+          "observedIndices": [
+            2
+          ],
+          "omissionPossible": true,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 7.04,
+            "endSeconds": 7.2,
+            "startFrame": 88,
+            "endFrame": 90,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 88,
+              "endFrame": 89,
+              "correspondence": "unknown",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 89,
+              "endFrame": 90,
+              "correspondence": "unknown",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "blue",
+          "folded": "blue",
+          "status": "unknown",
+          "observedIndices": [
+            2
+          ],
+          "omissionPossible": true,
+          "nativeDecodedTarget": "blue",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 7.2,
+            "endSeconds": 7.36,
+            "startFrame": 90,
+            "endFrame": 92,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 454,
+              "startFrame": 90,
+              "endFrame": 91,
+              "correspondence": "unknown",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 348,
+              "startFrame": 91,
+              "endFrame": 92,
+              "correspondence": "unknown",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        }
+      ],
+      "observed": [
+        {
+          "index": 0,
+          "text": "Blue",
+          "folded": "blue",
+          "status": "matched",
+          "suppliedIndices": [
+            0
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            107,
+            976,
+            348
+          ],
+          "startFrame": 13,
+          "endFrame": 17,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 1,
+          "text": "Seven",
+          "folded": "seven",
+          "status": "matched",
+          "suppliedIndices": [
+            1
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            70,
+            967,
+            239
+          ],
+          "startFrame": 52,
+          "endFrame": 56,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        },
+        {
+          "index": 2,
+          "text": "Blue.",
+          "folded": "blue",
+          "status": "unknown",
+          "suppliedIndices": [
+            2,
+            3
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            107,
+            976,
+            348,
+            986
+          ],
+          "startFrame": 88,
+          "endFrame": 150,
+          "physicalAdmission": "within_source_support",
+          "confidence": null
+        }
+      ],
+      "partialLexicalInterpretation": "not_inferred"
+    }
+  ]
+}

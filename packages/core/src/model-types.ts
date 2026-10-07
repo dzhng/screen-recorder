@@ -12,7 +12,7 @@ export type SpeechRuntime = Readonly<{
 export type SpeechEnginePins = SpeechRuntime & Readonly<{ model: string; modelRevision: string }>;
 export type ModelManifest = Readonly<{
   name: string;
-  purpose: "transcription" | "voice" | "speaker";
+  purpose: "transcription" | "voice" | "speaker" | "alignment";
   /** Prepare this model in the background when the service starts or updates. */
   autoPrepare?: true;
   platform: Readonly<{ system: string; architecture: string }>;
@@ -51,7 +51,37 @@ export type RuntimeArtifact = Readonly<{
   entries: readonly RuntimeEntry[];
   python: string;
   entry: string;
+  /** Curated upstream inputs and recipe; complete resulting inventory is independently verified. */
+  acquisition?: RuntimeAcquisition;
 }>;
+export type RuntimeAcquisition = Readonly<{
+  recipe: "python-wheels-v1";
+  files: readonly (SpeechModelFile & Readonly<{ url: string }>)[];
+  interpreterArchive: string;
+  installs: readonly Readonly<{
+    paths: readonly string[];
+    sourceBuild?: true;
+    forceReinstall?: true;
+    /** Optional bundle-relative target for dependencies kept outside primary startup. */
+    target?: string;
+  }>[];
+  /** Additional dependency trees appended by the bundle launcher in declaration order. */
+  supplemental?: readonly string[];
+  resources: readonly Readonly<{ path: string; content: string; sha256: string }>[];
+  nativePolicy: Readonly<{
+    files: readonly Readonly<{
+      path: string;
+      sourceSha256: string;
+      removeRpaths: readonly string[];
+    }>[];
+  }>;
+}>;
+export type RuntimeMaterializer = (input: {
+  inputs: string;
+  directory: string;
+  acquisition: RuntimeAcquisition;
+  signal: AbortSignal;
+}) => Promise<void>;
 export type ModelSources = Readonly<{
   runtimeSource?: string | undefined;
   modelSource?: string | undefined;

@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: RGBA maximum 253 exceeds 8
+    at compareBlendRaster (file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-reference.mjs:91:10)
+    at file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-encoding.mjs:173:7
+    at Array.map (<anonymous>)
+    at file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-encoding.mjs:172:27 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

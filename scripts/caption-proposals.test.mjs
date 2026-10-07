@@ -222,9 +222,7 @@ test("consumer command returns pure proposals even when no CLI is available", as
     stderr = "";
   child.stdout.on("data", (chunk) => (stdout += chunk));
   child.stderr.on("data", (chunk) => (stderr += chunk));
-  child.stdin.end(
-    JSON.stringify({ ...request(), cli: { executable: "/does/not/exist/yap" } }),
-  );
+  child.stdin.end(JSON.stringify({ ...request(), cli: { executable: "/does/not/exist/yap" } }));
   const code = await new Promise((resolve) => child.once("close", resolve));
   assert.equal(code, 0, stderr);
   const output = JSON.parse(stdout);
@@ -296,7 +294,7 @@ test("wrapping retains meaningful caller separators rather than silently deletin
 });
 
 test("instant word evidence remains visible without invented dwell or aborting neighboring proposals", () => {
-  const instant = word(1, "um", 200000, 200001, {
+  const instant = word(1, "um", 200000, 200000, {
     instant: true,
     fragments: [
       { source: { startUs: 200000, endUs: 200000 }, project: { startUs: 200000, endUs: 200000 } },
@@ -318,4 +316,86 @@ test("instant word evidence remains visible without invented dwell or aborting n
     ["RENDERED_LAYOUT_UNVERIFIED", "MINIMUM_DWELL", "INSTANT_WORD", "READING_SPEED_UNDEFINED"],
   );
   assert.equal(proposals[2].clip.source.text, "two");
+});
+
+test("overlapping estimates use the widest exact envelope for dwell, speed and placement", () => {
+  const end = { numerator: 2000001, denominator: 2 };
+  const input = request([word(0, "first", 0, end), word(1, "next", 200000, 400000)]);
+  input.corrections = [];
+  input.constraints.breakOnPunctuation = false;
+  input.constraints.maxCps = 10;
+  const proposal = captionProposals(input).proposals[0];
+  assert.deepEqual(proposal.rowIndexes, [0, 1]);
+  assert.deepEqual(proposal.clip.placement.sourceRange, { startUs: 0, endUs: end });
+  assert.deepEqual(
+    proposal.clip.seed.words,
+    input.entry.rows.map((row) => ({ ordinal: row.ordinal, sourceRange: row.sourceRange })),
+  );
+  assert.equal(
+    proposal.violations.some((v) => ["MINIMUM_DWELL", "READING_SPEED"].includes(v.code)),
+    false,
+  );
+});
+
+test("explicit highlighting maps corrected wrapped UTF-16 words to retained overlapping source windows", () => {
+  const input = request([
+    word(0, "wrong", 0, 900000),
+    word(1, "emoji", 200000, 500000),
+    word(2, "discard", 500000, 800000),
+    word(3, "trend", 700000, 1000000),
+  ]);
+  input.corrections = [
+    { rowIndex: 0, text: "cafe\u0301" },
+    { rowIndex: 1, text: "🧪" },
+    { rowIndex: 2, text: "" },
+  ];
+  input.style.highlight = { activeColor: "#ffcc00ff", inactiveColor: "#ffffffff" };
+  Object.assign(input.constraints, { widthGraphemes: 7, breakOnPunctuation: false });
+  const draft = captionProposals(input).proposals[0];
+  assert.equal(draft.text, "cafe\u0301 🧪 \ntrend");
+  assert.deepEqual(draft.clip.source.timedWords, [
+    { range: [0, 5], sourceRange: { startUs: 0, endUs: 900000 } },
+    { range: [6, 8], sourceRange: { startUs: 200000, endUs: 500000 } },
+    { range: [10, 15], sourceRange: { startUs: 700000, endUs: 1000000 } },
+  ]);
+  assert.deepEqual(
+    draft.clip.seed.words,
+    input.entry.rows.map(({ ordinal, sourceRange }) => ({ ordinal, sourceRange })),
+  );
+  assert.deepEqual(draft.words, input.entry.rows);
+});
+
+test("highlight runs preserve fragmented support and repeated occurrence identity without widening estimates", () => {
+  const records = [
+    word(0, "trend", 0, 1000000, {
+      partial: true,
+      fragments: [
+        { source: { startUs: 100000, endUs: 300000 }, project: { startUs: 50000, endUs: 150000 } },
+        { source: { startUs: 600000, endUs: 900000 }, project: { startUs: 300000, endUs: 450000 } },
+      ],
+    }),
+    word(0, "trend", 0, 1000000, { clipId: "repeat" }),
+  ];
+  const input = request(records);
+  input.corrections = [{ rowIndex: 0, text: "Trend!" }];
+  input.style.highlight = { activeColor: "#ffcc00ff", inactiveColor: "#ffffffff" };
+  const [partial, repeat] = captionProposals(input).proposals;
+  assert.deepEqual(partial.clip.source.timedWords, [
+    { range: [0, 6], sourceRange: { startUs: 100000, endUs: 300000 } },
+    { range: [0, 6], sourceRange: { startUs: 600000, endUs: 900000 } },
+  ]);
+  assert.deepEqual(partial.clip.seed.words, [
+    { ordinal: 0, sourceRange: { startUs: 0, endUs: 1000000 } },
+  ]);
+  assert.deepEqual(
+    partial.violations.filter(({ code }) => ["PARTIAL_WORD", "DISCONTINUOUS_WORD"].includes(code)),
+    [
+      { code: "PARTIAL_WORD", rowIndex: 0 },
+      { code: "DISCONTINUOUS_WORD", rowIndex: 0 },
+    ],
+  );
+  assert.equal(repeat.clip.seed.occurrenceClipId, "repeat");
+  assert.deepEqual(repeat.clip.source.timedWords, [
+    { range: [0, 5], sourceRange: { startUs: 0, endUs: 1000000 } },
+  ]);
 });

@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "error": {
+    "code": "UNSUPPORTED_SPEAKER_WINDOW",
+    "message": "Only exact 30-second mono16k source windows are supported",
+    "retryable": false,
+    "details": {}
+  }
+}

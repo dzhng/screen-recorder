@@ -1,0 +1,25 @@
+file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-reference.test.mjs:3
+import { blendPixel, compareBlendRaster } from "./blend-reference.mjs";
+                     ^^^^^^^^^^^^^^^^^^
+SyntaxError: The requested module './blend-reference.mjs' does not provide an export named 'compareBlendRaster'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:455:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:553:5)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.21.0
+✖ packages/test-harness/editing/blend-reference.test.mjs (23.250208ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26.036167
+
+✖ failing tests:
+
+test at packages/test-harness/editing/blend-reference.test.mjs:1:1
+✖ packages/test-harness/editing/blend-reference.test.mjs (23.250208ms)
+  'test failed'

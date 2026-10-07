@@ -1,0 +1,717 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "7487f754-7e8b-4ab9-881d-3b4692043977"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "7487f754-7e8b-4ab9-881d-3b4692043977"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "7487f754-7e8b-4ab9-881d-3b4692043977"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "263257a7-26f8-4c5e-ad7e-f5420ceebf1d"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed",
+      "revisionId": "263257a7-26f8-4c5e-ad7e-f5420ceebf1d"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "f700e1e6-c8fb-460b-a9dc-0a8fc97a67b7"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed",
+      "revisionId": "f700e1e6-c8fb-460b-a9dc-0a8fc97a67b7"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "99bf6fcb-0162-4458-b664-6f8566c921f5"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "99bf6fcb-0162-4458-b664-6f8566c921f5"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "99bf6fcb-0162-4458-b664-6f8566c921f5"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "20110f2f-5d20-4f0c-bee8-657e2b0ac412"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "20110f2f-5d20-4f0c-bee8-657e2b0ac412"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "20110f2f-5d20-4f0c-bee8-657e2b0ac412"
+    }
+  ],
+  "pictures": [
+    {
+      "name": "distinct-unicode-literals",
+      "selection": {
+        "projectId": "6d08aa37-fcdf-48a2-8904-94d4fbeff150",
+        "revisionId": "7487f754-7e8b-4ab9-881d-3b4692043977",
+        "atUs": 0
+      },
+      "sha256": "a009405e0cd6395f5ba34aced1b0d395c68d1696d3bc903a2de9bb35b52f39fb",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-LgaNap/library/cache/derived/694da648-4223-4ead-9bba-e86f14f99194.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 1813,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "é",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:2",
+              "trackId": "track:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:0",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "é",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:3",
+              "trackId": "track:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:2",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "é",
+              "visibleRange": [
+                0,
+                1
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    1
+                  ],
+                  "text": "é",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 17.796875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                1.171875,
+                5.96875,
+                15.296875,
+                23.40625
+              ],
+              "visibleBounds": [
+                1.171875,
+                5.96875,
+                15.296875,
+                23.40625
+              ],
+              "decorationBounds": [
+                1.171875,
+                5.96875,
+                15.296875,
+                23.40625
+              ],
+              "verticalOffset": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:3",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "é",
+              "visibleRange": [
+                0,
+                2
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    2
+                  ],
+                  "text": "é",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 17.796875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                1.171875,
+                5.96875,
+                15.296875,
+                23.40625
+              ],
+              "visibleBounds": [
+                1.171875,
+                5.96875,
+                15.296875,
+                23.40625
+              ],
+              "decorationBounds": [
+                1.171875,
+                5.96875,
+                15.296875,
+                23.40625
+              ],
+              "verticalOffset": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "6d08aa37-fcdf-48a2-8904-94d4fbeff150",
+        "revisionId": "7487f754-7e8b-4ab9-881d-3b4692043977",
+        "cacheId": "694da648-4223-4ead-9bba-e86f14f99194"
+      }
+    },
+    {
+      "name": "color-emoji",
+      "selection": {
+        "projectId": "6d08aa37-fcdf-48a2-8904-94d4fbeff150",
+        "revisionId": "99bf6fcb-0162-4458-b664-6f8566c921f5",
+        "atUs": 0
+      },
+      "sha256": "d143cf80ec345ed0a779c35a2ddae94517b49f3faf35bcac40de04f98d54f594",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-LgaNap/library/cache/derived/94d29136-cd0e-44af-aa38-76cbd6c09d69.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 4587,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "😀",
+                "font": {
+                  "assetId": "12bc8221a908c5bcf05f0fce940d3c3f6e9d09d8d806ffe31a969b4ac9be8f9e",
+                  "postScriptName": ".AppleColorEmojiUI"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 40,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:2",
+              "trackId": "track:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:0",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:2",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "12bc8221a908c5bcf05f0fce940d3c3f6e9d09d8d806ffe31a969b4ac9be8f9e",
+                "postScriptName": ".AppleColorEmojiUI"
+              },
+              "text": "😀",
+              "visibleRange": [
+                0,
+                2
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    2
+                  ],
+                  "text": "😀",
+                  "origin": [
+                    140,
+                    70
+                  ],
+                  "width": 40,
+                  "fonts": [
+                    ".AppleColorEmojiUI"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                140,
+                30,
+                40,
+                40
+              ],
+              "visibleBounds": [
+                140,
+                30,
+                40,
+                40
+              ],
+              "decorationBounds": [
+                140,
+                30,
+                40,
+                40
+              ],
+              "verticalOffset": -31
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "6d08aa37-fcdf-48a2-8904-94d4fbeff150",
+        "revisionId": "99bf6fcb-0162-4458-b664-6f8566c921f5",
+        "cacheId": "94d29136-cd0e-44af-aa38-76cbd6c09d69"
+      }
+    },
+    {
+      "name": "devanagari",
+      "selection": {
+        "projectId": "6d08aa37-fcdf-48a2-8904-94d4fbeff150",
+        "revisionId": "20110f2f-5d20-4f0c-bee8-657e2b0ac412",
+        "atUs": 0
+      },
+      "sha256": "711fbd516c6ddd859a3c8d4c463313dbdd555cf864d51d98fa61590b790465a1",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-LgaNap/library/cache/derived/63580a5d-309a-4a7c-85fd-f3a1de3f09b9.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 4447,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "नमस्ते दुनिया",
+                "font": {
+                  "assetId": "56c66a13ed676f86db3ac6bc6c3c0215d78f0b4b8b4dc49e4245b3cc8c87bdc9",
+                  "postScriptName": "DevanagariSangamMN"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 40,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "verticalAlignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:2",
+              "trackId": "track:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:0",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:f1b32ebfbc205b6832c06453db2a82e3e784153816b5a2a27f928247202e96bd:2",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "56c66a13ed676f86db3ac6bc6c3c0215d78f0b4b8b4dc49e4245b3cc8c87bdc9",
+                "postScriptName": "DevanagariSangamMN"
+              },
+              "text": "नमस्ते दुनिया",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "नमस्ते दुनिया",
+                  "origin": [
+                    67.939453125,
+                    62.822265625
+                  ],
+                  "width": 184.12109375,
+                  "fonts": [
+                    "DevanagariSangamMN"
+                  ]
+                }
+              ],
+              "inkBounds": [
+                67.939453125,
+                25.849609375,
+                184.55078125,
+                48.30078125
+              ],
+              "visibleBounds": [
+                67.939453125,
+                25.849609375,
+                184.55078125,
+                48.30078125
+              ],
+              "decorationBounds": [
+                67.939453125,
+                25.849609375,
+                184.55078125,
+                48.30078125
+              ],
+              "verticalOffset": -25.822265625
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v17:coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+        "projectId": "6d08aa37-fcdf-48a2-8904-94d4fbeff150",
+        "revisionId": "20110f2f-5d20-4f0c-bee8-657e2b0ac412",
+        "cacheId": "63580a5d-309a-4a7c-85fd-f3a1de3f09b9"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "canonical-equivalent-literals-retain-exact-layout-ranges",
+      "exactUTF16": true
+    },
+    {
+      "name": "fallback",
+      "state": "failed",
+      "job": {
+        "jobId": "17f26e0a-9c08-4e51-a7eb-998daac54db0",
+        "attemptId": "af7f3ade-2cc5-4dc9-af38-b85e04b181d3",
+        "artifact": "frame",
+        "lane": "frame",
+        "state": "failed",
+        "reason": "FONT_SUBSTITUTED: AppleColorEmoji",
+        "generation": 1,
+        "errorCode": "UNSUPPORTED_MEDIA",
+        "inputSha256": "e3f32d394700a899367cc347810a4d34a96de325bede627b65354b5c298c71da",
+        "target": {
+          "kind": "project",
+          "projectId": "6d08aa37-fcdf-48a2-8904-94d4fbeff150",
+          "revisionId": "263257a7-26f8-4c5e-ad7e-f5420ceebf1d"
+        },
+        "retryable": false,
+        "errorDetails": {},
+        "published": null
+      }
+    },
+    {
+      "name": "missing",
+      "state": "failed",
+      "job": {
+        "jobId": "a9350109-888b-48cb-be08-565192599e85",
+        "attemptId": "7e3ecb99-d760-4b3e-b96a-a6b4adfa0ad4",
+        "artifact": "frame",
+        "lane": "frame",
+        "state": "failed",
+        "reason": "FONT_SUBSTITUTED: LastResort",
+        "generation": 1,
+        "errorCode": "UNSUPPORTED_MEDIA",
+        "inputSha256": "e3f32d394700a899367cc347810a4d34a96de325bede627b65354b5c298c71da",
+        "target": {
+          "kind": "project",
+          "projectId": "6d08aa37-fcdf-48a2-8904-94d4fbeff150",
+          "revisionId": "f700e1e6-c8fb-460b-a9dc-0a8fc97a67b7"
+        },
+        "retryable": false,
+        "errorDetails": {},
+        "published": null
+      }
+    },
+    {
+      "name": "color-emoji",
+      "fontAssetId": "12bc8221a908c5bcf05f0fce940d3c3f6e9d09d8d806ffe31a969b4ac9be8f9e",
+      "postScriptName": ".AppleColorEmojiUI",
+      "text": "😀",
+      "exactUTF16": true,
+      "noSubstitutedFonts": true,
+      "foregroundPixels": 1120,
+      "coloredPixels": 1038
+    },
+    {
+      "name": "devanagari",
+      "fontAssetId": "56c66a13ed676f86db3ac6bc6c3c0215d78f0b4b8b4dc49e4245b3cc8c87bdc9",
+      "postScriptName": "DevanagariSangamMN",
+      "text": "नमस्ते दुनिया",
+      "exactUTF16": true,
+      "noSubstitutedFonts": true,
+      "foregroundPixels": 2762,
+      "coloredPixels": 0
+    }
+  ],
+  "workerSha256": "b6719ae0dbc9493e24bd2992b4addf23bba98c4a3c42ca071f71f517dff187af"
+}

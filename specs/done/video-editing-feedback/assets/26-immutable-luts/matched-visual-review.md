@@ -1,0 +1,8 @@
+All five full frames and five face crops are aligned identically; I see no framing, scale, or subject-position shift.
+
+- **Dry/original → reference:** The dry frame is visibly warmer and redder, especially in the face and wall. The reference reduces red/green while leaving blue effectively unchanged. This is a clear global color-response difference, not a geometry or detail change. **High confidence.**
+- **Reference → graded candidate PNG:** The graded image is effectively a match. Residual differences are pixel-level and not visibly apparent; facial detail, plant edges, forehead highlight, and lighting are preserved. No added halos, ringing, banding, or blur are visible. **Very high confidence.**
+- **Encoded reference → encoded candidate:** They are visually indistinguishable in framing, color, sharpness, and lighting. Any differences are minor compression/quantization variation. **High confidence.**
+- **Lossless → encoded:** Both encoded frames are slightly brighter/bluer overall and a little softer in fine hair, plant, and facial texture. The face crops show existing low-resolution pixelation, but no new obvious artifacts or one-sided degradation. **Moderate-to-high confidence.**
+
+**Verdict:** The candidate grading matches the independently calculated reference very closely. The only clear defect is the original dry frame’s warmer/redder color response; encoding introduces mild shared softness and a small tonal lift.

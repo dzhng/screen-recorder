@@ -1,0 +1,29 @@
+✖ foreign and modified formerly-owned regular files require explicit overwrite bound to replay identity (823.243167ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1125.20325
+
+✖ failing tests:
+
+test at apps/service/tests/export-replacement.mjs:217:1
+✖ foreign and modified formerly-owned regular files require explicit overwrite bound to replay identity (823.243167ms)
+  AssertionError [ERR_ASSERTION]: {"code":0,"response":{"ok":true,"data":{"exportId":"4940589a-7011-4a84-81c1-afae098aa3fe","kind":"srt","state":"committed","abandoning":false,"cleanupPending":false,"recovery":{"state":"not_requested","jobId":null,"reason":null,"retryable":false,"published":null},"projectId":"07f35058-1930-490f-93d9-c237a41006e1","snapshot":{"projectId":"07f35058-1930-490f-93d9-c237a41006e1","revisionId":"4b48430a-9f40-4ce2-8fd6-236759089d6b","kind":"srt","placementIds":["clip:dc5f13e7dea9d16a35bea9022c2438649d27d927eace7d6a7c1e057cbe341ad6:1"],"cueCount":1,"omitted":[],"addedOverlaps":[],"discardedStyling":["clip:dc5f13e7dea9d16a35bea9022c2438649d27d927eace7d6a7c1e057cbe341ad6:1"]},"destination":{"directory":"/private/tmp/yap-replacement-output-ZKpOV3","leaf":"captions.srt"},"receipt":{"sha256":"d3726c471cc132643b511af50750f4cadb3a08c116e65d6773ecd2c77a766572","destination":{"dev":"16777232","ino":"6949332"},"file":{"dev":"16777232","ino":"6949548"},"bytes":45,"replacement":{"sha256":"2490a96d916376735144344c906827796430b37da9a1eb2040c7dfacab9369d2","bytes":12,"file":{"ino":"6949537","dev":"16777232"}},"stage":{"dev":"16777232","ino":"6949542"},"leaf":"captions.srt"},"output":"/private/tmp/yap-replacement-output-ZKpOV3/captions.srt","jobId":"2b87c17c-5e4e-4a51-a87b-d05134fa94c7","reason":null,"retryable":false},"id":"edf66264-1517-4135-b1a6-d6ebc727e290","wait":{"state":"settled","timeoutMs":5000,"job":{"jobId":"2b87c17c-5e4e-4a51-a87b-d05134fa94c7","generation":1,"attemptId":"d6848f81-7aa4-4560-8906-abd355099edc"}}},"stderr":"export.create: running \nexport.create: running (2b87c17c-5e4e-4a51-a87b-d05134fa94c7, generation 1)\nexport.create: committed (2b87c17c-5e4e-4a51-a87b-d05134fa94c7, generation 1)\n"}
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-exact-removal/apps/service/tests/export-replacement.mjs:222:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

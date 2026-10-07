@@ -1,0 +1,203 @@
+{
+  "operation": "media.renderCompositionMovie",
+  "request": {
+    "output": "/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/render/render-Q0szSC/movie.mp4",
+    "frames": "/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/render/render-Q0szSC/frames.jsonl",
+    "range": {
+      "startUs": 0,
+      "endUs": 1000000
+    },
+    "canvas": {
+      "width": 64,
+      "height": 48,
+      "fps": {
+        "numerator": 10,
+        "denominator": 1
+      },
+      "background": "#000000ff"
+    },
+    "settings": {
+      "container": "mp4",
+      "video": {
+        "codec": "h264",
+        "encoder": {
+          "hardware": "auto",
+          "id": null,
+          "gpu": null
+        },
+        "color": "rec709",
+        "rateControl": {
+          "mode": "average",
+          "bitrate": 8000000
+        },
+        "profile": "high",
+        "level": "auto",
+        "keyframeInterval": 120,
+        "keyframeIntervalSeconds": 2,
+        "frameReordering": false,
+        "entropy": "cabac",
+        "temporalCompression": true,
+        "openGop": false,
+        "prioritizeSpeed": false,
+        "powerEfficient": false,
+        "dataRateLimits": [],
+        "bufferDurationSeconds": null,
+        "initialBufferDelayPercent": null,
+        "spatialAdaptiveQuantization": true,
+        "lookAheadFrames": null,
+        "nonDroppableFrameRate": null,
+        "minimumQuantizer": null,
+        "maximumQuantizer": null
+      },
+      "audio": {
+        "codec": "aac",
+        "sampleRate": 48000,
+        "layout": "stereo",
+        "rateControl": {
+          "mode": "constant",
+          "bitrate": 192000
+        },
+        "quality": "high"
+      }
+    },
+    "processing": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0"
+        },
+        "mediaKind": "video",
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1"
+          }
+        ],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "mediaKind": "output",
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0"
+          }
+        ],
+        "steps": []
+      }
+    ],
+    "assets": [
+      {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1",
+        "path": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/assets/42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc.mov",
+        "originUs": 1250000
+      }
+    ],
+    "fonts": [],
+    "luts": [],
+    "audio": {
+      "range": {
+        "start": 0,
+        "end": 48000
+      },
+      "clips": []
+    }
+  },
+  "response": {
+    "ok": true,
+    "data": {
+      "audio": {
+        "channels": 2,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "frames": 48000,
+        "maximumBlockFrames": 8192,
+        "peak": 0,
+        "peakResidentBytes": 53149696,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "decoded": [],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 0,
+          "unknownReadInputs": 0
+        },
+        "unavailable": []
+      },
+      "bytes": 27206,
+      "codec": "h264",
+      "durationUs": 1000000,
+      "encodedAudio": {
+        "channels": 2,
+        "durationTimescale": 6000000,
+        "durationValue": 6000000,
+        "sampleRate": 48000
+      },
+      "encodedVideo": {
+        "level": "3.0",
+        "profile": "high"
+      },
+      "file": "/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/render/render-Q0szSC/movie.mp4",
+      "frameCount": 10,
+      "height": 48,
+      "mediaType": "video/mp4",
+      "peakResidentBytes": 53149696,
+      "settings": {
+        "audio": {
+          "codec": "aac",
+          "layout": "stereo",
+          "quality": "high",
+          "rateControl": {
+            "bitrate": 192000,
+            "mode": "constant"
+          },
+          "sampleRate": 48000
+        },
+        "container": "mp4",
+        "video": {
+          "codec": "h264",
+          "color": "rec709",
+          "dataRateLimits": [],
+          "encoder": {
+            "hardware": "auto"
+          },
+          "entropy": "cabac",
+          "frameReordering": false,
+          "keyframeInterval": 120,
+          "keyframeIntervalSeconds": 2,
+          "level": "auto",
+          "openGop": false,
+          "powerEfficient": false,
+          "prioritizeSpeed": false,
+          "profile": "high",
+          "rateControl": {
+            "bitrate": 8000000,
+            "mode": "average"
+          },
+          "spatialAdaptiveQuantization": true,
+          "temporalCompression": true
+        }
+      },
+      "width": 64
+    }
+  }
+}

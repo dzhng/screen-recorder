@@ -1,0 +1,23 @@
+{
+  "id": "main",
+  "operation": "media.sourceChannelPCM",
+  "params": {
+    "source": {
+      "source": "/Users/server/Downloads/20261005_graham-neubig_full-interview_final_1080p.mp4",
+      "streamId": "track:2",
+      "sourceOffsetUs": 0,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 1960000000
+        }
+      ]
+    },
+    "range": {
+      "startUs": 0,
+      "endUs": 1960000000
+    },
+    "channel": 0,
+    "output": "/private/tmp/yap-bridge-acquisition-20261006/main.f32"
+  }
+}

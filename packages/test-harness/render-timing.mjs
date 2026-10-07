@@ -376,7 +376,7 @@ test(
       const save = async (params, expected) => {
         const retained = await preview(params);
         try {
-          const video = retained.published.preview;
+          const video = retained.published.output;
           const file = join(home, `${retained.revisionId}.mp4`);
           await copyFile(video.file, file);
           const decoded = await decode(file, frames);
@@ -392,8 +392,8 @@ test(
             await call("artifact.close", { token: pcmPending.delivery.token });
           const pcm = await call("audio.get", { projectId, revisionId: retained.revisionId });
           try {
-            assert.equal(pcm.published.audio.frames, video.audio.frames);
-            const audio = await compareAudio(file, pcm.published.audio.file, video.audio.frames);
+            assert.equal(pcm.published.output.frames, video.audio.frames);
+            const audio = await compareAudio(file, pcm.published.output.file, video.audio.frames);
             report.renders.push({
               revisionId: retained.revisionId,
               file: basename(file),
@@ -425,7 +425,7 @@ test(
       try {
         assert.deepEqual(replay.published, firstSaved.retained.published);
         assert.deepEqual(
-          await decode(replay.published.preview.file, frames),
+          await decode(replay.published.output.file, frames),
           report.renders[0].decoded,
         );
       } finally {

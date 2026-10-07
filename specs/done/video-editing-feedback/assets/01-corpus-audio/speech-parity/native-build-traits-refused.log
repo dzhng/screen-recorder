@@ -1,0 +1,4 @@
+warning: '--skip-update' option is deprecated and will be removed in a future release
+error: Disabled default traits by command-line trait configuration on package 'mac' (YapNative) that declares no traits. This is prohibited to allow packages to adopt traits initially without causing an API break.
+error: Disabled default traits by command-line trait configuration on package 'mac' (YapNative) that declares no traits. This is prohibited to allow packages to adopt traits initially without causing an API break.
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.

@@ -1,0 +1,45 @@
+Building for debugging...
+[0/3] Write swift-version--58304C5D6DBC2206.txt
+[1/4] Write sources
+[3/6] Emitting module YapSpeechTests
+/Users/server/dev/yap-capability-skill/helpers/mac/Tests/YapSpeechTests/main.swift:134:13: warning: no calls to throwing functions occur within 'try' expression [#UnnecessaryEffectMarker]
+132 |                 timing(" bad", 0, 0.1, 1.1)] {
+133 |     do {
+134 |         _ = try WordTimingMerger.mergeTokensIntoWords([timing(" ok", 0, 0.1), invalid])
+    |             `- warning: no calls to throwing functions occur within 'try' expression [#UnnecessaryEffectMarker]
+135 |         preconditionFailure("Invalid token operands must refuse before grouping")
+136 |     } catch let error as NativeFailure {
+
+/Users/server/dev/yap-capability-skill/helpers/mac/Tests/YapSpeechTests/main.swift:136:7: warning: 'catch' block is unreachable because no errors are thrown in 'do' block
+134 |         _ = try WordTimingMerger.mergeTokensIntoWords([timing(" ok", 0, 0.1), invalid])
+135 |         preconditionFailure("Invalid token operands must refuse before grouping")
+136 |     } catch let error as NativeFailure {
+    |       `- warning: 'catch' block is unreachable because no errors are thrown in 'do' block
+137 |         check(error.code == "INVALID_SPEECH_TIMING" && !error.retryable && error.message.contains("Token 1"),
+138 |               "Invalid evidence must identify its token and be nonretryable: \(error)")
+
+[#UnnecessaryEffectMarker]: <https://docs.swift.org/compiler/documentation/diagnostics/unnecessary-effect-marker>
+[4/6] Compiling YapSpeechTests main.swift
+/Users/server/dev/yap-capability-skill/helpers/mac/Tests/YapSpeechTests/main.swift:134:13: warning: no calls to throwing functions occur within 'try' expression [#UnnecessaryEffectMarker]
+132 |                 timing(" bad", 0, 0.1, 1.1)] {
+133 |     do {
+134 |         _ = try WordTimingMerger.mergeTokensIntoWords([timing(" ok", 0, 0.1), invalid])
+    |             `- warning: no calls to throwing functions occur within 'try' expression [#UnnecessaryEffectMarker]
+135 |         preconditionFailure("Invalid token operands must refuse before grouping")
+136 |     } catch let error as NativeFailure {
+
+/Users/server/dev/yap-capability-skill/helpers/mac/Tests/YapSpeechTests/main.swift:136:7: warning: 'catch' block is unreachable because no errors are thrown in 'do' block
+134 |         _ = try WordTimingMerger.mergeTokensIntoWords([timing(" ok", 0, 0.1), invalid])
+135 |         preconditionFailure("Invalid token operands must refuse before grouping")
+136 |     } catch let error as NativeFailure {
+    |       `- warning: 'catch' block is unreachable because no errors are thrown in 'do' block
+137 |         check(error.code == "INVALID_SPEECH_TIMING" && !error.retryable && error.message.contains("Token 1"),
+138 |               "Invalid evidence must identify its token and be nonretryable: \(error)")
+
+[#UnnecessaryEffectMarker]: <https://docs.swift.org/compiler/documentation/diagnostics/unnecessary-effect-marker>
+[4/7] Write Objects.LinkFileList
+[5/7] Linking YapSpeechTests
+[6/7] Applying YapSpeechTests
+Build of product 'YapSpeechTests' complete! (1.01s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+YapSpeechTests/main.swift:135: Fatal error: Invalid token operands must refuse before grouping

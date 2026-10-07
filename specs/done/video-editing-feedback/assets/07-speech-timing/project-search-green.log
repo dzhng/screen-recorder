@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "overlapping phrase search"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 47 skipped (48)
+   Start at  21:38:31
+   Duration  386ms (transform 64%, import 20%, tests 16%)

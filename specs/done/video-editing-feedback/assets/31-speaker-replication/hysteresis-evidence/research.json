@@ -1,0 +1,80 @@
+{
+  "contract": "protocol.json",
+  "longExpansionContract": "long-protocol.json",
+  "incumbent": "No production-quality long-form winner; frozen .5/.1 provisional short winner retained in results.json.",
+  "activeTask": "Long four-speaker overlap under supported bounded native execution.",
+  "attempts": [
+    {
+      "id": "asymmetric-short-calibration",
+      "hypothesis": "asymmetric onset/offset retains established weak overlap without phantom starts",
+      "parent": "native .5/.5",
+      "candidate": "fixed .5/.1",
+      "evidence": "results.json#/calibration",
+      "verdict": "keep provisionally; calibration all gates green",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "asymmetric-short-confirmation",
+      "candidate": "same frozen .5/.1",
+      "evidence": "results.json#/confirmation",
+      "verdict": "keep provisionally; interpretation-held-out short case all gates green",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "asymmetric-return-regression",
+      "candidate": "same frozen .5/.1",
+      "evidence": "results.json#/continuity",
+      "verdict": "keep provisionally; three-speaker returns all gates green",
+      "inferenceCalls": 0
+    },
+    {
+      "id": "asymmetric-unedited-long",
+      "candidate": "same frozen .5/.1; new matched native scores",
+      "evidence": "long-results.json#/cases/0",
+      "transport": "long-observations/bspxd-unedited336.transport.json",
+      "verdict": "keep provisionally within selected three-speaker scope",
+      "inferenceCalls": 1
+    },
+    {
+      "id": "asymmetric-four-voice-long",
+      "candidate": "same frozen .5/.1; new matched native scores",
+      "evidence": "long-results.json#/cases/1",
+      "transport": "long-observations/four-speaker600.transport.json",
+      "verdict": "discard long-form admission; mandatory overlap recall red",
+      "inferenceCalls": 1
+    }
+  ],
+  "hypothesisQueue": [
+    {
+      "id": "asymmetric-hysteresis",
+      "status": "resolved: short win, long gate red; no threshold tuning on confirmation",
+      "reason": "Initiation and retention are distinct state transitions; documented native hysteresis."
+    },
+    {
+      "id": "supported-native-streaming",
+      "status": "next: inspect contract before preregistering a configuration",
+      "reason": "Identical repeated PCM varies by long-call position; inspect utterance preprocessing versus supported bounded state/cache path. Cause not established.",
+      "constraint": "Fixed .5/.1, complete raw operands, honest global IDs; only documented native support, no local-slot concatenation."
+    },
+    {
+      "id": "distinct-local-provider",
+      "status": "conditional if supported-native-streaming is unavailable",
+      "reason": "A different overlap-capable provider may separate current long-call behavior from threshold interpretation."
+    }
+  ],
+  "researchSpend": {
+    "newInferenceCalls": 2,
+    "retries": 0,
+    "acquisitionBytes": 0,
+    "wallSeconds": 49.836829916,
+    "analysisBudgetSeconds": 300,
+    "analysisSpend": "Each complete replay/evaluation finished below one second; source/doc/review work excluded from execution budget.",
+    "inferenceBudgetSeconds": 360
+  },
+  "handoff": {
+    "pendingJobs": [],
+    "next": "Inspect pinned NeMo model diarize/preprocessor/streaming cache contract; preregister one supported bounded native configuration with the same .5/.1 before inference. If unsupported, choose one distinct overlap-capable local provider.",
+    "stopReason": "Focused reviewed checkpoint; required long overlap unresolved. Runtime packaging withheld.",
+    "publicPromotion": false
+  }
+}

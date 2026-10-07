@@ -1,0 +1,118 @@
+{
+  "ready": {
+    "ok": true,
+    "data": {
+      "jobId": "66eac1ae-ba65-4365-bea7-4c45560bbe6d",
+      "attemptId": "bb326619-1504-4cf5-85df-99aafc3fe1e3",
+      "artifact": "asset.import",
+      "lane": "heavy",
+      "state": "ready",
+      "reason": null,
+      "generation": 1,
+      "errorCode": null,
+      "inputSha256": "2341fde336bc673d8b8bb69df348143f06822655b01dfe24d70acf9925d79cc3",
+      "target": {
+        "kind": "import",
+        "importId": "952c0884-bbb5-4a47-bf12-c1a70f497d69"
+      },
+      "retryable": false,
+      "errorDetails": null,
+      "published": {
+        "generation": 1,
+        "attemptId": "bb326619-1504-4cf5-85df-99aafc3fe1e3",
+        "output": {
+          "assetId": "de7030234493a8bea844dbe1d8676e68a2c1a4b014c721f0425a22b6df66faec"
+        }
+      }
+    },
+    "id": "test"
+  },
+  "failed": {
+    "ok": true,
+    "data": {
+      "jobId": "960f1eca-2a9c-43a4-918c-e4732081f13d",
+      "attemptId": "a1808dfe-2c83-463f-97b9-c91f45f61ae0",
+      "artifact": "asset.import",
+      "lane": "heavy",
+      "state": "failed",
+      "reason": "Controlled retained source access failure",
+      "generation": 1,
+      "errorCode": "MEDIA_UNAVAILABLE",
+      "inputSha256": "d92d4969635733fe1222b8265d1b5ec07707ed5aafd63791ff881413896ff95b",
+      "target": {
+        "kind": "import",
+        "importId": "79e52f15-2426-460e-8e50-2d8eac16fa50"
+      },
+      "retryable": true,
+      "errorDetails": {},
+      "published": null
+    },
+    "id": "test"
+  },
+  "canceled": {
+    "ok": true,
+    "data": {
+      "jobId": "960f1eca-2a9c-43a4-918c-e4732081f13d",
+      "attemptId": "70073131-c71b-4481-afd5-4a101f0e2b82",
+      "artifact": "asset.import",
+      "lane": "heavy",
+      "state": "canceled",
+      "reason": "canceled",
+      "generation": 2,
+      "errorCode": null,
+      "inputSha256": "d92d4969635733fe1222b8265d1b5ec07707ed5aafd63791ff881413896ff95b",
+      "target": {
+        "kind": "import",
+        "importId": "79e52f15-2426-460e-8e50-2d8eac16fa50"
+      },
+      "retryable": true,
+      "errorDetails": null,
+      "published": null
+    },
+    "id": "test"
+  },
+  "retried": {
+    "ok": true,
+    "data": {
+      "jobId": "960f1eca-2a9c-43a4-918c-e4732081f13d",
+      "attemptId": "adb040d8-77d8-459b-b515-e872772d499b",
+      "artifact": "asset.import",
+      "lane": "heavy",
+      "state": "running",
+      "reason": null,
+      "generation": 3,
+      "errorCode": null,
+      "inputSha256": "d92d4969635733fe1222b8265d1b5ec07707ed5aafd63791ff881413896ff95b",
+      "target": {
+        "kind": "import",
+        "importId": "79e52f15-2426-460e-8e50-2d8eac16fa50"
+      },
+      "retryable": false,
+      "errorDetails": null,
+      "published": null
+    },
+    "id": "test"
+  },
+  "stopped": {
+    "ok": true,
+    "data": {
+      "jobId": "960f1eca-2a9c-43a4-918c-e4732081f13d",
+      "attemptId": "adb040d8-77d8-459b-b515-e872772d499b",
+      "artifact": "asset.import",
+      "lane": "heavy",
+      "state": "canceled",
+      "reason": "canceled",
+      "generation": 3,
+      "errorCode": null,
+      "inputSha256": "d92d4969635733fe1222b8265d1b5ec07707ed5aafd63791ff881413896ff95b",
+      "target": {
+        "kind": "import",
+        "importId": "79e52f15-2426-460e-8e50-2d8eac16fa50"
+      },
+      "retryable": true,
+      "errorDetails": null,
+      "published": null
+    },
+    "id": "test"
+  }
+}

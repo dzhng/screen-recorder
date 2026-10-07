@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "scope": "Sampled unchanged SDR camera/chart/orientation observations; no full-video/HDR/editorial verdict",
+  "matchedSamples": 20,
+  "publicSourceAndProjectPictures": 40,
+  "fullOrientedRaster": true,
+  "exactPhysicalClocks": true,
+  "toleranceFrozenBeforeAcceptance": {
+    "rgbMAEMaximum": 1,
+    "maximumChannelDelta": 2
+  },
+  "profileAdmission": "Named sRGB observer/output PNG and frozen ICC; actual encoded reference profile agrees with independent PNG reader",
+  "focusedTests": {
+    "passed": 4,
+    "redEvidence": [
+      "wrong physical sample admitted by no-op validator",
+      "exact rational source request rejected by rounded-label prototype",
+      "shared non-sRGB observation space admitted by no-op validator",
+      "independent observer-name, PNG-name and ICC mutations each fail with enforcement removed"
+    ]
+  },
+  "durableSmoke": "4 orientation samples and8 public source/project pictures pass the final clock/profile runner",
+  "coverageSmoke": "4 chart samples pass per-sample failure-accounted runner",
+  "setupRefusal": "Wrong diagnostic binary pin exits1, writes failed report and removes scratch without starting service",
+  "unchangedVisualEvidence": {
+    "rotatedPNGCount": 16,
+    "allByteIdenticalBeforeAfterProfileAssertion": true
+  },
+  "readOnlyReplay": "20 frozen clock/profile/metric samples plus25 representative files pass; no new pixels measured",
+  "fullSuiteRun": false,
+  "visualGate": "visual-review.md"
+}

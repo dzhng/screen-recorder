@@ -39,22 +39,44 @@ its capture gaps. These ranges are normalized file timestamps, not project time.
 Keep the complete returned cursor when paging or searching; changing selection or
 generation requires a fresh read. The app prepares models marked for the product
 lifecycle in the background at install and update; reads wait for that work but do
-not own a new download. If an explicit user request still returns
-`unavailable:model_not_prepared`, discover the registered transcription model with
-`model.list`, inspect it with `model.status`, use `model.prepare` as recovery for a
-failed or interrupted lifecycle download, poll until `ready`, then retry the same
-transcript selection. Supply verified local sources when required instead of
-guessing temporary paths or installing dependencies during reads. Keep incidental
-probes read-only. Diagnose failed/canceled work before explicit transcript retry,
-and surface the exact returned reason when a retry still fails.
-A source phrase cannot cross an inference segment.
+not own a new download. Prepare speech explicitly with `transcript.prepare` when a
+bounded or new execution is required; `transcript.get` and search inspect retained
+evidence and never run inference. A preparation's `executionRange` limits primary
+source ownership; its outer `context` expands decoding without extending that
+ownership. A read's `range` only filters retained observations. Pin the returned
+`generation` when reading bounded evidence; omitting it selects full-support
+preparation, never the latest bounded take. For project reads, pass advertised
+`sourceGenerations` pins to use bounded source evidence. Context observations and
+boundary decisions remain in raw evidence; unowned decoded context is
+`not_observed`, not silence or missing physical media. Inspect this evidence when a
+seam is refused; never repair word timestamps or silently discard a boundary word.
+
+Discover registered IDs, purposes and source requirements with `model.list`, then
+inspect `model.status` with the selected `modelId`. Call `model.prepare` by default
+when the requested Yap feature needs its registered model/runtime; this separate
+preparation may download pinned inputs under its advertised acquisition policy and
+needs no additional permission. If an explicit request still returns
+`unavailable:model_not_prepared`, use `model.prepare` as recovery for a failed or
+interrupted lifecycle download, poll until `ready`, then retry the same selection.
+Supply verified local sources when required instead of guessing temporary paths or
+installing dependencies during reads. Keep incidental probes read-only. Diagnose
+failed/canceled work before explicit transcript retry and surface the exact returned
+reason when a retry still fails. Phrase search can cross accepted inference seams,
+but cannot cross unavailable, unobserved or skipped source support. Preserve
+overlapping estimates and zero-width instant pins as returned. Unfiltered source
+enumeration retains all observations; explicit source/project ranges use half-open
+membership. Never turn an instant into playable duration or treat overlapping
+estimates as clean cuts. A source phrase cannot cross an inference segment.
 
 When anonymous speaker observations are requested, inspect `speaker.prepare` and
-`speaker.get` help first. Discover the optional model through `model.list`; its
-preparation requires the advertised verified local model/runtime sources. No
-speaker runtime is bundled or downloaded implicitly. Select one explicit source
-channel and exactly 30 seconds of complete support, with the start on the 16k
-sample grid. A read selects the original `observationRange`; its `sourceRange`
+`speaker.get` help first. Discover the registered model through `model.list`; first-party
+preparation downloads its pinned model/runtime inputs by default through the
+advertised acquisition descriptor. A verified local runtime/model source may still
+be supplied when available. Select one explicit source
+channel and a complete caller-selected range of 80ms score cells, from 80ms
+through at most 30 seconds, with the start on the 16k sample grid. Separate
+windows are independent observations; slot numbers do not carry identity across
+windows or sessions. A read selects the original `observationRange`; its `sourceRange`
 only filters display and never requests inference. Keep generation, source pins
 and returned exact endpoints. Slots are anonymous and local to each observation;
 simultaneous slots may overlap, and raw scores are uncalibrated. Unavailable or
@@ -77,6 +99,17 @@ even when the head changes. If evidence expires or changes, start a fresh query.
 Project retry rebuilds the query manifest only; diagnose and explicitly retry any
 failed source dependency using its returned selection. Use project phrase search
 only when advertised; source search cannot stand in for edited speech order.
+
+For fresh recognition of what an edit produced, discover `transcript.render.prepare` and
+select the exact revision, tap, range and PCM rendition. Prepare required first-class
+speech models through the advertised model operation. Keep the returned rendered
+generation and read it with `transcript.render.get`; preserve PCM origin, model
+provenance and both PCM/project ranges. These reads need no inference. Diagnose
+failed/canceled work before explicit `transcript.render.retry` with the same
+selection. Missing source support is a refusal, not silence. Fresh ASR may complete
+a clipped word: compare it with source evidence and inspect actual boundary audio
+before deciding that a join is clean or defective.
+
 For any paginated project inspection, including raw cursor/event reads, keep the
 first page's full `dependencies` array for that query. Continuations
 return `dependencies: { manifestId }` for that same query, even on the last page.
@@ -95,7 +128,10 @@ processed audio/video. Verify returned settings separately from rendered
 media, and report whichever stage is still unavailable.
 
 For advertised `sdr-correction`, choose exposure, contrast, saturation and source
-neutral white balance explicitly. Neutral Kelvin/tint describe the illuminant the
+neutral white balance explicitly. Use advertised shadow/highlight recovery for
+separate tonal shaping when a global contrast change crushes the subject before
+controlling a bright background. Zero recovery leaves that tonal treatment off;
+do not infer a request from measured regions. Neutral Kelvin/tint describe the illuminant the
 processor corrects toward its neutral reference; they are not a warmth slider or
 camera calibration. Start from identity, adjust one cause at a time and compare
 the same dry/processed frames at the intended viewing size. Settings apply in the
@@ -111,7 +147,11 @@ derivative through ordinary edits; conversion does not accept excerpt/acquisitio
 selections or create an HDR export. An unsupported source remains a refusal.
 
 To retain a lossless processed mix, call `audio.prepare` with an explicit project
-and revision. It prepares the full output without editing the project. Pin that
+and revision. Omit the tap for the complete final mix, or select the same processing
+tap used for inspection; preparation retains whole processing-state domains rather
+than a cold excerpt. Use it to settle requested normalization before spending time
+on video encoding. A dry or intermediate preparation cannot substitute for the
+export's final mix. It does not edit the project. Pin that
 selection while polling; use `job.get/retry/cancel` for its attempts rather than
 expecting a repeated request to restart failed or canceled work. Read the published
 audio asset ID, discover its stream with `asset.get`, then inspect it through the
@@ -229,6 +269,8 @@ verbatim text while placement is clipped to the chosen occurrence. Review and
 correct display text explicitly. Repeated speech has distinct occurrence clip IDs
 even when it shares one source generation. Save the normalized placement/labels;
 seeding is one atomic edit and replay uses the same request and expected revision.
+A cue containing only instant observations has no inferred dwell: retain those
+pins and author literal text with an explicit extent if a caption is requested.
 
 Seed origin is immutable evidence separate from display text. Split/copy and
 `text.set` preserve it; the original clip may later disappear. New seed claims

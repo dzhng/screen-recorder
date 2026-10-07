@@ -1,0 +1,3 @@
+- **P2 — New adapter imports break core’s type check.** [source-transcript-read.test.ts:8](/Users/server/dev/yap-capability-skill/packages/core/src/source-transcript-read.test.ts:8) and [transcript-ownership.test.ts:7](/Users/server/dev/yap-capability-skill/packages/core/src/transcript-ownership.test.ts:7) import `reference-raw.mjs` without a declaration file. **Observed:** `tsc -p packages/core/tsconfig.check.json --noEmit --incremental false` fails with TS7016 at both imports. Add a typed declaration for the adapter.
+
+No further scoped behavioral defects found by inspection. Read-only checks confirmed operand and provenance preservation across all six historical replay cases; ingestion and cursor tests were not rerun. No files edited.

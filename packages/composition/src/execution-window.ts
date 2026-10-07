@@ -55,6 +55,7 @@ export const executionWindowManifestSchema = z
     sources: z.array(source),
     state: statePlanSchema.optional(),
     fonts: z.array(fontReferenceSchema),
+    luts: z.array(id),
     processing: z.array(processingInstructionSchema),
     requirements: z.array(
       z.discriminatedUnion("kind", [
@@ -232,6 +233,15 @@ export function executionWindow(
     mediaKind,
     sources,
     fonts,
+    luts: [
+      ...new Set(
+        processing.flatMap(({ steps }) =>
+          steps.flatMap(({ enabled, processor }) =>
+            enabled && processor.type === "lut" ? [processor.assetId] : [],
+          ),
+        ),
+      ),
+    ],
     processing,
     requirements,
     ...(state ? { state } : {}),

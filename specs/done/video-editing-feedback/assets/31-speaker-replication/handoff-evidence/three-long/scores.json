@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "id": "three-speaker600",
+      "role": "confirmation",
+      "passed": true,
+      "metrics": {
+        "referenceSpeakerSeconds": 596.7999999999997,
+        "overlapSeconds": 60.79999999999967,
+        "silenceSeconds": 63.99999999999994,
+        "missedSpeakerSeconds": 20.41000000000074,
+        "falseSpeakerSeconds": 7.920000000000027,
+        "confusedSpeakerSeconds": 0.8000000000000433,
+        "mapping": {
+          "speaker_0": "spk01",
+          "speaker_1": "spk00",
+          "speaker_2": "spk02"
+        },
+        "der": 0.048810321715819074
+      },
+      "confusionRatio": 0.0013404825737266149,
+      "overlap": {
+        "referenceOverlapSeconds": 60.79999999999967,
+        "retainedOverlapSeconds": 53.759999999998925,
+        "recall": 0.8842105263157766
+      },
+      "inferenceSeconds": 9.028562124993186,
+      "peakProcessRSSBytes": 2925346816
+    }
+  ]
+}

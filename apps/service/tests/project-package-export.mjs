@@ -38,8 +38,8 @@ test("project package export owns resource pins until commit and reopens retaine
   await f.jobs.idle();
   const adopted = f.packages.adopt(opened.packageHandle, "adopt");
   assert.equal(adopted.state, "ready", JSON.stringify(adopted));
-  assert.notEqual(adopted.result.projectId, f.projectId);
-  const document = f.projects.revision(adopted.result.projectId).document;
+  assert.notEqual(adopted.published.output.projectId, f.projectId);
+  const document = f.projects.revision(adopted.published.output.projectId).document;
   assert.equal(document.clips[0].assetId, f.asset.id);
   assert.equal(await readFile(f.assets.path(document.clips[0].assetId), "utf8"), "source identity");
   await f.packages.closeAdmission(admission.id);
@@ -318,12 +318,15 @@ test("canceled package keeps admitted transcript bytes through regeneration and 
       const lines = request.track.available.map((source, ordinal) => ({
         ordinal,
         source,
+        owned: source,
         state: "transcribed",
         words: [{ text: word, source: { startUs: 100, endUs: 900000 }, confidence: 0.8 }],
       }));
       const body = lines.map((line) => JSON.stringify(line) + "\n").join("");
       await writeFile(request.output, body);
       return {
+        execution: request.execution,
+        available: request.track.available,
         output: {
           file: request.output,
           bytes: Buffer.byteLength(body),
@@ -667,7 +670,7 @@ for (const kind of ["source", "project"])
       kind === "source"
         ? old
         : recipientRecords
-            .portableGenerations({ kind: "project", projectId: adopted.result.projectId })
+            .portableGenerations({ kind: "project", projectId: adopted.published.output.projectId })
             .find((value) => value.generation === old.generation);
     assert.ok(adoptedMetadata);
     assert.deepEqual(

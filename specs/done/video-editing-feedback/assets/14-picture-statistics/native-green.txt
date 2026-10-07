@@ -1,0 +1,1 @@
+PASS authored chart, masks, alpha, dark scene, border transition, unchanged PNG and invalid integer refusal

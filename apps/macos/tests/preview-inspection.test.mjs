@@ -172,8 +172,8 @@ test("public project preview pins an explicitly authored pointer movie through e
     });
     const params = { projectId, revisionId: initial.revisionId };
     const ready = await preview(params);
-    assert.equal(ready.published.preview.revisionId, authored.revision.id);
-    assert.equal(ready.published.preview.durationUs, 4_000_000);
+    assert.equal(ready.published.output.revisionId, authored.revision.id);
+    assert.equal(ready.published.output.durationUs, 4_000_000);
     await call("artifact.close", { token: ready.delivery.token });
     const output = join(home, "preview.mp4");
     const result = JSON.parse(
@@ -253,7 +253,7 @@ test("public project preview pins an explicitly authored pointer movie through e
     assert.equal(hash("sha256", await readFile(join(source, "video.mov"))), before);
     const editedParams = { projectId, revisionId: cut.revision.id };
     const edited = await preview(editedParams);
-    assert.equal(edited.published.preview.durationUs, 3_000_000);
+    assert.equal(edited.published.output.durationUs, 3_000_000);
     await call("artifact.close", { token: edited.delivery.token });
     const editedFile = join(home, "edited.mp4");
     const download = JSON.parse(
@@ -305,7 +305,7 @@ test("public project preview pins an explicitly authored pointer movie through e
         1,
       );
       await cache.reconcile();
-      assert.equal(cache.acquire(edited.published.preview.cacheId), null);
+      assert.equal(cache.acquire(edited.published.output.cacheId), null);
     } finally {
       catalog.close();
     }

@@ -1,0 +1,87 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill
+
+ ❯ packages/core/src/transcript-ownership.test.ts (8 tests | 1 failed | 7 skipped) 14ms
+   × raw transcript ownership is mandatory even when its receipt declares it 14ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/transcript-ownership.test.ts > raw transcript ownership is mandatory even when its receipt declares it
+AssertionError: promise resolved "{ …(13) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "available": [
++     {
++       "endUs": 900,
++       "startUs": 100,
++     },
++   ],
++   "engine": {
++     "computeUnits": "cpuAndNeuralEngine",
++     "decoder": "parakeet-tdt-batch",
++     "encoderPrecision": "int8",
++     "kindPolicy": "word-kind-v1",
++     "model": "model",
++     "modelDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
++     "modelRevision": "model-pin",
++     "policy": "transcript-v3",
++     "runtime": "FluidAudio",
++     "runtimeRevision": "runtime-pin",
++     "runtimeVersion": "0.15.7",
++   },
++   "execution": {
++     "context": {
++       "afterUs": 0,
++       "beforeUs": 0,
++     },
++     "executionRange": null,
++     "recipe": "source-windows-20s-context4s-guard1s-v2",
++   },
++   "gapCount": 2,
++   "generation": "same-attempt",
++   "maxWordUs": 200,
++   "owner": {
++     "assetId": "same-owner",
++     "kind": "asset",
++   },
++   "raw": {
++     "bytes": 154,
++     "sha256": "fe5eeb7142fb807d7fd924770b9b01588c2b095e37f0d93acdda70847b51d246",
++   },
++   "segmentCount": 1,
++   "source": {
++     "acquisitionId": "context-a",
++     "durationUs": 1000,
++     "kind": "asset",
++     "streamId": "track:7",
++     "supportDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
++   },
++   "sourceId": "same-owner",
++   "track": {
++     "source": "/tmp/transcript-owners-AdVbJg/immutable.mov",
++     "sourceOffsetUs": -250000,
++     "streamId": "track:7",
++   },
++   "wordCount": 1,
+  }
+
+ ❯ packages/core/src/transcript-ownership.test.ts:151:38
+    149|   input.receipt.output.bytes = Buffer.byteLength(missingOwnership);
+    150|   input.receipt.output.sha256 = createHash("sha256").update(missingOwn…
+    151|   await expect(f.store.ingest(input)).rejects.toMatchObject({ code: "I…
+       |                                      ^
+    152|   expect(f.store.wordRecords(asset, { limit: 10 })).toEqual([]);
+    153| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  23:03:23
+   Duration  250ms (transform 64%, import 28%, tests 7%, worker 1%)
