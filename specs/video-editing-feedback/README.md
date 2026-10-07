@@ -137,7 +137,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [30 — Scene observations from delivered pixels](slices/30-delivered-scenes.md) (helper integrated; native planted flash/hold and physical empty-edit receipts retained; broader delivery gates open)
 - [ ] [31 — Speaker continuity and attribution replication](slices/31-speaker-continuity-replication.md)
 - [ ] [32 — Public speaker labeling and transcript views](slices/32-speaker-labeling.md)
-- [ ] [33 — Focused launch, podcast and teaser references](slices/33-editing-references.md)
+- [x] [33 — Focused launch, podcast and teaser references](slices/33-editing-references.md)
 - [ ] [34 — Fresh-agent delivery and clean-state reproduction](slices/34-autonomous-trailer-acceptance.md)
 
 ## Outcome and boundaries

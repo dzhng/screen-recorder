@@ -2084,3 +2084,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** future parity work must address the actual color/compositing path rather than silently changing precision or widening the tolerance. The strict moving reference gate remains open.
 - **Verdict:** sound; the experiment ruled out this specific cause without changing shipped behavior.
 - **Confidence:** high for the bounded probe result; low for any broader claim about all compositor formats.
+
+## Close the focused use-case references at their routing boundary — slice33
+
+- **When:** launch, podcast/interview and teaser references each had a case-selected router and immutable reference hashes, while the final media replay still depended on the separate workflow slice.
+- **The choice:** close slice33 for the reference/routing contract and leave media-aware examples, rendered acceptance and unresolved capability gates owned by slice34. The teaser's question-end strategy stays in its own reference.
+- **The gap:** the plan did not distinguish a complete guidance surface from the downstream media workflow that consumes it.
+- **The reach:** future edits to use-case guidance can be checked through the router without implying that the complete native trailer workflow or open speaker/sync/visual gates are solved.
+- **Verdict:** sound bounded closure; no editorial engine or media claim is added.
+- **Confidence:** high for the declared slice scope.

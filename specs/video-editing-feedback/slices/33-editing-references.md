@@ -1,8 +1,9 @@
 # 33 — Teach complete workflows and external interchange
 
-Status: partial — focused launch, podcast/interview and teaser references plus
-case-selected routing are implemented. Media-aware fresh-agent examples and
-final delivery acceptance remain with slice 34. Depends on: [02](02-capability-first-skill.md), [12](12-contextual-join-verification.md), [16](16-subject-reframe.md), [19](19-dialogue-matching.md), [21](21-synced-angles.md), [23](23-timed-word-captions.md), [26](26-immutable-luts.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [32](32-speaker-labeling.md).
+Status: complete for the declared routing/reference scope — focused launch,
+podcast/interview and teaser references plus case-selected routing are
+implemented and replayed. Media-aware fresh-agent examples and final delivery
+acceptance remain with slice 34. Depends on: [02](02-capability-first-skill.md), [12](12-contextual-join-verification.md), [16](16-subject-reframe.md), [19](19-dialogue-matching.md), [21](21-synced-angles.md), [23](23-timed-word-captions.md), [26](26-immutable-luts.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [32](32-speaker-labeling.md).
 
 ## Contract
 
