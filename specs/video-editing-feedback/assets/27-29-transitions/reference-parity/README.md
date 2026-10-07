@@ -41,6 +41,12 @@ decoded RGB was also byte-identical to the retained candidate, so the operator
 choice is not the cause. The [source-over probe](source-over-kernel-probe.json)
 retains that result and the production operator remains unchanged.
 
+A fifth probe bypassed the per-source CGImage materialization before composition.
+It did not remove the mismatch and worsened the first sample to a maximum channel
+delta of 2, so the production source-rasterization step remains unchanged. The
+[source-rasterization probe](source-rasterization-probe.json) retains those
+measurements.
+
 Replay the immutable receipt with:
 
 ```sh

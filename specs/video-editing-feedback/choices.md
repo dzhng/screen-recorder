@@ -2120,3 +2120,13 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** later parity work must investigate source decode/sampling or quantization rather than adding a second compositor that has no measured benefit.
 - **Verdict:** sound bounded investigation; no shipped renderer change.
 - **Confidence:** high for the retained three-sample result; low beyond this transition case.
+
+
+## Keep source-rasterization materialization after the direct-surface probe — slices27–29
+
+- **When:** working format, working color space, output color space and source-over arithmetic probes did not explain the moving mismatch, so the per-source `CGImage` materialization was tested next.
+- **The choice:** temporarily compose decoded movie `CIImage` surfaces directly. The three-sample receipt did not pass the strict oracle and worsened the first sample's maximum channel delta to `2`; keep the existing materialization path.
+- **The gap:** the plan left source decode/materialization as a possible cause without prescribing a bounded probe.
+- **The reach:** future parity work should investigate source decode or sampling rather than removing the shared source-picture color preparation.
+- **Verdict:** sound bounded investigation; no shipped renderer change.
+- **Confidence:** high for the retained three-sample result; low beyond this transition case.
