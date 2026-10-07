@@ -2308,3 +2308,11 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** body pose is unavailable on 50 frames. The 22 available envelopes score 0.373–0.484 IoU, all below the unchanged 0.5 requirement. The hypothesis cannot establish complete-head coverage and is refused; no production behavior changes.
 - **Verdict:** sound bounded refusal, replayed from `assets/15-face-observations/body-pose-head-probe.json`.
 - **Confidence:** high for this source and native Vision request; unavailable frames remain an explicit capability boundary.
+
+## Refuse the person-segmentation full-face hypothesis — slice15
+
+- **When:** Vision face rectangles, landmark contours and body-pose head joints each failed the unchanged full-face gate, so a third built-in Vision source was measured without adding a model.
+- **The choice:** run `VNGeneratePersonSegmentationRequest` at its accurate quality level and use the exact foreground mask envelope as an independent delivered-pixel candidate. It does not consume or enlarge the face detector rectangle.
+- **The reach:** all 72 masks are available, but each includes the whole person and scores only 0.169–0.181 IoU against the authored face zone. A person silhouette cannot establish complete-head localization, so the hypothesis is refused and no production behavior changes.
+- **Verdict:** sound bounded refusal, replayed from `assets/15-face-observations/person-segmentation-probe.json`.
+- **Confidence:** high for the retained source and Vision recipe; this result closes the built-in person-mask hypothesis, not future dedicated head models.

@@ -61,6 +61,8 @@ Graham frames; it remains refused rather than turning visible landmarks into a
 complete-head localization claim.
 The body-pose head-joint probe is also refused: pose is unavailable on 50 frames
 and the 22 available envelopes remain below 0.5 IoU.
+The person-segmentation probe is refused as well: its whole-person mask envelope
+scores only 0.169–0.181 IoU on all 72 frames and cannot isolate a head.
 Slice 12D now passes: a fresh receipt-driven consumer
 discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never

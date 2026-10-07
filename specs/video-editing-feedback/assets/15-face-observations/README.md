@@ -89,6 +89,14 @@ available frames its envelope reaches only 0.373–0.484 IoU, below the unchange
 complete-head quality claim. Replay is owned by
 [`face-body-pose-head-replay.mjs`](../../../../packages/test-harness/editing/face-body-pose-head-replay.mjs).
 
+A third built-in Vision hypothesis is retained in
+[`person-segmentation-probe.json`](person-segmentation-probe.json). The exact
+foreground envelope from `VNGeneratePersonSegmentationRequest` is a whole-person
+silhouette: across all 72 frames it scores only 0.169–0.181 IoU against the
+authored face zone. It cannot distinguish a complete head from the torso, so it
+remains refused under the unchanged 0.5 gate. The machine-readable replay is
+[`face-person-segmentation-replay.mjs`](../../../../packages/test-harness/editing/face-person-segmentation-replay.mjs).
+
 A previous scratch metadata control was counter-rotated in the wrong direction;
 its upside-down raster is retained in [failed-controls.json](failed-controls.json).
 The corrected control is byte-identical to its upright input. Initial integer-us

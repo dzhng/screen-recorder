@@ -1,0 +1,971 @@
+{
+  "kind": "face-localization-person-segmentation-probe",
+  "status": "refused",
+  "recipe": {
+    "detector": "VNGeneratePersonSegmentationRequest accurate / OneComponent8",
+    "sourceScale": "640x360",
+    "maskThreshold": 128,
+    "minimumBoxIoU": 0.5,
+    "candidate": "axis-aligned envelope of every foreground person-mask pixel in delivered raster"
+  },
+  "source": {
+    "asset": "fixtures/video-editing-feedback/graham-picture.mov",
+    "sha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+    "frames": 72
+  },
+  "implementation": {
+    "path": "packages/test-harness/editing/PersonSegmentationProbe.swift",
+    "sha256": "27c063952aa505ff766c68defc246b64eb843c474a02bdbfbcdafd207e09641d"
+  },
+  "authoredZone": {
+    "x": 280,
+    "y": 68,
+    "width": 116,
+    "height": 164
+  },
+  "frames": [
+    {
+      "candidate": [
+        165.07936507936506,
+        46.19047619047619,
+        345.7142857142857,
+        313.8095238095238
+      ],
+      "iou": 0.1753550960007023,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 0,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        163.8095238095238,
+        46.19047619047619,
+        345.39682539682536,
+        313.8095238095238
+      ],
+      "iou": 0.17551626796393827,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 1,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.42857142857142,
+        350.4761904761905,
+        313.57142857142856
+      ],
+      "iou": 0.17310389224522135,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 2,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.42857142857142,
+        350.4761904761905,
+        313.57142857142856
+      ],
+      "iou": 0.17310389224522135,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 3,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160,
+        46.19047619047619,
+        352.06349206349205,
+        313.8095238095238
+      ],
+      "iou": 0.17219269571214138,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 4,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.03174603174602,
+        45.95238095238095,
+        344.76190476190476,
+        314.04761904761904
+      ],
+      "iou": 0.17570618960454723,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 5,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        165.3968253968254,
+        45.95238095238095,
+        346.66666666666663,
+        314.04761904761904
+      ],
+      "iou": 0.17474077098034643,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 6,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        165.3968253968254,
+        45.95238095238095,
+        346.66666666666663,
+        314.04761904761904
+      ],
+      "iou": 0.17474077098034643,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 7,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        165.3968253968254,
+        45.95238095238095,
+        346.66666666666663,
+        314.04761904761904
+      ],
+      "iou": 0.17474077098034643,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 8,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        45.95238095238095,
+        350.4761904761905,
+        314.04761904761904
+      ],
+      "iou": 0.1728414147740383,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 9,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.66666666666666,
+        45.95238095238095,
+        342.53968253968253,
+        314.04761904761904
+      ],
+      "iou": 0.17684608147408554,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 10,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.03174603174602,
+        45.95238095238095,
+        346.031746031746,
+        314.04761904761904
+      ],
+      "iou": 0.17506139624820027,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 11,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.34920634920633,
+        45.95238095238095,
+        345.39682539682536,
+        314.04761904761904
+      ],
+      "iou": 0.17538320028542126,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 12,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.984126984127,
+        45.71428571428571,
+        344.1269841269841,
+        314.2857142857143
+      ],
+      "iou": 0.17589701442468972,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 13,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        163.8095238095238,
+        45.95238095238095,
+        348.25396825396825,
+        314.04761904761904
+      ],
+      "iou": 0.17394432261671675,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 14,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        163.8095238095238,
+        45.95238095238095,
+        347.3015873015873,
+        314.04761904761904
+      ],
+      "iou": 0.17442131801694544,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 15,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        162.53968253968253,
+        45.95238095238095,
+        349.5238095238095,
+        314.04761904761904
+      ],
+      "iou": 0.17331237230748256,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 16,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        45.95238095238095,
+        350.7936507936508,
+        314.04761904761904
+      ],
+      "iou": 0.17268499720410704,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 17,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        45.95238095238095,
+        350.7936507936508,
+        314.04761904761904
+      ],
+      "iou": 0.17268499720410704,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 18,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        45.95238095238095,
+        350.7936507936508,
+        314.04761904761904
+      ],
+      "iou": 0.17268499720410704,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 19,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        163.8095238095238,
+        45.95238095238095,
+        347.9365079365079,
+        314.04761904761904
+      ],
+      "iou": 0.17410303094027219,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 20,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        162.53968253968253,
+        45.95238095238095,
+        349.5238095238095,
+        314.04761904761904
+      ],
+      "iou": 0.17331237230748256,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 21,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160.95238095238093,
+        45.95238095238095,
+        351.4285714285714,
+        314.04761904761904
+      ],
+      "iou": 0.1723730098559515,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 22,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.19047619047619,
+        351.1111111111111,
+        313.8095238095238
+      ],
+      "iou": 0.17265976450702064,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 23,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.19047619047619,
+        350.7936507936508,
+        313.8095238095238
+      ],
+      "iou": 0.17281601768756996,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 24,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        162.53968253968253,
+        46.19047619047619,
+        349.5238095238095,
+        313.8095238095238
+      ],
+      "iou": 0.17344386879633497,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 25,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.19047619047619,
+        350.7936507936508,
+        313.8095238095238
+      ],
+      "iou": 0.17281601768756996,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 26,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160,
+        45.95238095238095,
+        351.74603174603175,
+        314.04761904761904
+      ],
+      "iou": 0.17221743854741722,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 27,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160.95238095238093,
+        45.95238095238095,
+        351.1111111111111,
+        314.04761904761904
+      ],
+      "iou": 0.1725288624869243,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 28,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        45.95238095238095,
+        350.7936507936508,
+        314.04761904761904
+      ],
+      "iou": 0.17268499720410704,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 29,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160,
+        45.95238095238095,
+        351.74603174603175,
+        314.04761904761904
+      ],
+      "iou": 0.17221743854741722,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 30,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160.95238095238093,
+        45.95238095238095,
+        351.4285714285714,
+        314.04761904761904
+      ],
+      "iou": 0.1723730098559515,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 31,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.19047619047619,
+        350.7936507936508,
+        313.8095238095238
+      ],
+      "iou": 0.17281601768756996,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 32,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        158.73015873015873,
+        46.42857142857142,
+        353.3333333333333,
+        313.57142857142856
+      ],
+      "iou": 0.17170413031331933,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 33,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.666666666666664,
+        350.7936507936508,
+        313.3333333333333
+      ],
+      "iou": 0.1730786560123231,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 34,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160.95238095238093,
+        46.904761904761905,
+        353.6507936507936,
+        313.0952380952381
+      ],
+      "iou": 0.17181090988524894,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 35,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160.63492063492063,
+        46.904761904761905,
+        355.23809523809524,
+        313.0952380952381
+      ],
+      "iou": 0.171043211449658,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 36,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        47.61904761904761,
+        358.4126984126984,
+        312.38095238095235
+      ],
+      "iou": 0.16991585473870685,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 37,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        47.61904761904761,
+        358.4126984126984,
+        312.38095238095235
+      ],
+      "iou": 0.16991585473870685,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 38,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        47.61904761904761,
+        359.36507936507934,
+        312.38095238095235
+      ],
+      "iou": 0.16946554770318023,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 39,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        47.857142857142854,
+        357.4603174603174,
+        312.1428571428571
+      ],
+      "iou": 0.1704985144148502,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 40,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160,
+        47.857142857142854,
+        359.68253968253964,
+        312.1428571428571
+      ],
+      "iou": 0.16944512553497032,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 41,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        47.857142857142854,
+        359.68253968253964,
+        312.1428571428571
+      ],
+      "iou": 0.16944512553497032,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 42,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        165.3968253968254,
+        48.095238095238095,
+        351.74603174603175,
+        311.90476190476187
+      ],
+      "iou": 0.17340061178934604,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 43,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        48.57142857142857,
+        355.55555555555554,
+        311.4285714285714
+      ],
+      "iou": 0.17180504587155965,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 44,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        48.80952380952381,
+        353.6507936507936,
+        311.19047619047615
+      ],
+      "iou": 0.17286254514085875,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 45,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        163.8095238095238,
+        48.80952380952381,
+        350.4761904761905,
+        311.19047619047615
+      ],
+      "iou": 0.17442832906423608,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 46,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        48.80952380952381,
+        350.7936507936508,
+        311.19047619047615
+      ],
+      "iou": 0.17427047537277524,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 47,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.34920634920633,
+        48.80952380952381,
+        344.76190476190476,
+        311.19047619047615
+      ],
+      "iou": 0.17731940634154386,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 48,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        49.047619047619044,
+        346.984126984127,
+        310.95238095238096
+      ],
+      "iou": 0.17631868678447982,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 49,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.03174603174602,
+        48.80952380952381,
+        340.9523809523809,
+        311.19047619047615
+      ],
+      "iou": 0.17930062875876782,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 50,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160,
+        48.33333333333333,
+        346.66666666666663,
+        311.66666666666663
+      ],
+      "iou": 0.17607568901686552,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 51,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        167.3015873015873,
+        48.33333333333333,
+        338.4126984126984,
+        311.66666666666663
+      ],
+      "iou": 0.1803702180172769,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 52,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        165.7142857142857,
+        48.095238095238095,
+        338.73015873015873,
+        311.90476190476187
+      ],
+      "iou": 0.18006361561630313,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 53,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.984126984127,
+        48.33333333333333,
+        337.46031746031747,
+        311.66666666666663
+      ],
+      "iou": 0.18087925908411773,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 54,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.34920634920633,
+        48.095238095238095,
+        338.0952380952381,
+        311.90476190476187
+      ],
+      "iou": 0.18040176325126334,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 55,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.03174603174602,
+        48.33333333333333,
+        338.73015873015873,
+        311.66666666666663
+      ],
+      "iou": 0.18020117376421474,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 56,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        165.3968253968254,
+        48.33333333333333,
+        340,
+        311.66666666666663
+      ],
+      "iou": 0.1795281535073923,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 57,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        163.8095238095238,
+        47.38095238095238,
+        343.17460317460313,
+        312.6190476190476
+      ],
+      "iou": 0.17732552789897937,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 58,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        163.8095238095238,
+        47.857142857142854,
+        343.4920634920635,
+        312.1428571428571
+      ],
+      "iou": 0.17743191056480712,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 59,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        165.7142857142857,
+        47.857142857142854,
+        343.8095238095238,
+        312.1428571428571
+      ],
+      "iou": 0.17726807685237425,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 60,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        48.095238095238095,
+        348.57142857142856,
+        311.90476190476187
+      ],
+      "iou": 0.17497985233387564,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 61,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        165.07936507936506,
+        47.61904761904761,
+        346.66666666666663,
+        312.38095238095235
+      ],
+      "iou": 0.17567307692307696,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 62,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        163.8095238095238,
+        47.38095238095238,
+        351.1111111111111,
+        312.6190476190476
+      ],
+      "iou": 0.1733172655142827,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 63,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        166.66666666666666,
+        47.14285714285714,
+        350.1587301587301,
+        312.85714285714283
+      ],
+      "iou": 0.1736564040785405,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 64,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        162.53968253968253,
+        47.14285714285714,
+        354.6031746031746,
+        312.85714285714283
+      ],
+      "iou": 0.17147986902294554,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 65,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.904761904761905,
+        356.19047619047615,
+        313.0952380952381
+      ],
+      "iou": 0.1705858766596857,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 66,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        160,
+        46.904761904761905,
+        358.73015873015873,
+        313.0952380952381
+      ],
+      "iou": 0.16937818903731616,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 67,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        158.73015873015873,
+        46.904761904761905,
+        359.36507936507934,
+        313.0952380952381
+      ],
+      "iou": 0.1690789342863669,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 68,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.666666666666664,
+        356.5079365079365,
+        313.3333333333333
+      ],
+      "iou": 0.1703044656220989,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 69,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.666666666666664,
+        355.55555555555554,
+        313.3333333333333
+      ],
+      "iou": 0.17076063829787236,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 70,
+      "status": "available"
+    },
+    {
+      "candidate": [
+        161.26984126984127,
+        46.19047619047619,
+        353.3333333333333,
+        313.8095238095238
+      ],
+      "iou": 0.171573854038423,
+      "maskHeight": 1512,
+      "maskWidth": 2016,
+      "ordinal": 71,
+      "status": "available"
+    }
+  ],
+  "candidateFrameCount": 72,
+  "unavailableFrameCount": 0,
+  "additionalRefusal": {
+    "reason": "Person segmentation returns a whole-person silhouette rather than a head region. Its full-mask envelope is far broader and taller than the authored face zone and remains below the unchanged 0.5 full-face IoU gate on all 72 frames; it cannot authorize complete-head localization."
+  },
+  "promotion": false,
+  "interpretation": "An independent built-in Vision person-segmentation hypothesis was evaluated without changing face-detector thresholds or widening boxes. Whole-person masks do not identify a complete head region and remain refused."
+}
