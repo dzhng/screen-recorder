@@ -50,6 +50,11 @@ recall at `0.6054` against the unchanged `0.8` gate. The complete refusal and
 replay are retained under
 `assets/31-speaker-replication/nemotron3-admission-short-gate/`; long-form
 inference and production promotion remain blocked.
+The follow-up closure admission passes only a donor-denied relocation smoke test;
+clean first-party materialization is refused because available scratch storage
+was about 152 MiB against a 1.62 GB base runtime before staging. Its exact
+boundary is retained under `assets/31-speaker-replication/nemotron3-closure/`;
+short controls were not rerun.
 The distinct NVIDIA `diar_streaming_sortformer_4spk-v2` checkpoint then restored
 in the sealed NeMo 2.7.3 runtime and passed both calibration controls, but its
 held-out `aiqwk30` control failed DER 34.38%, identity confusion 13.99% and

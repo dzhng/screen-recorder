@@ -25,9 +25,11 @@ source/runtime hashes are in `protocol.json`.
 This proves that the candidate can execute with a compatible source overlay. It
 does not authorize replacing the registered runtime: the overlay still depends
 on the existing sealed closure and has not been packaged, relocated and hashed
-as one runtime. Prepare that closure separately, then rerun the same three short
-controls. Do not tune thresholds, add count hints or open a long case while the
-short gate is red.
+as one runtime. The follow-up [closure admission](../nemotron3-closure/README.md)
+records a donor-denied APFS relocation smoke test, but clean materialization was
+refused because the machine lacked scratch space. Prepare that closure separately,
+then rerun the same three short controls. Do not tune thresholds, add count hints
+or open a long case while the short gate is red.
 
 `worker.py` is the exact inference worker used for the retained fixtures. The
 compressed JSON fixtures contain complete native probability output and measured

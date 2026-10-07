@@ -123,6 +123,10 @@ Keep the required gate unchanged; proceed through these separately verifiable pa
    Long-form inference remains blocked; seal the source/lhotse overlay as a
    relocatable runtime and rerun these same short controls before considering a
    different recipe or provider.
+   The closure follow-up proves donor-denied relocation, but a clean
+   `python-wheels-v1` materialization was refused because the machine had only
+   about 152 MiB free against a 1.62 GB base runtime before staging and output.
+   Its exact boundary is retained in [Nemotron-3 closure evidence](../assets/31-speaker-replication/nemotron3-closure/README.md).
    The distinct `nvidia/diar_streaming_sortformer_4spk-v2` checkpoint was then
    admitted through the sealed NeMo 2.7.3 runtime using its official
    very-high-latency recipe. Both calibration controls passed, but held-out

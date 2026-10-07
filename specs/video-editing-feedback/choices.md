@@ -2355,6 +2355,27 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high for the retained three-case measurements and unchanged
   gate; low for any claim outside these controls.
 
+## Refuse Nemotron-3 closure admission without clean materialization — slice31
+
+- **When:** the source overlay executed the checkpoint but was not one relocatable
+  runtime closure, so a clean first-party acquisition was required before another
+  quality run.
+- **The choice:** deny the donor runtime/source roots and verify a relocated
+  closure can restore the checkpoint offline, then require an independent
+  `python-wheels-v1` materialization before calling the runtime sealed.
+- **The gap:** the machine had about 152 MiB free while the base runtime alone was
+  about 1.62 GB. Starting pip/install/assembly would exhaust storage and leave no
+  trustworthy complete inventory. An APFS clone shares donor blocks and cannot
+  substitute for clean acquisition evidence.
+- **The reach:** no short controls were rerun, no long-form inference was opened,
+  and production speaker defaults remain unchanged. The exact revisions, hashes,
+  donor-denied smoke receipt and storage refusal are retained in
+  `assets/31-speaker-replication/nemotron3-closure/`.
+- **Verdict:** sound refusal; a fresh materialization on scratch storage is the
+  smallest next step.
+- **Confidence:** high for the relocation boundary and storage blocker; no new
+  quality claim.
+
 ## Retain native transition source parity as a refusal — slices27–29
 
 - **When:** the independent moving alpha/mirror reference still failed the strict zero-difference gate after the working-format, color-space, output, source-over, rasterization and alpha-conversion probes.
