@@ -18,6 +18,8 @@ re-decode reproduces every captured PCM hash, retained in
 match all original numerical results exactly, excluding elapsed time. This
 preservation proof says nothing about lexical or speaker truth. The fixture set
 adds roughly11.5MB of lossless WAV through existing LFS ownership.
+The [real replay receipt](real-replay.json) now makes that nine-comparison
+refusal executable without rerunning inference.
 
 [Controls](controls.json) cover independently authored known delays, gains,
 polarity, noise, silence, unrelated and periodic audio, one gated anchor,

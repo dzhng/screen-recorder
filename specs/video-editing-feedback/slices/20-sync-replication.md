@@ -78,6 +78,11 @@ source-bound accepted evidence shape and refuses drift, ambiguity, duplicate
 sources and malformed anchor spread. Its focused controls pass, but no accepted
 receipt has been promoted from the unlike-microphone real corpus.
 
+The [real comparison replay gate](../assets/20-synchronization/README.md) now
+rechecks all nine retained source/window results against the original numerical
+operands and refuses any newly accepted real offset before the composition
+boundary. It does not rerun inference or promote a shared clock.
+
 The composition boundary does not manufacture a verdict from these refusals. It
 accepts only a caller-supplied synchronization receipt whose status is accepted,
 whose fingerprint and generation are retained, and whose source set is checked

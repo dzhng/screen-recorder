@@ -1979,3 +1979,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** the native receipt and replay test cover all nine retained source/sample selections without adding synchronization, speaker identity or automatic camera choice. The runner refuses a non-empty output directory so a failed rerun cannot leave two process-specific receipt sets mixed together. The source-choice and synchronization owners remain separate.
 - **Verdict:** sound scoped native delivery gate; broader synchronized multicamera behavior remains open.
 - **Confidence:** high for source identity, selection order and native frame preservation; medium for encoded preview parity because the codec tolerance is explicit rather than byte-exact.
+
+## Replay all retained real synchronization refusals — slice20
+
+- **When:** the unlike-microphone estimator had a frozen original/derivative comparison set, but no cheap executable guard that kept every real result refused after later edits.
+- **The choice:** add a case-selected replay that verifies all nine source/window results against the original numerical operands (ignoring elapsed runtime only), checks the physical multicam window bank first, and rejects any admitted real offset or missing anchor coverage.
+- **The gap:** a receipt-adapter control pass and a saved research report could drift independently from the actual retained real comparisons; rerunning inference would add cost and a new model/runtime variable.
+- **The reach:** the real synchronization refusal is now independently replayable and source-bound without declaring a clock, retiming media or adding a second estimator. The accepted synthetic constant-offset receipt controls remain separate.
+- **Verdict:** sound as a bounded refusal/replay gate; global/raw-to-raw synchronization and lexical anchors remain open.
+- **Confidence:** high for retained numerical identity and refusal scope; low for any synchronization claim beyond the retained windows.

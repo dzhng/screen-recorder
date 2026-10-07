@@ -27,6 +27,10 @@ keep input bytes independent of parameter tuning. [Frozen research](../../../../
 records refused real comparisons and the justified next hypothesis. This owner
 is an experiment, never a production synchronization fallback.
 
+The [real replay gate](real-replay.mjs) checks all nine retained source/window
+comparisons against their original numerical results and rejects any newly
+admitted real offset. It does not run inference or manufacture a shared clock.
+
 [The lexical scout](lexical-scout.mjs) independently recognizes retained windows
 before looking for unambiguous shared utterances. Its separate
 [frozen checkpoint](../../../../specs/video-editing-feedback/assets/20-synchronization/lexical/README.md)
