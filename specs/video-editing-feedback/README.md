@@ -35,6 +35,9 @@ binding checkpoint now replays caller-authored labels through source, project an
 immutable package reads, project transcript words can join selected speaker
 generations through retimes and cursor continuation, and source transcript pages
 can attach generation-pinned word attribution with explicit unknown/overlap states.
+A word with one covering turn plus a partial competing turn is retained as overlap
+evidence rather than being confidently misassigned; protocol, Core and service
+regressions cover that rule.
 The retained Community-1 AHC threshold probe reuses one prepared embedding pass at
 four declared cuts and produces identical calibration assignments; its two-ID BSP30
 count failure and 100-second physical-support refusal remain unchanged, so no cut or
