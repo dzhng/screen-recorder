@@ -73,6 +73,8 @@ independent moving parity oracle remains red; 31/32
 bounded attribution is integrated while long-form continuity remains red; 33/34
 have focused references, route provenance and a green concrete replay, with final
 workflow review still open.
+The retained editing harness now passes 129/129 focused tests across these
+receipts; that green replay suite does not promote any explicitly refused gate.
 Follow slice dependencies when a later item is independently ready.
 
 Evidence ledger: [assets](assets/README.md) links the scoped receipts. Slice 12's
