@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const sha256 = /^[0-9a-f]{64}$/;
+const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const expected = {
   case: "moved-split-zoom",
-  nativeSha256: "dbb3e7aa7674f8cb4d4c416ac3ef082f482993874d7ebb06ddc2054fb41b38f4",
+  nativeSha256: "b6d1f73e0777f635c1a1bc9718a6cf23ac7235a72f1b7fff071a259b31b5b5de",
   runnerSha256: "97e7a8b93e42ba9c500e3ddf20bcca9e380ffba050cd84ee17c7119a60ea0d0b",
   decoderSha256: "c8173e9755795978bce8e104f8d7044fabe7d6d84044aba37d3648c6f4e4e1a8",
   pictures: 39,
@@ -18,8 +22,8 @@ const expected = {
     previewExportExact: true,
   },
   outputSha256: {
-    full: "c6833a0eb0d711bc0a6a635c0ef22671aba6c28d6b4b75ca19eeb94fa66b4456",
-    range: "25e351b8b0ef4e4d80956db9e9b95431b8fcad54b8e01e95c82a57524fd850f3",
+    full: "cf60ee1d9019c0fbc9bf4182e8f92e5d96c24472d39066d35b10a08347ca66a0",
+    range: "21568ea171f41f83a722203f47f43e96f2a530214f295b483200012f912189f5",
   },
 };
 
@@ -36,11 +40,27 @@ export async function replayMotionDelivery(reportPath) {
   for (const [key, value] of Object.entries(expected.checks)) {
     assert.equal(report.checks?.[key], value, `${key} changed`);
   }
-  assert.equal(report.outputs?.full?.sha256, expected.outputSha256.full, "full output hash changed");
-  assert.equal(report.outputs?.range?.sha256, expected.outputSha256.range, "range output hash changed");
+  assert.equal(
+    report.outputs?.full?.sha256,
+    expected.outputSha256.full,
+    "full output hash changed",
+  );
+  assert.equal(
+    report.outputs?.range?.sha256,
+    expected.outputSha256.range,
+    "range output hash changed",
+  );
   for (const key of ["full", "range"]) {
     assert.equal(report.outputs?.[key]?.path, `${key}.mp4`, `${key} output path changed`);
     assert.match(report.outputs?.[key]?.sha256, sha256, `${key} output is not hashed`);
+    const reportFile =
+      typeof reportPath === "string" ? resolve(reportPath) : fileURLToPath(reportPath);
+    const artifactPath = resolve(dirname(reportFile), report.outputs[key].path);
+    const artifact = await readFile(artifactPath);
+    const details = await stat(artifactPath);
+    assert.ok(details.isFile(), `${key} output is not a regular file`);
+    assert.ok(artifact.length > 0, `${key} output is empty`);
+    assert.equal(digest(artifact), report.outputs[key].sha256, `${key} output bytes changed`);
   }
   return {
     case: report.case,

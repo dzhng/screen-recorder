@@ -2130,3 +2130,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** future parity work should investigate source decode or sampling rather than removing the shared source-picture color preparation.
 - **Verdict:** sound bounded investigation; no shipped renderer change.
 - **Confidence:** high for the retained three-sample result; low beyond this transition case.
+
+## Retain native zoom preview artifacts beside the trajectory receipt — slices28 and34
+
+- **When:** the trajectory receipt named `full.mp4` and `range.mp4` but did not retain those files, so replay could only trust metadata and hashes recorded by the original run.
+- **The choice:** regenerate the public moved/split zoom case on the current native worker, retain both preview files, and make replay verify their regular-file bytes against the receipt. Keep the current native worker identity and output hashes.
+- **The gap:** the plan required delivered trajectory evidence but did not require replay to open the referenced movie artifacts.
+- **The reach:** future delivery receipts must retain and verify every artifact they name; this closes an evidence-integrity gap without changing trajectory or visual tolerances.
+- **Verdict:** sound evidence hardening; no editorial or renderer behavior change.
+- **Confidence:** high for the retained artifacts and three focused replay controls.

@@ -1,7 +1,7 @@
 {
   "status": "passed",
   "case": "moved-split-zoom",
-  "nativeSha256": "dbb3e7aa7674f8cb4d4c416ac3ef082f482993874d7ebb06ddc2054fb41b38f4",
+  "nativeSha256": "b6d1f73e0777f635c1a1bc9718a6cf23ac7235a72f1b7fff071a259b31b5b5de",
   "runnerSha256": "97e7a8b93e42ba9c500e3ddf20bcca9e380ffba050cd84ee17c7119a60ea0d0b",
   "decoderSha256": "c8173e9755795978bce8e104f8d7044fabe7d6d84044aba37d3648c6f4e4e1a8",
   "pictures": 39,
@@ -74,11 +74,11 @@
   "outputs": {
     "full": {
       "path": "full.mp4",
-      "sha256": "c6833a0eb0d711bc0a6a635c0ef22671aba6c28d6b4b75ca19eeb94fa66b4456"
+      "sha256": "cf60ee1d9019c0fbc9bf4182e8f92e5d96c24472d39066d35b10a08347ca66a0"
     },
     "range": {
       "path": "range.mp4",
-      "sha256": "25e351b8b0ef4e4d80956db9e9b95431b8fcad54b8e01e95c82a57524fd850f3"
+      "sha256": "21568ea171f41f83a722203f47f43e96f2a530214f295b483200012f912189f5"
     }
   },
   "scope": "current native public frame/preview/export delivery for authored zoom geometry; frozen color-hash parity remains a separate acceptance gate"
