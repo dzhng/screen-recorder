@@ -6058,5 +6058,9 @@
     "path": "preview.mp4",
     "fileSha256": "9ca0e9b6f5d7e7d3e12148372ff22135cd4c301610b818428ec4b5e4707c4495",
     "rgbSha256": "c747fd1295c29864c8a89d46c41a42db0dd928577b6f278eaff3730899f30193"
+  },
+  "workerIdentity": {
+    "path": "worker-identity.json",
+    "fileSha256": "d0d11ecba0be9bac5a241962e64d5bfae7e70fe3459d2f4042ee564a3912047e"
   }
 }

@@ -75,3 +75,32 @@ test("refuses changed native worker, frame, and preview receipt identities", asy
     );
   }
 });
+
+test("refuses a retained worker identity artifact with the wrong kind", async (t) => {
+  const { verifyRetainedMulticamNativeDelivery } = await import("./multicam-native-delivery.mjs");
+  const directory = await mkdtemp(join(tmpdir(), "yap-multicam-native-worker-kind-"));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  await cp(dirname(evidence), directory, { recursive: true });
+  const workerIdentityPath = join(directory, "worker-identity.json");
+  const workerIdentity = JSON.parse(await readFile(workerIdentityPath, "utf8"));
+  workerIdentity.kind = "unretained-worker";
+  await writeFile(workerIdentityPath, `${JSON.stringify(workerIdentity)}\n`);
+  await assert.rejects(
+    verifyRetainedMulticamNativeDelivery(join(directory, "report.json"), fixtures),
+    { code: "NATIVE_IDENTITY" },
+  );
+});
+
+test("refuses a retained frame artifact without a file hash", async (t) => {
+  const { verifyRetainedMulticamNativeDelivery } = await import("./multicam-native-delivery.mjs");
+  const directory = await mkdtemp(join(tmpdir(), "yap-multicam-native-frame-hash-"));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  await cp(dirname(evidence), directory, { recursive: true });
+  const report = JSON.parse(await readFile(evidence, "utf8"));
+  delete report.selections[0].nativeFrame.fileSha256;
+  await writeFile(join(directory, "report.json"), `${JSON.stringify(report)}\n`);
+  await assert.rejects(
+    verifyRetainedMulticamNativeDelivery(join(directory, "report.json"), fixtures),
+    { code: "NATIVE_FRAME" },
+  );
+});

@@ -2035,6 +2035,29 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound scoped native delivery gate; broader synchronized multicamera behavior remains open.
 - **Confidence:** high for source identity, selection order and native frame preservation; medium for encoded preview parity because the codec tolerance is explicit rather than byte-exact.
 
+## Bind native multicam replay to worker and complete preview artifacts — slice01
+
+- **When:** the first native multicam receipt compared retained images, but its
+  worker sidecar was only indirectly tied to the report and preview replay
+  accepted a fixed frame prefix.
+- **The choice:** retain an explicit `workerIdentity` path and file hash in the
+  report; replay requires a regular sidecar file whose `native-worker` kind and
+  binary SHA-256 match the report. Use the caller-authored behavior verifier as
+  the sole source/sample schedule owner, and decode one frame beyond the nine
+  authored frames so shortened or extended previews are refused.
+- **The gap:** a metadata-only worker edit, duplicate schedule copy, or extra
+  preview frame could otherwise leave the numeric receipt looking unchanged.
+- **The reach:** replay now proves the retained worker/artifacts and complete
+  preview extent without claiming synchronization, speaker identity or camera
+  choice. Failed runs remove partial output; reruns still refuse a non-empty
+  directory before doing work.
+- **Verdict:** sound bounded verifier hardening; no production renderer or
+  synchronization policy changed.
+- **Confidence:** high for retained artifact identity and exact nine-frame
+  extent; broader multicamera behavior remains open.
+
+
+
 ## Replay all retained real synchronization refusals — slice20
 
 - **When:** the unlike-microphone estimator had a frozen original/derivative comparison set, but no cheap executable guard that kept every real result refused after later edits.

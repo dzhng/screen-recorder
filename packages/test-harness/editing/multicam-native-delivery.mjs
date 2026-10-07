@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { lstat, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
@@ -39,7 +39,20 @@ const contained = (rootDirectory, artifact) => {
   return path;
 };
 
-const decodeFrames = async (path, count) => {
+const readArtifact = async (rootDirectory, artifact, code, expectedHash) => {
+  const path = contained(rootDirectory, artifact);
+  if (!/^[a-f0-9]{64}$/.test(expectedHash ?? ""))
+    refuse(code, `Retained native evidence artifact hash is missing: ${artifact}`);
+  const stat = await lstat(path).catch(() => null);
+  if (!stat?.isFile()) refuse(code, `Retained native evidence artifact is not a regular file: ${artifact}`);
+  const bytes = await readFile(path);
+  if (hash(bytes) !== expectedHash)
+    refuse(code, `Retained native evidence artifact bytes differ: ${artifact}`);
+  return { path, bytes };
+};
+
+const decodeFrames = async (path, count, { exact = false } = {}) => {
+  const requestedCount = exact ? count + 1 : count;
   const { stdout } = await execFileAsync(
     process.env.YAP_FFMPEG ?? "ffmpeg",
     [
@@ -49,16 +62,17 @@ const decodeFrames = async (path, count) => {
       "-i",
       path,
       "-frames:v",
-      String(count),
+      String(requestedCount),
       "-f",
       "rawvideo",
       "-pix_fmt",
       "rgb24",
       "pipe:1",
     ],
-    { encoding: "buffer", maxBuffer: frameBytes * count + 1024 },
+    { encoding: "buffer", maxBuffer: frameBytes * requestedCount + 1024 },
   );
-  if (stdout.length !== frameBytes * count)
+  const expectedBytes = frameBytes * count;
+  if (stdout.length < expectedBytes || (exact && stdout.length > expectedBytes))
     refuse("PICTURE_DECODE", `${path}: expected ${count} ${width}x${height} RGB frames`);
   return Array.from({ length: count }, (_, index) =>
     stdout.subarray(index * frameBytes, (index + 1) * frameBytes),
@@ -101,10 +115,25 @@ export async function verifyRetainedMulticamNativeDelivery(reportPath, fixturesD
     refuse("SELECTION_COVERAGE", "Caller-authored source schedule and recipe disagree");
   if (!/^[a-f0-9]{64}$/.test(report.nativeSha256 ?? ""))
     refuse("NATIVE_IDENTITY", "Native worker identity is missing from the receipt");
-  const nativeIdentity = JSON.parse(
-    await readFile(join(reportDirectory, "worker-identity.json"), "utf8"),
+  if (
+    !report.workerIdentity ||
+    typeof report.workerIdentity.path !== "string" ||
+    !/^[a-f0-9]{64}$/.test(report.workerIdentity.fileSha256 ?? "")
+  )
+    refuse("NATIVE_IDENTITY", "Native worker identity artifact is missing from the receipt");
+  const workerIdentityArtifact = await readArtifact(
+    reportDirectory,
+    report.workerIdentity.path,
+    "NATIVE_IDENTITY",
+    report.workerIdentity.fileSha256,
   );
-  if (nativeIdentity.sha256 !== report.nativeSha256)
+  let nativeIdentity;
+  try {
+    nativeIdentity = JSON.parse(workerIdentityArtifact.bytes);
+  } catch {
+    refuse("NATIVE_IDENTITY", "Native worker identity artifact is not valid JSON");
+  }
+  if (nativeIdentity.kind !== "native-worker" || nativeIdentity.sha256 !== report.nativeSha256)
     refuse("NATIVE_IDENTITY", "Native worker identity differs from the retained identity receipt");
   if (!Array.isArray(recipe.selections) || recipe.selections.length !== 9)
     refuse("SELECTION_COVERAGE", "Caller-authored multicam recipe must contain nine selections");
@@ -130,15 +159,19 @@ export async function verifyRetainedMulticamNativeDelivery(reportPath, fixturesD
       canonicalFrames.set(`${source}:${index}`, bytes);
     }
   }
-  const previewPath = contained(reportDirectory, report.preview?.path);
-  const previewBytes = await readFile(previewPath);
-  if (hash(previewBytes) !== report.preview?.fileSha256)
-    refuse("NATIVE_PREVIEW", "Retained preview file bytes differ");
-  const previewFrames = await decodeFrames(previewPath, report.selections.length);
+  const previewArtifact = await readArtifact(
+    reportDirectory,
+    report.preview?.path,
+    "NATIVE_PREVIEW",
+    report.preview?.fileSha256,
+  );
+  const previewPath = previewArtifact.path;
+  const previewBytes = previewArtifact.bytes;
+  const previewFrames = await decodeFrames(previewPath, report.selections.length, { exact: true });
   if (hash(Buffer.concat(previewFrames)) !== report.preview?.rgbSha256)
     refuse("NATIVE_PREVIEW", "Retained preview RGB bytes differ");
   for (const [index, selection] of report.selections.entries()) {
-    const authored = recipe.selections[index];
+    const authored = behavior.selections[index];
     if (
       selection.sequenceIndex !== index ||
       selection.source !== authored.source ||
@@ -150,23 +183,29 @@ export async function verifyRetainedMulticamNativeDelivery(reportPath, fixturesD
     if (!Number.isInteger(selection.pictureSampleIndex) || selection.pictureSampleIndex < 0)
       refuse("PICTURE_SELECTION", `Selection ${index} has the wrong picture sample`);
     const expected = pictures.sources[selection.source]?.samples?.[selection.pictureSampleIndex];
-    if (!expected || selection.sourcePictureSha256 !== expected.sha256)
+    if (!expected || selection.sourcePictureSha256 !== authored.pictureSha256 || authored.pictureSha256 !== expected.sha256)
       refuse("PICTURE_SELECTION", `Selection ${index} is not bound to its retained picture sample`);
     const canonical = canonicalFrames.get(`${selection.source}:${selection.pictureSampleIndex}`);
-    const sourceFramePath = contained(reportDirectory, selection.sourceFrame?.path);
-    const sourceFrameFile = await readFile(sourceFramePath);
-    if (hash(sourceFrameFile) !== selection.sourceFrame?.fileSha256)
-      refuse("NATIVE_FRAME", `Source frame ${index} bytes differ`);
+    const sourceFrameArtifact = await readArtifact(
+      reportDirectory,
+      selection.sourceFrame?.path,
+      "NATIVE_FRAME",
+      selection.sourceFrame?.fileSha256,
+    );
+    const sourceFramePath = sourceFrameArtifact.path;
     const sourceFrame = await decodeFrame(sourceFramePath);
     if (hash(sourceFrame) !== selection.sourceFrame?.rgbSha256)
       refuse("NATIVE_FRAME", `Source frame ${index} RGB bytes differ`);
     const sourceMae = mae(sourceFrame, canonical);
     if (Math.abs(sourceMae - selection.sourceFrame.mae) > 1e-12 || sourceMae > previewMaeLimit)
       refuse("NATIVE_FRAME", `Source frame ${index} is not bound to its retained picture sample`);
-    const nativeFramePath = contained(reportDirectory, selection.nativeFrame?.path);
-    const nativeFrameFile = await readFile(nativeFramePath);
-    if (hash(nativeFrameFile) !== selection.nativeFrame?.fileSha256)
-      refuse("NATIVE_FRAME", `Native frame ${index} bytes differ`);
+    const nativeFrameArtifact = await readArtifact(
+      reportDirectory,
+      selection.nativeFrame?.path,
+      "NATIVE_FRAME",
+      selection.nativeFrame?.fileSha256,
+    );
+    const nativeFramePath = nativeFrameArtifact.path;
     const nativeFrame = await decodeFrame(nativeFramePath);
     if (hash(nativeFrame) !== selection.nativeFrame?.rgbSha256)
       refuse("NATIVE_FRAME", `Native frame ${index} RGB bytes differ`);
@@ -204,7 +243,7 @@ export async function runRetainedMulticamNativeDelivery(outDirectory) {
     root,
     "specs/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.identity.json",
   );
-  await verifyMulticamBehavior(fixturesDirectory, recipePath, recipeIdentityPath);
+  const behavior = await verifyMulticamBehavior(fixturesDirectory, recipePath, recipeIdentityPath);
   const pictureSampleIndexes = pictures.sources[sourceNames[0]].samples.map(
     ({ frameIndex }) => frameIndex,
   );
@@ -221,6 +260,12 @@ export async function runRetainedMulticamNativeDelivery(outDirectory) {
   });
   if (existing.length > 0)
     refuse("OUTPUT_DIR_NOT_EMPTY", "Native multicam output directory must be empty");
+  const workerIdentityPath = "worker-identity.json";
+  const nativeBytes = await readFile(process.env.YAP_NATIVE);
+  const nativeSha256 = hash(nativeBytes);
+  const workerIdentityBytes = Buffer.from(
+    `${JSON.stringify({ kind: "native-worker", sha256: nativeSha256 })}\n`,
+  );
   const report = {
     passed: false,
     kind: "retained-multicam-native-delivery",
@@ -229,7 +274,11 @@ export async function runRetainedMulticamNativeDelivery(outDirectory) {
     sources: sourceNames,
     synchronization: "not-established",
     cameraChoice: "caller-authored",
-    nativeSha256: hash(await readFile(process.env.YAP_NATIVE)),
+    nativeSha256,
+    workerIdentity: {
+      path: workerIdentityPath,
+      fileSha256: hash(workerIdentityBytes),
+    },
     project: { width, height, frameRate: 1, frameCount: recipe.selections.length },
     selections: [],
     checks: [],
@@ -238,10 +287,7 @@ export async function runRetainedMulticamNativeDelivery(outDirectory) {
   const home = await mkdtemp("/tmp/yap-retained-multicam-native-");
   const evidenceDirectory = join(out, "native");
   await mkdir(evidenceDirectory, { recursive: true });
-  await writeFile(
-    join(out, "worker-identity.json"),
-    `${JSON.stringify({ kind: "native-worker", sha256: report.nativeSha256 })}\n`,
-  );
+  await writeFile(join(out, workerIdentityPath), workerIdentityBytes);
   const service = new JourneyService(home, report, evidenceDirectory);
   const call = service.call.bind(service);
   const save = () => writeFile(join(out, "report.json"), `${JSON.stringify(report, null, 2)}\n`);
@@ -272,7 +318,7 @@ export async function runRetainedMulticamNativeDelivery(outDirectory) {
       requestId: randomUUID(),
       canvas: { width, height, fps: { numerator: 1, denominator: 1 }, background: "#000000ff" },
     });
-    const selections = recipe.selections.map(
+    const selections = behavior.selections.map(
       ({ source, pictureSampleIndex, audioWindowStartUs }) => ({
         source,
         pictureSampleIndex,
@@ -417,34 +463,13 @@ export async function runRetainedMulticamNativeDelivery(outDirectory) {
       (value) => value.state === "ready",
       "retained multicam preview",
     );
-    const { stdout: previewBytes } = await execFileAsync(
-      process.env.YAP_FFMPEG ?? "ffmpeg",
-      [
-        "-v",
-        "error",
-        "-nostdin",
-        "-i",
-        previewPath,
-        "-frames:v",
-        String(selections.length),
-        "-f",
-        "rawvideo",
-        "-pix_fmt",
-        "rgb24",
-        "pipe:1",
-      ],
-      { encoding: "buffer", maxBuffer: frameBytes * 9 + 1024 },
-    );
-    if (previewBytes.length !== frameBytes * selections.length)
-      refuse("NATIVE_PREVIEW", "Native preview did not contain nine retained multicam frames");
+    const previewFrames = await decodeFrames(previewPath, selections.length, { exact: true });
+    const previewBytes = Buffer.concat(previewFrames);
     for (const [sequenceIndex, selection] of selections.entries()) {
       const expected = sourceNativeFrames.get(
         `${selection.source}:${selection.pictureSampleIndex}`,
       );
-      const actual = previewBytes.subarray(
-        sequenceIndex * frameBytes,
-        (sequenceIndex + 1) * frameBytes,
-      );
+      const actual = previewFrames[sequenceIndex];
       report.selections[sequenceIndex].previewFrame = {
         rgbSha256: hash(actual),
         mae: mae(actual, expected.bytes),
@@ -462,9 +487,10 @@ export async function runRetainedMulticamNativeDelivery(outDirectory) {
     );
     report.passed = true;
   } finally {
-    await save();
     await service.stop();
     await rm(home, { recursive: true, force: true });
+    if (report.passed) await save();
+    else await rm(out, { recursive: true, force: true });
   }
   await verifyRetainedMulticamNativeDelivery(join(out, "report.json"), fixturesDirectory);
   await save();

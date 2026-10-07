@@ -37,5 +37,10 @@ node packages/test-harness/editing/multicam-native-delivery.mjs verify \
 ```
 
 The retained report stores file hashes for every PNG and the MP4, plus decoded
-RGB hashes and measured tolerances. `preview.fileSha256` is the MP4 identity;
-`preview.rgbSha256` is the decoded nine-frame identity.
+RGB hashes and measured tolerances. `workerIdentity.path` points at the retained
+JSON sidecar and `workerIdentity.fileSha256` binds its bytes; the sidecar's
+`native-worker` kind and binary SHA-256 must agree with `nativeSha256` during
+replay. `preview.fileSha256` is the MP4 identity; `preview.rgbSha256` is the
+decoded nine-frame identity. Replay asks the decoder for one frame beyond the
+authored nine and refuses if an extra frame is present, so a shortened or
+extended preview cannot pass on a prefix alone.
