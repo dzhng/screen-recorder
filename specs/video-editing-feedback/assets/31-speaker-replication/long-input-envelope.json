@@ -1,0 +1,34 @@
+{
+  "status": "long-input-envelope-confirmed-but-gate-refused",
+  "hypothesis": "The four-speaker continuity failure is caused by truncated input or an early transport stop rather than the provider's full long-form output.",
+  "case": "four-speaker600",
+  "request": {
+    "path": "hysteresis-evidence/long-observations/four-speaker600.request.json",
+    "sha256": "0834d9deeaf6f3ee627244339a294a5e734993d15dd7dd1256a608b63a49a236",
+    "frames": 9600000,
+    "sampleRate": 16000,
+    "audioSeconds": 600
+  },
+  "response": {
+    "path": "hysteresis-evidence/long-observations/four-speaker600.stdout.json",
+    "sha256": "123d344cfdc03dd0a8ad1ec6e0e208f4518c0ceb49b9d1a4f7898523ce2966f6",
+    "reportedAudioSeconds": 600,
+    "pcmSha256": "147d2e7008361647c2f4b0824d754b6159f783c94e12f7f39dc2e1e2f853d59b",
+    "inferenceSeconds": 15.476033833023394,
+    "peakProcessRSSBytes": 1757773824
+  },
+  "transport": {
+    "path": "hysteresis-evidence/long-observations/four-speaker600.transport.json",
+    "sha256": "7de942137a97724b083a02d2cbbd1416cb23e0031abdfa44f8c31ea936d3cbd8",
+    "exitCode": 0,
+    "networkDenied": true
+  },
+  "gates": {
+    "audioSecondsMustEqual": 600,
+    "exitCodeMustEqual": 0,
+    "derMaximum": 0.2,
+    "overlapRecallMinimum": 0.8,
+    "promotion": false
+  },
+  "conclusion": "The retained call consumed and returned the complete 600-second input with a successful network-denied transport. This falsifies truncation/early-stop as the explanation, but does not alter the failed four-speaker quality gate or authorize long-form support."
+}

@@ -44,6 +44,13 @@ has 32.70% DER. Since no single global threshold closes both gates, this is an
 explicit refusal of that postprocessing remedy, not a production retune or a
 provider promotion.
 
+The [long-input envelope receipt](long-input-envelope.json) checks a separate
+transport hypothesis against the retained four-speaker call. The request carried
+the complete 9,600,000-frame 600-second input, the successful network-denied
+response reported 600 seconds, and transport exited zero. Truncation or an early
+stop therefore does not explain the failed overlap gate; the quality refusal and
+promotion block remain unchanged.
+
 [Independent eight-slot activity](ultra8-evidence/README.md) strictly restores and
 preserves complete native80ms scores. It passes its first short control but fails
 the second on false activity despite retained overlap and identities. A later

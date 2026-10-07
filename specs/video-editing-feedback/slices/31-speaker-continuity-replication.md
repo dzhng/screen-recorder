@@ -97,6 +97,12 @@ overlap-admissible result has 32.70% DER. No global threshold closes both fixed
 gates, so this decoder-only probe is retained as an explicit refusal and does not
 change the production recipe.
 
+The [long-input envelope receipt](../assets/31-speaker-replication/long-input-envelope.json)
+also falsifies a transport explanation for the four-speaker failure: the retained
+network-denied call consumed all 9,600,000 frames, returned 600 seconds and exited
+successfully. This narrows the refusal to provider quality/continuity behavior;
+it does not loosen the overlap gate or promote long-form support.
+
 Keep the required gate unchanged; proceed through these separately verifiable passes:
 
 1. **Provider and short-case admission.** Freeze licensing, complete raw-observation
