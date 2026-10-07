@@ -47,7 +47,8 @@ renderer. Synchronization, speaker identity and automatic camera choice remain
 separate gates.
 
 The moving trajectory receipt now has an immutable replay checker covering its
-39-picture membership, refusal controls and exact preview/export identities;
+39-picture membership, refusal controls, exact preview/export identities and
+retained preview artifact bytes;
 the independent [moving reference-parity audit](assets/27-29-transitions/reference-parity/report.json)
 retains a red standard crossfade oracle over the alpha/mirror sources, so strict
 reference-conditioned moving color/perimeter parity remains open. The retained
