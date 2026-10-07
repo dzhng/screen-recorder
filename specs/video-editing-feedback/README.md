@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts and production-native fresh-agent replay are integrated and rechecked on the current branch. The retained corpus, scoped eight-case behavior ledger, caller-authored multicam source-choice receipt, native switched-angle, physical empty-edit and transition receipts remain intact. Native multicamera composition, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
+Status: implementation active; bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts, retained-source native multicam delivery and production-native fresh-agent replay are integrated and rechecked on the current branch. The retained corpus, scoped eight-case behavior ledger, caller-authored multicam source-choice receipt, native switched-angle, physical empty-edit and transition receipts remain intact. Broader synchronized multicamera behavior, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -17,7 +17,7 @@ change the installed app until the user requests release. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: audit the remaining independent acceptance gates rather than widening bounded claims. The latest trajectory checkpoint binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. Face landmark quality now travels from native Vision observations into framing violations without widening uncertain boxes, and the frozen full-face failure has a machine-readable audit. The synchronization pass has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. A production-native fresh replay now records the focused launch, podcast and teaser routes before running the public CLI/MCP journey twice, replays the real Parakeet repair, and retains normalized delivery plus decoded picture/audio evidence on the current native build. The registered
+Current pickup: audit the remaining independent acceptance gates rather than widening bounded claims. The retained multicam picture bank now crosses public CLI/MCP and native sequential delivery for all nine caller-authored source/sample selections; global synchronized multicamera behavior remains open. The latest trajectory checkpoint binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. Face landmark quality now travels from native Vision observations into framing violations without widening uncertain boxes, and the frozen full-face failure has a machine-readable audit. The synchronization pass has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. A production-native fresh replay now records the focused launch, podcast and teaser routes before running the public CLI/MCP journey twice, replays the real Parakeet repair, and retains normalized delivery plus decoded picture/audio evidence on the current native build. The registered
 speaker provider now has a measured pinned NeMo runtime acquisition descriptor and
 auto-prepares its first-party inputs by default. That closes acquisition readiness
 only; bounded selected-range preparation now accepts complete 80ms-grid windows
@@ -37,10 +37,11 @@ Slice 01's independent-control checkpoint and scoped eight-case behavior ledger
 now pass over the canonical compact media owner; its nine negative and boundary
 controls are retained under `assets/01-corpus-controls/`, with the aggregate
 receipt under `assets/01-corpus-behavior/`. The multicam physical checkpoint
-also has a caller-authored source-choice receipt binding all nine retained audio
-windows to same-source picture samples. Native multicamera composition,
-synchronization and speaker identity remain separate gates, so do not mark
-slice 01 complete from this receipt alone.
+has a caller-authored source-choice receipt binding all nine retained audio
+windows to same-source picture samples, plus a native delivery receipt that
+replays all nine retained picture selections through CLI/MCP and the native
+renderer. Synchronization, speaker identity and automatic camera choice remain
+separate gates.
 
 The multicam physical checkpoint now also binds three decoded 320×180 RGB
 samples from each retained source through compact derivative movies. Its
@@ -55,7 +56,8 @@ the independent [moving reference-parity audit](assets/27-29-transitions/referen
 retains a red standard crossfade oracle over the alpha/mirror sources, so strict
 reference-conditioned moving color/perimeter parity remains open.
 
-Priority order: 01 whole multicamera behavioral certification remains open; 20/21 global
+Priority order: 01 retained-source delivery is integrated but broader multicamera
+behavior remains open; 20/21 global
 synchronization remains refused on the frozen unlike-mic evidence; 15/16
 face/framing remain partial; 27–30 have public transition, moving-coverage and
 bounded-blur delivery receipts but broader visual parity remains open; 31/32

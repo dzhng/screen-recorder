@@ -283,6 +283,14 @@ mutation refusals. `packages/test-harness/editing/multicam-behavior.mjs` replays
 the caller-authored nine-selection source schedule and binds every selected audio
 window to its same-source picture sample. Both receipts remain explicit that
 synchronization, speaker identity and automatic camera choice are not established.
+`packages/test-harness/editing/multicam-native-delivery.mjs` now imports those
+three retained picture derivatives through CLI/MCP, composes all nine
+caller-authored source/sample placements, and retains direct native-frame plus
+encoded-preview measurements under `assets/01-corpus-multicam/native/`. Its
+replay test delegates corpus/recipe admission to the canonical verifiers, then
+re-hashes every retained PNG/MP4 and decoded frame. It checks source identity,
+selection order and bounded codec differences without promoting a shared clock
+or speaker identity.
 
 
 ### Slice 28 authored-rectangle coverage

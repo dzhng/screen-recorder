@@ -27,8 +27,9 @@ preparation/readonly observation cutover and its integrated caller proof.
 [full-frame picture corpus](01-corpus-picture/README.md),
 [independent controls](01-corpus-controls/README.md) and
 [honest speech timing](07-speech-timing/README.md) retain scoped operands.
-[Multicam physical coverage](01-corpus-multicam/README.md) and its
-[source-choice replay](01-corpus-multicam/behavior-replay.md) bind each
+[Multicam physical coverage](01-corpus-multicam/README.md), its
+[source-choice replay](01-corpus-multicam/behavior-replay.md) and its
+[native delivery receipt](01-corpus-multicam/native/report.json) bind each
 caller-authored selection to same-source audio and picture evidence while
 keeping synchronization and speaker identity refused.
 [The scoped behavior ledger](01-corpus-behavior/README.md) binds each retained

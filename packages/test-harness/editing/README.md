@@ -216,6 +216,12 @@ camera controls through CLI/MCP, declares source-bound accepted angle evidence, 
 checks native frame and preview delivery for an explicit sequential switch. It does
 not infer synchronization, speakers or camera selection.
 
+[Retained multicam delivery](multicam-native-delivery.mjs) replays the canonical
+three-source picture recipe through public import, sequential placement and native
+frame/preview delivery. Its verifier reuses the corpus and source-choice owners,
+then checks the retained PNG/MP4 bytes and decoded RGB measurements; it remains
+explicitly caller-authored and unsynchronized.
+
 [Immutable LUT checkpoint](lut-assets.mjs) exercises explicit import, public
 processing, delivered pixels and project-package replay using isolated managed
 state. Its usage owns required executable inputs. The retained

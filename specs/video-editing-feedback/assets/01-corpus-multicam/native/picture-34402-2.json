@@ -1,0 +1,315 @@
+{
+  "operation": "media.renderCompositionFrame",
+  "request": {
+    "output": "/private/tmp/yap-retained-multicam-native-aX4G3Y/library/render/render-EqlMsR/frame.png",
+    "frame": {
+      "index": 2,
+      "sampleAtUs": 2000000,
+      "visibleRange": {
+        "startUs": 2500000,
+        "endUs": 2500001
+      },
+      "layers": [
+        {
+          "clipId": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3",
+          "trackId": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0",
+          "assetId": "759e82703340cd63bba2c82b3fc67eb0ba0111d98ab9ceeb834dcab828320e35",
+          "streamId": "track:1",
+          "kind": "video",
+          "sourceUs": 2000000,
+          "availability": "available",
+          "width": 320,
+          "height": 180
+        }
+      ],
+      "visual": [
+        {
+          "target": {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3"
+          },
+          "inputs": [],
+          "operations": [
+            {
+              "kind": "clamp",
+              "x": 0.5,
+              "y": 0.5,
+              "width": 319,
+              "height": 179
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "coverage",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 320,
+                  "y": 0
+                },
+                {
+                  "x": 320,
+                  "y": 180
+                },
+                {
+                  "x": 0,
+                  "y": 180
+                }
+              ],
+              "width": 320,
+              "height": 180
+            }
+          ]
+        },
+        {
+          "target": {
+            "kind": "track",
+            "id": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0"
+          },
+          "inputs": [
+            {
+              "kind": "clip",
+              "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3"
+            }
+          ],
+          "operations": []
+        },
+        {
+          "target": {
+            "kind": "output"
+          },
+          "inputs": [
+            {
+              "kind": "track",
+              "id": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0"
+            }
+          ],
+          "operations": []
+        }
+      ]
+    },
+    "canvas": {
+      "width": 320,
+      "height": 180,
+      "fps": {
+        "numerator": 1,
+        "denominator": 1
+      },
+      "background": "#000000ff"
+    },
+    "profile": "h264-rec709",
+    "processing": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0"
+        },
+        "mediaKind": "video",
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3"
+          }
+        ],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "mediaKind": "output",
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0"
+          }
+        ],
+        "steps": []
+      }
+    ],
+    "assets": [
+      {
+        "assetId": "759e82703340cd63bba2c82b3fc67eb0ba0111d98ab9ceeb834dcab828320e35",
+        "streamId": "track:1",
+        "path": "/tmp/yap-retained-multicam-native-aX4G3Y/library/assets/759e82703340cd63bba2c82b3fc67eb0ba0111d98ab9ceeb834dcab828320e35.mp4",
+        "originUs": 0
+      }
+    ],
+    "fonts": [],
+    "luts": [],
+    "maxLongEdge": 320
+  },
+  "response": {
+    "ok": true,
+    "data": {
+      "bytes": 84681,
+      "decodedImages": 0,
+      "decodedSamples": 1,
+      "file": "/private/tmp/yap-retained-multicam-native-aX4G3Y/library/render/render-EqlMsR/frame.png",
+      "frame": {
+        "index": 2,
+        "layers": [
+          {
+            "assetId": "759e82703340cd63bba2c82b3fc67eb0ba0111d98ab9ceeb834dcab828320e35",
+            "availability": "available",
+            "clipId": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3",
+            "height": 180,
+            "kind": "video",
+            "sourceUs": 2000000,
+            "streamId": "track:1",
+            "trackId": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0",
+            "width": 320
+          }
+        ],
+        "sampleAtUs": 2000000,
+        "visibleRange": {
+          "endUs": 2500001,
+          "startUs": 2500000
+        },
+        "visual": [
+          {
+            "inputs": [],
+            "operations": [
+              {
+                "height": 179,
+                "kind": "clamp",
+                "width": 319,
+                "x": 0.5,
+                "y": 0.5
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "height": 180,
+                "kind": "coverage",
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 0
+                  },
+                  {
+                    "x": 320,
+                    "y": 0
+                  },
+                  {
+                    "x": 320,
+                    "y": 180
+                  },
+                  {
+                    "x": 0,
+                    "y": 180
+                  }
+                ],
+                "width": 320
+              }
+            ],
+            "target": {
+              "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3",
+              "kind": "clip"
+            }
+          },
+          {
+            "inputs": [
+              {
+                "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3",
+                "kind": "clip"
+              }
+            ],
+            "operations": [],
+            "target": {
+              "id": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0",
+              "kind": "track"
+            }
+          },
+          {
+            "inputs": [
+              {
+                "id": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0",
+                "kind": "track"
+              }
+            ],
+            "operations": [],
+            "target": {
+              "kind": "output"
+            }
+          }
+        ]
+      },
+      "height": 180,
+      "mediaType": "image/png",
+      "pictures": [
+        {
+          "actualSourceUs": 2000000,
+          "assetId": "759e82703340cd63bba2c82b3fc67eb0ba0111d98ab9ceeb834dcab828320e35",
+          "clipId": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3",
+          "kind": "video",
+          "requestedSourceUs": 2000000,
+          "sample": {
+            "originUs": 0,
+            "timescale": 16384,
+            "value": "32768"
+          },
+          "status": "available",
+          "streamId": "track:1"
+        }
+      ],
+      "profile": "h264-rec709",
+      "readerOpens": 1,
+      "sourceHeight": 180,
+      "sourceWidth": 320,
+      "width": 320
+    }
+  }
+}

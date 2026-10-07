@@ -1,0 +1,319 @@
+{
+  "operation": "media.renderCompositionMovie",
+  "request": {
+    "output": "/private/tmp/yap-retained-multicam-native-aX4G3Y/library/render/render-yT0OJ5/movie.mp4",
+    "frames": "/private/tmp/yap-retained-multicam-native-aX4G3Y/library/render/render-yT0OJ5/frames.jsonl",
+    "range": {
+      "startUs": 0,
+      "endUs": 9000000
+    },
+    "canvas": {
+      "width": 320,
+      "height": 180,
+      "fps": {
+        "numerator": 1,
+        "denominator": 1
+      },
+      "background": "#000000ff"
+    },
+    "settings": {
+      "container": "mp4",
+      "video": {
+        "codec": "h264",
+        "encoder": {
+          "hardware": "auto",
+          "id": null,
+          "gpu": null
+        },
+        "color": "rec709",
+        "rateControl": {
+          "mode": "average",
+          "bitrate": 8000000
+        },
+        "profile": "high",
+        "level": "auto",
+        "keyframeInterval": 120,
+        "keyframeIntervalSeconds": 2,
+        "frameReordering": false,
+        "entropy": "cabac",
+        "temporalCompression": true,
+        "openGop": false,
+        "prioritizeSpeed": false,
+        "powerEfficient": false,
+        "dataRateLimits": [],
+        "bufferDurationSeconds": null,
+        "initialBufferDelayPercent": null,
+        "spatialAdaptiveQuantization": true,
+        "lookAheadFrames": null,
+        "nonDroppableFrameRate": null,
+        "minimumQuantizer": null,
+        "maximumQuantizer": null
+      },
+      "audio": {
+        "codec": "aac",
+        "sampleRate": 48000,
+        "layout": "stereo",
+        "rateControl": {
+          "mode": "constant",
+          "bitrate": 192000
+        },
+        "quality": "high"
+      }
+    },
+    "processing": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:1"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:2"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:4"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:5"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:6"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:7"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:8"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:9"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0"
+        },
+        "mediaKind": "video",
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:1"
+          },
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:2"
+          },
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:3"
+          },
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:4"
+          },
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:5"
+          },
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:6"
+          },
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:7"
+          },
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:8"
+          },
+          {
+            "kind": "clip",
+            "id": "clip:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:9"
+          }
+        ],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "mediaKind": "output",
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "track:8f6432a117711a67306584cec7cbfe8a0317413212c672cee1af8fb154675637:0"
+          }
+        ],
+        "steps": []
+      }
+    ],
+    "assets": [
+      {
+        "assetId": "759e82703340cd63bba2c82b3fc67eb0ba0111d98ab9ceeb834dcab828320e35",
+        "streamId": "track:1",
+        "path": "/tmp/yap-retained-multicam-native-aX4G3Y/library/assets/759e82703340cd63bba2c82b3fc67eb0ba0111d98ab9ceeb834dcab828320e35.mp4",
+        "originUs": 0
+      },
+      {
+        "assetId": "78ebac1cbb2c5756d7c26df1e5131eccf743e0600e2be88ab81eccd9bc52fa3e",
+        "streamId": "track:1",
+        "path": "/tmp/yap-retained-multicam-native-aX4G3Y/library/assets/78ebac1cbb2c5756d7c26df1e5131eccf743e0600e2be88ab81eccd9bc52fa3e.mp4",
+        "originUs": 0
+      },
+      {
+        "assetId": "6432112a61d72ab47c7ece5e7c24b8b6b7a29712150af2c0a43a9b2824e726a8",
+        "streamId": "track:1",
+        "path": "/tmp/yap-retained-multicam-native-aX4G3Y/library/assets/6432112a61d72ab47c7ece5e7c24b8b6b7a29712150af2c0a43a9b2824e726a8.mp4",
+        "originUs": 0
+      }
+    ],
+    "fonts": [],
+    "luts": [],
+    "audio": {
+      "range": {
+        "start": 0,
+        "end": 432000
+      },
+      "clips": []
+    }
+  },
+  "response": {
+    "ok": true,
+    "data": {
+      "audio": {
+        "channels": 2,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "frames": 432000,
+        "maximumBlockFrames": 8192,
+        "peak": 0,
+        "peakResidentBytes": 54444032,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "decoded": [],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 0,
+          "unknownReadInputs": 0
+        },
+        "unavailable": []
+      },
+      "bytes": 480784,
+      "codec": "h264",
+      "durationUs": 9000000,
+      "encodedAudio": {
+        "channels": 2,
+        "durationTimescale": 6000000,
+        "durationValue": 54000000,
+        "sampleRate": 48000
+      },
+      "encodedVideo": {
+        "level": "3.0",
+        "profile": "high"
+      },
+      "file": "/private/tmp/yap-retained-multicam-native-aX4G3Y/library/render/render-yT0OJ5/movie.mp4",
+      "frameCount": 9,
+      "height": 180,
+      "mediaType": "video/mp4",
+      "peakResidentBytes": 54444032,
+      "settings": {
+        "audio": {
+          "codec": "aac",
+          "layout": "stereo",
+          "quality": "high",
+          "rateControl": {
+            "bitrate": 192000,
+            "mode": "constant"
+          },
+          "sampleRate": 48000
+        },
+        "container": "mp4",
+        "video": {
+          "codec": "h264",
+          "color": "rec709",
+          "dataRateLimits": [],
+          "encoder": {
+            "hardware": "auto"
+          },
+          "entropy": "cabac",
+          "frameReordering": false,
+          "keyframeInterval": 120,
+          "keyframeIntervalSeconds": 2,
+          "level": "auto",
+          "openGop": false,
+          "powerEfficient": false,
+          "prioritizeSpeed": false,
+          "profile": "high",
+          "rateControl": {
+            "bitrate": 8000000,
+            "mode": "average"
+          },
+          "spatialAdaptiveQuantization": true,
+          "temporalCompression": true
+        }
+      },
+      "width": 320
+    }
+  }
+}
