@@ -29,6 +29,13 @@ The compact receipt is retained at
 It proves one concrete media workflow; it does not promote the remaining global
 synchronization or long-form speaker gates.
 
+The retained receipt now has an inference-free replay test at
+[`autonomous-media-replay.test.mjs`](../../../packages/test-harness/editing/autonomous-media-replay.test.mjs).
+It binds the two clean/relocated states, normalized delivery identity, source-key
+set, routing policy and Parakeet repair facts, and rejects an edited relocated
+identity. This protects the report itself; it does not claim that the temporary
+movies or model closure remain available after the original run.
+
 Current owners and starting checks:
 
 - [packages/test-harness/personal-release.mjs](../../../packages/test-harness/personal-release.mjs)

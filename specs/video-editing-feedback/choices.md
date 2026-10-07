@@ -2139,3 +2139,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** future delivery receipts must retain and verify every artifact they name; this closes an evidence-integrity gap without changing trajectory or visual tolerances.
 - **Verdict:** sound evidence hardening; no editorial or renderer behavior change.
 - **Confidence:** high for the retained artifacts and three focused replay controls.
+
+## Replay the saved fresh-agent report without claiming temporary media availability — slice34
+
+- **When:** the production-native fresh run saved a compact report after its temporary clean and relocated workspaces were removed. The report carried normalized hashes, source identities, routing provenance and the Parakeet repair, but had no durable report replay test.
+- **The choice:** add an inference-free replay that checks the two states, normalized identity, source-key set, routing policy and repair facts, with a mutation control for the relocated hash. It deliberately does not require the temporary movies or speech model to still exist.
+- **The gap:** the slice required reproducible fresh-agent acceptance but did not say how the compact report itself would be protected after the expensive run ended.
+- **The reach:** future changes cannot silently alter the acceptance report's identity or policy claims; a new native/model run remains required for fresh media behavior.
+- **Verdict:** sound evidence hardening; it strengthens report replay without promoting any open synchronization, speaker or visual gate.
+- **Confidence:** high for the narrow report contract; medium for broader workflow quality because temporary artifacts are intentionally outside this replay.
