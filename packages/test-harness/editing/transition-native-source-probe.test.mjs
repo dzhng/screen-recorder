@@ -18,6 +18,8 @@ test("replays native AVAssetReader source evidence without promoting moving pari
   assert.equal(result.sources.mirror.frameCount, 4);
   assert.ok(result.sourceComparisons.every(({ comparison }) => comparison.differingRatio > 0));
   assert.ok(result.candidateComparisons.every(({ comparison }) => comparison.differingRatio > 0));
+  assert.ok(result.premultipliedCandidateComparisons.every(({ comparison }) => comparison.differingRatio === 0));
+  assert.equal(result.premultipliedGate.passed, true);
   assert.equal(result.gate.passed, false);
 });
 

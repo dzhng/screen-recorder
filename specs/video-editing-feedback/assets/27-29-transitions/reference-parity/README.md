@@ -84,6 +84,15 @@ node packages/test-harness/editing/transition-native-source-probe.mjs replay \
   specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source-probe.json
 ```
 
+The native receipt now also replays a source-semantics oracle that models the
+premultiplied sRGB bytes produced by `CIImage(cvPixelBuffer:)`: channels already
+within the premultiplied range are retained, out-of-range straight channels are
+restored before linear-light source-over, and the final sRGB conversion uses
+the existing half-up byte quantization. This oracle matches all three native
+candidate frames with zero differing RGB pixels. It is a scoped explanation of
+the native delivery, not a replacement for the independent FFmpeg reference;
+the strict reference-conditioned gate remains open.
+
 A seventh bounded probe requested `kCVPixelFormatType_64RGBAHalf` from
 `AVAssetReader` and retained all eight half-float frames in
 [`rgba-half-source-probe.json`](rgba-half-source-probe.json). After the frozen

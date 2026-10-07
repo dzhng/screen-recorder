@@ -87,6 +87,9 @@ reference or a relaxed gate. The retained
 replays all eight half-float frames and finds 340 differing pixels (11.07%),
 342 differing bytes and one-code maximum delta after conversion, so changing
 the decoder pixel format does not close the strict gate either.
+The native-source receipt also carries a premultiplied sRGB oracle matching
+`CIImage(cvPixelBuffer:)` conversion; it reaches zero differing RGB pixels on
+all three candidate samples while leaving the independent FFmpeg gate open.
 
 ## Delegated choices
 

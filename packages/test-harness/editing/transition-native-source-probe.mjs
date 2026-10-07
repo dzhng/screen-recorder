@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import {
   compareRgb,
   composeFrame,
+  composeFramePremultiplied,
   decodeRgba,
   expectedSamples,
 } from "./transition-reference-parity.mjs";
@@ -129,6 +130,7 @@ async function calculate(report, sourceFrames) {
   const alpha = Buffer.concat(sourceFrames.alpha);
   const mirror = Buffer.concat(sourceFrames.mirror);
   const candidateComparisons = [];
+  const premultipliedCandidateComparisons = [];
   for (const sample of expectedSamples) {
     const candidatePath = join(
       candidateRoot,
@@ -136,13 +138,19 @@ async function calculate(report, sourceFrames) {
     );
     const candidate = await decodeRgba(candidatePath);
     const nativeOracle = composeFrame(alpha, mirror, sample.atUs);
+    const premultipliedOracle = composeFramePremultiplied(alpha, mirror, sample.atUs);
     candidateComparisons.push({
       id: sample.id,
       atUs: sample.atUs,
       comparison: compareRgb(nativeOracle, candidate),
     });
+    premultipliedCandidateComparisons.push({
+      id: sample.id,
+      atUs: sample.atUs,
+      comparison: compareRgb(premultipliedOracle, candidate),
+    });
   }
-  return { sourceComparisons, candidateComparisons };
+  return { sourceComparisons, candidateComparisons, premultipliedCandidateComparisons };
 }
 
 async function candidateHashes() {
@@ -208,7 +216,7 @@ export async function generateNativeSourceProbe(outDirectory) {
       status: "open",
       hypothesis: "native-avassetreader-bgra-source-conversion",
       reason:
-        "The production path decodes ProRes through AVAssetReader 32BGRA before Core Image. This probe records those native bytes, applies only the retained source display transform, and compares them with the independent FFmpeg source bytes and the moving candidate. It tests source conversion evidence without changing the compositor or the strict gate.",
+        "The production path decodes ProRes through AVAssetReader 32BGRA before Core Image. This probe records those native bytes, applies only the retained source display transform, and compares them with the independent FFmpeg source bytes and the moving candidate. Its premultiplied-sRGB oracle models CIImage(cvPixelBuffer:) conversion and matches native delivery; the independent FFmpeg strict gate remains unchanged.",
       sources,
       candidates: await candidateHashes(),
     };
@@ -216,6 +224,12 @@ export async function generateNativeSourceProbe(outDirectory) {
     const measurements = await calculate(report, sourceFrames);
     report.sourceComparisons = measurements.sourceComparisons;
     report.candidateComparisons = measurements.candidateComparisons;
+    report.premultipliedCandidateComparisons = measurements.premultipliedCandidateComparisons;
+    report.premultipliedGate = {
+      passed: report.premultipliedCandidateComparisons.every(({ comparison }) => comparison.differingRatio === 0),
+      rule: "native-source-conditioned premultiplied linear source-over requires zero differing RGB pixels",
+      sourceAlphaSemantics: "premultiplied-srgb-8bit",
+    };
     report.gate = {
       passed: false,
       rule: "native-source-conditioned moving parity requires zero differing RGB pixels",
@@ -263,6 +277,12 @@ export async function runNativeSourceProbeReplay(reportPath) {
     report.candidateComparisons,
     "native candidate measurements changed",
   );
+  assert.deepEqual(
+    measurements.premultipliedCandidateComparisons,
+    report.premultipliedCandidateComparisons,
+    "premultiplied native candidate measurements changed",
+  );
+  assert.equal(report.premultipliedGate.passed, true);
   return {
     kind: report.kind,
     status: report.status,
@@ -274,6 +294,8 @@ export async function runNativeSourceProbeReplay(reportPath) {
     ),
     sourceComparisons: report.sourceComparisons,
     candidateComparisons: report.candidateComparisons,
+    premultipliedCandidateComparisons: report.premultipliedCandidateComparisons,
+    premultipliedGate: report.premultipliedGate,
     gate: report.gate,
     reportSha256: hash(reportBytes),
   };

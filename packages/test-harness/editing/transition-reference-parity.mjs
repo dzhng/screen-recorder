@@ -44,12 +44,12 @@ export async function decodeRgba(path) {
   return stdout;
 }
 
-function srgbToLinear(channel) {
+export function srgbToLinear(channel) {
   const value = channel / 255;
   return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
 }
 
-function linearToSrgb(value) {
+export function linearToSrgb(value) {
   const clamped = Math.min(1, Math.max(0, value));
   const encoded =
     clamped <= 0.0031308
@@ -94,6 +94,42 @@ export function composeFrameWithAlpha(alpha, mirror, atUs, alphaValue = (value) 
 
 export function composeFrame(alpha, mirror, atUs) {
   return composeFrameWithAlpha(alpha, mirror, atUs);
+}
+
+/**
+ * Compose sources whose 8-bit RGB channels are premultiplied by their alpha.
+ * AVAssetReader's 32BGRA delivery has this semantic; unpremultiply in the
+ * encoded source space before the declared linear-light source-over operation.
+ */
+export function composeFramePremultiplied(alpha, mirror, atUs) {
+  const frame = Math.min(3, Math.floor(atUs / frameDurationUs));
+  const [alphaOpacity, mirrorOpacity] = opacityAt(atUs);
+  const output = Buffer.alloc(width * height * 4);
+  for (let offset = 0; offset < output.length; offset += 4) {
+    let red = 0, green = 0, blue = 0;
+    for (const [source, opacity] of [[alpha, alphaOpacity], [mirror, mirrorOpacity]]) {
+      const sourceOffset = frame * width * height * 4 + offset;
+      const sourceAlpha = source[sourceOffset + 3] / 255;
+      const scaledAlpha = sourceAlpha * opacity;
+      const straight = (channel) => {
+        const encoded = source[sourceOffset + channel];
+        // Core Video's BGRA conversion preserves channels already in the
+        // premultiplied range and restores only out-of-range straight values.
+        return sourceAlpha > 0 && encoded > source[sourceOffset + 3]
+          ? Math.min(1, (encoded / 255) / sourceAlpha)
+          : encoded / 255;
+      };
+      const remaining = 1 - scaledAlpha;
+      red = srgbToLinear(straight(0) * 255) * scaledAlpha + red * remaining;
+      green = srgbToLinear(straight(1) * 255) * scaledAlpha + green * remaining;
+      blue = srgbToLinear(straight(2) * 255) * scaledAlpha + blue * remaining;
+    }
+    output[offset] = linearToSrgb(red);
+    output[offset + 1] = linearToSrgb(green);
+    output[offset + 2] = linearToSrgb(blue);
+    output[offset + 3] = 255;
+  }
+  return output;
 }
 
 async function writePng(rgba, path) {
