@@ -8,7 +8,7 @@ import test from "node:test";
 const root = new URL("../../../../", import.meta.url).pathname;
 const evidence = join(
   root,
-  "specs/video-editing-feedback/assets/20-synchronization/full-domain-lexical/report.json",
+  "specs/done/video-editing-feedback/assets/20-synchronization/full-domain-lexical/report.json",
 );
 
 test("replays the refused full-domain lexical synchronization scout", async () => {

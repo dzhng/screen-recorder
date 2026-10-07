@@ -6,6 +6,6 @@ that padding is neither recorded speech nor original source support.
 [Provenance](provenance.json) binds the original hash, exact source range,
 derivation command and both WAV/PCM identities. The original remains untouched.
 
-The [retained reproduction](../../specs/video-editing-feedback/assets/07-speech-timing/README.md)
+The [retained reproduction](../../specs/done/video-editing-feedback/assets/07-speech-timing/README.md)
 owns native outputs and the bounded replay checkpoint. They establish admission
 and preservation, not word accuracy or permission to make a cut.

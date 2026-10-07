@@ -6,7 +6,7 @@ import test from "node:test";
 import { runSourceAlphaProbeReplay } from "./transition-source-alpha-probe.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/27-29-transitions/reference-parity/source-alpha-probe.json",
+  "../../../specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/source-alpha-probe.json",
   import.meta.url,
 ).pathname;
 

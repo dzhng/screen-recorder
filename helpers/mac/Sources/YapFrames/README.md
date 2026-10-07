@@ -63,7 +63,7 @@ expansion instead of producing unreported sharp spikes.
 zero for no treatment. Core Image's highlight control uses the opposite direction;
 the native owner translates that provider convention once. The recipe identity
 includes that response and the tone provider's availability. The
-[tone checkpoint](../../../../specs/video-editing-feedback/assets/25-tone-controls/README.md)
+[tone checkpoint](../../../../specs/done/video-editing-feedback/assets/25-tone-controls/README.md)
 keeps independent provider references distinct from movie encoding loss.
 
 [LUT execution](LUTColor.swift) evaluates imported samples in the shared linear
@@ -74,5 +74,5 @@ alpha and leaves final output conversion with the existing picture owner.
 Identity grids return the input directly, so an identity treatment cannot
 introduce another quantization/resampling step. Ordinary cube text alone does
 not establish that its samples describe linear sRGB; the caller declares that
-interpretation. The [numeric and public checkpoint](../../../../specs/video-editing-feedback/assets/26-immutable-luts/README.md)
+interpretation. The [numeric and public checkpoint](../../../../specs/done/video-editing-feedback/assets/26-immutable-luts/README.md)
 retains measured operands and scope.

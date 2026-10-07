@@ -22,5 +22,5 @@ compares complete possible-pair and omission operands through the native wire.
 reads an existing verified Models preparation and compares actual native matrices
 and complete conditional paths without acquiring inputs. Its optional sandbox
 profile can deny donor directories as well as networking.
-The [frozen reference](../../specs/video-editing-feedback/assets/09-local-alignment/README.md)
+The [frozen reference](../../specs/done/video-editing-feedback/assets/09-local-alignment/README.md)
 owns the accepted recipe, independent controls and interpretation limits.

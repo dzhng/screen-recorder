@@ -27,7 +27,7 @@ assert.ok(
     process.env.YAP_NATIVE &&
     isAbsolute(process.env.YAP_NATIVE),
 );
-const operands = join(root, "specs/video-editing-feedback/assets/24-blend-sheet");
+const operands = join(root, "specs/done/video-editing-feedback/assets/24-blend-sheet");
 const frozen = JSON.parse(await readFile(join(operands, "report.json")));
 const cases = selectBlendCases(frozen.cases, values.case);
 const out = resolve(values.out);

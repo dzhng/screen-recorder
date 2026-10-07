@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { runRgbaHalfProbeReplay } from "./transition-rgba-half-source-probe.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/27-29-transitions/reference-parity/rgba-half-source-probe.json",
+  "../../../specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/rgba-half-source-probe.json",
   import.meta.url,
 ).pathname;
 

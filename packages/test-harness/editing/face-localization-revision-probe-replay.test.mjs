@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { replayFaceLocalizationRevisionProbe } from "./face-localization-revision-probe-replay.mjs";
 
 const root = new URL(
-  "../../../specs/video-editing-feedback/assets/15-face-observations/revision-probe/",
+  "../../../specs/done/video-editing-feedback/assets/15-face-observations/revision-probe/",
   import.meta.url,
 ).pathname;
 const receipt = join(root, "report.json");

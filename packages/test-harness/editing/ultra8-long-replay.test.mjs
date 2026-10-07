@@ -20,7 +20,7 @@ test("replays the retained Ultra-8 long continuity audit without promoting it", 
 test("refuses a changed retained Ultra-8 long operand before scoring", async () => {
   const { runUltra8LongReplay } = await import("./ultra8-long-replay.mjs");
   const source = new URL(
-    "../../../specs/video-editing-feedback/assets/31-speaker-replication/",
+    "../../../specs/done/video-editing-feedback/assets/31-speaker-replication/",
     import.meta.url,
   ).pathname;
   const scratch = await mkdtemp(join(tmpdir(), "yap-ultra8-long-replay-"));

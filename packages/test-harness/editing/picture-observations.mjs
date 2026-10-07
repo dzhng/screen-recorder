@@ -24,7 +24,7 @@ assert.ok(
     process.env.YAP_NATIVE &&
     isAbsolute(process.env.YAP_NATIVE),
 );
-const assets = join(root, "specs/video-editing-feedback/assets/14-picture-statistics");
+const assets = join(root, "specs/done/video-editing-feedback/assets/14-picture-statistics");
 const controls = JSON.parse(await readFile(join(assets, "controls.json")));
 const manifest = JSON.parse(
   await readFile(join(root, "fixtures/video-editing-feedback/manifest.json")),

@@ -26,7 +26,7 @@ const report = {
 };
 const service = new JourneyService(resolve(values.home), report);
 const call = service.call.bind(service);
-const reference = join(root, "specs/video-editing-feedback/assets/09-local-alignment/inputs");
+const reference = join(root, "specs/done/video-editing-feedback/assets/09-local-alignment/inputs");
 const manifest = JSON.parse(await readFile(join(reference, "manifest.json"), "utf8"));
 const expectedEngine = JSON.parse(
   await readFile(join(reference, "../../10-word-attribution/preparation.json"), "utf8"),

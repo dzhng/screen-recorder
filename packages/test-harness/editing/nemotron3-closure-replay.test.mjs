@@ -5,7 +5,7 @@ import test from "node:test";
 
 const run = promisify(execFile);
 const replay = new URL(
-  "../../../specs/video-editing-feedback/assets/31-speaker-replication/nemotron3-closure/replay.mjs",
+  "../../../specs/done/video-editing-feedback/assets/31-speaker-replication/nemotron3-closure/replay.mjs",
   import.meta.url,
 ).pathname;
 

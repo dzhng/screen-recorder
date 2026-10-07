@@ -22,7 +22,7 @@ test("retains the bounded native streaming envelope without promoting long-form 
 test("rejects a streaming receipt that changes its cross-selection state contract", async () => {
   const { readSpeakerStreamingEnvelope } = await import("./speaker-streaming-envelope.mjs");
   const source = new URL(
-    "../../../specs/video-editing-feedback/assets/31-speaker-replication/",
+    "../../../specs/done/video-editing-feedback/assets/31-speaker-replication/",
     import.meta.url,
   ).pathname;
   const scratch = await mkdtemp(join(tmpdir(), "yap-speaker-streaming-envelope-"));

@@ -75,7 +75,7 @@
         "state": "recognition-parity-pass",
         "sourceRevision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
         "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
-        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
         "recipe": "Frozen integrated07 selected-interval Parakeet recipe; no08 window/context topology",
         "wordCount": 3,
         "tokenCount": 11,
@@ -161,7 +161,7 @@
         "wordCount": 83,
         "tokenCount": 150,
         "normalizedSha256": "0d61e429061771ecb32ee2f788c8c957dc6779571b8f60d08c1c21b118372574",
-        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
         "evidenceSha256": "47c322d8650673f36a569f8e7bdf045368e932e09057afbd9cd335518cbf76b0"
       }
     },
@@ -242,7 +242,7 @@
         "wordCount": 78,
         "tokenCount": 140,
         "normalizedSha256": "42d8f94029c614d62e75b99cdc8aea2cdded62e6bbffd4454d6bdeccae34135e",
-        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
         "evidenceSha256": "47c322d8650673f36a569f8e7bdf045368e932e09057afbd9cd335518cbf76b0"
       }
     },
@@ -321,7 +321,7 @@
         "state": "recognition-parity-pass",
         "sourceRevision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
         "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
-        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
         "recipe": "Frozen integrated07 selected-interval Parakeet recipe; no08 window/context topology",
         "wordCount": 49,
         "tokenCount": 88,
@@ -406,7 +406,7 @@
         "state": "recognition-parity-pass",
         "sourceRevision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
         "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
-        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
         "recipe": "Frozen integrated07 selected-interval Parakeet recipe; no08 window/context topology",
         "wordCount": 13,
         "tokenCount": 22,
@@ -498,7 +498,7 @@
       "preservation": {
         "status": "pass",
         "basis": "native full-frame PNG comparison at four exact matched frame supports, face/wall/full-frame RGB metrics and independent visual critique; physical clock/raster/color checked across all 72 decoded frames",
-        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-picture/graham.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-picture/graham.json",
         "comparedFrames": [
           0,
           12,
@@ -508,7 +508,7 @@
       },
       "baseline": {
         "state": "picture-replication-pass",
-        "evidence": "../../specs/video-editing-feedback/assets/13-decoded-picture/verification.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/13-decoded-picture/verification.json",
         "scope": "Sampled unchanged SDR source/project picture observations; no full-video, HDR or editorial verdict",
         "case": "graham",
         "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
@@ -597,7 +597,7 @@
       "preservation": {
         "status": "pass",
         "basis": "native full-frame PNG comparison at four exact matched frame supports, face/wall/full-frame RGB metrics and independent visual critique; physical clock/raster/color checked across all 72 decoded frames",
-        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-picture/madison.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-picture/madison.json",
         "comparedFrames": [
           0,
           12,
@@ -607,7 +607,7 @@
       },
       "baseline": {
         "state": "picture-replication-pass",
-        "evidence": "../../specs/video-editing-feedback/assets/13-decoded-picture/verification.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/13-decoded-picture/verification.json",
         "scope": "Sampled unchanged SDR source/project picture observations; no full-video, HDR or editorial verdict",
         "case": "madison",
         "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
@@ -696,7 +696,7 @@
       "preservation": {
         "status": "pass",
         "basis": "native full-frame PNG comparison at four exact matched frame supports, face/wall/full-frame RGB metrics and independent visual critique; physical clock/raster/color checked across all 72 decoded frames",
-        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-picture/lily.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-picture/lily.json",
         "comparedFrames": [
           0,
           12,
@@ -706,7 +706,7 @@
       },
       "baseline": {
         "state": "picture-replication-pass",
-        "evidence": "../../specs/video-editing-feedback/assets/13-decoded-picture/verification.json",
+        "evidence": "../../specs/done/video-editing-feedback/assets/13-decoded-picture/verification.json",
         "scope": "Sampled unchanged SDR source/project picture observations; no full-video, HDR or editorial verdict",
         "case": "lily",
         "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"

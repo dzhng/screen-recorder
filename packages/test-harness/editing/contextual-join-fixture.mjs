@@ -65,7 +65,7 @@ function wav32(floatBytes, sampleRate = 16000) {
   return Buffer.concat([header, floatBytes]);
 }
 
-const inputDir = join(root, "specs/video-editing-feedback/assets/09-local-alignment/inputs");
+const inputDir = join(root, "specs/done/video-editing-feedback/assets/09-local-alignment/inputs");
 const intactPCM = gunzipSync(await readFile(join(inputDir, "fortunate-intact.f32.gz")));
 const intactDurationUs = (intactPCM.length / 4) * (1_000_000 / 16_000);
 const cutUs = Math.round((6262 / 16_000) * 1_000_000);

@@ -56,17 +56,17 @@ export async function replaySpeakerThresholdFrontier(receiptPath) {
   for (const [label, relativePath, expectedHash] of [
     [
       "protocol",
-      "specs/video-editing-feedback/assets/31-speaker-replication/handoff-evidence/continuity/protocol.json",
+      "specs/done/video-editing-feedback/assets/31-speaker-replication/handoff-evidence/continuity/protocol.json",
       receipt.input.protocolSha256,
     ],
     [
       "raw",
-      "specs/video-editing-feedback/assets/31-speaker-replication/handoff-evidence/continuity/four-speaker600.json.gz",
+      "specs/done/video-editing-feedback/assets/31-speaker-replication/handoff-evidence/continuity/four-speaker600.json.gz",
       receipt.input.rawSha256,
     ],
     [
       "native",
-      "specs/video-editing-feedback/assets/31-speaker-replication/handoff-evidence/continuity/four-speaker600.json.native-unverified.json.gz",
+      "specs/done/video-editing-feedback/assets/31-speaker-replication/handoff-evidence/continuity/four-speaker600.json.native-unverified.json.gz",
       receipt.input.nativeSha256,
     ],
   ]) {

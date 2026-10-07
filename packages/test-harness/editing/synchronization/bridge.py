@@ -131,7 +131,7 @@ def scout(args, protocol):
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('mode', choices=['acquire', 'scout'])
-parser.add_argument('--protocol', type=Path, default=Path(__file__).parents[4] / 'specs/video-editing-feedback/assets/20-synchronization/bridge/protocol.json')
+parser.add_argument('--protocol', type=Path, default=Path(__file__).parents[4] / 'specs/done/video-editing-feedback/assets/20-synchronization/bridge/protocol.json')
 parser.add_argument('--native', type=Path)
 parser.add_argument('--originals', type=Path)
 parser.add_argument('--acquisition', type=Path)

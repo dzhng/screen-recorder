@@ -1,0 +1,124 @@
+# Retained native face observations
+
+Face evidence describes the delivered upright raster. It contains every native
+Vision rectangle and confidence, the actual Vision revision/macOS implementation,
+and explicit no-face/error states. It does not establish a person's name, a
+complete head silhouette, an edit target or permission to crop.
+
+Every native face row also retains the landmark groups returned for that exact
+rectangle and a `core`, `partial` or `unavailable` coverage state. The state is
+quality evidence only: detector confidence is not promoted into a complete-face
+claim, and no group is inferred when the landmark request fails.
+
+[The checkpoint](../../../../../packages/test-harness/editing/subject-observations.mjs)
+owns invocation and selected inputs. [Frozen gates](gates.json) were authored from
+source images before inference. [Native evidence](native-evidence.json) retains
+all observations, exact native sample clocks, original hashes, immutable frame
+pins, association rows, controls and failed localization comparisons. Its small
+[contact sheets](shots/) provide the full sampled window; annotated detail shots
+show native boxes in green and independent regions in magenta.
+
+Delivery and association are green across every retained native frame from the
+three short host windows. Planted movement, two simultaneous faces, a source-edge
+face, full occlusion and metadata orientation are delivered natively. Metadata
+rotation must reproduce upright bytes before it can certify oriented box space.
+Tracker controls retain gaps, refuse identities after the declared horizon, and
+reset on explicit scenes, detector errors and changed provider/raster domains.
+Missing temporal support is never interpolated. [Public index evidence](public-index-evidence.json)
+checks plain and face-enriched source/project indexes through both transports,
+including native request forwarding, delivered receipts and ordinary cursors.
+
+**Full-face localization remains red.** The frozen overlap requirement fails in
+27 Graham frames as his hand covers his face and his head turns. The native
+rectangle shrinks while its confidence remains high. The same source window
+still supplies one continuously associated detector track, and every returned
+center stays inside the independent region. These facts cannot turn the failed
+full-face gate green. No threshold was widened and no rectangle was expanded to
+match the oracle. Follow-up must distinguish independently authored visible-face
+landmarks from a complete head region; it must preserve this failure if Vision
+cannot support the requested localization. Scores are evidence, never quality
+or permission to frame automatically.
+
+The exact failure audit is retained in [failure-audit.json](failure-audit.json).
+It records the two failed ranges (44–45 and 47–71), IoU 0.328–0.492, confidence
+0.784–0.885, and the fact that every failed center remains inside the authored
+zone. A fresh landmark-aware worker replay returned `core` landmark groups for
+the contracted rectangles; that is useful quality evidence but does not recover
+the hidden head area or change the frozen verdict. Confidence thresholding,
+association, box widening and a relaxed IoU gate are therefore rejected as
+corrections.
+
+The retained result is also checked by
+[`face-localization-replay.mjs`](../../../../../packages/test-harness/editing/face-localization-replay.mjs).
+That checker binds the exact evidence, gate, audit and native-worker identities,
+recomputes every frame's IoU and center containment, and requires the 27 failed
+ordinals to remain open. It is a receipt replay, not a second detector; changing
+the boxes, thresholds, source set or failure audit is refused before a report can
+be promoted.
+
+A separate Vision revision-2 experiment is retained under
+[`revision-probe/`](revision-probe/). Its compressed native report is bound by
+[`face-localization-revision-probe-replay.mjs`](../../../../../packages/test-harness/editing/face-localization-revision-probe-replay.mjs)
+and intentionally remains refused: nine Graham frames still fall below the
+unchanged 0.5 IoU gate (0.463857–0.497498), and the candidate also failed the
+frozen crop-center raster identity check. The probe does not alter the
+production revision-3 worker or the full-face failure verdict.
+
+The same replay now retains a revision-1 run as well. It reaches the identical
+nine late Graham failures and the same IoU range, while also failing the frozen
+crop-center raster identity check. Both older revisions are refused; production
+revision 3 remains unchanged and no box widening or threshold relaxation is
+allowed.
+
+An independently authored landmark-envelope hypothesis is also retained in
+[`landmark-envelope-probe.json`](landmark-envelope-probe.json). It maps the
+`VNDetectFaceLandmarksRequest` face-contour points back through each detector
+rectangle and clips the resulting candidate to the delivered raster. This is a
+separate visible-face measurement, not a detector threshold or a post-hoc box
+expansion. It fails the unchanged 0.5 IoU gate on all 72 Graham frames (0.191–
+0.450), so the contour is evidence of visible landmarks rather than a complete
+head region and is refused. Its exact report and Swift recipe replay through
+[`face-landmark-envelope-replay.mjs`](../../../../../packages/test-harness/editing/face-landmark-envelope-replay.mjs).
+
+A second independent hypothesis is retained in
+[`body-pose-head-probe.json`](body-pose-head-probe.json). Vision's human-body
+pose head-adjacent joints (nose, eyes, ears and neck) are enclosed directly in
+the delivered raster. Body pose is unavailable on 50 of 72 frames; on the 22
+available frames its envelope reaches only 0.373–0.484 IoU, below the unchanged
+0.5 gate. This is therefore a bounded refusal, not a head-box expansion or a
+complete-head quality claim. Replay is owned by
+[`face-body-pose-head-replay.mjs`](../../../../../packages/test-harness/editing/face-body-pose-head-replay.mjs).
+
+A third built-in Vision hypothesis is retained in
+[`person-segmentation-probe.json`](person-segmentation-probe.json). The exact
+foreground envelope from `VNGeneratePersonSegmentationRequest` is a whole-person
+silhouette: across all 72 frames it scores only 0.169–0.181 IoU against the
+authored face zone. It cannot distinguish a complete head from the torso, so it
+remains refused under the unchanged 0.5 gate. The machine-readable replay is
+[`face-person-segmentation-replay.mjs`](../../../../../packages/test-harness/editing/face-person-segmentation-replay.mjs).
+
+The [`tracking-probe.json`](tracking-probe.json) receipt records a fourth
+hypothesis. Apple's accurate `VNTrackObjectRequest`, seeded by frame 0 and
+applied recursively to the retained host windows, clears the unchanged 0.5 IoU
+gate on all 216 frames (Graham 0.624–0.703, Madison 0.658–0.862, Lily
+0.709–0.794). It remains refused: the tracker is a temporal prediction that can
+carry a box through Graham's hand/pose occlusion. Promoting that predicted box
+as an observed face would hide the required no-face/error distinction and could
+authorize a crop around an unobserved head. The executable
+[`face-tracking-refusal-replay.mjs`](../../../../../packages/test-harness/editing/face-tracking-refusal-replay.mjs)
+binds the exact probe and keeps `promotion: false`; this is evidence for a
+future explicitly modeled tracked-subject mode, not a change to detector
+observations.
+
+A previous scratch metadata control was counter-rotated in the wrong direction;
+its upside-down raster is retained in [failed-controls.json](failed-controls.json).
+The corrected control is byte-identical to its upright input. Initial integer-us
+sample rounding also repeated predecessor frames; that abandoned run is not
+native-window coverage. The accepted capture uses ceiling requests and proves
+every native rational sample separately.
+
+Closeout review: the independent visual pass found no visible stretch, orientation,
+or source-corner loss in the complete sheets. It did not certify continuous motion
+between sampled frames, and enlarged detail crops are soft because the retained
+fixtures are enlarged for inspection. Those are evidence limits, not detector
+quality claims; the 27 full-face failures remain red.

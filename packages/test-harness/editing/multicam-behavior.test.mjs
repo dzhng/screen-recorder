@@ -7,10 +7,10 @@ import test from "node:test";
 
 const root = new URL("../../../", import.meta.url).pathname;
 const fixtures = join(root, "fixtures/video-editing-feedback/synchronization");
-const recipe = join(root, "specs/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.json");
+const recipe = join(root, "specs/done/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.json");
 const identity = join(
   root,
-  "specs/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.identity.json",
+  "specs/done/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.identity.json",
 );
 
 test("replays caller-authored multicam source choices over physical audio and picture evidence", async () => {

@@ -1,0 +1,21 @@
+{
+  "kind": "independent-corpus-controls",
+  "generatedAt": "2026-10-06T21:28:28Z",
+  "command": "node packages/test-harness/editing/corpus-controls.mjs verify --controls specs/done/video-editing-feedback/assets/01-corpus-controls --reference-root specs/done/agent-editing/assets/00-corpus --ffmpeg /opt/homebrew/bin/ffmpeg --ffprobe /opt/homebrew/bin/ffprobe",
+  "result": {
+    "ok": true,
+    "controls": [
+      "rational-24fps-boundaries",
+      "offset-and-drift",
+      "unrelated-audio",
+      "rotated-asymmetric-picture",
+      "flat-and-transparent-patches",
+      "clipping-edge-bars",
+      "wrong-supplied-text",
+      "blank-detection",
+      "transition-gap"
+    ],
+    "mediaBytes": 594411
+  },
+  "scope": "Independent controls only; real corpus behavior and multicamera/speaker continuity remain separate gates."
+}

@@ -25,7 +25,7 @@ const frozen = JSON.parse(
   await readFile(
     join(
       root,
-      "specs/video-editing-feedback/assets/10-word-attribution/acoustic-public/report.json",
+      "specs/done/video-editing-feedback/assets/10-word-attribution/acoustic-public/report.json",
     ),
     "utf8",
   ),

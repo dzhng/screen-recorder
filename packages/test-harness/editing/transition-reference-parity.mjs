@@ -22,7 +22,7 @@ export const expectedSamples = [
 export function movingCandidatePath(sample) {
   return join(
     root,
-    "specs/video-editing-feedback/assets/27-29-transitions/crossfade/moving",
+    "specs/done/video-editing-feedback/assets/27-29-transitions/crossfade/moving",
     `${sample.id.replace("moving-", "moving-frame-")}.png`,
   );
 }

@@ -14,7 +14,7 @@ const inventoryIndex = args.indexOf("--inventory");
 const inventory =
   inventoryIndex < 0
     ? new URL(
-        "../../../specs/video-editing-feedback/assets/07-speech-timing/replay-cases.json",
+        "../../../specs/done/video-editing-feedback/assets/07-speech-timing/replay-cases.json",
         import.meta.url,
       )
     : pathToFileURL(resolve(args[inventoryIndex + 1] ?? ""));

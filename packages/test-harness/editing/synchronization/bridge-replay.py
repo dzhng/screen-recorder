@@ -10,7 +10,7 @@ import numpy as np
 from scipy.io import wavfile
 
 ROOT = Path(__file__).parents[4]
-BANK = ROOT / 'specs/video-editing-feedback/assets/20-synchronization/bridge'
+BANK = ROOT / 'specs/done/video-editing-feedback/assets/20-synchronization/bridge'
 FIXTURES = ROOT / 'fixtures/video-editing-feedback/synchronization/bridge'
 
 def load_module(name):

@@ -5,7 +5,7 @@ import test from "node:test";
 import { replaySceneAudioDelivery } from "./scene-audio-delivery-replay.mjs";
 
 const reportPath = new URL(
-  "../../../specs/video-editing-feedback/assets/30-delivered-scenes/native/av/report.json",
+  "../../../specs/done/video-editing-feedback/assets/30-delivered-scenes/native/av/report.json",
   import.meta.url,
 );
 
@@ -24,7 +24,7 @@ test("refuses changed combined export bytes", async () => {
     const report = JSON.parse(await readFile(reportPath, "utf8"));
     await copyFile(
       new URL(
-        "../../../specs/video-editing-feedback/assets/30-delivered-scenes/native/av/combined.mp4",
+        "../../../specs/done/video-editing-feedback/assets/30-delivered-scenes/native/av/combined.mp4",
         import.meta.url,
       ),
       join(directory, "combined.mp4"),
@@ -36,7 +36,7 @@ test("refuses changed combined export bytes", async () => {
       join(directory, "delivered.wav"),
       await readFile(
         new URL(
-          "../../../specs/video-editing-feedback/assets/30-delivered-scenes/native/av/delivered.wav",
+          "../../../specs/done/video-editing-feedback/assets/30-delivered-scenes/native/av/delivered.wav",
           import.meta.url,
         ),
       ),

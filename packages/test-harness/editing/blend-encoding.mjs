@@ -30,7 +30,7 @@ assert.ok(
 );
 const out = values.out;
 await mkdir(out);
-const evidence = join(root, "specs/video-editing-feedback/assets/24-blend-sheet");
+const evidence = join(root, "specs/done/video-editing-feedback/assets/24-blend-sheet");
 const frozen = JSON.parse(await readFile(join(evidence, "report.json")));
 const cases = selectBlendCases(frozen.cases, values.case);
 const readers = {};

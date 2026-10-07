@@ -62,7 +62,7 @@ class ResearchContract(unittest.TestCase):
             root = Path(directory)
             fixtures = self.fixture(root)
             # Silence has no peaks; this supplies all nine independent null expectations.
-            frozen = json.loads((SCRIPT.parents[4] / "specs/video-editing-feedback/assets/20-synchronization/original-comparisons.json").read_text())
+            frozen = json.loads((SCRIPT.parents[4] / "specs/done/video-editing-feedback/assets/20-synchronization/original-comparisons.json").read_text())
             policy = frozen[0]["result"]["policy"]
             rows = []
             for start in (0, 240, 1200):

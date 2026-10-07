@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { replayFaceLandmarkEnvelope } from "./face-landmark-envelope-replay.mjs";
 
-const root = new URL("../../../specs/video-editing-feedback/assets/15-face-observations/", import.meta.url).pathname;
+const root = new URL("../../../specs/done/video-editing-feedback/assets/15-face-observations/", import.meta.url).pathname;
 
 test("replays the landmark envelope probe as an explicit refusal", async () => {
   const result = await replayFaceLandmarkEnvelope(`${root}landmark-envelope-probe.json`);

@@ -9,7 +9,7 @@ import test from "node:test";
 const run = promisify(execFile);
 const entry = new URL("./corpus-controls.mjs", import.meta.url).pathname;
 const root = resolve(new URL("../../../", import.meta.url).pathname);
-const controls = join(root, "specs/video-editing-feedback/assets/01-corpus-controls");
+const controls = join(root, "specs/done/video-editing-feedback/assets/01-corpus-controls");
 const reference = join(root, "specs/done/agent-editing/assets/00-corpus");
 
 test("independent control verifier certifies canonical media and authored controls", async () => {

@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "scope": "retained real-media cases have scoped replayable behavior evidence; this does not certify global sync, speaker continuity or editorial quality",
+  "cases": [
+    {
+      "id": "false-start",
+      "state": "recognition-parity-pass",
+      "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+      "evidenceSha256": "4b1d50875fde19fc0cca16a073a08e49f7496c796485793b143456d8baf736f0"
+    },
+    {
+      "id": "overlap-region",
+      "state": "fixed-current",
+      "evidence": "../../specs/done/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
+      "evidenceSha256": "47c322d8650673f36a569f8e7bdf045368e932e09057afbd9cd335518cbf76b0"
+    },
+    {
+      "id": "overlap-neighbor",
+      "state": "fixed-current",
+      "evidence": "../../specs/done/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
+      "evidenceSha256": "47c322d8650673f36a569f8e7bdf045368e932e09057afbd9cd335518cbf76b0"
+    },
+    {
+      "id": "phrase-final-trend",
+      "state": "recognition-parity-pass",
+      "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+      "evidenceSha256": "4b1d50875fde19fc0cca16a073a08e49f7496c796485793b143456d8baf736f0"
+    },
+    {
+      "id": "madison-context",
+      "state": "recognition-parity-pass",
+      "evidence": "../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+      "evidenceSha256": "4b1d50875fde19fc0cca16a073a08e49f7496c796485793b143456d8baf736f0"
+    },
+    {
+      "id": "graham-picture",
+      "state": "picture-replication-pass",
+      "evidence": "../../specs/done/video-editing-feedback/assets/13-decoded-picture/verification.json",
+      "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
+    },
+    {
+      "id": "madison-picture",
+      "state": "picture-replication-pass",
+      "evidence": "../../specs/done/video-editing-feedback/assets/13-decoded-picture/verification.json",
+      "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
+    },
+    {
+      "id": "lily-picture",
+      "state": "picture-replication-pass",
+      "evidence": "../../specs/done/video-editing-feedback/assets/13-decoded-picture/verification.json",
+      "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
+    }
+  ]
+}

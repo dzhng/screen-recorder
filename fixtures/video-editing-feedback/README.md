@@ -12,14 +12,14 @@ remain unchanged. Audio re-decode equality and sampled visual preservation are
 different claims from recognizer accuracy or picture-quality observations.
 A newly derived video remains unverified until its own visual proof is recorded.
 
-The [selected speech comparison](../../specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/README.md)
+The [selected speech comparison](../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/README.md)
 records exact original/derivative recognition parity under a frozen worker recipe.
 Its manifest dispositions preserve context-sensitive recognition and historical
 failures without treating a transcript as independent lexical truth.
 
 Fetch only selected LFS inputs. A pointer alone is refused. Picture verification
 requires a supplied prepared FFprobe executable so a matching hash cannot stand
-in for actual decoded frames. The [picture evidence](../../specs/video-editing-feedback/assets/01-corpus-picture/README.md)
+in for actual decoded frames. The [picture evidence](../../specs/done/video-editing-feedback/assets/01-corpus-picture/README.md)
 states both measured preservation and remaining temporal/behavioral limits.
 The exact historical tiny input has its own [speech-timing provenance](../speech-timing/README.md);
 it is not another Float32 copy. Multicamera and independent speaker controls

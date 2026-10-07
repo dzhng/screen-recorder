@@ -120,7 +120,7 @@ try {
   ]);
   const source = await importAsset(chart);
   const lut = await importAsset(
-    join(root, "specs/video-editing-feedback/assets/25-tone-controls/split-tone/split.cube"),
+    join(root, "specs/done/video-editing-feedback/assets/25-tone-controls/split-tone/split.cube"),
   );
   assert.deepEqual(lut.lut, {
     format: "cube-3d",
@@ -134,7 +134,7 @@ try {
       id: lut.id,
       sha256: hash(
         await readFile(
-          join(root, "specs/video-editing-feedback/assets/25-tone-controls/split-tone/split.cube"),
+          join(root, "specs/done/video-editing-feedback/assets/25-tone-controls/split-tone/split.cube"),
         ),
       ),
     },

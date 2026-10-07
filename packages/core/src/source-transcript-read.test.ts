@@ -435,7 +435,7 @@ test.each(["baseline", "green"])(
   async (version) => {
     const raw = await readFile(
       new URL(
-        `../../../specs/video-editing-feedback/assets/07-speech-timing/m1877.55-${version}.jsonl`,
+        `../../../specs/done/video-editing-feedback/assets/07-speech-timing/m1877.55-${version}.jsonl`,
         import.meta.url,
       ),
       "utf8",

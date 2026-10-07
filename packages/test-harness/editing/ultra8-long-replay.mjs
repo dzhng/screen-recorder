@@ -4,12 +4,12 @@ import { gunzipSync } from "node:zlib";
 import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { sourceTurns } from "../../../specs/video-editing-feedback/assets/31-speaker-replication/ultra8-evidence/native-clock.mjs";
+import { sourceTurns } from "../../../specs/done/video-editing-feedback/assets/31-speaker-replication/ultra8-evidence/native-clock.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const assets = join(
   root,
-  "specs/video-editing-feedback/assets/31-speaker-replication/ultra8-evidence",
+  "specs/done/video-editing-feedback/assets/31-speaker-replication/ultra8-evidence",
 );
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const readJson = async (path) => JSON.parse(await readFile(path, "utf8"));

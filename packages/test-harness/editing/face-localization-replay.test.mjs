@@ -4,7 +4,7 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { replayFaceLocalization } from "./face-localization-replay.mjs";
 
-const root = new URL("../../../specs/video-editing-feedback/assets/15-face-observations/", import.meta.url).pathname;
+const root = new URL("../../../specs/done/video-editing-feedback/assets/15-face-observations/", import.meta.url).pathname;
 const evidence = join(root, "native-evidence.json");
 
 test("replays the retained face localization failure without promoting it", async () => {

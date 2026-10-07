@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { runParityReplay } from "./transition-parity-replay.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/27-29-transitions/crossfade/comparator/transition/report/visual-parity-diff.json",
+  "../../../specs/done/video-editing-feedback/assets/27-29-transitions/crossfade/comparator/transition/report/visual-parity-diff.json",
   import.meta.url,
 ).pathname;
 

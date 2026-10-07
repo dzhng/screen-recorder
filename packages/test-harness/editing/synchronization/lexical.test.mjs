@@ -63,7 +63,7 @@ test("missing speech cannot be manufactured by joining selected windows", () => 
 test("outer replay preserves frozen observations and refuses a changed model identity", () => {
   const scratch = mkdtempSync(join(tmpdir(), "yap-lexical-test-"));
   const bank = new URL(
-    "../../../../specs/video-editing-feedback/assets/20-synchronization/lexical/",
+    "../../../../specs/done/video-editing-feedback/assets/20-synchronization/lexical/",
     import.meta.url,
   );
   const fixtures = new URL(

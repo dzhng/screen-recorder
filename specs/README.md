@@ -38,13 +38,13 @@ owned by the [tag workflow](../scripts/README.md#versioned-github-releases).
 [FFmpeg parity and agent media workflows](done/ffmpeg-parity/README.md) records
 bundled media tools, explicit offline treatments and task-side agent workflows.
 
-## Active plans
+## Archived plans
 
-[Reliable autonomous video editing](video-editing-feedback/README.md) is the current
-implementation plan derived from real trailer-agent feedback. It includes the full
-feedback snapshot, session retrospective, certified-fixture plan and independently
-verifiable capability slices. Its Next Agent Prompt owns the pickup point; planning
-does not mean implementation or media acceptance has occurred.
+The [reliable autonomous video editing rationale](done/video-editing-feedback/README.md)
+records the implementation derived from real trailer-agent feedback. It includes the
+full feedback snapshot, session retrospective, certified fixtures, retained evidence,
+and the invariants that the shipped contracts preserve. The code and replay tests own
+the mechanics; the archived document owns the reasons and explicit evidence limits.
 
 ## Future proposals
 

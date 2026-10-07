@@ -22,7 +22,7 @@ const recipe = {
   shadows: 0.35,
   highlights: 0.3,
 };
-const source = join(root, "specs/video-editing-feedback/assets/26-immutable-luts/dry.png");
+const source = join(root, "specs/done/video-editing-feedback/assets/26-immutable-luts/dry.png");
 const report = {
   passed: false,
   trace: [],

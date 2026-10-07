@@ -4,7 +4,7 @@ import { pictureObservationsSchema } from "./picture.js";
 const controls = JSON.parse(
   readFileSync(
     new URL(
-      "../../../specs/video-editing-feedback/assets/14-picture-statistics/control-receipts.json",
+      "../../../specs/done/video-editing-feedback/assets/14-picture-statistics/control-receipts.json",
       import.meta.url,
     ),
     "utf8",

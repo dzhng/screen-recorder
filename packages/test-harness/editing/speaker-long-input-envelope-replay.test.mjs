@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { replaySpeakerLongInputEnvelope } from "./speaker-long-input-envelope-replay.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/31-speaker-replication/long-input-envelope.json",
+  "../../../specs/done/video-editing-feedback/assets/31-speaker-replication/long-input-envelope.json",
   import.meta.url,
 ).pathname;
 

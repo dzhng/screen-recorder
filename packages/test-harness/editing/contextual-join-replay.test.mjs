@@ -6,7 +6,7 @@ import { discoverContextualRepair } from "./contextual-join-replay.mjs";
 const receipt = JSON.parse(
   await readFile(
     new URL(
-      "../../../specs/video-editing-feedback/assets/12-contextual-joins/media-fixture-report.json",
+      "../../../specs/done/video-editing-feedback/assets/12-contextual-joins/media-fixture-report.json",
       import.meta.url,
     ),
     "utf8",

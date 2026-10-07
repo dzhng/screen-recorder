@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { replayMotionDelivery } from "./motion-delivery-replay.mjs";
 
 const reportPath = new URL(
-  "../../../specs/video-editing-feedback/assets/27-29-transitions/motion-delivery-replay.json",
+  "../../../specs/done/video-editing-feedback/assets/27-29-transitions/motion-delivery-replay.json",
   import.meta.url,
 );
 
@@ -54,7 +54,7 @@ test("refuses retained trajectory output bytes that no longer match the receipt"
     for (const key of ["full", "range"]) {
       await copyFile(
         new URL(
-          `../../../specs/video-editing-feedback/assets/27-29-transitions/${key}.mp4`,
+          `../../../specs/done/video-editing-feedback/assets/27-29-transitions/${key}.mp4`,
           import.meta.url,
         ),
         join(directory, `${key}.mp4`),

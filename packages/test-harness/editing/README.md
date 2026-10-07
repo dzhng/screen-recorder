@@ -34,7 +34,7 @@ results have different inference topology and cannot use that historical compari
 [Rendered speech](rendered-speech-public.mjs) compares projected source words with
 fresh recognition of retained revision PCM through CLI/MCP. Independent audio
 landmarks check the selected sample clock; restart reads prove that retained evidence
-needs neither rendering nor inference. Its [accepted evidence](../../../specs/video-editing-feedback/assets/11-rendered-speech/README.md)
+needs neither rendering nor inference. Its [accepted evidence](../../../specs/done/video-editing-feedback/assets/11-rendered-speech/README.md)
 keeps the planted edge-cut limitation separate from fresh-observation proof.
 
 ## Pictures, audio and processing
@@ -52,7 +52,7 @@ stills and encoded movies, including a preview beginning inside the motion.
 
 [Blend arithmetic](blend-sheet.mjs) compares authored color/alpha surfaces and a smooth
 vignette against an independent linear-light reference through the public compiler and
-native still/movie operations. Its [retained evidence](../../../specs/video-editing-feedback/assets/24-blend-sheet/README.md)
+native still/movie operations. Its [retained evidence](../../../specs/done/video-editing-feedback/assets/24-blend-sheet/README.md)
 keeps full-raster still proof separate from movie patch-interior codec tolerance.
 The [public blend journey](blend-public.mjs) adds CLI/MCP admission, delivered bytes,
 exact sample support and export publication over those same frozen operands.
@@ -144,7 +144,7 @@ that synthetic controls replace the retained real recordings.
 
 [The decoded-picture runner](decoded-picture-replication.mjs) freezes player-oriented
 SDR comparisons against public unchanged source/project delivery, including exact
-physical clocks and actual profiles. Its [retained reference](../../../specs/video-editing-feedback/assets/13-decoded-picture/README.md)
+physical clocks and actual profiles. Its [retained reference](../../../specs/done/video-editing-feedback/assets/13-decoded-picture/README.md)
 separates sampled acceptance from broader rendering claims.
 
 [Native rendering](RENDER-REPRODUCTION.md) explains temporal sample support;
@@ -181,7 +181,7 @@ normalization, limiter and compressor evidence before production admission.
 lifetime and the independent delivered-PNG observer. It checks explicit region
 operands, alpha coverage and read-only pixel identity, including scratch-authored
 exposure controls and retained index receipts. Its help owns selected inputs and
-invocation. [Accepted observations](../../../specs/video-editing-feedback/assets/14-picture-statistics/README.md)
+invocation. [Accepted observations](../../../specs/done/video-editing-feedback/assets/14-picture-statistics/README.md)
 retain measured scopes without turning camera histograms into grade targets.
 
 [Physical empty-edit delivery](empty-edit-delivery.mjs) imports the frozen
@@ -189,7 +189,7 @@ AVFoundation empty-edit fixture through the public source/project/export path.
 It keeps physical support coverage, refused source reads, black gap pixels and
 available neighbors as separate observations; a black output without physical
 support evidence is not accepted as an empty edit. The retained receipt lives at
-[`30-delivered-scenes/native/empty-edit`](../../../specs/video-editing-feedback/assets/30-delivered-scenes/native/empty-edit/README.md).
+[`30-delivered-scenes/native/empty-edit`](../../../specs/done/video-editing-feedback/assets/30-delivered-scenes/native/empty-edit/README.md).
 
 [Dialogue matching](dialogue-matching.mjs) drives the public CLI and pure consumer
 helper with two identified real-speaker controls. It verifies independent
@@ -225,26 +225,26 @@ explicitly caller-authored and unsynchronized.
 [Immutable LUT checkpoint](lut-assets.mjs) exercises explicit import, public
 processing, delivered pixels and project-package replay using isolated managed
 state. Its usage owns required executable inputs. The retained
-[evidence](../../../specs/video-editing-feedback/assets/26-immutable-luts/README.md)
+[evidence](../../../specs/done/video-editing-feedback/assets/26-immutable-luts/README.md)
 distinguishes numerical response from editorial grade quality.
 
 [Tone controls](tone-controls.mjs) compares actual public PNG/movie delivery with
 an independent provider reference over a chart and retained bright-wall picture.
 It freezes treatment before delivery, observes caller-declared regions and
 separates matched codec response from lossless reference fidelity. Its usage owns
-invocation; [accepted evidence](../../../specs/video-editing-feedback/assets/25-tone-controls/README.md)
+invocation; [accepted evidence](../../../specs/done/video-editing-feedback/assets/25-tone-controls/README.md)
 records the narrow visual scope.
 [Public split-tone delivery](split-tone-public.mjs) runs the immutable LUT through
 CLI/MCP import, project authoring and native frame delivery against an independent
 linear-sRGB curve. It retains neutral, shadow-color and highlight-neutral masks in
-its receipt; [the feature evidence](../../../specs/video-editing-feedback/assets/25-tone-controls/split-tone/public/README.md)
+its receipt; [the feature evidence](../../../specs/done/video-editing-feedback/assets/25-tone-controls/split-tone/public/README.md)
 records the scoped response.
 
 [Transition delivery](transition-delivery.mjs) runs caller-authored crossfade, dip
 and flash picture recipes through public import, edit authoring, native frame reads
 and preview export with solid-color controls. Its midpoint proves both explicit
 sources reach a crossfade, while dip and flash prove the source reaches the black
-canvas and returns; [the feature evidence](../../../specs/video-editing-feedback/assets/27-29-transitions/crossfade/README.md)
+canvas and returns; [the feature evidence](../../../specs/done/video-editing-feedback/assets/27-29-transitions/crossfade/README.md)
 keeps audio and visual-reference gates separate.
 
 [Motion delivery replay](motion-delivery-replay.mjs) replays the retained moved/split

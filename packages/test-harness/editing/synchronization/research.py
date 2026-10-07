@@ -153,7 +153,7 @@ def replay(args):
                                 "rms": [float(np.sqrt(np.mean(x.astype(np.float64) ** 2))) for x in (a, b)], "result": result})
             print(left, right, start, result["state"], flush=True)
     save(args.output / "comparisons.json", comparisons)
-    reference_path = args.reference or Path(__file__).resolve().parents[4] / "specs/video-editing-feedback/assets/20-synchronization/original-comparisons.json"
+    reference_path = args.reference or Path(__file__).resolve().parents[4] / "specs/done/video-editing-feedback/assets/20-synchronization/original-comparisons.json"
     reference = json.loads(reference_path.read_text())
     comparable = lambda rows: [{k: v for k, v in row.items() if k != "elapsedSeconds"} for row in rows]
     if comparable(comparisons) != comparable(reference):

@@ -6,7 +6,7 @@ import { join } from "node:path";
 import test from "node:test";
 
 const root = new URL("../../../../", import.meta.url).pathname;
-const assets = join(root, "specs/video-editing-feedback/assets/20-synchronization");
+const assets = join(root, "specs/done/video-editing-feedback/assets/20-synchronization");
 const fixtures = join(root, "fixtures/video-editing-feedback/synchronization");
 
 test("replays all retained real synchronization comparisons without promoting a clock", async () => {

@@ -21,7 +21,7 @@ const sourcePaths = {
 };
 const candidateRoot = join(
   root,
-  "specs/video-editing-feedback/assets/27-29-transitions/crossfade/moving",
+  "specs/done/video-editing-feedback/assets/27-29-transitions/crossfade/moving",
 );
 const width = 64;
 const height = 48;

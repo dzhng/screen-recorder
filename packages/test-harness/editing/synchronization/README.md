@@ -23,7 +23,7 @@ feature-owned original); elapsed time alone is excluded. A refused comparison
 retains its candidate output. Both native paths validate their work envelope first.
 
 [Retained fixtures](../../../../fixtures/video-editing-feedback/synchronization/README.md)
-keep input bytes independent of parameter tuning. [Frozen research](../../../../specs/video-editing-feedback/assets/20-synchronization/README.md)
+keep input bytes independent of parameter tuning. [Frozen research](../../../../specs/done/video-editing-feedback/assets/20-synchronization/README.md)
 records refused real comparisons and the justified next hypothesis. This owner
 is an experiment, never a production synchronization fallback.
 
@@ -33,7 +33,7 @@ admitted real offset. It does not run inference or manufacture a shared clock.
 
 [The lexical scout](lexical-scout.mjs) independently recognizes retained windows
 before looking for unambiguous shared utterances. Its separate
-[frozen checkpoint](../../../../specs/video-editing-feedback/assets/20-synchronization/lexical/README.md)
+[frozen checkpoint](../../../../specs/done/video-editing-feedback/assets/20-synchronization/lexical/README.md)
 retains literal provider text and competing occurrences. Passing a lexical
 prerequisite would still require independent timing controls and source alignment;
 the scout never estimates a clock. Inference-free replay preserves every captured
@@ -42,7 +42,7 @@ raw observation and refuses a changed frozen report identity.
 [Mixed-reference research](bridge.py) searches a bounded edited reference using
 separate raw source clocks. [Local subanchors](local.py) and shared [recognition
 capture](recognition.mjs) separate sampled acoustic support from literal provider
-observations. The [retained checkpoint](../../../../specs/video-editing-feedback/assets/20-synchronization/bridge/README.md)
+observations. The [retained checkpoint](../../../../specs/done/video-editing-feedback/assets/20-synchronization/bridge/README.md)
 preserves all surrounding-window refusals alongside local observations.
 [Bridge replay](bridge-replay.py) needs no inference and repeats the retained
 numerical/lexical operands; its help states why full-domain selection cannot be

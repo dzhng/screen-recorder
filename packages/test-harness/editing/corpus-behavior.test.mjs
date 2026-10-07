@@ -9,7 +9,7 @@ const root = new URL("../../../", import.meta.url).pathname;
 const manifestPath = join(root, "fixtures/video-editing-feedback/manifest.json");
 const receiptPath = join(
   root,
-  "specs/video-editing-feedback/assets/01-corpus-behavior/receipt.json",
+  "specs/done/video-editing-feedback/assets/01-corpus-behavior/receipt.json",
 );
 
 test("certifies every retained real case against its scoped behavior evidence", async () => {
@@ -39,7 +39,7 @@ test("refuses a retained case whose behavior evidence is missing", async (t) => 
   t.after(() => rm(directory, { recursive: true, force: true }));
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
   manifest.cases.find((entry) => entry.id === "graham-picture").baseline.evidence =
-    "specs/video-editing-feedback/assets/missing.json";
+    "specs/done/video-editing-feedback/assets/missing.json";
   const copy = join(directory, "manifest.json");
   await writeFile(copy, JSON.stringify(manifest));
   await assert.rejects(() => certifyCorpusBehavior(copy), /evidence file is missing/);
@@ -53,7 +53,7 @@ test("refuses a retained case whose evidence bytes drift", async (t) => {
   manifest.cases = [picture];
   picture.baseline.evidence = join(
     root,
-    "specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+    "specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
   );
   const copy = join(directory, "manifest.json");
   await writeFile(copy, JSON.stringify(manifest));

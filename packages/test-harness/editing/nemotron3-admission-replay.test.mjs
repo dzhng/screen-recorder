@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { replayNemotron3Admission } from "./nemotron3-admission-replay.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/31-speaker-replication/nemotron3-admission/protocol.json",
+  "../../../specs/done/video-editing-feedback/assets/31-speaker-replication/nemotron3-admission/protocol.json",
   import.meta.url,
 ).pathname;
 

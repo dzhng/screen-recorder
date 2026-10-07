@@ -79,7 +79,7 @@ test("default blend verification refuses omitted or duplicated retained cases", 
   const { cases } = JSON.parse(
     await readFile(
       new URL(
-        "../../../specs/video-editing-feedback/assets/24-blend-sheet/report.json",
+        "../../../specs/done/video-editing-feedback/assets/24-blend-sheet/report.json",
         import.meta.url,
       ),
     ),
@@ -93,7 +93,7 @@ test("regenerated blend references must keep their frozen independent identity",
   const { cases } = JSON.parse(
     await readFile(
       new URL(
-        "../../../specs/video-editing-feedback/assets/24-blend-sheet/report.json",
+        "../../../specs/done/video-editing-feedback/assets/24-blend-sheet/report.json",
         import.meta.url,
       ),
     ),

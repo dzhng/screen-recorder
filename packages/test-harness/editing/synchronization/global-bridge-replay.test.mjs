@@ -3,7 +3,7 @@ import test from "node:test";
 import { runGlobalBridgeReplay } from "./global-bridge-replay.mjs";
 
 const receipt = new URL(
-  "../../../../specs/video-editing-feedback/assets/20-synchronization/bridge/global-refusal.json",
+  "../../../../specs/done/video-editing-feedback/assets/20-synchronization/bridge/global-refusal.json",
   import.meta.url,
 ).pathname;
 

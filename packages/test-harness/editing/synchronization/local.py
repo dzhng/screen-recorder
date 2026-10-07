@@ -41,7 +41,7 @@ def main():
     parser.add_argument('--scout', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
-    protocol = Path(__file__).parents[4] / 'specs/video-editing-feedback/assets/20-synchronization/bridge/local-protocol.json'
+    protocol = Path(__file__).parents[4] / 'specs/done/video-editing-feedback/assets/20-synchronization/bridge/local-protocol.json'
     policy = json.loads(protocol.read_text())
     prior = json.loads((args.scout / 'scout.json').read_text())
     selected = [row for row in prior['windows'] if 'reference' in row]

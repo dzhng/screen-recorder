@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const defaultEvidenceRoot = fileURLToPath(
   new URL(
-    "../../../specs/video-editing-feedback/assets/31-speaker-replication/handoff-evidence/",
+    "../../../specs/done/video-editing-feedback/assets/31-speaker-replication/handoff-evidence/",
     import.meta.url,
   ),
 );

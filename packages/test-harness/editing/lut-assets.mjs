@@ -83,7 +83,7 @@ try {
   assert.equal(look.id, hash(await readFile(lookPath)));
   assert.deepEqual(look.streams, []);
   const shot = await importAsset(
-    join(root, "specs/video-editing-feedback/assets/01-corpus-picture/lily-12-original.png"),
+    join(root, "specs/done/video-editing-feedback/assets/01-corpus-picture/lily-12-original.png"),
   );
   const project = await call("project.create", {
     requestId: randomUUID(),

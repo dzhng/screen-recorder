@@ -33,7 +33,7 @@ const out = resolve(values.out);
 await mkdir(out, { recursive: true });
 assert.deepEqual(await readdir(out), []);
 const gates = JSON.parse(
-  await readFile(join(root, "specs/video-editing-feedback/assets/15-face-observations/gates.json")),
+  await readFile(join(root, "specs/done/video-editing-feedback/assets/15-face-observations/gates.json")),
 );
 const manifest = JSON.parse(
   await readFile(join(root, "fixtures/video-editing-feedback/manifest.json")),
@@ -49,7 +49,7 @@ const report = {
   scope: gates.scope,
   gatesSha256: hash(
     await readFile(
-      join(root, "specs/video-editing-feedback/assets/15-face-observations/gates.json"),
+      join(root, "specs/done/video-editing-feedback/assets/15-face-observations/gates.json"),
     ),
   ),
   workerSha256: hash(await readFile(process.env.YAP_NATIVE)),

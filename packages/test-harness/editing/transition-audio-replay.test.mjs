@@ -6,7 +6,7 @@ import test from "node:test";
 import { replayTransitionAudio } from "./transition-audio-replay.mjs";
 
 const evidence = new URL(
-  "../../../specs/video-editing-feedback/assets/27-29-transitions/crossfade/",
+  "../../../specs/done/video-editing-feedback/assets/27-29-transitions/crossfade/",
   import.meta.url,
 ).pathname;
 

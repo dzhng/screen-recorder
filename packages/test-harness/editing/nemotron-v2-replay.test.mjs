@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { replayNemotronV2 } from "./nemotron-v2-replay.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/31-speaker-replication/alternative-evidence/nemotron-v2/protocol.json",
+  "../../../specs/done/video-editing-feedback/assets/31-speaker-replication/alternative-evidence/nemotron-v2/protocol.json",
   import.meta.url,
 ).pathname;
 

@@ -4,7 +4,7 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/34-fresh-agent/autonomous-media-replay.json",
+  "../../../specs/done/video-editing-feedback/assets/34-fresh-agent/autonomous-media-replay.json",
   import.meta.url,
 ).pathname;
 

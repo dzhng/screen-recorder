@@ -6,11 +6,11 @@ import test from "node:test";
 import { runReferenceParityReplay } from "./transition-reference-parity.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/27-29-transitions/reference-parity/report.json",
+  "../../../specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/report.json",
   import.meta.url,
 ).pathname;
 const referenceRoot = new URL(
-  "../../../specs/video-editing-feedback/assets/27-29-transitions/reference-parity/",
+  "../../../specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/",
   import.meta.url,
 ).pathname;
 

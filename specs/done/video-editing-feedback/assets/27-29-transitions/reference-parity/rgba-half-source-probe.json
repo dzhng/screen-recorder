@@ -1,0 +1,143 @@
+{
+  "kind": "transition-rgba-half-source-conversion-probe",
+  "status": "open",
+  "hypothesis": "native-avassetreader-rgba-half-source-conversion",
+  "reason": "A scratch AVAssetReader 64RGBAHalf decode was compared against the frozen FFmpeg RGBA source after the retained display transform. It produces the same one-code-value quantization residual as 32BGRA, so increasing decoder precision does not close moving reference parity. This receipt records bounded refusal evidence and does not change the production decoder, compositor, or strict gate.",
+  "recipe": {
+    "width": 64,
+    "height": 48,
+    "frames": 4,
+    "conversion": "half-float RGBA rounded to 8-bit for comparison",
+    "transform": "apply retained source display transform before comparison"
+  },
+  "sources": {
+    "alpha": {
+      "path": "specs/done/ffmpeg-parity/evidence/motion-alpha/alpha.mov",
+      "sha256": "d0b26f1c3d9cb975566b9a454338c9132255543350874039230636e3213c9c1c",
+      "transform": "identity",
+      "frameCount": 4,
+      "pixelFormat": "kCVPixelFormatType_64RGBAHalf",
+      "bytesPerRow": 512,
+      "frames": [
+        {
+          "index": 0,
+          "path": "specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/native-half-source/alpha/frame-0.rgba16",
+          "bytes": 24576,
+          "sha256": "be657f66cc5ff3c83dbabff2a3673b999daa70b7198e3cc7c9cd7e01d97b132f",
+          "comparison": {
+            "differingBytes": 342,
+            "differingPixels": 340,
+            "differingRatio": 0.11067708333333333,
+            "maxChannelDelta": 1,
+            "mae": 0.02783203125
+          }
+        },
+        {
+          "index": 1,
+          "path": "specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/native-half-source/alpha/frame-1.rgba16",
+          "bytes": 24576,
+          "sha256": "0e6a014bc0212982ccf43d7c3a3b7819446ffcde49164ad788722711d5ace3e2",
+          "comparison": {
+            "differingBytes": 342,
+            "differingPixels": 340,
+            "differingRatio": 0.11067708333333333,
+            "maxChannelDelta": 1,
+            "mae": 0.02783203125
+          }
+        },
+        {
+          "index": 2,
+          "path": "specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/native-half-source/alpha/frame-2.rgba16",
+          "bytes": 24576,
+          "sha256": "dbba5020664a55a19683d802bbbaf1324b5436678400e19f12f4a8e6b77266fc",
+          "comparison": {
+            "differingBytes": 342,
+            "differingPixels": 340,
+            "differingRatio": 0.11067708333333333,
+            "maxChannelDelta": 1,
+            "mae": 0.02783203125
+          }
+        },
+        {
+          "index": 3,
+          "path": "specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/native-half-source/alpha/frame-3.rgba16",
+          "bytes": 24576,
+          "sha256": "9d0f8008ebdc6814f0a1880850b52a0453057af1d4124a7ce64a90e82063fd4b",
+          "comparison": {
+            "differingBytes": 342,
+            "differingPixels": 340,
+            "differingRatio": 0.11067708333333333,
+            "maxChannelDelta": 1,
+            "mae": 0.02783203125
+          }
+        }
+      ]
+    },
+    "mirror": {
+      "path": "specs/done/ffmpeg-parity/evidence/motion-alpha/mirror.mov",
+      "sha256": "c269397c597e511dbd7be71d906763fa802863c95da15e88d2c190130653114d",
+      "transform": "horizontal-flip",
+      "frameCount": 4,
+      "pixelFormat": "kCVPixelFormatType_64RGBAHalf",
+      "bytesPerRow": 512,
+      "frames": [
+        {
+          "index": 0,
+          "path": "specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/native-half-source/mirror/frame-0.rgba16",
+          "bytes": 24576,
+          "sha256": "be657f66cc5ff3c83dbabff2a3673b999daa70b7198e3cc7c9cd7e01d97b132f",
+          "comparison": {
+            "differingBytes": 342,
+            "differingPixels": 340,
+            "differingRatio": 0.11067708333333333,
+            "maxChannelDelta": 1,
+            "mae": 0.02783203125
+          }
+        },
+        {
+          "index": 1,
+          "path": "specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/native-half-source/mirror/frame-1.rgba16",
+          "bytes": 24576,
+          "sha256": "0e6a014bc0212982ccf43d7c3a3b7819446ffcde49164ad788722711d5ace3e2",
+          "comparison": {
+            "differingBytes": 342,
+            "differingPixels": 340,
+            "differingRatio": 0.11067708333333333,
+            "maxChannelDelta": 1,
+            "mae": 0.02783203125
+          }
+        },
+        {
+          "index": 2,
+          "path": "specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/native-half-source/mirror/frame-2.rgba16",
+          "bytes": 24576,
+          "sha256": "dbba5020664a55a19683d802bbbaf1324b5436678400e19f12f4a8e6b77266fc",
+          "comparison": {
+            "differingBytes": 342,
+            "differingPixels": 340,
+            "differingRatio": 0.11067708333333333,
+            "maxChannelDelta": 1,
+            "mae": 0.02783203125
+          }
+        },
+        {
+          "index": 3,
+          "path": "specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/native-half-source/mirror/frame-3.rgba16",
+          "bytes": 24576,
+          "sha256": "9d0f8008ebdc6814f0a1880850b52a0453057af1d4124a7ce64a90e82063fd4b",
+          "comparison": {
+            "differingBytes": 342,
+            "differingPixels": 340,
+            "differingRatio": 0.11067708333333333,
+            "maxChannelDelta": 1,
+            "mae": 0.02783203125
+          }
+        }
+      ]
+    }
+  },
+  "gate": {
+    "passed": false,
+    "rule": "native-source-conditioned moving parity requires zero differing RGBA bytes"
+  }
+}

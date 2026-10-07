@@ -27,7 +27,7 @@ assert(
 );
 const protocolBytes = readFileSync(
   new URL(
-    "../../../../specs/video-editing-feedback/assets/20-synchronization/bridge/local-protocol.json",
+    "../../../../specs/done/video-editing-feedback/assets/20-synchronization/bridge/local-protocol.json",
     import.meta.url,
   ),
 );
@@ -49,7 +49,7 @@ if (prior) {
   const bundle = JSON.parse(
     readFileSync(
       new URL(
-        "../../../../specs/video-editing-feedback/assets/20-synchronization/bridge/bundle.json",
+        "../../../../specs/done/video-editing-feedback/assets/20-synchronization/bridge/bundle.json",
         import.meta.url,
       ),
     ),

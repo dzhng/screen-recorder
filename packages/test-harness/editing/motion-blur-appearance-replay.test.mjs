@@ -6,7 +6,7 @@ import test from "node:test";
 import { replayMotionBlurAppearance } from "./motion-blur-appearance-replay.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/27-29-transitions/motion-blur/appearance-repair-report.json",
+  "../../../specs/done/video-editing-feedback/assets/27-29-transitions/motion-blur/appearance-repair-report.json",
   import.meta.url,
 ).pathname;
 

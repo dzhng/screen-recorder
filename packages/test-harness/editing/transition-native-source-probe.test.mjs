@@ -6,7 +6,7 @@ import test from "node:test";
 import { runNativeSourceProbeReplay } from "./transition-native-source-probe.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source-probe.json",
+  "../../../specs/done/video-editing-feedback/assets/27-29-transitions/reference-parity/native-source-probe.json",
   import.meta.url,
 ).pathname;
 

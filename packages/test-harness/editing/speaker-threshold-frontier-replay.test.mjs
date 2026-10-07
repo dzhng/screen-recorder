@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { replaySpeakerThresholdFrontier } from "./speaker-threshold-frontier-replay.mjs";
 
 const receipt = new URL(
-  "../../../specs/video-editing-feedback/assets/31-speaker-replication/threshold-frontier.json",
+  "../../../specs/done/video-editing-feedback/assets/31-speaker-replication/threshold-frontier.json",
   import.meta.url,
 ).pathname;
 

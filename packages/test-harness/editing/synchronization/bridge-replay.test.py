@@ -8,7 +8,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).parents[4]
-BANK = ROOT / 'specs/video-editing-feedback/assets/20-synchronization/bridge'
+BANK = ROOT / 'specs/done/video-editing-feedback/assets/20-synchronization/bridge'
 FIXTURES = ROOT / 'fixtures/video-editing-feedback/synchronization/bridge'
 RUNNER = Path(__file__).with_name('bridge-replay.py')
 

@@ -7,7 +7,7 @@ import test from "node:test";
 const root = new URL("../../../", import.meta.url).pathname;
 const evidence = join(
   root,
-  "specs/video-editing-feedback/assets/01-corpus-multicam/native/report.json",
+  "specs/done/video-editing-feedback/assets/01-corpus-multicam/native/report.json",
 );
 const fixtures = join(root, "fixtures/video-editing-feedback/synchronization");
 

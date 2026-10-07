@@ -46,7 +46,7 @@ class BridgeTests(unittest.TestCase):
 
     def test_changed_source_origin_refuses_before_any_acquisition(self):
         root = Path(__file__).parents[4]
-        protocol = json.loads((root / 'specs/video-editing-feedback/assets/20-synchronization/bridge/protocol.json').read_text())
+        protocol = json.loads((root / 'specs/done/video-editing-feedback/assets/20-synchronization/bridge/protocol.json').read_text())
         protocol['sources']['main']['rangeSeconds'] = [1, 1960]
         with tempfile.TemporaryDirectory() as temporary:
             directory = Path(temporary)

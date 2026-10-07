@@ -4,8 +4,8 @@ Status: capability assessment; implementation ordering is superseded by the
 [FFmpeg parity record](../done/ffmpeg-parity/README.md). This assessment
 preserves improvements proposed against the checkout at the time of assessment.
 Its “Today” paragraphs are historical, not current capability claims. The active
-[video-editing feedback spec](../video-editing-feedback/README.md) reconciles remaining
-gaps against current code and supersedes this document's future ordering.
+[archived video-editing rationale](../done/video-editing-feedback/README.md) records the
+reconciled gaps against current code and supersedes this document's future ordering.
 Installed releases may differ; operation help and execution
 capabilities remain authoritative. No feature below is being implemented by this
 document.

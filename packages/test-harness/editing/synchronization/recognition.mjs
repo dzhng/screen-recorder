@@ -10,7 +10,7 @@ export function preparedParakeet(path) {
   const expected = JSON.parse(
     readFileSync(
       new URL(
-        "../../../../specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/requests.json",
+        "../../../../specs/done/video-editing-feedback/assets/01-corpus-audio/speech-parity/requests.json",
         import.meta.url,
       ),
     ),

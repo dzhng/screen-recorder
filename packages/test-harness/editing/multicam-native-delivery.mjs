@@ -14,7 +14,7 @@ const execFileAsync = promisify(execFile);
 const root = new URL("../../../", import.meta.url).pathname;
 const recipePath = join(
   root,
-  "specs/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.json",
+  "specs/done/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.json",
 );
 const width = 320;
 const height = 180;
@@ -101,7 +101,7 @@ export async function verifyRetainedMulticamNativeDelivery(reportPath, fixturesD
   const corpus = await verifyMulticamCorpus(fixturesDirectory);
   const recipeIdentityPath = join(
     root,
-    "specs/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.identity.json",
+    "specs/done/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.identity.json",
   );
   const recipe = JSON.parse(await readFile(recipePath, "utf8"));
   const behavior = await verifyMulticamBehavior(fixturesDirectory, recipePath, recipeIdentityPath);
@@ -241,7 +241,7 @@ export async function runRetainedMulticamNativeDelivery(outDirectory) {
   const recipe = JSON.parse(await readFile(recipePath, "utf8"));
   const recipeIdentityPath = join(
     root,
-    "specs/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.identity.json",
+    "specs/done/video-editing-feedback/assets/01-corpus-multicam/behavior-recipe.identity.json",
   );
   const behavior = await verifyMulticamBehavior(fixturesDirectory, recipePath, recipeIdentityPath);
   const pictureSampleIndexes = pictures.sources[sourceNames[0]].samples.map(

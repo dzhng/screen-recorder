@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { replayFaceTrackingRefusal } from "./face-tracking-refusal-replay.mjs";
 
-const root = new URL("../../../specs/video-editing-feedback/assets/15-face-observations/", import.meta.url).pathname;
+const root = new URL("../../../specs/done/video-editing-feedback/assets/15-face-observations/", import.meta.url).pathname;
 
 test("replays the high-IoU tracker hypothesis as refused evidence", async () => {
   assert.deepEqual(await replayFaceTrackingRefusal(`${root}tracking-probe.json`), {

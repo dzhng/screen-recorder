@@ -63,7 +63,7 @@ await writeFile(
       channels: 1,
       format: "Float32 WAV",
       sourceAuthority:
-        "specs/video-editing-feedback/assets/31-speaker-replication/alternative-evidence/nemotron-feasibility/protocol.json",
+        "specs/done/video-editing-feedback/assets/31-speaker-replication/alternative-evidence/nemotron-feasibility/protocol.json",
       classification:
         "Real different-speaker crops with explicit quiet-speaker attenuation control; not the removed trailer mix",
       cases,

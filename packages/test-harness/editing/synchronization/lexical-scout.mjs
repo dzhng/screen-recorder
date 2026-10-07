@@ -31,7 +31,7 @@ const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const save = (name, value) => writeFileSync(join(out, name), JSON.stringify(value, null, 2) + "\n");
 const protocolBytes = readFileSync(
   new URL(
-    "../../../../specs/video-editing-feedback/assets/20-synchronization/lexical/protocol.json",
+    "../../../../specs/done/video-editing-feedback/assets/20-synchronization/lexical/protocol.json",
     import.meta.url,
   ),
 );
@@ -62,7 +62,7 @@ if (prior) {
   const banked = JSON.parse(
     readFileSync(
       new URL(
-        "../../../../specs/video-editing-feedback/assets/20-synchronization/lexical/bundle.json",
+        "../../../../specs/done/video-editing-feedback/assets/20-synchronization/lexical/bundle.json",
         import.meta.url,
       ),
     ),

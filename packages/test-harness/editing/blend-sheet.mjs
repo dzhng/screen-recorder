@@ -128,7 +128,7 @@ const frozenCases = selectBlendCases(
   JSON.parse(
     await readFile(
       new URL(
-        "../../../specs/video-editing-feedback/assets/24-blend-sheet/report.json",
+        "../../../specs/done/video-editing-feedback/assets/24-blend-sheet/report.json",
         import.meta.url,
       ),
     ),
