@@ -64,6 +64,12 @@ unchanged 0.5 IoU gate (0.463857–0.497498), and the candidate also failed the
 frozen crop-center raster identity check. The probe does not alter the
 production revision-3 worker or the full-face failure verdict.
 
+The same replay now retains a revision-1 run as well. It reaches the identical
+nine late Graham failures and the same IoU range, while also failing the frozen
+crop-center raster identity check. Both older revisions are refused; production
+revision 3 remains unchanged and no box widening or threshold relaxation is
+allowed.
+
 A previous scratch metadata control was counter-rotated in the wrong direction;
 its upside-down raster is retained in [failed-controls.json](failed-controls.json).
 The corrected control is byte-identical to its upright input. Initial integer-us

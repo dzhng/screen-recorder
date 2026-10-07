@@ -21,6 +21,23 @@ User decisions remain binding; this ledger records implementation discretion out
   gate stays open.
 - **Confidence:** high.
 
+## Retain the refused Vision revision-1 probe beside revision-2 — sound, high confidence
+
+- **When:** slice15 full-face localization follow-up.
+- **The choice:** preserve a compressed revision-1 native candidate and extend
+  the existing inference-free replay to bind both older Vision revisions.
+- **The gap:** revision 1 reduces the production revision-3 failures from 27 to
+  nine, but the same nine late frames remain below the unchanged 0.5 IoU gate;
+  the run also fails the frozen crop-center raster identity check. The lower
+  failure count is useful evidence, not a detector promotion.
+- **The reach:** future detector work can compare revisions 1, 2 and 3 without
+  rerunning or editing historical observations. Production remains revision 3;
+  no box widening, threshold relaxation or crop authorization follows from the
+  probe.
+- **Verdict:** sound. The refusal is executable and keeps the full-face gate
+  honest.
+- **Confidence:** high.
+
 ## Keep multicam source choice separate from synchronization — sound, high confidence
 
 - **When:** slice01 retained multicam source-choice replay.

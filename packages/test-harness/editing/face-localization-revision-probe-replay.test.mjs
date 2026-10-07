@@ -22,6 +22,20 @@ test("replays the refused Vision revision-2 face probe", async () => {
   });
 });
 
+test("replays the refused Vision revision-1 face probe", async () => {
+  const result = await replayFaceLocalizationRevisionProbe(
+    join(root, "revision1.json"),
+  );
+  assert.deepEqual(result, {
+    status: "refused",
+    promotion: false,
+    candidateFrames: 72,
+    failedOrdinals: [63, 64, 65, 66, 67, 68, 69, 70, 71],
+    minFailedIoU: 0.4638574688091655,
+    maxFailedIoU: 0.4974980754426482,
+  });
+});
+
 test("rejects a probe receipt edited to claim promotion", async () => {
   const scratch = await mkdtemp("/tmp/yap-face-revision-probe-");
   try {
