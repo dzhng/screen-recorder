@@ -239,6 +239,7 @@ private final class SteppedCameraInput: CaptureInputSession {
     let width = RecoveryFixture.width
     let height = RecoveryFixture.height
     let requestedSourceRect: CGRect? = nil
+    var previewFrame: (@Sendable (NativeCapture.CameraPreviewFrame) -> Void)?
     let directory: URL
     let binding = CameraCaptureBinding(recordingId: "native-paused-take", sourceId: "native-camera", deviceId: "prerecorded-camera")
     var ingress: CaptureClockIngress!
