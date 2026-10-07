@@ -1,4 +1,4 @@
-# Planning review (historical)
+# Planning and implementation review
 
 Reviewed 2026-10-05, before implementation began. Verdict at that time: ready to
 begin corpus certification. The implementation and media acceptance statements
@@ -57,3 +57,28 @@ pass; those would not prove the changed documents. Independent drafting supplies
 planning alternatives, not a product execution pass. Provider quality, compressed
 fixture fidelity and the final autonomous workflow must still be established by
 their owning slices.
+
+## Implementation closeout evidence
+
+The implementation branch is clean at `7e514a3a`, and the intended
+`spec/video-editing-feedback` ref points at that commit. The focused editing
+harness is 142/142, composition is 335/335, protocol is 37/37, core is 794 with
+one skip, CLI is 112/112, client is 22/22, and the workbench check passes. The
+two service cases that timed out during the first parallel run pass individually;
+the serialized service lane is 302 passing with 22 skipped. The standalone native
+capture suite also passes.
+
+The serialized repository run reached the permission-gated macOS integration
+tests and stopped on this machine's existing Screen & System Audio Recording
+authorization boundary. Those checks report `PERMISSION_REQUIRED` and remain
+explicitly unverified here, as required by the spec; no production behavior was
+changed to hide that boundary. A bundled-service export case also timed out while
+the permission-gated integration process was running. The native unit, service,
+CLI, protocol, composition, core, client, workbench and focused editing results
+above remain the applicable evidence for this machine.
+
+The implementation review passes for the committed contracts and focused
+evidence. The global checklist remains open for the refusal-backed face,
+synchronization, strict transition-parity, long-form speaker and fresh live-device
+workflow gates recorded in the slice files. No release, tag, push or installed-app
+update is part of this review.
