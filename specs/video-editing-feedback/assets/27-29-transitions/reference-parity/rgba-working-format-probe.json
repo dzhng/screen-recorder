@@ -4,6 +4,7 @@
   "question": "Does changing the native Core Image working format from RGBAh to RGBAf remove the moving reference-parity mismatch?",
   "productionWorkingFormat": "RGBAh",
   "probeWorkingFormat": "RGBAf",
+  "retainedCandidateWorkerSha256": "d2304c6ceeb40f02ac2289e1c781a901a8d921f182847f61dcb51e9b49d14afe",
   "probeWorkerSha256": "a28b6d6a427687fba80f455421ad89054257a8db187467197f2cfd24b73d70e8",
   "focusedCommand": "swift build --build-system native --package-path helpers/mac --configuration debug --product yap-native && YAP_NATIVE=helpers/mac/.build/debug/yap-native node packages/test-harness/editing/transition-delivery.mjs --out <empty-directory>",
   "samples": [
