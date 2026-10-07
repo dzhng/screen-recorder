@@ -23,6 +23,9 @@ try {
       : undefined,
     version,
     control: { input: process.stdin, output: process.stdout },
+    // Empty-home lifecycle tests opt out explicitly; installed runs keep the
+    // first-party model acquisition default when the variable is absent.
+    autoPrepareModels: process.env.YAP_AUTO_PREPARE_MODELS !== "0",
   });
   for (const signal of ["SIGTERM", "SIGINT", "SIGHUP"] as const)
     process.on(signal, () => {

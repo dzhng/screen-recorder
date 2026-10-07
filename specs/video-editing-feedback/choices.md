@@ -21,6 +21,15 @@ User decisions remain binding; this ledger records implementation discretion out
   gate stays open.
 - **Confidence:** high.
 
+## Keep first-party model acquisition enabled in production and opt out only in empty-home lifecycle tests — maintenance pass
+
+- **When:** service lifetime tests began seeing the new default background model acquisition after the first-party model policy became automatic.
+- **The choice:** keep `startProjectService`'s production default enabled, expose the existing behavior through `YAP_AUTO_PREPARE_MODELS`, and set that variable to `0` only for lifecycle tests that intentionally create empty temporary homes. Health assertions retain the model inventory returned by the live service.
+- **The gap:** the contract required automatic first-party preparation but did not specify how tests that exercise transport and update fencing should avoid downloading models unrelated to those behaviors.
+- **The reach:** installed runs still prepare first-party models without a setup wizard; lifecycle tests remain deterministic and do not turn a network/model acquisition into a transport test. Future tests that need model behavior should use the explicit default or a fixture service option.
+- **Verdict:** sound test isolation; the production default is unchanged.
+- **Confidence:** high.
+
 ## Retain the refused Vision revision-1 probe beside revision-2 — sound, high confidence
 
 - **When:** slice15 full-face localization follow-up.

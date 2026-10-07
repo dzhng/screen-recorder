@@ -75,6 +75,8 @@ have focused references, route provenance and a green concrete replay, with fina
 workflow review still open.
 The retained editing harness now passes 129/129 focused tests across these
 receipts; that green replay suite does not promote any explicitly refused gate.
+The Core suite passes 794 tests with one skip, Protocol passes 37 tests, and the
+service suite passes 302 tests with 22 skips.
 Follow slice dependencies when a later item is independently ready.
 
 Evidence ledger: [assets](assets/README.md) links the scoped receipts. Slice 12's
