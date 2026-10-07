@@ -5,6 +5,11 @@ change to the preserved original Sortformer comparator. All three short cases
 failed. No long run, threshold/count fitting, upstream patch or production
 registration followed the failures.
 
+The bounded [AHC threshold probe](threshold-probe/README.md) reuses one prepared
+embedding pass and tests four declared distance cuts without changing any other
+parameter. Its calibration assignments are identical at every cut, so it is an
+executable refusal and does not promote a threshold or open the held-out case.
+
 Run `node replay.mjs <repository-root>`. It uses the existing diarization scorer,
 checks complete retained file hashes and byte-preparation receipts, replays
 public observations and reproduces source-support refusals without clipping.

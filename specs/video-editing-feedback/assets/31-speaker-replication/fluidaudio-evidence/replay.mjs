@@ -28,3 +28,4 @@ for(const c of p.cases){
 }
 assert(cases.every(x=>!x.passed));assert.equal(retained.passed,false);assert.equal(cases.find(x=>x.id==='aiqwk30').countMatches,false);
 console.log(JSON.stringify({verified:true,slice31Complete:false,providerModelClosureReady:true,providerQualityReady:false,cases},null,2));
+await import('./threshold-probe/replay.mjs');

@@ -38,7 +38,8 @@ multicamera, speaker or editorial claims.
 [Speaker feasibility](31-speaker-replication/README.md) retains reproducible partial
 successes and required failures; its Ultra-8 bundle also retains an explicitly
 exploratory long-form audit with a replayable four-speaker failure. It does not
-establish production readiness.
+establish production readiness. The Community-1 bundle includes a bounded AHC
+threshold refusal whose four declared cuts produce identical calibration assignments.
 
 [Player reference coverage](13-reference-coverage/README.md) records partial decode
 failures without changing successful pictures; the accepted sampled recipe follows below.

@@ -17,8 +17,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 4927,
-      "sha256": "574ccff5fb824d370734932d6a71f0066e50675d750af945277b9291c1d30d45"
+      "bytes": 5247,
+      "sha256": "ce00f1951ba8c73737b1c23513ff1d477213d18747369c2d1d3ad33e63a578c7"
     },
     {
       "path": "acquisition.json",
@@ -142,8 +142,8 @@
     },
     {
       "path": "replay.mjs",
-      "bytes": 4711,
-      "sha256": "87a5ea8daafcd0a4afac963efec08196f0d61e7d616b16ed7e472f54e39389fb"
+      "bytes": 4757,
+      "sha256": "cf2947c28441265cf72f88b0bf0af670d91323c9ff749297ffbf84a942782862"
     },
     {
       "path": "research-option.md",

@@ -1,0 +1,57 @@
+{
+  "status": "frozen-before-analysis",
+  "hypothesis": "The Community-1 AHC distance cut at 0.6 collapses identities in the mixed recording; lowering only this cut may preserve distinct speaker centroids while leaving segmentation, embeddings, VBx, post-processing and count hints unchanged.",
+  "independentBasis": "The retained public chunk embeddings expose the exact input to AHC and the upstream FluidAudio owner documents threshold as the only distance-cut control. This probe is data-only after one prepared model pass; no audio model inference is repeated for threshold variants.",
+  "thresholds": [
+    0.3,
+    0.4,
+    0.5,
+    0.6
+  ],
+  "calibrationCases": [
+    "bspxd30",
+    "returns-overlap-silence"
+  ],
+  "selection": "Compare automatic observed segment speaker count and complete segment assignments on both calibration cases. Stop before any held-out case unless one threshold satisfies both calibration count checks and changes the collapsed output; do not use count hints or tune against held-out data.",
+  "frozenConfig": {
+    "warmStartFa": 0.07,
+    "warmStartFb": 0.8,
+    "maxIterations": 20,
+    "convergenceTolerance": 0.0001,
+    "constrainedAssignment": true,
+    "minSpeakers": null,
+    "maxSpeakers": null,
+    "numSpeakers": null,
+    "segmentation": "unchanged Community-1 defaults",
+    "embedding": "unchanged Community-1 defaults",
+    "postProcessing": {
+      "exclusiveSegments": false
+    }
+  },
+  "stopRule": "A threshold that is unchanged across all retained segment assignments cannot explain the observed collapse. The probe must be recorded as refused; no provider or production threshold is promoted.",
+  "model": {
+    "manifest": "../manifest.json",
+    "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+    "modelRevision": "df2625ac79a7ac6b65ad868fee6d80f320da4232"
+  },
+  "artifacts": {
+    "preparedObservations": {
+      "path": "prepared-observations.json.gz",
+      "sha256": "ec0d0052330ea7337dbd7f05bf3645fffa0747deebeee3ddda1108adf4faf370",
+      "uncompressedSha256": "9cd31e8ce9cabdac099d522f4868031bfdf8ce92beb1c54e2583dec3ba7021da"
+    },
+    "thresholdResults": {
+      "path": "threshold-results.json.gz",
+      "sha256": "5d4bb4dd3185b9119fb45c96b87a10a5ebd2a97606932cab38cfd4490b4c2ff4",
+      "uncompressedSha256": "9a43ced38e5527701555e38f37a9bc6ea607c3413b081ed58a0fb0db7f788cc3"
+    },
+    "source": {
+      "path": "threshold-probe.swift",
+      "sha256": "4b19b14f94c05083c3bb57ad8e77c5cbe31d7c4ebad6d0ba93a30ddc6ca0dbcf"
+    },
+    "package": {
+      "path": "Package.swift",
+      "sha256": "2596ac35fbcdc62ed0f81b2d3e0932a63524bc7345e61500c9f2413b23e593a0"
+    }
+  }
+}

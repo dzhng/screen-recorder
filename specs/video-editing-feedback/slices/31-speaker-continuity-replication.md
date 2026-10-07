@@ -72,6 +72,16 @@ four-speaker control fails DER `0.371`, overlap recall `0.092` and identity
 confusion `0.076`. The run was not frozen before inference, so it narrows the
 next hypothesis but cannot close the long-form gate or promote a provider.
 
+The bounded [Community-1 AHC threshold probe](../assets/31-speaker-replication/fluidaudio-evidence/threshold-probe/README.md)
+now reuses one prepared public embedding pass and replays the existing clustering
+owner at thresholds 0.3, 0.4, 0.5 and 0.6. Fa/Fb, VBx, constrained assignment,
+count hints, segmentation, embedding and post-processing remain unchanged. Every
+threshold produces the same segment assignments on both calibration controls.
+BSP30 still exposes two IDs for three reference speakers, and the 100-second
+control still has the known endpoint beyond physical support. The AHC cut therefore
+does not explain the collapse; the probe stops before held-out inference and
+promotes no threshold or provider.
+
 Keep the required gate unchanged; proceed through these separately verifiable passes:
 
 1. **Provider and short-case admission.** Freeze licensing, complete raw-observation
@@ -89,7 +99,9 @@ Keep the required gate unchanged; proceed through these separately verifiable pa
    and a failed documented buffering profile. Next admit one distinct local
    overlap-capable provider/runtime. [Original PyTorch Community-1](../assets/31-speaker-replication/community1-original-evidence/README.md)
    independently merges identities and fails its first short control. The research
-   record now prioritizes an independently trained direct-output checkpoint.
+   data-only AHC threshold probe also fails to change the calibration collapse;
+   the research record therefore continues to prioritize an independently trained
+   direct-output checkpoint.
    Freeze licensing, complete raw access and physical support
    before short inference. Do not tune thresholds/count hints on failed cases or
    repeat unchanged long inference.

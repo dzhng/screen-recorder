@@ -2184,3 +2184,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** future changes cannot silently alter the acceptance report's identity or policy claims; a new native/model run remains required for fresh media behavior.
 - **Verdict:** sound evidence hardening; it strengthens report replay without promoting any open synchronization, speaker or visual gate.
 - **Confidence:** high for the narrow report contract; medium for broader workflow quality because temporary artifacts are intentionally outside this replay.
+
+## Refuse the Community-1 AHC threshold hypothesis — sound, high confidence
+
+- **When:** slice31 long-form speaker continuity follow-up.
+- **The choice:** retain a bounded data-only probe that reuses one prepared Community-1 embedding pass and runs the existing clustering owner at AHC thresholds 0.3, 0.4, 0.5 and 0.6. Fa/Fb, VBx, constrained assignment, count hints, segmentation, embedding and post-processing stay fixed; only the declared AHC cut varies.
+- **The gap:** Community-1's first short trial merged identities, and its public chunk embeddings expose the exact input to the documented AHC cut. Repeating full model inference or fitting a threshold on the held-out case would not isolate that hypothesis.
+- **The reach:** every threshold produces identical segment assignments on BSP30 and the 100-second returns/overlap calibration control. BSP30 still has two observed IDs for three reference speakers, while the 100-second control still exceeds physical support. The cut cannot explain the collapse, so the probe stops before held-out inference; no threshold or provider is promoted.
+- **Verdict:** sound refusal. The executable replay checks complete retained embeddings, output hashes, frozen parameters, identical assignment digests and the unchanged support/count failures without acquisition or inference.
+- **Confidence:** high.

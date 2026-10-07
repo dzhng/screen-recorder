@@ -31,6 +31,10 @@ binding checkpoint now replays caller-authored labels through source, project an
 immutable package reads, project transcript words can join selected speaker
 generations through retimes and cursor continuation, and source transcript pages
 can attach generation-pinned word attribution with explicit unknown/overlap states.
+The retained Community-1 AHC threshold probe reuses one prepared embedding pass at
+four declared cuts and produces identical calibration assignments; its two-ID BSP30
+count failure and 100-second physical-support refusal remain unchanged, so no cut or
+provider is promoted and the held-out case is not opened.
 Slice 12D now passes: a fresh receipt-driven consumer
 discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never
@@ -74,6 +78,9 @@ still remains open. Speaker replication remains below the unchanged
 80% long-form gate; the pinned first-party speaker acquisition is now reproducible
 and auto-prepared. The native streaming-envelope replay binds state scope and
 retains the passing three-speaker/failed four-speaker controls without promotion.
+The Community-1 threshold probe is a separate executable refusal: changing only the
+AHC cut does not change its calibration assignments, so the next provider hypothesis
+remains independently trained direct-output inference.
 The Ultra-8 exploratory long audit is replayable but was not
 frozen before inference and still fails the required four-speaker control, so
 continuity and labeling remain open as described above.
