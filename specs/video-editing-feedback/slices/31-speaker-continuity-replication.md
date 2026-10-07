@@ -65,6 +65,13 @@ gate. Public preparation therefore stays on independent 80ms-grid windows of at
 most 30 seconds; this receipt does not promote long-form continuity or named
 speaker inference.
 
+The first-party runtime closure is now materially sealed for acquisition: the
+registered descriptor covers 181 pinned inputs in seven install groups, assembles
+two supplemental dependency layers, relocates and re-signs all 54 declared native
+entries, and passes a donor-independent import/version smoke check after moving the
+bundle. This closes runtime acquisition and relocation readiness only; the unchanged
+four-speaker continuity and overlap gate remains red.
+
 The independently trained eight-slot direct-activity model has a replayable
 exploratory long audit in [ultra8 evidence](../assets/31-speaker-replication/ultra8-evidence/README.md):
 the 336.32-second three-speaker control passes, while the 600-second

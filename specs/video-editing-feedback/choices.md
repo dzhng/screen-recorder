@@ -2402,3 +2402,26 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** `transition-audio-replay.mjs` and its focused test protect delivered audio evidence without rerunning native work. The retained `scene-audio-delivery.mjs` checkpoint now drives one public/native export through the existing scene and audio owners, and `scene-audio-delivery-replay.mjs` protects its three scene rows, three decoded PCM landmarks and artifact hashes.
 - **Verdict:** sound bounded acceptance for separate delivered scene/audio evidence; combined scene/audio association remains explicitly refused.
 - **Confidence:** high for the retained A/V export and replay; zero for any general scene/audio detector or shared-clock promotion.
+
+## Seal the first-party speaker runtime through clean materialization — slice31
+
+- **When:** the registered speaker acquisition descriptor was complete enough to
+  be tested against a real relocated bundle, while long-form speaker quality
+  remained below its unchanged gate.
+- **The choice:** derive supplemental dependency targets from the measured runtime
+  inventory, install the 181 pinned inputs into one primary tree plus two declared
+  layers, remove only target-mode console wrappers, and assemble the bundle through
+  the existing materializer. Keep the resulting inventory and native relocation
+  policy as the registered runtime identity.
+- **The gap:** unit tests can prove argument wiring but cannot show that pip,
+  native relocation, provenance normalization and imports survive a moved bundle.
+  A donor-backed smoke test would also hide missing or private dependencies.
+- **The reach:** clean offline preparation passed seven install groups, all 54
+  native relocation entries, and a relocated import/version smoke check for NeMo
+  2.7.3, Torch/Torchaudio 2.8.0, NumPy 2.3.5, Lhotse 1.33.0, SciPy 1.18.1 and
+  Numba 0.68.0. Runtime acquisition and relocation are therefore ready for the
+  first-party bounded provider; the four-speaker continuity, overlap and named-ID
+  quality gates remain open and production inference was not promoted.
+- **Verdict:** sound, high confidence for the acquisition and packaging boundary.
+- **Confidence:** high for the clean materialization and manifest identity; medium
+  for the overall speaker slice until the unchanged long-form controls pass.

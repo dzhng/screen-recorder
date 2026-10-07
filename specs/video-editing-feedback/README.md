@@ -19,8 +19,9 @@ frozen historical evidence.
 
 Current pickup: audit the remaining independent acceptance gates rather than widening bounded claims. The retained multicam picture bank now crosses public CLI/MCP and native sequential delivery for all nine caller-authored source/sample selections; its replay binds the worker sidecar, complete preview extent and canonical source-choice schedule. Global synchronized multicamera behavior remains open. The latest trajectory checkpoint binds directional whip coverage to a caller-supplied fixed geometry rectangle, refuses animated rectangle dimensions, and replays eight decoded occupied bounds/perimeter facts from the committed movie; strict moving parity and blur parity remain open. Face landmark quality now travels from native Vision observations into framing violations without widening uncertain boxes, and the frozen full-face failure has an executable replay gate that keeps its 27 failures open. The refused Vision revision-1 probe is now retained beside revision 2: it reaches the same nine late IoU failures and also fails the frozen crop-center raster identity check, so neither older revision changes production revision 3 or the 0.5 gate. The synchronization pass has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. Angle declarations can preserve caller-authored piecewise-local segment offsets without promoting them to a global clock or applying automatic retime. A production-native fresh replay now records the focused launch, podcast and teaser routes before running the public CLI/MCP journey twice, replays the real Parakeet repair, and retains normalized delivery plus decoded picture/audio evidence on the current native build. Its saved report has an inference-free replay gate for the two-state identity and routing facts. The retained native audio crossfade now has a separate artifact hash/PCM replay under `assets/27-29-transitions/crossfade`; a combined A/V export is now retained under `assets/30-delivered-scenes/native/av` with separate scene and PCM replay, while cross-plane association remains refused. The registered
 speaker provider now has a measured pinned NeMo runtime acquisition descriptor and
-auto-prepares its first-party inputs by default. That closes acquisition readiness
-only; bounded selected-range preparation now accepts complete 80ms-grid windows
+auto-prepares its first-party inputs by default. Clean offline materialization now passes
+all 181 pinned inputs across seven install groups, 54 native relocation entries, and
+the relocated import/version smoke check. Bounded selected-range preparation now accepts complete 80ms-grid windows
 from 80ms through at most 30 seconds, while each window remains generation-local.
 The selected full-domain lexical scout now replays 381 Parakeet windows across all
 four authorized source domains and finds no cross-participant five-word anchor;
@@ -112,7 +113,7 @@ independent moving parity oracle remains red; 31/32
 bounded attribution is integrated while long-form continuity remains red; 33/34
 have focused references, route provenance and a green concrete replay, with final
 workflow review still open.
-The retained editing harness now passes 149/149 focused tests across these
+The retained editing harness now passes 151/151 focused tests across these
 receipts; that green replay suite does not promote any explicitly refused gate.
 The Core suite passes 794 tests with one skip, Protocol passes 37 tests, and the
 service suite passes 302 tests with 22 skips.
