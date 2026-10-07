@@ -2266,3 +2266,36 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** the probe reduces the differing-pixel ratios but leaves nonzero RGB differences at every sample. It is evidence about the likely source of the mismatch, while the production decoder, compositor and zero-difference gate remain unchanged.
 - **Verdict:** sound bounded refusal; future parity work must explain or eliminate the remaining conversion difference before changing production behavior.
 - **Confidence:** high for the retained moving samples and declared hypothesis; it does not establish the full Core Video conversion policy.
+
+## Refuse Nemotron-3 before inference — slice31
+
+- **When:** the long-form speaker-continuity gate remained red after the retained
+  four-slot, Ultra8 and Community-1 hypotheses, so the next distinct provider
+  hypothesis was NVIDIA's `Nemotron-3-Diarization` checkpoint.
+- **The choice:** acquire the pinned Hugging Face revision and record its exact
+  artifact hash, then admit it only through the existing short-first controls.
+  The checkpoint declares NeMo 3.0 and targets
+  `nemo.collections.asr.modules.TransformerEncoder`; the sealed Yap runtime is
+  NeMo 2.7.3 and cannot restore that target. A source compatibility probe exposed
+  the symbol only by introducing a NeMo tree whose `lhotse` API is incompatible
+  with the sealed runtime. Retain this as a refusal before inference and prepare
+  a separately hashed matching runtime before another attempt.
+- **The gap:** a downloaded checkpoint is not evidence that its runtime can load
+  or that it improves speaker quality. Running it through a mismatched runtime,
+  changing thresholds, or skipping short controls would make the long-form gate
+  incomparable.
+- **The reach:** no short or long quality result is claimed, production speaker
+  defaults remain unchanged, and the next attempt is constrained to a relocatable
+  NeMo 3/lhotse closure followed by the unchanged short-first protocol.
+- **Verdict:** sound pre-inference refusal; the acquisition and runtime boundary
+  are replayable in [Nemotron-3 admission evidence](assets/31-speaker-replication/nemotron3-admission/README.md).
+- **Confidence:** high for artifact identity and the observed import mismatch;
+  zero for speaker quality until a compatible runtime runs the controls.
+
+## Refuse the body-pose head-joint hypothesis — slice15
+
+- **When:** the independent landmark-envelope probe remained below the frozen full-face gate, so a second native Vision geometry source was tested without changing the detector contract.
+- **The choice:** run `VNDetectHumanBodyPoseRequest` on the same 72 decoded Graham frames and enclose available nose, eye, ear and neck joints in an axis-aligned delivered-pixel candidate. The candidate is independent of face rectangles and never widens them.
+- **The reach:** body pose is unavailable on 50 frames. The 22 available envelopes score 0.373–0.484 IoU, all below the unchanged 0.5 requirement. The hypothesis cannot establish complete-head coverage and is refused; no production behavior changes.
+- **Verdict:** sound bounded refusal, replayed from `assets/15-face-observations/body-pose-head-probe.json`.
+- **Confidence:** high for this source and native Vision request; unavailable frames remain an explicit capability boundary.

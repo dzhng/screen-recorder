@@ -105,6 +105,17 @@ Keep the required gate unchanged; proceed through these separately verifiable pa
    Freeze licensing, complete raw access and physical support
    before short inference. Do not tune thresholds/count hints on failed cases or
    repeat unchanged long inference.
+   The next distinct provider hypothesis is NVIDIA's
+   `nvidia/Nemotron-3-Diarization` checkpoint. Its pinned artifact was acquired
+   and hashed, but admission stopped before inference: the checkpoint declares
+   NeMo 3.0 and targets `nemo.collections.asr.modules.TransformerEncoder`,
+   while the sealed first-party runtime is NeMo 2.7.3. A source compatibility
+   probe exposed that symbol only by introducing a matching NeMo tree, which
+   then required a different `lhotse` API than the sealed runtime provides. The
+   refusal is retained in [Nemotron-3 admission evidence](../assets/31-speaker-replication/nemotron3-admission/README.md).
+   Prepare a separately hashed NeMo 3-compatible runtime before rerunning the
+   unchanged short-first controls; do not alter production defaults or claim
+   quality from this pre-inference refusal.
 3. **Prepared execution closure.** Seal and relocate the winning model/runtime;
    offline inference must use only the prepared closure and reproduce its operands.
    The original private reconstruction and alternate byte/load readiness are

@@ -38,6 +38,12 @@ can attach generation-pinned word attribution with explicit unknown/overlap stat
 A word with one covering turn plus a partial competing turn is retained as overlap
 evidence rather than being confidently misassigned; protocol, Core and service
 regressions cover that rule.
+The next distinct speaker-provider hypothesis, NVIDIA's eight-slot
+`Nemotron-3-Diarization`, was downloaded and hash-pinned but refused before
+inference because its NeMo 3.0 checkpoint cannot restore in the sealed NeMo 2.7.3
+runtime; a source probe also exposes a matching `lhotse` incompatibility. Its
+short-first quality gate and promotion remain blocked pending a separately sealed
+NeMo 3-compatible runtime.
 The retained Community-1 AHC threshold probe reuses one prepared embedding pass at
 four declared cuts and produces identical calibration assignments; its two-ID BSP30
 count failure and 100-second physical-support refusal remain unchanged, so no cut or
@@ -46,6 +52,8 @@ The retained face landmark-envelope probe maps independent Vision contour points
 through detector rectangles and fails the unchanged full-face gate on all 72
 Graham frames; it remains refused rather than turning visible landmarks into a
 complete-head localization claim.
+The body-pose head-joint probe is also refused: pose is unavailable on 50 frames
+and the 22 available envelopes remain below 0.5 IoU.
 Slice 12D now passes: a fresh receipt-driven consumer
 discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never
