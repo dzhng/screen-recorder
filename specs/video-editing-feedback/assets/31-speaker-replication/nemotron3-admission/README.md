@@ -38,3 +38,6 @@ altering the production speaker runtime.
 `protocol.json` is the machine-readable boundary for this attempt. It records
 successful acquisition, exact hashes and the pre-inference runtime error; it does
 not authorize model registration or public speaker promotion.
+The inference-free replay is
+[`nemotron3-admission-replay.mjs`](../../../../../packages/test-harness/editing/nemotron3-admission-replay.mjs);
+it rejects edited identity, runtime errors or promotion state.
