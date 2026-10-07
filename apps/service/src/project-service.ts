@@ -964,6 +964,12 @@ export async function startProjectService(options: {
             };
           }
           case "correspondence.get": {
+            if (operation.params.packageHandle)
+              return operationError(
+                "NOT_READY",
+                "Correspondence package reads are not available for service-local receipts",
+                true,
+              );
             const key = `${operation.params.evidenceId}:${operation.params.generation}`;
             const receipt = correspondenceReceipts.get(key);
             if (!receipt)
@@ -1393,6 +1399,14 @@ export async function startProjectService(options: {
               };
             }
             const receipt = evaluateSpeakerContinuity(candidate);
+            if (
+              candidate.identity.modelId !== request.modelId ||
+              candidate.metrics.expectedSpeakerCount !== request.expectedSpeakerCount
+            )
+              throw new CatalogError(
+                "INVALID_PARAMS",
+                "Continuity candidate identity does not match the requested provider",
+              );
             continuityReceipts.set(
               `${request.assetId}:${request.streamId}:${request.channel}:${request.modelId}:${candidate.identity.generation}`,
               { receipt, sourceRange: request.sourceRange },
@@ -1409,6 +1423,12 @@ export async function startProjectService(options: {
             };
           }
           case "speaker.continuity.get": {
+            if (operation.params.packageHandle)
+              return operationError(
+                "NOT_READY",
+                "Continuity package reads are not available for service-local receipts",
+                true,
+              );
             const key = `${operation.params.assetId}:${operation.params.streamId}:${operation.params.channel}:${operation.params.modelId}:${operation.params.generation}`;
             const retained = continuityReceipts.get(key);
             if (retained) {
