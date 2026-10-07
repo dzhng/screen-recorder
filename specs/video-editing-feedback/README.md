@@ -44,6 +44,12 @@ inference because its NeMo 3.0 checkpoint cannot restore in the sealed NeMo 2.7.
 runtime; a source probe also exposes a matching `lhotse` incompatibility. Its
 short-first quality gate and promotion remain blocked pending a separately sealed
 NeMo 3-compatible runtime.
+The subsequent exact source/lhotse overlay restores that checkpoint and runs the
+three unchanged short controls offline: two pass, while `aiqwk30` misses overlap
+recall at `0.6054` against the unchanged `0.8` gate. The complete refusal and
+replay are retained under
+`assets/31-speaker-replication/nemotron3-admission-short-gate/`; long-form
+inference and production promotion remain blocked.
 The distinct NVIDIA `diar_streaming_sortformer_4spk-v2` checkpoint then restored
 in the sealed NeMo 2.7.3 runtime and passed both calibration controls, but its
 held-out `aiqwk30` control failed DER 34.38%, identity confusion 13.99% and

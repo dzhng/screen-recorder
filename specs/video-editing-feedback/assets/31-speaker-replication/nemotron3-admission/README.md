@@ -41,3 +41,10 @@ not authorize model registration or public speaker promotion.
 The inference-free replay is
 [`nemotron3-admission-replay.mjs`](../../../../../packages/test-harness/editing/nemotron3-admission-replay.mjs);
 it rejects edited identity, runtime errors or promotion state.
+
+A follow-up source-overlay admission is retained in
+[Nemotron-3 short-gate evidence](../nemotron3-admission-short-gate/README.md).
+That exact checkpoint restores and runs offline when the selected NeMo and
+Lhotse source trees are layered over the sealed runtime, but one unchanged short
+control misses overlap recall. The source overlay is therefore not a production
+runtime and the provider remains refused.

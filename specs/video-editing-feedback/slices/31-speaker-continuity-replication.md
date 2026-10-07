@@ -116,6 +116,13 @@ Keep the required gate unchanged; proceed through these separately verifiable pa
    Prepare a separately hashed NeMo 3-compatible runtime before rerunning the
    unchanged short-first controls; do not alter production defaults or claim
    quality from this pre-inference refusal.
+   The follow-up source-overlay admission did restore the checkpoint and run the
+   unchanged short controls offline. Two cases pass, but `aiqwk30` has overlap
+   recall `0.6054` against the required `0.8` gate. Its complete outputs and
+   replay are retained in [Nemotron-3 short-gate evidence](../assets/31-speaker-replication/nemotron3-admission-short-gate/README.md).
+   Long-form inference remains blocked; seal the source/lhotse overlay as a
+   relocatable runtime and rerun these same short controls before considering a
+   different recipe or provider.
    The distinct `nvidia/diar_streaming_sortformer_4spk-v2` checkpoint was then
    admitted through the sealed NeMo 2.7.3 runtime using its official
    very-high-latency recipe. Both calibration controls passed, but held-out

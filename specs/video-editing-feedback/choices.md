@@ -2316,3 +2316,27 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** all 72 masks are available, but each includes the whole person and scores only 0.169–0.181 IoU against the authored face zone. A person silhouette cannot establish complete-head localization, so the hypothesis is refused and no production behavior changes.
 - **Verdict:** sound bounded refusal, replayed from `assets/15-face-observations/person-segmentation-probe.json`.
 - **Confidence:** high for the retained source and Vision recipe; this result closes the built-in person-mask hypothesis, not future dedicated head models.
+
+## Refuse Nemotron-3 after the unchanged short gate — slice31
+
+- **When:** the pre-inference refusal established that the sealed NeMo 2.7.3
+  runtime could not restore the pinned NeMo 3.0 checkpoint, so a matching source
+  and Lhotse overlay was prepared as the smallest runtime hypothesis.
+- **The choice:** layer the exact NVIDIA-NeMo Speech and Lhotse revisions over the
+  existing sealed closure, deny network access, restore the same checkpoint and
+  run the preregistered short controls with the unchanged streaming recipe. Keep
+  the overlay separate from production because it is not yet one relocatable,
+  hashed runtime closure.
+- **The gap:** successful restore alone does not establish speaker quality. The
+  three short controls must all pass before any long-form inference; changing a
+  threshold or opening a long case after a short overlap failure would invalidate
+  the gate.
+- **The reach:** `bspxd30` and `returns-overlap-silence` pass. `aiqwk30` has DER
+  `0.1298`, identity confusion `0.00485` and exact speaker count, but overlap
+  recall `0.6054`, below `0.8`. Long-form inference and provider promotion remain
+  refused. Full fixtures, hashes and replay live in
+  `assets/31-speaker-replication/nemotron3-admission-short-gate/`.
+- **Verdict:** sound short-first refusal; the source overlay proves execution
+  compatibility, not production readiness or long-form quality.
+- **Confidence:** high for the retained three-case measurements and unchanged
+  gate; low for any claim outside these controls.
