@@ -1136,6 +1136,19 @@ unlisted architecture or user-only choice was found in this research pass.
   evidence bytes rather than the retained generated asset closure.
 - **Confidence:** medium.
 
+## Preserve sampled local angle offsets as piecewise segments — slice21
+
+- **When:** the mixed-reference bridge retained independently supported local
+  windows but refused one global raw-to-raw clock.
+- **The choice:** allow an explicit `piecewise-local` angle mapping whose members
+  carry ordered, non-overlapping valid ranges and exact offsets. Composition stores
+  and validates those caller-authored observations; it never fills gaps,
+  interpolates drift, retimes media or chooses a camera.
+- **The reach:** local evidence travels through the public composition package while
+  accepted-evidence and global synchronization gates remain unchanged.
+- **Verdict:** sound for bounded local evidence; global synchronization remains open.
+- **Confidence:** medium-high.
+
 ## Project-tap evidence reclamation — slice10B2 corrective review
 
 - **When:** slice10B2 review, after tracing project deletion and retry lifetimes.

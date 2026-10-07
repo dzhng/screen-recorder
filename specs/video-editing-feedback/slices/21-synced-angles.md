@@ -52,6 +52,12 @@ The sync estimator and evidence from unlike microphones remain open. A spike pas
 accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable
 stub or undocumented fallback is not implementation completion.
 
+Caller-authored local evidence may use `mapping: "piecewise-local"` with ordered,
+non-overlapping member `segments`; each segment carries its own exact offset and
+valid range. This preserves sampled local relationships without claiming a global
+clock, retiming media, or selecting a camera. Constant-offset declarations retain
+their single-range member form.
+
 ## Delegated choices
 
 Relationship representation and angle names. Angles/offsets remain explicit inputs; speaker naming is deferred to its single owner in 32.
