@@ -22,6 +22,13 @@ unchanged. The probe receipt is [rgba-working-format-probe.json](rgba-working-fo
 it records the worker and candidate hashes and keeps this gate open rather than
 recalibrating its tolerance.
 
+A second probe rebuilt the worker with an `sRGB` working color space instead of
+`extendedLinearSRGB`. That materially worsened all three moving comparisons
+(MAE 3.59–4.88, maximum channel delta 73–74), so the production color space is
+also unchanged. The result is retained in
+[srgb-working-space-probe.json](srgb-working-space-probe.json); the strict gate
+remains open.
+
 Replay the immutable receipt with:
 
 ```sh

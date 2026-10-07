@@ -2093,3 +2093,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** future edits to use-case guidance can be checked through the router without implying that the complete native trailer workflow or open speaker/sync/visual gates are solved.
 - **Verdict:** sound bounded closure; no editorial engine or media claim is added.
 - **Confidence:** high for the declared slice scope.
+
+## Keep linear working color space after the transition probe — slices27–29
+
+- **When:** one-code-value moving transition drift remained after the full-float working-format probe, leaving the Core Image working color space as the next bounded hypothesis.
+- **The choice:** temporarily build with `sRGB` working surfaces, compare the same three moving frames, and restore `extendedLinearSRGB` because the probe materially worsened MAE and maximum channel deltas. The probe worker is retained only as evidence.
+- **The gap:** the plan delegated the color/compositing cause investigation but did not specify which color-space experiment to run after precision was ruled out.
+- **The reach:** future parity work keeps the production color space stable and must investigate another mechanism or revise the independently declared oracle; it cannot hide the mismatch with a tolerance.
+- **Verdict:** sound bounded investigation; no shipped renderer change.
+- **Confidence:** high for this probe's measured result; low for broader Core Image behavior outside the retained moving case.
