@@ -1,0 +1,26 @@
+{
+  "kind": "transition-source-over-kernel-probe",
+  "status": "open",
+  "question": "Does replacing Core Image's built-in normal source-over operator with an explicit unpremultiplied linear source-over kernel remove the moving reference-parity mismatch?",
+  "productionOperator": "CIImage.composited(over:)",
+  "probeOperator": "CIKernel unpremultiply, source-over, premultiply",
+  "probeWorkerSha256": "0a1a1b9454fba13fbb822b9ba19979f0e7a0775538e079d66c3dadecf1abdf53",
+  "samples": [
+    {
+      "id": "moving-100000",
+      "comparison": { "mae": 0.072265625, "maxChannelDelta": 1, "differingRatio": 0.072265625 }
+    },
+    {
+      "id": "moving-500000",
+      "comparison": { "mae": 0.011393229166666666, "maxChannelDelta": 1, "differingRatio": 0.011393229166666666 }
+    },
+    {
+      "id": "moving-900000",
+      "comparison": { "mae": 0.059244791666666664, "maxChannelDelta": 1, "differingRatio": 0.059244791666666664 }
+    }
+  ],
+  "result": {
+    "parityGatePassed": false,
+    "conclusion": "the explicit kernel is byte-identical in decoded RGB to the retained production candidate; the built-in source-over operator is not the cause"
+  }
+}

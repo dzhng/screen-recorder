@@ -35,6 +35,12 @@ candidate, so PNG output color-space selection is not the cause either. The
 [output probe](png-output-colorspace-probe.json) keeps that result with the
 other bounded refusals.
 
+A fourth probe replaced Core Image's built-in normal source-over operator with
+an explicit unpremultiply, linear source-over and premultiply kernel. Its
+decoded RGB was also byte-identical to the retained candidate, so the operator
+choice is not the cause. The [source-over probe](source-over-kernel-probe.json)
+retains that result and the production operator remains unchanged.
+
 Replay the immutable receipt with:
 
 ```sh

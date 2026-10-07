@@ -2111,3 +2111,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** future work can focus on blend/source arithmetic or sampling rather than changing PNG output metadata; the strict oracle remains open.
 - **Verdict:** sound bounded investigation; no shipped output change.
 - **Confidence:** high for the retained three-sample result; low beyond this transition case.
+
+## Keep Core Image's normal source-over operator after the kernel probe — slices27–29
+
+- **When:** the moving mismatch survived working-format, working-color-space and output-space probes, so premultiplied-alpha arithmetic in the built-in normal compositor was the next specific hypothesis.
+- **The choice:** temporarily replace normal compositing with an explicit unpremultiply → linear source-over → premultiply kernel. Because all three moving frames were byte-identical to the retained candidate, keep the built-in operator and retain the probe as evidence.
+- **The gap:** the plan named blend arithmetic as an open cause but did not prescribe whether an explicit kernel should replace the platform operator.
+- **The reach:** later parity work must investigate source decode/sampling or quantization rather than adding a second compositor that has no measured benefit.
+- **Verdict:** sound bounded investigation; no shipped renderer change.
+- **Confidence:** high for the retained three-sample result; low beyond this transition case.
