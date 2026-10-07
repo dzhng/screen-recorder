@@ -60,22 +60,28 @@ their owning slices.
 
 ## Implementation closeout evidence
 
-The implementation branch is clean at `7e514a3a`, and the intended
-`spec/video-editing-feedback` ref points at that commit. The focused editing
-harness is 142/142, composition is 335/335, protocol is 37/37, core is 794 with
-one skip, CLI is 112/112, client is 22/22, and the workbench check passes. The
-two service cases that timed out during the first parallel run pass individually;
-the serialized service lane is 302 passing with 22 skipped. The standalone native
-capture suite also passes.
+The implementation branches are clean at the verified head; both
+`spec/speaker-next` and `spec/video-editing-feedback` point at it. The focused
+editing harness is 142/142, composition is 335/335,
+protocol is 37/37, core is 794 with one skip, CLI is 112/112, client is 22/22,
+and the workbench check passes. The two service cases that timed out during the
+first parallel run pass individually; the serialized service lane is 302 passing
+with 22 skipped. The standalone native capture suite also passes. The timeline
+inspection fixture now supplies the pinned transcript source metadata required by
+the current ready-page contract and passes its focused seven-test file.
 
-The serialized repository run reached the permission-gated macOS integration
-tests and stopped on this machine's existing Screen & System Audio Recording
-authorization boundary. Those checks report `PERMISSION_REQUIRED` and remain
-explicitly unverified here, as required by the spec; no production behavior was
-changed to hide that boundary. A bundled-service export case also timed out while
-the permission-gated integration process was running. The native unit, service,
-CLI, protocol, composition, core, client, workbench and focused editing results
-above remain the applicable evidence for this machine.
+The non-live completion lane was rerun with the built Sparkle framework selected
+explicitly: all 17 filtered package tasks passed, the focused editing harness
+remained 142/142, and `test:tools` passed all 164 tests.
+
+The serialized repository run reaches the permission-gated macOS integration
+tests on this machine's existing Screen & System Audio Recording boundary. Those
+checks report `PERMISSION_REQUIRED` and remain explicitly unverified here, as
+required by the current environment; no production behavior was changed to hide
+that boundary. A bundled-service export case also timed out while the
+permission-gated integration process was running. The native unit, service, CLI,
+protocol, composition, core, client, workbench and focused editing results above
+remain the applicable evidence for this machine.
 
 The implementation review passes for the committed contracts and focused
 evidence. The global checklist remains open for the refusal-backed face,
