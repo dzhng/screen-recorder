@@ -13,7 +13,7 @@ const halfFrameBytes = width * height * 8;
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 function halfToFloat(bits) {
-  const sign = (bits & 0x8000) ? -1 : 1;
+  const sign = bits & 0x8000 ? -1 : 1;
   const exponent = (bits >>> 10) & 0x1f;
   const fraction = bits & 0x3ff;
   if (exponent === 0) return sign * 2 ** -14 * (fraction / 1024);
@@ -34,14 +34,21 @@ function rgba8FromHalf(bytes, transform) {
     const sourceOffset = pixel * 8;
     const targetOffset = pixel * 4;
     for (let channel = 0; channel < 4; channel++)
-      source[targetOffset + channel] = toByte(halfToFloat(view.getUint16(sourceOffset + channel * 2, true)));
+      source[targetOffset + channel] = toByte(
+        halfToFloat(view.getUint16(sourceOffset + channel * 2, true)),
+      );
   }
   if (transform === "identity") return source;
   assert.equal(transform, "horizontal-flip");
   const flipped = Buffer.alloc(frameBytes);
   for (let y = 0; y < height; y++)
     for (let x = 0; x < width; x++)
-      source.copy(flipped, (y * width + x) * 4, (y * width + width - 1 - x) * 4, (y * width + width - x) * 4);
+      source.copy(
+        flipped,
+        (y * width + x) * 4,
+        (y * width + width - 1 - x) * 4,
+        (y * width + width - x) * 4,
+      );
   return flipped;
 }
 
@@ -80,12 +87,26 @@ export async function runRgbaHalfProbeReplay(reportPath) {
   assert.equal(report.recipe.width, width);
   assert.equal(report.recipe.height, height);
   assert.equal(report.gate.passed, false);
-  assert.equal(report.gate.rule, "native-source-conditioned moving parity requires zero differing RGBA bytes");
+  assert.equal(
+    report.gate.rule,
+    "native-source-conditioned moving parity requires zero differing RGBA bytes",
+  );
   const measurements = [];
   for (const [name, source] of Object.entries(report.sources)) {
     const sourceBytes = await readFile(resolve(root, source.path));
     assert.equal(hash(sourceBytes), source.sha256, `${name} source changed`);
     assert.equal(source.frameCount, source.frames.length);
+    assert.equal(
+      source.pixelFormat,
+      "kCVPixelFormatType_64RGBAHalf",
+      `${name} pixel format changed`,
+    );
+    assert.equal(source.bytesPerRow, width * 8, `${name} row stride changed`);
+    assert.deepEqual(
+      source.frames.map((frame) => frame.index),
+      [0, 1, 2, 3],
+      `${name} source must have unique frame indices`,
+    );
     const decoded = await decodeRgba(resolve(root, source.path));
     assert.equal(decoded.length, source.frameCount * frameBytes, `${name} source frame count`);
     for (const frame of source.frames) {
@@ -95,7 +116,11 @@ export async function runRgbaHalfProbeReplay(reportPath) {
       const native = rgba8FromHalf(bytes, source.transform);
       const ffmpeg = decoded.subarray(frame.index * frameBytes, (frame.index + 1) * frameBytes);
       const comparison = compareRgba(ffmpeg, native);
-      assert.deepEqual(comparison, frame.comparison, `${name} frame ${frame.index} metrics changed`);
+      assert.deepEqual(
+        comparison,
+        frame.comparison,
+        `${name} frame ${frame.index} metrics changed`,
+      );
       measurements.push(comparison);
     }
   }
@@ -105,7 +130,9 @@ export async function runRgbaHalfProbeReplay(reportPath) {
     status: report.status,
     frameCount: measurements.length,
     maxChannelDelta: Math.max(...measurements.map((row) => row.maxChannelDelta)),
-    allFramesRetainResidual: measurements.every((row) => row.maxChannelDelta === 1 && row.differingBytes > 0),
+    allFramesRetainResidual: measurements.every(
+      (row) => row.maxChannelDelta === 1 && row.differingBytes > 0,
+    ),
     reportSha256: hash(reportBytes),
   };
 }
