@@ -251,7 +251,7 @@ failure is retained rather than used to relax the gate. A native AVAssetReader
 0.26%, 0.13% and 0.16% at the three samples, but remains nonzero; source fixtures
 and replay are retained without changing the production path. A retained
 AVAssetReader `kCVPixelFormatType_64RGBAHalf` probe replays all eight converted
-frames and reproduces the same 340-pixel/342-byte one-code residual, so the
+frames and retains a 340-pixel/342-byte one-code residual, so the
 higher-precision decoder hypothesis is explicitly refused as well.
 
 Slice25 evidence: the existing source-neutral SDR correction now carries bounded `shadows` and

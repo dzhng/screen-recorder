@@ -70,7 +70,7 @@ open status or metrics is refused.
 The [native source probe](native-source-probe.json) captures the production
 AVAssetReader 32BGRA bytes for all four frames of both ProRes sources, retains
 the small raw frame fixtures, and applies only the frozen display transforms.
-Every native frame differs from the FFmpeg-decoded source by 0.11% of pixels at
+Every native frame differs from the FFmpeg-decoded source by 11.04% of pixels at
 maximum one code value, chiefly the semi-transparent alpha edge. Composing the
 native source bytes lowers the candidate residual to 0.26%, 0.13% and 0.16%
 of pixels at 100ms, 500ms and 900ms, respectively, but does not reach the
@@ -87,9 +87,9 @@ node packages/test-harness/editing/transition-native-source-probe.mjs replay \
 A seventh bounded probe requested `kCVPixelFormatType_64RGBAHalf` from
 `AVAssetReader` and retained all eight half-float frames in
 [`rgba-half-source-probe.json`](rgba-half-source-probe.json). After the frozen
-display transform and 8-bit comparison, every frame has the same 340 differing
-pixels, 342 differing channel bytes and one-code maximum delta as the existing
-32BGRA conversion. Higher-precision source delivery therefore does not close
+display transform and 8-bit comparison, every frame has 340 differing pixels
+(11.07%), compared with 339 pixels (11.04%) for 32BGRA. Both paths have 342
+differing channel bytes and a one-code maximum delta. Higher-precision source delivery therefore does not close
 the strict moving gate. Replay the retained probe with:
 
 ```sh
