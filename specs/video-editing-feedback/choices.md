@@ -1142,8 +1142,9 @@ unlisted architecture or user-only choice was found in this research pass.
   windows but refused one global raw-to-raw clock.
 - **The choice:** allow an explicit `piecewise-local` angle mapping whose members
   carry ordered, non-overlapping valid ranges and exact offsets. Composition stores
-  and validates those caller-authored observations; it never fills gaps,
-  interpolates drift, retimes media or chooses a camera.
+  and validates those caller-authored observations; every member must provide
+  segments in this mode, and it never fills gaps, interpolates drift, retimes
+  media or chooses a camera.
 - **The reach:** local evidence travels through the public composition package while
   accepted-evidence and global synchronization gates remain unchanged.
 - **Verdict:** sound for bounded local evidence; global synchronization remains open.
