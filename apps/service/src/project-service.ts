@@ -116,6 +116,11 @@ import { SpeakerLabelStore } from "@yap/core/speaker-labels";
 import type { SelectionRange } from "@yap/composition";
 import { sourcePCMDecoder } from "./source-channel.js";
 import { evaluateSpeakerContinuity } from "@yap/core/speaker-continuity";
+import {
+  admitCorrespondence,
+  verifyCorrespondenceReceipt,
+} from "@yap/core/correspondence";
+import type { CorrespondenceReceipt } from "@yap/protocol";
 
 type TranscriptSpeakerRequest = {
   streamId: string;
@@ -172,6 +177,8 @@ export async function startProjectService(options: {
   const modelLifetime = new AbortController();
   const modelPreparations = new Set<Promise<void>>();
   const pending = new Set<Promise<OperationResult>>();
+  // Slice 02 owns receipt admission and read semantics; durable package adoption is slice 04.
+  const correspondenceReceipts = new Map<string, CorrespondenceReceipt>();
   let boundListener: LocalListener | undefined;
   let starting = true;
   let update: UpdateStatus = {
@@ -941,6 +948,41 @@ export async function startProjectService(options: {
       const operation = parsed.data;
       try {
         switch (operation.operation) {
+          case "correspondence.prepare": {
+            const receipt = admitCorrespondence(operation.params);
+            correspondenceReceipts.set(`${receipt.evidenceId}:${receipt.generation}`, receipt);
+            return {
+              ok: true,
+              data: {
+                state: "ready",
+                evidenceId: receipt.evidenceId,
+                generation: receipt.generation,
+                published: { generation: receipt.generation, output: receipt },
+              },
+            };
+          }
+          case "correspondence.get": {
+            const key = `${operation.params.evidenceId}:${operation.params.generation}`;
+            const receipt = correspondenceReceipts.get(key);
+            if (!receipt)
+              return operationError("NOT_FOUND", "Correspondence receipt is not retained");
+            const checked = verifyCorrespondenceReceipt(receipt);
+            const after = operation.params.cursor?.afterAnchor ?? -1;
+            const limit = operation.params.limit ?? 128;
+            const anchors = checked.measurement.anchors.slice(after + 1, after + 1 + limit);
+            const next = after + anchors.length < checked.measurement.anchors.length ? after + anchors.length : null;
+            return {
+              ok: true,
+              data: {
+                state: "ready",
+                evidenceId: checked.evidenceId,
+                generation: checked.generation,
+                verdict: checked.measurement.verdict,
+                measurement: { ...checked.measurement, anchors },
+                ...(next === null ? {} : { nextCursor: { evidenceId: checked.evidenceId, generation: checked.generation, afterAnchor: next } }),
+              },
+            };
+          }
           case "update.status":
           case "update.check":
           case "update.setEnabled":

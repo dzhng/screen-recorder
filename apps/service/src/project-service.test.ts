@@ -54,6 +54,47 @@ const metadata = {
 };
 const setup = projectServiceFixture.bind(undefined, cleanups);
 
+test("correspondence receipts are admitted and paged without declaring an edit", async () => {
+  const f = await setup(async () => ({ ok: true, data: {} }));
+  const endpoint = (assetId: string) => ({
+    kind: "source",
+    assetId,
+    streamId: "audio-1",
+    channel: 0,
+    range: { startUs: 0, endUs: 4_000_000 },
+  });
+  const measurement = {
+    verdict: "accepted",
+    reason: "known delay control",
+    anchors: [
+      {
+        leftRange: { startUs: 0, endUs: 1_000_000 },
+        rightRange: { startUs: 120_000, endUs: 1_120_000 },
+        candidates: [{ offsetUs: 120_000, residualUs: 1000, coverage: 1, driftPpm: 0, score: 0.9, selected: true }],
+        selected: 0,
+      },
+    ],
+    candidates: [{ offsetUs: 120_000, residualUs: 1000, coverage: 1, driftPpm: 0, score: 0.9, selected: true }],
+    offsetUs: 120_000,
+    residualUs: 1000,
+    coverage: 1,
+    driftPpm: 0,
+    policy: { minimumCoverage: 0.8, maximumResidualUs: 10_000, maximumDriftPpm: 20, minimumAnchors: 1 },
+  };
+  const prepared = await f.call("correspondence.prepare", {
+    evidenceId: "e1",
+    generation: "g1",
+    left: endpoint("a"),
+    right: endpoint("b"),
+    measurement,
+  });
+  expect(prepared).toMatchObject({ ok: true, data: { state: "ready", published: { output: { evidenceId: "e1" } } } });
+  expect(await f.call("correspondence.get", { evidenceId: "e1", generation: "g1", limit: 1 })).toMatchObject({
+    ok: true,
+    data: { verdict: "accepted", measurement: { anchors: [{ selected: 0 }] } },
+  });
+});
+
 test("socket and app requests share native update controls and preserve native refusals", async () => {
   const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
   let enabled = false;

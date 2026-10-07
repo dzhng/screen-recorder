@@ -323,6 +323,10 @@
     "./project-alignment": {
       "types": "./dist/project-alignment.d.ts",
       "default": "./dist/project-alignment.js"
+    },
+    "./correspondence": {
+      "types": "./dist/correspondence.d.ts",
+      "default": "./dist/correspondence.js"
     }
   },
   "scripts": {

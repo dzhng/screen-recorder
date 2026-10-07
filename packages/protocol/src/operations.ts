@@ -14,6 +14,10 @@ import {
 import { z } from "zod";
 import { pictureObservationRequestSchema } from "./picture.js";
 import { faceObservationRequestSchema } from "./faces.js";
+import {
+  correspondenceGetParamsSchema,
+  correspondencePrepareParamsSchema,
+} from "./correspondence.js";
 import { captureSelectionSchema } from "./capture.js";
 import { DEFAULT_CALL_TIMEOUT_MS, MEDIA_WORKER_TIMEOUT_MS } from "./framing.js";
 
@@ -741,6 +745,22 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Read one to eight retained selected PNGs in order from the same published index. Each ordinal returns its own image or error; duplicates remain ordered.",
     ),
 
+  z
+    .strictObject({
+      operation: z.literal("correspondence.prepare"),
+      params: correspondencePrepareParamsSchema,
+    })
+    .describe(
+      "Admit caller-supplied temporal correspondence measurements between two explicit source or prepared project-tap endpoints. The receipt retains candidates, residuals, coverage, drift and refusals; it never declares an angle, retimes media or edits a project.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("correspondence.get"),
+      params: correspondenceGetParamsSchema,
+    })
+    .describe(
+      "Read one immutable temporal correspondence receipt without decoding media or rerunning estimation. Continue with the returned cursor to keep its evidence generation and query pinned.",
+    ),
   z
     .strictObject({
       operation: z.literal("alignment.prepare"),

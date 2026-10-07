@@ -130,3 +130,4 @@ export * from "./work.js";
 
 export * from "./picture.js";
 export * from "./faces.js";
+export * from "./correspondence.js";
