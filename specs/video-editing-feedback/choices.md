@@ -2257,3 +2257,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** the contour envelope fails the unchanged 0.5 gate on all 72 Graham frames (IoU 0.191–0.450). It is therefore evidence of visible landmarks, not a complete-head region suitable for the frozen quality claim or automatic crop. The exact report, recipe digest and inference-free replay are retained under `assets/15-face-observations/landmark-envelope-probe.json`.
 - **Verdict:** sound bounded refusal; production Vision revision 3, the 0.5 gate and framing behavior remain unchanged.
 - **Confidence:** high for this source, recipe and 72-frame probe; the result does not rule out a future independent complete-head detector.
+
+## Retain the source-alpha conversion probe without promoting parity — slices27–29
+
+- **When:** the independent moving transition oracle still differed from the native candidate by one RGB code value on semi-transparent edges.
+- **The choice:** test one bounded Core Video 8-bit BGRA hypothesis: treat non-opaque source alpha as a 256-step value while keeping the opaque sentinel at one. Reuse the shared decoder/compositor/comparator and retain the source and candidate hashes in an immutable report.
+- **The gap:** the frozen evidence showed a systematic edge mismatch, but the source conversion step had not been isolated. The plan requires a zero-difference reference match before promotion, so a lower error rate is not enough.
+- **The reach:** the probe reduces the differing-pixel ratios but leaves nonzero RGB differences at every sample. It is evidence about the likely source of the mismatch, while the production decoder, compositor and zero-difference gate remain unchanged.
+- **Verdict:** sound bounded refusal; future parity work must explain or eliminate the remaining conversion difference before changing production behavior.
+- **Confidence:** high for the retained moving samples and declared hypothesis; it does not establish the full Core Video conversion policy.
