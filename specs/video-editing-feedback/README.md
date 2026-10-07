@@ -50,9 +50,9 @@ The moving trajectory receipt now has an immutable replay checker covering its
 39-picture membership, refusal controls and exact preview/export identities;
 the independent [moving reference-parity audit](assets/27-29-transitions/reference-parity/report.json)
 retains a red standard crossfade oracle over the alpha/mirror sources, so strict
-reference-conditioned moving color/perimeter parity remains open. Both the
-full-float working-format and gamma-space working-color probes are retained
-there; neither changes the production compositor.
+reference-conditioned moving color/perimeter parity remains open. The retained
+working-format, working-color, output-space, source-over and source-rasterization
+probes all refuse promotion and leave the production compositor unchanged.
 
 Priority order: 20/21 global synchronization remains refused on the frozen
 unlike-mic evidence; 15/16 face/framing remain partial; 27–30 have public
