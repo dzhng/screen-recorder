@@ -1408,33 +1408,31 @@ export async function startProjectService(options: {
               },
             };
           }
-          case "speaker.continuity.get":
-            {
-              const key = `${operation.params.assetId}:${operation.params.streamId}:${operation.params.channel}:${operation.params.modelId}:${operation.params.generation}`;
-              const retained = continuityReceipts.get(key);
-              if (retained) {
-                if (
-                  retained.sourceRange.startUs !== operation.params.observationRange.startUs ||
-                  retained.sourceRange.endUs !== operation.params.observationRange.endUs
-                )
-                  throw new CatalogError(
-                    "ARTIFACT_CHANGED",
-                    "Speaker continuity read changed its observation range",
-                  );
-                return {
-                  ok: true,
-                  data: {
-                    ...operation.params,
-                    state: "ready",
-                    reason:
-                      retained.receipt.status === "accepted"
-                        ? "continuity_not_promoted"
-                        : "continuity_quality_gate",
-                    retryable: false,
-                    receipt: retained.receipt,
-                  },
-                };
-              }
+          case "speaker.continuity.get": {
+            const key = `${operation.params.assetId}:${operation.params.streamId}:${operation.params.channel}:${operation.params.modelId}:${operation.params.generation}`;
+            const retained = continuityReceipts.get(key);
+            if (retained) {
+              if (
+                retained.sourceRange.startUs !== operation.params.observationRange.startUs ||
+                retained.sourceRange.endUs !== operation.params.observationRange.endUs
+              )
+                throw new CatalogError(
+                  "ARTIFACT_CHANGED",
+                  "Speaker continuity read changed its observation range",
+                );
+              return {
+                ok: true,
+                data: {
+                  ...operation.params,
+                  state: "ready",
+                  reason:
+                    retained.receipt.status === "accepted"
+                      ? "continuity_not_promoted"
+                      : "continuity_quality_gate",
+                  retryable: false,
+                  receipt: retained.receipt,
+                },
+              };
             }
             return {
               ok: true,
@@ -1446,6 +1444,7 @@ export async function startProjectService(options: {
                 receipt: null,
               },
             };
+          }
           case "speaker.prepare": {
             const status = speakers.prepareSource(operation.params);
             return {
