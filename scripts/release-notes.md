@@ -100,3 +100,14 @@ using the same capture session as the recording. The preview is enabled by defau
 and can be hidden from Settings; screen-only recordings keep the compact controls.
 Camera-only capture chooses the default available camera and no longer repeats a
 redundant “Required” label after a camera is selected.
+## 0.1.23
+
+This release adds agent-first media evidence primitives: generation-pinned face
+trajectories with explicit ambiguity and prediction refusal, fingerprinted
+temporal correspondence receipts that never edit or synchronize a project, and
+quality-gated long-form speaker continuity receipts that preserve refusal
+metrics and anonymous identity boundaries. The public protocol, service, CLI and
+MCP surfaces share the same strict contracts.
+
+Live camera and microphone capture remain unverified on the development Mac,
+which has no such devices.
