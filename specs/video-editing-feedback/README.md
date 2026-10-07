@@ -110,7 +110,7 @@ independent moving parity oracle remains red; 31/32
 bounded attribution is integrated while long-form continuity remains red; 33/34
 have focused references, route provenance and a green concrete replay, with final
 workflow review still open.
-The retained editing harness now passes 139/139 focused tests across these
+The retained editing harness now passes 142/142 focused tests across these
 receipts; that green replay suite does not promote any explicitly refused gate.
 The Core suite passes 794 tests with one skip, Protocol passes 37 tests, and the
 service suite passes 302 tests with 22 skips.

@@ -2369,8 +2369,9 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   substitute for clean acquisition evidence.
 - **The reach:** no short controls were rerun, no long-form inference was opened,
   and production speaker defaults remain unchanged. The exact revisions, hashes,
-  donor-denied smoke receipt and storage refusal are retained in
-  `assets/31-speaker-replication/nemotron3-closure/`.
+  donor-denied smoke receipt, storage refusal and inference-free replay are
+  retained in `assets/31-speaker-replication/nemotron3-closure/` and included in
+  the focused harness.
 - **Verdict:** sound refusal; a fresh materialization on scratch storage is the
   smallest next step.
 - **Confidence:** high for the relocation boundary and storage blocker; no new
