@@ -133,10 +133,18 @@ const transitionRecipe = z
 const angleMember = z
   .object({
     clipId: reference,
-    offsetUs: signedTimeValueSchema,
-    validRange: selectionRangeSchema,
+    offsetUs: signedTimeValueSchema.optional(),
+    validRange: selectionRangeSchema.optional(),
+    segments: z.array(z.object({ offsetUs: signedTimeValueSchema, validRange: selectionRangeSchema }).strict()).min(1).optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((member, context) => {
+    const piecewise = member.segments !== undefined;
+    if (piecewise && (member.offsetUs !== undefined || member.validRange !== undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle member cannot also set offsetUs/validRange" });
+    if (!piecewise && (member.offsetUs === undefined || member.validRange === undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Angle member requires offsetUs and validRange" });
+  });
 export const editOperationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("text.set"), clipId: reference, source: textSourceSchema })
@@ -156,12 +164,20 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("angle.declare"),
       sessionId: z.string().min(1),
+      mapping: z.literal("piecewise-local").optional(),
       originClipId: reference,
       evidence: synchronizationEvidenceSchema,
       members: z.array(angleMember).min(2),
       label,
     })
-    .strict(),
+    .strict()
+    .superRefine((operation, context) => {
+      const hasSegments = operation.members.some((member) => member.segments !== undefined);
+      if (hasSegments && operation.mapping !== "piecewise-local")
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle declaration must declare mapping" });
+      if (operation.mapping === "piecewise-local" && !hasSegments)
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle declaration requires segments" });
+    }),
   z.object({ operation: z.literal("angle.remove"), angleGroupId: reference }).strict(),
   z
     .object({
@@ -1515,13 +1531,14 @@ export function applyBatch(
           const members = operation.members.map((member, index) => {
             const clip = model.clips.find((value) => value.clip.id === memberIds[index])!;
             if (!isMediaClip(clip.clip)) invalid("Angle members require media clips");
-            return {
+            const base = {
               clipId: clip.clip.id,
               assetId: clip.clip.assetId,
               streamId: clip.clip.streamId,
-              offsetUs: member.offsetUs,
-              validRange: member.validRange,
             };
+            return operation.mapping === "piecewise-local"
+              ? { ...base, segments: member.segments! }
+              : { ...base, offsetUs: member.offsetUs!, validRange: member.validRange! };
           });
           const id = allocate("angleGroup");
           bind(operation.label, "angleGroup", id);
@@ -1534,6 +1551,7 @@ export function applyBatch(
                 sessionId: operation.sessionId,
                 originClipId,
                 evidence: operation.evidence,
+                ...(operation.mapping === "piecewise-local" ? { mapping: operation.mapping } : {}),
                 members,
               },
             ],

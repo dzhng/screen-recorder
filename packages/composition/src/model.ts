@@ -302,13 +302,22 @@ export function resolveComposition(
       angleMembers.add(member.clipId);
       if (!sources.has(`${member.assetId}\0${member.streamId}`))
         invalid(`Angle member source does not match synchronization evidence: ${member.clipId}`);
+      const segments = member.segments ?? [{ offsetUs: member.offsetUs!, validRange: member.validRange! }];
+      let through: Rational | undefined;
+      for (const segment of segments) {
+        const valid = exact(segment.validRange);
+        if (through !== undefined && compare(valid.start, through) < 0)
+          invalid(`Angle segments overlap or are out of order: ${member.clipId}`);
+        through = valid.end;
+      }
     }
     if (sources.size !== members.size)
       invalid(`Synchronization evidence source set differs from angle members: ${group.id}`);
     if (!members.has(group.originClipId))
       invalid(`Angle origin is not a member: ${group.originClipId}`);
     const origin = group.members.find((member) => member.clipId === group.originClipId)!;
-    if (compare(fromTime(origin.offsetUs), integer(0)) !== 0)
+    const originSegments = origin.segments ?? [{ offsetUs: origin.offsetUs!, validRange: origin.validRange! }];
+    if (originSegments.some((segment) => compare(fromTime(segment.offsetUs), integer(0)) !== 0))
       invalid(`Angle origin must have zero offset: ${group.originClipId}`);
   }
   const ready: Clip[] = [],
@@ -420,9 +429,12 @@ export function resolveComposition(
         invalid(`Angle member requires a video stream: ${member.clipId}`);
       if (clip.clip.assetId !== member.assetId || clip.clip.streamId !== member.streamId)
         invalid(`Angle member source does not match clip: ${member.clipId}`);
-      const valid = exact(member.validRange);
-      if (compare(valid.start, clip.range.start) < 0 || compare(valid.end, clip.range.end) > 0)
-        invalid(`Angle validity exceeds clip interval: ${member.clipId}`);
+      const segments = member.segments ?? [{ offsetUs: member.offsetUs!, validRange: member.validRange! }];
+      for (const segment of segments) {
+        const valid = exact(segment.validRange);
+        if (compare(valid.start, clip.range.start) < 0 || compare(valid.end, clip.range.end) > 0)
+          invalid(`Angle validity exceeds clip interval: ${member.clipId}`);
+      }
     }
   }
   const ordered = [...resolved.values()].sort(

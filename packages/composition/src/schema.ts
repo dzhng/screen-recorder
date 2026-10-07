@@ -621,27 +621,43 @@ export const synchronizationEvidenceSchema = z
   })
   .strict();
 export type SynchronizationEvidence = z.infer<typeof synchronizationEvidenceSchema>;
+export const angleSegmentSchema = z
+  .object({ offsetUs: signedTimeValueSchema, validRange: selectionRangeSchema })
+  .strict();
+const angleMemberSchema = z
+  .object({
+    clipId: id,
+    assetId: id,
+    streamId: id,
+    offsetUs: signedTimeValueSchema.optional(),
+    validRange: selectionRangeSchema.optional(),
+    segments: z.array(angleSegmentSchema).min(1).optional(),
+  })
+  .strict()
+  .superRefine((member, context) => {
+    const piecewise = member.segments !== undefined;
+    if (piecewise && (member.offsetUs !== undefined || member.validRange !== undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle member cannot also set offsetUs/validRange" });
+    if (!piecewise && (member.offsetUs === undefined || member.validRange === undefined))
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Angle member requires offsetUs and validRange" });
+  });
 export const angleGroupSchema = z
   .object({
     id,
     sessionId: id,
     originClipId: id,
     evidence: synchronizationEvidenceSchema,
-    members: z
-      .array(
-        z
-          .object({
-            clipId: id,
-            assetId: id,
-            streamId: id,
-            offsetUs: signedTimeValueSchema,
-            validRange: selectionRangeSchema,
-          })
-          .strict(),
-      )
-      .min(2),
+    mapping: z.literal("piecewise-local").optional(),
+    members: z.array(angleMemberSchema).min(2),
   })
-  .strict();
+  .strict()
+  .superRefine((group, context) => {
+    const hasSegments = group.members.some((member) => member.segments !== undefined);
+    if (group.mapping === "piecewise-local" && !hasSegments)
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle group requires segments" });
+    if (group.mapping === undefined && hasSegments)
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Piecewise angle group must declare mapping" });
+  });
 export const compositionSchema = z
   .object({
     canvas: z
@@ -670,6 +686,7 @@ export function isMediaClip(clip: Clip): clip is MediaClip {
   return clip.source.kind === "range" || clip.source.kind === "hold";
 }
 export type Stream = z.infer<typeof streamSchema>;
+export type AngleSegment = z.infer<typeof angleSegmentSchema>;
 export type Asset = z.infer<typeof assetSchema>;
 export type Composition = z.infer<typeof compositionSchema>;
 export type AngleGroup = z.infer<typeof angleGroupSchema>;
