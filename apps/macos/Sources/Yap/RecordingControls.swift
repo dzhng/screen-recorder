@@ -26,6 +26,7 @@ final class RecordingControls: NSObject {
     private lazy var region = RegionSelection(changed: { [weak self] in self?.render() })
     private let quit: () -> Void
     private let preferences: Preferences
+    private let skillManager: SkillManager
     private var state: ControlsState
     private var updateOperation: ((String, Data) -> Result<Data, ServiceFailure>)?
     /// Screen access has no "not yet asked" state to read, so a request this launch that came back
@@ -82,7 +83,8 @@ final class RecordingControls: NSObject {
         refreshPermissions: { [weak self] in
             self?.readPermissions()
             self?.render()
-        })
+        },
+        skillManager: skillManager)
     private var ticker: Timer?
     private var reading = false
     private var pendingRefresh = false
@@ -98,6 +100,7 @@ final class RecordingControls: NSObject {
         self.home = home
         self.quit = quit
         self.preferences = preferences
+        self.skillManager = SkillManager(home: home)
         state = ControlsState(recording: preferences.recording)
         let overridePath = GlobalShortcuts.overridePath(home: home)
         super.init()
@@ -111,6 +114,7 @@ final class RecordingControls: NSObject {
         statusItem.button?.setAccessibilityLabel("Yap")
         readPermissions()
         render()
+        skillManager.reconcileIfEnabled(preferences.installSkill)
     }
 
     func configureUpdates(_ updates: UpdateControls,

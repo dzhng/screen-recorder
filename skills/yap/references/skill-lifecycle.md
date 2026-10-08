@@ -201,5 +201,6 @@ recovery and the retained backup path; never claim that restoration succeeded.
 Report the retained backup path, pinned source, resulting full-folder diff and
 actual discovery link targets. Verify unrelated settings and other skills remain
 unchanged. Retain the backup until the user decides it can be removed. A local
-install's future refresh repeats this fetch/diff/explicit-update sequence; app
-automatic updates never edit skill files.
+install's future refresh repeats this fetch/diff/explicit-update sequence. Yap's
+app maintenance may refresh only a global installation carrying Yap's ownership
+receipt; it never edits project-local or unmanaged/custom skill files.
