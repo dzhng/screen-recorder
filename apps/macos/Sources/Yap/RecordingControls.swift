@@ -100,7 +100,7 @@ final class RecordingControls: NSObject {
         self.home = home
         self.quit = quit
         self.preferences = preferences
-        self.skillManager = SkillManager(home: home)
+        self.skillManager = SkillManager()
         state = ControlsState(recording: preferences.recording)
         let overridePath = GlobalShortcuts.overridePath(home: home)
         super.init()
