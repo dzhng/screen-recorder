@@ -11,9 +11,11 @@ installation so the user can maintain a customized skill themselves.
 ## Why this shape
 
 The skill is account state, not project state. A project-local skill or unrelated
-agent configuration must therefore remain untouched. `npx skills` is the owner
+agent configuration must therefore remain untouched. `npx skills` is the primary owner
 of harness discovery, so Yap uses its global JSON listing rather than a
-hand-maintained list that would become stale as harnesses change.
+hand-maintained list that would become stale as harnesses change. If discovery
+is unavailable, the implementation uses a small known-path fallback so status
+and cleanup remain useful offline.
 
 Mutation is a durable transaction because installation can touch several paths
 and can outlive the request that started it. A complete staged tree, receipts,
@@ -39,8 +41,10 @@ predictable and gives the user an explicit customization escape hatch.
   preserved.
 - A mutation returns an operation identifier and an updating state; callers poll
   `skill.status` for the terminal state and diagnostics.
-- Failed or interrupted mutations retain enough durable state to restore the
-  discovered paths and report the retained backup/error information.
+- Caught mutation failures restore the paths that were backed up and report a
+  retained backup/error state. An abrupt process termination is reported as an
+  in-progress operation for the next status read and remains a production smoke
+  case.
 
 ## Pointers into the code
 
@@ -62,8 +66,9 @@ user changes; lifecycle reconciliation and explicit update are sufficient.
 Using a fixed Codex/Claude destination list was rejected because it misses new
 harnesses; discovery comes from `npx skills`.
 
-The repository checks, protocol/CLI/service suites, Swift build, focused skill
-lifecycle test, and documentation audit pass. The full macOS capture suite is
+Type checks, protocol/CLI/service suites, the Swift build, the focused discovery
+test, and the documentation audit pass. Direct transaction coverage remains a
+production smoke responsibility because the full macOS capture suite is
 permission-gated: its freshly built ad hoc binary has a different code identity
 from the installed production app, even though both use
 `com.dzhng.yap`. Run the production smoke checklist after release to validate
