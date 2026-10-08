@@ -14,6 +14,7 @@ public enum SourceFrameRenderer {
         let maxEncodedBytes: Int?
         let observations: PictureObservationRequest?
         let faceObservations: FaceObservationRequest?
+        let cursorOverlay: FrameOverlay?
     }
     public struct Sample: Encodable {
         let value: String
@@ -68,7 +69,22 @@ public enum SourceFrameRenderer {
             throw NativeFailure("INVALID_RESPONSE", "Decoded source picture has no physical clock.")
         }
         let actualUs = try ExactTime(stamp).subtract(request.asset.originUs).sample(1_000_000, nearest: true)
-        let image = try FrameImage(buffer: buffer, transform: source.transform, maxLongEdge: edge)
+        let oriented = orientedVideoImage(buffer, transform: source.transform)
+        let sourceWidth = Int(oriented.extent.width.rounded())
+        let sourceHeight = Int(oriented.extent.height.rounded())
+        let delivered = FrameImage.delivered(width: sourceWidth, height: sourceHeight, maxLongEdge: edge)
+        var composited = oriented
+        if let overlay = request.cursorOverlay {
+            try overlay.validate(width: sourceWidth, height: sourceHeight)
+            let scale = Double(delivered.width) / Double(sourceWidth)
+            if let raster = try CursorOverlay.image(
+                overlay, agedFromUs: request.atUs, width: sourceWidth, height: sourceHeight,
+                visibleLongEdge: Double(max(sourceWidth, sourceHeight)), deliveredScale: scale
+            ) {
+                composited = CIImage(cgImage: raster).composited(over: composited)
+            }
+        }
+        let image = FrameImage(oriented: composited, maxLongEdge: edge)
         let published = try image.publishPNG(to: output,
             context: CIContext(options: [.cacheIntermediates: false]), maxEncodedBytes: limit,
             observations: request.observations, faceObservations: request.faceObservations)

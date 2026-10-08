@@ -806,7 +806,7 @@ export async function startProjectService(options: {
           ),
       },
       sourceRenderer: {
-        implementationId: "native-source-picture-v6",
+        implementationId: "native-source-picture-v7-cursor",
         render: async (request, signal) =>
           withRenderedFile(
             worker,
@@ -815,6 +815,44 @@ export async function startProjectService(options: {
             async (output, execute) =>
               nativeResult(await execute("media.sourceFrame", { ...request, output }, { signal })),
           ),
+      },
+      cursorOverlay: async (input, signal) => {
+        const startUs = Math.max(0, input.atUs - input.trailUs);
+        const page = capture.cursor({
+          ...input,
+          sourceRange: { startUs, endUs: Math.min(input.atUs + 1, Number.MAX_SAFE_INTEGER) },
+          limit: 5000,
+        });
+        if (page.state !== "ready" || !page.page)
+          throw new CatalogError(
+            "UNAVAILABLE",
+            "Cursor rendering requires captured-video authority",
+          );
+        if (page.page.nextCursor)
+          throw new CatalogError(
+            "LIMIT_EXCEEDED",
+            "Cursor trail has too many observations; narrow the request",
+          );
+        const rows = page.page.rows;
+        const runs: Array<Array<{ atSourceUs: number; x: number; y: number }>> = [];
+        let run: Array<{ atSourceUs: number; x: number; y: number }> = [];
+        for (const row of rows) {
+          signal.throwIfAborted();
+          const observation = row.observation as { x?: number; y?: number; eligibility?: string };
+          if (
+            observation.eligibility !== "inside" ||
+            typeof observation.x !== "number" ||
+            typeof observation.y !== "number"
+          ) {
+            if (run.length) runs.push(run);
+            run = [];
+            continue;
+          }
+          run.push({ atSourceUs: Number(row.sourceAtUs), x: observation.x, y: observation.y });
+        }
+        if (run.length) runs.push(run);
+        const pointer = runs.at(-1)?.at(-1) ?? null;
+        return { trail: runs, trailUs: input.trailUs, pointer };
       },
     });
     const projectIndex = new ScreenshotIndexStore<ProjectIndexRecords>(
@@ -1975,15 +2013,19 @@ export async function startProjectService(options: {
           case "cursor.render":
           case "cursor.render.retry": {
             const params = operation.params;
-            if (!("projectId" in params))
-              throw new CatalogError(
-                "UNSUPPORTED_JOB",
-                "Source cursor rendering is not available for this release; use cursor.raw and frame.get",
-              );
-            const identity = {
-              projectId: params.projectId,
-              revisionId: projects.revision(params.projectId, params.revisionId).id,
-            };
+            const identity =
+              "projectId" in params
+                ? {
+                    projectId: params.projectId,
+                    revisionId: projects.revision(params.projectId, params.revisionId).id,
+                  }
+                : {
+                    assetId: params.assetId,
+                    streamId: params.streamId,
+                    ...(params.acquisitionId === undefined
+                      ? {}
+                      : { acquisitionId: params.acquisitionId }),
+                  };
             return {
               ok: true,
               data: {

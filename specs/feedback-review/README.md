@@ -2,7 +2,7 @@
 
 ## Next Agent Prompt
 
-Implement the agreed feedback-review API. Status: protocol, transcript convenience, project cursor path and adapter docs implemented; source cursor rendering and full integration verification remain. Update this handoff after each committed pass. Existing consumer-skill changes must be reconciled with shipped schemas.
+Implement the agreed feedback-review API. Status: protocol, transcript convenience, source/project cursor rendering and adapter docs implemented; full integration verification and closeout remain. Update this handoff after each committed pass. Existing consumer-skill changes must be reconciled with shipped schemas.
 
 ## Contracts
 
@@ -13,7 +13,7 @@ Use existing source asset/stream/acquisition and pinned project/revision selecto
 ## Work graph
 
 - [x] [01 Protocol and transcript](slices/01-transcript.md)
-- [ ] [02 Cursor rendering](slices/02-cursor.md) — project path landed; source path remains
+- [x] [02 Cursor rendering](slices/02-cursor.md) — source and project paths land through shared frame delivery
 - [x] [03 Adapters and skill](slices/03-adapters-skill.md) — schemas/docs landed; full parity gate remains
 - [ ] Final full checks, whole-change review, choices consolidation and archive
 

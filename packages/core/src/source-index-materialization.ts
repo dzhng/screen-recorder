@@ -3,7 +3,11 @@ import { SourceIndexStillness, sourceIndexPoints } from "./source-index-equality
 import { waitForIndexFrame, retainIndexFrame } from "./index-frame.js";
 import { CatalogError } from "./catalog.js";
 import type { DerivedCache } from "./cache.js";
-import type { MediaFrameInspection, SourceFrameArtifact } from "./frame-inspection.js";
+import type {
+  MediaFrameInspection,
+  SourceFrameArtifact,
+  SourceFrameInput,
+} from "./frame-inspection.js";
 import type { SceneEvidenceStore } from "./scene-evidence.js";
 import type { ScreenshotIndexStore } from "./screenshot-index.js";
 import type {
@@ -48,7 +52,7 @@ export async function materializeSourceIndex(
     signal.throwIfAborted();
     if (request.kind === "unavailable")
       return { request, ordinal: null, observation: { kind: "scene", point: request.observation } };
-    const input = {
+    const input: SourceFrameInput = {
       assetId: identity.assetId,
       streamId: identity.streamId,
       ...(identity.acquisitionId === undefined ? {} : { acquisitionId: identity.acquisitionId }),

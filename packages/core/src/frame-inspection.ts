@@ -237,6 +237,7 @@ export type ProjectFrameArtifact = z.infer<typeof projectReceiptSchema> &
 const sourceOptionsSchema = z.strictObject({
   selection: sourceSelectionSchema,
   atUs: time,
+  cursorTrailUs: z.int().min(0).max(10_000_000).optional(),
   maxLongEdge: z.int().min(1).max(8192),
   supportDigest: z.string().regex(/^[a-f0-9]{64}$/),
   implementationId: z.string().min(1),
@@ -312,6 +313,7 @@ export type SourceImageArtifact = z.infer<typeof imageReceiptSchema> & {
 
 export type SourceFrameInput = SourceSelection & {
   atUs: number;
+  cursorTrailUs?: number | undefined;
   maxLongEdge?: number | undefined;
   observations?: PictureObservationRequest | undefined;
   faceObservations?: FaceObservationRequest | undefined;
@@ -345,6 +347,7 @@ export type SourceFrameRenderer = {
       observations?: NormalizedPictureObservationRequest | undefined;
       faceObservations?: FaceObservationRequest | undefined;
       output: string;
+      cursorOverlay?: unknown;
     },
     signal: AbortSignal,
   ): Promise<unknown>;
@@ -417,6 +420,10 @@ export class MediaFrameInspection {
       sourceRenderer: SourceFrameRenderer;
       imageRenderer?: SourceImageRenderer;
       project?: { projects: ProjectStore; renderer: ProjectFrameRenderer };
+      cursorOverlay?: (
+        input: SourceSelection & { atUs: number; trailUs: number },
+        signal: AbortSignal,
+      ) => Promise<unknown | null>;
     },
   ) {
     if (
@@ -527,6 +534,7 @@ export class MediaFrameInspection {
     const parsed = sourceOptionsSchema.safeParse({
       selection: source.selection,
       atUs: input.atUs,
+      ...(input.cursorTrailUs === undefined ? {} : { cursorTrailUs: input.cursorTrailUs }),
       maxLongEdge: input.maxLongEdge ?? 1600,
       ...(input.observations === undefined ? {} : { observationRequest: input.observations }),
       ...(input.faceObservations === undefined
@@ -569,6 +577,7 @@ export class MediaFrameInspection {
       ...options.selection,
       atUs: options.atUs,
       maxLongEdge: options.maxLongEdge,
+      ...(options.cursorTrailUs === undefined ? {} : { cursorTrailUs: options.cursorTrailUs }),
       ...(options.observationRequest === undefined
         ? {}
         : { observationRequest: options.observationRequest }),
@@ -740,6 +749,18 @@ export class MediaFrameInspection {
               available: plan.available,
               atUs: plan.options.atUs,
               maxLongEdge: plan.options.maxLongEdge,
+              ...(plan.options.cursorTrailUs === undefined
+                ? {}
+                : {
+                    cursorOverlay: await this.owners.cursorOverlay?.(
+                      {
+                        ...plan.options.selection,
+                        atUs: plan.options.atUs,
+                        trailUs: plan.options.cursorTrailUs,
+                      },
+                      signal,
+                    ),
+                  }),
               ...(plan.options.observationRequest === undefined
                 ? {}
                 : { observations: plan.options.observationRequest }),
