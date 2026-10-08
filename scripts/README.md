@@ -58,6 +58,15 @@ Update the manifest, commit the source, and push an annotated tag whose name is 
 followed by that version. Push the source branch as well. Never move a published tag or silently replace
 its assets; a correction receives a new version.
 
+On an available Apple Silicon release machine, build and package locally before
+pushing the version tag. Run `node scripts/release.mjs prepare`,
+`node scripts/release.mjs package vX.Y.Z`, `node scripts/release-smoke.mjs` and
+`node scripts/release-media-smoke.mjs`; `releaseSigningInputs()` reads the
+ignored `.release-signing/` folder automatically. Only after those gates pass
+should the annotated tag be pushed. The tag workflow is a fallback for a
+genuinely unavailable local release machine or an explicit request, because
+pushing a tag starts it immediately.
+
 The [tag workflow](../.github/workflows/release.yml) validates version agreement,
 prepares pinned inputs, builds on macOS, checks the relocated package and publishes
 only verified assets. Its manual retry runs the selected source with an explicit
