@@ -4,11 +4,11 @@ import ServiceManagement
 import SwiftUI
 
 @MainActor protocol SkillLifecycle {
-    func setEnabled(_ enabled: Bool)
+    func perform(_ operation: String)
 }
 
 @MainActor final class NoopSkillLifecycle: SkillLifecycle {
-    func setEnabled(_ enabled: Bool) {}
+    func perform(_ operation: String) {}
 }
 
 /**
@@ -152,7 +152,7 @@ final class SettingsModel: ObservableObject {
         didSet {
             guard installSkill != oldValue else { return }
             preferences.installSkill = installSkill
-            skillManager.setEnabled(installSkill)
+            skillManager.perform(installSkill ? "skill.install" : "skill.uninstall")
         }
     }
     let perform: (ControlsAction) -> Void

@@ -22,6 +22,10 @@ final class SkillManager: SkillLifecycle {
         }
     }
 
+    func perform(_ operation: String) {
+        _ = handle(operation)
+    }
+
     func handle(_ operation: String) -> Result<Data, ServiceFailure> {
         switch operation {
         case "skill.status":
