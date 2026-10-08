@@ -38,7 +38,7 @@ final class SkillManager: SkillLifecycle {
     }
 
     func reconcileIfEnabled(_ enabled: Bool) {
-        guard enabled, receiptExists || !hasExistingInstallation else { return }
+        guard enabled else { return }
         setEnabled(true)
     }
 
@@ -75,8 +75,7 @@ final class SkillManager: SkillLifecycle {
                 try fileManager.removeItem(at: source)
             }
             let result = try run("/usr/bin/env", ["npx", "--yes", "skills@1.7.0", "add",
-                "https://github.com/dzhng/yap/tree/main/skills/yap", "--skill", "yap",
-                "--agent", "codex", "claude-code", "--global", "--yes"])
+                "https://github.com/dzhng/yap/tree/main/skills/yap", "--all", "--global", "--yes"])
             guard result == 0 else {
                 restore(backup: backup, home: home, fileManager: fileManager, destinations: destinations)
                 return
