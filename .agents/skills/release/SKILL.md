@@ -24,13 +24,12 @@ for the process; use its linked code as the authority for commands and packaging
 4. Validate version/tag agreement through the release tool. Push main first, then
    push an annotated version tag only after the local package gates pass. Never
    force-push main, move a published tag or replace published assets.
-5. Build on an available Apple Silicon Mac and uploading directly to
+5. Build on an available Apple Silicon Mac and upload directly to
    GitHub Releases through the publication owner. Use the
    [tag workflow](../../../.github/workflows/release.yml) as the checklist for
    preparation, signing, packaging and relocated smoke/media checks; local builds
-   must satisfy the same gates. Cancel the tag-triggered Actions run before local
-   publication so there is only one publisher. Use Actions when no suitable local
-   Mac is available or the user requests it.
+   must satisfy the same gates. Use Actions only when no suitable local Mac is
+   available or the user explicitly requests it.
 6. Build from the tag's exact commit. If main advances, use a temporary checkout
    pinned to the tag; preserve unrelated work. Reuse valid prepared dependencies,
    keep build output private to its source checkout, and verify the package receipt
