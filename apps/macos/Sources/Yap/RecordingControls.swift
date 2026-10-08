@@ -868,6 +868,14 @@ final class RecordingControls: NSObject {
         }
         if state.failure != nil && !state.isLive { input.permissionActions.append(.init(.startOrStop, "Retry", enabled: input.startEnabled)) }
         input.transport = state.isLive ? Array(transport.dropFirst()) : []
+        if let take = state.library.recent.first {
+            let pending = state.library.deletions[.recording(take.recordingId)]?.isPending == true
+            input.lastRecording = .init(
+                recordingId: take.recordingId,
+                title: LibraryPresentation.recordingTitle(of: take),
+                canPlay: state.service == .ready && !pending && take.state != "canceled",
+                canCopyPrompt: !pending)
+        }
         return input
     }
 

@@ -21,6 +21,20 @@ import YapControls
         let input = fixture()
         let appIcon = NSImage(contentsOfFile: CommandLine.arguments[2])!
         let view = CaptureView(appIcon: appIcon, input: input) { recorded.append($0) }
+        var withLastRecording = input
+        withLastRecording.lastRecording = .init(recordingId: "fixture-recording", title: "Today — 0:12", canPlay: true, canCopyPrompt: true)
+        let recent = CaptureView(appIcon: appIcon, input: withLastRecording) { recorded.append($0) }
+        precondition(recent.control(identifier: "recording.play.fixture-recording") != nil,
+                     "The capture menu places the last recording's Play action below the controls")
+        precondition(recent.control(identifier: "recording.copyPrompt.fixture-recording") != nil,
+                     "The capture menu places the last recording's prompt action below the controls")
+        (recent.control(identifier: "recording.play.fixture-recording") as! NSButton).performClick(nil)
+        precondition(recorded.last == .controls(.playRecording("fixture-recording")),
+                     "The capture menu dispatches the same Play action as Library")
+        (recent.control(identifier: "recording.copyPrompt.fixture-recording") as! NSButton).performClick(nil)
+        precondition(recorded.last == .controls(.copyRecordingPrompt("fixture-recording")),
+                     "The capture menu dispatches the same prompt action as Library")
+        recorded.removeAll()
         let rowIcons = view.scrollView.documentView!.subviews.compactMap { $0 as? NSImageView }.filter { $0.frame.width == 16 }
         for icon in rowIcons {
             let bitmap = NSBitmapImageRep(data: icon.image!.tiffRepresentation!)!
@@ -125,6 +139,7 @@ import YapControls
             ("idle", fixture(), CGFloat(0)),
             ("camera-only", fixture(cameraOnly: true), CGFloat(0)),
             ("recording", recordingFixture(), CGFloat(0)),
+            ("last-recording", fixture(lastRecording: true), CGFloat(0)),
             ("paused", recordingFixture(paused: true), CGFloat(0)),
             ("permissions", permissionFixture(), CGFloat(0)),
             ("permissions-dark", permissionFixture(), CGFloat(0)),
@@ -237,12 +252,14 @@ import YapControls
         return input
     }
 
-    @MainActor static func fixture(locked: Bool = false, cameraOnly: Bool = false, longNames: Bool = false, duplicateNames: Bool = false, microphoneOn: Bool = true, secondSource: Bool = false, startEnabled: Bool? = nil, status: String = "Ready to record") -> CaptureViewInput {
-        .init(selectedSource: cameraOnly ? .cameraOnly : .display, selectedSourceChoice: secondSource ? 1 : 0, sourceChoices: [.init(title: longNames ? "A very long external display name for a conference studio · 5120 × 2880" : "Built-in Retina Display · 3024 × 1964", intent: .controls(.selectDisplay(1)))] + (secondSource ? [.init(title: "Studio Display", intent: .controls(.selectDisplay(2)))] : []),
+    @MainActor static func fixture(locked: Bool = false, cameraOnly: Bool = false, longNames: Bool = false, duplicateNames: Bool = false, microphoneOn: Bool = true, secondSource: Bool = false, startEnabled: Bool? = nil, status: String = "Ready to record", lastRecording: Bool = false) -> CaptureViewInput {
+        var input = CaptureViewInput(selectedSource: cameraOnly ? .cameraOnly : .display, selectedSourceChoice: secondSource ? 1 : 0, sourceChoices: [.init(title: longNames ? "A very long external display name for a conference studio · 5120 × 2880" : "Built-in Retina Display · 3024 × 1964", intent: .controls(.selectDisplay(1)))] + (secondSource ? [.init(title: "Studio Display", intent: .controls(.selectDisplay(2)))] : []),
             cameraChoices: (cameraOnly ? [] : [.init(title: "No camera", intent: .camera(nil))]) + [.init(title: longNames ? "Conference room camera with an unusually long name" : "FaceTime HD Camera", intent: .camera("fixture-camera"))] + (duplicateNames ? [.init(title: "FaceTime HD Camera", intent: .camera("fixture-camera-second")), .init(title: "Another camera", intent: .camera("fixture-camera-third"))] : []),
             selectedCamera: cameraOnly ? 0 : longNames ? 1 : 0, cameraOn: cameraOnly || longNames,
             microphoneChoices: [.init(title: longNames ? "Conference room microphone with an unusually long name" : "MacBook Pro Microphone", intent: .controls(.selectMicrophone("fixture-mic")))],
             selectedMicrophone: 0, microphoneOn: microphoneOn, systemAudio: true, countdown: true,
             inputsEnabled: !locked, startEnabled: startEnabled ?? !locked, status: status)
+        if lastRecording { input.lastRecording = .init(recordingId: "fixture-recording", title: "Today — 0:12", canPlay: true, canCopyPrompt: true) }
+        return input
     }
 }

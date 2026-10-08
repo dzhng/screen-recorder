@@ -164,7 +164,9 @@ package final class ScreenCaptureInput: CaptureInputSession {
         config.height = height
         config.minimumFrameInterval = CMTime(value: 1, timescale: Int32(framesPerSecond ?? 30))
         config.queueDepth = 3
-        config.showsCursor = false
+        // The pointer is part of the screen demonstration. Cursor geometry is also sampled as
+        // evidence, but the captured frames must show the pointer itself during playback.
+        config.showsCursor = true
         config.showMouseClicks = false
         config.captureDynamicRange = .SDR
         config.pixelFormat = kCVPixelFormatType_32BGRA

@@ -19,6 +19,12 @@ struct CaptureViewInput: Equatable {
         let title: String
         let intent: CaptureViewIntent
     }
+    struct LastRecording: Equatable {
+        let recordingId: String
+        let title: String
+        let canPlay: Bool
+        let canCopyPrompt: Bool
+    }
     let selectedSource: Source
     let selectedSourceChoice: Int
     let sourceChoices: [Choice]
@@ -39,6 +45,7 @@ struct CaptureViewInput: Equatable {
     var transport: [PresentedControlsAction] = []
     var startTitle: String = "Start Recording"
     var startShortcut: String? = nil
+    var lastRecording: LastRecording? = nil
 }
 
 /// The production capture surface. Its caller supplies a fresh value after any accepted action.
@@ -298,6 +305,23 @@ final class CaptureView: NSView {
         for action in input.transport {
             y += 8
             button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 320, height: 28), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
+            y += 28
+        }
+        if let recording = input.lastRecording {
+            y += 14
+            label("Last recording", NSRect(x: 22, y: y, width: 150, height: 16), size: 10,
+                  weight: .semibold, color: .secondaryLabelColor)
+            y += 20
+            label(recording.title, NSRect(x: 22, y: y, width: 168, height: 20), size: 11,
+                  weight: .medium)
+            button("Play", id: ControlsAction.playRecording(recording.recordingId).id,
+                   frame: NSRect(x: 196, y: y - 2, width: 56, height: 26),
+                   intent: .controls(.playRecording(recording.recordingId)), kind: .secondary,
+                   enabled: recording.canPlay)
+            button("Copy prompt", id: ControlsAction.copyRecordingPrompt(recording.recordingId).id,
+                   frame: NSRect(x: 260, y: y - 2, width: 80, height: 26),
+                   intent: .controls(.copyRecordingPrompt(recording.recordingId)), kind: .secondary,
+                   enabled: recording.canCopyPrompt)
             y += 28
         }
         let footerY = y

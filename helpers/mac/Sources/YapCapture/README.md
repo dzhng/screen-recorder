@@ -95,7 +95,7 @@ ScreenCaptureKit's content rectangle and scaling describe letterboxing as well a
 resizing; fixed output dimensions cannot determine the source transform alone.
 
 Outside coordinates remain outside rather than being clamped into the capture.
-Pointer eligibility states captured-content support, not whether macOS drew a
-cursor. Bounded sampling reports missing observations instead of retaining an
+Pointer eligibility states captured-content support, while ScreenCaptureKit renders the pointer
+into screen frames for playback. Bounded sampling reports missing observations instead of retaining an
 unlimited backlog. Physical projection findings and remaining unmeasured source
 modes belong to the [recording evidence](../../../../specs/done/recording-for-ai/README.md).

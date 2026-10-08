@@ -143,6 +143,8 @@ key-window focus. Status stays outside the scrolling controls.
 The native popover frame owns the backdrop and arrow together; content adds no
 outer panel or stroke. Library has one entry point in the capture header, and its
 canonical controls action stays the same regardless of that placement.
+When a recording is available, the popover appends the latest library item below its transport
+actions and routes Play and Copy agent prompt through the same controls actions as Library.
 
 Run `node apps/macos/tests/capture-view-shots.mjs` from the repository root for
 focused native interaction, applicability and scroll checks plus offscreen images.

@@ -35,14 +35,28 @@ final class CapturePopover: NSObject, NSPopoverDelegate {
     func toggle(relativeTo anchor: NSView, activate: Bool = false) {
         guard view != nil else { return }
         if isShown { close(); return }
+        // Region selection temporarily owns the key window and can cause AppKit to recompute the
+        // popover's effective appearance. Reassert the capture surface's dark contract every time
+        // it is reopened, including after that auxiliary panel closes.
+        let dark = NSAppearance(named: .darkAqua)
+        popover.appearance = dark
+        controller.view.appearance = dark
+        view?.appearance = dark
         if activate { NSApp.activate(ignoringOtherApps: true) }
         resize(screen: anchor.window?.screen)
         popover.show(relativeTo: anchor.bounds, of: anchor, preferredEdge: .minY)
         view?.window?.title = "Yap Capture"
-        view?.window?.appearance = NSAppearance(named: .darkAqua)
+        view?.window?.appearance = dark
         if activate {
             focusWindow()
-            DispatchQueue.main.async { [weak self] in self?.focusWindow() }
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.popover.appearance = NSAppearance(named: .darkAqua)
+                self.controller.view.appearance = self.popover.appearance
+                self.view?.appearance = self.popover.appearance
+                self.view?.window?.appearance = self.popover.appearance
+                self.focusWindow()
+            }
         }
         if popover.isShown {
             deactivationObserver = NotificationCenter.default.addObserver(
