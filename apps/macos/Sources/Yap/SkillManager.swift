@@ -62,12 +62,12 @@ final class SkillManager: SkillLifecycle {
             let operationId = UUID().uuidString
             writeState(LifecycleState(state: "updating", operationId: operationId, error: nil, backupPath: nil))
             setEnabled(true, operationId: operationId)
-            return .success(statusData(state: "updating", operationId: operationId))
+            return .success(statusData(state: "updating", operationId: operationId, discover: false))
         case "skill.uninstall":
             let operationId = UUID().uuidString
             writeState(LifecycleState(state: "updating", operationId: operationId, error: nil, backupPath: nil))
             setEnabled(false, operationId: operationId)
-            return .success(statusData(state: "updating", operationId: operationId))
+            return .success(statusData(state: "updating", operationId: operationId, discover: false))
         default:
             return .failure(ServiceFailure(code: "UNKNOWN_OPERATION", message: "Unknown skill operation"))
         }
@@ -89,9 +89,10 @@ final class SkillManager: SkillLifecycle {
 
     private func writeState(_ state: LifecycleState) { Self.writeState(state, home: home, fileManager: fileManager) }
 
-    private func statusData(state explicitState: String? = nil, operationId: String? = nil) -> Data {
+    private func statusData(state explicitState: String? = nil, operationId: String? = nil, discover: Bool = true) -> Data {
         let receipt = readReceipt()
-        let discovered = Self.discover(home: home, fileManager: fileManager)
+        let discovered = receipt.map { (entries: $0.entries, error: Optional<String>.none) }
+            ?? (discover ? Self.discover(home: home, fileManager: fileManager) : (entries: Self.fallbackEntries(home: home, fileManager: fileManager), error: nil))
         let state = readState()
         let paths = (receipt?.paths ?? discovered.entries.filter { $0.name == "yap" }.map(\.path))
             .filter { Self.safePath($0, under: home) }.sorted()
