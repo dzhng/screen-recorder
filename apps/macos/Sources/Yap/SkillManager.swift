@@ -126,6 +126,7 @@ final class SkillManager: SkillLifecycle {
         let stage = fileManager.temporaryDirectory.appendingPathComponent("yap-skill-\(operationId)", isDirectory: true)
         let backup = stage.appendingPathComponent("backup", isDirectory: true)
         var completed = false
+        var backedUp: [String] = []
         defer { if completed { try? fileManager.removeItem(at: stage) } }
         do {
             try fileManager.createDirectory(at: backup, withIntermediateDirectories: true)
@@ -134,12 +135,14 @@ final class SkillManager: SkillLifecycle {
                 let saved = backup.appendingPathComponent(relativePath(path, home: home))
                 try fileManager.createDirectory(at: saved.deletingLastPathComponent(), withIntermediateDirectories: true)
                 try copyPreservingSymlink(from: URL(fileURLWithPath: path), to: saved, fileManager: fileManager)
+                backedUp.append(relativePath(path, home: home))
                 try fileManager.removeItem(atPath: path)
             }
             if fileManager.fileExists(atPath: receiptURL(home: home).path) {
                 let savedReceipt = backup.appendingPathComponent(".config/yap/skill-install.json")
                 try fileManager.createDirectory(at: savedReceipt.deletingLastPathComponent(), withIntermediateDirectories: true)
                 try copyPreservingSymlink(from: receiptURL(home: home), to: savedReceipt, fileManager: fileManager)
+                backedUp.append(".config/yap/skill-install.json")
                 try fileManager.removeItem(at: receiptURL(home: home))
             }
             let status = try run("/usr/bin/env", ["npx", "--yes", installer, "add", source, "--all", "--global", "--yes"], home: home)
@@ -157,7 +160,7 @@ final class SkillManager: SkillLifecycle {
             try? fileManager.removeItem(at: stateURL(home: home))
             completed = true
         } catch {
-            restore(backup: backup, home: home, fileManager: fileManager)
+            restore(backup: backup, home: home, fileManager: fileManager, paths: backedUp)
             writeState(LifecycleState(state: "needs_attention", operationId: operationId, error: error.localizedDescription, backupPath: backup.path), home: home, fileManager: fileManager)
         }
     }
@@ -208,9 +211,8 @@ final class SkillManager: SkillLifecycle {
         }.filter { fileManager.fileExists(atPath: $0.path) || isSymlink(URL(fileURLWithPath: $0.path)) }
     }
 
-    private nonisolated static func restore(backup: URL, home: URL, fileManager: FileManager) {
-        let candidates = knownPaths + [".config/yap/skill-install.json"]
-        for item in candidates.sorted(by: { $0.count < $1.count }) {
+    private nonisolated static func restore(backup: URL, home: URL, fileManager: FileManager, paths: [String]) {
+        for item in paths.sorted(by: { $0.count < $1.count }) {
             let source = backup.appendingPathComponent(item)
             guard fileManager.fileExists(atPath: source.path) || isSymlink(source) else { continue }
             let destination = home.appendingPathComponent(item)
