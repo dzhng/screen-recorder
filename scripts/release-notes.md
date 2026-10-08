@@ -6,6 +6,12 @@ The capture menu keeps its dark appearance after selecting a recording area and
 shows the latest recording below the action buttons with Play and Copy agent prompt
 actions. Screen recordings now include the pointer in the captured video.
 
+## 0.1.25
+
+Yap now maintains its account-level consumer skill through shared CLI and Settings operations. The Install skill preference defaults to enabled, discovers every supported global harness through `npx skills`, and safely stages, verifies, replaces and rolls back the global Yap skill. Disabling the preference removes the managed global installation so users can keep a customized skill.
+
+The public `skill.status`, `skill.install`, `skill.update` and `skill.uninstall` operations report durable lifecycle state, ownership, discovered destinations and recovery diagnostics. Settings and the CLI use the same native handlers.
+
 ## 0.1.24
 
 Transcript ingestion now normalizes fractional model timings at the native source
