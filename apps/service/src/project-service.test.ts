@@ -146,6 +146,31 @@ test("socket and app requests share native update controls and preserve native r
   });
 });
 
+test("socket requests expose native skill lifecycle controls", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
+  const seen: string[] = [];
+  f.events.on("call", ({ request }) => {
+    seen.push(request.operation);
+    f.input.write(
+      JSON.stringify({
+        event: "result",
+        response: { id: request.id, ok: true, data: { state: request.operation } },
+      }) + "\n",
+    );
+  });
+  for (const operation of ["skill.status", "skill.install", "skill.uninstall", "skill.update"]) {
+    expect(await f.call(operation, {})).toMatchObject({
+      ok: true,
+      data: { state: operation },
+    });
+  }
+  expect(seen).toEqual(["skill.status", "skill.install", "skill.uninstall", "skill.update"]);
+  expect(await f.call("skill.status", { extra: true })).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_PARAMS" },
+  });
+});
+
 test("prepared admission keeps update inspection and opt-out accessible while product work remains fenced", async () => {
   const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
   f.events.on("call", ({ request }) => {

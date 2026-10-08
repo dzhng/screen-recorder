@@ -1005,9 +1005,20 @@ export async function startProjectService(options: {
           case "update.status":
           case "update.check":
           case "update.setEnabled":
+          case "skill.status":
+          case "skill.install":
+          case "skill.uninstall":
+          case "skill.update":
             return controller
               ? await controller.call(operation.operation, operation.params)
-              : operationError("UPDATE_UNAVAILABLE", "No native updater is connected.");
+              : operationError(
+                  operation.operation.startsWith("skill.")
+                    ? "SKILL_UNAVAILABLE"
+                    : "UPDATE_UNAVAILABLE",
+                  operation.operation.startsWith("skill.")
+                    ? "No native skill manager is connected."
+                    : "No native updater is connected.",
+                );
           case "service.health":
             return {
               ok: true,
