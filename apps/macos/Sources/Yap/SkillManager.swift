@@ -1,7 +1,7 @@
 import Foundation
 
 /// Owns the account-level consumer skill lifecycle. App updates and skill updates are separate.
-/// A receipt is required before Yap will replace or remove an existing installation.
+/// Replacement is explicit when maintenance is enabled; the receipt records ownership for later removal.
 @MainActor
 final class SkillManager: SkillLifecycle {
     private let home: URL
