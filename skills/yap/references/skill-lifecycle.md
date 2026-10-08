@@ -91,7 +91,9 @@ diff -ru "$yap_source" "$HOME/.agents/skills/yap"
 
 Codex discovers the global canonical `~/.agents/skills/yap` directly; Claude's
 link must resolve there. A pre-existing `~/.codex/skills/yap` is also a Codex
-installation: inspect it and avoid a second conflicting copy. Verify references
+installation. For an enabled Yap maintenance install, replace it through the
+explicit whole-folder replacement transaction below so every harness resolves to
+the same staged folder; do not leave a second conflicting copy. Verify references
 and start a fresh session to confirm discovery. Local-folder sources have no
 remote update tracking. For inspection or refresh below, use the selected global
 paths rather than project paths; back up any existing agent-local discovery
