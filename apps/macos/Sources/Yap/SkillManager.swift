@@ -36,6 +36,7 @@ final class SkillManager: SkillLifecycle {
     private nonisolated static let source = "https://github.com/dzhng/yap/tree/main/skills/yap"
     private nonisolated static let installer = "skills@1.7.0"
     private nonisolated static let knownPaths = [".agents/skills/yap", ".codex/skills/yap", ".claude/skills/yap"]
+    private nonisolated static let operationLock = NSLock()
 
     init(home: String = NSHomeDirectory(), fileManager: FileManager = .default) {
         self.home = URL(fileURLWithPath: home, isDirectory: true).standardizedFileURL
@@ -124,6 +125,8 @@ final class SkillManager: SkillLifecycle {
     }
 
     private nonisolated static func install(home: URL, fileManager: FileManager, operationId: String) {
+        operationLock.lock()
+        defer { operationLock.unlock() }
         let stage = fileManager.temporaryDirectory.appendingPathComponent("yap-skill-\(operationId)", isDirectory: true)
         let backup = stage.appendingPathComponent("backup", isDirectory: true)
         var completed = false
@@ -167,6 +170,8 @@ final class SkillManager: SkillLifecycle {
     }
 
     private nonisolated static func uninstall(home: URL, fileManager: FileManager, operationId: String) {
+        operationLock.lock()
+        defer { operationLock.unlock() }
         guard let receipt = decodeReceipt(at: receiptURL(home: home), home: home, fileManager: fileManager), receipt.managed else {
             writeState(LifecycleState(state: "disabled", operationId: operationId, error: nil, backupPath: nil), home: home, fileManager: fileManager)
             return
