@@ -39,6 +39,7 @@ func runPreferenceTests() {
 
     let first = launch()
     precondition(first.showSettingsAtLaunch, "Settings opens at launch until a person turns it off")
+    precondition(first.installSkill, "The Yap consumer skill is kept installed by default")
     precondition(first.showCameraPreview, "Camera preview is visible by default")
     precondition(
         first.countdown?.remaining == Countdown.defaultSeconds,
@@ -54,11 +55,13 @@ func runPreferenceTests() {
     edited.selection.systemAudio = true
     first.recording = edited.selection.recordingDefaults
     first.showSettingsAtLaunch = false
+    first.installSkill = false
     first.countdownBeforeRecording = false
     first.showCameraPreview = false
 
     let relaunched = launch()
     precondition(!relaunched.showSettingsAtLaunch, "Turning the window off survives a relaunch")
+    precondition(!relaunched.installSkill, "Turning skill installation off survives a relaunch")
     precondition(
         relaunched.countdown == nil,
         "Turning the countdown off survives a relaunch, and then a start records immediately")

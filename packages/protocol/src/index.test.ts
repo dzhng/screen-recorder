@@ -16,6 +16,18 @@ describe("native operation envelope", () => {
   });
 });
 
+it("advertises the account skill lifecycle as callable public operations", () => {
+  for (const operation of ["skill.status", "skill.install", "skill.uninstall", "skill.update"]) {
+    expect(operationSchema.safeParse({ operation, params: {} }), operation).toMatchObject({
+      success: true,
+      data: { operation, params: {} },
+    });
+  }
+  expect(operationSchema.safeParse({ operation: "skill.status", params: { extra: true } }).success).toBe(
+    false,
+  );
+});
+
 it("reads authored project revisions while recording identities retain only source lifetime", () => {
   const request = (operation: string, params: Record<string, unknown>) => {
     const wire = parseRequest({ id: "caller", operation, params });

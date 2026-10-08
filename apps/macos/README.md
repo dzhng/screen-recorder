@@ -122,7 +122,8 @@ the coordinator owns installation admission for both scheduled and one-shot
 checks. Neither surface bypasses recording, service or launcher exclusion.
 Updater inspection and preference cancellation remain accessible during service
 admission because they acquire no media resources. Settings never writes another
-update preference or infers installation permission from its checkbox. Source and
+update preference. The Install skill checkbox controls the separate, receipt-backed
+home skill lifecycle; it never grants permission to replace an unmanaged install. Source and
 personal builds without release metadata show a manual-update explanation.
 
 The [offscreen settings renderer](tests/settings-view-shots.mjs) draws the production

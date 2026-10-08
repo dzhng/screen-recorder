@@ -1374,6 +1374,30 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Set the native updater's persisted automatic checks/downloads/installation preference. Disabling cancels pending automatic or manual update work before final replacement authorization; after that boundary it applies to the successor.",
     ),
   z
+    .object({ operation: z.literal("skill.status"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Read the account-level Yap consumer skill installation, including whether it is managed, current, missing or needs attention and the harness destinations discovered by npx skills.",
+    ),
+  z
+    .object({ operation: z.literal("skill.install"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Install or replace the account-level Yap consumer skill through the pinned npx skills installer, allowing it to discover every supported agent harness and returning the resulting status.",
+    ),
+  z
+    .object({ operation: z.literal("skill.uninstall"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Remove the account-level Yap consumer skill and its discovered harness links when Yap owns the installation; leaves project-local skills untouched.",
+    ),
+  z
+    .object({ operation: z.literal("skill.update"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Refresh the account-level Yap consumer skill through the pinned npx skills installer, replacing an existing global Yap skill and verifying all discovered harness destinations.",
+    ),
+  z
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })
     .strict()
     .describe(
@@ -1507,6 +1531,10 @@ const waits: Partial<Record<OperationName, number>> = {
   "update.status": nativeCall,
   "update.check": nativeCall,
   "update.setEnabled": nativeCall,
+  "skill.status": nativeCall,
+  "skill.install": nativeCall,
+  "skill.uninstall": nativeCall,
+  "skill.update": nativeCall,
   "capture.sources": nativeCall,
   "capture.status": nativeCall,
   "capture.pause": nativeCall,

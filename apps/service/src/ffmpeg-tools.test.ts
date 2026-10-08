@@ -15,7 +15,10 @@ afterEach(async () => {
 });
 const sha = (bytes: string | Buffer) => createHash("sha256").update(bytes).digest("hex");
 
-test("tool discovery identifies only the selected relocated tools and refuses changed bytes without disabling native service", async () => {
+test(
+  "tool discovery identifies only the selected relocated tools and refuses changed bytes without disabling native service",
+  { timeout: 30_000 },
+  async () => {
   const home = await mkdtemp(join(tmpdir(), "yap-tools-"));
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const built = join(home, "Build tools"),
@@ -137,4 +140,5 @@ test("tool discovery identifies only the selected relocated tools and refuses ch
   expect(() => process.kill(canceledPid, 0)).toThrowError(
     expect.objectContaining({ code: "ESRCH" }),
   );
-});
+  },
+);

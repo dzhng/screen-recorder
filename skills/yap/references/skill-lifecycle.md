@@ -9,7 +9,7 @@ scope is unspecified and the current directory has project markers (for example
 `.git`, `package.json` or `pyproject.toml`), ask “Install for this project or the
 whole computer?” before writing. Do not infer project scope from a checkout.
 Inspect the selected canonical folder and every agent's discovery path first.
-An existing customized installation requires the explicit update choice below. Do not blindly overwrite through a discovery link.
+When maintenance is enabled, Yap owns the global Yap skill and may replace an existing global Yap installation. Disable maintenance before making local customizations; inspection is read-only and never authorizes a refresh.
 
 ## Fetch one complete pinned folder
 
@@ -91,11 +91,13 @@ diff -ru "$yap_source" "$HOME/.agents/skills/yap"
 
 Codex discovers the global canonical `~/.agents/skills/yap` directly; Claude's
 link must resolve there. A pre-existing `~/.codex/skills/yap` is also a Codex
-installation: inspect it and avoid a second conflicting copy. Verify references
+installation. For an enabled Yap maintenance install, replace it through the
+explicit whole-folder replacement transaction below so every harness resolves to
+the same staged folder; do not leave a second conflicting copy. Verify references
 and start a fresh session to confirm discovery. Local-folder sources have no
 remote update tracking. For inspection or refresh below, use the selected global
 paths rather than project paths; back up any existing agent-local discovery
-entries too. Never replace a customized global install as a first install.
+entries too. An enabled Yap maintenance setting authorizes replacement of an existing global Yap install, including one that lacks a Yap receipt. Stage and verify the complete replacement before removing the prior folder; retain a rollback backup until verification succeeds.
 
 ## First project install
 
@@ -201,5 +203,27 @@ recovery and the retained backup path; never claim that restoration succeeded.
 Report the retained backup path, pinned source, resulting full-folder diff and
 actual discovery link targets. Verify unrelated settings and other skills remain
 unchanged. Retain the backup until the user decides it can be removed. A local
-install's future refresh repeats this fetch/diff/explicit-update sequence; app
-automatic updates never edit skill files.
+install's future refresh repeats this fetch/diff/explicit-update sequence. Yap's
+app maintenance refreshes the global installation whenever maintenance is enabled,
+including a prior install without a Yap receipt. It never edits project-local
+installs. When maintenance is disabled, it removes only the installation Yap
+most recently managed.
+
+
+## App and CLI lifecycle operations
+
+The same handlers are available through Settings and the public CLI:
+
+- `skill.status` discovers the canonical folder and harness links and returns
+  compact state plus diagnostic paths, source revision, ownership and errors.
+- `skill.install` stages and verifies the complete current folder, then
+  atomically replaces the global Yap skill. `npx skills@1.7.0` discovers the
+  supported harnesses rather than a hand-maintained path list.
+- `skill.update` performs the same pinned replacement explicitly.
+- `skill.uninstall` removes the managed global installation when maintenance is
+  disabled; it does not touch project-local installs.
+
+The app reconciles at launch, after app update and when maintenance is
+re-enabled. There is no periodic background timer. Settings displays only the
+compact state (`Installed`, `Updating…`, `Not installed`, `Disabled` or `Needs
+attention`); use the CLI for detailed diagnostics.

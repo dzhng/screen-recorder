@@ -64,12 +64,14 @@ For extra media tasks outside core operations, use bundled FFmpeg through
 `yap ffmpeg`, following [direct-tool checks](references/media-workflows.md#extra-media-tasks).
 
 For skill installation, comparison or explicit refresh, read
-[skill lifecycle](references/skill-lifecycle.md). Install the complete folder
-through `npx skills` at the scope selected by the lifecycle procedure (whole
-computer by default), with selected agents' discovery links verified. Inspection
-never authorizes an update;
-preserve local content for surgical requests, and back up before explicit
-whole-folder replacement. App updating never changes these files.
+[skill lifecycle](references/skill-lifecycle.md). The public lifecycle operations
+are `skill.status`, `skill.install`, `skill.uninstall`, and `skill.update`;
+they are available through the CLI and the Settings surface uses the same
+handlers. Install/update stages a complete pinned folder through `npx skills`,
+letting it discover supported harnesses, and replaces the global Yap skill when
+maintenance is enabled. Disable maintenance before customizing the global skill.
+For the complete operation reference, read [capability catalog](references/capability-catalog.md).
+App updating never changes these files.
 
 For update-health questions, inspect the installed `service.health --help` and
 actual reply. Discover advertised `update.status`, `update.check` and
@@ -241,6 +243,8 @@ cue, and invoke `capture.start` with the selected source when authorized. Use
 finalization before treating the recording as ready media.
 
 ## Task references
+
+For the complete public operation inventory and skill lifecycle contract, read [capability catalog](references/capability-catalog.md).
 
 Before importing, transcribing, inspecting media, editing, rendering or exporting,
 read the relevant sections of [media workflows](references/media-workflows.md).
