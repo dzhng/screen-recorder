@@ -61,17 +61,43 @@ final class SkillManager: SkillLifecycle {
 
     private nonisolated static func install(home: URL, fileManager: FileManager) {
         let stage = fileManager.temporaryDirectory.appendingPathComponent("yap-skill-\(UUID().uuidString)")
+        let backup = stage.appendingPathComponent("backup", isDirectory: true)
+        let destinations = [".agents/skills/yap", ".codex/skills/yap", ".claude/skills/yap"]
         defer { try? fileManager.removeItem(at: stage) }
         do {
-            try fileManager.createDirectory(at: stage, withIntermediateDirectories: true)
+            try fileManager.createDirectory(at: backup, withIntermediateDirectories: true)
+            for relative in destinations {
+                let source = home.appendingPathComponent(relative)
+                guard fileManager.fileExists(atPath: source.path) else { continue }
+                let saved = backup.appendingPathComponent(relative)
+                try fileManager.createDirectory(at: saved.deletingLastPathComponent(), withIntermediateDirectories: true)
+                try fileManager.copyItem(at: source, to: saved)
+                try fileManager.removeItem(at: source)
+            }
             let result = try run("/usr/bin/env", ["npx", "--yes", "skills@1.7.0", "add",
                 "https://github.com/dzhng/yap/tree/main/skills/yap", "--skill", "yap",
                 "--agent", "codex", "claude-code", "--global", "--yes"])
-            guard result == 0 else { return }
+            guard result == 0 else {
+                restore(backup: backup, home: home, fileManager: fileManager, destinations: destinations)
+                return
+            }
             try fileManager.createDirectory(at: home.appendingPathComponent(".config/yap"), withIntermediateDirectories: true)
             try Data("{\"managed\":true,\"source\":\"https://github.com/dzhng/yap/tree/main/skills/yap\"}\n".utf8)
                 .write(to: home.appendingPathComponent(".config/yap/skill-install.json"), options: .atomic)
-        } catch { return }
+        } catch {
+            restore(backup: backup, home: home, fileManager: fileManager, destinations: destinations)
+        }
+    }
+
+    private nonisolated static func restore(backup: URL, home: URL, fileManager: FileManager, destinations: [String]) {
+        for relative in destinations {
+            let saved = backup.appendingPathComponent(relative)
+            guard fileManager.fileExists(atPath: saved.path) else { continue }
+            let destination = home.appendingPathComponent(relative)
+            try? fileManager.createDirectory(at: destination.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try? fileManager.removeItem(at: destination)
+            try? fileManager.copyItem(at: saved, to: destination)
+        }
     }
 
     private nonisolated static func uninstall(home: URL, fileManager: FileManager) {
