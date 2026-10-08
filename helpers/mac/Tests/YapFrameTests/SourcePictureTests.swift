@@ -16,7 +16,8 @@ func verifySourcePictures(in parent: URL) async throws {
     let sourceBefore = try Data(contentsOf: source)
 
     func request(_ source: URL, output: URL, atUs: Int64 = 500_000,
-                 maxLongEdge: Int? = nil, maxEncodedBytes: Int? = nil) async throws
+                 maxLongEdge: Int? = nil, maxEncodedBytes: Int? = nil,
+                 cursorOverlay: [String: Any]? = nil) async throws
         -> SourceFrameRenderer.Request
     {
         let tracks = try await AVURLAsset(url: source).loadTracks(withMediaType: .video)
@@ -29,6 +30,7 @@ func verifySourcePictures(in parent: URL) async throws {
         ]
         if let maxLongEdge { body["maxLongEdge"] = maxLongEdge }
         if let maxEncodedBytes { body["maxEncodedBytes"] = maxEncodedBytes }
+        if let cursorOverlay { body["cursorOverlay"] = cursorOverlay }
         return try JSONDecoder().decode(SourceFrameRenderer.Request.self,
             from: JSONSerialization.data(withJSONObject: body))
     }
@@ -44,6 +46,23 @@ func verifySourcePictures(in parent: URL) async throws {
         "A source below the default long-edge bound must not be upscaled")
     precondition(decoded.actualSourceUs == 700_000 && image.statedFrameIndex() == 7 && difference < 0.03,
         "Selected frame 7 must match its generated reference, mean channel difference \(difference)")
+
+    let clean = directory.appendingPathComponent("clean-overlay-baseline.png")
+    let trailed = directory.appendingPathComponent("trailed.png")
+    _ = try await SourceFrameRenderer.write(request(source, output: clean, atUs: 500_000))
+    let withTrail = try await SourceFrameRenderer.write(request(source, output: trailed, atUs: 500_000,
+        cursorOverlay: [
+            "trail": [[
+                ["atSourceUs": 300_000, "x": 80.0, "y": 120.0],
+                ["atSourceUs": 500_000, "x": 160.0, "y": 120.0],
+            ]],
+            "trailUs": 300_000,
+            "pointer": ["atSourceUs": 500_000, "x": 160.0, "y": 120.0],
+        ]))
+    let cleanBytes = try Data(contentsOf: clean)
+    let trailedBytes = try Data(contentsOf: trailed)
+    precondition(withTrail.width == decoded.width && cleanBytes != trailedBytes,
+        "A source cursor render must composite visible trail pixels into the delivered PNG")
 
     let rotatedRequest = try await request(rotated, output: directory.appendingPathComponent("rotated.png"))
     let rotatedFrame = try await SourceFrameRenderer.write(rotatedRequest)
