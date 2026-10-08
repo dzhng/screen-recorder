@@ -224,8 +224,10 @@ The same handlers are available through Settings and the public CLI:
 - `skill.uninstall` starts removal of the managed global installation when
   maintenance is disabled; it does not touch project-local installs.
 
-Mutation responses include `state: "updating"` and an `operationId`; poll
-`skill.status` for the terminal state and any retained error or backup path.
+The protocol mutation response includes `state: "updating"` and an `operationId`;
+the CLI waits for the terminal state by default (use `--no-wait` for an immediate
+acknowledgement). Other protocol clients poll `skill.status` for the terminal
+state and any retained error or backup path.
 The app reconciles at launch, after app update and when maintenance is
 re-enabled. There is no periodic background timer. Settings displays only the
 compact state (`Installed`, `Updating…`, `Not installed`, `Disabled` or `Needs

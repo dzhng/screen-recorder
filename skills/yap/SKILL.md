@@ -69,7 +69,7 @@ are `skill.status`, `skill.install`, `skill.uninstall`, and `skill.update`;
 they are available through the CLI and the Settings surface uses the same
 handlers. Install/update stages a complete pinned folder through `npx skills`,
 letting it discover supported harnesses, and replaces the global Yap skill when
-maintenance is enabled. Disable maintenance before customizing the global skill.
+maintenance is enabled. Disable maintenance before customizing the global skill. The CLI waits for install/update/uninstall to settle by default; use `--no-wait` for an immediate acknowledgement.
 For the complete operation reference, read [capability catalog](references/capability-catalog.md).
 App updating never changes these files.
 

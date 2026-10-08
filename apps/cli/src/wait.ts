@@ -21,6 +21,7 @@ const pending = new Set([
   "cleanup_pending",
   "pending",
   "not_ready",
+  "updating",
   "finalizing",
 ]);
 const unsuccessful = new Set([
@@ -60,6 +61,9 @@ const reads = new Map([
   ["alignment.prepare", "alignment.prepare"],
   ["alignment.get", "alignment.get"],
   ["model.prepare", "model.status"],
+  ["skill.install", "skill.status"],
+  ["skill.update", "skill.status"],
+  ["skill.uninstall", "skill.status"],
 ]);
 // Getters used as initial requests must preserve the same domain response while waiting.
 for (const read of reads.values()) reads.set(read, read);

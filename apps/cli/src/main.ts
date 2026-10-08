@@ -42,6 +42,7 @@ import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprot
 
 const { version } = appManifest;
 const previewOperations = new Set(["preview.get", "preview.retry"]);
+const skillLifecycleOperations = new Set(["skill.install", "skill.update", "skill.uninstall"]);
 
 function failure(
   id: string,
@@ -204,6 +205,7 @@ async function main() {
       output: { type: "string" },
       wait: { type: "boolean" },
       "timeout-ms": { type: "string" },
+      "no-wait": { type: "boolean" },
       id: { type: "string" },
       help: { type: "boolean", short: "h" },
       version: { type: "boolean" },
@@ -233,7 +235,7 @@ async function main() {
           usage:
             "yap <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] [--wait --timeout-ms MS] | yap mcp [--socket PATH] | yap --version",
           waiting:
-            "--wait requires --timeout-ms, a positive integer up to 2147483647. One deadline covers discovery, admission, polling and delivery. Polls every 100 ms; never retries failures or resubmits writes. wait metadata distinguishes settled work, timed_out pending work (exit 2), and interrupted waiting (exit 1); success requires the requested output to be ready.",
+            "Skill install/update/uninstall wait by default for up to 120000 ms; use --no-wait for an immediate acknowledgement. Other long-running operations require --wait with a positive --timeout-ms up to 2147483647. One deadline covers discovery, admission, polling and delivery. Polls every 100 ms; never retries failures or resubmits writes. wait metadata distinguishes settled work, timed_out pending work (exit 2), and interrupted waiting (exit 1); success requires the requested output to be ready.",
           service:
             "Without --socket, calls use $YAP_HOME/run/service.sock (default ~/.yap) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           bundledMedia:
@@ -253,9 +255,15 @@ async function main() {
   const [operation] = positionals;
   if (positionals.length !== 1 || operation === undefined)
     throw new Error("Expected one operation name or mcp");
-  const timeoutMs = values["timeout-ms"] === undefined ? undefined : Number(values["timeout-ms"]);
+  const explicitTimeoutMs =
+    values["timeout-ms"] === undefined ? undefined : Number(values["timeout-ms"]);
+  const waitRequested =
+    Boolean(values.wait) || (skillLifecycleOperations.has(operation) && !values["no-wait"]);
+  const timeoutMs = explicitTimeoutMs ?? (waitRequested ? 120_000 : undefined);
   if (
-    Boolean(values.wait) !== (timeoutMs !== undefined) ||
+    (Boolean(values.wait) && Boolean(values["no-wait"])) ||
+    (!skillLifecycleOperations.has(operation) &&
+      Boolean(values.wait) !== (timeoutMs !== undefined)) ||
     (timeoutMs !== undefined &&
       (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 2_147_483_647))
   )
@@ -266,7 +274,14 @@ async function main() {
   const controller = new AbortController();
   const selection: ServiceSelection = { socketPath: values.socket };
   if (operation === "mcp") {
-    if (values.params || values.id || values.output || values.wait || values["timeout-ms"])
+    if (
+      values.params ||
+      values.id ||
+      values.output ||
+      waitRequested ||
+      values["no-wait"] ||
+      values["timeout-ms"]
+    )
       throw new Error("mcp accepts --socket only");
     // Listing tools describes the registry; only a called tool looks for a service.
     await mcp(selection);
@@ -275,11 +290,11 @@ async function main() {
   if (values.output && !artifactOperations.has(operation) && !previewOperations.has(operation))
     throw new Error("--output applies only to artifact inspection operations");
   const sending = request(responseId, operation, await readParams(values.params ?? "{}"));
-  const timer = values.wait
+  const timer = waitRequested
     ? setTimeout(() => controller.abort("wait_deadline"), timeoutMs!)
     : undefined;
   const abort = () => controller.abort("caller_canceled");
-  if (values.wait) {
+  if (waitRequested) {
     process.once("SIGINT", abort);
     process.once("SIGTERM", abort);
     selection.signal = controller.signal;
@@ -287,7 +302,7 @@ async function main() {
   try {
     const selected = { ...selection, socketPath: await resolveServiceSocket(selection) };
     let result = await invoke(selected, sending);
-    if (values.wait && result.ok)
+    if (waitRequested && result.ok)
       result = await waitForWork({
         request: sending,
         initial: result,
@@ -297,7 +312,7 @@ async function main() {
         close: (token) => closeArtifact(selected.socketPath, token),
         progress: (message) => process.stderr.write(message + "\n"),
       });
-    if (values.wait && !result.ok && controller.signal.aborted)
+    if (waitRequested && !result.ok && controller.signal.aborted)
       result = {
         ...result,
         wait:
@@ -305,7 +320,7 @@ async function main() {
             ? { state: "timed_out", timeoutMs: timeoutMs! }
             : { state: "interrupted", timeoutMs: timeoutMs!, error: result.error },
       };
-    const canDeliver = !values.wait || result.wait?.state === "settled";
+    const canDeliver = !waitRequested || result.wait?.state === "settled";
     const batchReference = batchReferences.get(operation);
     if (batchReference && canDeliver) {
       let directory: string | undefined;
@@ -338,7 +353,7 @@ async function main() {
         },
         (error) => errorResult(sending.id, error).error,
       );
-      if (values.wait && controller.signal.aborted) {
+      if (waitRequested && controller.signal.aborted) {
         result = {
           ...result,
           wait:
@@ -374,7 +389,7 @@ async function main() {
           };
       } catch (error) {
         const failure = errorResult(sending.id, error);
-        result = values.wait
+        result = waitRequested
           ? {
               ...result,
               wait:
@@ -399,11 +414,11 @@ async function main() {
     if (result.wait?.state === "timed_out") process.exitCode = 2;
     else if (
       !result.ok ||
-      (values.wait && (result.wait?.state === "interrupted" || !waitSucceeded(result)))
+      (waitRequested && (result.wait?.state === "interrupted" || !waitSucceeded(result)))
     )
       process.exitCode = 1;
   } catch (error) {
-    if (!values.wait || !controller.signal.aborted) throw error;
+    if (!waitRequested || !controller.signal.aborted) throw error;
     const result = errorResult(sending.id, error);
     const wait =
       controller.signal.reason === "wait_deadline"
@@ -413,7 +428,7 @@ async function main() {
     process.exitCode = wait.state === "timed_out" ? 2 : 1;
   } finally {
     if (timer) clearTimeout(timer);
-    if (values.wait) {
+    if (waitRequested) {
       process.removeListener("SIGINT", abort);
       process.removeListener("SIGTERM", abort);
     }
