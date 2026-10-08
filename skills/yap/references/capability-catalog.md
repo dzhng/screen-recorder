@@ -90,7 +90,8 @@ discover supported harnesses (including Codex and Claude), replacing any
 existing global Yap skill. Disable maintenance before customizing the global
 skill; uninstall removes only the installation managed by Yap.
 
-The skill operations return a status snapshot after mutation. Settings shows a
+Mutation skill operations return an updating status and operationId; poll
+`skill.status` for terminal state and diagnostics. Settings shows a
 compact state; the CLI remains the diagnostic surface for paths, source
 revision, discovery links, ownership and errors. Lifecycle reconciliation runs
 at app launch, after an app update, when maintenance is re-enabled, and on an

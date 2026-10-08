@@ -1383,19 +1383,19 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("skill.install"), params: z.object({}).strict() })
     .strict()
     .describe(
-      "Install or replace the account-level Yap consumer skill through the pinned npx skills installer, allowing it to discover every supported agent harness and returning the resulting status.",
+      "Start a durable install/replace of the account-level Yap consumer skill through the pinned npx skills installer, allowing it to discover every supported agent harness. The response is an updating status with an operationId; poll skill.status for completion.",
     ),
   z
     .object({ operation: z.literal("skill.uninstall"), params: z.object({}).strict() })
     .strict()
     .describe(
-      "Remove the account-level Yap consumer skill and its discovered harness links when Yap owns the installation; leaves project-local skills untouched.",
+      "Start a durable removal of the account-level Yap consumer skill and its discovered harness links when Yap owns the installation; leaves project-local skills untouched. The response is an updating status with an operationId; poll skill.status for completion.",
     ),
   z
     .object({ operation: z.literal("skill.update"), params: z.object({}).strict() })
     .strict()
     .describe(
-      "Refresh the account-level Yap consumer skill through the pinned npx skills installer, replacing an existing global Yap skill and verifying all discovered harness destinations.",
+      "Start a durable refresh of the account-level Yap consumer skill through the pinned npx skills installer, replacing an existing global Yap skill and verifying all discovered harness destinations. The response is an updating status with an operationId; poll skill.status for completion.",
     ),
   z
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })

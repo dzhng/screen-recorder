@@ -216,13 +216,16 @@ The same handlers are available through Settings and the public CLI:
 
 - `skill.status` discovers the canonical folder and harness links and returns
   compact state plus diagnostic paths, source revision, ownership and errors.
-- `skill.install` stages and verifies the complete current folder, then
-  atomically replaces the global Yap skill. `npx skills@1.7.0` discovers the
-  supported harnesses rather than a hand-maintained path list.
-- `skill.update` performs the same pinned replacement explicitly.
-- `skill.uninstall` removes the managed global installation when maintenance is
-  disabled; it does not touch project-local installs.
+- `skill.install` starts a durable operation that stages and verifies the complete
+  current folder, then atomically replaces the global Yap skill.
+  `npx skills@1.7.0` discovers the supported harnesses rather than a hand-maintained
+  path list.
+- `skill.update` starts the same pinned replacement explicitly.
+- `skill.uninstall` starts removal of the managed global installation when
+  maintenance is disabled; it does not touch project-local installs.
 
+Mutation responses include `state: "updating"` and an `operationId`; poll
+`skill.status` for the terminal state and any retained error or backup path.
 The app reconciles at launch, after app update and when maintenance is
 re-enabled. There is no periodic background timer. Settings displays only the
 compact state (`Installed`, `Updating…`, `Not installed`, `Disabled` or `Needs
