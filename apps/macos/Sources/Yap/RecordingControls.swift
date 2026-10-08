@@ -124,6 +124,10 @@ final class RecordingControls: NSObject {
         render()
     }
 
+    func handleSkill(_ operation: String) -> Result<Data, ServiceFailure> {
+        skillManager.handle(operation)
+    }
+
     /// Opt-out remains usable while the child service is closing or unavailable.
     private func sendUpdate(_ operation: String, _ params: [String: Any]) {
         guard let updateOperation else { return }

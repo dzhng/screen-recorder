@@ -13,13 +13,27 @@ final class SkillManager: SkillLifecycle {
     }
 
     func setEnabled(_ enabled: Bool) {
-        if enabled && !receiptExists && hasExistingInstallation { return }
         let path = home.path
         DispatchQueue.global(qos: .utility).async {
             let home = URL(fileURLWithPath: path, isDirectory: true)
             let fileManager = FileManager.default
             if enabled { Self.install(home: home, fileManager: fileManager) }
             else { Self.uninstall(home: home, fileManager: fileManager) }
+        }
+    }
+
+    func handle(_ operation: String) -> Result<Data, ServiceFailure> {
+        switch operation {
+        case "skill.status":
+            return .success(statusData())
+        case "skill.install", "skill.update":
+            setEnabled(true)
+            return .success(statusData(state: "updating"))
+        case "skill.uninstall":
+            setEnabled(false)
+            return .success(statusData(state: "updating"))
+        default:
+            return .failure(ServiceFailure(code: "UNKNOWN_OPERATION", message: "Unknown skill operation"))
         }
     }
 
@@ -34,6 +48,15 @@ final class SkillManager: SkillLifecycle {
         [".agents/skills/yap", ".codex/skills/yap", ".claude/skills/yap"]
             .map { home.appendingPathComponent($0).path }
             .contains { fileManager.fileExists(atPath: $0) }
+    }
+
+    private func statusData(state: String? = nil) -> Data {
+        let value: [String: Any] = [
+            "state": state ?? (receiptExists ? "installed" : (hasExistingInstallation ? "unmanaged" : "missing")),
+            "managed": receiptExists,
+            "paths": [".agents/skills/yap", ".codex/skills/yap", ".claude/skills/yap"],
+        ]
+        return (try? JSONSerialization.data(withJSONObject: value)) ?? Data("{}".utf8)
     }
 
     private nonisolated static func install(home: URL, fileManager: FileManager) {

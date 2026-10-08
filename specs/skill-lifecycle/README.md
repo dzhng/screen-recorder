@@ -2,12 +2,14 @@
 
 ## Next Agent Prompt
 
-Implement and verify the account-level Yap consumer-skill lifecycle. The first
-slice adds the persisted `installSkill` preference and Settings toggle. The next
-slice must replace the provisional process runner with a receipt-backed,
-transactional manager that stages a pinned complete skill folder, preserves
-unmanaged/custom installs, and removes only Yap-owned paths. Add focused tests
-for discovery, update, uninstall and rollback, then revise the lifecycle docs.
+Implement and verify the account-level Yap consumer-skill lifecycle. Protocol
+schemas and the capability catalog are now landed; native routing and the
+receipt-backed replacement path remain the next pickup. Replace the provisional
+process runner with a transactional manager that stages a complete folder,
+backs up existing global harness destinations, lets `npx skills` discover all
+supported harnesses, verifies the result, and rolls back on failure. Add focused
+tests for override, status, uninstall and rollback, then run the full check and
+close this spec.
 
 ## Contract
 
