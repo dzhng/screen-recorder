@@ -86,19 +86,25 @@ const textLayoutSchema = z
       )
       .max(8192),
     inkBounds: z.tuple([
-      z.number().finite(), z.number().finite(),
-      z.number().finite().nonnegative(), z.number().finite().nonnegative(),
+      z.number().finite(),
+      z.number().finite(),
+      z.number().finite().nonnegative(),
+      z.number().finite().nonnegative(),
     ]),
     visibleBounds: z.union([
       z.tuple([
-        z.number().finite(), z.number().finite(),
-        z.number().finite().nonnegative(), z.number().finite().nonnegative(),
+        z.number().finite(),
+        z.number().finite(),
+        z.number().finite().nonnegative(),
+        z.number().finite().nonnegative(),
       ]),
       z.tuple([]),
     ]),
     decorationBounds: z.tuple([
-      z.number().finite(), z.number().finite(),
-      z.number().finite().nonnegative(), z.number().finite().nonnegative(),
+      z.number().finite(),
+      z.number().finite(),
+      z.number().finite().nonnegative(),
+      z.number().finite().nonnegative(),
     ]),
     verticalOffset: z.number().finite(),
     stroke: textStrokeSchema.optional(),
@@ -182,7 +188,11 @@ export const projectPictureOptionsSchema = z.strictObject({
   observationRequest: pictureObservationRequestSchema.optional(),
   faceObservationRequest: faceObservationRequestSchema.optional(),
 });
-const optionsSchema = z.strictObject({ atUs: time, ...projectPictureOptionsSchema.shape });
+const optionsSchema = z.strictObject({
+  atUs: time,
+  cursorTrailUs: z.int().min(0).max(10_000_000).optional(),
+  ...projectPictureOptionsSchema.shape,
+});
 export const retainedProjectFrameSchema = projectReceiptSchema
   .extend({
     ...optionsSchema.shape,
@@ -198,6 +208,7 @@ export type ProjectFrameInput = {
   tap?: ProcessingTap | undefined;
   observations?: PictureObservationRequest | undefined;
   faceObservations?: FaceObservationRequest | undefined;
+  cursorTrailUs?: number | undefined;
 };
 export type ProjectFrameRenderer = ProjectRenderSupport & {
   implementationId: string;
@@ -803,6 +814,7 @@ export class MediaFrameInspection {
   private planProject(input: ProjectFrameInput) {
     const options = optionsSchema.safeParse({
       atUs: input.atUs,
+      ...(input.cursorTrailUs === undefined ? {} : { cursorTrailUs: input.cursorTrailUs }),
       maxLongEdge: input.maxLongEdge ?? 1600,
       ...(input.observations === undefined ? {} : { observationRequest: input.observations }),
       ...(input.faceObservations === undefined
@@ -821,6 +833,7 @@ export class MediaFrameInspection {
         revisionId: input.revisionId,
         range: { startUs: input.atUs, endUs: input.atUs + 1 },
         tap: options.data.tap,
+        cursorTrailUs: input.cursorTrailUs,
       },
       this.project.renderer,
       "video",
@@ -837,7 +850,10 @@ export class MediaFrameInspection {
       {
         target: { kind: "project", projectId: input.projectId, revisionId },
         artifact: "frame",
-        input: JSON.stringify(options),
+        input: JSON.stringify({
+          ...options,
+          ...(input.cursorTrailUs === undefined ? {} : { cursorTrailUs: input.cursorTrailUs }),
+        }),
       },
       "frame",
       { deferred: pointerSources.length > 0 },

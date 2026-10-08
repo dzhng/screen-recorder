@@ -13,6 +13,24 @@ for example `{"startUs":0,"endUs":1000000}` when that interval exists.
 options. These examples neither prepare transcripts nor write edits. Readiness,
 failed jobs and partial coverage remain facts to inspect, not success claims.
 
+## Feedback review
+
+When the installed CLI advertises the first-class review operations, use this
+short path before the lower-level helpers. `transcript.review` may download the
+registered local speech model and prepare bounded transcription; poll the same
+params while pending. `cursor.render` is read-only. Save complete responses and
+preserve generations, revisions, acquisitions and continuations.
+
+```json
+{"operation":"transcript.review","params":{"projectId":"…","revisionId":"…","range":{"startUs":0,"endUs":60000000}}}
+{"operation":"cursor.render","params":{"projectId":"…","revisionId":"…","atUs":[12000000,24000000],"trailUs":600000,"maxLongEdge":1280}}
+```
+
+`frame.get` is intentionally clean and does not show capture overlays. Use
+`cursor.raw` for exact pointer observations. If an older release does not
+advertise these operations, use the explicit transcript preparation/read and
+raw cursor plus frame pipeline instead.
+
 ## Compact transcript
 
 Run this request through `compact-transcripts.mjs`; save its output as

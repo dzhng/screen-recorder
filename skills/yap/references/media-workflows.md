@@ -51,6 +51,15 @@ boundary decisions remain in raw evidence; unowned decoded context is
 `not_observed`, not silence or missing physical media. Inspect this evidence when a
 seam is refused; never repair word timestamps or silently discard a boundary word.
 
+When the installed release advertises `transcript.review`, use it as the
+agent-friendly bounded review operation. It may prepare/download Yap's
+registered, pinned local speech model and enqueue the selected transcription;
+poll the same request through model and transcription readiness, then preserve
+the normal rows, generation and continuation it returns. It never invents
+words or edits a project. `transcript.get` remains strictly read-only, while
+`model.prepare` and `transcript.prepare` remain the explicit lifecycle controls
+for advanced callers.
+
 Discover registered IDs, purposes and source requirements with `model.list`, then
 inspect `model.status` with the selected `modelId`. Call `model.prepare` by default
 when the requested Yap feature needs its registered model/runtime; this separate
@@ -347,6 +356,15 @@ missing evidence, not a black frame. Poll the same selection while processing;
 inspect failure before explicit frame retry. For batches, preserve per-item order
 and errors, and deliver only ready pictures. Check the returned dimensions and
 sample identity; an inspection size bound does not author a crop or aspect ratio.
+
+When the installed release advertises `cursor.render`, use it for the visible
+pointer trail during feedback review. It follows the same source/project selector
+families and pinning rules as `cursor.raw` and frame delivery, accepts explicit
+frame times and `trailUs`, and is read-only: its render plan is ephemeral and does
+not add a `processing.set` step. Poll and retry the same pinned request, preserve
+per-frame errors and delivery receipts, and treat absent/off-crop/gapped pointer
+coverage as evidence. Use `cursor.raw` for exact coordinates and capture events;
+`frame.get` remains intentionally overlay-free.
 
 For a storyboard, choose a source index for raw footage or a project index for the
 edited composition. Source selection uses asset/stream and optional acquisition;

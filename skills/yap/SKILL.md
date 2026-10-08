@@ -169,6 +169,20 @@ unavailable; do not claim it reopened or retry writes blindly.
    Keep these pins with the chosen wording and rationale; rounded display times
    cannot replace them in cuts or caption seeds.
 
+   For the common "watch my recording and tell me what I meant" workflow, first
+   check `yap --help` for the first-class `transcript.review` and `cursor.render`
+   operations. When advertised, use `transcript.review` for a bounded,
+   read-only transcript page and `cursor.render` for the same source or pinned
+   project times with a visible pointer trail. `transcript.review` is the
+   agent-friendly convenience call: it may prepare/download Yap's registered,
+   pinned local speech model and transcribe the selected bounded range. Poll the
+   same request through model and transcription readiness; do not make the agent
+   discover `model.prepare` first. Pin the returned generation, revision,
+   acquisition and continuation exactly as returned. It never invents words or
+   edits a project. If it is absent, use the lower-level
+   `model.prepare`/`transcript.prepare`/`transcript.get` and `cursor.raw` plus
+   `frame.get` path below.
+
 5. **Edit.** Inspect uncertain cut boundaries using bounded audio excerpts and
    nearby frames. Choose narration, system audio, or mix intentionally. Transcript
    word times are estimates; protect adjacent speech. Use waveform or spectrogram
@@ -196,6 +210,11 @@ unavailable; do not claim it reopened or retry writes blindly.
    each method's limits explicit. Deliver the best checked candidate with precise
    unresolved uncertainty; do not make human listening or watching a QA gate.
    A successful render alone does not establish a clean-sounding cut.
+
+   `frame.get` intentionally returns a clean project still and does not add
+   capture pointer overlays. When the question is what the user was pointing
+   at, use the advertised `cursor.render` review operation; use `cursor.raw`
+   when exact pointer coordinates and capture events are the evidence needed.
 
 7. **Deliver.** Export the brief's revision and format only after checking the
    changes. Distinguish a pending export from a published artifact. Return the

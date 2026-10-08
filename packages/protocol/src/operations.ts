@@ -232,6 +232,17 @@ const frameParams = z.union([
     })
     .strict(),
 ]);
+const reviewTrailUs = z.int().min(0).max(10_000_000);
+const cursorRenderParams = z.union([
+  projectFrameParams.extend({ atUs: z.array(time).min(1).max(8), trailUs: reviewTrailUs }),
+  sourceFrameParams.extend({ atUs: z.array(time).min(1).max(8), trailUs: reviewTrailUs }),
+]);
+const transcriptReviewParams = z.union([
+  projectTranscriptParams,
+  sourceSelection
+    .extend({ range: range.optional(), limit: z.int().min(1).max(1000).default(250) })
+    .strict(),
+]);
 
 const audioRange = range.refine(({ startUs, endUs }) => endUs > startUs, {
   message: "Audio range must be positive",
@@ -1066,6 +1077,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Request a project transcript with projectId and optional revisionId, range and trackIds, or a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision, source generations and any selected speaker generations/binding digests. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Reads and search never enqueue transcription or prepare models. Use transcript.prepare to request inference. generation selects retained source evidence; bounded preparations require that pin (a continuation already pins it). Omitted generation resolves only full-support preparation identity. Project sourceGenerations explicitly select bounded retained dependencies; speakerGenerations joins caller-selected speaker evidence to projected words without inferring identity; omitted selections resolve full-support identities. A ready project may prepare its read-only evidence manifest. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Unfiltered asset enumeration returns every retained observation, including points at the source end. Explicit source/project interval selections remain half-open. Words keep verbatim text, kind and a per-generation ID. A source read may include a generation-pinned speaker selector; each word is attributed only when one retained turn wholly covers it and no other speaker intersects it. A partial competing turn therefore remains overlap evidence; crossing turns without a complete covering turn and unobserved support remain explicit unknown, while multiple intersecting turns are overlap. The returned continuation pins the speaker binding digest so a rename cannot silently change a page. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
     ),
   z
+    .object({ operation: z.literal("transcript.review"), params: transcriptReviewParams })
+    .strict()
+    .describe(
+      "Review a bounded source or pinned-project transcript in one agent-friendly call. The operation may prepare/download Yap's registered pinned speech model and request missing transcription, then returns readiness, exact transcript rows, generation and continuation. Poll the same request while model or transcript work is pending. It never invents words or edits a project. Use transcript.get for a strictly read-only retained read and transcript.prepare/model.prepare for explicit lifecycle control.",
+    ),
+  z
     .object({
       operation: z.literal("transcript.search"),
       params: z.union([
@@ -1146,6 +1163,16 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .describe(
       "Request one to eight ordered frames pinned to one revision. Each item retains its own readiness/error; duplicates reuse work. Poll the returned revision and retry individual failures with frame.retry. Optional observations measures the same delivered upright raster; rectangles use delivered top-left pixels and metrics include only fully opaque pixels.",
     ),
+  z
+    .object({ operation: z.literal("cursor.render"), params: cursorRenderParams })
+    .strict()
+    .describe(
+      "Render one to eight source or pinned-project frames with an explicit capture cursor trail using an ephemeral review plan. Trail duration is 0 through 10 seconds. Reuse frame delivery, per-item readiness/errors and pinned timing; this never edits or persists a project processing step. Source selections require captured-video authority for cursor evidence. Use cursor.raw for exact observations and frame.get for clean overlay-free pictures.",
+    ),
+  z
+    .object({ operation: z.literal("cursor.render.retry"), params: cursorRenderParams })
+    .strict()
+    .describe("Explicitly retry failed cursor.render work with the same pinned request."),
   z
     .object({
       operation: z.literal("preview.get"),

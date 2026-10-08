@@ -34,6 +34,27 @@ it("reads authored project revisions while recording identities retain only sour
   });
 });
 
+it("advertises feedback review operations with shared selectors and bounded cursor trails", () => {
+  expect(
+    operationSchema.parse({
+      operation: "transcript.review",
+      params: { assetId: "a", streamId: "audio", range: { startUs: 0, endUs: 1_000_000 } },
+    }).operation,
+  ).toBe("transcript.review");
+  expect(
+    operationSchema.parse({
+      operation: "cursor.render",
+      params: { projectId: "p", atUs: [0, 1_000_000], trailUs: 600_000 },
+    }).operation,
+  ).toBe("cursor.render");
+  expect(
+    operationSchema.safeParse({
+      operation: "cursor.render",
+      params: { projectId: "p", atUs: [0], trailUs: 10_000_001 },
+    }).success,
+  ).toBe(false);
+});
+
 describe("capture selection", () => {
   const source = { kind: "window", windowId: 7 } as const;
   it("admits an explicitly selected camera as primary video with the shared audio defaults", () => {
@@ -578,14 +599,25 @@ it("admits long-form continuity preparation and exact receipt reads", () => {
     modelId: "speaker-model",
     sourceRange: { startUs: 0, endUs: 600_000_000 },
   };
-  expect(operationSchema.safeParse({
-    operation: "speaker.continuity.prepare",
-    params: { ...common, expectedSpeakerCount: 4 },
-  }).success).toBe(true);
-  expect(operationSchema.safeParse({
-    operation: "speaker.continuity.get",
-    params: { assetId: common.assetId, streamId: common.streamId, channel: common.channel, modelId: common.modelId, observationRange: common.sourceRange, generation: "attempt-1" },
-  }).success).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "speaker.continuity.prepare",
+      params: { ...common, expectedSpeakerCount: 4 },
+    }).success,
+  ).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "speaker.continuity.get",
+      params: {
+        assetId: common.assetId,
+        streamId: common.streamId,
+        channel: common.channel,
+        modelId: common.modelId,
+        observationRange: common.sourceRange,
+        generation: "attempt-1",
+      },
+    }).success,
+  ).toBe(true);
 });
 
 it("ordinary project index references remain usable without face observations", () => {

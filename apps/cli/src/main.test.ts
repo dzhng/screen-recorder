@@ -178,6 +178,12 @@ function expectCallableContract(tools: AdvertisedTool[]) {
   ]);
   expect(required("timeline.events")).toEqual([["projectId"], ["assetId", "streamId"]]);
   expect(required("cursor.raw")).toEqual([["projectId"], ["assetId", "streamId"]]);
+  expect(required("cursor.render")).toEqual([
+    ["projectId", "atUs", "trailUs"],
+    ["assetId", "streamId", "atUs", "trailUs"],
+  ]);
+  expect(required("cursor.render.retry")).toEqual(required("cursor.render"));
+  expect(required("transcript.review")).toEqual([["projectId"], ["assetId", "streamId"]]);
   expect(required("model.prepare")).toEqual(["modelId"]);
   expect(tools.filter((tool) => !tool.description).map((tool) => tool.name)).toEqual([]);
 }

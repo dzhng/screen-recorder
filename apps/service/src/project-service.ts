@@ -174,6 +174,7 @@ export async function startProjectService(options: {
   const delivery = new DerivativeDelivery();
   const modelLifetime = new AbortController();
   const modelPreparations = new Set<Promise<void>>();
+  const reviewModelPreparations = new Map<string, Promise<void>>();
   const pending = new Set<Promise<OperationResult>>();
   // Keep the receipt lifetime explicit until a durable package resource owner exists.
   const correspondenceReceipts = new Map<string, CorrespondenceReceipt>();
@@ -569,6 +570,28 @@ export async function startProjectService(options: {
           }),
         ) as SpeechTranscriptionReceipt,
     });
+    const ensureReviewModel = () => {
+      const modelId = "parakeet";
+      const current = transcripts.recognitionReadiness();
+      if (current.state === "ready" || current.state === "preparing" || current.state === "failed")
+        return current;
+      let flight = reviewModelPreparations.get(modelId);
+      if (!flight) {
+        flight = models
+          .prepare(modelId, modelLifetime.signal, {})
+          .catch((error) => {
+            if (!modelLifetime.signal.aborted) console.error(error);
+          })
+          .finally(() => reviewModelPreparations.delete(modelId));
+        reviewModelPreparations.set(modelId, flight);
+        modelPreparations.add(flight);
+        void flight.finally(() => {
+          modelPreparations.delete(flight!);
+          admission.progress();
+        });
+      }
+      return transcripts.recognitionReadiness();
+    };
     const audioCapabilities = await nativeAudioCapabilities(worker);
     const pictureCapabilities = await nativePictureCapabilities(worker);
     const processingRuntime = await audioProcessingRuntime(
@@ -1812,6 +1835,78 @@ export async function startProjectService(options: {
               },
             };
           }
+          case "transcript.review": {
+            const params = operation.params;
+            if ("projectId" in params) {
+              const requested = projectEvidence.request({ ...params, prepare: true });
+              const pending = requested.dependencies.filter(
+                (dependency) =>
+                  dependency.state === "unavailable" && dependency.reason === "model_not_prepared",
+              );
+              if (pending.length) {
+                const model = ensureReviewModel();
+                return {
+                  ok: true,
+                  data: {
+                    ...requested,
+                    state: model.state === "ready" ? "not_ready" : "preparing",
+                    model,
+                    page: null,
+                  },
+                };
+              }
+              for (const dependency of requested.dependencies) {
+                if (dependency.transcript || dependency.reason === "no_audio") continue;
+                transcripts.prepareSource(dependency.selection);
+              }
+              const ready = projectEvidence.request({ ...params, prepare: true });
+              if (!ready.published) return { ok: true, data: { ...ready, page: null } };
+              return { ok: true, data: await projectEvidence.get(params) };
+            }
+            const selection = {
+              assetId: params.assetId,
+              streamId: params.streamId,
+              ...(params.acquisitionId === undefined
+                ? {}
+                : { acquisitionId: params.acquisitionId }),
+            };
+            const reviewSelection = {
+              ...selection,
+              ...(params.range === undefined ? {} : { executionRange: params.range }),
+            };
+            let current = transcripts.sourceStatus(reviewSelection);
+            if (current.reason === "no_audio")
+              return { ok: true, data: { ...current, page: null } };
+            if (current.reason === "model_not_prepared") {
+              const model = ensureReviewModel();
+              return {
+                ok: true,
+                data: {
+                  ...current,
+                  state: model.state === "failed" ? "failed" : "preparing",
+                  model,
+                  page: null,
+                },
+              };
+            }
+            if (!current.published && current.state === "not_requested") {
+              transcripts.prepareSource(reviewSelection);
+              current = transcripts.sourceStatus(reviewSelection);
+            }
+            if (!current.published) return { ok: true, data: { ...current, page: null } };
+            const metadata = current.published.transcript;
+            const read = new SourceTranscriptRead(transcriptStore, metadata);
+            const page = read.page({ range: params.range, limit: params.limit });
+            return {
+              ok: true,
+              data: {
+                ...selection,
+                state: "ready",
+                generation: metadata.generation,
+                page: { transcript: metadata, ...page },
+              },
+            };
+          }
           case "timeline.events":
           case "cursor.raw": {
             const params = operation.params;
@@ -1868,6 +1963,42 @@ export async function startProjectService(options: {
                           ...identity,
                           atUs,
                         }),
+                      ),
+                    };
+                  } catch (error) {
+                    return { atUs, ...operationFailure(error) };
+                  }
+                }),
+              },
+            };
+          }
+          case "cursor.render":
+          case "cursor.render.retry": {
+            const params = operation.params;
+            if (!("projectId" in params))
+              throw new CatalogError(
+                "UNSUPPORTED_JOB",
+                "Source cursor rendering is not available for this release; use cursor.raw and frame.get",
+              );
+            const identity = {
+              projectId: params.projectId,
+              revisionId: projects.revision(params.projectId, params.revisionId).id,
+            };
+            return {
+              ok: true,
+              data: {
+                ...identity,
+                trailUs: params.trailUs,
+                items: params.atUs.map((atUs) => {
+                  try {
+                    const input = { ...params, ...identity, atUs, cursorTrailUs: params.trailUs };
+                    return {
+                      atUs,
+                      ok: true,
+                      data: frameDelivery(
+                        mediaFrames[
+                          operation.operation === "cursor.render.retry" ? "retry" : "request"
+                        ](input),
                       ),
                     };
                   } catch (error) {

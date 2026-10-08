@@ -47,6 +47,7 @@ const reads = new Map([
   ["audio.measure", "audio.measure"],
   ["transcript.search", "transcript.search"],
   ["transcript.prepare", "transcript.get"],
+  ["transcript.review", "transcript.review"],
   ["transcript.render.prepare", "transcript.render.prepare"],
   ["transcript.render.retry", "transcript.render.prepare"],
   ["transcript.render.get", "transcript.render.get"],

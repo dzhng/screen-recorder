@@ -136,10 +136,61 @@ export const projectCapabilities = (support: ProjectRenderSupport) =>
 export function projectComposition(
   projects: ProjectStore,
   assets: AssetStore,
-  input: { projectId: string; revisionId?: string | undefined },
+  input: { projectId: string; revisionId?: string | undefined; cursorTrailUs?: number | undefined },
 ) {
   const revision = projects.revision(input.projectId, input.revisionId);
-  return projectCompositionFromRevision(revision, assets, projects.contexts(revision.document));
+  if (input.cursorTrailUs === undefined)
+    return projectCompositionFromRevision(revision, assets, projects.contexts(revision.document));
+  const pointerIds = new Set(
+    revision.document.processing
+      .filter(
+        (
+          stack,
+        ): stack is (typeof revision.document.processing)[number] & {
+          target: { kind: "clip"; id: string };
+        } => stack.target.kind === "clip",
+      )
+      .filter((stack) =>
+        stack.steps.some((step) => step.enabled && step.processor.type === "pointer"),
+      )
+      .map((stack) => stack.target.id),
+  );
+  const trailUs = input.cursorTrailUs;
+  const temporary = {
+    ...revision.document,
+    processing: [
+      ...revision.document.processing.map((stack) =>
+        stack.target.kind !== "clip" || !pointerIds.has(stack.target.id)
+          ? stack
+          : {
+              ...stack,
+              steps: stack.steps.map((step) =>
+                step.enabled && step.processor.type === "pointer"
+                  ? { ...step, processor: { type: "pointer" as const, trailUs } }
+                  : step,
+              ),
+            },
+      ),
+      ...revision.document.clips
+        .filter((clip) => clip.source.kind === "range" || clip.source.kind === "hold")
+        .filter((clip) => !pointerIds.has(clip.id))
+        .map((clip) => ({
+          target: { kind: "clip" as const, id: clip.id },
+          steps: [
+            {
+              id: `review-pointer-${clip.id}`,
+              enabled: true,
+              processor: { type: "pointer" as const, trailUs },
+            },
+          ],
+        })),
+    ],
+  } as typeof revision.document;
+  return projectCompositionFromRevision(
+    { ...revision, document: temporary },
+    assets,
+    projects.contexts(temporary),
+  );
 }
 
 /** Staged and catalog revisions share compilation; file publication is not a read prerequisite. */
@@ -246,6 +297,7 @@ export function projectWindow(
     revisionId?: string | undefined;
     range?: { startUs: number; endUs: number } | undefined;
     tap?: ProcessingTap | undefined;
+    cursorTrailUs?: number | undefined;
   },
   support: ProjectRenderSupport,
   component?: "audio" | "video",
