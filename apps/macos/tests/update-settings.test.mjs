@@ -24,6 +24,11 @@ enum ControlsProbe { static let observed = true }
         let preferences = Preferences(defaults: defaults)
         var enabled = true
         var checks = 0
+        @MainActor final class FakeSkill: SkillLifecycle {
+            var values: [Bool] = []
+            func setEnabled(_ enabled: Bool) { values.append(enabled) }
+        }
+        let skill = FakeSkill()
         let model = SettingsModel(preferences: preferences, perform: { _ in
             preconditionFailure("Update controls must not require the media service")
         }, update: { operation, params in
@@ -32,7 +37,11 @@ enum ControlsProbe { static let observed = true }
             case "update.check": checks += 1
             default: preconditionFailure("Unknown updater command")
             }
-        })
+        }, skillManager: skill)
+        precondition(model.installSkill, "Skill maintenance is enabled by default")
+        model.installSkill = false
+        model.installSkill = true
+        precondition(skill.values == [false, true], "The Settings toggle delegates both lifecycle mutations")
         let before = defaults.persistentDomain(forName: suite)
         model.state.updates = UpdateControls(available: true, enabled: true, status: "An update is waiting for recording and background work to finish.")
         model.state.service = .unavailable("Service stopped during update shutdown")

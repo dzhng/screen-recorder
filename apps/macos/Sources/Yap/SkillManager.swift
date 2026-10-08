@@ -80,6 +80,11 @@ final class SkillManager: SkillLifecycle {
                 restore(backup: backup, home: home, fileManager: fileManager, destinations: destinations)
                 return
             }
+            let canonical = home.appendingPathComponent(".agents/skills/yap/SKILL.md")
+            guard fileManager.fileExists(atPath: canonical.path) else {
+                restore(backup: backup, home: home, fileManager: fileManager, destinations: destinations)
+                return
+            }
             try fileManager.createDirectory(at: home.appendingPathComponent(".config/yap"), withIntermediateDirectories: true)
             try Data("{\"managed\":true,\"source\":\"https://github.com/dzhng/yap/tree/main/skills/yap\"}\n".utf8)
                 .write(to: home.appendingPathComponent(".config/yap/skill-install.json"), options: .atomic)

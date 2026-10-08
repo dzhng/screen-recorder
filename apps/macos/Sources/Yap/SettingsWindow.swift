@@ -5,14 +5,10 @@ import SwiftUI
 
 @MainActor protocol SkillLifecycle {
     func setEnabled(_ enabled: Bool)
-    func handle(_ operation: String) -> Result<Data, ServiceFailure>
 }
 
 @MainActor final class NoopSkillLifecycle: SkillLifecycle {
     func setEnabled(_ enabled: Bool) {}
-    func handle(_ operation: String) -> Result<Data, ServiceFailure> {
-        .failure(ServiceFailure(code: "SKILL_UNAVAILABLE", message: "No native skill manager is connected."))
-    }
 }
 
 /**
