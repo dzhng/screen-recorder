@@ -46,7 +46,8 @@ video, audio, captions, and editable packages. `artifact.read`,
 
 `index.get`, `index.retry`, `index.coverage`, `index.frame`, `index.frames`,
 `face.trajectory.get`, `correspondence.prepare`, `correspondence.get`,
-`alignment.prepare`, `alignment.get`, `speaker.continuity.prepare`,
+`alignment.prepare`, `alignment.get`, `cursor.render`, `cursor.render.retry`,
+`speaker.continuity.prepare`,
 `speaker.continuity.get`, `speaker.prepare`, `speaker.get`, `speaker.bind`,
 `join.verify`, `timeline.events`, and `cursor.raw` expose measured visual,
 audio, timing, face, speaker, alignment and join evidence. Evidence is
@@ -54,7 +55,7 @@ information; it never authorizes an edit.
 
 ## Transcript, audio and visual processing
 
-`transcript.render.prepare`, `transcript.render.retry`,
+`transcript.review`, `transcript.render.prepare`, `transcript.render.retry`,
 `transcript.render.get`, `transcript.prepare`, `transcript.get`,
 `transcript.search`, and `transcript.retry` provide source/project text and
 rendered speech evidence. `audio.extract`, `audio.prepare`, `audio.get`,
