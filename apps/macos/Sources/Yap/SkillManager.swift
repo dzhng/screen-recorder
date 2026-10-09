@@ -150,7 +150,8 @@ final class SkillManager: SkillLifecycle {
                 try fileManager.removeItem(at: receiptURL(home: home))
             }
             let npx = try npxExecutable(home: home, fileManager: fileManager)
-            let status = try run(npx, ["--yes", installer, "add", source, "--all", "--global", "--yes"], home: home)
+            let skillSource = bundledSource() ?? source
+            let status = try run(npx, ["--yes", installer, "add", skillSource, "--all", "--global", "--yes"], home: home)
             guard status.code == 0 else { throw LifecycleError.command(status.output) }
             let after = discover(home: home, fileManager: fileManager)
             let entries = after.entries.filter { $0.name == "yap" && $0.scope == "global" }
@@ -230,6 +231,13 @@ final class SkillManager: SkillLifecycle {
         ]
         if let path = candidates.first(where: { fileManager.isExecutableFile(atPath: $0) }) { return path }
         throw LifecycleError.command("npx not found in the app runtime environment")
+    }
+
+    private nonisolated static func bundledSource() -> String? {
+        guard let resource = Bundle.main.resourceURL?.appendingPathComponent("skill", isDirectory: true),
+              FileManager.default.fileExists(atPath: resource.appendingPathComponent("SKILL.md").path)
+        else { return nil }
+        return resource.path
     }
 
     private nonisolated static func fallbackEntries(home: URL, fileManager: FileManager) -> [InstalledSkill] {

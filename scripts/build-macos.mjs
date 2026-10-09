@@ -68,6 +68,9 @@ for (const file of ["COPYING", "provenance.json"])
 // The bundled service and CLI run outside the checkout with no node_modules in reach, so
 // each ships as one file with Node builtins left external.
 const service = join(app, "Contents/Resources/service");
+const skill = join(app, "Contents/Resources/skill");
+rmSync(skill, { recursive: true, force: true });
+execFileSync("ditto", [join(root, "skills/yap"), skill]);
 const ffmpegDirectory = join(app, "Contents/Resources/ffmpeg");
 rmSync(ffmpegDirectory, { recursive: true, force: true });
 const identity = signingIdentity();

@@ -219,7 +219,9 @@ The same handlers are available through Settings and the public CLI:
 - `skill.install` starts a durable operation that stages and verifies the complete
   current folder, then atomically replaces the global Yap skill.
   `npx skills@1.7.0` discovers the supported harnesses rather than a hand-maintained
-  path list.
+  path list. The released app supplies its bundled current `skills/yap` folder as
+  the source, so refresh does not clone the full repository; a new app release
+  carries the latest upstream skill contents.
 - `skill.update` starts the same pinned replacement explicitly.
 - `skill.uninstall` starts removal of the managed global installation when
   maintenance is disabled; it does not touch project-local installs.
