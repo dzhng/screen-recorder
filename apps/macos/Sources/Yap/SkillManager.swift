@@ -149,12 +149,14 @@ final class SkillManager: SkillLifecycle {
                 backedUp.append(".config/yap/skill-install.json")
                 try fileManager.removeItem(at: receiptURL(home: home))
             }
-            let status = try run("/usr/bin/env", ["npx", "--yes", installer, "add", source, "--all", "--global", "--yes"], home: home)
+            let npx = try npxExecutable(home: home, fileManager: fileManager)
+            let status = try run(npx, ["--yes", installer, "add", source, "--all", "--global", "--yes"], home: home)
             guard status.code == 0 else { throw LifecycleError.command(status.output) }
             let after = discover(home: home, fileManager: fileManager)
             let entries = after.entries.filter { $0.name == "yap" && $0.scope == "global" }
             let paths = entries.map(\.path).filter { safePath($0, under: home) }
-            guard !paths.isEmpty, paths.allSatisfy({ fileManager.fileExists(atPath: URL(fileURLWithPath: $0).appendingPathComponent("SKILL.md").path) }) else {
+            let canonical = home.appendingPathComponent(".agents/skills/yap").path
+            guard paths.contains(canonical), paths.allSatisfy({ fileManager.fileExists(atPath: URL(fileURLWithPath: $0).appendingPathComponent("SKILL.md").path) }) else {
                 throw LifecycleError.verification
             }
             let receipt = Receipt(managed: true, source: source, installer: installer, paths: paths, entries: entries,
@@ -200,7 +202,8 @@ final class SkillManager: SkillLifecycle {
 
     private nonisolated static func discover(home: URL, fileManager: FileManager) -> (entries: [InstalledSkill], error: String?) {
         do {
-            let result = try run("/usr/bin/env", ["npx", "--yes", installer, "ls", "--global", "--json"], home: home)
+            let npx = try npxExecutable(home: home, fileManager: fileManager)
+            let result = try run(npx, ["--yes", installer, "ls", "--global", "--json"], home: home)
             guard result.code == 0 else { return (fallbackEntries(home: home, fileManager: fileManager), result.output) }
             return (try JSONDecoder().decode([InstalledSkill].self, from: Data(result.output.utf8)), nil)
         } catch { return (fallbackEntries(home: home, fileManager: fileManager), error.localizedDescription) }
@@ -208,6 +211,25 @@ final class SkillManager: SkillLifecycle {
 
     private nonisolated static func discoveredPaths(home: URL, fileManager: FileManager) -> [String] {
         discover(home: home, fileManager: fileManager).entries.filter { $0.name == "yap" && $0.scope == "global" }.map(\.path)
+    }
+
+    private nonisolated static func npxExecutable(home: URL, fileManager: FileManager) throws -> String {
+        var candidates = ProcessInfo.processInfo.environment["PATH"]?.split(separator: ":").map {
+            String($0) + "/npx"
+        } ?? []
+        let nodeVersions = (try? fileManager.contentsOfDirectory(at: home.appendingPathComponent(".nvm/versions/node"), includingPropertiesForKeys: nil)) ?? []
+        candidates += nodeVersions.sorted { $0.lastPathComponent > $1.lastPathComponent }.map {
+            $0.appendingPathComponent("bin/npx").path
+        }
+        candidates += [
+            home.appendingPathComponent(".volta/bin/npx").path,
+            home.appendingPathComponent(".asdf/shims/npx").path,
+            home.appendingPathComponent(".local/bin/npx").path,
+            "/opt/homebrew/bin/npx",
+            "/usr/local/bin/npx",
+        ]
+        if let path = candidates.first(where: { fileManager.isExecutableFile(atPath: $0) }) { return path }
+        throw LifecycleError.command("npx not found in the app runtime environment")
     }
 
     private nonisolated static func fallbackEntries(home: URL, fileManager: FileManager) -> [InstalledSkill] {
@@ -273,6 +295,8 @@ final class SkillManager: SkillLifecycle {
         var environment = ProcessInfo.processInfo.environment
         environment["HOME"] = home.path
         environment["USERPROFILE"] = home.path
+        let executableDirectory = URL(fileURLWithPath: executable).deletingLastPathComponent().path
+        environment["PATH"] = executableDirectory + ":" + (environment["PATH"] ?? "/usr/bin:/bin")
         process.environment = environment
         try process.run(); process.waitUntilExit()
         let data = (try? Data(contentsOf: outputURL)) ?? Data()
