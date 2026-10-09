@@ -6,6 +6,10 @@ The capture menu keeps its dark appearance after selecting a recording area and
 shows the latest recording below the action buttons with Play and Copy agent prompt
 actions. Screen recordings now include the pointer in the captured video.
 
+## 0.1.26
+
+Skill maintenance now resolves the user-installed `npx` runtime from the app environment, including the documented Node installation under the home directory. Global Yap installation verification requires the canonical `~/.agents/skills/yap` folder and preserves discovered harness links.
+
 ## 0.1.25
 
 Yap now maintains its account-level consumer skill through shared CLI and Settings operations. The Install skill preference defaults to enabled, discovers every supported global harness through `npx skills`, and safely stages, verifies, replaces and rolls back the global Yap skill. Disabling the preference removes the managed global installation so users can keep a customized skill.
