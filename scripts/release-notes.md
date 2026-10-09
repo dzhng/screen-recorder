@@ -6,6 +6,10 @@ The capture menu keeps its dark appearance after selecting a recording area and
 shows the latest recording below the action buttons with Play and Copy agent prompt
 actions. Screen recordings now include the pointer in the captured video.
 
+## 0.1.27
+
+Skill refreshes now use the bundled current Yap skill as the `npx skills` source, avoiding a full repository clone while preserving automatic discovery of every supported global harness. The canonical installation remains `~/.agents/skills/yap`, with discovered harness links verified after installation.
+
 ## 0.1.26
 
 Skill maintenance now resolves the user-installed `npx` runtime from the app environment, including the documented Node installation under the home directory. Global Yap installation verification requires the canonical `~/.agents/skills/yap` folder and preserves discovered harness links.
