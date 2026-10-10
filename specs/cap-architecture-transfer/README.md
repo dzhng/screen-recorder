@@ -1,6 +1,6 @@
 # Cap architecture lessons for local Yap capture
 
-Status: implementing; slice 01 complete. Last updated 2026-10-10.
+Status: implementing; slices 01–03 complete. Last updated 2026-10-10.
 
 This plan transfers the useful local architecture from Cap at commit
 `2c51caae0a952340be7f57a95813e7c8d0d1df1d` into Yap. Remote delivery,
@@ -71,7 +71,9 @@ All slices require tests first, narrow verification, and a final full suite only
 ## Next Agent Prompt
 
 Implement `specs/cap-architecture-transfer` slice by slice. Continue with
-`slices/02-recovery.md`; read the referenced Yap and Cap code before editing.
+`slices/04-parity.md`; read the referenced Yap and Cap code before editing.
+Slices 02 and 03 are complete: recovery receipt validation has one owner and
+the warm preview cache is proven, so no preview production change is pending.
 Preserve the public capture contract and write the failing behavior test before
 changing behavior. Do not add `quiescence`, `unconfirmed`, or
 `capture.recovery`; do not touch remote delivery. After each slice, update this
@@ -82,6 +84,6 @@ new design choice, stop and reslice this plan before coding further.
 Global TODO:
 
 - [x] Slice 01: internal lifecycle and quiescence ownership (28 focused tests).
-- [ ] Slice 02: strict recovery evidence and publication validation.
-- [ ] Slice 03: preview measurement and evidence-based optimization.
+- [x] Slice 02: strict recovery evidence and publication validation (54 capture tests).
+- [x] Slice 03: preview measurement and evidence-based optimization (17 preview tests).
 - [ ] Slice 04: app/CLI/MCP catalog parity, docs and full verification.

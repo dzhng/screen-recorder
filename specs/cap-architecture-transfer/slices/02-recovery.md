@@ -1,5 +1,11 @@
 # Slice 02 — one strict recovery evidence owner
 
+Status: implemented. Recovery receipts are parsed once by the core publication
+owner, with bounded top-level fields and the existing `MEDIA_WORKER_FAILED`
+error. The service no longer carries a second hand-written parser. Two focused
+tests cover unknown top-level data and diagnostic precedence; the capture,
+finalizing and lifetime suites pass (54 tests).
+
 ## Contract unlocked
 
 Recovery either publishes validated source evidence or leaves the take in

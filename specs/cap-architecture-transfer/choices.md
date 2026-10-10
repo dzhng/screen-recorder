@@ -52,3 +52,21 @@ immutability; a timing benchmark can be added separately if a real performance
 regression appears. Verdict: sound because renderer reuse is deterministic
 evidence of the behavior under review and avoids a flaky threshold. Confidence:
 high.
+
+### Put the recovery receipt parser in core publication — high confidence
+
+When: slice 02.
+
+Recovery returns media facts and publication proof together. The service used
+to cast that response and interpret some fields locally, while core already
+owned publication validation. The parser now lives in the core publication
+module, rejects unknown top-level receipt fields, and leaves publication
+identity validation to the existing publication reader. The alternative was a
+new service-local schema or a public recovery operation.
+
+Gap: the plan required one strict evidence owner but did not prescribe whether
+the whole native receipt belonged to core or service. Reach: future native
+receipt fields must be added once at the shared boundary; public status and
+retry semantics stay unchanged. Verdict: sound because the parser is shared
+boundary validation, while recovery execution remains owned by native/service.
+Confidence: high.
