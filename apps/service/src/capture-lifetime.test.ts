@@ -230,6 +230,53 @@ test.each(["TIMEOUT", "SERVICE_STOPPED", "INVALID_STATE"])(
   },
 );
 
+test("deletion retains a take when idle status still names its native source", async () => {
+  const home = await mkdtemp("/tmp/yap-capture-idle-authority-");
+  const store = new CaptureStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const recording = store.allocate().recording;
+  store.markDeleting(recording.recordingId);
+  const directory = join(home, "recordings", recording.recordingId, "source");
+  await mkdir(directory, { recursive: true });
+  const path = join(directory, "sentinel");
+  await writeFile(path, "unconfirmed native bytes");
+  const service = new CaptureService(
+    store,
+    home,
+    async (operation) =>
+      operation === "capture.cancel"
+        ? {
+            ok: false,
+            error: { code: "INVALID_STATE", message: "Not held", retryable: false, details: {} },
+          }
+        : {
+            ...idleNative,
+            data: {
+              ...(idleNative as { data: object }).data,
+              recordingId: recording.recordingId,
+              sourceId: recording.sourceId,
+            },
+          },
+    async () => {
+      throw new Error("Deletion cannot recover media");
+    },
+  );
+  try {
+    await expect(service.quiesce(recording.recordingId)).rejects.toMatchObject({
+      code: "CAPTURE_NOT_QUIET",
+      retryable: true,
+    });
+    expect(store.deleting(recording.recordingId)?.state).toBe("preparing");
+    expect(await readFile(path, "utf8")).toBe("unconfirmed native bytes");
+  } finally {
+    await service.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
 test("deletion waits for running recovery and does not admit recovery for another marked take", async () => {
   const home = await mkdtemp("/tmp/yap-capture-recover-delete-");
   const store = new CaptureStore(join(home, "library.sqlite"), {

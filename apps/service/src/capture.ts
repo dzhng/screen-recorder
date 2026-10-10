@@ -246,14 +246,7 @@ export class CaptureService {
       // A cancel response carries its pre-discard finalizing event. Check the device after that
       // ordered call, including when native refused because it no longer owns this take.
       const device = captureDeviceSchema.parse(await this.ask("capture.status", {}));
-      if (
-        device.state !== "idle" &&
-        !(
-          device.recordingId !== null &&
-          device.recordingId !== recordingId &&
-          (device.state === "recording" || device.state === "paused")
-        )
-      )
+      if (!nativeReleaseProven(device, recordingId))
         throw new CatalogError(
           "CAPTURE_NOT_QUIET",
           "Native capture has not proved this take stopped",
@@ -471,7 +464,7 @@ export class CaptureService {
     this.requireRecoveryQuiet();
     // The app can outlive its service. Never fence its native sequence merely because this service restarted.
     const device = captureDeviceSchema.parse(await this.ask("capture.status", {}));
-    if (device.state !== "idle" || device.recordingId !== null || device.sourceId !== null)
+    if (!nativeRecoveryQuiet(device))
       throw new CatalogError(
         "CAPTURE_NOT_QUIET",
         "Native capture has not proved recovery can begin",
@@ -843,6 +836,24 @@ function fromNative(result: OperationResult & { ok: false }): CatalogError {
     result.error.message,
     result.error.details,
     result.error.retryable,
+  );
+}
+
+/** Recovery may begin only when native proves that no capture or source is still active. */
+function nativeRecoveryQuiet(device: ReturnType<typeof captureDeviceSchema.parse>): boolean {
+  return device.state === "idle" && device.recordingId === null && device.sourceId === null;
+}
+
+/** Deletion may settle when this take is gone, or when another live take owns the device. */
+function nativeReleaseProven(
+  device: ReturnType<typeof captureDeviceSchema.parse>,
+  recordingId: string,
+): boolean {
+  return (
+    nativeRecoveryQuiet(device) ||
+    (device.recordingId !== null &&
+      device.recordingId !== recordingId &&
+      (device.state === "recording" || device.state === "paused"))
   );
 }
 

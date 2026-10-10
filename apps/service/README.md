@@ -84,6 +84,9 @@ Capture admission and donor retirement share one [source coordinator](src/captur
 A ready acquisition owns its media independently of its recording donor. Deletion
 joins borrowers and unfinished native work before donor removal; a mutable path
 or alias cannot replace the frozen authority already admitted.
+An idle device report proves closure only when it carries no take or source
+identity. Contradictory or pending native evidence keeps deletion fenced and
+source bytes retained rather than interpreting a shutdown request as completion.
 
 [Export coordination](src/exports.ts) executes a pinned durable intent. Video,
 standalone audio, plain caption sidecars and portable packages use the same
