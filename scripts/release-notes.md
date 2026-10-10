@@ -6,6 +6,14 @@ The capture menu keeps its dark appearance after selecting a recording area and
 shows the latest recording below the action buttons with Play and Copy agent prompt
 actions. Screen recordings now include the pointer in the captured video.
 
+## 0.1.28
+
+Capture shutdown now waits for native closure evidence before deleting retained
+source bytes. Recovery validates native receipts at one shared boundary, keeps
+ambiguous media retryable, and preserves journal diagnostics. App capture
+operations are parity-checked against the shared protocol catalog, and warm
+previews reuse the cached result for the same pinned revision.
+
 ## 0.1.27
 
 Skill refreshes now use the bundled current Yap skill as the `npx skills` source, avoiding a full repository clone while preserving automatic discovery of every supported global harness. The canonical installation remains `~/.agents/skills/yap`, with discovered harness links verified after installation.
