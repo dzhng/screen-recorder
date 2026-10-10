@@ -32,6 +32,30 @@ and prevents every adapter from inventing its own interpretation.
 
 **Confidence:** High.
 
+### Preserve journal diagnostics at the shared recovery boundary
+
+**When:** review follow-up after the closeout commit.
+
+**The choice:** Native recovery can report a torn or unavailable journal even
+when it has no completion record. The shared parser now carries that diagnostic
+into the same failure code/message used for completion and role failures, while
+still giving an explicit completion failure precedence. It also rejects a
+completion message that has no completion code, preserving the old strict
+pairing rule. A malformed receipt remains `MEDIA_WORKER_FAILED`; a valid
+`INVALID_JOURNAL` receipt remains retry-visible with its actual reason.
+
+**The gap:** The initial centralization moved the old service parser without
+making every validated diagnostic survive the move.
+
+**The reach:** Recovery errors remain evidence rather than generic labels, and
+future parser changes must preserve both diagnostic precedence and code/message
+pairing.
+
+**Verdict:** Sound. The boundary now retains the native fact it already
+validated, with no public lifecycle expansion.
+
+**Confidence:** High.
+
 ### Keep the app parity fixture beside the protocol catalog
 
 **When:** slice 04, commit `c48d7543`.

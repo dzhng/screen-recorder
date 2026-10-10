@@ -36,3 +36,31 @@ test("recovery receipt preserves completion and cleanup diagnostics", () => {
     inputsClosed: true,
   });
 });
+
+test("recovery receipt preserves journal diagnostics when no completion exists", () => {
+  expect(
+    readRecoveryReceipt({
+      durationUs: 100,
+      journal: null,
+      journalFailure: { code: "INVALID_JOURNAL", message: "retained prefix" },
+      tracks: [],
+      inputsClosed: true,
+      sourcePublication: null,
+    }),
+  ).toMatchObject({
+    failureCode: "INVALID_JOURNAL",
+    failureMessage: "retained prefix",
+  });
+});
+
+test("recovery receipt rejects a completion message without a completion code", () => {
+  expect(() =>
+    readRecoveryReceipt({
+      durationUs: 0,
+      journal: { completion: { failureCode: null, failureMessage: "orphaned" } },
+      tracks: [],
+      inputsClosed: true,
+      sourcePublication: null,
+    }),
+  ).toThrowError(expect.objectContaining({ code: "MEDIA_WORKER_FAILED" }));
+});

@@ -61,15 +61,15 @@ const recoveryDiagnostic = z.strictObject({
   message: z.string().max(4096),
 });
 const recoveryTrack = z.looseObject({ failure: recoveryDiagnostic.nullable().optional() });
+const recoveryCompletion = z
+  .looseObject({
+    failureCode: z.string().min(1).max(128).nullable().optional(),
+    failureMessage: z.string().max(4096).nullable().optional(),
+  })
+  .refine((value) => value.failureMessage == null || value.failureCode != null);
 const recoveryJournal = z.looseObject({
   header: z.unknown().nullable().optional(),
-  completion: z
-    .looseObject({
-      failureCode: z.string().min(1).max(128).nullable().optional(),
-      failureMessage: z.string().max(4096).nullable().optional(),
-    })
-    .nullable()
-    .optional(),
+  completion: recoveryCompletion.nullable().optional(),
 });
 const recoveryReceipt = z.strictObject({
   durationUs: z.int().nonnegative(),
@@ -117,11 +117,11 @@ export function readRecoveryReceipt(value: unknown): RecoveryReceipt {
   return {
     durationUs: parsed.data.durationUs,
     captured: Boolean(parsed.data.journal?.header),
-    failureCode: completion?.failureCode ?? roleFailure?.code,
+    failureCode: completion?.failureCode ?? parsed.data.journalFailure?.code ?? roleFailure?.code,
     failureMessage:
       completion?.failureCode !== undefined
         ? (completion.failureMessage ?? undefined)
-        : roleFailure?.message,
+        : (parsed.data.journalFailure?.message ?? roleFailure?.message),
     cleanupFailure: parsed.data.cleanupFailure ?? undefined,
     inputsClosed: parsed.data.inputsClosed,
     sourcePublication: parsed.data.sourcePublication,
