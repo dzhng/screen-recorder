@@ -73,7 +73,9 @@ the native app's operation strings against that same owner.
 Focused verification passed for capture lifetime/finalization (28 tests),
 capture/recovery integration (54), recovery receipt validation (2), preview
 (17), protocol (29), and the combined protocol/core/preview run (48). A final
-focused rerun over the four changed test files passed 63 tests.
+focused rerun over the changed lifecycle, recovery, preview and protocol files
+passed 78 tests after the review fixes. Type checking passed across all nine
+packages, and the changed receipt files pass lint.
 
 A repository-wide `bun test` run was started after all four slices. It reported
 only environment-gated macOS/setup failures in this checkout (missing Sparkle
