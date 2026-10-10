@@ -1,0 +1,62 @@
+{
+  "operations": [
+    { "name": "capture.sources", "params": {} },
+    { "name": "capture.status", "params": {} },
+    {
+      "name": "capture.start",
+      "params": { "requestId": "app-start", "source": { "kind": "window", "windowId": 7 } }
+    },
+    { "name": "capture.pause", "params": { "recordingId": "take-1" } },
+    { "name": "capture.resume", "params": { "recordingId": "take-1" } },
+    { "name": "capture.stop", "params": { "recordingId": "take-1" } },
+    { "name": "capture.cancel", "params": { "recordingId": "take-1" } },
+    {
+      "name": "capture.restart",
+      "params": {
+        "requestId": "app-restart",
+        "recordingId": "take-1",
+        "source": { "kind": "window", "windowId": 7 }
+      }
+    },
+    { "name": "recording.latest", "params": {} },
+    { "name": "recording.list", "params": { "limit": 5 } },
+    { "name": "recording.get", "params": { "recordingId": "take-1" } },
+    { "name": "recording.delete", "params": { "recordingId": "take-1" } }
+  ],
+  "reports": [
+    {
+      "id": "report-finalizing",
+      "report": {
+        "recordingId": "take-1",
+        "sourceId": "source-1",
+        "sequence": 2,
+        "state": "finalizing",
+        "finalizationError": null
+      }
+    },
+    {
+      "id": "report-finalization-error",
+      "report": {
+        "recordingId": "take-1",
+        "sourceId": "source-1",
+        "sequence": 3,
+        "state": "finalizing",
+        "finalizationError": {
+          "code": "MEDIA_WORKER_TIMEOUT",
+          "message": "The media worker did not finish before the deadline.",
+          "retryable": true
+        }
+      }
+    },
+    {
+      "id": "report-complete",
+      "report": {
+        "recordingId": "take-1",
+        "sourceId": "source-1",
+        "sequence": 4,
+        "state": "complete",
+        "sourceDurationUs": 1000000
+      }
+    }
+  ]
+}

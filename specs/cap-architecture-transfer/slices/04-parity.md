@@ -37,3 +37,9 @@ create a second capability registry.
 No remote delivery, no upload capability, no app-only capability registry, and
 no public contract expansion. Any exception must reopen the map and become a
 new slice rather than an implementer choice.
+
+## Implementation evidence
+
+- Added [`packages/protocol/fixtures/app-capture-contract.json`](../../../packages/protocol/fixtures/app-capture-contract.json), a fixture of the capture and recording operations issued by the macOS app and native lifecycle receipts for `finalizing`, retryable finalization error, and `complete`.
+- Added a protocol test in [`packages/protocol/src/index.test.ts`](../../../packages/protocol/src/index.test.ts) that checks every fixture operation against `operationNames` and `operationSchema`, then decodes each lifecycle receipt with `captureReportSchema` inside the shared `responseSchema` envelope.
+- The test was red when the fixture was absent and when `capture.sources` was changed to an unregistered name, then green after restoring the canonical fixture. Focused proof: `bunx vitest run packages/protocol/src/index.test.ts` (29 tests passed).

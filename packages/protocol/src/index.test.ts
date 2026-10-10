@@ -3,10 +3,18 @@ import { readFileSync } from "node:fs";
 import {
   ARTIFACT_CHUNK_BYTES,
   captureSelectionSchema,
+  captureReportSchema,
   nativeStartSchema,
   operationSchema,
+  operationNames,
   parseRequest,
+  responseSchema,
 } from "./index.js";
+
+type AppCaptureContract = {
+  operations: { name: string; params: Record<string, unknown> }[];
+  reports: { id: string; report: unknown }[];
+};
 
 describe("native operation envelope", () => {
   it("rejects an unknown top-level field instead of silently accepting a misspelled request", () => {
@@ -14,6 +22,23 @@ describe("native operation envelope", () => {
       parseRequest({ id: "request-1", operation: "system.ping", params: {}, param: {} }),
     ).toThrow();
   });
+});
+
+it("keeps app capture controls in the public catalog and decodes lifecycle receipts", () => {
+  const fixture = JSON.parse(
+    readFileSync(new URL("../fixtures/app-capture-contract.json", import.meta.url), "utf8"),
+  ) as AppCaptureContract;
+
+  for (const { name, params } of fixture.operations) {
+    expect(operationNames.has(name), `${name} is missing from the public catalog`).toBe(true);
+    expect(operationSchema.parse({ operation: name, params })).toMatchObject({ operation: name });
+  }
+
+  for (const { id, report: value } of fixture.reports) {
+    const report = captureReportSchema.parse(value);
+    const response = responseSchema.parse({ id, ok: true, data: report });
+    expect(response).toMatchObject({ id, ok: true, data: { state: report.state } });
+  }
 });
 
 it("advertises the account skill lifecycle as callable public operations", () => {

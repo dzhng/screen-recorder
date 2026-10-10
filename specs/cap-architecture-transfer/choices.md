@@ -16,3 +16,21 @@ contradictory idle response. Reach: recovery and deletion now share the same
 empty-idle proof; a different recording/paused take remains evidence that the
 named take was released. Verdict: sound because an incomplete native report
 cannot authorize destructive cleanup. Confidence: high.
+
+### Keep the app parity fixture in the protocol package — high confidence
+
+When: slice 04, commit `c48d7543`.
+
+The macOS controls call capture and recording operations, while the CLI and MCP
+already advertise the catalog. The fixture therefore lives beside the protocol
+schemas and the test asks the catalog to parse the app's requests. It also wraps
+native `finalizing`, retryable finalization error, and `complete` reports in the
+shared response envelope before decoding them. The alternative would be an
+app-owned operation list or a hand-written response shape, which could drift
+from the public catalog.
+
+Gap: the plan required an app-facing parity assertion but did not prescribe its
+package or fixture format. Reach: future app controls can add a request fixture
+without creating a second capability registry; lifecycle receipt changes fail at
+the shared protocol boundary. Verdict: sound because `packages/protocol` is the
+existing owner consumed by every adapter. Confidence: high.
