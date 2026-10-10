@@ -1,6 +1,7 @@
 import type { CaptureSources } from "./capture-sources.js";
 import { randomUUID } from "node:crypto";
 import {
+  readRecoveryReceipt,
   readCaptureSourceOutcome,
   type CapturePublication,
   type CaptureSourceOutcome,
@@ -567,7 +568,7 @@ export class CaptureService {
   private async readRecoveredSources(
     recording: Recording,
     signal: AbortSignal = this.lifetime.signal,
-  ): Promise<ReturnType<typeof readRecovery>> {
+  ): Promise<ReturnType<typeof readRecoveryReceipt>> {
     const outcomes = new Map<
       "primary" | "camera",
       { inputsClosed: boolean; outcome: CaptureSourceOutcome | null }
@@ -614,15 +615,9 @@ export class CaptureService {
             { signal, timeoutMs },
           );
           if (!recovered.ok) throw fromNative(recovered);
-          const fields = recovered.data as { inputsClosed?: unknown; sourcePublication?: unknown };
-          if (typeof fields.inputsClosed !== "boolean")
-            throw new CatalogError(
-              "MEDIA_WORKER_FAILED",
-              "Source recovery omitted closure authority",
-            );
-          const outcome = readCaptureSourceOutcome(fields.sourcePublication);
-          const result = readRecovery(recovered.data);
-          outcomes.set(kind, { inputsClosed: fields.inputsClosed, outcome });
+          const result = readRecoveryReceipt(recovered.data);
+          const outcome = readCaptureSourceOutcome(result.sourcePublication);
+          outcomes.set(kind, { inputsClosed: result.inputsClosed, outcome });
           publish();
           if (result.cleanupFailure)
             this.log(
@@ -668,7 +663,7 @@ export class CaptureService {
           value.outcome.error.retryable,
         );
     }
-    return (results[0] as PromiseFulfilledResult<ReturnType<typeof readRecovery>>).value;
+    return (results[0] as PromiseFulfilledResult<ReturnType<typeof readRecoveryReceipt>>).value;
   }
 
   private async recoveryDeadline(
@@ -729,7 +724,7 @@ export class CaptureService {
       failureCode,
       failureMessage,
       cleanupFailure,
-    }: ReturnType<typeof readRecovery>,
+    }: ReturnType<typeof readRecoveryReceipt>,
   ): Recording {
     return this.author(recording, {
       state: "interrupted",
@@ -885,52 +880,4 @@ function lifecycleEvent(report: CaptureReport): LifecycleEvent {
         : { finalizationError: report.finalizationError }),
     };
   return { ...identity, state: report.state };
-}
-
-/** Recovery owns media proof; the service only preserves its outcome and diagnostic precedence. */
-function readRecovery(data: unknown): {
-  durationUs: number;
-  captured: boolean;
-  failureCode: string | undefined;
-  failureMessage: string | undefined;
-  cleanupFailure: { code: string; message: string } | undefined;
-} {
-  const value = data as {
-    durationUs?: unknown;
-    journal?: {
-      header?: unknown;
-      completion?: { failureCode?: unknown; failureMessage?: unknown };
-    } | null;
-    tracks?: { failure?: unknown }[];
-    cleanupFailure?: unknown;
-  };
-  const invalid = () =>
-    new CatalogError("MEDIA_WORKER_FAILED", "Recovery returned an invalid outcome");
-  if (!value || !Number.isSafeInteger(value.durationUs) || (value.durationUs as number) < 0)
-    throw invalid();
-  const failure = (input: unknown): { code: string; message: string } | undefined => {
-    if (input == null) return undefined;
-    const item = input as { code?: unknown; message?: unknown };
-    if (typeof item.code !== "string" || typeof item.message !== "string") throw invalid();
-    return { code: item.code, message: item.message.slice(0, 4096) };
-  };
-  const completion = value.journal?.completion?.failureCode;
-  if (completion != null && typeof completion !== "string") throw invalid();
-  const completionMessage = value.journal?.completion?.failureMessage;
-  if (
-    completionMessage != null &&
-    (typeof completionMessage !== "string" || completionMessage.length > 4096 || completion == null)
-  )
-    throw invalid();
-  if (value.tracks !== undefined && !Array.isArray(value.tracks)) throw invalid();
-  const roleFailure = value.tracks
-    ?.map((track) => failure(track.failure))
-    .find((item) => item && item.code !== "NOT_REQUESTED");
-  return {
-    durationUs: value.durationUs as number,
-    captured: Boolean(value.journal?.header),
-    failureCode: completion ?? roleFailure?.code,
-    failureMessage: completion != null ? (completionMessage ?? undefined) : roleFailure?.message,
-    cleanupFailure: failure(value.cleanupFailure),
-  };
 }

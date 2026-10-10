@@ -56,6 +56,30 @@ const observation = z.strictObject({
   primary: outcome.nullable(),
   camera: outcome.nullable(),
 });
+const recoveryDiagnostic = z.strictObject({
+  code: z.string().min(1).max(128),
+  message: z.string().max(4096),
+});
+const recoveryTrack = z.looseObject({ failure: recoveryDiagnostic.nullable().optional() });
+const recoveryJournal = z.looseObject({
+  header: z.unknown().nullable().optional(),
+  completion: z
+    .looseObject({
+      failureCode: z.string().min(1).max(128).nullable().optional(),
+      failureMessage: z.string().max(4096).nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+});
+const recoveryReceipt = z.strictObject({
+  durationUs: z.int().nonnegative(),
+  tracks: z.array(recoveryTrack).optional(),
+  journal: recoveryJournal.nullable().optional(),
+  journalFailure: recoveryDiagnostic.nullable().optional(),
+  cleanupFailure: recoveryDiagnostic.nullable().optional(),
+  inputsClosed: z.boolean(),
+  sourcePublication: z.unknown().optional(),
+});
 export type CapturePublishedSource = z.infer<typeof published>;
 export type CaptureSourceAuthority = {
   source: CapturePublishedSource;
@@ -71,6 +95,37 @@ export function readCaptureSourceOutcome(value: unknown): CaptureSourceOutcome |
       "Source recovery returned an invalid publication outcome",
     );
   return parsed.data;
+}
+export type RecoveryReceipt = {
+  durationUs: number;
+  captured: boolean;
+  failureCode: string | undefined;
+  failureMessage: string | undefined;
+  cleanupFailure: { code: string; message: string } | undefined;
+  inputsClosed: boolean;
+  sourcePublication: unknown;
+};
+/** Reads the bounded native recovery receipt once; publication validation remains separate. */
+export function readRecoveryReceipt(value: unknown): RecoveryReceipt {
+  const parsed = recoveryReceipt.safeParse(value);
+  if (!parsed.success)
+    throw new CatalogError("MEDIA_WORKER_FAILED", "Recovery returned an invalid outcome");
+  const completion = parsed.data.journal?.completion;
+  const roleFailure = parsed.data.tracks
+    ?.map((track) => track.failure ?? undefined)
+    .find((failure) => failure && failure.code !== "NOT_REQUESTED");
+  return {
+    durationUs: parsed.data.durationUs,
+    captured: Boolean(parsed.data.journal?.header),
+    failureCode: completion?.failureCode ?? roleFailure?.code,
+    failureMessage:
+      completion?.failureCode !== undefined
+        ? (completion.failureMessage ?? undefined)
+        : roleFailure?.message,
+    cleanupFailure: parsed.data.cleanupFailure ?? undefined,
+    inputsClosed: parsed.data.inputsClosed,
+    sourcePublication: parsed.data.sourcePublication,
+  };
 }
 export type CapturePublicationState = {
   observation: CapturePublication;
