@@ -110,6 +110,11 @@ and portable storage retain their serialized result contract. Readiness means ad
 and published output, not merely a completed native call. Models and generated
 media share these owners rather than introducing separate queues or stores.
 
+Capture recovery receipts cross this boundary once through
+[capture-publication.ts](src/capture-publication.ts): the bounded native receipt is
+strictly admitted before source publication is interpreted, and ambiguous media
+stays retained and retry-visible.
+
 [Model preparation](src/models.ts) binds explicit model/runtime identities and
 verified local readiness. Preparation can acquire pinned inputs; execution cannot
 silently prepare another implementation. Prepared optional runtimes share one purpose-checked execution accessor; another
