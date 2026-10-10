@@ -119,7 +119,7 @@ export function readRecoveryReceipt(value: unknown): RecoveryReceipt {
     captured: Boolean(parsed.data.journal?.header),
     failureCode: completion?.failureCode ?? parsed.data.journalFailure?.code ?? roleFailure?.code,
     failureMessage:
-      completion?.failureCode !== undefined
+      completion?.failureCode != null
         ? (completion.failureMessage ?? undefined)
         : (parsed.data.journalFailure?.message ?? roleFailure?.message),
     cleanupFailure: parsed.data.cleanupFailure ?? undefined,

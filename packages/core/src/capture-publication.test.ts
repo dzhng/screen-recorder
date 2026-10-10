@@ -41,7 +41,7 @@ test("recovery receipt preserves journal diagnostics when no completion exists",
   expect(
     readRecoveryReceipt({
       durationUs: 100,
-      journal: null,
+      journal: { completion: { failureCode: null, failureMessage: null } },
       journalFailure: { code: "INVALID_JOURNAL", message: "retained prefix" },
       tracks: [],
       inputsClosed: true,
