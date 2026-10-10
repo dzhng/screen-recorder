@@ -228,6 +228,29 @@ test("pins an old revision through edits, repeated admission and cache eviction"
   expect(JSON.parse(await readFile(again.published!.preview.file, "utf8"))).toEqual(content);
 });
 
+test("warm published preview reuses the cached render for its pinned revision", async () => {
+  let renders = 0;
+  const f = await fixture({
+    ...renderer,
+    async render(request, signal) {
+      renders++;
+      return renderer.render(request, signal);
+    },
+  });
+  const input = { projectId: f.projectId, revisionId: f.placed.revision.id };
+  const sourceBefore = await readFile(f.assets.path(f.asset.id));
+
+  const cold = await f.preview.request(input);
+  await f.jobs.idle();
+  const warm = await f.preview.request(input);
+
+  expect(cold.published).toBeNull();
+  expect(warm.state).toBe("ready");
+  expect(warm.published?.preview.revisionId).toBe(input.revisionId);
+  expect(renders).toBe(1);
+  expect(await readFile(f.assets.path(f.asset.id))).toEqual(sourceBefore);
+});
+
 test("cancellation fences an uncooperative renderer and retry stays on the admitted revision", async () => {
   const started = gate(),
     release = gate();

@@ -28,6 +28,19 @@ composition owners unchanged.
   `compare-screenshots` against the prior output, and `preview-shots` before
   accepting it. A measurement-only change needs no screenshot gate.
 
+## Evidence
+
+The existing preview owner already has the warm path Cap's design calls for.
+`submitCachedDerivative` acquires a published cache entry and only regenerates
+after that entry has been evicted. The focused regression test in
+`packages/core/src/project-preview.test.ts` proves this at the preview
+boundary: a cold request renders once, a second request for the same pinned
+revision is ready without another render, and the source asset bytes remain
+unchanged. The test was shown to fail after a deliberate temporary cache
+regeneration mutation, then passed again with the implementation restored.
+
+No preview API, renderer, or scheduling change is warranted by this evidence.
+
 ## Firewalls
 
 No new preview operation, no mutable serialized Cap timeline, no rendering

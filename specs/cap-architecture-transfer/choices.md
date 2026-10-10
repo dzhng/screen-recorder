@@ -34,3 +34,21 @@ package or fixture format. Reach: future app controls can add a request fixture
 without creating a second capability registry; lifecycle receipt changes fail at
 the shared protocol boundary. Verdict: sound because `packages/protocol` is the
 existing owner consumed by every adapter. Confidence: high.
+### Use renderer invocation as the warm-preview probe
+
+When: slice 03.
+
+The plan asked for timing evidence, but elapsed time is noisy on a shared
+machine and a single fast run would not prove reuse. The focused preview test
+instead counts calls to the existing renderer: the first request is the cold
+render, and the next request for the same pinned revision must be ready without
+another call. It also compares the source bytes before and after both requests.
+This observes the caller-visible cache contract without adding a timing API or
+coupling the test to a scheduler duration.
+
+Gap: the plan did not prescribe how to measure warm setup. Reach: future
+preview optimizations must preserve the existing cache boundary and source
+immutability; a timing benchmark can be added separately if a real performance
+regression appears. Verdict: sound because renderer reuse is deterministic
+evidence of the behavior under review and avoids a flaky threshold. Confidence:
+high.
